@@ -1,0 +1,52 @@
+{
+ "schema": "yellowstone.plume2d_excelsior.v1",
+ "status": "illustrative_not_calibrated",
+ "inputs": {
+  "nx": 128,
+  "nz": 128,
+  "extent_m": 600.0,
+  "u_m_s": 0.73,
+  "u_provenance": "mapped_chain_representative_velocity_m_s",
+  "d_long_m2_s": 84.7,
+  "d_long_provenance": "transferred_mapped_Fischer_median",
+  "d_trans_m2_s": 0.12,
+  "d_trans_provenance": "transferred_0.15_depth_u_formula_authored_depth_1.1_m_mapped_u",
+  "k_per_s": 5.555555555555556e-05,
+  "k_provenance": "transferred_chain_cooling_seconds_18000",
+  "ambient_c": 17.8,
+  "ambient_provenance": "build_excelsior_mixing_reach_temp",
+  "source_c": 19.1,
+  "source_provenance": "build_excelsior_mixing_reach_temp",
+  "source_xz_m": [
+   0.0,
+   -60.0
+  ],
+  "source_xz_provenance": "authored_near_field_placement",
+  "source_r_m": 90.0,
+  "source_r_provenance": "authored_carried_from_prior_sigma"
+ },
+ "closure": {
+  "discrete_residual_c_s": 1.3237261657175584e-13,
+  "verdict": "SUPPORTED"
+ },
+ "metrics": {
+  "peak_anomaly_c": 1.3,
+  "footprint_length_m": 467.7,
+  "exchange_length_u_over_k_m": 13140.0,
+  "half_width_m": 82.7,
+  "threshold_c": 1.0,
+  "status": "illustrative_not_calibrated"
+ },
+ "anchors": {
+  "excelsior_m3s": 0.255,
+  "excelsior_m3s_provenance": "transferred_NPS_4050_gal_min",
+  "excelsior_c": 93.0,
+  "excelsior_c_provenance": "transferred_secondary_93C",
+  "river_m3s": 8.0,
+  "river_m3s_provenance": "authored_baseline_boundary",
+  "fully_mixed_rise_c": 2.32,
+  "peak_within_mixed_bound": true,
+  "mixing_verdict": "SUPPORTED",
+  "ir_gradient_zones": "NOT TESTED (Burkhalter 1979 zone coordinates not digitized)"
+ }
+}

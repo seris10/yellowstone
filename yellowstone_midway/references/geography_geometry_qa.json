@@ -1,0 +1,25 @@
+{
+  "routes": {
+    "shared_endpoint_pair_count": 55,
+    "max_join_height_gap_m": 0.0,
+    "max_join_xz_gap_m": 0.0,
+    "nonmonotone_water_profiles": []
+  },
+  "rivers": {
+    "shared_endpoint_pair_count": 14,
+    "max_join_height_gap_m": 0.0,
+    "max_join_xz_gap_m": 0.0,
+    "nonmonotone_water_profiles": []
+  },
+  "excelsior_outflow": {
+    "pool_join_height_gap_m": 0.0,
+    "river_join_position_gap_m": 0.0,
+    "flow_m3_s": 0.252,
+    "status": "Illustrative aggregate based on the NPS lower bound of 4,000 US gal/min; not calibrated for this individual branch"
+  },
+  "pool_temperature_checks": {
+    "nonthermal_temperatures_c": [
+      16.0
+    ]
+  }
+}

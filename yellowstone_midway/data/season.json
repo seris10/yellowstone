@@ -1,0 +1,63 @@
+{
+  "code_rev": "yellowstone_python-0.1.0",
+  "contract_version": "0.1.0",
+  "ledger": {
+    "accum_mm": 0.0,
+    "days": 30,
+    "drainage_mm": 34.08,
+    "et_mm": 86.76,
+    "final_mm": 251.88,
+    "initial_mm": 226.8,
+    "melt_mm": 0.0,
+    "note": "degree-day approximation; thermal ground carries a melt flux, not an absolute bare rule",
+    "rain_mm": 180.0,
+    "runoff_mm": 34.08,
+    "snow_residual_mm": 0.0,
+    "soil_residual_mm": -0.002122,
+    "storage_residual_mm": -0.002122,
+    "thermal_melt_mm": 0.0,
+    "units": "mm water-equivalent summed over modeled patches (not a basin volume)"
+  },
+  "parameter_provenance": {
+    "geometry": "frozen; surfaces/phenology only",
+    "method": "degree-day + soil bucket, verified ledger"
+  },
+  "patches": [
+    {
+      "gdd": 638.0,
+      "id": "north_meadow",
+      "moisture": 0.7,
+      "pheno_stress": "none",
+      "phenology": "peak_green",
+      "snow_depth_m": 0.0,
+      "snow_mm": 0.0
+    },
+    {
+      "gdd": 638.0,
+      "id": "bridge_riparian",
+      "moisture": 0.7,
+      "pheno_stress": "none",
+      "phenology": "peak_green",
+      "snow_depth_m": 0.0,
+      "snow_mm": 0.0
+    },
+    {
+      "gdd": 638.0,
+      "id": "forest_edge",
+      "moisture": 0.699,
+      "pheno_stress": "none",
+      "phenology": "peak_green",
+      "snow_depth_m": 0.0,
+      "snow_mm": 0.0
+    }
+  ],
+  "season": "summer",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/ecosystem.json",
+      "sha256": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

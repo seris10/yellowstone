@@ -1,0 +1,51 @@
+{
+ "schema": "yellowstone.aquatic_intervention.v1",
+ "status": "illustrative_not_calibrated",
+ "landscape_window": "full-run means; short pulses are diluted \u2014 pass window_s to isolate the intervention; +2 tributary refuge cells appended to both landscapes (trib_rabbit_creek, trib_mallard_creek)",
+ "days": 14.0,
+ "trout_species": "brown_trout",
+ "control": {
+  "cell_id": "firehole_cell_00145",
+  "s_m": 2872.5032418305063,
+  "temperature_c": 17.37,
+  "U": -0.025,
+  "feeding": 0.657,
+  "refuge_drive": 0.0
+ },
+ "pulse": {
+  "cell_id": "trib_mallard_creek",
+  "s_m": 35.0,
+  "temperature_c": 11.0,
+  "U": -0.065,
+  "feeding": 0.9,
+  "refuge_drive": 0.0
+ },
+ "refuge_shift_m": -2837.5,
+ "emergence_change": -220.1537,
+ "dipper_intake_change": -6.5016,
+ "scenario": {
+  "baseline": "hot low-flow (2.5 m3/s, 26 C boundary) vs pinned control (8.0 m3/s, 17.5 C), D1 dispersion",
+  "baseline_provenance": "frozen_replays_control_8b9199d0fb0a_pulse_hot_lowflow_replay_2026-10-10",
+  "tributary_cells": [
+   {
+    "id": "trib_rabbit_creek",
+    "confluence_s_m": 1260.0,
+    "temperature_c": 11.0,
+    "food_scale": 0.05,
+    "confluence_provenance": "map_measured_world.json_river_5877_0_downstream_end_within_10m_of_replay_cell_00064_solver_chainage",
+    "temperature_provenance": "authored_scenario_from_DEFAULT_TRIBUTARIES_rabbit_creek_11C_zero_flow_baseline_no_observation"
+   },
+   {
+    "id": "trib_mallard_creek",
+    "confluence_s_m": 35.0,
+    "temperature_c": 11.0,
+    "food_scale": 0.05,
+    "confluence_provenance": "map_measured_world.json_river_5938_0_downstream_end_within_7m_of_replay_cell_00002_solver_chainage",
+    "temperature_provenance": "authored_scenario_from_DEFAULT_TRIBUTARIES_mallard_creek_11C_zero_flow_baseline_no_observation"
+   }
+  ],
+  "refuge_threshold_c": 24.0,
+  "refuge_threshold_provenance": "measured_Kaya_Kaeding_Burkhalter_1977",
+  "design": "landscape_level_pockets_both_landscapes_solver_untouched_off_channel_holding_water"
+ }
+}

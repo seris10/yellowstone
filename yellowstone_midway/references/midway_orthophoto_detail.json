@@ -1,0 +1,26 @@
+{
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage?bbox=512312.5950985841%2C4929559.044097667%2C513592.5950985841%2C4930839.044097667&bboxSR=32612&imageSR=32612&size=2048%2C2048&format=jpg&f=image&compressionQuality=95&bandIds=0%2C1%2C2",
+  "bytes": 1844405,
+  "sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+  "export_pixel_spacing_m": 0.625,
+  "local_extent_xz_m": [
+    -640,
+    -640,
+    640,
+    640
+  ],
+  "native_resolution_m": 0.6,
+  "acquired": "2022-07-19",
+  "agency": "USDA",
+  "vendor": "USDA-FSA-APFO",
+  "display_bands": [
+    0,
+    1,
+    2
+  ],
+  "coordinate_system": "EPSG:32612",
+  "origin_utm_m": [
+    512952.5950985841,
+    4930199.044097667
+  ]
+}

@@ -1,0 +1,2442 @@
+{
+  "cases": [
+    {
+      "controller": {
+        "capsule_height_m": 1.72000002861023,
+        "capsule_radius_m": 0.28999999165535,
+        "floor_max_angle_degrees": 48.0000013357217,
+        "floor_snap_m": 0.449999988079071,
+        "safe_margin_m": 0.0350000001490116,
+        "source": "res://scripts/player.gd inherited _ready capsule; ordinary 7m/s\u00b2 acceleration and 9.81m/s\u00b2 gravity reproduced without player input",
+        "speed_mps": 1.65
+      },
+      "failure": "Blocked for more than four seconds; no jump or correction permitted.",
+      "final_on_floor": true,
+      "final_position_m": [
+        58.0192413330078,
+        4.5676794052124,
+        -277.987548828125
+      ],
+      "final_velocity_mps": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "id": "midway_bridge_forward",
+      "max_airborne_seconds": 0.0,
+      "max_cross_track_m": 0.379213005304337,
+      "maximum_height_over_centerline_m": 0.0311662407371975,
+      "minimum_height_over_centerline_m": -0.0162243504790198,
+      "movement_calls_including_settle": 2009,
+      "pass": false,
+      "planned_horizontal_m": 82.7275890111923,
+      "reached_waypoint_index": 23,
+      "settled_start_m": [
+        89.9593963623047,
+        3.58963370323181,
+        -309.529113769531
+      ],
+      "simulation_seconds": 31.4833333333333,
+      "source_parts": [
+        {
+          "approach_margin_points": 4,
+          "bridge_span_indices": [
+            10.0,
+            44.0
+          ],
+          "route_id": "trail_3226_0",
+          "selected_indices": [
+            6,
+            48
+          ]
+        }
+      ],
+      "trace_each_second": [
+        {
+          "on_floor": true,
+          "position_m": [
+            89.9560012817383,
+            3.62048268318176,
+            -309.524719238281
+          ],
+          "seconds": 0.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            89.1003036499023,
+            3.34601068496704,
+            -308.124725341797
+          ],
+          "seconds": 1.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            87.9140777587891,
+            3.0498194694519,
+            -306.775085449219
+          ],
+          "seconds": 2.0,
+          "target_index": 2
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            86.6514892578125,
+            2.62179207801819,
+            -305.446594238281
+          ],
+          "seconds": 3.0,
+          "target_index": 3
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            85.4675903320312,
+            2.58553099632263,
+            -304.211639404297
+          ],
+          "seconds": 4.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            84.3301086425781,
+            2.68973350524902,
+            -303.0263671875
+          ],
+          "seconds": 5.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            83.1911544799805,
+            2.77395915985107,
+            -301.839477539062
+          ],
+          "seconds": 6.0,
+          "target_index": 6
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            82.0522994995117,
+            2.85821652412415,
+            -300.652557373047
+          ],
+          "seconds": 7.0,
+          "target_index": 7
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            80.9131622314453,
+            2.94247961044312,
+            -299.465484619141
+          ],
+          "seconds": 8.0,
+          "target_index": 7
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            79.7526016235352,
+            3.02668452262878,
+            -298.299346923828
+          ],
+          "seconds": 9.0,
+          "target_index": 8
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            78.5897521972656,
+            3.11111211776733,
+            -297.135192871094
+          ],
+          "seconds": 10.0,
+          "target_index": 9
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            77.4262237548828,
+            3.19538235664368,
+            -295.971527099609
+          ],
+          "seconds": 11.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            76.2625885009766,
+            3.27970695495605,
+            -294.807830810547
+          ],
+          "seconds": 12.0,
+          "target_index": 11
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            75.0988998413086,
+            3.36403727531433,
+            -293.644134521484
+          ],
+          "seconds": 13.0,
+          "target_index": 12
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            73.9353408813477,
+            3.44835472106934,
+            -292.480499267578
+          ],
+          "seconds": 14.0,
+          "target_index": 12
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            72.7717437744141,
+            3.53245759010315,
+            -291.316864013672
+          ],
+          "seconds": 15.0,
+          "target_index": 13
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            71.5929565429688,
+            3.61647200584412,
+            -290.168670654297
+          ],
+          "seconds": 16.0,
+          "target_index": 14
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            70.3994445800781,
+            3.70105195045471,
+            -289.035705566406
+          ],
+          "seconds": 17.0,
+          "target_index": 15
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            69.1978378295898,
+            3.78552055358887,
+            -287.911773681641
+          ],
+          "seconds": 18.0,
+          "target_index": 16
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            67.9953842163086,
+            3.86976289749146,
+            -286.788391113281
+          ],
+          "seconds": 19.0,
+          "target_index": 17
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            66.7928466796875,
+            3.9540810585022,
+            -285.665100097656
+          ],
+          "seconds": 20.0,
+          "target_index": 17
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            65.5902328491211,
+            4.03840398788452,
+            -284.541778564453
+          ],
+          "seconds": 21.0,
+          "target_index": 18
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            64.3876342773438,
+            4.12272691726685,
+            -283.41845703125
+          ],
+          "seconds": 22.0,
+          "target_index": 19
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            63.185131072998,
+            4.20700073242188,
+            -282.295227050781
+          ],
+          "seconds": 23.0,
+          "target_index": 20
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            61.9826354980469,
+            4.29125642776489,
+            -281.172027587891
+          ],
+          "seconds": 24.0,
+          "target_index": 21
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            60.7801284790039,
+            4.37556838989258,
+            -280.048950195312
+          ],
+          "seconds": 25.0,
+          "target_index": 22
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            59.5776863098145,
+            4.45987558364868,
+            -278.925872802734
+          ],
+          "seconds": 26.0,
+          "target_index": 22
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            58.3927574157715,
+            4.51752996444702,
+            -278.008972167969
+          ],
+          "seconds": 27.0,
+          "target_index": 23
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            58.0351104736328,
+            4.56558227539062,
+            -277.990356445312
+          ],
+          "seconds": 28.0,
+          "target_index": 23
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            58.0192413330078,
+            4.5676794052124,
+            -277.987548828125
+          ],
+          "seconds": 29.0,
+          "target_index": 23
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            58.0192413330078,
+            4.5676794052124,
+            -277.987548828125
+          ],
+          "seconds": 30.0,
+          "target_index": 23
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            58.0192413330078,
+            4.5676794052124,
+            -277.987548828125
+          ],
+          "seconds": 31.0,
+          "target_index": 23
+        }
+      ],
+      "walked_horizontal_m": 45.1521143021528,
+      "wall_contacts": [
+        {
+          "collider": "/root/AuthoredMidway/RoadsAndTrails/@MeshInstance3D@2740/@StaticBody3D@2741",
+          "normal": [
+            -0.0520387217402458,
+            0.000230800418648869,
+            -0.998645067214966
+          ],
+          "position_m": [
+            58.5944900512695,
+            4.51127576828003,
+            -278.007720947266
+          ],
+          "target_index": 23
+        }
+      ],
+      "waypoint_count": 43
+    },
+    {
+      "controller": {
+        "capsule_height_m": 1.72000002861023,
+        "capsule_radius_m": 0.28999999165535,
+        "floor_max_angle_degrees": 48.0000013357217,
+        "floor_snap_m": 0.449999988079071,
+        "safe_margin_m": 0.0350000001490116,
+        "source": "res://scripts/player.gd inherited _ready capsule; ordinary 7m/s\u00b2 acceleration and 9.81m/s\u00b2 gravity reproduced without player input",
+        "speed_mps": 1.65
+      },
+      "failure": "Blocked for more than four seconds; no jump or correction permitted.",
+      "final_on_floor": true,
+      "final_position_m": [
+        32.0092163085938,
+        3.95356774330139,
+        -293.914611816406
+      ],
+      "final_velocity_mps": [
+        -0.0222984328866005,
+        0.0,
+        0.0603962056338787
+      ],
+      "id": "midway_bridge_reverse",
+      "max_airborne_seconds": 0.0,
+      "max_cross_track_m": 0.516139328479767,
+      "maximum_height_over_centerline_m": 0.517404207963358,
+      "minimum_height_over_centerline_m": -0.00685481230686324,
+      "movement_calls_including_settle": 726,
+      "pass": false,
+      "planned_horizontal_m": 82.7275890111923,
+      "reached_waypoint_index": 4,
+      "settled_start_m": [
+        26.4109001159668,
+        5.98373365402222,
+        -296.524291992188
+      ],
+      "simulation_seconds": 10.1,
+      "source_parts": [
+        {
+          "approach_margin_points": 4,
+          "bridge_span_indices": [
+            10.0,
+            44.0
+          ],
+          "route_id": "trail_3226_0",
+          "selected_indices": [
+            6,
+            48
+          ]
+        }
+      ],
+      "trace_each_second": [
+        {
+          "on_floor": true,
+          "position_m": [
+            26.4153518676758,
+            6.01454162597656,
+            -296.521423339844
+          ],
+          "seconds": 0.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            27.8670101165771,
+            6.0075159072876,
+            -296.001098632812
+          ],
+          "seconds": 1.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            30.0496730804443,
+            4.52301740646362,
+            -295.181091308594
+          ],
+          "seconds": 2.0,
+          "target_index": 3
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            31.861328125,
+            3.45686435699463,
+            -294.476928710938
+          ],
+          "seconds": 3.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            31.8838119506836,
+            3.64354205131531,
+            -294.241790771484
+          ],
+          "seconds": 4.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            31.9357814788818,
+            3.77458643913269,
+            -294.10205078125
+          ],
+          "seconds": 5.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            31.9727344512939,
+            3.86504077911377,
+            -294.008422851562
+          ],
+          "seconds": 6.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            31.9968700408936,
+            3.92268967628479,
+            -293.947540283203
+          ],
+          "seconds": 7.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            32.0102920532227,
+            3.9554922580719,
+            -293.913116455078
+          ],
+          "seconds": 8.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            32.0065155029297,
+            3.94153213500977,
+            -293.926788330078
+          ],
+          "seconds": 9.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            32.0084266662598,
+            3.95139575004578,
+            -293.917419433594
+          ],
+          "seconds": 10.0,
+          "target_index": 4
+        }
+      ],
+      "walked_horizontal_m": 6.737953917298,
+      "wall_contacts": [
+        {
+          "collider": "/root/AuthoredMidway/RoadsAndTrails/trail_3226_0/@StaticBody3D@2555",
+          "normal": [
+            -0.75620973110199,
+            0.591774582862854,
+            -0.279194682836533
+          ],
+          "position_m": [
+            31.8496227264404,
+            3.49199104309082,
+            -294.516174316406
+          ],
+          "target_index": 4
+        }
+      ],
+      "waypoint_count": 43
+    },
+    {
+      "controller": {
+        "capsule_height_m": 1.72000002861023,
+        "capsule_radius_m": 0.28999999165535,
+        "floor_max_angle_degrees": 48.0000013357217,
+        "floor_snap_m": 0.449999988079071,
+        "safe_margin_m": 0.0350000001490116,
+        "source": "res://scripts/player.gd inherited _ready capsule; ordinary 7m/s\u00b2 acceleration and 9.81m/s\u00b2 gravity reproduced without player input",
+        "speed_mps": 1.65
+      },
+      "failure": "",
+      "final_on_floor": true,
+      "final_position_m": [
+        329.224853515625,
+        7.9790153503418,
+        953.160766601562
+      ],
+      "final_velocity_mps": [
+        -0.240813255310059,
+        0.0,
+        -1.63233232498169
+      ],
+      "id": "fairy_falls_bridge_forward",
+      "max_airborne_seconds": 0.0,
+      "max_cross_track_m": 0.0314496941864491,
+      "maximum_height_over_centerline_m": 0.0256184608625549,
+      "minimum_height_over_centerline_m": -0.0204047778482845,
+      "movement_calls_including_settle": 2948,
+      "pass": true,
+      "planned_horizontal_m": 77.9936999082565,
+      "reached_waypoint_index": 39,
+      "settled_start_m": [
+        351.143890380859,
+        8.83709907531738,
+        1027.58837890625
+      ],
+      "simulation_seconds": 47.1333333333333,
+      "source_parts": [
+        {
+          "approach_margin_points": 4,
+          "bridge_span_indices": [
+            12.0,
+            43.0
+          ],
+          "route_id": "trail_3321_0",
+          "selected_indices": [
+            8,
+            47
+          ]
+        }
+      ],
+      "trace_each_second": [
+        {
+          "on_floor": true,
+          "position_m": [
+            351.141754150391,
+            8.86960983276367,
+            1027.58581542969
+          ],
+          "seconds": 0.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            350.737518310547,
+            8.82415294647217,
+            1026.13000488281
+          ],
+          "seconds": 1.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            350.305786132812,
+            8.77087116241455,
+            1024.5341796875
+          ],
+          "seconds": 2.0,
+          "target_index": 2
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            349.856048583984,
+            8.70149230957031,
+            1022.93505859375
+          ],
+          "seconds": 3.0,
+          "target_index": 3
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            349.407958984375,
+            8.77759265899658,
+            1021.36865234375
+          ],
+          "seconds": 4.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            348.979553222656,
+            9.15245342254639,
+            1019.8740234375
+          ],
+          "seconds": 5.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            348.525329589844,
+            9.137526512146,
+            1018.28784179688
+          ],
+          "seconds": 6.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            348.070404052734,
+            9.12463188171387,
+            1016.70043945312
+          ],
+          "seconds": 7.0,
+          "target_index": 6
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            347.615905761719,
+            9.10994529724121,
+            1015.1142578125
+          ],
+          "seconds": 8.0,
+          "target_index": 7
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            347.160980224609,
+            9.09021854400635,
+            1013.52679443359
+          ],
+          "seconds": 9.0,
+          "target_index": 8
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            346.706359863281,
+            9.07899284362793,
+            1011.94146728516
+          ],
+          "seconds": 10.0,
+          "target_index": 9
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            346.2470703125,
+            9.06412982940674,
+            1010.35675048828
+          ],
+          "seconds": 11.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            345.704132080078,
+            9.04517269134521,
+            1008.79870605469
+          ],
+          "seconds": 12.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            345.132720947266,
+            9.03124141693115,
+            1007.25115966797
+          ],
+          "seconds": 13.0,
+          "target_index": 11
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            344.55517578125,
+            9.01631546020508,
+            1005.70526123047
+          ],
+          "seconds": 14.0,
+          "target_index": 12
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            343.974975585938,
+            9.0034008026123,
+            1004.15814208984
+          ],
+          "seconds": 15.0,
+          "target_index": 13
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            343.395294189453,
+            8.9885082244873,
+            1002.61224365234
+          ],
+          "seconds": 16.0,
+          "target_index": 14
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            342.815124511719,
+            8.96900081634521,
+            1001.06500244141
+          ],
+          "seconds": 17.0,
+          "target_index": 14
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            342.235290527344,
+            8.95436668395996,
+            999.519104003906
+          ],
+          "seconds": 18.0,
+          "target_index": 15
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            341.65576171875,
+            8.94308471679688,
+            997.973693847656
+          ],
+          "seconds": 19.0,
+          "target_index": 16
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            341.110321044922,
+            8.92341899871826,
+            996.4140625
+          ],
+          "seconds": 20.0,
+          "target_index": 17
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            340.610961914062,
+            8.90866470336914,
+            994.841064453125
+          ],
+          "seconds": 21.0,
+          "target_index": 18
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            340.147857666016,
+            8.8971004486084,
+            993.257507324219
+          ],
+          "seconds": 22.0,
+          "target_index": 19
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            339.687713623047,
+            8.87888813018799,
+            991.671813964844
+          ],
+          "seconds": 23.0,
+          "target_index": 19
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            339.228088378906,
+            8.86622142791748,
+            990.084533691406
+          ],
+          "seconds": 24.0,
+          "target_index": 20
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            338.767822265625,
+            8.85129737854004,
+            988.498352050781
+          ],
+          "seconds": 25.0,
+          "target_index": 21
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            338.307647705078,
+            8.83284378051758,
+            986.912353515625
+          ],
+          "seconds": 26.0,
+          "target_index": 22
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            337.845397949219,
+            8.8206901550293,
+            985.326232910156
+          ],
+          "seconds": 27.0,
+          "target_index": 23
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            337.369049072266,
+            8.80569839477539,
+            983.7470703125
+          ],
+          "seconds": 28.0,
+          "target_index": 24
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            336.775787353516,
+            8.78700637817383,
+            982.205993652344
+          ],
+          "seconds": 29.0,
+          "target_index": 24
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            336.175750732422,
+            8.77471351623535,
+            980.66650390625
+          ],
+          "seconds": 30.0,
+          "target_index": 25
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            335.573150634766,
+            8.76008701324463,
+            979.128845214844
+          ],
+          "seconds": 31.0,
+          "target_index": 26
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            334.971649169922,
+            8.73993301391602,
+            977.593200683594
+          ],
+          "seconds": 32.0,
+          "target_index": 27
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            334.369079589844,
+            8.72501945495605,
+            976.054626464844
+          ],
+          "seconds": 33.0,
+          "target_index": 28
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            333.766906738281,
+            8.71334743499756,
+            974.517822265625
+          ],
+          "seconds": 34.0,
+          "target_index": 29
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            333.164825439453,
+            8.70089721679688,
+            972.979187011719
+          ],
+          "seconds": 35.0,
+          "target_index": 29
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            332.562225341797,
+            8.64983177185059,
+            971.441284179688
+          ],
+          "seconds": 36.0,
+          "target_index": 30
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            331.959045410156,
+            8.66524505615234,
+            969.901306152344
+          ],
+          "seconds": 37.0,
+          "target_index": 31
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            331.485900878906,
+            8.6505823135376,
+            968.326232910156
+          ],
+          "seconds": 38.0,
+          "target_index": 32
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            331.224365234375,
+            8.63687133789062,
+            966.694274902344
+          ],
+          "seconds": 39.0,
+          "target_index": 33
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.981201171875,
+            8.62209892272949,
+            965.060485839844
+          ],
+          "seconds": 40.0,
+          "target_index": 33
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.739379882812,
+            8.60340690612793,
+            963.427734375
+          ],
+          "seconds": 41.0,
+          "target_index": 34
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.49951171875,
+            8.59028148651123,
+            961.792907714844
+          ],
+          "seconds": 42.0,
+          "target_index": 35
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.239837646484,
+            8.31526279449463,
+            960.038146972656
+          ],
+          "seconds": 43.0,
+          "target_index": 36
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            329.976043701172,
+            7.9790153503418,
+            958.251220703125
+          ],
+          "seconds": 44.0,
+          "target_index": 37
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            329.734954833984,
+            7.9790153503418,
+            956.617919921875
+          ],
+          "seconds": 45.0,
+          "target_index": 38
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            329.493957519531,
+            7.9790153503418,
+            954.984619140625
+          ],
+          "seconds": 46.0,
+          "target_index": 39
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            329.252960205078,
+            7.9790153503418,
+            953.351318359375
+          ],
+          "seconds": 47.0,
+          "target_index": 39
+        }
+      ],
+      "walked_horizontal_m": 77.840389613295,
+      "wall_contacts": [],
+      "waypoint_count": 40
+    },
+    {
+      "controller": {
+        "capsule_height_m": 1.72000002861023,
+        "capsule_radius_m": 0.28999999165535,
+        "floor_max_angle_degrees": 48.0000013357217,
+        "floor_snap_m": 0.449999988079071,
+        "safe_margin_m": 0.0350000001490116,
+        "source": "res://scripts/player.gd inherited _ready capsule; ordinary 7m/s\u00b2 acceleration and 9.81m/s\u00b2 gravity reproduced without player input",
+        "speed_mps": 1.65
+      },
+      "failure": "",
+      "final_on_floor": true,
+      "final_position_m": [
+        351.100952148438,
+        8.86395931243896,
+        1027.43041992188
+      ],
+      "final_velocity_mps": [
+        0.432828426361084,
+        0.0,
+        1.59221851825714
+      ],
+      "id": "fairy_falls_bridge_reverse",
+      "max_airborne_seconds": 0.0,
+      "max_cross_track_m": 0.0258986204862595,
+      "maximum_height_over_centerline_m": 0.0274311174885451,
+      "minimum_height_over_centerline_m": -0.0199936823968621,
+      "movement_calls_including_settle": 2954,
+      "pass": true,
+      "planned_horizontal_m": 77.9936999082565,
+      "reached_waypoint_index": 39,
+      "settled_start_m": [
+        329.202301025391,
+        7.9497389793396,
+        953.0078125
+      ],
+      "simulation_seconds": 47.2333333333333,
+      "source_parts": [
+        {
+          "approach_margin_points": 4,
+          "bridge_span_indices": [
+            12.0,
+            43.0
+          ],
+          "route_id": "trail_3321_0",
+          "selected_indices": [
+            8,
+            47
+          ]
+        }
+      ],
+      "trace_each_second": [
+        {
+          "on_floor": true,
+          "position_m": [
+            329.204254150391,
+            7.98238515853882,
+            953.010009765625
+          ],
+          "seconds": 0.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            329.427154541016,
+            7.97521877288818,
+            954.49169921875
+          ],
+          "seconds": 1.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            329.663360595703,
+            7.97710943222046,
+            956.125
+          ],
+          "seconds": 2.0,
+          "target_index": 2
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            329.903381347656,
+            7.97710943222046,
+            957.75830078125
+          ],
+          "seconds": 3.0,
+          "target_index": 3
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.138031005859,
+            8.11777400970459,
+            959.350708007812
+          ],
+          "seconds": 4.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.359222412109,
+            8.57530784606934,
+            960.849365234375
+          ],
+          "seconds": 5.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.600524902344,
+            8.59301567077637,
+            962.482177734375
+          ],
+          "seconds": 6.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            330.841583251953,
+            8.61144161224365,
+            964.115356445312
+          ],
+          "seconds": 7.0,
+          "target_index": 6
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            331.08251953125,
+            8.62658596038818,
+            965.748474121094
+          ],
+          "seconds": 8.0,
+          "target_index": 7
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            331.324554443359,
+            8.63715553283691,
+            967.381713867188
+          ],
+          "seconds": 9.0,
+          "target_index": 8
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            331.630432128906,
+            8.65701580047607,
+            968.997192382812
+          ],
+          "seconds": 10.0,
+          "target_index": 9
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            332.212493896484,
+            8.66658782958984,
+            970.542541503906
+          ],
+          "seconds": 11.0,
+          "target_index": 9
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            332.813018798828,
+            8.68322849273682,
+            972.080200195312
+          ],
+          "seconds": 12.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            333.414825439453,
+            8.7024974822998,
+            973.617980957031
+          ],
+          "seconds": 13.0,
+          "target_index": 11
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            334.017120361328,
+            8.71057033538818,
+            975.156005859375
+          ],
+          "seconds": 14.0,
+          "target_index": 12
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            334.619415283203,
+            8.72991847991943,
+            976.693725585938
+          ],
+          "seconds": 15.0,
+          "target_index": 13
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            335.221740722656,
+            8.74910926818848,
+            978.231628417969
+          ],
+          "seconds": 16.0,
+          "target_index": 14
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            335.824066162109,
+            8.75762462615967,
+            979.769470214844
+          ],
+          "seconds": 17.0,
+          "target_index": 14
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            336.426452636719,
+            8.77665138244629,
+            981.307434082031
+          ],
+          "seconds": 18.0,
+          "target_index": 15
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            337.028717041016,
+            8.79414749145508,
+            982.844970703125
+          ],
+          "seconds": 19.0,
+          "target_index": 16
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            337.565887451172,
+            8.80182552337646,
+            984.40380859375
+          ],
+          "seconds": 20.0,
+          "target_index": 17
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            338.037200927734,
+            8.82082366943359,
+            985.984313964844
+          ],
+          "seconds": 21.0,
+          "target_index": 18
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            338.497924804688,
+            8.83996772766113,
+            987.569702148438
+          ],
+          "seconds": 22.0,
+          "target_index": 19
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            338.957641601562,
+            8.8477840423584,
+            989.155334472656
+          ],
+          "seconds": 23.0,
+          "target_index": 19
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            339.41748046875,
+            8.86770343780518,
+            990.74072265625
+          ],
+          "seconds": 24.0,
+          "target_index": 20
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            339.877227783203,
+            8.8834400177002,
+            992.326293945312
+          ],
+          "seconds": 25.0,
+          "target_index": 21
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            340.337036132812,
+            8.89502334594727,
+            993.911743164062
+          ],
+          "seconds": 26.0,
+          "target_index": 22
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            340.809265136719,
+            8.91431140899658,
+            995.49365234375
+          ],
+          "seconds": 27.0,
+          "target_index": 23
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            341.321014404297,
+            8.92254066467285,
+            997.062744140625
+          ],
+          "seconds": 28.0,
+          "target_index": 24
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            341.895263671875,
+            8.94187068939209,
+            998.608154296875
+          ],
+          "seconds": 29.0,
+          "target_index": 24
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            342.472930908203,
+            8.95909595489502,
+            1000.15325927734
+          ],
+          "seconds": 30.0,
+          "target_index": 25
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            343.052307128906,
+            8.97525691986084,
+            1001.69854736328
+          ],
+          "seconds": 31.0,
+          "target_index": 26
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            343.631774902344,
+            8.98720932006836,
+            1003.24371337891
+          ],
+          "seconds": 32.0,
+          "target_index": 27
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            344.211242675781,
+            9.00618743896484,
+            1004.78887939453
+          ],
+          "seconds": 33.0,
+          "target_index": 28
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            344.790771484375,
+            9.01412010192871,
+            1006.33404541016
+          ],
+          "seconds": 34.0,
+          "target_index": 28
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            345.3701171875,
+            9.03253173828125,
+            1007.87915039062
+          ],
+          "seconds": 35.0,
+          "target_index": 29
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            345.929382324219,
+            9.05137252807617,
+            1009.43273925781
+          ],
+          "seconds": 36.0,
+          "target_index": 30
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            346.432037353516,
+            9.06114292144775,
+            1011.00518798828
+          ],
+          "seconds": 37.0,
+          "target_index": 31
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            346.891876220703,
+            9.07966709136963,
+            1012.59057617188
+          ],
+          "seconds": 38.0,
+          "target_index": 32
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            347.3466796875,
+            9.09783172607422,
+            1014.17596435547
+          ],
+          "seconds": 39.0,
+          "target_index": 33
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            347.801025390625,
+            9.10620784759521,
+            1015.76141357422
+          ],
+          "seconds": 40.0,
+          "target_index": 33
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            348.255432128906,
+            9.12478446960449,
+            1017.34686279297
+          ],
+          "seconds": 41.0,
+          "target_index": 34
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            348.709838867188,
+            9.1437873840332,
+            1018.93243408203
+          ],
+          "seconds": 42.0,
+          "target_index": 35
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            349.187530517578,
+            8.96132183074951,
+            1020.59869384766
+          ],
+          "seconds": 43.0,
+          "target_index": 36
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            349.682861328125,
+            8.67536067962646,
+            1022.32604980469
+          ],
+          "seconds": 44.0,
+          "target_index": 37
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            350.134094238281,
+            8.74454307556152,
+            1023.91021728516
+          ],
+          "seconds": 45.0,
+          "target_index": 38
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            350.57421875,
+            8.80419635772705,
+            1025.49816894531
+          ],
+          "seconds": 46.0,
+          "target_index": 38
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            351.007354736328,
+            8.85429859161377,
+            1027.08630371094
+          ],
+          "seconds": 47.0,
+          "target_index": 39
+        }
+      ],
+      "walked_horizontal_m": 77.8292518684175,
+      "wall_contacts": [],
+      "waypoint_count": 40
+    },
+    {
+      "controller": {
+        "capsule_height_m": 1.72000002861023,
+        "capsule_radius_m": 0.28999999165535,
+        "floor_max_angle_degrees": 48.0000013357217,
+        "floor_snap_m": 0.449999988079071,
+        "safe_margin_m": 0.0350000001490116,
+        "source": "res://scripts/player.gd inherited _ready capsule; ordinary 7m/s\u00b2 acceleration and 9.81m/s\u00b2 gravity reproduced without player input",
+        "speed_mps": 1.65
+      },
+      "failure": "Blocked for more than four seconds; no jump or correction permitted.",
+      "final_on_floor": true,
+      "final_position_m": [
+        -248.478515625,
+        47.8675918579102,
+        160.052383422852
+      ],
+      "final_velocity_mps": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "id": "overlook_upper_approach_and_spur",
+      "max_airborne_seconds": 0.0,
+      "max_cross_track_m": 0.30983829498291,
+      "maximum_height_over_centerline_m": 0.0888939349317539,
+      "minimum_height_over_centerline_m": -0.0197982182664092,
+      "movement_calls_including_settle": 2582,
+      "pass": false,
+      "planned_horizontal_m": 63.5240825414658,
+      "reached_waypoint_index": 32,
+      "settled_start_m": [
+        -241.940704345703,
+        42.8663177490234,
+        179.265899658203
+      ],
+      "simulation_seconds": 41.0333333333333,
+      "source_parts": [
+        {
+          "route_id": "trail_3454_0",
+          "selected_indices": [
+            12,
+            0
+          ]
+        },
+        {
+          "route_id": "trail_3455_0",
+          "selected_indices": [
+            1,
+            21
+          ]
+        }
+      ],
+      "trace_each_second": [
+        {
+          "on_floor": true,
+          "position_m": [
+            -241.940582275391,
+            42.897819519043,
+            179.265075683594
+          ],
+          "seconds": 0.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -243.32958984375,
+            43.0699462890625,
+            178.702362060547
+          ],
+          "seconds": 1.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -244.887741088867,
+            43.1588401794434,
+            178.177886962891
+          ],
+          "seconds": 2.0,
+          "target_index": 2
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -246.448318481445,
+            43.2260475158691,
+            177.65055847168
+          ],
+          "seconds": 3.0,
+          "target_index": 3
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -248.023132324219,
+            43.2862815856934,
+            177.175598144531
+          ],
+          "seconds": 4.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -249.639465332031,
+            43.3642120361328,
+            176.873428344727
+          ],
+          "seconds": 5.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -251.279708862305,
+            43.4702186584473,
+            176.779251098633
+          ],
+          "seconds": 6.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -252.906158447266,
+            43.6026458740234,
+            176.570861816406
+          ],
+          "seconds": 7.0,
+          "target_index": 6
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -254.503494262695,
+            43.7523994445801,
+            176.224502563477
+          ],
+          "seconds": 8.0,
+          "target_index": 7
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -256.086822509766,
+            43.9050521850586,
+            175.815475463867
+          ],
+          "seconds": 9.0,
+          "target_index": 8
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -257.622863769531,
+            44.0500946044922,
+            175.286483764648
+          ],
+          "seconds": 10.0,
+          "target_index": 9
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -259.0361328125,
+            44.1886329650879,
+            174.473236083984
+          ],
+          "seconds": 11.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -260.150451660156,
+            44.2828750610352,
+            173.262649536133
+          ],
+          "seconds": 12.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -261.481475830078,
+            44.3281707763672,
+            172.305572509766
+          ],
+          "seconds": 13.0,
+          "target_index": 11
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -262.873077392578,
+            44.399284362793,
+            171.819198608398
+          ],
+          "seconds": 14.0,
+          "target_index": 12
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -264.0087890625,
+            44.325325012207,
+            170.941360473633
+          ],
+          "seconds": 15.0,
+          "target_index": 13
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -262.614196777344,
+            44.5587463378906,
+            170.250457763672
+          ],
+          "seconds": 16.0,
+          "target_index": 13
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -261.035614013672,
+            44.8244285583496,
+            169.973037719727
+          ],
+          "seconds": 17.0,
+          "target_index": 14
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -259.459655761719,
+            45.136791229248,
+            169.787979125977
+          ],
+          "seconds": 18.0,
+          "target_index": 15
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -257.880401611328,
+            45.4582862854004,
+            169.660705566406
+          ],
+          "seconds": 19.0,
+          "target_index": 16
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -256.303192138672,
+            45.7412872314453,
+            169.437393188477
+          ],
+          "seconds": 20.0,
+          "target_index": 17
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -254.738342285156,
+            45.9950866699219,
+            169.058685302734
+          ],
+          "seconds": 21.0,
+          "target_index": 18
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -253.145736694336,
+            46.208438873291,
+            168.74885559082
+          ],
+          "seconds": 22.0,
+          "target_index": 18
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -251.589721679688,
+            46.3680725097656,
+            168.248748779297
+          ],
+          "seconds": 23.0,
+          "target_index": 19
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -249.961380004883,
+            46.4793930053711,
+            168.139175415039
+          ],
+          "seconds": 24.0,
+          "target_index": 20
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -248.321472167969,
+            46.6038932800293,
+            168.166702270508
+          ],
+          "seconds": 25.0,
+          "target_index": 21
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -246.781402587891,
+            46.7639961242676,
+            167.865478515625
+          ],
+          "seconds": 26.0,
+          "target_index": 22
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -245.329223632812,
+            46.9561882019043,
+            167.131698608398
+          ],
+          "seconds": 27.0,
+          "target_index": 23
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -243.853118896484,
+            47.1712951660156,
+            166.463043212891
+          ],
+          "seconds": 28.0,
+          "target_index": 24
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -242.324478149414,
+            47.3499221801758,
+            165.895889282227
+          ],
+          "seconds": 29.0,
+          "target_index": 25
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -240.694885253906,
+            47.4785232543945,
+            165.720596313477
+          ],
+          "seconds": 30.0,
+          "target_index": 25
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -239.989959716797,
+            47.5697326660156,
+            164.411773681641
+          ],
+          "seconds": 31.0,
+          "target_index": 26
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -240.850814819336,
+            47.6166343688965,
+            163.24690246582
+          ],
+          "seconds": 32.0,
+          "target_index": 27
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -242.160247802734,
+            47.6667366027832,
+            162.249069213867
+          ],
+          "seconds": 33.0,
+          "target_index": 28
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -243.679122924805,
+            47.7273597717285,
+            161.670852661133
+          ],
+          "seconds": 34.0,
+          "target_index": 29
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -245.277221679688,
+            47.7839889526367,
+            161.268280029297
+          ],
+          "seconds": 35.0,
+          "target_index": 30
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -246.866256713867,
+            47.8334617614746,
+            160.827239990234
+          ],
+          "seconds": 36.0,
+          "target_index": 31
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -248.454193115234,
+            47.8647346496582,
+            160.384231567383
+          ],
+          "seconds": 37.0,
+          "target_index": 32
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -248.48078918457,
+            47.8329429626465,
+            160.161056518555
+          ],
+          "seconds": 38.0,
+          "target_index": 32
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -248.478164672852,
+            47.8652572631836,
+            160.076293945312
+          ],
+          "seconds": 39.0,
+          "target_index": 32
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -248.478515625,
+            47.8675918579102,
+            160.052383422852
+          ],
+          "seconds": 40.0,
+          "target_index": 32
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -248.478515625,
+            47.8675918579102,
+            160.052383422852
+          ],
+          "seconds": 41.0,
+          "target_index": 32
+        }
+      ],
+      "walked_horizontal_m": 60.3821687978343,
+      "wall_contacts": [
+        {
+          "collider": "/root/AuthoredMidway/RoadsAndTrails/trail_3455_0/@StaticBody3D@3761",
+          "normal": [
+            0.325884252786636,
+            0.592106223106384,
+            0.737027585506439
+          ],
+          "position_m": [
+            -262.438049316406,
+            44.3372650146484,
+            171.768280029297
+          ],
+          "target_index": 12
+        },
+        {
+          "collider": "/root/AuthoredMidway/OverlookDeck/ViewingPlatform/@StaticBody3D@24091",
+          "normal": [
+            0.840830266475677,
+            0.541298806667328,
+            0.0
+          ],
+          "position_m": [
+            -248.481079101562,
+            47.8647346496582,
+            160.378463745117
+          ],
+          "target_index": 32
+        }
+      ],
+      "waypoint_count": 34
+    },
+    {
+      "controller": {
+        "capsule_height_m": 1.72000002861023,
+        "capsule_radius_m": 0.28999999165535,
+        "floor_max_angle_degrees": 48.0000013357217,
+        "floor_snap_m": 0.449999988079071,
+        "safe_margin_m": 0.0350000001490116,
+        "source": "res://scripts/player.gd inherited _ready capsule; ordinary 7m/s\u00b2 acceleration and 9.81m/s\u00b2 gravity reproduced without player input",
+        "speed_mps": 1.65
+      },
+      "failure": "",
+      "final_on_floor": true,
+      "final_position_m": [
+        -40.8315277099609,
+        13.7614154815674,
+        -167.679046630859
+      ],
+      "final_velocity_mps": [
+        -1.64999985694885,
+        0.0,
+        0.000413482019212097
+      ],
+      "id": "boardwalk_3228_to_3230_junction",
+      "max_airborne_seconds": 0.0,
+      "max_cross_track_m": 0.0438530035316944,
+      "maximum_height_over_centerline_m": 0.016200714376069,
+      "minimum_height_over_centerline_m": -0.020185786169634,
+      "movement_calls_including_settle": 1278,
+      "pass": true,
+      "planned_horizontal_m": 31.8013534545898,
+      "reached_waypoint_index": 16,
+      "settled_start_m": [
+        -25.5837001800537,
+        14.0636386871338,
+        -155.075103759766
+      ],
+      "simulation_seconds": 19.3,
+      "source_parts": [
+        {
+          "route_id": "trail_3228_0",
+          "selected_indices": [
+            32,
+            39
+          ]
+        },
+        {
+          "route_id": "trail_3230_0",
+          "selected_indices": [
+            1,
+            9
+          ]
+        }
+      ],
+      "trace_each_second": [
+        {
+          "on_floor": true,
+          "position_m": [
+            -25.5816268920898,
+            14.0963840484619,
+            -155.077728271484
+          ],
+          "seconds": 0.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -25.2990570068359,
+            14.0377063751221,
+            -156.568008422852
+          ],
+          "seconds": 1.0,
+          "target_index": 1
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -25.003475189209,
+            13.9844779968262,
+            -158.196731567383
+          ],
+          "seconds": 2.0,
+          "target_index": 2
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -24.7023315429688,
+            13.9370212554932,
+            -159.824829101562
+          ],
+          "seconds": 3.0,
+          "target_index": 3
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -24.4001083374023,
+            13.9161539077759,
+            -161.450225830078
+          ],
+          "seconds": 4.0,
+          "target_index": 4
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -24.099271774292,
+            13.9008235931396,
+            -163.071533203125
+          ],
+          "seconds": 5.0,
+          "target_index": 5
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -23.797384262085,
+            13.8697900772095,
+            -164.696578979492
+          ],
+          "seconds": 6.0,
+          "target_index": 6
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -23.4929676055908,
+            13.805718421936,
+            -166.332763671875
+          ],
+          "seconds": 7.0,
+          "target_index": 6
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -23.1889610290527,
+            13.713550567627,
+            -167.965194702148
+          ],
+          "seconds": 8.0,
+          "target_index": 7
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -23.8995113372803,
+            13.7358465194702,
+            -168.643951416016
+          ],
+          "seconds": 9.0,
+          "target_index": 8
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -25.542163848877,
+            13.7637615203857,
+            -168.496597290039
+          ],
+          "seconds": 10.0,
+          "target_index": 9
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -27.186975479126,
+            13.7844085693359,
+            -168.371383666992
+          ],
+          "seconds": 11.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -28.832052230835,
+            13.7910680770874,
+            -168.248413085938
+          ],
+          "seconds": 12.0,
+          "target_index": 10
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -30.4775295257568,
+            13.7862730026245,
+            -168.125701904297
+          ],
+          "seconds": 13.0,
+          "target_index": 11
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -32.1233291625977,
+            13.7853384017944,
+            -168.002944946289
+          ],
+          "seconds": 14.0,
+          "target_index": 12
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -33.7697486877441,
+            13.7699413299561,
+            -167.880111694336
+          ],
+          "seconds": 15.0,
+          "target_index": 13
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -35.416202545166,
+            13.7584209442139,
+            -167.767974853516
+          ],
+          "seconds": 16.0,
+          "target_index": 14
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -37.0643005371094,
+            13.7533588409424,
+            -167.686599731445
+          ],
+          "seconds": 17.0,
+          "target_index": 15
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -38.7140274047852,
+            13.7596397399902,
+            -167.680145263672
+          ],
+          "seconds": 18.0,
+          "target_index": 15
+        },
+        {
+          "on_floor": true,
+          "position_m": [
+            -40.3640251159668,
+            13.7614154815674,
+            -167.679168701172
+          ],
+          "seconds": 19.0,
+          "target_index": 16
+        }
+      ],
+      "walked_horizontal_m": 31.6133742199745,
+      "wall_contacts": [],
+      "waypoint_count": 17
+    }
+  ],
+  "failures": [
+    "midway_bridge_forward: Blocked for more than four seconds; no jump or correction permitted.",
+    "midway_bridge_reverse: Blocked for more than four seconds; no jump or correction permitted.",
+    "overlook_upper_approach_and_spur: Blocked for more than four seconds; no jump or correction permitted."
+  ],
+  "flight_enabled": false,
+  "godot": "4.5.1-stable (official)",
+  "jump_enabled": false,
+  "limitations": [
+    "Not the complete overlook-to-boardwalk route or all park routes.",
+    "Ideal centerline steering; no manual-controller or visual-quality certification.",
+    "Independent cases have an initial placement and settling period; positions are never corrected within a walk.",
+    "Water/swimming, vehicles, side-of-deck railing impacts, arbitrary off-trail traversal, and hardware performance are outside this test."
+  ],
+  "native_scene_sha256": "5b3ac9f27b73136185293229bfa58fa43e4050feb9c7e74c41bf29535c1955f4",
+  "pass": false,
+  "physics_hz": 60,
+  "player_script_sha256": "b28687f2dbd9b4c6b47a1f9d18004a49e14e4c082422e33b7e86e843f50cb051",
+  "scope": "Focused native-collision walks: two bridges in both directions, upper overlook approach, one boardwalk junction.",
+  "teleports_within_walk": 0,
+  "terrain_sha256": "3ca9dca94b1b556ef3281b285b37afc00980f7cab997a59f75edb846a847e383",
+  "world_data_sha256": "cef548c8f42a871f3fe97020cba8130a0d1130ad9c3a1512dae76ec1c0c72f5d",
+  "historical_record": "Initial moving-body check before Midway bridge profile/rail and overlook-entry repairs; retained for diagnosis, superseded by walking_validation.json after repairs."
+}

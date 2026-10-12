@@ -1,0 +1,261 @@
+{
+  "source_xz_unchanged": true,
+  "route_endpoints_unchanged": true,
+  "bridge_spans_and_heights_unchanged": true,
+  "bridge_approaches": [
+    {
+      "id": "road_554_0",
+      "spans": [
+        [
+          417,
+          424
+        ],
+        [
+          457,
+          458
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 16.8484,
+      "minimum_route_clearance_m": 0.06,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 116
+    },
+    {
+      "id": "road_563_0",
+      "spans": [
+        [
+          443,
+          450
+        ],
+        [
+          481,
+          488
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 3.5434,
+      "minimum_route_clearance_m": 0.07,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 210
+    },
+    {
+      "id": "road_657_0",
+      "spans": [
+        [
+          455,
+          462
+        ],
+        [
+          498,
+          504
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 3.0745,
+      "minimum_route_clearance_m": 0.06,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 225
+    },
+    {
+      "id": "trail_2706_0",
+      "spans": [
+        [
+          39,
+          46
+        ],
+        [
+          158,
+          169
+        ],
+        [
+          203,
+          209
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 16.1282,
+      "minimum_route_clearance_m": 0.0927,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 360
+    },
+    {
+      "id": "trail_3226_0",
+      "spans": [
+        [
+          3,
+          10
+        ],
+        [
+          44,
+          51
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 8.8756,
+      "minimum_route_clearance_m": 0.0534,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 210
+    },
+    {
+      "id": "trail_3227_0",
+      "spans": [
+        [
+          22,
+          29
+        ],
+        [
+          58,
+          65
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 8.9016,
+      "minimum_route_clearance_m": 0.1199,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 210
+    },
+    {
+      "id": "trail_3321_0",
+      "spans": [
+        [
+          5,
+          12
+        ],
+        [
+          43,
+          50
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 5.623,
+      "minimum_route_clearance_m": 0.06,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 215
+    },
+    {
+      "id": "trail_3322_0",
+      "spans": [
+        [
+          12,
+          19
+        ]
+      ],
+      "whole_route_maximum_grade_deg": 13.9356,
+      "minimum_route_clearance_m": 0.06,
+      "terrain_above_route_samples_over_3cm": 0,
+      "samples": 105
+    }
+  ],
+  "changed_heights": [
+    {
+      "id": "road_554_0",
+      "vertices_changed": 6,
+      "max_absolute_change_m": 0.5634,
+      "min_change_m": 0.0,
+      "max_change_m": 0.5634
+    },
+    {
+      "id": "road_563_0",
+      "vertices_changed": 12,
+      "max_absolute_change_m": 0.5693,
+      "min_change_m": 0.0,
+      "max_change_m": 0.5693
+    },
+    {
+      "id": "road_657_0",
+      "vertices_changed": 11,
+      "max_absolute_change_m": 0.5362,
+      "min_change_m": 0.0,
+      "max_change_m": 0.5362
+    },
+    {
+      "id": "trail_2706_0",
+      "vertices_changed": 21,
+      "max_absolute_change_m": 0.582,
+      "min_change_m": 0.0,
+      "max_change_m": 0.582
+    },
+    {
+      "id": "trail_3226_0",
+      "vertices_changed": 12,
+      "max_absolute_change_m": 2.7711,
+      "min_change_m": -0.133,
+      "max_change_m": 2.7711
+    },
+    {
+      "id": "trail_3227_0",
+      "vertices_changed": 12,
+      "max_absolute_change_m": 0.6026,
+      "min_change_m": 0.0,
+      "max_change_m": 0.6026
+    },
+    {
+      "id": "trail_3321_0",
+      "vertices_changed": 12,
+      "max_absolute_change_m": 0.5642,
+      "min_change_m": 0.0,
+      "max_change_m": 0.5642
+    },
+    {
+      "id": "trail_3322_0",
+      "vertices_changed": 6,
+      "max_absolute_change_m": 0.5263,
+      "min_change_m": 0.0,
+      "max_change_m": 0.5263
+    }
+  ],
+  "source_and_placement_hashes": {
+    "data/placements.json": true,
+    "data/placement_overrides.json": true,
+    "references/terrain_source.f32": true,
+    "references/dem.tif": true
+  },
+  "river_geometry_unchanged": true,
+  "pool_geometry_unchanged": true,
+  "water_check": {
+    "samples": 78083,
+    "buried_samples_over_3cm": 0,
+    "minimum_clearance_m": 0.12
+  },
+  "midway_exit": [
+    {
+      "index": 43,
+      "before_y": 5.97,
+      "after_y": 5.97
+    },
+    {
+      "index": 44,
+      "before_y": 6.0709,
+      "after_y": 6.0709
+    },
+    {
+      "index": 45,
+      "before_y": 3.3859,
+      "after_y": 6.157
+    },
+    {
+      "index": 46,
+      "before_y": 4.4586,
+      "after_y": 6.2189
+    },
+    {
+      "index": 47,
+      "before_y": 5.4241,
+      "after_y": 6.2649
+    },
+    {
+      "index": 48,
+      "before_y": 6.0013,
+      "after_y": 6.3029
+    },
+    {
+      "index": 49,
+      "before_y": 6.2574,
+      "after_y": 6.3412
+    },
+    {
+      "index": 50,
+      "before_y": 6.3788,
+      "after_y": 6.3877
+    },
+    {
+      "index": 51,
+      "before_y": 6.4508,
+      "after_y": 6.4508
+    }
+  ]
+}

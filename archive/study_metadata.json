@@ -1,0 +1,15 @@
+{
+  "study_name": "Grand Prismatic visible crown inventory",
+  "source": "Google Maps screenshot",
+  "capture_datetime_utc": null,
+  "imagery_acquisition_date": null,
+  "source_attribution": "Record the attribution displayed on the image",
+  "target_definition": "One individually distinguishable visible tree crown centre inside the analysis mask",
+  "include_dead_visible_crowns": true,
+  "minimum_crown_size_rule": "No explicit size cutoff; document any annotation limitations",
+  "flat_map_view_verified": null,
+  "ground_scale_basis": null,
+  "reference_annotator": null,
+  "reference_protocol": "Exhaustive crown-centre annotation without model overlay",
+  "notes": "Copyright year is not assumed to be imagery acquisition year"
+}

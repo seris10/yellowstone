@@ -1,0 +1,73 @@
+5. Generate and connect the replays
+Run the Python tests
+From the folder containing both Python modules:
+
+bash
+
+python -m unittest discover -s tests -p "test_river_*.py" -v
+Generate a control replay
+Use the actual local paths to your Godot data:
+
+bash
+
+python river_world.py \
+  --world /Users/kreed/Downloads/yellowstone_midway/data/world.json \
+  --ecosystem /Users/kreed/Downloads/yellowstone_midway/data/ecosystem.json \
+  --out derived/firehole_control.json
+Generate the warming intervention
+bash
+
+python river_world.py \
+  --world /Users/kreed/Downloads/yellowstone_midway/data/world.json \
+  --ecosystem /Users/kreed/Downloads/yellowstone_midway/data/ecosystem.json \
+  --pulse-source excelsior_aggregate_outflow \
+  --pulse-start 300 \
+  --pulse-end 900 \
+  --pulse-delta-c 18 \
+  --out derived/firehole_pulse.json
+This changes only the river-entry temperature of the existing source. It does not remove other sources or add another copy of Excelsior discharge.
+
+Enable playback in Godot
+Copy the generated JSON into the Godot project:
+text
+
+   data/firehole_control.json
+   data/firehole_pulse.json
+Save the two GDScripts underscripts/.
+In a duplicate study scene, replace the ecosystem node’s attached script withpython_river_replay.gd.
+Set itsreplay_path to:
+text
+
+   res://data/firehole_pulse.json
+Apply the small fish-query change above.
+Add the optional overlay node.
+Start the scene and press H.
+The pulse begins after 300 physical seconds and ends after 900. The default replay covers two physical hours. Those are scenario settings, not project deadlines.
+
+For a shorter numerical smoke test:
+
+bash
+
+python river_world.py \
+  --world world.json \
+  --ecosystem ecosystem.json \
+  --duration 120 \
+  --out derived/firehole_smoke.json
+Do not use the existingpublish.py for these artifacts yet. It does not know about this replay schema.
+
+What this milestone does—and does not—complete
+Open
+Execute the Python verification suite and actual mapped build.
+Compile/test the Godot adapter in your scene.
+Add an on-screen legend and selectable temperature probes.
+Verify compatibility with the unsuppliedworld.gd consumers, especially any assumptions aboutheat_ledger.
+Replace assumed cross-sections and surface exchange with supported data/models.
+Implement actual fish refuge decisions and aquatic-resource dynamics.
+Implemented in the code above
+Geographic mapping of the numerical thermal field.
+Explicit source placement at the saved connection.
+Input-hash protection against playing a replay over different world geometry.
+Python-owned thermal playback without duplicate Godot heat integration.
+Spatial fish-temperature queries.
+Optional visible probes using the same field.
+Mapping verification tests.

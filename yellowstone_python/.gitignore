@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+*.tmp
+derived/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]/
+derived/analysis_*.sqlite
+derived/*.png
+derived/hot_lowflow*.json
+derived/fischer_d85_replay.json

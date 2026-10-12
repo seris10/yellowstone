@@ -1,0 +1,25 @@
+numpy>=1.26,<3
+scipy>=1.12,<2
+Pillow>=10,<13
+matplotlib>=3.8,<4
+pyyaml>=6
+# sympy is test-only (A4 Jacobian verification); the test skips where absent.
+sympy>=1.12,<2
+# pandas is the obs-alignment backend (B1); NOT installed on the project
+# interpreter (externally managed) — install it to flip the fit default.
+pandas>=2,<4
+# pint is the hydro-unit registry backend (common.hydro_units); optional.
+# Dimensional guards apply where it is absent.
+pint>=0.24,<1
+# SALib is the Sobol screening backend (identifiability.sobol_screen);
+# optional. scipy covers current needs.
+SALib>=1.4,<2
+# landlab is the runoff-routing backend (overland_provider); optional.
+# Guarded import; the area-coefficient path applies where it is absent.
+# landlab>=2,<3
+# flopy is the MODFLOW 6 backend (groundwater_provider); optional.
+# Guarded import; the pure-Python reach mapping applies where absent.
+# flopy>=3,<4
+pytest>=8
+dataretrieval>=1.0
+# shapely/rasterio/pyproj only needed for full re-bake (prepare_world.py); not for sim.

@@ -1,0 +1,223 @@
+{
+ "contract": "yellowstone.llm_snapshot.v1",
+ "world_id": "yellowstone_midway",
+ "generated_utc": "2026-10-09T06:05:13.251321+00:00",
+ "sources": {
+  "census.json": {
+   "sha256": "f637b9ec8f48b232b27fe37ab710f391e75dc825a8d7baa4c3a93e4470fc90a2"
+  },
+  "ecosystem.json": {
+   "sha256": "e3876bda4262879048deb2769338bbdf6428f815c52f530aea7017b1afd860bb"
+  },
+  "placements.json": {
+   "sha256": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f"
+  },
+  "placement_overrides.json": {
+   "sha256": "abc897479172cb2f7a6e3ad1fe4ece9f5559f666906346cf6f3a182f0b918990"
+  },
+  "world.json": {
+   "sha256": "975a73ecdbd051b255cfd1fb7b599180e802a4b6c3f94c14f49469a64074a244"
+  }
+ },
+ "census": {
+  "n": 33764,
+  "status": "detection unreviewed; pool-rim artifacts excluded; not a placement authority",
+  "source": {
+   "image": "references/midway_orthophoto_detail.jpg",
+   "acquired": "2022-07-19",
+   "agency": "USDA NAIP via USGS",
+   "px_m": 0.625
+  },
+  "zones": {
+   "spring_0_50m": {
+    "n": 1,
+    "area_ha": 0.79,
+    "trees_per_ha": 1.3
+   },
+   "apron_50_100m": {
+    "n": 63,
+    "area_ha": 2.36,
+    "trees_per_ha": 26.7
+   },
+   "transition_100_200m": {
+    "n": 286,
+    "area_ha": 9.42,
+    "trees_per_ha": 30.3
+   },
+   "outwash_200_400m": {
+    "n": 5389,
+    "area_ha": 37.7,
+    "trees_per_ha": 142.9
+   },
+   "overlook_knoll_r120": {
+    "n": 1175,
+    "area_ha": 4.52,
+    "trees_per_ha": 259.7
+   },
+   "detail_full": {
+    "n": 33764,
+    "area_ha": 163.84,
+    "trees_per_ha": 206.1
+   }
+  }
+ },
+ "placements": {
+  "baked_trees": 30862,
+  "baked_other": {
+   "grass": 4210,
+   "rocks": 718,
+   "logs": 435
+  },
+  "staged_add": 29771,
+  "staged_add_by_kind": {
+   "pine": 19929,
+   "grass": 9842
+  },
+  "staged_remove": 0,
+  "staged_replace": 0,
+  "rule": "proposals enter via placement_overrides.json::{add}; placements.json is read-only"
+ },
+ "ecosystem": {
+  "clock_hour": 16.2,
+  "weather": {
+   "night_air_c": 7.0,
+   "day_warming_c": 15.0,
+   "wind_xz_mps": [
+    1.8,
+    0.6
+   ],
+   "gust_mps": 0.45,
+   "calibrated": false,
+   "note": "Chosen summer artistic conditions; no date-specific weather claim.",
+   "humidity": 0.45,
+   "cloud": 0.16
+  },
+  "river_reaches": [
+   {
+    "id": "south_boundary",
+    "temperature_c": 17.57
+   },
+   {
+    "id": "upper_corridor",
+    "temperature_c": 17.64
+   },
+   {
+    "id": "upstream_midway",
+    "temperature_c": 17.77
+   },
+   {
+    "id": "excelsior_mixing",
+    "temperature_c": 19.18
+   },
+   {
+    "id": "bridge_downstream",
+    "temperature_c": 19.15
+   },
+   {
+    "id": "north_boundary",
+    "temperature_c": 18.96
+   }
+  ],
+  "patches": [
+   {
+    "id": "north_meadow",
+    "biomass": 0.82,
+    "moisture": 0.7
+   },
+   {
+    "id": "bridge_riparian",
+    "biomass": 0.64,
+    "moisture": 0.7
+   },
+   {
+    "id": "forest_edge",
+    "biomass": 0.64,
+    "moisture": 0.699
+   }
+  ],
+  "wildlife_total": 12,
+  "wildlife_by_kind": {
+   "bison": 3,
+   "goose": 2,
+   "dipper": 1,
+   "raven": 1,
+   "rainbow_trout": 2,
+   "brown_trout": 2,
+   "insects": 1
+  },
+  "status": "Illustrative, dimensioned observational model. This is not calibrated hydrology, wildlife abundance or a biological forecast."
+ },
+ "latest_build": {
+  "build_id": "bd3179671687",
+  "checks": {
+   "passed": true,
+   "failures": [],
+   "metrics": {
+    "heat_budget_error": 1.4164580619535627e-10,
+    "water_budget_error_m3": 0.0,
+    "n_reaches": 6,
+    "n_proposals": 20,
+    "n_shells": 15,
+    "phenology": {
+     "peak_green": 3
+    },
+    "substrate_ok": true
+   }
+  },
+  "build": {
+   "contract_version": "0.1.0",
+   "world_id": "yellowstone_midway",
+   "build_id": "bd3179671687",
+   "deps": {
+    "ecosystem.json": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645",
+    "world.json": "975a73ecdbd051b255cfd1fb7b599180e802a4b6c3f94c14f49469a64074a244",
+    "placements.json": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+    "species_catalogue.json": "d5602569f703b80125afd3a75fa7be476c81a8843e82233847282f378347f872",
+    "terrain.f32": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+    "code": "5483980b6d21f4da",
+    "config": "1ad98cb65dd1f708e2efedef1fc3a05923e584b975289014fcf2176c1191c137"
+   },
+   "timeline": {
+    "t0": "frozen baseline + config",
+    "fast_window_s": 600.0,
+    "fast_processes": [
+     "river transport",
+     "patch biomass",
+     "insect compartments",
+     "trout refuge",
+     "grazer/bird timing"
+    ],
+    "season_days": 30,
+    "slow_processes": [
+     "snowpack",
+     "soil water",
+     "phenology"
+    ],
+    "wildlife_reference": "timings from t0+fast conditions; snow updates moisture afterwards"
+   },
+   "checks_passed": true,
+   "metrics": {
+    "heat_budget_error": 1.4164580619535627e-10,
+    "water_budget_error_m3": 0.0,
+    "n_reaches": 6,
+    "n_proposals": 20,
+    "n_shells": 15,
+    "phenology": {
+     "peak_green": 3
+    },
+    "substrate_ok": true
+   }
+  }
+ },
+ "accuracy_notes": [
+  "Tree observation authority is derived/census.json (NAIP 2022-07-19 canopy detection, unreviewed).",
+  "Cross-check 2026-10-09: pretrained DeepForest (weecology/deepforest-tree) on a 1024px overlook-knoll crop found 2 crowns at score 0.25 and 53 at score 0.05, versus ~1,175 census crowns in the overlapping zone. Generic weights are unfit for this imagery; do not use them to edit placements.",
+  "Game placements are authored representatives, not a stem census. Use /api/compare deficits to target review, not to auto-delete.",
+  "All coefficients and densities are illustrative unless a sidecar says measured."
+ ],
+ "limitations": [
+  "Census is unreviewed detection, not a stem survey.",
+  "Placements are authored representatives.",
+  "No calibrated hydrology/bathymetry/organism counts."
+ ]
+}

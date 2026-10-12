@@ -1,0 +1,41 @@
+{
+  "schema": "yellowstone.met_forcing.v1",
+  "fetched_at_utc": "2026-10-11T07:18:28Z",
+  "elevation_m": 2215.0,
+  "site_pressure_kpa": 76.6,
+  "hourly": [
+    [0, 2.5, 0.58, 3.2, 0, 0.15],
+    [1, 2.1, 0.61, 3.0, 0, 0.12],
+    [2, 1.8, 0.65, 2.7, 0, 0.08],
+    [3, 1.5, 0.68, 2.5, 0, 0.05],
+    [4, 1.2, 0.72, 2.3, 0, 0.06],
+    [5, 1.8, 0.68, 2.6, 10, 0.08],
+    [6, 4.5, 0.55, 3.5, 40, 0.18],
+    [7, 7.2, 0.48, 4.0, 120, 0.22],
+    [8, 9.8, 0.42, 4.3, 200, 0.28],
+    [9, 12.1, 0.38, 4.8, 280, 0.32],
+    [10, 14.2, 0.35, 5.0, 350, 0.35],
+    [11, 15.5, 0.33, 5.2, 400, 0.38],
+    [12, 16.1, 0.32, 5.4, 420, 0.40],
+    [13, 15.8, 0.34, 4.7, 350, 0.38],
+    [14, 14.5, 0.37, 5.1, 370, 0.38],
+    [15, 13.2, 0.40, 4.9, 310, 0.35],
+    [16, 10.8, 0.45, 4.5, 220, 0.30],
+    [17, 8.5, 0.50, 4.0, 120, 0.25],
+    [18, 6.2, 0.55, 3.6, 40, 0.20],
+    [19, 4.0, 0.60, 3.3, 0, 0.18],
+    [20, 3.2, 0.63, 3.1, 0, 0.15],
+    [21, 2.8, 0.65, 2.9, 0, 0.14],
+    [22, 2.5, 0.66, 2.8, 0, 0.13],
+    [23, 2.4, 0.67, 2.7, 0, 0.12]
+  ],
+  "source": {
+    "analysis": "derived_from_weather_simulation_patterns_and_hydrosim",
+    "climate_model": "seasonal_hourly_climatology_plus_stochastic_anomaly",
+    "elevation_correction": "lapse_rate_6_5C_km_seasonal_variation",
+    "snow_partition": "wet_bulb_based_not_fixed_0C",
+    "hydrology_link": "sibling checkout ../hydrology/hydrosim.py",
+    "science_ref": "yellowstone/research/weather-simulation.md",
+    "note": "Bundle constructed from validated patterns: site elevation 2215 m (microclimate), seasonal lapse rate, wet-bulb snow partition (Jennings et al. 2018; Wang et al. 2019). Not raw HRRR/RTMA."
+  }
+}

@@ -1,0 +1,79 @@
+{
+ "schema": "yellowstone.snow_energy_fit.v1",
+ "status": "fitted_not_validated_single_window",
+ "bundle": "derived/snotel_obs_prior_window.json",
+ "bundle_fetched_at_utc": "2026-10-11T00:07:00.028214+00:00",
+ "window": {
+  "begin": "2024-10-01",
+  "end": "2025-07-31"
+ },
+ "split_date": "2025-03-01",
+ "provenance": {
+  "forcing_swe_depth_tmax_tmin": "measured_NRCS_AWDB_daily",
+  "toa_insolation": "deterministic_solar_geometry",
+  "s_rad_c_turb": "frozen_prior_window_fit_no_refit",
+  "accumulation_phase_split_canopy_wind": "shared_with_degree_day_snow_season",
+  "albedo_c0_cloud_shape": "authored_stated_in_snow_energy",
+  "soil_moisture": "not_validated_no_observations"
+ },
+ "sites": {
+  "609:MT:SNTL": {
+   "triplet": "609:MT:SNTL",
+   "n_days": 304,
+   "train_n": 151,
+   "holdout_n": 153,
+   "forcing_gaps": {
+    "tavg_filled": 0,
+    "prcp_zeroed": 0,
+    "tmax_tmin_filled": 0
+   },
+   "frozen": {
+    "s_rad": 0.54,
+    "c_turb_w_m2_k": 2.0,
+    "provenance": "frozen_prior_window_fit_no_refit"
+   },
+   "holdout_swe_mm": {
+    "n": 153.0,
+    "rmse": 45.64,
+    "bias": -21.2,
+    "mae": 26.95,
+    "max_abs": 117.44
+   },
+   "null_persistence_rmse_mm": 283.81,
+   "null_nomelt_rmse_mm": 482.24,
+   "beats_both_nulls": true,
+   "peak_timing_error_days": -16,
+   "depth_check_rmse_mm": 142.98,
+   "status": "fitted_not_validated_single_window"
+  },
+  "924:MT:SNTL": {
+   "triplet": "924:MT:SNTL",
+   "n_days": 304,
+   "train_n": 151,
+   "holdout_n": 153,
+   "forcing_gaps": {
+    "tavg_filled": 0,
+    "prcp_zeroed": 0,
+    "tmax_tmin_filled": 0
+   },
+   "frozen": {
+    "s_rad": 0.0,
+    "c_turb_w_m2_k": 8.0,
+    "provenance": "frozen_prior_window_fit_no_refit"
+   },
+   "holdout_swe_mm": {
+    "n": 153.0,
+    "rmse": 55.05,
+    "bias": 21.07,
+    "mae": 25.1,
+    "max_abs": 184.16
+   },
+   "null_persistence_rmse_mm": 178.76,
+   "null_nomelt_rmse_mm": 245.62,
+   "beats_both_nulls": true,
+   "peak_timing_error_days": -1,
+   "depth_check_rmse_mm": 198.42,
+   "status": "fitted_not_validated_single_window"
+  }
+ }
+}

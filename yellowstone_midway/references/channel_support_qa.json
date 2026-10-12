@@ -1,0 +1,121 @@
+{
+  "method": "Independent exact b-c terrain triangle interpolation against centreline, quarter-width and edge ribbon samples at <=1 m along strips after final road grading",
+  "channel_terrain_support_m": 6,
+  "total_samples": 78083,
+  "buried_samples_over_3cm": 0,
+  "minimum_clearance_m": 0.12,
+  "rivers": [
+    {
+      "id": "river_5696_0",
+      "name": "FAIRY CREEK",
+      "samples": 1596,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.145375
+    },
+    {
+      "id": "river_5767_0",
+      "name": "WHITE CREEK",
+      "samples": 2220,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.152322
+    },
+    {
+      "id": "river_5768_0",
+      "name": "WHITE CREEK",
+      "samples": 10474,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.12
+    },
+    {
+      "id": "river_5775_0",
+      "name": "FAIRY CREEK",
+      "samples": 7696,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.12
+    },
+    {
+      "id": "river_5792_0",
+      "name": "WHITE CREEK",
+      "samples": 936,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.161932
+    },
+    {
+      "id": "river_5856_0",
+      "name": "FIREHOLE RIVER",
+      "samples": 23545,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.120105
+    },
+    {
+      "id": "river_5860_0",
+      "name": "RABBIT CREEK",
+      "samples": 3040,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.120025
+    },
+    {
+      "id": "river_5869_0",
+      "name": "RABBIT CREEK",
+      "samples": 2240,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.144109
+    },
+    {
+      "id": "river_5872_0",
+      "name": "FIREHOLE RIVER",
+      "samples": 4520,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.127072
+    },
+    {
+      "id": "river_5876_0",
+      "name": "RABBIT CREEK",
+      "samples": 5920,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.185635
+    },
+    {
+      "id": "river_5877_0",
+      "name": "RABBIT CREEK",
+      "samples": 2340,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.121034
+    },
+    {
+      "id": "river_5913_0",
+      "name": "FIREHOLE RIVER",
+      "samples": 5140,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.124971
+    },
+    {
+      "id": "river_5933_0",
+      "name": "FIREHOLE RIVER",
+      "samples": 3060,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.120121
+    },
+    {
+      "id": "river_5938_0",
+      "name": "MALLARD CREEK",
+      "samples": 3814,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.144024
+    },
+    {
+      "id": "river_5998_0",
+      "name": "FIREHOLE RIVER",
+      "samples": 262,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.125117
+    },
+    {
+      "id": "authored_excelsior_outflow_01",
+      "name": "Excelsior thermal outflow",
+      "samples": 1280,
+      "buried_samples_over_3cm": 0,
+      "minimum_water_to_terrain_clearance_m": 0.12
+    }
+  ]
+}

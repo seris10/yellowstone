@@ -1,0 +1,490 @@
+{
+	"failures": [],
+	"pass": true,
+	"records": [
+		{
+			"aabb_size_m": [
+				0.652641892433167,
+				1.2500913143158,
+				0.764967799186707
+			],
+			"height_parameter_m": 1.2,
+			"id": "willow_detail_01",
+			"kind": "willow",
+			"origin_m": [
+				68.0,
+				1.391357421875,
+				-324.0
+			],
+			"triangles": 1680
+		},
+		{
+			"aabb_size_m": [
+				0.852532505989075,
+				1.56476187705994,
+				0.885762691497803
+			],
+			"height_parameter_m": 1.48,
+			"id": "willow_detail_02",
+			"kind": "willow",
+			"origin_m": [
+				62.0,
+				1.55218505859375,
+				-335.0
+			],
+			"triangles": 1680
+		},
+		{
+			"aabb_size_m": [
+				0.692600905895233,
+				1.08494544029236,
+				0.699644088745117
+			],
+			"height_parameter_m": 1.05,
+			"id": "willow_detail_03",
+			"kind": "willow",
+			"origin_m": [
+				45.0,
+				1.65179443359375,
+				-362.0
+			],
+			"triangles": 1680
+		},
+		{
+			"aabb_size_m": [
+				0.696151375770569,
+				1.36333525180817,
+				0.815965592861176
+			],
+			"height_parameter_m": 1.28,
+			"id": "willow_detail_04",
+			"kind": "willow",
+			"origin_m": [
+				36.0,
+				0.601354539394379,
+				-371.0
+			],
+			"triangles": 1680
+		},
+		{
+			"aabb_size_m": [
+				0.950458467006683,
+				1.81250751018524,
+				0.987505733966827
+			],
+			"height_parameter_m": 1.65,
+			"id": "willow_detail_05",
+			"kind": "willow",
+			"origin_m": [
+				24.0,
+				0.7568359375,
+				-392.0
+			],
+			"triangles": 1680
+		},
+		{
+			"aabb_size_m": [
+				0.765159010887146,
+				1.22236120700836,
+				0.772940099239349
+			],
+			"height_parameter_m": 1.16,
+			"id": "willow_detail_06",
+			"kind": "willow",
+			"origin_m": [
+				19.0,
+				1.15460205078125,
+				-410.0
+			],
+			"triangles": 1680
+		},
+		{
+			"aabb_size_m": [
+				0.398080974817276,
+				0.37593549489975,
+				0.407845497131348
+			],
+			"height_parameter_m": 0.38,
+			"id": "sedge_detail_01",
+			"kind": "sedge",
+			"origin_m": [
+				77.0,
+				2.15533447265625,
+				-317.0
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.502550840377808,
+				0.446605831384659,
+				0.520151615142822
+			],
+			"height_parameter_m": 0.47,
+			"id": "sedge_detail_02",
+			"kind": "sedge",
+			"origin_m": [
+				76.5,
+				2.30830073356628,
+				-319.200012207031
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.392880380153656,
+				0.338796645402908,
+				0.377293735742569
+			],
+			"height_parameter_m": 0.35,
+			"id": "sedge_detail_03",
+			"kind": "sedge",
+			"origin_m": [
+				72.4000015258789,
+				2.20224618911743,
+				-324.399993896484
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.481887489557266,
+				0.440885812044144,
+				0.493707716464996
+			],
+			"height_parameter_m": 0.46,
+			"id": "sedge_detail_04",
+			"kind": "sedge",
+			"origin_m": [
+				70.0,
+				1.87419438362122,
+				-325.200012207031
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.577398777008057,
+				0.514295399188995,
+				0.597621083259583
+			],
+			"height_parameter_m": 0.54,
+			"id": "sedge_detail_05",
+			"kind": "sedge",
+			"origin_m": [
+				64.0,
+				1.92041015625,
+				-336.0
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.449006140232086,
+				0.3863385617733,
+				0.431192845106125
+			],
+			"height_parameter_m": 0.4,
+			"id": "sedge_detail_06",
+			"kind": "sedge",
+			"origin_m": [
+				61.0,
+				2.14801025390625,
+				-342.0
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.59712141752243,
+				0.53403627872467,
+				0.611768245697021
+			],
+			"height_parameter_m": 0.57,
+			"id": "sedge_detail_07",
+			"kind": "sedge",
+			"origin_m": [
+				43.0,
+				1.27779316902161,
+				-362.5
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.449087917804718,
+				0.403906255960464,
+				0.464816331863403
+			],
+			"height_parameter_m": 0.42,
+			"id": "sedge_detail_08",
+			"kind": "sedge",
+			"origin_m": [
+				42.0,
+				1.38642573356628,
+				-364.200012207031
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.493906736373901,
+				0.433312475681305,
+				0.474312126636505
+			],
+			"height_parameter_m": 0.44,
+			"id": "sedge_detail_09",
+			"kind": "sedge",
+			"origin_m": [
+				34.2000007629395,
+				0.151126265525818,
+				-371.799987792969
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.523790717124939,
+				0.478240549564362,
+				0.536638855934143
+			],
+			"height_parameter_m": 0.5,
+			"id": "sedge_detail_10",
+			"kind": "sedge",
+			"origin_m": [
+				32.7000007629395,
+				-0.316037386655807,
+				-373.0
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.652246832847595,
+				0.577338457107544,
+				0.675090432167053
+			],
+			"height_parameter_m": 0.61,
+			"id": "sedge_detail_11",
+			"kind": "sedge",
+			"origin_m": [
+				22.7999992370605,
+				0.132272318005562,
+				-391.0
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.505131959915161,
+				0.435447573661804,
+				0.485091954469681
+			],
+			"height_parameter_m": 0.45,
+			"id": "sedge_detail_12",
+			"kind": "sedge",
+			"origin_m": [
+				21.0,
+				0.207208454608917,
+				-396.0
+			],
+			"triangles": 636
+		},
+		{
+			"aabb_size_m": [
+				0.453301548957825,
+				0.534065067768097,
+				0.415661692619324
+			],
+			"height_parameter_m": 0.53,
+			"id": "lupine_detail_01",
+			"kind": "lupine",
+			"origin_m": [
+				-240.5,
+				44.9650268554688,
+				173.5
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.434437572956085,
+				0.541822910308838,
+				0.396919786930084
+			],
+			"height_parameter_m": 0.47,
+			"id": "lupine_detail_02",
+			"kind": "lupine",
+			"origin_m": [
+				-241.300003051758,
+				44.406177520752,
+				174.800003051758
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.472165524959564,
+				0.617235004901886,
+				0.434403598308563
+			],
+			"height_parameter_m": 0.59,
+			"id": "lupine_detail_03",
+			"kind": "lupine",
+			"origin_m": [
+				-239.399993896484,
+				44.6504516601562,
+				174.199996948242
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.481597483158112,
+				0.672329843044281,
+				0.443774580955505
+			],
+			"height_parameter_m": 0.62,
+			"id": "lupine_detail_04",
+			"kind": "lupine",
+			"origin_m": [
+				-234.800003051758,
+				46.3938217163086,
+				167.199996948242
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.443869590759277,
+				0.500167965888977,
+				0.406290739774704
+			],
+			"height_parameter_m": 0.5,
+			"id": "lupine_detail_05",
+			"kind": "lupine",
+			"origin_m": [
+				-234.100006103516,
+				45.9245796203613,
+				168.600006103516
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.459589540958405,
+				0.606822490692139,
+				0.421909004449844
+			],
+			"height_parameter_m": 0.55,
+			"id": "lupine_detail_06",
+			"kind": "lupine",
+			"origin_m": [
+				-235.699996948242,
+				46.7438659667969,
+				166.899993896484
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.465877532958984,
+				0.570147335529327,
+				0.428156316280365
+			],
+			"height_parameter_m": 0.57,
+			"id": "lupine_detail_07",
+			"kind": "lupine",
+			"origin_m": [
+				-249.0,
+				41.7979125976562,
+				184.0
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.437581598758698,
+				0.480922162532806,
+				0.400043427944183
+			],
+			"height_parameter_m": 0.48,
+			"id": "lupine_detail_08",
+			"kind": "lupine",
+			"origin_m": [
+				-250.300003051758,
+				41.8261528015137,
+				184.5
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.487885475158691,
+				0.643585801124573,
+				0.450021862983704
+			],
+			"height_parameter_m": 0.64,
+			"id": "lupine_detail_09",
+			"kind": "lupine",
+			"origin_m": [
+				-248.199996948242,
+				41.7747917175293,
+				185.199996948242
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.440725564956665,
+				0.512539207935333,
+				0.403167068958282
+			],
+			"height_parameter_m": 0.49,
+			"id": "lupine_detail_10",
+			"kind": "lupine",
+			"origin_m": [
+				-264.799987792969,
+				44.1443367004395,
+				166.800003051758
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.462733507156372,
+				0.581194639205933,
+				0.425032675266266
+			],
+			"height_parameter_m": 0.56,
+			"id": "lupine_detail_11",
+			"kind": "lupine",
+			"origin_m": [
+				-265.600006103516,
+				43.9019393920898,
+				167.699996948242
+			],
+			"triangles": 2868
+		},
+		{
+			"aabb_size_m": [
+				0.425005614757538,
+				0.496846139431,
+				0.387548804283142
+			],
+			"height_parameter_m": 0.44,
+			"id": "lupine_detail_12",
+			"kind": "lupine",
+			"origin_m": [
+				-265.799987792969,
+				43.8023910522461,
+				165.600006103516
+			],
+			"triangles": 2868
+		}
+	],
+	"scope": "Fixed botanical proxy bake; structural genus/guild forms, not a botanical survey.",
+	"terrain_sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+	"total_triangles": 52128,
+	"world_sha256": "975a73ecdbd051b255cfd1fb7b599180e802a4b6c3f94c14f49469a64074a244"
+}

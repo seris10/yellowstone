@@ -1,0 +1,100 @@
+# Yellowstone **Insect Simulation** Framework
+
+The attached Yellowstone audit identifies **Priority 1 simulation taxa** as Ephemerella subvaria, Pteronarcys californica, Aeshna spp., Baetidae/Baetis spp., Formica spp., Polistes spp., Libellula spp., and Colias philodice, and it specifies the needed parameter classes: habitat, phenology, thermal limits, interaction strengths, and recovery-style resource dynamics for `insects_birds.py` integration . The same attached document also notes Yellowstone-scale richness targets of **400+ mayflies, 120+ stoneflies, 300+ caddisflies, 150+ odonates, and 500+ butterflies**, which argues for a guild-plus-species architecture rather than full individual species parameterization at first pass .
+
+## Core State Variables
+
+Use a **species or guild state vector** with abundance \(N_i\), activity \(A_i\), stage \(L_i\), and habitat suitability \(H_i\) for each taxon, because the attached plan explicitly requires activity functions, phenology-stage mappings, thermal tolerance, and recovery-style abundance dynamics . For Yellowstone implementation, separate at minimum into **aquatic EPT**, **aquatic predators**, **odonates**, **bumble bees**, and **terrestrial social insects**, because the attached species list and prioritization divide taxa along those ecological functions .
+
+A practical abundance equation is:
+\[
+\frac{dN_i}{dt}=r_i N_i\left(1-\frac{N_i}{K_i}\right)-\sum_j a_{ji}N_jN_i-m_iN_i
+\]
+because stream insect community models with **logistic prey and Lotka–Volterra-type predation** produced feasible carrying capacities and stable equilibria in a four-species system (Speirs et al., 2000). If spatial patches are used, add diffusion or movement terms only where justified, since reaction-diffusion predator–prey models can stabilize coexistence but also add assumptions not yet Yellowstone-calibrated (Wang et al., 2026).
+
+## Thermal And Phenology Equations
+
+For **activity**, use a bounded multiplicative form already requested by the attached audit:
+\[
+A_i=\sigma(\beta_T f_T(T)+\beta_W f_W(W)+\beta_M f_M(M)+\beta_S f_S(S)+\beta_H f_H(h))
+\]
+where \(T\)=air or water temperature, \(W\)=wind or flow stress, \(M\)=moisture, \(S\)=sun/cloud, and \(h\)=hour/circadian state . This structure is biologically defensible because insect activity, metabolism, growth, and development are temperature-dependent across ectotherms, and bumble bee phenology is also shaped by snowmelt and seasonal temperature windows (Kingsolver & Woods, 2016; González et al., 2022; Miller-Struttmann et al., 2022).
+
+For **thermal performance**, use unimodal thermal performance curves with \(T_{\min}\), \(T_{\opt}\), and \(T_{\max}\), because these are standard metrics for ectotherm rates and are explicitly described for insect performance modeling (Abarca et al., 2024). A simulation-safe generic form is:
+\[
+P_i(T)=\max\left(0,\frac{(T-T_{\min,i}}{T_{\opt,i}-T_{\min,i}} \exp\left[1-\frac{T-T_{\min,i}}{T_{\opt,i}-T_{\min,i}}\right]\right)
+\]
+with an enforced cutoff above \(T_{\max,i}\), because the literature supports unimodal, left-skewed performance rather than linear temperature responses (Abarca et al., 2024; Stabentheiner, 2026). Constant-temperature TPCs should not be used naively under field fluctuations, because hourly summing often underestimated real development under cold excursions and time-dependent heat stress shifts optimum and mean performance downward with longer exposure (Khelifa et al., 2019; Kingsolver & Woods, 2016).
+
+For **phenology**, growing-degree structure is appropriate:
+\[
+GDD_i(t)=\sum_{\tau=1}^{t}\max(0,T_\tau-T_{0,i})
+\]
+because degree-day style thresholds derive from the rising limb of development curves and are widely used for phenological prediction (Abarca et al., 2024). But Yellowstone alpine insects also require a **snowmelt gate** or floral-resource gate, because earlier snowmelt advanced flowering and increased flower–bee mismatch, while worker peaks could remain comparatively fixed among years (Kudo et al., 2025). The mismatch mechanism and worker dynamics are illustrated clearly in the abundance–mismatch curves. **Figure 1:** Bumble bee worker abundance versus prior phenological mismatch (Kudo et al., 2025)
+
+
+## Yellowstone-Relevant Taxa
+
+| Taxon/guild | Model-ready findings | Simulation implication |
+|---|---|---|
+| **Pteronarcys californica** | Flowing water increased heat tolerance by **~4°C** and lowered oxygen tolerance threshold by **~15% O2** relative to standing water (Frakes et al., 2021) | Couple CTmax to velocity and DO |
+| **Pteronarcys californica** | High temperature under low flow cut survival **6.5×** in a 45-day drought mesocosm (Albertson et al., 2026) | Add temperature × low-flow mortality term |
+| **Pteronarcys californica** | Copper exposure reduced CTmax by **~10°C** in some cases and worsened hypoxia tolerance by **~0.5 mg/L DO** (Frakes et al., 2022) | Add pollutant stress modifier |
+| **Pteronarcys californica** | Warm acclimation did not raise CTmax, but hypoxia acclimation raised CTmax by **~1°C** (Malison et al., 2022) | Allow limited acclimation plasticity |
+| **Bombus spp.** | High-elevation bees tolerated colder minima, while low-altitude bees tolerated **~5°C hotter** air maxima (Giri & Dillon, 2016) | Parameterize CTmin/CTmax by elevation |
+| **Bombus spp.** | Earlier flowering under warming and snowmelt shifts increased mismatch; **1°C warming + 10 earlier snowmelt days** shortened flowering by **9.2 days** (Kudo et al., 2025) | Couple bee foraging success to floral window |
+**Figure 2:** Key Yellowstone taxa and simulation parameter implications
+
+## Key Modeling Rules
+
+- **Aquatic insect abundance** should respond to hydrology and predator structure, because long-term monitoring linked densities to hydroperiod and fish assemblages, and other stream experiments linked prey density to predator pressure (Pintar & Dorn, 2026; Alexander et al., 2016).
+- **Predation terms** should be taxon-specific, because predator impacts were uneven across prey species in stream models and Baetis density was strongly reduced by stonefly predation (Speirs et al., 2000; Alexander et al., 2016).
+- **Parasitism and delayed density dependence** deserve optional hooks, because aquatic insects can show multi-generation cycles driven by host-killing parasites with one-generation lags (Lancaster & Downes, 2018).
+- **Bumble bee abundance** should depend on both direct climate and host-plant timing, because flowering advances with warmer springs while alpine bee community shifts appear partly mediated by floral turnover and partly by warming-tolerant colonizers (Miller-Struttmann et al., 2022; Sponsler et al., 2022).
+
+For a Yellowstone Python sim, the strongest evidence supports starting with **guild-structured differential equations plus species-specific thermal and phenology modifiers**, especially for salmonflies, Baetis/Baetidae, and bumble bees. The attached audit’s own requirements fit that architecture closely, and the broader literature shows that **flow, oxygen, snowmelt, thermal variability, predation, and floral timing** are the highest-value drivers to encode first (Verhille et al., 2024; Kingsolver & Woods, 2016; Pintar & Dorn, 2026).
+ 
+_These search results were found and analyzed using Consensus, an AI-powered search engine for research. Try it at https://consensus.app. © 2026 Consensus NLP, Inc. Personal, non-commercial use only; redistribution requires copyright holders’ consent._
+ 
+## References
+ 
+Phase 4: Insect Diversity Audit and Documentation.
+ 
+Abarca, M., Parker, A. L., Larsen, E. A., Umbanhowar, J., Earl, C., Guralnick, R. M., Kingsolver, J., & Ries, L. (2024). How development and survival combine to determine the thermal sensitivity of insects. *PLOS ONE, 19*. https://doi.org/10.1371/journal.pone.0291393
+ 
+Albertson, L. K., Ortiz, J., Brass, N., Birrell, J., & Fritz, S. F. (2026). Effects of warming water temperature on giant salmonflies under drought: A stream mesocosm study. *Freshwater Science*. https://doi.org/10.1086/741377
+ 
+Alexander, A., Culp, J., Baird, D., & Cessna, A. (2016). Nutrient–insecticide interactions decouple density‐dependent predation pressure in aquatic insects. *Freshwater Biology, 61*, 2090-2101. https://doi.org/10.1111/fwb.12711
+ 
+Frakes, J., Birrell, J., Shah, A. A., & Woods, H. (2021). Flow increases tolerance of heat and hypoxia of an aquatic insect. *Biology Letters, 17*. https://doi.org/10.1098/rsbl.2021.0004
+ 
+Frakes, J., Malison, R. L., Sydor, M., & Woods, H. (2022). Exposure to copper increases hypoxia sensitivity and decreases upper thermal tolerance of giant salmonfly nymphs (Pteronarcys californica). *Journal of insect physiology, 143*, 104455 - 104455. https://doi.org/10.1016/j.jinsphys.2022.104455
+ 
+Giri, S., & Dillon, M. E. (2016). Altitudinal variation in bumble bee (Bombus) critical thermal limits.. *Journal of thermal biology, 59*, 52-7. https://doi.org/10.1016/j.jtherbio.2016.04.015
+ 
+González, V., Oyen, K. J., Aguilar, M. L., Herrera, A., Martin, R. D., & Ospina, R. (2022). High thermal tolerance in high‐elevation species and laboratory‐reared colonies of tropical bumble bees. *Ecology and Evolution, 12*. https://doi.org/10.1002/ece3.9560
+ 
+Khelifa, R., Blanckenhorn, W., Roy, J., Rohner, P., & Mahdjoub, H. (2019). Usefulness and limitations of thermal performance curves in predicting ectotherm development under climatic variability.. *The Journal of animal ecology*. https://doi.org/10.1111/1365-2656.13077
+ 
+Kingsolver, J., & Woods, H. (2016). Beyond Thermal Performance Curves: Modeling Time-Dependent Effects of Thermal Stress on Ectotherm Growth Rates. *The American Naturalist, 187*, 283 - 294. https://doi.org/10.1086/684786
+ 
+Kudo, G., Imoto, T., Nagase, T., & Liew, H. X. (2025). Phenological mismatch between alpine flowers and bumble bees: its mechanism and impacts on the population dynamics of bumble bees. *Oecologia, 207*. https://doi.org/10.1007/s00442-025-05775-4
+ 
+Lancaster, J., & Downes, B. (2018). Aquatic versus Terrestrial Insects: Real or Presumed Differences in Population Dynamics?. *Insects, 9*. https://doi.org/10.3390/insects9040157
+ 
+Malison, R. L., Frakes, J., Andreas, A. L., Keller, P. R., Hamant, E., Shah, A. A., & Woods, H. (2022). Plasticity of salmonfly (Pteronarcys californica) respiratory phenotypes in response to changes in temperature and oxygen.. *The Journal of experimental biology*. https://doi.org/10.1242/jeb.244253
+ 
+Miller-Struttmann, N. E., Miller, Z., & Galen, C. (2022). Climate driven disruption of transitional alpine bumble bee communities. *Global Change Biology, 28*, 6165 - 6179. https://doi.org/10.1111/gcb.16348
+ 
+Pintar, M., & Dorn, N. J. (2026). Twenty‐nine years of monitoring data illustrate variable aquatic insect populations correlated with predators and hydrologic variation in the Everglades. *Ecological Entomology*. https://doi.org/10.1111/een.70122
+ 
+Speirs, D., Gurney, W., Hildrew, A., & Winterbottom, J. H. (2000). Long-term demographic balance in the Broadstone stream insect community. *Journal of Animal Ecology, 69*, 45-58. https://doi.org/10.1046/j.1365-2656.2000.00369.x
+ 
+Sponsler, D. B., Requier, F., Kallnik, K., Classen, A., Maihoff, F., Sieger, J., & Steffan-Dewenter, I. (2022). Contrasting patterns of richness, abundance, and turnover in mountain bumble bees and their floral hosts.. *Ecology*, e3712. https://doi.org/10.1002/ecy.3712
+ 
+Stabentheiner, A. (2026). Insects in variable environments: thermal performance, standard metabolic rate, and strategies to escape its limitations.. *Journal of comparative physiology. B, Biochemical, systemic, and environmental physiology*. https://doi.org/10.1007/s00360-026-01677-w
+ 
+Verhille, C., MacDonald, M. J., Noble, B., Demorest, G., Roche, A., Frazier, K., & Albertson, L. K. (2024). Thermal tolerance of giant salmonfly nymphs (Pteronarcys californica) varies across populations in a regulated river. *Conservation Physiology, 12*. https://doi.org/10.1093/conphys/coae043
+ 
+Wang, L.-J., Jiang, H.-L., He, J., Zhao, Q., Jing, M., & Zhao, J.-H. (2026). Qualitative Analysis and Numerical Simulation of a Predator-Prey Model for Invertebrate Predators in Aquatic Population Ecosystem. *Wuhan University Journal of Natural Sciences*. https://doi.org/10.1051/wujns/2026312101
+ 

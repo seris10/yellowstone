@@ -1,0 +1,73 @@
+{
+  "fixes_applied": {
+    "fixes-1.md": {"status": "completed", "files": ["analysis_store.py", "aquatic_foodweb.py", "build.py", "canopy_census.py", "census_validate.py"]},
+    "fixes-2.md": {"status": "completed", "files": ["coupling.py", "equations.py", "compare.py"]},
+    "fixes-3.md": {"status": "completed", "files": ["fish.py", "gen_flora.py"]},
+    "fixes-5.5.md": {"status": "completed", "files": ["hydrology_provider.py", "llm_backend.py", "insects_birds.py"]},
+    "fixes-6.md": {
+      "status": "completed",
+      "files": ["microclimate.py", "overland_flow.py", "param_registry.py", "pool_crust.py"],
+      "completed_this_session": ["overland_flow.py", "param_registry.py", "pool_crust.py"],
+      "tests_added": ["tests/test_overland.py", "tests/test_param_registry.py", "tests/test_pools.py"]
+    },
+    "fixes-8.md": {
+      "status": "completed",
+      "files": ["snow_season.py", "snow_validate.py", "study_mode.py", "vegetation.py"],
+      "completed_this_session": ["snow_validate.py", "study_mode.py", "vegetation.py"],
+      "tests_added": ["tests/test_snow_validate.py", "tests/test_study.py", "tests/test_vegetation.py"],
+      "open_item": "propose_plantings start_index is legacy-only; reviewed IDs are cell-derived"
+    }
+  },
+  "regressions_fixed_this_session": [
+    "vegetation.py:242 infinite loop in the candidate-grid coarsening loop froze the whole suite",
+    "build.py and llm_backend.py imported the pre-rename load_real_weather from microclimate",
+    "llm_backend.weather() called round(float(None)) when precipitation was absent",
+    "step_snow returns a 6-tuple; snow_season annotation, snow_energy.py caller and 3 tests unpacked 5",
+    "analysis_store.ingest_census raised on duplicate stable_id instead of upserting",
+    "analysis_store.ingest_replay deleted replay_cells/replay_frames after inserting cells",
+    "snow_validate.validate_site referenced an undefined bundle name and raised NameError on every fit"
+  ],
+  "edited_modules_with_absolute_paths": [
+    "yellowstone/yellowstone_python/yellowstone_python/analysis_store.py",
+    "yellowstone/yellowstone_python/yellowstone_python/build.py",
+    "yellowstone/yellowstone_python/yellowstone_python/llm_backend.py",
+    "yellowstone/yellowstone_python/yellowstone_python/overland_flow.py",
+    "yellowstone/yellowstone_python/yellowstone_python/param_registry.py",
+    "yellowstone/yellowstone_python/yellowstone_python/pool_crust.py",
+    "yellowstone/yellowstone_python/yellowstone_python/snow_energy.py",
+    "yellowstone/yellowstone_python/yellowstone_python/snow_season.py",
+    "yellowstone/yellowstone_python/yellowstone_python/snow_validate.py",
+    "yellowstone/yellowstone_python/yellowstone_python/study_mode.py",
+    "yellowstone/yellowstone_python/yellowstone_python/vegetation.py"
+  ],
+  "edited_tests_with_absolute_paths": [
+    "yellowstone/yellowstone_python/tests/test_overland.py",
+    "yellowstone/yellowstone_python/tests/test_param_registry.py",
+    "yellowstone/yellowstone_python/tests/test_pools.py",
+    "yellowstone/yellowstone_python/tests/test_snow.py",
+    "yellowstone/yellowstone_python/tests/test_snow_validate.py",
+    "yellowstone/yellowstone_python/tests/test_study.py",
+    "yellowstone/yellowstone_python/tests/test_vegetation.py"
+  ],
+  "concurrent_session": {
+    "note": "another session edits this workspace; commit 2022995 bundled the earlier files from this handoff",
+    "files_not_owned_by_this_handoff": [
+      "yellowstone_python/hydrology_provider.py",
+      "yellowstone_python/overland_provider.py",
+      "yellowstone_python/groundwater_provider.py"
+    ]
+  },
+  "next_session_priority": [
+    "resolve propose_plantings start_index: remove it or document reviewed IDs as cell-derived",
+    "derived/sinter_grass_cull.json and derived/sinter_tree_cull.json carry no status and fail tools/audit_provenance.py (dated Oct 9 artifacts, history)",
+    "check fixes-9 through fixes-13 in yellowstone/yellowstone_python_spec/fixes/"
+  ],
+  "verification": {
+    "tests": "PYTHONPATH=yellowstone/yellowstone_python python3 -m pytest tests/ -q",
+    "tests_result": "403 passed, 2 skipped (flopy and landlab absent)",
+    "build": "PYTHONPATH=yellowstone/yellowstone_python python3 -m yellowstone_python.build --config configs/baseline.yaml",
+    "build_result": "passed=True",
+    "audit": "PYTHONPATH=yellowstone/yellowstone_python python3 tools/audit_provenance.py --dir derived",
+    "audit_result": "2 pre-existing failures on dated sinter cull artifacts"
+  }
+}

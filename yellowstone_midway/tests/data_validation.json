@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "metrics": {
+    "route_join_error_m": 0.0,
+    "river_join_error_m": 0.0,
+    "fixed_placements": 36225
+  },
+  "errors": []
+}

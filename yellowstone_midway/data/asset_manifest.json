@@ -1,0 +1,1376 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-07",
+  "project": "Yellowstone Midway",
+  "scope": "Third-party art, sound and photographic color references. See geographic documentation for terrain, road, water and other GIS data provenance.",
+  "meaning_of_included": "A local file exists and is listed with a checksum; this does not assert every available file is instantiated or played at runtime.",
+  "human_source_policy": "Prioritize identifiable human modeling, photography and field recording. Source-derived technical conversion/rendering is recorded. Candidates with unresolved provenance remain conditional.",
+  "assets": [
+    {
+      "id": "polyhaven_pine_bark",
+      "title": "Pine Bark",
+      "category": "surface_material",
+      "included": true,
+      "status": "downloaded_and_converted",
+      "authors": [
+        "Dimitrios Savva"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/pine_bark",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Pine Bark by Dimitrios Savva / Poly Haven (CC0).",
+      "notes": [
+        "1K diffuse and OpenGL normal maps included.",
+        "Source texture width is 2 meters."
+      ],
+      "files": [
+        {
+          "path": "assets/textures/pine_bark_diff_1k.jpg",
+          "bytes": 837641,
+          "sha256": "89ddfbff0388d30caff902ba600cdf75eb1e651ca71ece6594b5a9b27abb47ab"
+        },
+        {
+          "path": "assets/textures/pine_bark_nor_gl_1k.jpg",
+          "bytes": 1178440,
+          "sha256": "666e5f175a010f12577687dd8029125bff99110e6a97958afb295b34266437db"
+        }
+      ],
+      "physical_width_m": 2
+    },
+    {
+      "id": "polyhaven_forest_ground_04",
+      "title": "Forest Ground 04",
+      "category": "surface_material",
+      "included": true,
+      "status": "downloaded_and_converted",
+      "authors": [
+        "Rob Tuytel",
+        "Rico Cilliers"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/forest_ground_04",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Forest Ground 04 by Rob Tuytel, Rico Cilliers / Poly Haven (CC0).",
+      "notes": [
+        "Rob Tuytel photography/processing; Rico Cilliers minor adjustment.",
+        "Generic dry, rocky forest ground; not a complete native understory reconstruction."
+      ],
+      "files": [
+        {
+          "path": "assets/textures/forest_ground_04_diff_1k.jpg",
+          "bytes": 1113899,
+          "sha256": "50a4dda30875020c64385261aa7e00e2155b592302fa6794165f58fae73cbd2c"
+        },
+        {
+          "path": "assets/textures/forest_ground_04_nor_gl_1k.jpg",
+          "bytes": 1326812,
+          "sha256": "9c3a0200e02ce40edffbbf9f5f623ef08ea9b1b7812b556182ec978f88887151"
+        }
+      ],
+      "physical_width_m": 3.2
+    },
+    {
+      "id": "polyhaven_rock_boulder_dry",
+      "title": "Rock Boulder Dry",
+      "category": "surface_material",
+      "included": true,
+      "status": "downloaded_and_converted",
+      "authors": [
+        "Dimitrios Savva",
+        "Rico Cilliers"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/rock_boulder_dry",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Rock Boulder Dry by Dimitrios Savva, Rico Cilliers / Poly Haven (CC0).",
+      "notes": [
+        "Dimitrios Savva photography; Rico Cilliers processing.",
+        "Diffuse only in terrain texture folder.",
+        "Not a local silica-sinter survey."
+      ],
+      "files": [
+        {
+          "path": "assets/textures/rock_boulder_dry_diff_1k.jpg",
+          "bytes": 859211,
+          "sha256": "20f653a42fb24f42aa40641663070d578678da49af18cc1049dbdd4ed8679f3c"
+        }
+      ]
+    },
+    {
+      "id": "polyhaven_pine_tree_01",
+      "title": "Pine Tree 01, source-derived variant b",
+      "category": "vegetation_model",
+      "included": true,
+      "status": "downloaded_and_converted",
+      "authors": [
+        "Rico Cilliers",
+        "Rob Tuytel"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/pine_tree_01",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Pine Tree 01, source-derived variant b by Rico Cilliers, Rob Tuytel / Poly Haven (CC0).",
+      "notes": [
+        "Source generic pine species unspecified: not certified Pinus contorta.",
+        "Highest included LOD retains original woody geometry with approximated foliage cards.",
+        "Lower LODs decimate wood; LOD2 omits small dead branches.",
+        "All LODs have identical canopy bounds to prevent size changes when switching.",
+        "Source RGB and alpha were repacked; a single photographed twig island was isolated from atlas padding.",
+        "Distant images are technical renders of the derivative mesh, not AI-generated imagery.",
+        "Final LOD1 rendered and visually checked in Godot 4.5.1 Compatibility; entire-world performance is a separate check."
+      ],
+      "files": [
+        {
+          "path": "assets/imported/pine_tree_01/billboard_metadata.json",
+          "bytes": 832,
+          "sha256": "9e1d0121e292aaca777e118406c179e23ed72bcf5b577a5aea10bd2a807ed2a4"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_compact.bin",
+          "bytes": 3379880,
+          "sha256": "0e539d170dabf57529f0382e9b0eea7f1ac566bbdc42b94a47d7bdeaf86f5fbc"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_compact.gltf",
+          "bytes": 6191,
+          "sha256": "6b87feaaec0c1c032fade3e380e82203f8f1ab65f7f92e9b4175a17c7a9d27cb"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_compact_conversion.json",
+          "bytes": 1102,
+          "sha256": "91eca2f63da1c85f14007065af0e13409a85c0682043a419be60dc5106201a49"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod1.bin",
+          "bytes": 319788,
+          "sha256": "4af742c536c7bc4fe8960784065963a82ff083308d4c7bc2cbce2b77fb0738ff"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod1.gltf",
+          "bytes": 6141,
+          "sha256": "3fa14759650c96b0d4b7a8f72b68bc772529a1cf318f7fdc25a7524e15f09beb"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod1_conversion.json",
+          "bytes": 1099,
+          "sha256": "4a5936804478dc28866614741cedf1e6131c7e317e0027a41f19f4724a1d6559"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod2.bin",
+          "bytes": 61672,
+          "sha256": "620cd7fce19d7af62a03387644936539d226043d70ad2fbc512aa78a86b5435a"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod2.gltf",
+          "bytes": 5041,
+          "sha256": "476a1628fa931065b930ee039fa9f4508daf99e52e463e81b297a13ed0bb22e0"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod2_conversion.json",
+          "bytes": 1094,
+          "sha256": "b6b3ccb0689cb5b7c856655e139f01ad2cc05418ad6066b2d04e0babca0dcc61"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_billboard_0.png",
+          "bytes": 303685,
+          "sha256": "bba4bb0bd1401faba031f37e81312db65552739398f3538422faab60d15fd4a3"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_billboard_1.png",
+          "bytes": 277903,
+          "sha256": "508d8173dc9a302274301777e28d9d17eede451aede3cb90d73d56626e5e00d9"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_billboard_2.png",
+          "bytes": 289308,
+          "sha256": "88fbf52fe1fccc1d9766f1d471109bf4c5658f2dc1a3ec7a0c41d3e4ed12c326"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_billboard_3.png",
+          "bytes": 256353,
+          "sha256": "9a5e5fecd6666188be67c9231ce64e2c79e3d71c0826c7e97cb822a69003958e"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_tree_01_source.json",
+          "bytes": 30596,
+          "sha256": "c81e8eebbda722313f07bed37b8b9156ce520f7fa95488d83a694d02fffdb469",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/pine_tree_01/pine_tree_01_1k.gltf"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_alpha_1k.png",
+          "bytes": 351928,
+          "sha256": "6f91aa99f2c27108d6f817f874954aa7df8bfbb4dea2673e9322555a6ae79d99",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/pine_tree_01/pine_tree_01_twig_alpha_1k.png",
+          "supplier_md5_verified": "641911a5a3f543911dad04ebb26e7bca"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_bark_arm_1k.jpg",
+          "bytes": 801278,
+          "sha256": "336a4680cd571b6076b67afee2310b290b8900d9d126eb39ec1ae92e95be2ea9",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_bark_arm_1k.jpg",
+          "supplier_md5_verified": "21d1abd15e40951825a4f3da110b20ea"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg",
+          "bytes": 725265,
+          "sha256": "5c76836b01c3536fa0e24207b67bf4f3315b53ebe2b4ecc6f08dfcf3f8d74929",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_bark_diff_1k.jpg",
+          "supplier_md5_verified": "7d3a558ed614c7e75594c7be3bf80311"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_bark_nor_gl_1k.jpg",
+          "bytes": 1016849,
+          "sha256": "05c46455531781b6cf18cae0648cf627f60ee942adaa8bcbfd1592fc2506a9e0",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_bark_nor_gl_1k.jpg",
+          "supplier_md5_verified": "bb6e3a6eea777d992cef48fabfdc538c"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_trunk_b_arm_1k.jpg",
+          "bytes": 732269,
+          "sha256": "8141cd57969269604351e366400354e47e7f25294881387e1ea307b48c37b033",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_trunk_b_arm_1k.jpg",
+          "supplier_md5_verified": "4275bc6e1f13b5195b64e9e3b63cf5a2"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_trunk_b_diff_1k.jpg",
+          "bytes": 687662,
+          "sha256": "9d39263a9243a4b6cd669de5e3a504eae32d52f5ab48e471cad5f7e52e052508",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_trunk_b_diff_1k.jpg",
+          "supplier_md5_verified": "00ad0c0643a4e6b34914b8ac05cc28cb"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_trunk_b_nor_gl_1k.jpg",
+          "bytes": 915273,
+          "sha256": "5e498ee6fee29437196085620c978346ba6731edad8bfc2a2642868f8bf64efe",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_trunk_b_nor_gl_1k.jpg",
+          "supplier_md5_verified": "310666823cba305dd25d1494fbe73877"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_arm_1k.jpg",
+          "bytes": 474787,
+          "sha256": "47facef9985e8c073184a64d15ea14bd2dc3b3debfb93f3671b6d5ad0dbc163d",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_twig_arm_1k.jpg",
+          "supplier_md5_verified": "4623cfe77824b66098cdff4f2213ef10"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_card.png",
+          "bytes": 102467,
+          "sha256": "1b52188520873d8bdd93c9ee0a9f7dd9a8135b1f605e19a7e91d5e4daf07f9ca"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_diff_1k.jpg",
+          "bytes": 510932,
+          "sha256": "e649f0f9bc74d1af5f1a45eaf2fe7a29adaaddfab251f746b983da301e4b80e1",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_twig_diff_1k.jpg",
+          "supplier_md5_verified": "b6e5f4e8c228c275e5ff75cb165c2e1f"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_nor_gl_1k.jpg",
+          "bytes": 797935,
+          "sha256": "2a02a482a18d20255c800845902d5e0061d2a2d14107d7c4ed0b789414153141",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_twig_nor_gl_1k.jpg",
+          "supplier_md5_verified": "972d28f52f07ea271792b5bfbb8a3286"
+        },
+        {
+          "path": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_rgba_1k.png",
+          "bytes": 1290983,
+          "sha256": "521057a850ebf14e33ee666f257e92d1594a6b958785611812c39d77ebabf1b5"
+        }
+      ],
+      "botanical_identity": {
+        "source_label": "Pine",
+        "scientific_name": null,
+        "confidence": "unspecified_by_creator"
+      },
+      "acquisition": {
+        "metadata_url": "https://api.polyhaven.com/files/pine_tree_01",
+        "source_gltf_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/pine_tree_01/pine_tree_01_1k.gltf",
+        "source_binary_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/pine_tree_01/pine_tree_01.bin",
+        "source_binary_bytes": 948849556,
+        "source_binary_md5_verified": "3079e56cc48c57d8ba530d005e86bae6",
+        "source_binary_included": false,
+        "reason": "Large shared source buffer used offline; runtime derivatives are self-contained compact buffers."
+      },
+      "conversion_script": "assets/imported/prepare_pine_asset.py",
+      "billboard_script": "assets/imported/render_pine_billboards.py",
+      "engine_validation": {
+        "engine": "Godot 4.5.1",
+        "renderer": "Compatibility",
+        "result": "Final LOD1 cutout render inspected; atlas-fragment defect corrected."
+      },
+      "canopy_bounds_m": [
+        [
+          -3.540931463241577,
+          4.585156440734863,
+          -3.5275497436523438
+        ],
+        [
+          3.68281888961792,
+          14.794495582580566,
+          4.069476127624512
+        ]
+      ],
+      "lods": [
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_compact.gltf",
+          "triangles": 104662,
+          "buffer_bytes": 3379880
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod1.gltf",
+          "triangles": 7185,
+          "buffer_bytes": 319788
+        },
+        {
+          "path": "assets/imported/pine_tree_01/pine_b_lod2.gltf",
+          "triangles": 1278,
+          "buffer_bytes": 61672
+        }
+      ],
+      "billboard": {
+        "views": 4,
+        "resolution_px": [
+          512,
+          768
+        ],
+        "world_width_m": 10.666666666666666,
+        "world_height_m": 16,
+        "world_bottom_y_m": -0.3,
+        "azimuth_degrees": [
+          0,
+          90,
+          180,
+          270
+        ]
+      }
+    },
+    {
+      "id": "polyhaven_grass_medium_01",
+      "title": "Grass Medium 01, selected clumps",
+      "category": "vegetation_model",
+      "included": true,
+      "status": "downloaded_and_converted",
+      "authors": [
+        "Rico Cilliers",
+        "Rob Tuytel"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/grass_medium_01",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Grass Medium 01, selected clumps by Rico Cilliers, Rob Tuytel / Poly Haven (CC0).",
+      "notes": [
+        "Grass species unspecified.",
+        "Source RGB and alpha were losslessly repacked into RGBA.",
+        "glTF alpha mode changed to MASK at cutoff 0.45; double-sided foliage retained.",
+        "Source display-layout transforms removed from selected nodes.",
+        "One shared original buffer contains source geometry; each glTF scene activates only its selected clump."
+      ],
+      "files": [
+        {
+          "path": "assets/imported/grass_medium_01/grass_medium_01.bin",
+          "bytes": 1006632,
+          "sha256": "f4587cabdb96a2e96d8be644923dc954a248edfaaa717a0ff224cacb898bee1f",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/grass_medium_01/grass_medium_01.bin",
+          "supplier_md5_verified": "e0527a0561c2dae5b7b5c1b478d8c6bf"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_medium_01_source.json",
+          "bytes": 27110,
+          "sha256": "3e5e2a314c94e16de54fd7c28e41709731fbd2b1613ab539f1544f622ddb6a85",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/grass_medium_01/grass_medium_01_1k.gltf"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_mid_b.gltf",
+          "bytes": 14536,
+          "sha256": "0206b798a4ca591f514491dc731cda4c59906fe498af5bc3170fa4036cc1875e"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_small_a.gltf",
+          "bytes": 14540,
+          "sha256": "a3ca653ce5666c23f549446bab36ab2d30972af495e9f91134474f6a3f8f4906"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_small_b.gltf",
+          "bytes": 14540,
+          "sha256": "1ffc196389719b45bbd239cd5338d146e23e6cf424d55a05c23dedba0b86e332"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tall_a.gltf",
+          "bytes": 14538,
+          "sha256": "5c26dd5abcb6cabe0a56f176d330f97f135e3c0ba9a6746d4a656558a73440cd"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tall_b.gltf",
+          "bytes": 14538,
+          "sha256": "7116cedc6824637b66ef5c40f6a5692514294854993ffad5876eee0a91d2ea67"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tiny_a.gltf",
+          "bytes": 14539,
+          "sha256": "532f978c57273f37d3b03d430cce195c6010d2b03062cd033070e243a8ab89a0"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tiny_b.gltf",
+          "bytes": 14539,
+          "sha256": "4ff5f630fcea260773c5a49074b087a205d08b529f486dc73d7601928c380781"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tiny_c.gltf",
+          "bytes": 14539,
+          "sha256": "b85bc46d5987754502e954569f2a9393b5fc1389165b1e9106b2688c61594a69"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tiny_d.gltf",
+          "bytes": 14539,
+          "sha256": "0fcc69169e03d257aa1794ef7dd8a7cd0714a84796f928f04a27908867ab4f68"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tiny_e.gltf",
+          "bytes": 14539,
+          "sha256": "9103d34f9e486bbf1c8fdd326f794247435f6220f4855a07370a4407023d2385"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/grass_tiny_f.gltf",
+          "bytes": 14539,
+          "sha256": "b64479f6059fa6b6aea51c3b17e6a94df2f31f0f1460fd97c79f8d3fd15b492a"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/textures/grass_medium_01_alpha_1k.png",
+          "bytes": 648718,
+          "sha256": "711a8e49af758d6a6ce1f610db858899a27be19da6d1866bd35c13bc7b8ffeff",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/grass_medium_01/grass_medium_01_alpha_1k.png",
+          "supplier_md5_verified": "6b5b251ef1ca9a69ab9f49def66d758a"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/textures/grass_medium_01_arm_1k.jpg",
+          "bytes": 679518,
+          "sha256": "9a3a30f72bc02f4398967c5b08f2d20cce30bd423a2613b42a727034296fa3ae",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/grass_medium_01/grass_medium_01_arm_1k.jpg",
+          "supplier_md5_verified": "37ed2730a507b681af2e9f9f7ef3ae5e"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/textures/grass_medium_01_diff_1k.jpg",
+          "bytes": 395673,
+          "sha256": "71495bd6a11fddcab0aaff38246fea1a7b802a705483f1c7cbca53955daa8050",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/grass_medium_01/grass_medium_01_diff_1k.jpg",
+          "supplier_md5_verified": "6b18ed50d776fd20c1304d9994bd764e"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/textures/grass_medium_01_nor_gl_1k.jpg",
+          "bytes": 956166,
+          "sha256": "cae298d3d1d7ff7c7e210ad8ac772b96706e356f9315a6b04fde373ce01ccf1e",
+          "download_url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/grass_medium_01/grass_medium_01_nor_gl_1k.jpg",
+          "supplier_md5_verified": "fcf43dd1253f56e4c361079f34155c37"
+        },
+        {
+          "path": "assets/imported/grass_medium_01/textures/grass_medium_01_rgba_1k.png",
+          "bytes": 869784,
+          "sha256": "80bf34cac003ed15e6d6233fcc7ae2daf182c98cdb283b865b78b63c295396ca"
+        }
+      ],
+      "botanical_identity": {
+        "source_label": "Grass",
+        "scientific_name": null,
+        "confidence": "unspecified_by_creator"
+      },
+      "selected_clump_triangles": {
+        "grass_small_a": 833,
+        "grass_mid_b": 1257,
+        "grass_tall_b": 310,
+        "grass_tall_a": 290,
+        "grass_small_b": 653,
+        "grass_tiny_c": 40,
+        "grass_tiny_a": 79,
+        "grass_tiny_b": 28,
+        "grass_tiny_d": 32,
+        "grass_tiny_e": 62,
+        "grass_tiny_f": 60
+      },
+      "source_binary_md5_verified": "e0527a0561c2dae5b7b5c1b478d8c6bf"
+    },
+    {
+      "id": "nps_geyser_hill_water",
+      "title": "Geyser Hill water outflow",
+      "category": "field_recording",
+      "included": true,
+      "status": "downloaded_original",
+      "authors": [
+        "NPS/Peter Comley"
+      ],
+      "publisher": "National Park Service",
+      "source_url": "https://www.nps.gov/yell/learn/photosmultimedia/sounds-soundscapes.htm",
+      "license": {
+        "id": "LicenseRef-Public-Domain",
+        "name": "Public domain as stated by the publishing agency",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "credit_requested": true,
+        "url": "https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm"
+      },
+      "human_source_evidence": "Named original field recordist and recording description on NPS page.",
+      "reviewed_at": "2026-10-07",
+      "recorded_at": "2015-03-22",
+      "recording_location": "Geyser Hill, Upper Geyser Basin",
+      "credit": "NPS/Peter Comley / Yellowstone National Park Sound Library (public domain).",
+      "duration_seconds": 63.335667,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "binaural": true,
+      "notes": [
+        "Trickling geothermal outflow beneath boardwalk; steam/wind background. Not the Firehole main river.",
+        "Treat recording date and habitat as meaningful metadata; playback choice must fit the scene."
+      ],
+      "files": [
+        {
+          "path": "assets/audio/nps_geyser_hill_water.mp3",
+          "bytes": 1527527,
+          "sha256": "8c31cac7af13098fe4fa580aa8945dd49cab0d635a571f797a351b8de3e8a9ba",
+          "download_url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-030401GeyserHillStreamOffBoardwalkBackgroundGeyserRumblesAndWindBinaural0101.mp3"
+        }
+      ]
+    },
+    {
+      "id": "nps_geyser_hill_birds",
+      "title": "Geyser Hill birds",
+      "category": "field_recording",
+      "included": true,
+      "status": "downloaded_original",
+      "authors": [
+        "NPS/Peter Comley"
+      ],
+      "publisher": "National Park Service",
+      "source_url": "https://www.nps.gov/yell/learn/photosmultimedia/sounds-soundscapes.htm",
+      "license": {
+        "id": "LicenseRef-Public-Domain",
+        "name": "Public domain as stated by the publishing agency",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "credit_requested": true,
+        "url": "https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm"
+      },
+      "human_source_evidence": "Named original field recordist and recording description on NPS page.",
+      "reviewed_at": "2026-10-07",
+      "recorded_at": "2015-03-22",
+      "recording_location": "Geyser Hill, Upper Geyser Basin",
+      "credit": "NPS/Peter Comley / Yellowstone National Park Sound Library (public domain).",
+      "duration_seconds": 216.392667,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "binaural": true,
+      "notes": [
+        "Common raven, mountain bluebird, Clark's nutcracker, American kestrel; geyser background.",
+        "Treat recording date and habitat as meaningful metadata; playback choice must fit the scene."
+      ],
+      "files": [
+        {
+          "path": "assets/audio/nps_geyser_hill_birds.mp3",
+          "bytes": 5200895,
+          "sha256": "5e8f640e9269603c6d1a40767b5601aed5b0db5adb5f7dfa2fe06e356efae78a",
+          "download_url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-030402GeyserHillNearSulphideSpringBirdsBinaural0101.mp3"
+        }
+      ]
+    },
+    {
+      "id": "nps_lower_basin_wind",
+      "title": "Lower Geyser Basin strong wind",
+      "category": "field_recording",
+      "included": true,
+      "status": "downloaded_original",
+      "authors": [
+        "NPS/Peter Comley"
+      ],
+      "publisher": "National Park Service",
+      "source_url": "https://www.nps.gov/yell/learn/photosmultimedia/sounds-soundscapes.htm",
+      "license": {
+        "id": "LicenseRef-Public-Domain",
+        "name": "Public domain as stated by the publishing agency",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "credit_requested": true,
+        "url": "https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm"
+      },
+      "human_source_evidence": "Named original field recordist and recording description on NPS page.",
+      "reviewed_at": "2026-10-07",
+      "recorded_at": "2015-03-21",
+      "recording_location": "Lower Geyser Basin",
+      "credit": "NPS/Peter Comley / Yellowstone National Park Sound Library (public domain).",
+      "duration_seconds": 299.337667,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "binaural": true,
+      "notes": [
+        "Strong wind blowing through trees around boardwalks.",
+        "Treat recording date and habitat as meaningful metadata; playback choice must fit the scene."
+      ],
+      "files": [
+        {
+          "path": "assets/audio/nps_lower_basin_wind.mp3",
+          "bytes": 7191575,
+          "sha256": "99c01be96dea5aa960175cad7ce7ac7f0d232a6d8a6fe9c03f88e3f73fb95146",
+          "download_url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-040201LowerGeyserBasinWindInTreesBinaural01011.mp3"
+        }
+      ]
+    },
+    {
+      "id": "nps_firehole_dipper_geese",
+      "title": "American dipper and Canada geese, Firehole",
+      "category": "field_recording",
+      "included": true,
+      "status": "downloaded_original",
+      "authors": [
+        "NPS & MSU Acoustic Atlas/Jennifer Jerrett"
+      ],
+      "publisher": "National Park Service",
+      "source_url": "https://www.nps.gov/yell/learn/photosmultimedia/sounds-dipper.htm",
+      "license": {
+        "id": "LicenseRef-Public-Domain",
+        "name": "Public domain as stated by the publishing agency",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "credit_requested": true,
+        "url": "https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm"
+      },
+      "human_source_evidence": "Named original field recordist and recording description on NPS page.",
+      "reviewed_at": "2026-10-07",
+      "recorded_at": "2014-02-26",
+      "recording_location": "Firehole River",
+      "credit": "NPS & MSU Acoustic Atlas/Jennifer Jerrett / Yellowstone National Park Sound Library (public domain).",
+      "duration_seconds": 43.246167,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "binaural": false,
+      "notes": [
+        "Dipper song and geese; winter recording, not isolated summer water.",
+        "Treat recording date and habitat as meaningful metadata; playback choice must fit the scene."
+      ],
+      "files": [
+        {
+          "path": "assets/audio/nps_firehole_dipper_geese.mp3",
+          "bytes": 1047833,
+          "sha256": "9ebc6ad155e0f3490c7925f2679b079ce41282dfa646bd1fd9e11e1d0cb1a269",
+          "download_url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-DipperandGeeseFireholeRiver.mp3"
+        }
+      ]
+    },
+    {
+      "id": "usgs_usda_naip_midway_2022",
+      "title": "Midway NAIP orthophoto and geographic color derivatives",
+      "category": "geographic_imagery",
+      "included": true,
+      "status": "downloaded_reference_and_derived_textures",
+      "authors": [
+        "USDA-FSA-APFO"
+      ],
+      "publisher": "USGS / The National Map",
+      "source_url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer",
+      "license": {
+        "id": "LicenseRef-Public-Domain",
+        "name": "Public domain as stated by the publishing agency",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "credit_requested": true,
+        "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer"
+      },
+      "reviewed_at": "2026-10-07",
+      "credit": "USGS, USDA, The National Map: Orthoimagery.",
+      "human_source_evidence": "Government aerial photography; exact catalog items and acquisition metadata retained locally.",
+      "acquisition_date": "2022-07-19",
+      "source_pixel_size_m": 0.6,
+      "source_tiles": [
+        "m_4411026_se_12_060_20220719",
+        "m_4411026_sw_12_060_20220719"
+      ],
+      "provenance_file": "references/orthophoto.jpg.provenance.json",
+      "catalog_file": "references/imagery_source_catalog.json",
+      "export_url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage?bbox=510904.5950985841%2C4928151.044097667%2C515000.5950985841%2C4932247.044097667&bboxSR=32612&imageSR=32612&size=2048%2C2048&format=jpg&f=image&compressionQuality=92&bandIds=0%2C1%2C2",
+      "notes": [
+        "Service describes public-domain orthoimagery and enables Allow Copy.",
+        "Source tile resolution differs from exported image and derived texture resolution.",
+        "Photographic shadows and canopy colors are reference data, not measured ground material or bathymetry."
+      ],
+      "files": [
+        {
+          "path": "assets/textures/midway_macro.jpg",
+          "bytes": 2249239,
+          "sha256": "8e6ae25d691922a0e2d669a14bfc53145a0b1f10fc830c41b3df4e4680c69b58"
+        },
+        {
+          "path": "assets/textures/thermal_reference.jpg",
+          "bytes": 2719002,
+          "sha256": "18a5be3f5320ef81d43b3e317f3032c10ac92b4be8ff6d0a0349f679e4b4b3ca"
+        },
+        {
+          "path": "references/orthophoto.jpg",
+          "bytes": 2162633,
+          "sha256": "d6c81690f66355b4f2fde17d9278406c714e02463d9b39bafe7b266e8eca1a25"
+        }
+      ]
+    },
+    {
+      "id": "polyhaven_pine_sapling_small",
+      "title": "Pine Sapling Small",
+      "category": "vegetation_model",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Rico Cilliers",
+        "Rob Tuytel"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/pine_sapling_small",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Pine Sapling Small by Rico Cilliers, Rob Tuytel / Poly Haven (CC0).",
+      "notes": [
+        "Source page approximately 398K triangles; reduce before repeated runtime use.",
+        "Species identification and local age structure need review."
+      ],
+      "files": []
+    },
+    {
+      "id": "polyhaven_pine_roots",
+      "title": "Pine Roots",
+      "category": "roots_model",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Rob Tuytel"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/pine_roots",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Pine Roots by Rob Tuytel / Poly Haven (CC0).",
+      "notes": [
+        "Approximately 163K triangles; 1.9 m wide; selective near-path placement and retopology."
+      ],
+      "files": []
+    },
+    {
+      "id": "polyhaven_dead_tree_trunk",
+      "title": "Dead Tree Trunk",
+      "category": "deadwood_model",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Rob Tuytel"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/dead_tree_trunk",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Dead Tree Trunk by Rob Tuytel / Poly Haven (CC0).",
+      "notes": [
+        "Approximately 102K triangles; 3.1 m wide; source moss/decay needs habitat review."
+      ],
+      "files": []
+    },
+    {
+      "id": "polyhaven_dry_branches_medium_01",
+      "title": "Dry Branches Medium 01",
+      "category": "deadwood_model",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Rico Cilliers"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/dry_branches_medium_01",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Dry Branches Medium 01 by Rico Cilliers / Poly Haven (CC0).",
+      "notes": [
+        "Approximately 17K triangles; photographed branch set; sparse authored placement."
+      ],
+      "files": []
+    },
+    {
+      "id": "polyhaven_rock_moss_set_02",
+      "title": "Rock Moss Set 02",
+      "category": "rock_model",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Kless Gyzen"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/rock_moss_set_02",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Rock Moss Set 02 by Kless Gyzen / Poly Haven (CC0).",
+      "notes": [
+        "Approximately 58K triangles for listed set; reserve mossy variants for damp habitat."
+      ],
+      "files": []
+    },
+    {
+      "id": "polyhaven_rocky_trail",
+      "title": "Rocky Trail",
+      "category": "surface_material",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Amal Kumar"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/rocky_trail",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Rocky Trail by Amal Kumar / Poly Haven (CC0).",
+      "notes": [
+        "2 m texture width; source creator documents photography at https://amalbubble.artstation.com/projects/LRZZ6k."
+      ],
+      "files": []
+    },
+    {
+      "id": "polyhaven_noon_grass",
+      "title": "Noon Grass",
+      "category": "hdri",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Greg Zaal"
+      ],
+      "publisher": "Poly Haven",
+      "source_url": "https://polyhaven.com/a/noon_grass",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://polyhaven.com/license"
+      },
+      "human_source_evidence": "Named modeling/photography artists on the asset page; publisher states assets are original staff work or directly contributed artist work.",
+      "reviewed_at": "2026-10-07",
+      "credit": "Noon Grass by Greg Zaal / Poly Haven (CC0).",
+      "notes": [
+        "Lighting reference; exclude foreign ground horizon from visible geographic landscape."
+      ],
+      "files": []
+    },
+    {
+      "id": "ambientcg_ground037",
+      "title": "Ground037",
+      "category": "surface_material",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "ambientCG"
+      ],
+      "source_url": "https://ambientcg.com/view?id=Ground037",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false,
+        "verification_url": "https://docs.ambientcg.com/license/"
+      },
+      "human_source_evidence": "Asset page identifies surface photogrammetry.",
+      "physical_width_m": 2.1,
+      "credit": "Ground037 / ambientCG (CC0).",
+      "notes": [
+        "Damp forest/moss soil; selective moist habitat accent only."
+      ],
+      "files": []
+    },
+    {
+      "id": "damco_american_bison",
+      "title": "American Bison",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Damco (jondameron5)"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/american-bison-88fbc7cb875444669bd45ac3597bc579",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/american-bison-88fbc7cb875444669bd45ac3597bc579",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator listing describes an authored model; archive provenance still requires inspection.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "American Bison by Damco (jondameron5); retain original URL and exact license when acquired.",
+      "notes": [
+        "858 triangles, animated, baked texture.",
+        "Suitable as behavior/distant prototype, not a finished realistic close-up bison."
+      ],
+      "files": []
+    },
+    {
+      "id": "anees_animated_bison",
+      "title": "Animated Free Bison",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Anees Animates"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/animated-free-bison-be2dcd97db1c4b9c91a7728d9bc89925",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/animated-free-bison-be2dcd97db1c4b9c91a7728d9bc89925",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Not yet verified beyond creator attribution and description; do not treat as cleared human-created art.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Animated Free Bison by Anees Animates; retain original URL and exact license when acquired.",
+      "notes": [
+        "Creator advertises animation and PBR materials.",
+        "Original human creation, actual materials and rig not verified; inspect before adoption."
+      ],
+      "files": []
+    },
+    {
+      "id": "nhm_la_rainbow_trout",
+      "title": "Low-poly rainbow trout, Oncorhynchus mykiss",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Natural History Museum of Los Angeles County"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/low-poly-rainbow-trout-oncorhynchus-mykiss-e2c052bd12fd492d9abf0a1c05cff175",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution-NonCommercial-ShareAlike",
+        "url": "https://sketchfab.com/3d-models/low-poly-rainbow-trout-oncorhynchus-mykiss-e2c052bd12fd492d9abf0a1c05cff175",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": false,
+        "attribution_required": true,
+        "share_alike": true
+      },
+      "human_source_evidence": "Museum-published reconstruction; specific institutional creator listing.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Low-poly rainbow trout, Oncorhynchus mykiss by Natural History Museum of Los Angeles County; retain original URL and exact license when acquired.",
+      "notes": [
+        "672 triangles; reconstruction associated with museum fossil work.",
+        "Retain NC and SA on derivatives; verify version.",
+        "Present-day living appearance and actual animation archive require inspection."
+      ],
+      "files": []
+    },
+    {
+      "id": "sbastuff_trout",
+      "title": "Trout Fish Animated",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "SbaStuff"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/trout-fish-animated-4fa0cb7afc004d65bd49f406bffd5b2b",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/trout-fish-animated-4fa0cb7afc004d65bd49f406bffd5b2b",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator describes modeling, photographic UV projection and bone animation.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Trout Fish Animated by SbaStuff; retain original URL and exact license when acquired.",
+      "notes": [
+        "Approximately 3.2K triangles; bone animation.",
+        "Creator used a projected photographic texture; verify source-photo permission chain."
+      ],
+      "files": []
+    },
+    {
+      "id": "spacescapes_frog",
+      "title": "Frog",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "SpaceScapes"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/frog-b386e33f44b344bab07a17b0c02f9f1b",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/frog-b386e33f44b344bab07a17b0c02f9f1b",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator listing describes an authored model; archive provenance still requires inspection.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Frog by SpaceScapes; retain original URL and exact license when acquired.",
+      "notes": [
+        "Low-poly painted frog with idle/jump animation.",
+        "Species unspecified; prototype pending native anatomy and habitat review."
+      ],
+      "files": []
+    },
+    {
+      "id": "prizrakh_bird",
+      "title": "Sparrow Raven, 9 animations",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Prizrakh"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/sparrow-raven-9-animations-27587d3c71ad46518cad2cdf245aa35e",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/sparrow-raven-9-animations-27587d3c71ad46518cad2cdf245aa35e",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator listing describes an authored model; archive provenance still requires inspection.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Sparrow Raven, 9 animations by Prizrakh; retain original URL and exact license when acquired.",
+      "notes": [
+        "Nine-animation listing; ambiguous species name.",
+        "Check bill, tail, wing silhouette and actual skeleton before naming a species."
+      ],
+      "files": []
+    },
+    {
+      "id": "rufusrockwell_lupine",
+      "title": "Lupine Plant",
+      "category": "vegetation_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "rufusrockwell"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/lupine-plant-bf30f1110c174d4baedda0ed63778439",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/lupine-plant-bf30f1110c174d4baedda0ed63778439",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator describes a low-poly lupine model on a 2017 listing.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Lupine Plant by rufusrockwell; retain original URL and exact license when acquired.",
+      "notes": [
+        "Approximately 2.1K triangles; published 2017.",
+        "Promising small flower candidate; exact taxon, material atlas and acquisition unverified."
+      ],
+      "files": []
+    },
+    {
+      "id": "evolveduk_willow",
+      "title": "Willow",
+      "category": "vegetation_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "evolveduk"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/willow-422de2372f3d46dfb314a0cd5da512fe",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/willow-422de2372f3d46dfb314a0cd5da512fe",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Named TreeIt creator states model was authored in TreeIt.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Willow by evolveduk; retain original URL and exact license when acquired.",
+      "notes": [
+        "Approximately 9.1K triangles; created in TreeIt by its creator.",
+        "Tree rather than locally identified shrub willow; requires botanical and geographic review."
+      ],
+      "files": []
+    },
+    {
+      "id": "quaternius_ultimate_animated_animals",
+      "title": "Ultimate Animated Animals",
+      "category": "wildlife_model_pack",
+      "included": false,
+      "status": "researched_candidate_not_downloaded",
+      "authors": [
+        "Quaternius"
+      ],
+      "reviewed_at": "2026-10-07",
+      "source_url": "https://quaternius.com/packs/ultimateanimatedanimals.html",
+      "license": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons Zero 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": false
+      },
+      "human_source_evidence": "Original creator pack with published format and animation information.",
+      "credit": "Ultimate Animated Animals by Quaternius (CC0).",
+      "notes": [
+        "12 animals; more than 12 animations per animal; glTF/FBX/OBJ/Blend.",
+        "Stylized behavior placeholders; does not meet realistic wildlife art finish."
+      ],
+      "files": []
+    }
+  ],
+  "evaluated_not_adopted": [
+    {
+      "id": "maxtree_vol60",
+      "title": "Maxtree Plant Models Vol.60",
+      "url": "https://maxtree.org/products/plant-models-vol-60/",
+      "included": false,
+      "status": "not_adopted",
+      "reasons": [
+        "Zero-price storefront but proprietary EULA PDF could not be retrieved.",
+        "Creator page says models are not intended for games.",
+        "Many listed taxa are poor Yellowstone habitat matches."
+      ]
+    },
+    {
+      "id": "graswald_gscatter",
+      "title": "Legacy Graswald/GScatter free-asset claims",
+      "url": "https://www.graswald3d.com/gscatter",
+      "license_url": "https://graswald.notion.site/End-User-License-Agreement-508b4d0a39714035a9061c569723d5c3",
+      "included": false,
+      "status": "current_entitlement_unverified",
+      "reasons": [
+        "Former product page returned 404.",
+        "Accessible proprietary EULA does not establish current free personal-use download entitlement."
+      ]
+    },
+    {
+      "id": "zacxophone_insect_pack",
+      "title": "Animated Insect Pack",
+      "url": "https://superhivemarket.com/products/animated-insect-pack",
+      "included": false,
+      "status": "not_adopted",
+      "reasons": [
+        "Actual creator storefront is paid.",
+        "Third-party free-download mirrors do not supply permission."
+      ]
+    },
+    {
+      "id": "plantcatalog_yellow_bush_lupine",
+      "title": "Yellow bush lupine, Lupinus arboreus",
+      "url": "https://sketchfab.com/3d-models/realistic-hd-yellow-bush-lupine-2525-1e35ce459fec4ab8ad88df5e2a1791a2",
+      "included": false,
+      "status": "ecological_mismatch",
+      "reasons": [
+        "Creator identifies warm-temperate/Mediterranean/subtropical scrubland plant.",
+        "Not a local native lupine substitute merely because it shares a common-name word."
+      ]
+    }
+  ],
+  "authoring_tools": [
+    {
+      "name": "TreeIt",
+      "included": false,
+      "url": "https://www.evolved-software.com/treeit/treeit",
+      "reviewed_at": "2026-10-07",
+      "purpose": "Offline artist-directed conifer authoring; fixed exported models, no runtime forest generation.",
+      "notes": [
+        "Free creator tool; creator permits use of authored trees in projects.",
+        "Inspect any example-tree pack license independently."
+      ]
+    }
+  ],
+  "conversion_tools": {
+    "game_requires_python": false,
+    "pine_optimization": [
+      "Python 3",
+      "numpy",
+      "Pillow",
+      "fast_simplification 0.2.0"
+    ],
+    "technical_billboard_render": [
+      "trimesh",
+      "pyrender 0.1.45",
+      "PyOpenGL 3.1.10",
+      "Pillow",
+      "EGL/OpenGL"
+    ],
+    "dependency_note": "pyrender pins older PyOpenGL; this Python 3.12 environment needed 3.1.10 for ctypes compatibility. Only offline rendering depends on it."
+  },
+  "optional_assets_included": false
+}

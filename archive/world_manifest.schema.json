@@ -1,0 +1,3391 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shared-scientific-world:world-manifest:0.1.0",
+  "title": "Shared Scientific World Manifest 0.1.0 (proposed contract)",
+  "description": "Additive, non-destructive catalog and scientific world-data interfaces for existing Godot projects. Structural validity is not scientific validation or proof of engine readiness. See tools/validate_manifest.py and README_validation.md.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "contract_version": {
+      "const": "0.1.0"
+    },
+    "profile": {
+      "enum": [
+        "inventory",
+        "authored",
+        "streamable"
+      ]
+    },
+    "world": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "synthetic_example",
+            "proposal",
+            "adopted"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "namespace",
+        "title",
+        "revision",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "coordinate_frames": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/coordinate_frame"
+      },
+      "minItems": 1
+    },
+    "native_bindings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/native_binding"
+      },
+      "minItems": 0
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/artifact"
+      },
+      "minItems": 0
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/model"
+      },
+      "minItems": 0
+    },
+    "interfaces": {
+      "$ref": "#/$defs/interfaces"
+    },
+    "runtime": {
+      "$ref": "#/$defs/runtime"
+    },
+    "extensions": {
+      "$ref": "#/$defs/extensions"
+    }
+  },
+  "required": [
+    "contract_version",
+    "profile",
+    "world",
+    "coordinate_frames",
+    "native_bindings",
+    "artifacts",
+    "provenance",
+    "models",
+    "interfaces",
+    "runtime"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "profile": {
+            "const": "streamable"
+          }
+        },
+        "required": [
+          "profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "interfaces": {
+            "required": [
+              "chunks"
+            ],
+            "properties": {
+              "chunks": {
+                "minItems": 1
+              }
+            }
+          },
+          "runtime": {
+            "required": [
+              "frame_ref",
+              "engine_target",
+              "streaming",
+              "canonical_state_space"
+            ],
+            "properties": {
+              "status": {
+                "const": "ready"
+              },
+              "frame_ref": {
+                "$ref": "#/$defs/reference"
+              },
+              "engine_target": {
+                "type": "string",
+                "minLength": 1
+              },
+              "origin_policy": {
+                "enum": [
+                  "fixed",
+                  "floating_origin",
+                  "double_precision"
+                ]
+              },
+              "canonical_state_space": {
+                "enum": [
+                  "source_scientific",
+                  "authored_game"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "reference": {
+      "type": "object",
+      "properties": {
+        "world_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "world_id",
+        "namespace",
+        "id"
+      ],
+      "additionalProperties": false,
+      "description": "Opaque identity tuple. Preserve native id text; namespace disambiguates existing duplicate local IDs. These are instance references, resolved by the semantic validator, not JSON Schema $ref."
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z0-9][A-Za-z0-9._-]*:.+$": {}
+      },
+      "additionalProperties": false,
+      "description": "Namespaced extension keys, for example groundwork:native. Extensions never override core semantics."
+    },
+    "vec3": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "vec2i": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "bounds_xz": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "fidelity": {
+      "enum": [
+        "survey_control",
+        "dataset_derived",
+        "approximate_geographic",
+        "representative",
+        "fictional_authored",
+        "unknown"
+      ]
+    },
+    "vertical_reference": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "orthometric",
+            "ellipsoidal",
+            "local_authored",
+            "unknown"
+          ]
+        },
+        "datum": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "crs_definition": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "meters_per_unit": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "verified",
+            "declared",
+            "unknown"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "datum",
+        "unit",
+        "meters_per_unit",
+        "status"
+      ],
+      "additionalProperties": false,
+      "description": "Height meaning is independent of horizontal CRS and ecological reference elevations. Null means unknown, never zero."
+    },
+    "horizontal_crs": {
+      "type": "object",
+      "properties": {
+        "definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "encoding": {
+          "enum": [
+            "authority_code",
+            "wkt2",
+            "projjson",
+            "other"
+          ]
+        },
+        "axis_order": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 2
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "datum": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinate_epoch": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "definition",
+        "encoding",
+        "axis_order",
+        "unit",
+        "datum"
+      ],
+      "additionalProperties": false
+    },
+    "coordinate_operation": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "enum": [
+            "projected_origin",
+            "local_tangent",
+            "affine_approximation",
+            "control_points",
+            "native_custom"
+          ]
+        },
+        "definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "axis_order_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "grid_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "accuracy_m": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validation_status": {
+          "enum": [
+            "verified",
+            "declared",
+            "unverified"
+          ]
+        }
+      },
+      "required": [
+        "method",
+        "definition",
+        "axis_order_policy",
+        "accuracy_m",
+        "validation_status"
+      ],
+      "additionalProperties": false
+    },
+    "georeference": {
+      "type": "object",
+      "properties": {
+        "horizontal_crs": {
+          "$ref": "#/$defs/horizontal_crs"
+        },
+        "vertical_reference": {
+          "$ref": "#/$defs/vertical_reference"
+        },
+        "operation": {
+          "$ref": "#/$defs/coordinate_operation"
+        },
+        "source_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "horizontal_crs",
+        "vertical_reference",
+        "operation",
+        "source_artifact_refs"
+      ],
+      "additionalProperties": false
+    },
+    "scale_mapping": {
+      "type": "object",
+      "properties": {
+        "source_frame_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "horizontal_source_m_per_authored_unit": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "vertical_source_m_per_authored_unit": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "source_origin": {
+          "$ref": "#/$defs/vec3"
+        },
+        "authored_origin": {
+          "$ref": "#/$defs/vec3"
+        },
+        "positions_already_mapped": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "horizontal_source_m_per_authored_unit",
+        "vertical_source_m_per_authored_unit",
+        "source_origin",
+        "authored_origin",
+        "positions_already_mapped"
+      ],
+      "additionalProperties": false,
+      "description": "IR 0.2.0 convention divides source displacement by these ratios. Already authored positions must not be divided again."
+    },
+    "representation": {
+      "type": "object",
+      "properties": {
+        "layout_kind": {
+          "enum": [
+            "compressed_continuous",
+            "compressed_disconnected",
+            "fictional_authored",
+            "composite",
+            "other"
+          ]
+        },
+        "invertibility": {
+          "enum": [
+            "invertible",
+            "piecewise",
+            "not_defined"
+          ]
+        },
+        "scale_mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/scale_mapping"
+          },
+          "minItems": 0
+        },
+        "real_distance_claim": {
+          "const": false
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "layout_kind",
+        "invertibility",
+        "real_distance_claim"
+      ],
+      "additionalProperties": false,
+      "description": "Fictional authored landscapes need no real-world compression ratio or real parcel mapping."
+    },
+    "coordinate_frame": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "geography_mode": {
+          "enum": [
+            "georeferenced",
+            "approximate_geographic",
+            "representative",
+            "unknown"
+          ]
+        },
+        "position_space": {
+          "enum": [
+            "source_scientific",
+            "authored_game",
+            "runtime_local",
+            "unknown"
+          ]
+        },
+        "axes": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "string",
+              "minLength": 1
+            },
+            "y": {
+              "type": "string",
+              "minLength": 1
+            },
+            "z": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "additionalProperties": false
+        },
+        "handedness": {
+          "enum": [
+            "right",
+            "left",
+            "unknown"
+          ]
+        },
+        "meters_per_unit": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "origin": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/vec3"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parent_frame_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "georeference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/georeference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "representation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/representation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "label",
+        "geography_mode",
+        "position_space",
+        "axes",
+        "handedness",
+        "meters_per_unit",
+        "origin"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "geography_mode": {
+                "const": "georeferenced"
+              }
+            },
+            "required": [
+              "geography_mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "georeference"
+            ],
+            "properties": {
+              "georeference": {
+                "$ref": "#/$defs/georeference"
+              },
+              "representation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "geography_mode": {
+                "const": "approximate_geographic"
+              }
+            },
+            "required": [
+              "geography_mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "georeference"
+            ],
+            "properties": {
+              "georeference": {
+                "$ref": "#/$defs/georeference"
+              },
+              "representation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "geography_mode": {
+                "const": "representative"
+              }
+            },
+            "required": [
+              "geography_mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "representation"
+            ],
+            "properties": {
+              "representation": {
+                "$ref": "#/$defs/representation"
+              },
+              "georeference": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "geography_mode": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "geography_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "georeference": {
+                "type": "null"
+              },
+              "representation": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "role": {
+          "enum": [
+            "research_report",
+            "source_archive",
+            "native_world",
+            "native_manifest",
+            "terrain_elevation",
+            "height_validity_mask",
+            "terrain_mesh",
+            "collision_mesh",
+            "material_descriptor",
+            "material_height_master",
+            "material_height_preview",
+            "material_blend_height",
+            "material_albedo",
+            "material_normal",
+            "material_roughness",
+            "material_orm",
+            "habitat_map",
+            "species_catalog",
+            "road_geometry",
+            "water_geometry",
+            "geology_data",
+            "placement_catalog",
+            "authored_override",
+            "chunk_payload",
+            "navigation_mesh",
+            "runtime_state",
+            "model_input",
+            "model_output",
+            "validation_report",
+            "other"
+          ]
+        },
+        "native_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "enum": [
+            "source_of_truth",
+            "accepted_authored",
+            "derived",
+            "reference",
+            "unknown"
+          ]
+        },
+        "availability": {
+          "enum": [
+            "verified_bytes",
+            "metadata_only",
+            "referenced_unavailable",
+            "unknown"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uri_kind": {
+          "enum": [
+            "package_relative",
+            "native_path",
+            "remote_url",
+            "opaque"
+          ]
+        },
+        "local_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "license_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ref",
+        "role",
+        "authority",
+        "availability"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "verified_bytes"
+              }
+            },
+            "required": [
+              "availability"
+            ]
+          },
+          "then": {
+            "required": [
+              "uri",
+              "uri_kind",
+              "sha256",
+              "byte_length"
+            ]
+          }
+        }
+      ]
+    },
+    "native_binding": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "artifact_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format_version": {
+          "type": [
+            "string",
+            "integer",
+            "null"
+          ]
+        },
+        "format_version_status": {
+          "enum": [
+            "verified",
+            "declared",
+            "unknown"
+          ]
+        },
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_of_truth": {
+          "type": "boolean"
+        },
+        "position_space": {
+          "enum": [
+            "source_scientific",
+            "authored_game",
+            "material_local",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "scale_application": {
+          "enum": [
+            "already_applied",
+            "apply_on_view",
+            "none",
+            "unknown"
+          ]
+        },
+        "identity_mode": {
+          "enum": [
+            "native_ids",
+            "enrolled_sidecar",
+            "no_entities",
+            "unknown"
+          ]
+        },
+        "identity_catalog_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_snapshot_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "authoritative_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ref",
+        "artifact_ref",
+        "format",
+        "format_version",
+        "adapter_id",
+        "source_of_truth",
+        "position_space",
+        "scale_application",
+        "identity_mode"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "identity_mode": {
+                "const": "enrolled_sidecar"
+              }
+            },
+            "required": [
+              "identity_mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "identity_catalog_ref",
+              "source_snapshot_sha256"
+            ],
+            "properties": {
+              "identity_catalog_ref": {
+                "$ref": "#/$defs/reference"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "format_version": {
+                "const": null
+              }
+            },
+            "required": [
+              "format_version"
+            ]
+          },
+          "then": {
+            "required": [
+              "format_version_status"
+            ],
+            "properties": {
+              "format_version_status": {
+                "const": "unknown"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "license": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "identifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "verified",
+            "declared",
+            "unknown"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ref",
+        "identifier",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "observation",
+            "literature",
+            "native_project",
+            "dataset",
+            "generated",
+            "other"
+          ]
+        },
+        "artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "license_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "availability": {
+          "enum": [
+            "verified_bytes",
+            "metadata_only",
+            "referenced_unavailable",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "title",
+        "kind",
+        "availability"
+      ],
+      "additionalProperties": false
+    },
+    "activity": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "kind": {
+          "enum": [
+            "ingestion",
+            "model",
+            "authoring",
+            "compile",
+            "migration",
+            "validation"
+          ]
+        },
+        "input_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "output_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "code_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parameters": {
+          "type": "object"
+        },
+        "software_versions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "seed": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ]
+        },
+        "reproducibility": {
+          "enum": [
+            "bitwise_tested",
+            "numeric_tolerance_tested",
+            "semantic_tested",
+            "unverified"
+          ]
+        },
+        "agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ref",
+        "kind",
+        "input_artifact_refs",
+        "output_artifact_refs",
+        "reproducibility"
+      ],
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 0
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/activity"
+          },
+          "minItems": 0
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/license"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "sources",
+        "activities",
+        "licenses"
+      ],
+      "additionalProperties": false
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "space": {
+          "enum": [
+            "physical",
+            "authored",
+            "qualitative"
+          ]
+        },
+        "frame_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 1
+        },
+        "input_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "output_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "activity_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "enum": [
+            "measured",
+            "literature_supported",
+            "authoring_heuristic",
+            "unvalidated"
+          ]
+        },
+        "output_status": {
+          "enum": [
+            "candidate",
+            "analysis_only",
+            "accepted"
+          ]
+        },
+        "parameters": {
+          "type": "object"
+        },
+        "parameter_units": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "ref",
+        "name",
+        "method",
+        "space",
+        "frame_refs",
+        "input_artifact_refs",
+        "output_artifact_refs",
+        "calibration",
+        "output_status",
+        "assumptions"
+      ],
+      "additionalProperties": false
+    },
+    "anchor": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "kind": {
+          "enum": [
+            "survey_control",
+            "regional_reference",
+            "authored_reference"
+          ]
+        },
+        "authored_position": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/vec3"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "geographic_position": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "longitude": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                },
+                "latitude": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "elevation": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "vertical_reference": {
+                  "$ref": "#/$defs/vertical_reference"
+                }
+              },
+              "required": [
+                "longitude",
+                "latitude",
+                "elevation",
+                "vertical_reference"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "horizontal_uncertainty_m": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "fidelity",
+        "kind",
+        "authored_position",
+        "geographic_position",
+        "horizontal_uncertainty_m"
+      ],
+      "additionalProperties": false
+    },
+    "grid": {
+      "type": "object",
+      "properties": {
+        "cell_count": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "sample_count": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 2
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "spacing_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "bounds_xz": {
+          "$ref": "#/$defs/bounds_xz"
+        },
+        "registration": {
+          "const": "grid_vertices"
+        },
+        "affine_gdal": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 6,
+              "maxItems": 6
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "array_order": {
+          "enum": [
+            "row_major_x_fast",
+            "native_declared"
+          ]
+        },
+        "row_direction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "diagonal_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edge_policy": {
+          "enum": [
+            "shared_samples",
+            "native_external",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "cell_count",
+        "sample_count",
+        "spacing_m",
+        "bounds_xz",
+        "registration",
+        "affine_gdal",
+        "array_order",
+        "row_direction",
+        "diagonal_policy",
+        "edge_policy"
+      ],
+      "additionalProperties": false,
+      "description": "Contract heightfield samples are vertices. Source raster pixel registration is separately retained in source_raster; never add or drop a pixel implicitly."
+    },
+    "source_raster": {
+      "type": "object",
+      "properties": {
+        "artifact_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "registration": {
+          "enum": [
+            "pixel_centers",
+            "pixel_areas",
+            "unknown"
+          ]
+        },
+        "affine_gdal": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 6,
+              "maxItems": 6
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "horizontal_crs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/horizontal_crs"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "vertical_reference": {
+          "$ref": "#/$defs/vertical_reference"
+        },
+        "nodata_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mask_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resampling_activity_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "artifact_ref",
+        "width",
+        "height",
+        "registration",
+        "affine_gdal",
+        "horizontal_crs",
+        "vertical_reference",
+        "nodata_value",
+        "mask_artifact_ref"
+      ],
+      "additionalProperties": false
+    },
+    "terrain": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "representation": {
+          "enum": [
+            "heightfield",
+            "mesh",
+            "native_bound",
+            "logical"
+          ]
+        },
+        "vertical_reference": {
+          "$ref": "#/$defs/vertical_reference"
+        },
+        "grid": {
+          "$ref": "#/$defs/grid"
+        },
+        "elevation_artifact_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "geometry_artifact_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "collision_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validity_mask_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nodata_policy": {
+          "enum": [
+            "mask",
+            "finite_required",
+            "sentinel",
+            "unknown"
+          ]
+        },
+        "nodata_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "height_decode": {
+          "type": "object",
+          "properties": {
+            "scale": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "offset": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "scale",
+            "offset",
+            "unit"
+          ],
+          "additionalProperties": false
+        },
+        "material_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_raster": {
+          "$ref": "#/$defs/source_raster"
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "fidelity",
+        "representation",
+        "vertical_reference"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "representation": {
+                "const": "heightfield"
+              }
+            },
+            "required": [
+              "representation"
+            ]
+          },
+          "then": {
+            "required": [
+              "grid",
+              "elevation_artifact_ref",
+              "validity_mask_artifact_ref",
+              "nodata_policy",
+              "height_decode"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "representation": {
+                "const": "mesh"
+              }
+            },
+            "required": [
+              "representation"
+            ]
+          },
+          "then": {
+            "required": [
+              "geometry_artifact_ref"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "representation": {
+                "const": "native_bound"
+              }
+            },
+            "required": [
+              "representation"
+            ]
+          },
+          "then": {
+            "required": [
+              "native_binding_ref"
+            ],
+            "properties": {
+              "native_binding_ref": {
+                "$ref": "#/$defs/reference"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "water": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "kind": {
+          "enum": [
+            "lake",
+            "stream",
+            "wetland",
+            "ocean",
+            "hot_spring",
+            "logical"
+          ]
+        },
+        "geometry_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "surface_elevation": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "vertical_reference": {
+              "$ref": "#/$defs/vertical_reference"
+            }
+          },
+          "required": [
+            "value",
+            "vertical_reference"
+          ],
+          "additionalProperties": false
+        },
+        "full_width_m": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hydrologic_status": {
+          "enum": [
+            "authored",
+            "modeled",
+            "observed",
+            "unknown"
+          ]
+        },
+        "connections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "water_ref": {
+                "$ref": "#/$defs/reference"
+              },
+              "flow": {
+                "enum": [
+                  "outgoing",
+                  "incoming",
+                  "reversible",
+                  "unknown"
+                ]
+              }
+            },
+            "required": [
+              "water_ref",
+              "flow"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "model_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "fidelity",
+        "kind",
+        "geometry_artifact_ref",
+        "state_ref",
+        "surface_elevation",
+        "full_width_m",
+        "hydrologic_status"
+      ],
+      "additionalProperties": false
+    },
+    "geology": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "unit_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "geometry_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lithology": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "age_description": {
+          "type": "string"
+        },
+        "material_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "fidelity",
+        "unit_code",
+        "name",
+        "geometry_artifact_ref"
+      ],
+      "additionalProperties": false
+    },
+    "habitat": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "geometry_status": {
+          "enum": [
+            "unlocated",
+            "located"
+          ]
+        },
+        "geometry_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "center": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/vec3"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ecological_reference_elevation_range_m": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "species_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "model_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "fidelity",
+        "name",
+        "classification",
+        "geometry_status",
+        "geometry_artifact_ref",
+        "center"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "geometry_status": {
+                "const": "unlocated"
+              }
+            },
+            "required": [
+              "geometry_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "geometry_artifact_ref": {
+                "type": "null"
+              },
+              "center": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "geometry_status": {
+                "const": "located"
+              }
+            },
+            "required": [
+              "geometry_status"
+            ]
+          },
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "center": {
+                    "$ref": "#/$defs/vec3"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "geometry_artifact_ref": {
+                    "$ref": "#/$defs/reference"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "species": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "scientific_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verbatim_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "taxon_identifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "authority": {
+                "type": "string",
+                "minLength": 1
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name_as_recorded": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "authority",
+              "id"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "occurrence_evidence": {
+          "enum": [
+            "observed",
+            "literature_presence",
+            "modeled_potential",
+            "authoring_choice",
+            "unknown"
+          ]
+        },
+        "representation": {
+          "enum": [
+            "catalog_only",
+            "visual_proxy",
+            "authored_population",
+            "simulated_agent"
+          ]
+        },
+        "habitat_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "evidence_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "coordinate_uncertainty_m": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "scientific_name",
+        "taxon_identifiers",
+        "occurrence_evidence",
+        "representation",
+        "habitat_refs",
+        "evidence_artifact_refs"
+      ],
+      "additionalProperties": false
+    },
+    "road": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "kind": {
+          "enum": [
+            "road",
+            "trail",
+            "boardwalk",
+            "authored_connector"
+          ]
+        },
+        "geometry_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "polyline": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/vec3"
+              },
+              "minItems": 2
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "full_width_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "elevation_mode": {
+          "enum": [
+            "geometry",
+            "terrain_draped",
+            "native_bound",
+            "unknown"
+          ]
+        },
+        "surface_material_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "crossing_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "fidelity",
+        "kind",
+        "geometry_artifact_ref",
+        "polyline",
+        "full_width_m",
+        "elevation_mode"
+      ],
+      "additionalProperties": false
+    },
+    "source_locator": {
+      "type": "object",
+      "properties": {
+        "source_snapshot_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "json_pointer": {
+          "type": "string",
+          "pattern": "^(|/.*)$"
+        },
+        "identity_catalog_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "source_snapshot_sha256",
+        "json_pointer"
+      ],
+      "additionalProperties": false,
+      "description": "Recovery locator into immutable source bytes, not an ID-generation recipe to rerun after edits."
+    },
+    "placement": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "fidelity": {
+          "$ref": "#/$defs/fidelity"
+        },
+        "object_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "candidate",
+            "accepted",
+            "rejected",
+            "frozen_incumbent"
+          ]
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "suppressed": {
+          "type": "boolean"
+        },
+        "position": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/vec3"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "position_space": {
+          "enum": [
+            "source_scientific",
+            "authored_game",
+            "unknown"
+          ]
+        },
+        "scale_application": {
+          "enum": [
+            "none",
+            "source_to_view_pending",
+            "already_authored"
+          ]
+        },
+        "rotation_euler_radians": {
+          "$ref": "#/$defs/vec3"
+        },
+        "scale": {
+          "$ref": "#/$defs/vec3"
+        },
+        "basis_row_major": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 9,
+          "maxItems": 9
+        },
+        "species_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asset_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_locator": {
+          "$ref": "#/$defs/source_locator"
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "fidelity",
+        "object_kind",
+        "status",
+        "locked",
+        "position",
+        "position_space",
+        "scale_application"
+      ],
+      "additionalProperties": false
+    },
+    "override": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "target_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "accepted",
+            "rejected"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "update",
+            "suppress",
+            "restore"
+          ]
+        },
+        "base_world_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_target_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "hash_domain": {
+          "enum": [
+            "shared_record_v1",
+            "native_opaque"
+          ]
+        },
+        "changes": {
+          "type": "object"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "ref",
+        "target_ref",
+        "status",
+        "operation",
+        "base_world_revision",
+        "expected_target_hash",
+        "hash_domain",
+        "changes",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "chunk": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "frame_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "index": {
+          "$ref": "#/$defs/vec2i"
+        },
+        "bounds_xz": {
+          "$ref": "#/$defs/bounds_xz"
+        },
+        "terrain_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "placement_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "road_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "water_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "source_artifact_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "payload_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "collision_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validation_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "readiness": {
+          "enum": [
+            "planned",
+            "built",
+            "validated",
+            "runtime_verified"
+          ]
+        },
+        "content_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "ref",
+        "frame_ref",
+        "index",
+        "bounds_xz",
+        "terrain_refs",
+        "placement_refs",
+        "road_refs",
+        "water_refs",
+        "dependencies",
+        "source_artifact_refs",
+        "payload_artifact_ref",
+        "collision_artifact_ref",
+        "validation_artifact_ref",
+        "readiness",
+        "content_revision"
+      ],
+      "additionalProperties": false
+    },
+    "runtime_state": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "subject_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "state_schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_world_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "initial_state": {
+          "type": "object"
+        },
+        "state_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "persistence": {
+          "enum": [
+            "not_implemented",
+            "ephemeral",
+            "durable"
+          ]
+        },
+        "separate_from_authoring": {
+          "const": true
+        }
+      },
+      "required": [
+        "ref",
+        "subject_ref",
+        "state_schema_version",
+        "base_world_revision",
+        "initial_state",
+        "state_artifact_ref",
+        "persistence",
+        "separate_from_authoring"
+      ],
+      "additionalProperties": false
+    },
+    "material": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "descriptor_artifact_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tile_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height_semantics": {
+          "const": "material_microrelief"
+        },
+        "height_master_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "height_preview_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "blend_height_artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "height_offset_m": {
+          "type": "number"
+        },
+        "height_range_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "normal_convention": {
+          "type": "string",
+          "minLength": 1
+        },
+        "color_space": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "object"
+            ]
+          }
+        },
+        "channel_packing": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "geographic_capture_verified": {
+          "type": "boolean"
+        },
+        "height_calibration": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recipe_schema_version": {
+          "type": [
+            "integer",
+            "string"
+          ]
+        },
+        "compiler_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "ref",
+        "descriptor_artifact_ref",
+        "tile_size_m",
+        "height_semantics",
+        "height_master_artifact_ref",
+        "height_preview_artifact_ref",
+        "blend_height_artifact_ref",
+        "normal_convention",
+        "geographic_capture_verified",
+        "height_calibration"
+      ],
+      "additionalProperties": false
+    },
+    "interface_binding": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "minItems": 0
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "interface": {
+          "enum": [
+            "anchors",
+            "terrain",
+            "water",
+            "geology",
+            "habitats",
+            "species",
+            "roads",
+            "placements",
+            "overrides",
+            "chunks",
+            "runtime_states",
+            "materials"
+          ]
+        },
+        "artifact_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "encoding": {
+          "enum": [
+            "json_array",
+            "json_object_values",
+            "native_unparsed"
+          ]
+        },
+        "records_json_pointer": {
+          "type": "string",
+          "pattern": "^(|/.*)$"
+        },
+        "record_definition": {
+          "enum": [
+            "anchor",
+            "terrain",
+            "water",
+            "geology",
+            "habitat",
+            "species",
+            "road",
+            "placement",
+            "override",
+            "chunk",
+            "runtime_state",
+            "material"
+          ]
+        },
+        "native_binding_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mode": {
+          "enum": [
+            "read_only_native",
+            "normalized_sidecar"
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "interface",
+        "artifact_ref",
+        "encoding",
+        "records_json_pointer",
+        "record_definition",
+        "mode"
+      ],
+      "additionalProperties": false
+    },
+    "interfaces": {
+      "type": "object",
+      "properties": {
+        "anchors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/anchor"
+          },
+          "minItems": 0
+        },
+        "terrain": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/terrain"
+          },
+          "minItems": 0
+        },
+        "water": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/water"
+          },
+          "minItems": 0
+        },
+        "geology": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/geology"
+          },
+          "minItems": 0
+        },
+        "habitats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/habitat"
+          },
+          "minItems": 0
+        },
+        "species": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/species"
+          },
+          "minItems": 0
+        },
+        "roads": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/road"
+          },
+          "minItems": 0
+        },
+        "placements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/placement"
+          },
+          "minItems": 0
+        },
+        "overrides": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/override"
+          },
+          "minItems": 0
+        },
+        "chunks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/chunk"
+          },
+          "minItems": 0
+        },
+        "runtime_states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runtime_state"
+          },
+          "minItems": 0
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/material"
+          },
+          "minItems": 0
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interface_binding"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "not_implemented",
+            "planned",
+            "ready"
+          ]
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "engine_target": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verified_engine": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "origin_policy": {
+          "enum": [
+            "fixed",
+            "floating_origin",
+            "double_precision",
+            "unknown"
+          ]
+        },
+        "runtime_origin_is_transient": {
+          "const": true
+        },
+        "canonical_state_space": {
+          "enum": [
+            "source_scientific",
+            "authored_game",
+            "unknown"
+          ]
+        },
+        "state_separate_from_authoring": {
+          "const": true
+        },
+        "streaming": {
+          "type": "object",
+          "properties": {
+            "chunk_size_m": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "load_radius_chunks": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unload_radius_chunks": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "minimum_collision_ahead_m": {
+              "type": "number",
+              "minimum": 0
+            },
+            "commit_budget_ms": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "maximum_background_jobs": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "commit_policy": {
+              "const": "cpu_workers_main_thread_commit"
+            },
+            "stale_work_policy": {
+              "const": "generation_token_discard"
+            },
+            "collision_activation_gate": {
+              "const": true
+            }
+          },
+          "required": [
+            "chunk_size_m",
+            "load_radius_chunks",
+            "unload_radius_chunks",
+            "minimum_collision_ahead_m",
+            "commit_budget_ms",
+            "maximum_background_jobs",
+            "commit_policy",
+            "stale_work_policy",
+            "collision_activation_gate"
+          ],
+          "additionalProperties": false
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "origin_policy",
+        "runtime_origin_is_transient",
+        "state_separate_from_authoring"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

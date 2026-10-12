@@ -1,0 +1,14 @@
+[
+  {
+    "name": "default",
+    "error": "HTTP Error 502: Bad Gateway"
+  },
+  {
+    "name": "locked_1m",
+    "value": 2216.94677734375
+  },
+  {
+    "name": "locked_10m",
+    "error": "The read operation timed out"
+  }
+]

@@ -1,0 +1,84 @@
+{
+ "schema": 1,
+ "tested_godot": "4.5.1.stable.official.f62fdbde1",
+ "date": "2026-10-09",
+ "domain_metres": [
+  4096,
+  4096
+ ],
+ "runtime_world_generation": false,
+ "files": {
+  "project.godot": {
+   "bytes": 1048,
+   "sha256": "ec5df485ae7398158c88eaff21fbf5594e15b1f11da97cfe056393fea9a11103"
+  },
+  "scenes/authored_world.tscn": {
+   "bytes": 111782801,
+   "sha256": "1f6bcf020c801f20ec0e3bd672aeaa1d285f0d3351cb2d88b063cbb66a66c0f8"
+  },
+  "scenes/botanical_details.tscn": {
+   "bytes": 6720399,
+   "sha256": "70a06586f6ce42e6740e3e35d7ac8a8b55db05cb592856b7f2ae52c747836628"
+  },
+  "data/world.json": {
+   "bytes": 1082142,
+   "sha256": "975a73ecdbd051b255cfd1fb7b599180e802a4b6c3f94c14f49469a64074a244"
+  },
+  "data/terrain.f32": {
+   "bytes": 4202500,
+   "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+  },
+  "data/placements.json": {
+   "bytes": 4009843,
+   "sha256": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f"
+  },
+  "data/placement_overrides.json": {
+   "bytes": 7468878,
+   "sha256": "abc897479172cb2f7a6e3ad1fe4ece9f5559f666906346cf6f3a182f0b918990"
+  },
+  "data/ecosystem.json": {
+   "bytes": 18088,
+   "sha256": "e3876bda4262879048deb2769338bbdf6428f815c52f530aea7017b1afd860bb"
+  },
+  "scripts/player.gd": {
+   "bytes": 3995,
+   "sha256": "ae3b9f3d41fd3ba555fc0fdaba17a4561440241c69ea3af24cab365d7777f098"
+  },
+  "scripts/ecosystem.gd": {
+   "bytes": 12138,
+   "sha256": "589486bc4026fa8b190f37c4792f5ff85eec67cb136c66ddd95105c8e1bd7400"
+  },
+  "scripts/wildlife_actor.gd": {
+   "bytes": 21709,
+   "sha256": "0a70e95ba6aa227a3b2a666f2dd7c0e3a07defc3af1cddbc824ab481ca281889"
+  },
+  "scripts/world.gd": {
+   "bytes": 19176,
+   "sha256": "ca1997e3bb8ec7e9de09d5c8af18d8e1112c5d13c7fe0c452aacaf0e84102913"
+  },
+  "shaders/terrain.gdshader": {
+   "bytes": 3304,
+   "sha256": "fe64c878da2ae07a4baaf784bea74dc5db3bb4df920d973f7f04038c4828a39d"
+  },
+  "shaders/water.gdshader": {
+   "bytes": 3024,
+   "sha256": "f78232d2b80d9a4c3ccf81127640d7a241b6ae183635af388c711ac8dbaab3f9"
+  },
+  "shaders/steam.gdshader": {
+   "bytes": 1089,
+   "sha256": "1270d968d6f08eb549aa6ead829a41224c7775ec7442d01ed2483beb30c81160"
+  },
+  "shaders/foliage.gdshader": {
+   "bytes": 924,
+   "sha256": "e91f796479cf1e027dc6bd14ede16eb5c1abeb17d3bb3ffaadc5076ba5228d36"
+  },
+  "shaders/trail.gdshader": {
+   "bytes": 526,
+   "sha256": "ca2a753f5e1e540f21ead5770a619bbaf1910e10b9be10330e117889f5a9dcd5"
+  },
+  "shaders/boardwalk.gdshader": {
+   "bytes": 971,
+   "sha256": "f225295aee1c94485040025466360af4f104a8b7f96546ad31f10687716c2df8"
+  }
+ }
+}

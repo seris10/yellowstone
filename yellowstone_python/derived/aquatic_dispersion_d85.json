@@ -1,0 +1,36 @@
+{
+ "schema": "yellowstone.aquatic_intervention.v1",
+ "status": "illustrative_not_calibrated",
+ "landscape_window": "full-run means; short pulses are diluted \u2014 pass window_s to isolate the intervention",
+ "days": 14.0,
+ "trout_species": "brown_trout",
+ "control": {
+  "cell_id": "firehole_cell_00145",
+  "s_m": 2872.5032418305063,
+  "temperature_c": 17.37,
+  "U": -0.025,
+  "feeding": 0.657,
+  "refuge_drive": 0.0
+ },
+ "pulse": {
+  "cell_id": "firehole_cell_00113",
+  "s_m": 2236.0532497968343,
+  "temperature_c": 17.39,
+  "U": -0.028,
+  "feeding": 0.651,
+  "refuge_drive": 0.0
+ },
+ "refuge_shift_m": -636.4,
+ "emergence_change": 1.4825,
+ "dipper_intake_change": 0.0066,
+ "scenario": {
+  "boundary_m3s": 8.0,
+  "boundary_m3s_provenance": "measured_Burkhalter_1979_baseflow_2-3",
+  "boundary_c": 17.5,
+  "boundary_c_provenance": "authored_scenario_below_observed_29.5C_max_never_calibrated",
+  "dispersion_m2_s": 84.7,
+  "dispersion_provenance": "mapped_Fischer_median_84.7_sensitivity_rests_on_authored_n_banks",
+  "refuge_threshold_c": 24.0,
+  "refuge_threshold_provenance": "measured_Kaya_Kaeding_Burkhalter_1977"
+ }
+}
