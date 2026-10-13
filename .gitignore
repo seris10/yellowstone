@@ -17,3 +17,6 @@ yellowstone_python/derived/fischer_d85_replay.json
 yellowstone_python_spec/papers/
 archive/*.zip
 yellowstone_species_gen/data/
+
+# Project Python environment (create with python3 -m venv --system-site-packages yellowstone_python/.venv)
+yellowstone_python/.venv/

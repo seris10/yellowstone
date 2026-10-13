@@ -16,32 +16,6 @@ SCHEMA = "yellowstone.aquatic_foodweb.v1"
 COVER_DEFAULT = 0.6  # authored trout cover (same default as update_trout)
 
 
-# --- Tributary cold-refuge candidates (landscape-level scenario cells) ---
-#
-# Survey of the BASELINE ecosystem (2026-10-11, map-measured from
-# yellowstone_midway/data/world.json + ecosystem.json):
-#   - ecosystem.json river_reaches carry NO active cold lateral inflow:
-#     every reach has lateral_sources == [] except excelsior_mixing, whose
-#     only source is the 62 C excelsior_aggregate_outflow (hot).
-#   - hydro_thermal.DEFAULT_TRIBUTARIES names four cold creeks
-#     (fairy/white/rabbit/mallard at authored 11-12 C) but all sit at
-#     0.0 flow, i.e. omitted — the baseline is preserved, none of them
-#     run anywhere under any boundary condition.
-#   - world.json maps real creek polylines (Fairy/White/Rabbit/Mallard).
-#     Only two mapped fragments actually touch the replay chain (solver
-#     chainage s=7..5470 m on the Midway reach):
-#       Rabbit Creek feature river_5877_0 downstream end lands 10 m from
-#         replay cell_00064 -> confluence s ~= 1260 m (river_5872_0 reach);
-#       Mallard Creek feature river_5938_0 downstream end lands 7 m from
-#         replay cell_00002 -> confluence s ~= 35 m (river_5998_0 reach).
-#     Fairy Creek fragments stay >1300 m off-chain and White Creek's best
-#     fragment ends 85 m off-chain at the downstream end (s ~= 5470 m):
-#     mapped but not junctions in this world snapshot, so not candidates.
-# Temperatures below are AUTHORED scenario values taken from the named
-# DEFAULT_TRIBUTARIES entries (11 C), not measurements: no tributary
-# temperature observation exists in this repo. Under the hot-lowflow
-# boundary (26 C) both candidates run below the Kaya 24 C refuge-drive
-# threshold; in the baseline they run at zero flow (absent).
 TRIBUTARY_CANDIDATES = (
     {
         "key": "rabbit_creek",
@@ -70,16 +44,11 @@ TRIBUTARY_CANDIDATES = (
                                    "flow_baseline_no_observation"),
     },
 )
-# Habitat-area food scaling: a confluence pocket (~18-36 m2 wetted, small
-# cold plume mouth) produces a fraction of a mainstem replay cell's food
-# (typical cell ~20 m x ~22 m ~= 440 m2 surface). Default 0.05 is the
-# authored area ratio (22 m2 / 440 m2); the sensitivity sweep varies it.
-# Provenance authored throughout; the sweep reports the flip threshold.
+# Habitat-area food scaling: pocket food is a fraction of a mainstem cell. Authored ratio 22/440 m2.
 TRIBUTARY_FOOD_SCALE_DEFAULT = 0.05
 TRIBUTARY_FOOD_SCALE_PROVENANCE = (
     "authored_area_ratio_22m2_pocket_over_440m2_mainstem_cell")
-# Slow pocket hydraulics (authored estimates, stated, never measured):
-# mouth-pool water barely moves and is shallower than the mainstem.
+# Slow pocket hydraulics; authored estimates.
 TRIBUTARY_VELOCITY_M_S = 0.25
 TRIBUTARY_DEPTH_M = 0.5
 TRIBUTARY_WIDTH_M = 6.0
@@ -102,11 +71,23 @@ def unwrap_replay(document: dict[str, Any]) -> dict[str, Any]:
 def thermal_landscape(replay_doc: dict[str, Any],
                       t_min_s: float | None = None,
                       t_max_s: float | None = None) -> list[dict[str, Any]]:
-    """Per-cell quasi-steady thermal + hydraulic habitat from replay frames. t_min_s/t_max_s restrict to a window for intervention comparison."""
+    """Per-cell quasi-steady thermal and hydraulic habitat from replay frames.
+    t_min_s and t_max_s restrict to a window for intervention comparison."""
     rep = unwrap_replay(replay_doc)
     cells, frames = rep["cells"], rep["frames"]
     if not cells or not frames:
         raise ValueError("replay needs cells and frames")
+    if t_min_s is not None and t_max_s is not None and t_min_s > t_max_s:
+        raise ValueError("t_min_s must be <= t_max_s")
+    for fi, frame in enumerate(frames):
+        if "t_s" not in frame or "temperature_c" not in frame:
+            raise ValueError(f"frame {fi} missing 't_s'/'temperature_c'")
+        temps = frame["temperature_c"]
+        if not isinstance(temps, list) or len(temps) != len(cells):
+            raise ValueError(
+                f"frame {fi}: expected {len(cells)} temperatures, got {len(temps) if isinstance(temps, list) else type(temps)}")
+        if not all(math.isfinite(float(v)) for v in temps):
+            raise ValueError(f"frame {fi}: non-finite temperature")
     window = [f for f in frames
               if (t_min_s is None or f["t_s"] >= t_min_s)
               and (t_max_s is None or f["t_s"] <= t_max_s)]
@@ -131,9 +112,7 @@ def thermal_landscape(replay_doc: dict[str, Any],
             "velocity_m_s": float(velocity or 0.0),
             "depth_m": float(cell.get("depth_m", 0.5)),
             "width_m": float(cell.get("width_m", 20.0)),
-            # Mapped bed shear (Pa) or None where Manning is undefined
-            # (sub-noise-floor grade cells); run_foodweb maps None to
-            # zero disturbance, never to an invented value.
+            # Mapped bed shear in Pa; None where Manning is undefined. run_foodweb maps None to zero disturbance.
             "shear_pa": hydro.get("bed_shear_pa"),
         })
     return landscape
@@ -144,13 +123,7 @@ def build_tributary_cell(spec: dict[str, Any],
                          food_scale: float = TRIBUTARY_FOOD_SCALE_DEFAULT,
                          ) -> dict[str, Any]:
     """Build one tributary mouth-pocket landscape cell from a spec.
-
-    temperature_c overrides the spec temperature (sensitivity sweep
-    hook); food_scale sets the habitat-area food multiplier (finite,
-    >= 0). Raises ValueError on nonfinite inputs. The cell carries a
-    non-conservative conservation flag: holding water for selection,
-    excluded from solver heat and water budgets.
-    """
+    temperature_c overrides spec; food_scale sets the habitat-area multiplier; cell is off-channel holding water."""
     if food_scale is None or not math.isfinite(float(food_scale)):
         raise ValueError("food_scale must be a finite number")
     food_scale = float(food_scale)
@@ -173,14 +146,11 @@ def build_tributary_cell(spec: dict[str, Any],
         "velocity_m_s": TRIBUTARY_VELOCITY_M_S,
         "depth_m": TRIBUTARY_DEPTH_M,
         "width_m": TRIBUTARY_WIDTH_M,
-        # Contract coupling.pocket_holding: prescribed holding water,
-        # excluded from solver heat and water budgets.
+        # Pocket holding water per coupling.pocket_holding; excluded from solver heat and water budgets.
         "conservation": POCKET_CONSERVATION,
-        # Manning-undefined pocket: shear None maps to zero
-        # disturbance in run_foodweb, never to an invented value.
+        # Manning-undefined pocket: shear None maps to zero disturbance in run_foodweb.
         "shear_pa": None,
-        # Habitat-area food scaling: pocket production is a small
-        # fraction of a mainstem cell's (authored area ratio).
+        # Habitat-area food scaling: pocket production is a small fraction of a mainstem cell.
         "food_scale": food_scale,
         "tributary_provenance": {
             "confluence_s_m": s,
@@ -209,19 +179,7 @@ def append_tributary_cells(
         temperature_c: float | None = None,
         food_scale: float = TRIBUTARY_FOOD_SCALE_DEFAULT) -> list[dict[str, Any]]:
     """Append cold tributary mouth-pocket cells to a thermal landscape.
-
-    Operates on LANDSCAPE dicts (thermal_landscape output), never on
-    replay cells/frames: the 1-D solver's heat/water budget closure is
-    left untouched, and the pockets are off-channel holding water the
-    trout can select, not mainstem transport volumes. Returns a new
-    list; the input is not mutated.
-
-    specs defaults to TRIBUTARY_CANDIDATES (N=2: Rabbit + Mallard).
-    temperature_c overrides every pocket's temperature (sensitivity
-    sweep hook); food_scale sets each pocket's habitat-area food
-    multiplier (must be finite and >= 0). Every assumption is recorded
-    on the cell under "tributary_provenance" with authored provenance.
-    """
+    Operates on landscape dicts; the solver budget is untouched. Returns a new list."""
     if specs is None:
         specs = list(TRIBUTARY_CANDIDATES)
     out = list(landscape)
@@ -233,14 +191,8 @@ def append_tributary_cells(
 
 def shear_to_disturbance(shear_pa: float | None,
                          threshold_pa: float | None) -> float:
-    """Mapped bed shear (Pa) -> benthic disturbance fraction in [0, 1].
-
-    None shear (Manning-undefined cell) and None threshold (coupling off)
-    both yield zero. Positive shear at/below the threshold yields zero;
-    above it the fraction ramps linearly to 1 at twice the threshold
-    (authored shape, stated in run_foodweb). Nonfinite or negative shear
-    raises instead of silently zeroing.
-    """
+    """Map bed shear in Pa to a benthic disturbance fraction in [0, 1].
+    None shear or None threshold yields zero; the ramp hits 1 at twice the threshold."""
     if shear_pa is None or threshold_pa is None:
         return 0.0
     shear, thr = float(shear_pa), float(threshold_pa)
@@ -259,8 +211,18 @@ def run_foodweb(landscape: list[dict[str, Any]],
               dt_days: float = 1.0,
               cover: float = COVER_DEFAULT,
               ne_turnover_days: float = 2.0,
-              shear_disturb_pa: float | None = 20.0) -> dict[str, Any]:
-    """Multi-day insect + trout + dipper dynamics. shear_disturbance ramps 0 at threshold to 1 at twice it. None shear maps to zero; None threshold switches coupling off. Default 20 Pa."""
+              shear_disturb_pa: float | None = 20.0,
+              food_mode: str = "relative",
+              food_absolute_scale: float = 1.0) -> dict[str, Any]:
+    """Multi-day insect, trout and dipper dynamics on a thermal landscape.
+    food_mode "relative" normalizes by daily max; "absolute" divides by food_absolute_scale and clamps to [0, 1]."""
+    if food_mode not in ("relative", "absolute"):
+        raise ValueError(
+            f"food_mode must be 'relative' or 'absolute', got {food_mode!r}")
+    if food_mode == "absolute":
+        scale = float(food_absolute_scale)
+        if not math.isfinite(scale) or scale <= 0.0:
+            raise ValueError("food_absolute_scale must be finite and > 0")
     if not landscape:
         raise ValueError("landscape must be nonempty")
     def _positive_finite(name, value):
@@ -277,7 +239,7 @@ def run_foodweb(landscape: list[dict[str, Any]],
     cover = float(cover)
     if not math.isfinite(cover) or not 0 <= cover <= 1:
         raise ValueError("cover must be finite and in [0, 1]")
-    # Partial final step: simulate exactly `days`, not rounded steps.
+    # Partial final step: simulate exactly `days`.
     remaining_days = float(days)
     simulated_days = 0.0
     step_index = 0
@@ -312,25 +274,30 @@ def run_foodweb(landscape: list[dict[str, Any]],
             for group, key in (("ept", "ept"), ("dipteran", "dipt")):
                 params = INSECT_GROUPS[group]
                 before = stock[key]
-                after, emergence = develop_benthic(
+                after, emergence, disturb_loss = develop_benthic(
                     before, t, dt_s_step, tbase=params["tbase_c"],
                     rate=params["rate_per_dd"],
                     disturbance=disturb,
                     t_cutoff=params["t_cutoff_c"])
-                regrow = after - (before - emergence)
+                regrow = after - (before - emergence - disturb_loss)
                 totals["emergence"] += emergence
                 totals["regrowth"] += regrow
                 stock[key] = after
                 stock["ne"] += emergence
                 edible += emergence + 0.5 * after
             foods.append(edible * scale)
-        ceiling = max(foods) or 1.0
+        if food_mode == "relative":
+            ceiling = max(foods) or 1.0
+            food_terms = [f / ceiling for f in foods]
+        else:
+            food_terms = [min(1.0, max(0.0, f / float(food_absolute_scale)))
+                          for f in foods]
 
         scored: list[tuple[float, int, dict[str, Any], Any]] = []
         for idx, cell in enumerate(landscape):
-            food = foods[idx]
+            food = food_terms[idx]
             perf = thermal_performance(cell["temperature_c"], trout_species)
-            u = suitability(food / ceiling, cover, cell["temperature_c"],
+            u = suitability(food, cover, cell["temperature_c"],
                             cell["velocity_m_s"], cell["depth_m"],
                             species=trout_species,
                             refuge_weight=REFUGE_WEIGHT)
@@ -395,6 +362,8 @@ def run_foodweb(landscape: list[dict[str, Any]],
         "status": "illustrative_not_calibrated",
         "trout_species": trout_species,
         "days": days,
+        "simulated_days": round(simulated_days, 6),
+        "steps": step_index,
         "trout": {
             **final,
             "thermal_performance": thermal_performance(
@@ -437,12 +406,15 @@ def run_foodweb(landscape: list[dict[str, Any]],
             "insects": "INSECT_GROUPS transferred structure, authored rates",
             "diet": "trout_diet_at_temp (Kaeding & Kaya 1978 endpoints)",
             "cover": f"authored constant {cover}",
-            "food": ("per-cell production normalized by the daily maximum: "
-                     "purely relative ranking, absolute starvation is "
-                     "impossible in this model; cells carrying food_scale "
-                     "(tributary pockets, authored area ratio) rank on "
-                     f"scaled production (mean scale "
-                     f"{sum(food_scales) / len(food_scales):.4f} over "
+            "food": (("relative: per-cell production normalized by the daily "
+                      "maximum (absolute starvation unrepresentable)"
+                      if food_mode == "relative"
+                      else f"absolute: per-cell production divided by scale "
+                           f"{food_absolute_scale} and clamped to [0, 1] "
+                           f"(food-poor landscapes rank low)")
+                     + "; cells carrying food_scale (tributary pockets, "
+                       "authored area ratio) rank on scaled production (mean "
+                     f"scale {sum(food_scales) / len(food_scales):.4f} over "
                      f"{len(food_scales)} cells, "
                      f"{sum(1 for s in food_scales if s != 1.0)} scaled)"),
             "limitations": ("no emergent drift; no molluscs (warm food "
@@ -459,15 +431,8 @@ def compare_runs(control_doc: dict[str, Any], pulse_doc: dict[str, Any],
                  window_s: tuple[float, float] | None = None,
                  extra_cells: list[dict[str, Any]] | None = None,
                  **foodweb_kwargs: Any) -> dict[str, Any]:
-    """Refuge + diet + emergence response to a thermal intervention.
-
-    window_s isolates the intervention clock interval in BOTH runs
-    (control window-mean vs pulse window-mean); without it a short
-    pulse vanishes into the whole-run mean. Reported explicitly.
-    extra_cells (e.g. tributary pockets from append_tributary_cells)
-    are appended to BOTH landscapes so control and pulse rank the same
-    choice set; the count is reported explicitly.
-    """
+    """Refuge, diet and emergence response to a thermal intervention.
+    window_s isolates the intervention clock interval in control and pulse; extra_cells append to both landscapes."""
     if window_s is None:
         control_land = thermal_landscape(control_doc)
         pulse_land = thermal_landscape(pulse_doc)
@@ -484,8 +449,12 @@ def compare_runs(control_doc: dict[str, Any], pulse_doc: dict[str, Any],
         control_land = list(control_land) + list(extra_cells)
         pulse_land = list(pulse_land) + list(extra_cells)
         window_note += (f"; +{len(extra_cells)} tributary refuge cells "
-                        f"appended to both landscapes "
-                        f"({', '.join(c.get('id', '?') for c in extra_cells)})")
+                         f"appended to both landscapes "
+                         f"({', '.join(c.get('id', '?') for c in extra_cells)})")
+    control_ids = [c["id"] for c in control_land]
+    pulse_ids = [c["id"] for c in pulse_land]
+    if control_ids != pulse_ids:
+        raise ValueError("control and pulse landscapes have different cell ordering")
     control = run_foodweb(control_land, **foodweb_kwargs)
     pulse = run_foodweb(pulse_land, **foodweb_kwargs)
     shift = pulse["trout"]["s_m"] - control["trout"]["s_m"]

@@ -104,3 +104,127 @@ def test_live_hydrosim_run():
     assert 0.0 <= snap.ground_wetness_fraction <= 1.0
     assert snap.state["sim_grid"] == 16
     assert snap.state["soil"] == "sandy_loam"
+
+
+def test_refuse_on_cfl_overflow(monkeypatch):
+    """CFL overflow is carried in state and refused when the provider asks."""
+    import sys
+    import types
+    import numpy as np
+
+    fake = types.ModuleType("fake_hydrosim_cfl")
+    fake.SOILS = {"sandy_loam": {}}
+
+    class _Sim:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def step(self, dt, rain):
+            return {"cfl_exceeded_count": 3, "boundary_condition": "closed"}
+
+        def soil_saturation(self):
+            return np.full((4, 4), 0.5)
+
+        def balance(self):
+            return {"rel_error": 0.0}
+
+    fake.HydroSim = _Sim
+    fake.Climate = lambda **kwargs: None
+    fake.RainField = lambda *args, **kwargs: None
+    fake.HydroConfig = lambda **kwargs: None
+    monkeypatch.setitem(sys.modules, "fake_hydrosim_cfl", fake)
+    terrain = np.zeros((8, 8))
+
+    flagged = HydrologyProvider(terrain=terrain, grid=4, sim_s=30.0,
+                                module_name="fake_hydrosim_cfl")
+    snap = flagged.snapshot(weather=_weather(), hour=16.0)
+    assert snap.status == "ok", snap.error
+    assert snap.state["cfl_exceeded_count"] == 3
+    assert snap.state["boundary_condition"] == "closed"
+
+    refusing = HydrologyProvider(terrain=terrain, grid=4, sim_s=30.0,
+                                 module_name="fake_hydrosim_cfl",
+                                 refuse_on_cfl_overflow=True)
+    snap = refusing.snapshot(weather=_weather(), hour=16.0)
+    assert snap.status == "refused_cfl_exceeded"
+    assert snap.ground_wetness_fraction is None
+    assert snap.state["cfl_exceeded_count"] == 3
+
+
+def test_rollout_end_to_end_bundle_to_provider_to_weather(tmp_path):
+    """fixes-5.5 rollout: measured bundle to provider to weather response."""
+    import json
+    from yellowstone_python.llm_backend import Backend
+
+    bundle_origin_epoch = 1_791_072_000.0
+    rows = []
+    precipitation = []
+    for i in range(24):
+        epoch = bundle_origin_epoch + i * 3600.0
+        rows.append([epoch, 7.0, 0.5, 2.0, 150.0, 0.3])
+        precipitation.append(2.0 if i == 16 else 0.0)
+    bundle = {
+        "schema": "yellowstone.met_forcing.v1",
+        "status": "measured_remote_not_calibrated",
+        "fetched_at_utc": "2026-10-11T00:00:00+00:00",
+        "elevation_m": 2245.0,
+        "hourly": rows,
+        "precipitation_mm_h": precipitation,
+    }
+    world = tmp_path / "world"
+    derived = tmp_path / "derived"
+    data = world / "data"
+    data.mkdir(parents=True)
+    derived.mkdir()
+    (derived / "met.json").write_text(json.dumps(bundle))
+    (data / "ecosystem.json").write_text(json.dumps(
+        {"clock_hour": 16.0, "weather": {}, "river_reaches": [],
+         "patches": [], "wildlife": []}))
+    (data / "placements.json").write_text(json.dumps({"trees": []}))
+    (data / "placement_overrides.json").write_text(json.dumps(
+        {"add": [], "remove": [], "replace": {}}))
+    (data / "world.json").write_text(json.dumps({"pools": []}))
+    (derived / "census.json").write_text(json.dumps(
+        {"n": 0, "status": "stub", "trees": []}))
+
+    class FakeProvider:
+        """Stand-in provider that mirrors HydrologyProvider's contract."""
+
+        def __init__(self):
+            self.calls = []
+
+        def snapshot(self, *, weather, hour):
+            self.calls.append({"weather": dict(weather), "hour": hour})
+            rain = weather.get("precipitation_rate_mm_h")
+            if rain is None:
+                return type("S", (), {
+                    "status": "no_precipitation_input",
+                    "ground_wetness_fraction": None,
+                    "state": {"status": "no_precipitation_input"},
+                })
+            return type("S", (), {
+                "status": "ok",
+                "ground_wetness_fraction": 0.5,
+                "state": {"status": "ok", "sim_grid": 8},
+            })
+
+    provider = FakeProvider()
+    backend = Backend(world=world, derived=derived, hydrology=provider)
+    response = backend.weather(hour=16.0)
+
+    assert response["schema_version"] == 2
+    assert isinstance(response["generated_at_unix"], int)
+    assert "solar" in response
+    assert response["source"]["endpoint"] == "open-meteo_hourly_bundle"
+    assert response["precipitation_status"] == "measured_bundle"
+    assert response["precipitation_rate_mm_h"] == 2.0
+    assert response["ground_wetness_fraction"] == 0.5
+    assert response["source"]["hydrology_status"] == "ok"
+    assert provider.calls, "hydrology provider must be called from weather"
+    forwarded = provider.calls[-1]["weather"]
+    assert forwarded["precipitation_rate_mm_h"] == 2.0
+
+    dry_response = backend.weather(hour=0.0)
+    assert dry_response["precipitation_status"] == "measured_bundle"
+    assert dry_response["precipitation_rate_mm_h"] == 0.0
+    assert dry_response["source"]["hydrology_status"] == "ok"

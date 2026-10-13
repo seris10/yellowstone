@@ -1,9 +1,13 @@
+import pytest
+
 from yellowstone_python.insects_birds import (DEFAULT_DIETS, bird_timing,
-                                                   daily_trace, foraging_state,
+                                                   daily_trace, develop_benthic,
+                                                   develop_benthic_grid,
+                                                   foraging_state,
                                                    holling_type_ii,
                                                    insect_activity,
                                                    step_compartments,
-                                                   step_resource,
+                                                   step_resource, sunlight,
                                                    update_wildlife,
                                                    update_wildlife_from_intake)
 
@@ -93,3 +97,56 @@ def test_consumption_depletes_shared_pools():
         {k: v for k, v in led["consumed_by"].items()})
     assert wl[0].get("intake_basis_prey_per_h") is not None
     assert wl[1]["forage_seconds"] >= 2.0  # generalist floor holds
+
+
+def test_develop_benthic_returns_disturbance_loss():
+    """A nonzero disturbance returns a positive disturbance_loss and reduces benthic stock."""
+    nb_calm, em_calm, loss_calm = develop_benthic(
+        0.5, 15.0, 3600.0, disturbance=0.0)
+    nb_dist, em_dist, loss_dist = develop_benthic(
+        0.5, 15.0, 3600.0, disturbance=0.4)
+    assert loss_calm == 0.0
+    assert loss_dist > 0.0
+    assert em_dist == pytest.approx(em_calm, rel=1e-12)
+    assert nb_dist < nb_calm
+
+
+def test_develop_benthic_grid_per_cell():
+    out = develop_benthic_grid([0.5, 0.5, 0.5],
+                                 [8.0, 15.0, 22.0], 3600.0)
+    assert len(out["nb"]) == 3
+    assert out["emergence"][2] >= out["emergence"][1] >= out["emergence"][0]
+
+
+def test_sunlight_is_smooth_at_sunrise():
+    """Sunlight ramps continuously through the civil-twilight band around hour 6."""
+    before = sunlight(5.5)
+    at = sunlight(6.0)
+    after = sunlight(6.5)
+    assert 0.0 <= before < at < after <= 1.0
+    # Values at hours 6 and 6.5 differ by less than the sharp zero clamp the previous curve left.
+    assert at > 0.0
+    assert sunlight(0.0) == 0.0
+    assert sunlight(12.0) == pytest.approx(1.0, abs=1e-9)
+
+
+def test_step_compartments_order_independent():
+    """Consumer insertion order has no effect on the compartment outcome.
+    """
+    f = dict(sun=1.0, air_c=20.0, cloud=0.1, moisture=0.7, flowering=0.6,
+             water_c=15.0, wind_mps=0.5)
+    s0 = {"Nt": 0.8, "Nb": 0.8, "Ne": 0.8}
+    dipper_first = {"dipper": DEFAULT_DIETS["dipper"],
+                    "trout": DEFAULT_DIETS["trout"]}
+    trout_first = {"trout": DEFAULT_DIETS["trout"],
+                   "dipper": DEFAULT_DIETS["dipper"]}
+    eaten_a, led_a = step_compartments(dict(s0), f, dt_s=3600.0,
+                                       consumers=dipper_first)
+    eaten_b, led_b = step_compartments(dict(s0), f, dt_s=3600.0,
+                                       consumers=trout_first)
+    for key in ("Nt", "Nb", "Ne"):
+        assert eaten_a[key] == pytest.approx(eaten_b[key], rel=1e-12,
+                                             abs=1e-12), key
+    for key in led_a["consumed_by"]:
+        assert led_a["consumed_by"][key] == pytest.approx(
+            led_b["consumed_by"][key], rel=1e-12, abs=1e-12), key

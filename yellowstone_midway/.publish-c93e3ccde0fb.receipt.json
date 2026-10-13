@@ -1,0 +1,163 @@
+{
+  "build_id": "c93e3ccde0fb",
+  "utc": "20261013T100044Z",
+  "forced": false,
+  "checks_passed": true,
+  "files": {
+    "data/ecosystem.json": {
+      "source_sha256": "3e9d9347dc5561b455ca4d4ec6db4cfc04f6d3091d724c6fa6ce6d0a836f9684",
+      "target_sha256": "3e9d9347dc5561b455ca4d4ec6db4cfc04f6d3091d724c6fa6ce6d0a836f9684",
+      "size": 21051
+    },
+    "data/pool_shells.json": {
+      "source_sha256": "715a3759976de98b00f8778ccf6f014f9416a03b8d15a8c1c8f1f5d6a59c3b9b",
+      "target_sha256": "715a3759976de98b00f8778ccf6f014f9416a03b8d15a8c1c8f1f5d6a59c3b9b",
+      "size": 44210
+    },
+    "data/planting_proposal.review.json": {
+      "source_sha256": "e3c4783a87fbceb7ee5490e86c23adb13550e11de2c9767ab5a5664812c7b21d",
+      "target_sha256": "e3c4783a87fbceb7ee5490e86c23adb13550e11de2c9767ab5a5664812c7b21d",
+      "size": 20042
+    },
+    "assets/textures/snow_map.png": {
+      "source_sha256": "5933d4c44ed2bc2f431e2698b41923a18d056b24b450540bb109e7592a547060",
+      "target_sha256": "5933d4c44ed2bc2f431e2698b41923a18d056b24b450540bb109e7592a547060",
+      "size": 143
+    },
+    "data/season.json": {
+      "source_sha256": "f3ae9cda38c10a3dbc4faf20abc6a61d3112d8cf4a8de64c914846372dad7aad",
+      "target_sha256": "f3ae9cda38c10a3dbc4faf20abc6a61d3112d8cf4a8de64c914846372dad7aad",
+      "size": 2025
+    },
+    "data/plume_field.json": {
+      "source_sha256": "ae6f148b52a54728f42bbb0f41ac19b65f3f1ac6ad460fa80be15bb51e9a5e42",
+      "target_sha256": "ae6f148b52a54728f42bbb0f41ac19b65f3f1ac6ad460fa80be15bb51e9a5e42",
+      "size": 428016
+    },
+    "data/geochemistry.json": {
+      "source_sha256": "92733a8ece6201fce06b99b802d1ad3beb62cba2a8031b6ea59217ceaecf93e7",
+      "target_sha256": "92733a8ece6201fce06b99b802d1ad3beb62cba2a8031b6ea59217ceaecf93e7",
+      "size": 102059
+    },
+    "data/calibration_summary.json": {
+      "source_sha256": "5b1fe9636ef1843effd388e7532f6c272d521637bbb5af434fdd5400d9b8b417",
+      "target_sha256": "5b1fe9636ef1843effd388e7532f6c272d521637bbb5af434fdd5400d9b8b417",
+      "size": 90799
+    },
+    "data/pools_state.json": {
+      "source_sha256": "92fc1d4133c5f6f45f305ce5ff15e531f0dfeb136010c27e1fbb43ec54587fbf",
+      "target_sha256": "92fc1d4133c5f6f45f305ce5ff15e531f0dfeb136010c27e1fbb43ec54587fbf",
+      "size": 3799
+    },
+    "data/snow_cover.json": {
+      "source_sha256": "f28a2ef6398d6de43613b8ab26878d63d6d71471561a44e6e1aa28e908ef3315",
+      "target_sha256": "f28a2ef6398d6de43613b8ab26878d63d6d71471561a44e6e1aa28e908ef3315",
+      "size": 506
+    },
+    "data/overland_field.json": {
+      "source_sha256": "d985f242f8825f4a1ce6487bdb89acda22e4b1fce8b504555e74adb6936ca314",
+      "target_sha256": "d985f242f8825f4a1ce6487bdb89acda22e4b1fce8b504555e74adb6936ca314",
+      "size": 743
+    },
+    "data/census.json": {
+      "source_sha256": "272902122fc1ab3e58785b064b4a2f1378f239d07169f641f7aa2350ea743bea",
+      "target_sha256": "272902122fc1ab3e58785b064b4a2f1378f239d07169f641f7aa2350ea743bea",
+      "size": 8766988
+    },
+    "data/weather_snapshot.json": {
+      "source_sha256": "570d508812291bdb60c3f720a2c1151eb212263c21f5226cea5073c246ba0a6c",
+      "target_sha256": "570d508812291bdb60c3f720a2c1151eb212263c21f5226cea5073c246ba0a6c",
+      "size": 1239
+    },
+    "assets/textures/pool_ramps/pool_1001_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1007_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1018_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1028_0.png": {
+      "source_sha256": "5a5864e3055e5ec5c158c0e9168e77836d5a472b6811411a2a2cbdb95f4a496e",
+      "target_sha256": "5a5864e3055e5ec5c158c0e9168e77836d5a472b6811411a2a2cbdb95f4a496e",
+      "size": 205
+    },
+    "assets/textures/pool_ramps/pool_1029_0.png": {
+      "source_sha256": "0c67479f8166336923eeaf4d49612ceacc3953ea48185e9b499885700eca5189",
+      "target_sha256": "0c67479f8166336923eeaf4d49612ceacc3953ea48185e9b499885700eca5189",
+      "size": 212
+    },
+    "assets/textures/pool_ramps/pool_1030_0.png": {
+      "source_sha256": "63d3769f7a92d7bb7345e505d366c5c9db4b67af69aafb8514e1c0a2954ff748",
+      "target_sha256": "63d3769f7a92d7bb7345e505d366c5c9db4b67af69aafb8514e1c0a2954ff748",
+      "size": 209
+    },
+    "assets/textures/pool_ramps/pool_1034_0.png": {
+      "source_sha256": "cf0836f70de3cc12be38b3d0eb03f031ee745850d975949d52e73575223b4fcc",
+      "target_sha256": "cf0836f70de3cc12be38b3d0eb03f031ee745850d975949d52e73575223b4fcc",
+      "size": 214
+    },
+    "assets/textures/pool_ramps/pool_1048_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1056_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1066_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1071_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_984_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_988_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_995_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_996_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    }
+  },
+  "warnings": [
+    "produced sidecar: calibration_summary.json",
+    "produced sidecar: census.json",
+    "produced sidecar: geochemistry.json",
+    "produced sidecar: overland_field.json",
+    "produced sidecar: plume_field.json",
+    "produced sidecar: pools_state.json",
+    "produced sidecar: snow_cover.json",
+    "produced sidecar: weather_snapshot.json",
+    "sidecar gap: groundwater_field.json: groundwater_field.json requires a build-side groundwater sidecar; groundwater_provider.STATUS is authored_lateral_not_modeled and the build does not run MF6 or a Darcy exchange solve.",
+    "absent sidecar: groundwater_field.json (skipped, recorded)",
+    "absent sidecar: firehole_control.json (skipped, recorded)",
+    "absent sidecar: firehole_pulse.json (skipped, recorded)"
+  ],
+  "backup": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/backups/pre-c93e3ccde0fb-20261013T100044Z"
+}

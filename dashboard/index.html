@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yellowstone Simulation Status</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --ring: rgba(11,11,11,0.10);
+  --st-rendered: #184f95;
+  --st-python: #3987e5;
+  --st-partial-fill: #cde2fb;
+  --st-partial-line: #2a78d6;
+  --st-hollow-line: #2a78d6;
+  --st-next-line: #898781;
+  --interface: #c3c2b7;
+  --edge-wired: #52514e;
+  --good: #0ca30c;
+  --warning: #fab219;
+  --serious: #ec835a;
+  --critical: #d03b3b;
+  --superseded: #c3c2b7;
+  --conflicts: #6250d6;
+  --seq-0: #f0efec;
+  --seq-1: #cde2fb;
+  --seq-2: #9ec5f4;
+  --seq-3: #6da7ec;
+  --seq-4: #3987e5;
+  --seq-5: #256abf;
+  --seq-6: #184f95;
+  --hl: rgba(42,120,214,0.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #f0efec;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --axis: #383835;
+    --ring: rgba(255,255,255,0.10);
+    --st-rendered: #b7d3f6;
+    --st-python: #5598e7;
+    --st-partial-fill: #184f95;
+    --st-partial-line: #5598e7;
+    --st-hollow-line: #5598e7;
+    --st-next-line: #898781;
+    --interface: #52514e;
+    --edge-wired: #c3c2b7;
+    --superseded: #52514e;
+    --conflicts: #9085e9;
+    --seq-0: #2c2c2a;
+    --seq-1: #104281;
+    --seq-2: #184f95;
+    --seq-3: #256abf;
+    --seq-4: #3987e5;
+    --seq-5: #6da7ec;
+    --seq-6: #9ec5f4;
+    --hl: rgba(85,152,231,0.16);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --ink: #f0efec;
+  --ink-2: #c3c2b7;
+  --muted: #898781;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --ring: rgba(255,255,255,0.10);
+  --st-rendered: #b7d3f6;
+  --st-python: #5598e7;
+  --st-partial-fill: #184f95;
+  --st-partial-line: #5598e7;
+  --st-hollow-line: #5598e7;
+  --st-next-line: #898781;
+  --interface: #52514e;
+  --edge-wired: #c3c2b7;
+  --superseded: #52514e;
+  --conflicts: #9085e9;
+  --seq-0: #2c2c2a;
+  --seq-1: #104281;
+  --seq-2: #184f95;
+  --seq-3: #256abf;
+  --seq-4: #3987e5;
+  --seq-5: #6da7ec;
+  --seq-6: #9ec5f4;
+  --hl: rgba(85,152,231,0.16);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--page); color: var(--ink); }
+body { font: 16px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { padding: 16px 20px 28px; display: grid; gap: 14px; }
+h1 { font-size: 22px; margin: 0; }
+h2 { font-size: 17px; margin: 0 0 2px; }
+h3 { font-size: 15px; margin: 14px 0 3px; color: var(--ink-2); }
+.cap { margin: 0 0 8px; font-size: 14px; color: var(--ink-2); }
+.panel { background: var(--surface); border: 1px solid var(--ring); border-radius: 8px; padding: 18px 14px 12px; min-width: 0; }
+.head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; }
+.head .meta { color: var(--ink-2); font-size: 14px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.tile .big { font-size: 28px; font-weight: 600; }
+.tile .sub { font-size: 14px; color: var(--ink-2); }
+.segbar { display: flex; gap: 2px; height: 12px; margin: 8px 0 6px; }
+.segbar span { display: block; height: 100%; border-radius: 3px; min-width: 2px; }
+.keyrow { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px; color: var(--ink-2); }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+.two { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 14px; }
+.half { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.half.matrices { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+#domain-status, #domain-domain { overflow-x: auto; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; font-size: 14px; }
+.chip { border: 1px solid var(--ring); background: var(--page); color: var(--ink); border-radius: 999px; padding: 3px 10px; font-size: 14px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.chip[aria-pressed="false"] { opacity: 0.45; }
+select, input[type="search"] { font: inherit; font-size: 14px; color: var(--ink); background: var(--page); border: 1px solid var(--ring); border-radius: 6px; padding: 3px 8px; }
+#graph { width: 100%; height: 1000px; display: block; }
+#detail { font-size: 15px; overflow-y: auto; max-height: 1180px; }
+.muted { color: var(--muted); }
+#detail ul { margin: 4px 0; padding-left: 18px; }
+#detail li { margin: 2px 0; }
+#detail code, td code { font-size: 14px; word-break: break-all; }
+#detail a, #rendering a, #components a { color: var(--ink); }
+.status-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; position: sticky; top: 0; background: var(--surface); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.matrix th, .matrix td { padding: 4px; }
+.matrix th.num { text-align: center; vertical-align: bottom; }
+.matrix td.cell { text-align: center; font-variant-numeric: tabular-nums; cursor: pointer; border: 2px solid var(--surface); }
+.matrix td.cell.zero { color: var(--muted); }
+.flag { color: var(--critical); font-size: 14px; }
+.fixrow { display: grid; grid-template-columns: 150px minmax(0, 1fr) 90px; gap: 10px; align-items: center; font-size: 14px; padding: 2px 0; }
+.fixrow .bar { display: flex; gap: 2px; height: 14px; }
+.fixrow .bar span { height: 100%; border-radius: 3px; min-width: 2px; }
+.fixrow a { color: var(--ink); }
+.fixcols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 28px; }
+.area-h { font-size: 14px; color: var(--ink-2); font-weight: 600; margin: 10px 0 2px; }
+.scroll { max-height: 560px; overflow: auto; }
+.tooltip { position: fixed; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--ring); border-radius: 6px; padding: 6px 9px; font-size: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); max-width: 360px; display: none; z-index: 10; }
+.node-label { font-size: 14px; fill: var(--ink-2); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+.domain-label { font-size: 15px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 5px; }
+.domain-halo { fill: var(--hl); stroke: none; }
+footer { color: var(--ink-2); font-size: 14px; }
+footer code { font-size: 14px; }
+@media (max-width: 1399px) {
+  .half.matrices { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 1300px) {
+  .fixcols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1100px) {
+  .two, .half { grid-template-columns: minmax(0, 1fr); }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #graph { height: 620px; }
+}
+@media (max-width: 700px) {
+  main { padding: 12px 16px; }
+  .tiles, .fixcols { grid-template-columns: minmax(0, 1fr); }
+  .fixrow { grid-template-columns: 96px minmax(0, 1fr) 64px; }
+  #graph { height: 520px; }
+  .matrix { display: block; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<main>
+  <section class="head">
+    <h1>Yellowstone Simulation Status</h1>
+    <span class="meta" id="meta"></span>
+  </section>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="two">
+    <div class="panel">
+      <h2>Couplings within and across domains</h2>
+      <p class="cap">Each node is a simulated component in its domain's cluster; each line is a physical or ecological quantity one component passes to another.</p>
+      <div class="controls" id="graph-controls"></div>
+      <svg id="graph" role="img" aria-label="Coupling map of simulation components grouped by domain"></svg>
+      <div class="keyrow" id="graph-legend"></div>
+    </div>
+    <aside class="panel" id="detail"></aside>
+  </section>
+
+  <section class="half matrices">
+    <div class="panel">
+      <h2>Components by domain and status</h2>
+      <p class="cap">Counts per domain. Click a cell to show that domain on the map.</p>
+      <div id="domain-status"></div>
+    </div>
+    <div class="panel">
+      <h2>Couplings between domains</h2>
+      <p class="cap">Rows feed columns; off-diagonal cells cross domains. <span class="flag">&#9650;</span> counts couplings that are partial or missing. Hover a cell to list them.</p>
+      <div id="domain-domain"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Fixes queue, verified per item</h2>
+    <p class="cap">One bar per fixes document, grouped by the code area that owns it. Counts come from the ledger rows, which are updated as items land; new audit documents count every finding as open until they get a ledger.</p>
+    <div class="keyrow" id="fix-legend"></div>
+    <div class="fixcols" id="fixes"></div>
+  </section>
+
+  <section class="half">
+    <div class="panel">
+      <h2>What the Godot world draws</h2>
+      <p class="cap">Each Godot system, its state, and the Python components that drive it.</p>
+      <div class="scroll" id="rendering"></div>
+    </div>
+    <div class="panel">
+      <h2>All components</h2>
+      <p class="cap">The table view of the map. Search by name, domain, state or method.</p>
+      <div class="controls"><input type="search" id="table-search" placeholder="Filter components" aria-label="Filter components"></div>
+      <div class="scroll" id="components"></div>
+    </div>
+  </section>
+
+  <footer>
+    Refresh after fixes land: <code>python3 dashboard/build_data.py</code> from the project root, then reload.
+    Sources: <code>dashboard/data/inventory-*.json</code> (component and coupling evidence, file:line) and
+    <code>yellowstone_python_spec/fixes/ledger/</code> (per-item verdicts). <code>dashboard/data/node-map.json</code>
+    links Godot systems to the Python components that drive them.
+  </footer>
+</main>
+<div class="tooltip" id="tip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="data/dashboard-data.js"></script>
+<script>
+(function () {
+  const theme = new URLSearchParams(location.search).get("theme");
+  if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+  const D = window.YS_DASHBOARD;
+  if (!D) { document.getElementById("meta").textContent = "data/dashboard-data.js missing: run python3 dashboard/build_data.py"; return; }
+
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const STATUS = {
+    rendered: { label: "Rendered in Godot", fill: "--st-rendered", line: "--st-rendered" },
+    python_only: { label: "Python only, not drawn", fill: "--st-python", line: "--st-python" },
+    partial_unwired: { label: "Partial or not wired", fill: "--st-partial-fill", line: "--st-partial-line" },
+    not_started: { label: "Not started", fill: null, line: "--st-hollow-line" },
+    next_phase: { label: "Next phase", fill: null, line: "--st-next-line", dash: "3 3" },
+    interface: { label: "Quantity or artifact", fill: "--interface", line: "--interface" }
+  };
+  const COUPLING = {
+    wired: { label: "Wired", color: "--edge-wired", dash: null },
+    partial: { label: "Partial", color: "--warning", dash: "7 4" },
+    missing: { label: "Missing", color: "--critical", dash: "2 4" },
+    proposed: { label: "Proposed", color: "--muted", dash: "1 5" }
+  };
+  const VERDICT = {
+    implemented: { label: "Implemented", color: "--good" },
+    shortcut: { label: "Shortcut", color: "--serious" },
+    partial: { label: "Partial", color: "--warning" },
+    missing: { label: "Missing", color: "--critical" },
+    superseded: { label: "Superseded", color: "--superseded" },
+    conflicts: { label: "Conflicts", color: "--conflicts" }
+  };
+  const DOMAINS = ["atmosphere", "cryosphere", "hydrology", "hydrothermal", "aquatic_ecology",
+                   "terrestrial_ecology", "rendering", "infrastructure", "observation"];
+  const DOMAIN_LABEL = {
+    atmosphere: "Atmosphere", cryosphere: "Snow and soil water", hydrology: "Hydrology",
+    hydrothermal: "Hydrothermal", aquatic_ecology: "Aquatic ecology", terrestrial_ecology: "Terrestrial ecology",
+    rendering: "Godot rendering", infrastructure: "Pipeline", observation: "Observation"
+  };
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const tip = document.getElementById("tip");
+  const moveTip = (ev) => { const x = Math.min(ev.clientX + 14, innerWidth - tip.offsetWidth - 8); tip.style.left = x + "px"; tip.style.top = (ev.clientY + 14) + "px"; };
+  const showTip = (html, ev) => { tip.innerHTML = html; tip.style.display = "block"; moveTip(ev); };
+  const hideTip = () => { tip.style.display = "none"; };
+  const swatch = (status) => {
+    const s = STATUS[status] || STATUS.interface;
+    const fill = s.fill ? css(s.fill) : "transparent";
+    return `<span class="sw" style="background:${fill};border:2px ${s.dash ? "dashed" : "solid"} ${css(s.line)}"></span>`;
+  };
+  const statusTag = (status) => `<span class="status-tag">${swatch(status)}${esc((STATUS[status] || {}).label || status)}</span>`;
+  const pretty = (id) => id.replace(/^replay_/, "").replace(/_/g, " ");
+
+  const comps = D.components.filter((c) => c.kind === "component");
+  const byId = new Map(D.components.map((c) => [c.id, c]));
+  D.components.forEach((c) => { if (!DOMAINS.includes(c.domain)) DOMAINS.push(c.domain); });
+
+  const checked = Object.values(D.verified || {}).filter(Boolean).sort();
+  document.getElementById("meta").textContent =
+    `Generated ${D.generated_utc}. ${comps.length} components, ${D.couplings.length} couplings, ${D.docs.length} fixes documents. ` +
+    `Map last checked against code: ${checked.length === 3 ? checked[0].replace("T", " ").replace(/Z$/, "") + " UTC" : "not recorded"}.`;
+
+  // Stat tiles
+  const segbar = (pairs) => `<div class="segbar">${pairs.filter((p) => p.n > 0).map((p) =>
+    `<span title="${esc(p.label)}: ${p.n}" style="flex:${p.n};background:${p.color};${p.border || ""}"></span>`).join("")}</div>`;
+  const keyList = (pairs) => `<div class="keyrow">${pairs.map((p) => `<span class="key"><span class="sw" style="background:${p.color};${p.border || ""}"></span>${esc(p.label)} ${p.n}</span>`).join("")}</div>`;
+  const ct = D.totals.components, cp = D.totals.couplings, vt = D.totals.verdicts, rt = D.totals.rendering;
+  const compPairs = D.component_statuses.map((s) => ({ n: ct[s] || 0, label: STATUS[s].label,
+    color: STATUS[s].fill ? css(STATUS[s].fill) : "transparent", border: STATUS[s].fill ? "" : `box-shadow: inset 0 0 0 2px ${css(STATUS[s].line)}` }));
+  const coupPairs = D.coupling_statuses.map((s) => ({ n: cp[s] || 0, label: COUPLING[s].label, color: css(COUPLING[s].color) }));
+  const fixPairs = D.verdicts.map((v) => ({ n: vt[v] || 0, label: VERDICT[v].label, color: css(VERDICT[v].color) }));
+  document.getElementById("tiles").innerHTML = `
+    <div class="panel tile"><div class="sub">Simulated components drawn in Godot</div>
+      <div class="big">${ct.rendered} of ${comps.length}</div>${segbar(compPairs)}${keyList(compPairs)}</div>
+    <div class="panel tile"><div class="sub">Couplings fully wired</div>
+      <div class="big">${cp.wired} of ${D.couplings.length}</div>${segbar(coupPairs)}${keyList(coupPairs)}</div>
+    <div class="panel tile"><div class="sub">Fix items implemented, verified against code</div>
+      <div class="big">${vt.implemented} of ${D.totals.fix_items}</div>${segbar(fixPairs)}${keyList(fixPairs)}</div>
+    <div class="panel tile"><div class="sub">Godot systems working</div>
+      <div class="big">${rt.rendered} of ${D.rendering.length}</div>
+      <div class="sub">${rt.partial_unwired} partial, ${rt.python_only} loaded but not drawn, ${rt.not_started} not started.</div></div>`;
+
+  // Coupling graph
+  const svg = d3.select("#graph");
+  const W = svg.node().clientWidth || 900, H = svg.node().clientHeight || 760;
+  svg.attr("viewBox", `0 0 ${W} ${H}`);
+  const cx = W / 2, cy = H / 2 + 10, R = Math.min(W, H) * 0.37;
+  const order = DOMAINS.filter((d) => D.components.some((c) => c.domain === d));
+  const anchors = new Map(order.map((d, i) => {
+    const a = -Math.PI / 2 + (i / order.length) * 2 * Math.PI;
+    return [d, { x: cx + R * Math.cos(a) * (W > H ? 1.12 : 1), y: cy + R * Math.sin(a) }];
+  }));
+  const nodes = D.components.map((c) => ({ ...c }));
+  const nodeById = new Map(nodes.map((n) => [n.id, n]));
+  const links = D.couplings.map((l) => ({ ...l, source: nodeById.get(l.from), target: nodeById.get(l.to) }));
+  const degree = new Map();
+  links.forEach((l) => { degree.set(l.from, (degree.get(l.from) || 0) + 1); degree.set(l.to, (degree.get(l.to) || 0) + 1); });
+  let seed = 7;
+  const rand = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  nodes.forEach((n) => { const a = anchors.get(n.domain); n.x = a.x + (rand() - 0.5) * 40; n.y = a.y + (rand() - 0.5) * 40; });
+  const sim = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).distance(90).strength(0.02))
+    .force("charge", d3.forceManyBody().strength(-110))
+    .force("x", d3.forceX((d) => anchors.get(d.domain).x).strength(0.18))
+    .force("y", d3.forceY((d) => anchors.get(d.domain).y).strength(0.18))
+    .force("collide", d3.forceCollide((d) => d.kind === "interface" ? 14 : 24))
+    .stop();
+  for (let i = 0; i < 500; i++) sim.tick();
+  nodes.forEach((n) => { n.x = Math.max(16, Math.min(W - 16, n.x)); n.y = Math.max(48, Math.min(H - 14, n.y)); });
+  const flip = (d) => d.x > W - 150;
+
+  const halo = svg.append("g");
+  order.forEach((d) => {
+    const members = nodes.filter((n) => n.domain === d);
+    const mx = d3.mean(members, (n) => n.x), my = d3.mean(members, (n) => n.y);
+    const r = d3.max(members, (n) => Math.hypot(n.x - mx, n.y - my)) + 22;
+    halo.append("circle").attr("class", "domain-halo").attr("cx", mx).attr("cy", my).attr("r", r);
+  });
+  const defs = svg.append("defs");
+  Object.entries(COUPLING).forEach(([k, v]) => {
+    defs.append("marker").attr("id", "arrow-" + k).attr("viewBox", "0 -4 8 8").attr("refX", 16).attr("refY", 0)
+      .attr("markerWidth", 7).attr("markerHeight", 7).attr("orient", "auto")
+      .append("path").attr("d", "M0,-4L8,0L0,4").attr("fill", css(v.color));
+  });
+  const linkG = svg.append("g");
+  const coords = (sel) => sel.attr("x1", (d) => d.source.x).attr("y1", (d) => d.source.y).attr("x2", (d) => d.target.x).attr("y2", (d) => d.target.y);
+  const linkSel = coords(linkG.selectAll("line.edge").data(links).join("line").attr("class", "edge"))
+    .attr("stroke", (d) => css((COUPLING[d.status] || COUPLING.proposed).color))
+    .attr("stroke-width", (d) => d.cross_domain ? 2.2 : 1.4)
+    .attr("stroke-dasharray", (d) => (COUPLING[d.status] || {}).dash)
+    .attr("stroke-opacity", 0.85)
+    .attr("marker-end", (d) => `url(#arrow-${d.status})`);
+  const hitSel = coords(linkG.selectAll("line.hit").data(links).join("line").attr("class", "hit"))
+    .attr("stroke", "transparent").attr("stroke-width", 12).style("cursor", "pointer")
+    .on("mousemove", (ev, d) => showTip(`<b>${esc(pretty(d.from))} to ${esc(pretty(d.to))}</b><br>${esc(d.quantity)}<br>${esc(COUPLING[d.status].label)}${d.cross_domain ? ", crosses domains" : ""}`, ev))
+    .on("mouseleave", hideTip)
+    .on("click", (ev, d) => showCoupling(d));
+
+  const nodeG = svg.append("g");
+  const shape = (d) => d.kind === "interface" ? d3.symbol(d3.symbolDiamond, 80)() : d3.symbol(d3.symbolCircle, 190)();
+  const nodeSel = nodeG.selectAll("path").data(nodes).join("path")
+    .attr("d", shape).attr("transform", (d) => `translate(${d.x},${d.y})`)
+    .attr("fill", (d) => { const s = STATUS[d.status] || STATUS.interface; return s.fill ? css(s.fill) : css("--surface"); })
+    .attr("stroke", (d) => css((STATUS[d.status] || STATUS.interface).line))
+    .attr("stroke-width", 2)
+    .attr("stroke-dasharray", (d) => (STATUS[d.status] || {}).dash || null)
+    .style("cursor", "pointer")
+    .on("mousemove", (ev, d) => showTip(`<b>${esc(d.label)}</b><br>${esc(DOMAIN_LABEL[d.domain] || d.domain)}<br>${esc((STATUS[d.status] || {}).label || d.status)}`, ev))
+    .on("mouseenter", (ev, d) => focusNode(d))
+    .on("mouseleave", () => { hideTip(); applyFilters(); })
+    .on("click", (ev, d) => showComponent(d));
+  const labelSel = nodeG.selectAll("text.node-label").data(nodes.filter((n) => n.kind === "component")).join("text")
+    .attr("class", "node-label").attr("x", (d) => flip(d) ? d.x - 11 : d.x + 11).attr("y", (d) => d.y + 5)
+    .attr("text-anchor", (d) => flip(d) ? "end" : "start").text((d) => pretty(d.id));
+  const domLabelG = svg.append("g");
+  order.forEach((d) => {
+    const members = nodes.filter((n) => n.domain === d);
+    const top = d3.min(members, (n) => n.y) - 24, mx = d3.mean(members, (n) => n.x);
+    domLabelG.append("text").attr("class", "domain-label").attr("x", Math.max(70, Math.min(W - 70, mx)))
+      .attr("y", Math.max(16, top)).attr("text-anchor", "middle").text(DOMAIN_LABEL[d] || d);
+  });
+
+  // Controls
+  const state = { statuses: new Set([...D.component_statuses, "interface"]), cross: false, domain: "", labels: "key" };
+  const ctl = document.getElementById("graph-controls");
+  ctl.innerHTML = `
+    ${D.component_statuses.concat(["interface"]).map((s) => `<button class="chip" data-v="${s}" aria-pressed="true">${swatch(s)}${esc(STATUS[s].label)}</button>`).join("")}
+    <select id="dom-select" aria-label="Domain"><option value="">All domains</option>${order.map((d) => `<option value="${d}">${esc(DOMAIN_LABEL[d] || d)}</option>`).join("")}</select>
+    <label><input type="checkbox" id="cross-only"> Cross-domain only</label>
+    <select id="label-mode" aria-label="Labels"><option value="key">Labels: connected</option><option value="all">Labels: all</option><option value="none">Labels: none</option></select>`;
+  ctl.querySelectorAll("button.chip").forEach((b) => b.addEventListener("click", () => {
+    const v = b.dataset.v, on = b.getAttribute("aria-pressed") === "true";
+    b.setAttribute("aria-pressed", on ? "false" : "true");
+    if (on) state.statuses.delete(v); else state.statuses.add(v);
+    applyFilters();
+  }));
+  document.getElementById("dom-select").addEventListener("change", (e) => { state.domain = e.target.value; applyFilters(); });
+  document.getElementById("cross-only").addEventListener("change", (e) => { state.cross = e.target.checked; applyFilters(); });
+  document.getElementById("label-mode").addEventListener("change", (e) => { state.labels = e.target.value; applyFilters(); });
+  document.getElementById("graph-legend").innerHTML =
+    Object.entries(COUPLING).map(([, v]) => `<span class="key"><svg width="34" height="10" aria-hidden="true"><line x1="1" y1="5" x2="33" y2="5" stroke="${css(v.color)}" stroke-width="2.2" ${v.dash ? `stroke-dasharray="${v.dash}"` : ""}/></svg>${esc(v.label)} coupling</span>`).join("") +
+    `<span class="key">Thicker line: crosses domains. Diamond: a quantity or file passed between components.</span>`;
+
+  function visibleNode(n) {
+    if (!state.statuses.has(n.status)) return false;
+    if (state.domain && n.domain !== state.domain) {
+      return links.some((l) => (l.from === n.id && l.target.domain === state.domain) || (l.to === n.id && l.source.domain === state.domain));
+    }
+    return true;
+  }
+  function visibleLink(l) {
+    if (state.cross && !l.cross_domain) return false;
+    if (state.domain && l.source.domain !== state.domain && l.target.domain !== state.domain) return false;
+    return visibleNode(l.source) && visibleNode(l.target);
+  }
+  function applyFilters() {
+    nodeSel.attr("opacity", (n) => visibleNode(n) ? 1 : 0.12);
+    linkSel.attr("opacity", (l) => visibleLink(l) ? 1 : 0.05);
+    hitSel.style("pointer-events", (l) => visibleLink(l) ? "auto" : "none");
+    labelSel.attr("opacity", (n) => {
+      if (!visibleNode(n) || state.labels === "none") return 0;
+      if (state.labels === "all" || (state.domain && n.domain === state.domain)) return 1;
+      return (degree.get(n.id) || 0) >= 2 ? 1 : 0;
+    });
+  }
+  function focusNode(d) {
+    const near = new Set([d.id]);
+    links.forEach((l) => { if (l.from === d.id) near.add(l.to); if (l.to === d.id) near.add(l.from); });
+    nodeSel.attr("opacity", (n) => near.has(n.id) ? 1 : 0.12);
+    linkSel.attr("opacity", (l) => l.from === d.id || l.to === d.id ? 1 : 0.04);
+    labelSel.attr("opacity", (n) => near.has(n.id) ? 1 : 0);
+  }
+  applyFilters();
+
+  // Detail panel
+  const detail = document.getElementById("detail");
+  const list = (arr) => arr && arr.length ? `<ul>${arr.map((x) => `<li><code>${esc(x)}</code></li>`).join("")}</ul>` : `<div class="muted">none recorded</div>`;
+  const docsFor = (c) => {
+    const files = (c.python || []).map((p) => p.split("/").pop());
+    return D.docs.filter((doc) => doc.targets.some((t) => files.includes(t.split("/").pop())));
+  };
+  const couplingLine = (l, other) => `<li><a href="#" data-node="${esc(other)}">${esc(pretty(other))}</a>: ${esc(l.quantity)} <span class="muted">(${esc(COUPLING[l.status].label.toLowerCase())}${l.cross_domain ? ", crosses domains" : ""})</span></li>`;
+  const wireNodeLinks = (root) => root.querySelectorAll("a[data-node]").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault(); const n = byId.get(a.dataset.node); if (n) { showComponent(n); detail.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+  }));
+  function showComponent(c) {
+    const out = D.couplings.filter((l) => l.from === c.id), inn = D.couplings.filter((l) => l.to === c.id);
+    const docs = docsFor(c);
+    detail.innerHTML = `
+      <h2>${esc(c.label)}</h2>
+      <p class="cap">${statusTag(c.status)} &middot; ${esc(DOMAIN_LABEL[c.domain] || c.domain)}</p>
+      ${c.method ? `<h3>Method</h3><div>${esc(c.method)}</div>` : ""}
+      ${c.validation ? `<h3>Validation state</h3><div>${esc(c.validation)}</div>` : ""}
+      ${c.notes ? `<h3>Notes</h3><div>${esc(c.notes)}</div>` : ""}
+      <h3>Drawn in Godot by</h3>${c.rendered_by && c.rendered_by.length ? `<ul>${c.rendered_by.map((r) => `<li>${esc(pretty(r.id))} ${statusTag(r.status)}</li>`).join("")}</ul>` : `<div class="muted">nothing in the Godot world draws this</div>`}
+      <h3>Feeds</h3>${out.length ? `<ul>${out.map((l) => couplingLine(l, l.to)).join("")}</ul>` : `<div class="muted">no outgoing couplings recorded</div>`}
+      <h3>Fed by</h3>${inn.length ? `<ul>${inn.map((l) => couplingLine(l, l.from)).join("")}</ul>` : `<div class="muted">no incoming couplings recorded</div>`}
+      <h3>Fixes documents touching its files</h3>${docs.length ? `<ul>${docs.map((d) => `<li>fixes-${esc(d.id)}: ${d.counts.implemented} of ${d.items} implemented</li>`).join("")}</ul>` : `<div class="muted">none</div>`}
+      <h3>Python</h3>${list(c.python)}
+      ${c.godot && c.godot.length ? `<h3>Godot</h3>${list(c.godot)}` : ""}
+      <h3>Evidence</h3>${list(c.evidence)}
+      ${c.source ? `<h3>Planned in</h3>${list([].concat(c.source))}` : ""}
+      <p><a href="#" id="back">Back to overview</a></p>`;
+    wireNodeLinks(detail);
+    detail.querySelector("#back").addEventListener("click", (e) => { e.preventDefault(); overview(); });
+  }
+  function showCoupling(l) {
+    const c = COUPLING[l.status] || COUPLING.proposed;
+    detail.innerHTML = `
+      <h2>${esc(pretty(l.from))} to ${esc(pretty(l.to))}</h2>
+      <p class="cap status-tag"><svg width="34" height="10" aria-hidden="true"><line x1="1" y1="5" x2="33" y2="5" stroke="${css(c.color)}" stroke-width="2.2" ${c.dash ? `stroke-dasharray="${c.dash}"` : ""}/></svg>${esc(c.label)}${l.cross_domain ? ", crosses domains" : ", within one domain"}</p>
+      <h3>Quantity</h3><div>${esc(l.quantity)}</div>
+      ${l.notes ? `<h3>Notes</h3><div>${esc(l.notes)}</div>` : ""}
+      <h3>Evidence</h3>${list(l.evidence)}
+      <h3>Endpoints</h3><ul><li><a href="#" data-node="${esc(l.from)}">${esc(pretty(l.from))}</a></li><li><a href="#" data-node="${esc(l.to)}">${esc(pretty(l.to))}</a></li></ul>
+      <p><a href="#" id="back">Back to overview</a></p>`;
+    wireNodeLinks(detail);
+    detail.querySelector("#back").addEventListener("click", (e) => { e.preventDefault(); overview(); });
+  }
+  function overview() {
+    const gaps = D.couplings.filter((l) => l.status !== "wired").sort((a, b) => (b.cross_domain - a.cross_domain) || a.status.localeCompare(b.status));
+    detail.innerHTML = `
+      <h2>Reading this map</h2>
+      <p class="cap">Fill shows how far each component has come. Hover a node to isolate its couplings; click a node or line for files, evidence, fixes, and what draws it.</p>
+      <ul>${D.component_statuses.map((s) => `<li>${statusTag(s)}: ${ct[s] || 0}</li>`).join("")}</ul>
+      <h3>Couplings not yet wired (${gaps.length})</h3>
+      <ul>${gaps.map((l, i) => `<li><a href="#" data-gap="${i}">${esc(pretty(l.from))} to ${esc(pretty(l.to))}</a>: ${esc(l.quantity)} <span class="muted">(${esc(COUPLING[l.status].label.toLowerCase())}${l.cross_domain ? ", crosses domains" : ""})</span></li>`).join("")}</ul>`;
+    detail.querySelectorAll("a[data-gap]").forEach((a) => a.addEventListener("click", (e) => {
+      e.preventDefault(); const g = gaps[+a.dataset.gap]; showCoupling(links.find((x) => x.from === g.from && x.to === g.to && x.quantity === g.quantity));
+    }));
+  }
+  overview();
+
+  // Domain x status matrix
+  const seqColor = (n, max) => n === 0 ? css("--seq-0") : css("--seq-" + Math.max(1, Math.min(6, Math.ceil((n / max) * 6))));
+  const inkFor = (n, max) => (n / max) > 0.55 ? css("--surface") : css("--ink");
+  const usedDomains = order.filter((d) => comps.some((c) => c.domain === d));
+  const dsCounts = usedDomains.map((d) => D.component_statuses.map((s) => comps.filter((c) => c.domain === d && c.status === s).length));
+  const dsMax = Math.max(1, ...dsCounts.flat());
+  document.getElementById("domain-status").innerHTML = `<table class="matrix"><thead><tr><th>Domain</th>${D.component_statuses.map((s) => `<th class="num">${swatch(s)} ${esc(STATUS[s].label)}</th>`).join("")}<th class="num">Total</th></tr></thead><tbody>${
+    usedDomains.map((d, i) => `<tr><td>${esc(DOMAIN_LABEL[d] || d)}</td>${dsCounts[i].map((n, j) => `<td class="cell ${n ? "" : "zero"}" data-d="${d}" style="background:${seqColor(n, dsMax)};color:${n ? inkFor(n, dsMax) : ""}">${n}</td>`).join("")}<td class="num">${d3.sum(dsCounts[i])}</td></tr>`).join("")
+  }</tbody></table>`;
+  document.querySelectorAll("#domain-status td.cell").forEach((td) => td.addEventListener("click", () => {
+    state.domain = td.dataset.d; document.getElementById("dom-select").value = td.dataset.d; applyFilters();
+    document.getElementById("graph").scrollIntoView({ behavior: "smooth", block: "center" });
+  }));
+
+  // Domain x domain coupling matrix
+  const ddDomains = order.filter((d) => D.couplings.some((l) => byId.get(l.from).domain === d || byId.get(l.to).domain === d));
+  const ddCell = (a, b) => D.couplings.filter((l) => byId.get(l.from).domain === a && byId.get(l.to).domain === b);
+  const ddMax = Math.max(1, ...ddDomains.flatMap((a) => ddDomains.map((b) => ddCell(a, b).length)));
+  document.getElementById("domain-domain").innerHTML = `<table class="matrix"><thead><tr><th>From, to</th>${ddDomains.map((d) => `<th class="num">${esc(DOMAIN_LABEL[d] || d)}</th>`).join("")}</tr></thead><tbody>${
+    ddDomains.map((a) => `<tr><td>${esc(DOMAIN_LABEL[a] || a)}</td>${ddDomains.map((b) => {
+      const cell = ddCell(a, b), n = cell.length, gaps = cell.filter((l) => l.status === "missing" || l.status === "partial").length;
+      return `<td class="cell ${n ? "" : "zero"}" title="${esc(cell.map((l) => `${pretty(l.from)} to ${pretty(l.to)} (${l.status})`).join("\n"))}" style="background:${seqColor(n, ddMax)};color:${n ? inkFor(n, ddMax) : ""}">${n || ""}${gaps ? `<span class="flag"> &#9650;${gaps}</span>` : ""}</td>`;
+    }).join("")}</tr>`).join("")
+  }</tbody></table>`;
+
+  // Fixes queue
+  document.getElementById("fix-legend").innerHTML = D.verdicts.map((v) => `<span class="key"><span class="sw" style="background:${css(VERDICT[v].color)}"></span>${esc(VERDICT[v].label)} ${vt[v] || 0}</span>`).join("");
+  const areas = {};
+  D.docs.forEach((d) => { (areas[d.area] = areas[d.area] || []).push(d); });
+  const areaOrder = ["R", "D", "E1", "E2", "G", "N"].filter((a) => areas[a]);
+  document.getElementById("fixes").innerHTML = areaOrder.map((a) => `<div><div class="area-h">${esc(D.area_labels[a] || a)}</div>` + areas[a].map((d) => {
+    const total = d.items || 0;
+    const segs = D.verdicts.filter((v) => d.counts[v] > 0).map((v) => `<span style="flex:${d.counts[v]};background:${css(VERDICT[v].color)}"></span>`).join("");
+    return `<div class="fixrow" data-doc="${esc(d.id)}"><span><a href="../${esc(d.file)}">fixes-${esc(d.id)}</a>${d.ledger ? "" : ' <span class="muted">new</span>'}</span>
+      <div class="bar">${total ? segs : `<span style="flex:1;background:${css("--seq-0")}"></span>`}</div>
+      <span style="text-align:right;font-variant-numeric:tabular-nums">${d.counts.implemented} / ${total}</span></div>`;
+  }).join("") + `</div>`).join("");
+  document.querySelectorAll(".fixrow").forEach((row) => {
+    const d = D.docs.find((x) => x.id === row.dataset.doc);
+    row.addEventListener("mousemove", (ev) => showTip(`<b>fixes-${esc(d.id)}</b> &middot; ${esc(D.area_labels[d.area] || "")}<br>${D.verdicts.filter((v) => d.counts[v]).map((v) => `${VERDICT[v].label}: ${d.counts[v]}`).join("<br>")}${d.targets.length ? `<br><span class="muted">${esc(d.targets.slice(0, 5).map((t) => t.split("/").pop()).join(", "))}</span>` : ""}`, ev));
+    row.addEventListener("mouseleave", hideTip);
+  });
+
+  // Rendering table
+  const rorder = { rendered: 0, partial_unwired: 1, python_only: 2, not_started: 3, next_phase: 4 };
+  const rrows = [...D.rendering].sort((a, b) => (rorder[a.status] ?? 9) - (rorder[b.status] ?? 9));
+  const rendering = document.getElementById("rendering");
+  rendering.innerHTML = `<table><thead><tr><th>Godot system</th><th>State</th><th>Driven by</th><th>Notes</th></tr></thead><tbody>${
+    rrows.map((r) => `<tr><td>${esc(r.label)}</td><td>${statusTag(r.status)}</td><td>${r.sources.length ? r.sources.map((s) => `<a href="#" data-node="${esc(s)}">${esc(pretty(s))}</a>`).join(", ") : '<span class="muted">Godot only or authored data</span>'}</td><td>${esc(r.notes)}</td></tr>`).join("")
+  }</tbody></table>`;
+  wireNodeLinks(rendering);
+
+  // Component table
+  const ctable = document.getElementById("components");
+  function renderTable(q) {
+    const ql = (q || "").toLowerCase();
+    const rows = comps.filter((c) => !ql || [c.id, c.label, c.domain, c.status, c.method, c.notes].join(" ").toLowerCase().includes(ql))
+      .sort((a, b) => order.indexOf(a.domain) - order.indexOf(b.domain) || D.component_statuses.indexOf(a.status) - D.component_statuses.indexOf(b.status));
+    ctable.innerHTML = `<table><thead><tr><th>Component</th><th>Domain</th><th>State</th><th>Validation</th></tr></thead><tbody>${
+      rows.map((c) => `<tr><td><a href="#" data-node="${esc(c.id)}">${esc(c.label)}</a></td><td>${esc(DOMAIN_LABEL[c.domain] || c.domain)}</td><td>${statusTag(c.status)}</td><td>${esc(c.validation || "")}</td></tr>`).join("")
+    }</tbody></table>`;
+    wireNodeLinks(ctable);
+  }
+  renderTable("");
+  document.getElementById("table-search").addEventListener("input", (e) => renderTable(e.target.value));
+})();
+</script>
+</body>
+</html>

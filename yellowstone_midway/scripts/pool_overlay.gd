@@ -1,8 +1,8 @@
 class_name MidwayPoolOverlay
 extends Node
-## Runtime shim: assigns Python-authored pigment ramps to baked thermal pools.
-## Reads res://data/pool_shells.json and res://assets/textures/pool_ramps/<shell_id>.png.
-## Guarded: without sidecars, two-color water look is used.
+## Runtime shim: assigns Python-authored pigment ramps to baked thermal pools from res://data/pool_shells.json and res://assets/textures/pool_ramps/<shell_id>.png.
+
+# Guarded: without sidecars, two-color water look is used.
 func _ready() -> void:
 	var shells_path := "res://data/pool_shells.json"
 	if not FileAccess.file_exists(shells_path):

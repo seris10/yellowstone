@@ -1,11 +1,5 @@
-"""Tests for ridge-ensemble uncertainty and OAT sensitivity.
-
-All synthetic and offline: no network, no USGS data. The fit-recovery
-tests are the inverse crime (same forward model generates and fits),
-labeled as such — they prove the ensemble/OAT machinery works, NOT
-that the model is right. Model validity comes from holdout coverage
-on real data, reported in the UQ artifact, not from these tests.
-"""
+"""Tests for ridge-ensemble uncertainty and OAT sensitivity (synthetic, offline).
+Fit-recovery is the inverse crime; validity comes from holdout coverage reported in the UQ artifact."""
 from __future__ import annotations
 
 import math
@@ -138,8 +132,7 @@ class BandTests(unittest.TestCase):
 
 class OatTests(unittest.TestCase):
     def test_oat_fit_ranks_volume_last_on_synthetic(self):
-        # Inverse crime: truth is exactly recoverable, so parameter
-        # moves cost more than geometry moves at small amplitude.
+        # Inverse crime: truth is exactly recoverable; parameter moves cost more than geometry moves at small amplitude.
         bundle = synthetic_bundle()
         champ = {"q_lat": 2.0, "t_lat": 25.0, "c_mult": 1.0}
         oat = oat_fit(bundle, 20000.0, 40000.0, champ,

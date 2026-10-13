@@ -1,0 +1,165 @@
+{
+  "model": "/Users/kreed/Downloads/bison.glb",
+  "species": "bison",
+  "scientific_name": "Bison bison",
+  "reference_source": {
+    "citation": "Meagher, M. (1986). Bison bison. Mammalian Species 266: 1-8. American Society of Mammalogists.",
+    "location": "General characters, p. 1: measurements for males and females, compiled from Hall (1981), Meagher (1973) and Seton (1929)",
+    "retrieved": "2026-10-13",
+    "url": "https://buffalofieldcampaign.org/images/get-involved/students-resource-about-bison/bison-conservation-papers/Meagher-Bison-bison-Mammalian-Species-June-16-1986.pdf"
+  },
+  "pose": "rest",
+  "frame": 0,
+  "units_per_meter": 1.0,
+  "vertices": 756406,
+  "mesh_objects": 1,
+  "armatures": [],
+  "body_axis": {
+    "method": "principal horizontal axis; head end = the half with the higher 95th-percentile top",
+    "axis_xy": [
+      -1.0,
+      -0.0019
+    ]
+  },
+  "closed_mesh": false,
+  "non_manifold_edges": 61154,
+  "volume_m3": 0.05535923476831645,
+  "assumed_body_density_kg_m3": 1000.0,
+  "mass_estimate_kg": null,
+  "implied_scale_to_male_mid_shoulder_height": 2.8393124925090203,
+  "landmarks": {
+    "nose_s": 0.43540368407414065,
+    "rear_s": -0.564624354795853,
+    "axis_extent_m": 1.0000280388699938,
+    "tail_base_s": -0.47712190139472854,
+    "head_body_length_m": 0.9125255854688692,
+    "withers_s": 0.11289464153856782,
+    "shoulder_height_m": 0.6216293573379517,
+    "withers_from_nose_fraction": 0.32249999999999984,
+    "hip_s": -0.3421181161472794,
+    "hip_height_m": 0.5359184890985489,
+    "hip_method": "highest point above the hind-leg ground contact",
+    "hind_leg_contact_s": [
+      -0.4671216210060286,
+      -0.30711713478682967
+    ],
+    "fore_leg_contact_s": [
+      -0.017109003514531373,
+      0.15289576309336755
+    ],
+    "belly_clearance_m": 0.20536807924509048,
+    "chest_depth_m": 0.4162612780928612,
+    "body_width_m": 0.294823543731914,
+    "tail_length_m": 0.2467815945692304,
+    "tail_method": "geometric straight line from tail base to farthest central rear vertex (low confidence)",
+    "total_length_m": 1.1593071800380996,
+    "leg_to_height_ratio": 0.33037062490831043,
+    "hip_to_shoulder_ratio": 0.862119014767178
+  },
+  "comparison": [
+    {
+      "measurement": "shoulder_height_mm",
+      "model": 621.6293573379517,
+      "male": {
+        "range": [
+          1670,
+          1860
+        ],
+        "status": "below by 63%",
+        "scale_to_mid_shoulder_height": 2.8393124925090203,
+        "scaled_model": 1765.0,
+        "scaled_status": "within range"
+      },
+      "female": {
+        "range": [
+          1520,
+          1570
+        ],
+        "status": "below by 59%",
+        "scale_to_mid_shoulder_height": 2.4854038532161113,
+        "scaled_model": 1545.0,
+        "scaled_status": "within range"
+      }
+    },
+    {
+      "measurement": "total_length_mm",
+      "model": 1159.3071800380997,
+      "male": {
+        "range": [
+          3040,
+          3800
+        ],
+        "status": "below by 62%",
+        "scale_to_mid_shoulder_height": 2.8393124925090203,
+        "scaled_model": 3291.6353589375803,
+        "scaled_status": "within range"
+      },
+      "female": {
+        "range": [
+          2130,
+          3180
+        ],
+        "status": "below by 46%",
+        "scale_to_mid_shoulder_height": 2.4854038532161113,
+        "scaled_model": 2881.346532327797,
+        "scaled_status": "within range"
+      }
+    },
+    {
+      "measurement": "tail_length_mm",
+      "model": 246.7815945692304,
+      "male": {
+        "range": [
+          330,
+          910
+        ],
+        "status": "below by 25%",
+        "scale_to_mid_shoulder_height": 2.8393124925090203,
+        "scaled_model": 700.6900643817121,
+        "scaled_status": "within range"
+      },
+      "female": {
+        "range": [
+          300,
+          510
+        ],
+        "status": "below by 18%",
+        "scale_to_mid_shoulder_height": 2.4854038532161113,
+        "scaled_model": 613.3519260451815,
+        "scaled_status": "above by 20%"
+      }
+    },
+    {
+      "measurement": "body_mass_kg",
+      "model": null,
+      "male": {
+        "range": [
+          544,
+          907
+        ],
+        "status": "not measured",
+        "scale_to_mid_shoulder_height": 2.8393124925090203,
+        "scaled_model": null,
+        "scaled_status": "not measured"
+      },
+      "female": {
+        "range": [
+          318,
+          545
+        ],
+        "status": "not measured",
+        "scale_to_mid_shoulder_height": 2.4854038532161113,
+        "scaled_model": null,
+        "scaled_status": "not measured"
+      }
+    }
+  ],
+  "caveats": [
+    "Landmarks come from side-view profiles of the mesh, so fur and horns are part of the silhouette.",
+    "Shoulder height is the highest point between 15 and 55 percent of the body length from the nose; check its position in profile.svg.",
+    "Mass is reported only for a closed mesh, from volume times an assumed density of 1000 kg/m3.",
+    "Maximum recorded mass 1724 kg, a semidomestic bull (Meagher 1986, citing Hebbring 1978).",
+    "Hair length on shoulders and hump 65 to 160 mm, chaps 150 to 190 mm, beard about 300 mm (Meagher 1986), so a furred mesh silhouette can stand above skin-level measurements.",
+    "Condylobasal skull length 519 mm for one adult male (YNP 11661) and 460 mm for one adult female (YNP 12050); single specimens, not ranges."
+  ]
+}

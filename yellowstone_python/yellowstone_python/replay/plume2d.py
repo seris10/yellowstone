@@ -1,13 +1,5 @@
-"""Steady 2-D thermal plume for the Excelsior mixing zone.
-
-Solves u.dT/dz = Dx.d2T/dx2 + Dz.d2T/dz2 - k.(T - ambient) on a small
-grid with an implicit upwind/centered discretization (scipy.sparse
-linear solve). Source cells are fixed at source_c; the north edge is
-fixed at ambient_c; south edge is zero-gradient; side edges are fixed
-ambient.
-
-Units: meters, seconds, m/s, m2/s, degC. No files, no network.
-"""
+"""Steady 2-D thermal plume: u.dT/dz = Dx.d2T/dx2 + Dz.d2T/dz2 - k.(T-ambient), scipy.sparse implicit upwind/centered.
+Source fixed at source_c; north+sides fixed ambient; south zero-gradient. Units m, s, m/s, m2/s, degC."""
 from __future__ import annotations
 
 import math
@@ -38,6 +30,14 @@ def _require_sparse() -> None:
         raise ImportError("plume2d needs scipy.sparse")
 
 
+def _finite(name: str, value: float) -> float:
+    """Return float(value) after rejecting non-finite inputs."""
+    result = float(value)
+    if not math.isfinite(result):
+        raise ValueError(f"{name} must be finite")
+    return result
+
+
 def solve_steady(nx: int = 64, nz: int = 64, extent_m: float = 600.0,
                  u_m_s: float = U_MAPPED_M_S,
                  d_long_m2_s: float = D_LONG_M2_S,
@@ -51,12 +51,34 @@ def solve_steady(nx: int = 64, nz: int = 64, extent_m: float = 600.0,
     for name, v in (("nx", nx), ("nz", nz)):
         if int(v) < 8:
             raise ValueError(f"{name} must be >= 8")
-    if extent_m <= 0 or d_long_m2_s <= 0 or d_trans_m2_s <= 0:
-        raise ValueError("extent and diffusivities must be positive")
-    if k_per_s < 0:
+    extent_m = float(extent_m)
+    d_long_m2_s = float(d_long_m2_s)
+    d_trans_m2_s = float(d_trans_m2_s)
+    u_m_s = float(u_m_s)
+    k_per_s = float(k_per_s)
+    source_c = float(source_c)
+    source_r_m = float(source_r_m)
+    if not math.isfinite(extent_m) or not math.isfinite(d_long_m2_s) or not math.isfinite(d_trans_m2_s) or not math.isfinite(u_m_s) or not math.isfinite(k_per_s) or not math.isfinite(source_c) or not math.isfinite(source_r_m):
+        raise ValueError("extent_m, diffusivities, u_m_s, k_per_s, source_c, and source_r_m must be finite")
+    if extent_m <= 0.0 or d_long_m2_s <= 0.0 or d_trans_m2_s <= 0.0:
+        raise ValueError("extent_m and diffusivities must be > 0")
+    if k_per_s < 0.0:
         raise ValueError("k_per_s must be >= 0")
-    if u_m_s < 0:
+    if u_m_s < 0.0:
         raise ValueError("u_m_s must be >= 0 (flow is +z)")
+    source_xz = tuple(float(x) for x in source_xz)
+    if len(source_xz) != 2 or not all(math.isfinite(x) for x in source_xz):
+        raise ValueError("source_xz must have exactly two finite values")
+    if source_r_m < 0.0:
+        raise ValueError(f"source_r_m must be >= 0, got {source_r_m}")
+    ambient_c = float(ambient_c)
+    source_c = float(source_c)
+    source_r_m = float(source_r_m)
+    source_xz = tuple(float(x) for x in source_xz)
+    if not (len(source_xz) == 2 and math.isfinite(source_xz[0]) and math.isfinite(source_xz[1])):
+        raise ValueError("source_xz must have exactly two finite values")
+    if not math.isfinite(source_r_m) or source_r_m < 0.0:
+        raise ValueError(f"source_r_m must be finite and >= 0, got {source_r_m}")
     for name, v in (("ambient_c", ambient_c), ("source_c", source_c)):
         if not math.isfinite(float(v)):
             raise ValueError(f"{name} must be finite")
@@ -69,15 +91,18 @@ def solve_steady(nx: int = 64, nz: int = 64, extent_m: float = 600.0,
     def idx(i: int, j: int) -> int:
         return j * nx + i
 
+    # Boundary conditions: north + sides fixed ambient; south zero-gradient.
     fixed: dict[int, float] = {}
     for j in range(nz):
         for i in range(nx):
             r = math.hypot(xs[i] - source_xz[0], zs[j] - source_xz[1])
             if r <= source_r_m:
                 fixed[idx(i, j)] = float(source_c)
+    # North edge (j == nz - 1): fixed ambient.
     for i in range(nx):
-        if idx(i, 0) not in fixed:
-            fixed[idx(i, 0)] = float(ambient_c)
+        if idx(i, nz - 1) not in fixed:
+            fixed[idx(i, nz - 1)] = float(ambient_c)
+    # South edge (j == 0): zero-gradient handled by the equation.
     for j in range(nz):
         for i in (0, nx - 1):
             if idx(i, j) not in fixed:
@@ -96,10 +121,16 @@ def solve_steady(nx: int = 64, nz: int = 64, extent_m: float = 600.0,
                 mat[row, row] = 1.0
                 rhs[row] = fixed[row]
                 continue
-            if j == nz - 1:
+            if j == 0:
+                # South edge (upstream for +z flow): zero-gradient (Neumann).
                 mat[row, row] = 1.0
-                mat[row, idx(i, j - 1)] = -1.0
+                mat[row, idx(i, j + 1)] = -1.0
                 rhs[row] = 0.0
+                continue
+            if j == nz - 1:
+                # North edge (downstream): fixed ambient.
+                mat[row, row] = 1.0
+                rhs[row] = float(ambient_c)
                 continue
             mat[row, row] = 2 * cx + 2 * cz + adv + k_per_s
             mat[row, idx(i - 1, j)] = -cx
@@ -109,13 +140,17 @@ def solve_steady(nx: int = 64, nz: int = 64, extent_m: float = 600.0,
             mat[row, idx(i, j + 1)] = -cz
             rhs[row] = k_per_s * ambient_c
     t = np.asarray(spsolve(mat.tocsr(), rhs)).reshape(nz, nx)
+    if not np.all(np.isfinite(t)):
+        raise ValueError("plume solve returned non-finite temperatures")
     field = [float(v) for v in t.ravel()]
 
     resid = _discrete_residual(t, nx, nz, dx, dz, u_m_s, d_trans_m2_s,
                                d_long_m2_s, k_per_s, ambient_c, fixed)
     return {"nx": nx, "nz": nz, "extent_m": float(extent_m),
             "dx_m": dx, "xs": xs, "zs": zs, "field": field,
-            "discrete_residual_c_s": resid, "status": STATUS}
+            "discrete_residual_c_s": resid, "status": STATUS,
+            "boundary_precedence": "source_cells_override_boundary",
+            "boundary_design": "south_neumann_upstream; north_fixed_ambient; sides_ambient"}
 
 
 def _discrete_residual(t: np.ndarray, nx: int, nz: int, dx: float,
@@ -137,33 +172,70 @@ def _discrete_residual(t: np.ndarray, nx: int, nz: int, dx: float,
 
 def centerline(field: list, nx: int, nz: int) -> list[float]:
     """South-running center column (x nearest 0)."""
+    if nx < 1 or nz < 1:
+        raise ValueError("nx and nz must be positive")
+    if len(field) != nx * nz:
+        raise ValueError(
+            f"field length {len(field)} != nx*nz={nx*nz}")
     cx = nx // 2
     return [float(field[j * nx + cx]) for j in range(nz)]
 
 
 def plume_metrics(sol: dict, ambient_c: float, u_m_s: float,
                   k_per_s: float, thresh_c: float = 1.0) -> dict:
-    """Footprint scales from a solved field. Lengths in meters.
-
-    Exchange scale is the exact advective-relaxation ratio u/k, not a
-    log-slope fit: the modeled decay over one domain is ~4%, so any
-    fitted e-fold amplifies grid noise (measured 3-12 km across
-    grids on correct code)."""
+    """Footprint scales from a solved field; lengths in meters.
+    Exchange scale is the advective-relaxation ratio u/k; the modeled decay over one domain is ~4%."""
     nx, nz, dx = sol["nx"], sol["nz"], sol["dx_m"]
     zs, t = sol["zs"], sol["field"]
     prof = centerline(t, nx, nz)
     anom = [v - ambient_c for v in prof]
     peak = max(anom)
-    above = [j for j, v in enumerate(anom) if v >= thresh_c]
-    foot_len = (zs[above[-1]] - zs[above[0]]) if above else 0.0
-    # Lateral half-width where the peak row falls to half peak.
+    if peak <= 0.0:
+        raise ValueError("source_c must exceed ambient_c for warm-plume metrics")
+    # Find contiguous threshold segments for footprint length.
+    segments = []
+    start_idx = None
+    for j, value in enumerate(anom):
+        if value >= thresh_c and start_idx is None:
+            start_idx = j
+        elif value < thresh_c and start_idx is not None:
+            segments.append((start_idx, j - 1))
+            start_idx = None
+    if start_idx is not None:
+        segments.append((start_idx, len(anom) - 1))
+    longest = max(((zs[b] - zs[a]) for a, b in segments), default=0.0)
+    foot_len = round(longest, 1)
+    # Lateral half-width where the peak row falls to half peak; interp at crossings decouples from cell alignment.
     mouth = int(np.argmax(anom))
     row = [t[mouth * nx + i] - ambient_c for i in range(nx)]
-    half = [i for i, v in enumerate(row) if v >= 0.5 * peak]
-    half_w = (half[-1] - half[0]) / 2 * dx if half else 0.0
+    threshold = 0.5 * peak
+    half = [i for i, v in enumerate(row) if v >= threshold]
+    if not half:
+        half_w = 0.0
+    else:
+        left_i, right_i = half[0], half[-1]
+        if left_i > 0 and row[left_i - 1] < threshold < row[left_i]:
+            frac = (threshold - row[left_i - 1]) / (row[left_i] - row[left_i - 1])
+            left_pos = (left_i - 1) + frac
+        else:
+            left_pos = float(left_i)
+        if right_i < nx - 1 and row[right_i + 1] < threshold < row[right_i]:
+            frac = (row[right_i] - threshold) / (row[right_i] - row[right_i + 1])
+            right_pos = right_i + frac
+        else:
+            right_pos = float(right_i)
+        half_w = (right_pos - left_pos) * dx / 2.0
+    if k_per_s == 0.0:
+        exchange_length = None
+    else:
+        exchange_length = u_m_s / k_per_s
     return {"peak_anomaly_c": round(peak, 3),
             "footprint_length_m": round(foot_len, 1),
-            "exchange_length_u_over_k_m": round(u_m_s / k_per_s, 1),
+            "exchange_length_u_over_k_m": (
+                round(exchange_length, 1)
+                if exchange_length is not None else None),
+            "exchange_length_status": (
+                "undefined_when_k_zero" if exchange_length is None else "defined"),
             "half_width_m": round(half_w, 1),
             "threshold_c": thresh_c, "status": STATUS}
 
@@ -175,8 +247,14 @@ EXCELSIOR_C = 93.0
 
 def mixing_rise_c(river_m3s: float, river_c: float) -> float:
     """Fully mixed rise from Excelsior discharge into river flow."""
-    q = EXCELSIOR_M3S
-    return (q * EXCELSIOR_C + river_m3s * river_c) / (q + river_m3s) - river_c
+    river_m3s = _finite("river_m3s", river_m3s)
+    river_c = _finite("river_c", river_c)
+    if river_m3s < 0.0:
+        raise ValueError("river_m3s must be >= 0")
+    total_q = EXCELSIOR_M3S + river_m3s
+    if total_q <= 0.0:
+        raise ValueError("total discharge must be > 0")
+    return (EXCELSIOR_M3S * EXCELSIOR_C + river_m3s * river_c) / total_q - river_c
 
 
 def run_experiment(nx: int = 128, nz: int = 128, extent_m: float = 600.0,
@@ -231,6 +309,8 @@ def run_experiment(nx: int = 128, nz: int = 128, extent_m: float = 600.0,
                                else "CONTRADICTED"),
             "ir_gradient_zones": "NOT TESTED (Burkhalter 1979 zone "
                                  "coordinates not digitized)",
+            "fully_mixed_bound_interpretation": (
+                "diagnostic upper-bound comparison; not a coupled heat-budget closure"),
         },
     }
 

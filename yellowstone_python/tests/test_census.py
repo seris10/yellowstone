@@ -28,7 +28,7 @@ def test_finds_isolated_crowns():
 
 
 def test_splits_touching_crowns_by_peaks():
-    # Two overlapping discs with distinct peaks count twice, not once.
+    # Two overlapping discs with distinct peaks count as two detections.
     img = _synthetic([(90, 100, 10), (112, 100, 10)])
     recs = detect(img)
     assert len(recs) == 2
@@ -57,8 +57,7 @@ def test_density_zones():
 
 
 def test_rim_artifacts_excluded():
-    # Grand Prismatic centre is mapped water: a detection there is a rim
-    # artifact, not a stem. Far-field records must survive.
+    # Grand Prismatic center is mapped water: a detection there is a rim artifact. Far-field records survive.
     recs = [{"x": -94.7, "z": -10.6}, {"x": -500.0, "z": 400.0}]
     kept, dropped = exclude_pool_rims(recs)
     assert dropped == 1

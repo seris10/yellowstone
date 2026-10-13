@@ -6,6 +6,8 @@ import hashlib
 import json
 import math
 import re
+import socket
+import sqlite3
 import threading
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -18,6 +20,11 @@ PKG_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_WORLD = default_world_root()
 DEFAULT_DERIVED = PKG_ROOT / "derived"
 CENSUS_FILE = DEFAULT_DERIVED / "census.json"
+# Per-request socket read/write timeout. Caps slow-client exposure.
+REQUEST_SOCKET_TIMEOUT_S = 30.0
+# Firehole site centroid used by the solar snapshot producer.
+SITE_LATITUDE_DEG = 44.459333
+SITE_LONGITUDE_DEG = -110.822272
 
 # Same zone definitions as canopy_census --stats, plus full-detail box.
 ZONES = {
@@ -42,20 +49,16 @@ PROPOSAL_LOG_LIMIT = 1000
 
 
 class DataError(RuntimeError):
-    """A data file on disk is missing or corrupt (server-side -> HTTP 500).
-
-    Raised for unreadable files and malformed records so handlers can
-    distinguish server data rot (500) from bad client input (400).
-    """
+    """A data file on disk is missing or corrupt (server-side -> HTTP 500)."""
 
 
 def _load_json(path: Path) -> dict | list:
     try:
-        return json.loads(Path(path).read_text())
+        return json.loads(Path(path).read_text(encoding="utf-8"))
     except FileNotFoundError as exc:
         raise DataError(f"{Path(path).name}: missing file ({exc})") from exc
-    except json.JSONDecodeError as exc:
-        raise DataError(f"{Path(path).name}: invalid JSON ({exc})") from exc
+    except (json.JSONDecodeError, UnicodeError) as exc:
+        raise DataError(f"{Path(path).name}: invalid JSON or encoding ({exc})") from exc
     except OSError as exc:
         raise DataError(f"{Path(path).name}: unreadable ({exc})") from exc
 
@@ -98,6 +101,63 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def _wind_direction_from_vector(vx: float, vz: float) -> float:
+    """Meteorological from-direction in [0, 360) given a +x east, +z south wind-to vector."""
+    deg = math.degrees(math.atan2(-float(vx), -float(vz)))
+    return deg % 360.0
+
+
+def _validate_placement_doc(doc, name: str) -> None:
+    """Shared schema check for placements.json and placement_overrides.json.
+    Raises DataError on any violation."""
+    if not isinstance(doc, dict):
+        raise DataError(f"{name}: top-level must be an object")
+    for key in ("trees", "add"):
+        if key not in doc:
+            continue
+        values = doc[key]
+        if not isinstance(values, list):
+            raise DataError(
+                f"{name}: {key!r} must be a list, got "
+                f"{type(values).__name__}")
+        for i, rec in enumerate(values):
+            if not isinstance(rec, dict):
+                raise DataError(
+                    f"{name} {key} #{i}: record must be an object, got "
+                    f"{type(rec).__name__}")
+    if "remove" in doc:
+        values = doc["remove"]
+        if not isinstance(values, list):
+            raise DataError(
+                f"{name}: 'remove' must be a list, got "
+                f"{type(values).__name__}")
+        for i, rec in enumerate(values):
+            if not isinstance(rec, str):
+                raise DataError(
+                    f"{name} remove #{i}: stable id must be a string, "
+                    f"got {type(rec).__name__}")
+    if "replace" in doc:
+        replace = doc["replace"]
+        if not isinstance(replace, (dict, list)):
+            raise DataError(
+                f"{name}: 'replace' must be an object or list, got "
+                f"{type(replace).__name__}")
+
+
+def _coerce_pos_xz(name: str, rec: dict) -> tuple[float, float]:
+    """Extract [x, y, z] from a placement record and return (x, z)."""
+    if "position" not in rec:
+        raise DataError(f"{name}: missing 'position'")
+    pos = rec["position"]
+    if not isinstance(pos, (list, tuple)) or len(pos) < 3:
+        raise DataError(f"{name}: 'position' must be [x, y, z]")
+    try:
+        return (_as_float(f"{name} x", pos[0]),
+                _as_float(f"{name} z", pos[2]))
+    except ValueError as exc:
+        raise DataError(str(exc)) from exc
+
+
 class Backend:
     """Cached file-backed state. All methods read-only (no writes)."""
 
@@ -108,21 +168,51 @@ class Backend:
         self.world = Path(world)
         self.derived = Path(derived)
         self._census = None
-        self._census_mtime = None
+        self._census_signature = None
+        self._census_lock = threading.Lock()
         self._store = Path(store) if store is not None else None
         self.hydrology = hydrology
+        self._propose_lock = threading.Lock()
+        self._terrain_cache = None
+        self._shell_cache = None
 
     def store_path(self) -> Path | None:
-        """Newest derived/analysis_*.sqlite, or None when no store exists.
-
-        Explicit constructor `store=` wins; otherwise the newest store
-        file is resolved live (stores are history: one file per build).
-        """
+        """Store whose meta.build_id matches the newest derived build.
+        Falls back to the newest sqlite by mtime when nothing matches."""
         if self._store is not None:
             return self._store if self._store.exists() else None
+        newest_build_id = None
+        newest_mtime = -1.0
+        for checks in self.derived.glob("*/CHECKS.json"):
+            try:
+                mtime = checks.stat().st_mtime
+            except FileNotFoundError:
+                continue
+            if mtime > newest_mtime:
+                newest_mtime = mtime
+                newest_build_id = checks.parent.name
+        if newest_build_id is not None:
+            for cand in self.derived.glob("analysis_*.sqlite"):
+                try:
+                    con = sqlite3.connect(
+                        f"file:{cand}?mode=ro", uri=True)
+                except (sqlite3.Error, OSError):
+                    continue
+                try:
+                    row = con.execute(
+                        "SELECT build_id FROM meta LIMIT 1").fetchone()
+                except sqlite3.Error:
+                    row = None
+                finally:
+                    con.close()
+                if row is not None and row[0] == newest_build_id:
+                    return cand
         best, best_mtime = None, -1.0
         for cand in self.derived.glob("analysis_*.sqlite"):
-            mtime = cand.stat().st_mtime
+            try:
+                mtime = cand.stat().st_mtime
+            except FileNotFoundError:
+                continue
             if mtime > best_mtime:
                 best_mtime = mtime
                 best = cand
@@ -132,14 +222,11 @@ class Backend:
                     limit: int = 100, offset: int = 0,
                     **filters) -> dict:
         """Read-only bounded query over the analysis store.
-
-        Raises FileNotFoundError (HTTP 503) when no store file exists;
-        ValueError (HTTP 400) on any validation rejection.
-        """
-        from .analysis_store import query as _store_query
+        NoStoreError (HTTP 503) when no store exists; ValueError (HTTP 400) on validation."""
+        from .analysis_store import NoStoreError, query as _store_query
         path = self.store_path()
         if path is None:
-            raise FileNotFoundError(
+            raise NoStoreError(
                 "no derived/analysis_*.sqlite store; build one with "
                 "tools/build_store.py --build derived/<id>")
         out = _store_query(path, table, columns=columns,
@@ -148,11 +235,12 @@ class Backend:
         return out
 
     def density(self, x: float, z: float, r: float) -> dict:
-        """Circle crown count, store-backed when a store file exists. Store path and JSON path share one answer contract."""
+        """Circle crown count by canopy center.
+        Store-backed when a store exists; crown-overlap counts live under census_crown_overlap_count."""
         path = self.store_path()
         if path is not None:
-            from .analysis_store import census_circle_count
-            out = census_circle_count(path, x, z, r)
+            from .analysis_store import census_center_count
+            out = census_center_count(path, x, z, r)
             out["source"] = path.name
             return out
         out = self.circle_stats(self.census_points(), x, z, r)
@@ -163,17 +251,19 @@ class Backend:
     def census(self) -> dict:
         path = self.derived / "census.json"
         try:
-            mtime = path.stat().st_mtime
+            stat = path.stat()
+            signature = (stat.st_mtime_ns, stat.st_size, stat.st_ino)
         except OSError as exc:
             raise DataError(f"census.json: {exc}") from exc
-        if self._census is None or mtime != self._census_mtime:
-            doc = _load_json(path)
-            if not isinstance(doc, dict):
-                raise DataError(
-                    f"census.json: must be a JSON object, got "
-                    f"{type(doc).__name__}")
-            self._census = doc
-            self._census_mtime = mtime
+        with self._census_lock:
+            if self._census is None or getattr(self, "_census_signature", None) != signature:
+                doc = _load_json(path)
+                if not isinstance(doc, dict):
+                    raise DataError(
+                        f"census.json: must be a JSON object, got "
+                        f"{type(doc).__name__}")
+                self._census = doc
+                self._census_signature = signature
         return self._census
 
     def placements(self) -> dict:
@@ -186,51 +276,144 @@ class Backend:
         return _load_json(self.world / "data" / "ecosystem.json")
 
     def weather(self, hour: float | None = None) -> dict:
-        """Live weather state for the Godot runtime.
-
-        Reads the frozen met bundle (yellowstone_python/derived/met.json)
-        when present, else falls back to authored defaults. Returns the
-        values the renderer consumes: air, humidity, cloud, wind vector,
-        plus the provenance of each. hour is game clock hour (0-24); the
-        default is the published clock_hour.
-        """
+        """Return a schema_version 2 nested weather snapshot for the Godot HTTP consumer.
+        Schema 2 adds valid_time_unix, simulation_time_unix, and an optional terrain block."""
         from .microclimate import load_weather_bundle, bundle_weather
+        now_unix = int(datetime.now(timezone.utc).timestamp())
+        try:
+            from .microclimate import solar_snapshot
+            solar_block = solar_snapshot(
+                now_unix, latitude=SITE_LATITUDE_DEG,
+                longitude=SITE_LONGITUDE_DEG)
+        except (ImportError, ValueError):
+            solar_block = {"source": "unavailable",
+                           "latitude_deg": SITE_LATITUDE_DEG,
+                           "longitude_deg": SITE_LONGITUDE_DEG}
         bundle = load_weather_bundle(str(self.derived / "met.json"))
         if bundle is None:
-            return {"source": "authored_defaults",
+            weather_block = {
+                "air_temperature_c": 7.0,
+                "relative_humidity": 0.45,
+                "wind_speed_mps": math.hypot(1.8, 0.6),
+                "wind_direction_deg": _wind_direction_from_vector(1.8, 0.6),
+                "cloud_fraction": 0.16,
+                "precipitation_rate_mm_h": 0.0,
+                "snow_fraction": 0.0,
+                "visibility_m": 24000.0,
+                "dewpoint_c": -2.5,
+                "cloud_base_agl_m": 1050.0,
+                "cloud_thickness_m": 600.0,
+                "ground_wetness_fraction": None,
+            }
+            return {
+                "schema_version": 2,
+                "generated_at_unix": now_unix,
+                "valid_time_unix": now_unix,
+                "simulation_time_unix": now_unix,
+                "solar": solar_block,
+                "source": {
+                    "endpoint": "authored_defaults",
                     "provenance": "no met bundle; authored scenario",
-                    "air_c": 7.0, "humidity": 0.45, "cloud": 0.16,
-                    "wind_xz_mps": [1.8, 0.6], "gust_mps": 0.45,
-                    "bundle": None}
+                    "measurement_status": "authored_not_measured",
+                    "bundle": None,
+                    "hydrology_status": "not_configured",
+                    "precipitation_status": "unavailable",
+                    "hour_requested": (float(hour) if hour is not None
+                                       else None),
+                },
+                "weather": weather_block,
+                "air_c": weather_block["air_temperature_c"],
+                "humidity": weather_block["relative_humidity"],
+                "cloud": weather_block["cloud_fraction"],
+                "wind_xz_mps": [1.8, 0.6],
+                "gust_mps": 0.45,
+                "precipitation_rate_mm_h": None,
+                "precipitation_status": "unavailable",
+                "hour_requested": (float(hour) if hour is not None
+                                   else None),
+                "bundle": None,
+                "hydrology_sim_state": {"status": "not_configured",
+                                         "reason": "no meteorological bundle"},
+            }
         if hour is None:
             eco = self.ecosystem()
             hour = float(eco.get("clock_hour", 16.2))
-        w = bundle_weather(bundle, hour=float(hour))
-        mb = w.get("met_bundle", {})
-        # Precipitation: only explicit measurement, not cloud inference.
-        precipitation_rate_mm_h = None
-        precipitation_status = "unavailable"
-        hourly = w.get("hourly", {}) if isinstance(w, dict) else {}
-        # Try to extract explicit precipitation from bundle weather fields.
-        precip_raw = None
-        if isinstance(bundle, dict):
-            bundle_hourly = bundle.get("hourly", {})
-            if isinstance(bundle_hourly, dict):
-                precip_raw = bundle_hourly.get("precipitation_mm_h")
-            elif isinstance(bundle_hourly, list) and len(bundle_hourly) > 0:
-                # Fallback: try index-based extraction if structured differently.
-                pass
-        if precip_raw is not None:
+        epoch_s = None
+        hourly = (bundle.get("hourly") if isinstance(bundle, dict)
+                  else None)
+        if (isinstance(hourly, list) and hourly
+                and isinstance(hourly[0], (list, tuple)) and hourly[0]):
             try:
-                precipitation_rate_mm_h = float(precip_raw)
-                if math.isfinite(precipitation_rate_mm_h) and precipitation_rate_mm_h >= 0:
-                    precipitation_status = "measured_bundle"
-                else:
-                    precipitation_rate_mm_h = None
-                    precipitation_status = "invalid_bundle"
+                origin_epoch = float(hourly[0][0])
+                if math.isfinite(origin_epoch):
+                    epoch_s = origin_epoch + float(hour) * 3600.0
             except (TypeError, ValueError):
-                precipitation_rate_mm_h = None
-                precipitation_status = "unavailable"
+                epoch_s = None
+        elif isinstance(hourly, dict):
+            times = hourly.get("time")
+            if isinstance(times, list) and times and isinstance(times[0], str):
+                try:
+                    origin_dt = datetime.fromisoformat(
+                        times[0].replace("Z", "+00:00"))
+                    if origin_dt.tzinfo is None:
+                        origin_dt = origin_dt.replace(tzinfo=timezone.utc)
+                    epoch_s = (
+                        origin_dt.astimezone(timezone.utc).timestamp()
+                        + float(hour) * 3600.0)
+                except ValueError:
+                    epoch_s = None
+        if epoch_s is not None:
+            w = bundle_weather(bundle, epoch_s_utc=epoch_s)
+        else:
+            w = bundle_weather(bundle, hour=float(hour))
+        mb = w.get("met_bundle", {})
+        # Try to extract explicit precipitation from bundle weather fields.
+        def _precipitation_at_hour(bundle, hour: float) -> float | None:
+            if not isinstance(bundle, dict):
+                return None
+            hourly = bundle.get("hourly", {})
+            top_values = bundle.get("precipitation_mm_h")
+            if isinstance(top_values, list) and top_values:
+                index = (int(float(hour) if hour is not None else 0.0)
+                         % len(top_values))
+                raw = top_values[index]
+                if raw is None:
+                    return None
+                try:
+                    value = float(raw)
+                except (TypeError, ValueError):
+                    return None
+                if math.isfinite(value) and value >= 0:
+                    return value
+                return None
+            if isinstance(hourly, dict):
+                values = hourly.get("precipitation_mm_h")
+                if values is not None:
+                    if not isinstance(values, list) or not values:
+                        return None
+                    index = (int(float(hour) if hour is not None else 0.0)
+                             % len(values))
+                    value = float(values[index])
+                    if math.isfinite(value) and value >= 0:
+                        return value
+                    return None
+            elif isinstance(hourly, list) and hourly:
+                # Hourly rows [epoch, air, rh, wind, sw, cloud, precip]; precipitation at index 6.
+                index = (int(float(hour) if hour is not None else 0.0)
+                         % len(hourly))
+                row = hourly[index]
+                if isinstance(row, (list, tuple)) and len(row) >= 7:
+                    value = float(row[6])
+                    if math.isfinite(value) and value >= 0:
+                        return value
+                return None
+            return None
+
+        precipitation_rate_mm_h = _precipitation_at_hour(bundle, float(hour) if hour is not None else None)
+        precipitation_status = (
+            "measured_bundle" if precipitation_rate_mm_h is not None
+            else "unavailable"
+        )
         # Explicit provenance: no cloud-to-rain substitution.
         hydrology_link_ref = (
             "optional hydrology provider; no absolute filesystem path; "
@@ -262,16 +445,41 @@ class Backend:
             hydrology_sim_state = {"status": "not_configured"}
             hydrology_link_ref += " (no provider configured)"
         snow_fraction = 0.0
+        snow_partition_source = "unavailable"
         if "night_air_c" in w and "humidity" in w:
-            # Simple wet-bulb approximation: Tw = T * atan(0.151977 * sqrt(rh))
-            # ... but using a calibrated operational proxy from the doc.
             t_c = float(w.get("night_air_c", 7.0))
-            rh = float(w.get("humidity", 0.45))
-            # Wet-bulb proxy: below ~0 C with humidity > 0.7 favors snow.
-            # The scientific recommendation is wet-bulb-based, not fixed threshold.
-            # Using the calibrated proxy from weather-simulation.md.
-            wet_bulb_proxy = t_c - 2.5 * (1.0 - rh)  # rough approximation
-            snow_fraction = max(0.0, min(1.0, (1.0 - wet_bulb_proxy / 2.0)))
+            rh_fraction = float(w.get("humidity", 0.45))
+            # Wet-bulb (metpy; Stull 2011 fallback valid for T in [-20, 50] C, RH in [5, 99] percent).
+            rh_percent = max(0.0, min(100.0, rh_fraction * 100.0))
+            t_w = None
+            try:
+                from .microclimate import metpy_wet_bulb_temperature
+                t_w = metpy_wet_bulb_temperature(t_c, rh_fraction)
+                snow_partition_source = "metpy_wet_bulb"
+            except (ImportError, ValueError):
+                t_w = None
+            if t_w is None:
+                if (-20.0 <= t_c <= 50.0) and (5.0 <= rh_percent <= 99.0):
+                    t_w = (
+                        t_c * math.atan(0.151977
+                                        * math.sqrt(rh_percent + 8.313659))
+                        + math.atan(t_c + rh_percent)
+                        - math.atan(rh_percent - 1.676331)
+                        + 0.00391838 * (rh_percent ** 1.5)
+                        * math.atan(0.023101 * rh_percent)
+                        - 4.686035)
+                    snow_partition_source = "stull_2011_wet_bulb"
+                else:
+                    snow_partition_source = (
+                        "unavailable_outside_stull_2011_validity_range")
+            if t_w is not None:
+                # Partition ramp: 100 percent snow at T_w <= -1 C, 0 at T_w >= 3 C, linear between.
+                if t_w <= -1.0:
+                    snow_fraction = 1.0
+                elif t_w >= 3.0:
+                    snow_fraction = 0.0
+                else:
+                    snow_fraction = (3.0 - t_w) / 4.0
 
         w_extra = {
             "precipitation_rate_mm_h": (
@@ -279,30 +487,83 @@ class Backend:
                 if precipitation_rate_mm_h is not None else None),
             "precipitation_status": precipitation_status,
             "snow_fraction": round(snow_fraction, 3),
+            "snow_partition_source": snow_partition_source,
             "ground_wetness_fraction": (
                 round(float(ground_wetness_fraction), 4)
                 if ground_wetness_fraction is not None else None),
             "hydrology_ref": hydrology_link_ref,
             "hydrology_sim_state": hydrology_sim_state,
-            "snow_partition_ref": "weather-simulation.md (wet-bulb, not fixed 0 C)",
+            "snow_partition_ref": "Stull (2011) wet-bulb; validity "
+                                  "T in [-20, 50] C, RH in [5, 99] percent",
         }
-        return {"source": "open-meteo_hourly_bundle",
-                "provenance": "measured_remote_not_calibrated; snow_partition_wet_bulb_based",
-                "air_c": w["night_air_c"], "humidity": w["humidity"],
-                "cloud": w["cloud"], "wind_xz_mps": w["wind_xz_mps"],
-                "gust_mps": w["gust_mps"],
-                "snow_fraction": w_extra["snow_fraction"],
-                "precipitation_rate_mm_h": w_extra["precipitation_rate_mm_h"],
-                "precipitation_status": w_extra["precipitation_status"],
-                "ground_wetness_fraction": w_extra["ground_wetness_fraction"],
-                "bundle": {"schema": mb.get("schema"),
-                           "fetched_at_utc": mb.get("fetched_at_utc"),
-                           "elevation_m": mb.get("elevation_m"),
-                           "row_index_utc": mb.get("row_index_utc")},
-                "hour_requested": float(hour),
-                "hydrology_link": w_extra["hydrology_ref"],
-                "snow_partition_link": w_extra["snow_partition_ref"],
-                "hydrology_sim_state": w_extra.get("hydrology_sim_state")}
+        wind_vector = w.get("wind_xz_mps", [1.8, 0.6])
+        wind_speed_mps = math.hypot(float(wind_vector[0]),
+                                    float(wind_vector[1]))
+        wind_direction_deg = _wind_direction_from_vector(
+            float(wind_vector[0]), float(wind_vector[1]))
+        air_c = float(w["night_air_c"])
+        rh = float(w["humidity"])
+        dewpoint_c = air_c - 20.0 * (1.0 - rh)
+        weather_block = {
+            "air_temperature_c": round(air_c, 2),
+            "relative_humidity": round(rh, 3),
+            "wind_speed_mps": round(wind_speed_mps, 3),
+            "wind_direction_deg": round(wind_direction_deg, 1),
+            "cloud_fraction": round(float(w["cloud"]), 3),
+            "precipitation_rate_mm_h": (w_extra["precipitation_rate_mm_h"]
+                                        if w_extra["precipitation_rate_mm_h"]
+                                        is not None else 0.0),
+            "snow_fraction": w_extra["snow_fraction"],
+            "snow_partition_source": w_extra["snow_partition_source"],
+            "visibility_m": 24000.0,
+            "dewpoint_c": round(dewpoint_c, 2),
+            "cloud_base_agl_m": 1050.0,
+            "cloud_thickness_m": 600.0,
+            "ground_wetness_fraction": w_extra["ground_wetness_fraction"],
+        }
+        source_block = {
+            "endpoint": "open-meteo_hourly_bundle",
+            "provenance": ("measured_remote_not_calibrated; "
+                           "snow_partition_stull_2011_wet_bulb"),
+            "measurement_status": "measured_remote_not_calibrated",
+            "bundle": {"schema": mb.get("schema"),
+                       "fetched_at_utc": mb.get("fetched_at_utc"),
+                       "elevation_m": mb.get("elevation_m"),
+                       "row_index_utc": mb.get("row_index_utc")},
+            "precipitation_status": w_extra["precipitation_status"],
+            "hydrology_status": (hydrology_sim_state.get("status")
+                                 if isinstance(hydrology_sim_state, dict)
+                                 and "status" in hydrology_sim_state
+                                 else "ok" if ground_wetness_fraction
+                                 is not None else "unavailable"),
+            "hydrology_link": w_extra["hydrology_ref"],
+            "snow_partition_link": w_extra["snow_partition_ref"],
+            "hour_requested": float(hour),
+        }
+        return {
+            "schema_version": 2,
+            "generated_at_unix": now_unix,
+            "valid_time_unix": now_unix,
+            "simulation_time_unix": now_unix,
+            "solar": solar_block,
+            "source": source_block,
+            "weather": weather_block,
+            "air_c": weather_block["air_temperature_c"],
+            "humidity": weather_block["relative_humidity"],
+            "cloud": weather_block["cloud_fraction"],
+            "wind_xz_mps": wind_vector,
+            "gust_mps": w["gust_mps"],
+            "snow_fraction": w_extra["snow_fraction"],
+            "snow_partition_source": w_extra["snow_partition_source"],
+            "precipitation_rate_mm_h": w_extra["precipitation_rate_mm_h"],
+            "precipitation_status": w_extra["precipitation_status"],
+            "ground_wetness_fraction": w_extra["ground_wetness_fraction"],
+            "bundle": source_block["bundle"],
+            "hour_requested": float(hour),
+            "hydrology_link": w_extra["hydrology_ref"],
+            "snow_partition_link": w_extra["snow_partition_ref"],
+            "hydrology_sim_state": w_extra.get("hydrology_sim_state"),
+        }
 
     # ---- tree math ----
     @staticmethod
@@ -343,62 +604,24 @@ class Backend:
                 raise DataError(
                     f"census.json tree #{i}: missing key {exc}") from exc
             except ValueError as exc:
-                # Server-side data rot, not client input -> 500, not 400.
+                # Server-side data rot: HTTP 500.
                 raise DataError(str(exc)) from exc
             out.append((x, z))
         return out
 
     def placed_points(self) -> list:
         place = self.placements()
-        baked = place.get("trees")
-        if not isinstance(baked, list):
-            raise DataError(
-                "placements.json: 'trees' must be a list, got "
-                f"{type(baked).__name__}")
+        _validate_placement_doc(place, "placements.json")
         pts = []
-        for i, t in enumerate(baked):
-            if not isinstance(t, dict):
-                raise DataError(
-                    f"placements.json tree #{i}: record must be an object")
-            try:
-                pos = t["position"]
-            except KeyError as exc:
-                raise DataError(
-                    f"placements.json tree #{i}: missing 'position'") from exc
-            if not isinstance(pos, (list, tuple)) or len(pos) < 3:
-                raise DataError(
-                    f"placements.json tree #{i}: 'position' must be [x,y,z]")
-            try:
-                pts.append((_as_float(f"tree #{i} x", pos[0]),
-                            _as_float(f"tree #{i} z", pos[2])))
-            except ValueError as exc:
-                raise DataError(str(exc)) from exc
+        for i, t in enumerate(place.get("trees", [])):
+            pts.append(_coerce_pos_xz(f"placements.json tree #{i}", t))
         ov = self.overrides()
-        staged = ov.get("add")
-        if not isinstance(staged, list):
-            raise DataError(
-                "placement_overrides.json: 'add' must be a list, got "
-                f"{type(staged).__name__}")
-        for i, r in enumerate(staged):
-            if not isinstance(r, dict):
-                raise DataError(
-                    f"placement_overrides add #{i}: record must be an object")
+        _validate_placement_doc(ov, "placement_overrides.json")
+        for i, r in enumerate(ov.get("add", [])):
             if r.get("kind") != "pine":
                 continue
-            try:
-                pos = r["position"]
-            except KeyError as exc:
-                raise DataError(
-                    f"placement_overrides add #{i}: pine record missing "
-                    f"'position'") from exc
-            if not isinstance(pos, (list, tuple)) or len(pos) < 3:
-                raise DataError(
-                    f"placement_overrides add #{i}: 'position' must be [x,y,z]")
-            try:
-                pts.append((_as_float(f"add #{i} x", pos[0]),
-                            _as_float(f"add #{i} z", pos[2])))
-            except ValueError as exc:
-                raise DataError(str(exc)) from exc
+            pts.append(_coerce_pos_xz(
+                f"placement_overrides add #{i}", r))
         return pts
 
     def zones(self) -> dict:
@@ -424,10 +647,12 @@ class Backend:
 
     def placements_summary(self) -> dict:
         from collections import Counter
+        place = self.placements()
+        _validate_placement_doc(place, "placements.json")
+        ov = self.overrides()
+        _validate_placement_doc(ov, "placement_overrides.json")
+        staged_add = ov.get("add", [])
         try:
-            place = self.placements()
-            ov = self.overrides()
-            staged_add = ov.get("add", [])
             return {
                 "baked_trees": len(place.get("trees", [])),
                 "baked_other": {k: len(v) for k, v in place.items()
@@ -464,8 +689,17 @@ class Backend:
                 for p in eco.get("patches", [])]
         except (KeyError, IndexError, TypeError, ValueError) as exc:
             raise DataError(f"ecosystem.json patches: {exc}") from exc
+        wildlife = eco.get("wildlife", [])
+        if not isinstance(wildlife, list):
+            raise DataError(
+                "ecosystem.json wildlife: must be a list, got "
+                f"{type(wildlife).__name__}")
+        for i, w in enumerate(wildlife):
+            if not isinstance(w, dict):
+                raise DataError(
+                    f"ecosystem.json wildlife #{i}: record must be an "
+                    f"object, got {type(w).__name__}")
         try:
-            wildlife = eco.get("wildlife", [])
             by_kind = dict(Counter(w.get("kind") for w in wildlife))
         except (TypeError, AttributeError) as exc:
             raise DataError(f"ecosystem.json wildlife: {exc}") from exc
@@ -480,11 +714,15 @@ class Backend:
         }
 
     def latest_build(self) -> dict:
-        best, best_mtime = None, -1.0
+        best, best_sig = None, None
         for checks in self.derived.glob("*/CHECKS.json"):
-            mtime = checks.stat().st_mtime
-            if mtime > best_mtime:
-                best_mtime = mtime
+            try:
+                stat = checks.stat()
+                sig = (stat.st_mtime_ns, stat.st_size, stat.st_ino)
+            except FileNotFoundError:
+                continue
+            if best_sig is None or sig > best_sig:
+                best_sig = sig
                 best = checks
         if best is None:
             return {"build": None, "note": "no derived/*/CHECKS.json yet"}
@@ -517,8 +755,7 @@ class Backend:
             "generated_utc": datetime.now(timezone.utc).isoformat(),
             "sources": sources,
         }
-        # Fault-isolated sections: one corrupt file degrades its section
-        # instead of failing the whole bundle.
+        # Fault-isolated sections: one corrupt file degrades its own section.
         try:
             census = self.census()
             out["census"] = {
@@ -554,11 +791,12 @@ class Backend:
         suitability_threshold = _as_float(
             "suitability_threshold", suitability_threshold)
         canopy = _as_float("canopy", canopy)
-        from .pool_crust import build_all as build_shells
-        from .pool_crust import in_apron
-        from .review_proposals import review
-        from .vegetation import GUILDS, load_terrain, moisture_at, terrain_fns
-        from .vegetation import propose_plantings_reviewed
+        with self._propose_lock:
+            from .pool_crust import build_all as build_shells
+            from .pool_crust import in_apron
+            from .review_proposals import review
+            from .vegetation import GUILDS, load_terrain, moisture_at, terrain_fns
+            from .vegetation import propose_plantings_reviewed
 
         if guild not in GUILDS:
             raise ValueError(f"unknown guild {guild!r}; have {list(GUILDS)}")
@@ -585,17 +823,24 @@ class Backend:
             raise ValueError("suitability_threshold must be in [0, 1]")
         if not (0.0 <= canopy <= 1.0):
             raise ValueError("canopy must be in [0, 1]")
-        try:
-            world = _load_json(self.world / "data" / "world.json")
-            pools = world["pools"]
-        except KeyError as exc:
-            raise DataError(f"world.json: missing 'pools' ({exc})") from exc
-        shells = build_shells(pools)
-        try:
-            sample, slope = terrain_fns(load_terrain(
-                str(self.world / "data" / "terrain.f32")))
-        except (ValueError, OSError) as exc:
-            raise DataError(f"terrain.f32: unreadable ({exc})") from exc
+        with self._propose_lock:
+            if self._shell_cache is None:
+                try:
+                    world = _load_json(self.world / "data" / "world.json")
+                    pools = world["pools"]
+                except KeyError as exc:
+                    raise DataError(
+                        f"world.json: missing 'pools' ({exc})") from exc
+                self._shell_cache = build_shells(pools)
+            shells = self._shell_cache
+            if self._terrain_cache is None:
+                try:
+                    self._terrain_cache = terrain_fns(load_terrain(
+                        str(self.world / "data" / "terrain.f32")))
+                except (ValueError, OSError) as exc:
+                    raise DataError(
+                        f"terrain.f32: unreadable ({exc})") from exc
+            sample, slope = self._terrain_cache
         frozen = self.world / "data" / "ecosystem.json.pre-python"
         try:
             eco_doc = _load_json(frozen if frozen.exists()
@@ -627,12 +872,22 @@ class Backend:
 class _Handler(BaseHTTPRequestHandler):
     backend: Backend = None  # set by serve()
 
+    def setup(self) -> None:
+        # Per-connection socket timeout bounds slow-client exposure.
+        BaseHTTPRequestHandler.setup(self)
+        try:
+            self.request.settimeout(REQUEST_SOCKET_TIMEOUT_S)
+        except (OSError, socket.error):
+            pass
+
     def _send(self, obj: dict, status: int = 200) -> None:
         body = json.dumps(obj, indent=1).encode()
         try:
             self.send_response(status)
             self.send_header("Content-Type", "application/json")
-            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Origin", "http://localhost:3000")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
@@ -644,6 +899,7 @@ class _Handler(BaseHTTPRequestHandler):
                 parse_qs(urlparse(self.path).query).items()}
 
     def do_GET(self) -> None:  # noqa: N802
+        from .analysis_store import NoStoreError
         try:
             route = urlparse(self.path).path
             b = self.backend
@@ -693,23 +949,36 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._send(b.latest_build())
             if route == "/api/weather":
                 p = self._params()
-                hour = float(p["hour"]) if "hour" in p else None
+                if "hour" in p:
+                    hour = float(p["hour"])
+                    if not (0.0 <= hour < 24.0):
+                        return self._send(
+                            {"error": f"hour must be in [0, 24), got {hour}"}, 400)
+                else:
+                    hour = None
                 return self._send(b.weather(hour))
             return self._send({"error": f"unknown route {route}"}, 404)
-        except FileNotFoundError as exc:
-            # /api/query only: llm_backend still serves everything else
-            # when no store file exists.
+        except NoStoreError as exc:
+            # /api/query only: 503 for a missing store.
             return self._send({"error": f"no store: {exc}"}, 503)
         except DataError as exc:
             return self._send({"error": f"data: {exc}"}, 500)
         except (KeyError, ValueError, TypeError,
                 OverflowError, ZeroDivisionError) as exc:
             return self._send({"error": str(exc)}, 400)
-        except Exception as exc:  # never leak a traceback to clients
-            return self._send({"error": f"internal: {exc}"}, 500)
+        except Exception as exc:
+            logger = __import__("logging").getLogger(__name__)
+            logger.exception("backend failure")
+            return self._send({"error": "internal server error"}, 500)
 
     def do_POST(self) -> None:  # noqa: N802
         try:
+            content_type = self.headers.get("Content-Type", "")
+            # Media type must be application/json; charset parameter allowed.
+            media_type = content_type.split(";", 1)[0].strip().lower()
+            if media_type != "application/json":
+                return self._send(
+                    {"error": "Content-Type must be application/json"}, 400)
             if urlparse(self.path).path != "/api/propose":
                 return self._send({"error": "unknown route"}, 404)
             try:
@@ -765,7 +1034,16 @@ class _Handler(BaseHTTPRequestHandler):
                 OverflowError, ZeroDivisionError) as exc:
             return self._send({"error": str(exc)}, 400)
         except Exception as exc:
-            return self._send({"error": f"internal: {exc}"}, 500)
+            logger = __import__("logging").getLogger(__name__)
+            logger.exception("backend failure")
+            return self._send({"error": "internal server error"}, 500)
+
+    def do_OPTIONS(self) -> None:  # noqa: N802
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "http://localhost:3000")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
 
     def log_message(self, fmt: str, *args) -> None:
         pass  # quiet; use --serve logs from the caller if needed
@@ -789,6 +1067,7 @@ def serve(port: int = 8765, world: Path = DEFAULT_WORLD,
             terrain=_provider_terrain(world), enabled=True)
     _Handler.backend = Backend(world, derived, hydrology=provider)
     server = ThreadingHTTPServer(("127.0.0.1", port), _Handler)
+    server.timeout = 30.0
     print(f"llm_backend serving 127.0.0.1:{port} (Ctrl-C to stop)")
     try:
         server.serve_forever()

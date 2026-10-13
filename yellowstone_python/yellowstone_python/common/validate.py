@@ -1,18 +1,27 @@
-"""M00 validate: NoData/NaN guards, topology, conservation, provenance checks."""
+"""M00 validate: NaN guards, topology, conservation, provenance."""
 from __future__ import annotations
 
 import math
+import warnings
+
+_DEPRECATED_HEAT_KEYS = ("heat_budget_error", "residual")
 
 
-def assert_finite(name: str, value: float) -> float:
-    if value is None or (isinstance(value, float) and
-                         (math.isnan(value) or math.isinf(value))):
-        raise ValueError(f"{name} is missing/non-finite (null, NaN, inf forbidden)")
-    return value
+def assert_finite(name, value):
+    """Return float(value); reject None, non-numeric, NaN, inf."""
+    if value is None:
+        raise ValueError(f"{name} is missing")
+    try:
+        result = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{name} is not numeric: {value!r}") from exc
+    if not math.isfinite(result):
+        raise ValueError(f"{name} is not finite: {value!r}")
+    return result
 
 
 def check_reach_chain(reaches: list) -> list[str]:
-    """Must be an upstream-first serial chain (ecosystem.gd supports one chain)."""
+    """Serial chain upstream-first; ecosystem.gd supports a single chain."""
     errors = []
     seen = set()
     for i, r in enumerate(reaches):
@@ -32,14 +41,38 @@ def check_reach_chain(reaches: list) -> list[str]:
     return errors
 
 
-def check_heat_ledger(ledger: dict, tol: float = 1e-6) -> list[str]:
-    resid = ledger.get("residual", ledger.get("heat_budget_error"))
-    if resid is None or abs(resid) > tol:
-        return [f"heat residual {resid} exceeds tol {tol}"]
+def check_heat_ledger(ledger: dict, heat_tol_j: float = 1e-6,
+                      water_tol_m3: float = 1e-6, *,
+                      tol: float | None = None) -> list[str]:
+    """Return failures for the ledger; canonical heat key is heat_budget_error_j."""
+    if tol is not None:
+        heat_tol_j = water_tol_m3 = tol
+    failures: list[str] = []
+    heat_val = ledger.get("heat_budget_error_j")
+    legacy_present = [k for k in _DEPRECATED_HEAT_KEYS if k in ledger]
+    if heat_val is None and not legacy_present:
+        failures.append("ledger missing heat_budget_error_j")
+        return failures
+    if heat_val is None:
+        heat_val = ledger[legacy_present[0]]
+        warnings.warn(
+            f"ledger uses deprecated heat key {legacy_present[0]!r}; "
+            "rename to heat_budget_error_j",
+            DeprecationWarning, stacklevel=2)
+    for key in legacy_present:
+        legacy_val = ledger[key]
+        if heat_val is not None and legacy_val is not None:
+            if abs(float(legacy_val) - float(heat_val)) > heat_tol_j:
+                failures.append(
+                    f"ledger carries {key}={legacy_val} and "
+                    f"heat_budget_error_j={heat_val}; values disagree")
+    if heat_val is None or abs(float(heat_val)) > heat_tol_j:
+        failures.append(
+            f"heat residual {heat_val} exceeds tol {heat_tol_j}")
     w = ledger.get("water_budget_error_m3", 0.0) or 0.0
-    if abs(w) > tol:
-        return [f"water residual {w} exceeds tol {tol}"]
-    return []
+    if abs(float(w)) > water_tol_m3:
+        failures.append(f"water residual {w} exceeds tol {water_tol_m3}")
+    return failures
 
 
 def check_provenance(doc: dict) -> list[str]:

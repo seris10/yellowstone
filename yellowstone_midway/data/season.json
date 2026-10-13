@@ -1,22 +1,31 @@
 {
-  "code_rev": "yellowstone_python-0.1.0",
+  "as_of_local_date": "2026-10-13",
+  "clock_hour": 16.2,
+  "clock_source": "config",
+  "code_rev": "858e4972204ee2a80469f9f4ade22d219fdcef8b",
   "contract_version": "0.1.0",
+  "date_source": "system_clock",
   "ledger": {
     "accum_mm": 0.0,
     "days": 30,
-    "drainage_mm": 34.08,
-    "et_mm": 86.76,
-    "final_mm": 251.88,
+    "drainage_mm": 54.14,
+    "et_mm": 46.51,
+    "final_mm": 252.0,
+    "forcing_source": "air_c_by_day",
     "initial_mm": 226.8,
     "melt_mm": 0.0,
-    "note": "degree-day approximation; thermal ground carries a melt flux, not an absolute bare rule",
+    "note": "degree-day approximation with thermal ground as an added melt flux",
     "rain_mm": 180.0,
-    "runoff_mm": 34.08,
+    "run_mode": "illustrative",
+    "runoff_mm": 54.14,
     "snow_residual_mm": 0.0,
-    "soil_residual_mm": -0.002122,
-    "storage_residual_mm": -0.002122,
+    "soil_residual_mm": 0.0,
+    "storage_residual_mm": 0.0,
+    "subsurface_drain_mm": 54.14,
+    "surface_runoff_mm": 54.14,
     "thermal_melt_mm": 0.0,
-    "units": "mm water-equivalent summed over modeled patches (not a basin volume)"
+    "units": "mm water-equivalent summed over modeled patches (not a basin volume)",
+    "wind_runoff_mm": 0.0
   },
   "parameter_provenance": {
     "geometry": "frozen; surfaces/phenology only",
@@ -24,34 +33,38 @@
   },
   "patches": [
     {
-      "gdd": 638.0,
+      "gdd": 342.0,
       "id": "north_meadow",
       "moisture": 0.7,
       "pheno_stress": "none",
       "phenology": "peak_green",
+      "snow_cover_fraction": 0.0,
       "snow_depth_m": 0.0,
       "snow_mm": 0.0
     },
     {
-      "gdd": 638.0,
+      "gdd": 342.0,
       "id": "bridge_riparian",
       "moisture": 0.7,
       "pheno_stress": "none",
       "phenology": "peak_green",
+      "snow_cover_fraction": 0.0,
       "snow_depth_m": 0.0,
       "snow_mm": 0.0
     },
     {
-      "gdd": 638.0,
+      "gdd": 342.0,
       "id": "forest_edge",
-      "moisture": 0.699,
+      "moisture": 0.7,
       "pheno_stress": "none",
       "phenology": "peak_green",
+      "snow_cover_fraction": 0.0,
       "snow_depth_m": 0.0,
       "snow_mm": 0.0
     }
   ],
   "season": "summer",
+  "season_source": "config",
   "sources": [
     {
       "file": "yellowstone_midway/data/ecosystem.json",

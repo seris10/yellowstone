@@ -1,19 +1,4 @@
-"""Derive channel cross-section profiles from USGS field measurements + USGS 3DEP DEM.
-
-Data sources:
-  - USGS NWIS field measurements (current-meter surveys with width, area, velocity)
-  - USGS 3DEP 1/3 arc-second DEM (~10 m resolution) for bank elevations
-  - Project terrain.f32 (4 m resolution, derived from 3DEP) for fine-scale transects
-
-Output: cross-section profiles per river feature for the 1-D advection-dispersion solver.
-
-Usage:
-    python tools/channel_geometry.py \
-        --world ../yellowstone_midway/data/world.json \
-        --terrain ../yellowstone_midway/data/terrain.f32 \
-        --usgs-site 06036805 \
-        --usgs-data derived/usgs_06036805.json \
-        --out configs/cross_sections.json
+"""Derive channel cross-section profiles from USGS NWIS field measurements and the 3DEP DEM.
 """
 from __future__ import annotations
 
@@ -34,8 +19,12 @@ FIREHOLE_CHAIN = ["river_5856_0", "river_5872_0", "river_5913_0", "river_5933_0"
 
 # USGS gage sites relevant to Firehole
 USGS_SITES = {
-    "06036805": {"name": "Firehole River at Old Faithful", "above_midway": True},
-    "06036905": {"name": "Firehole River near West Yellowstone", "above_midway": False},
+    "06036805": {"name": "Firehole River at Old Faithful",
+                 "above_midway": True,
+                 "feature_id": "river_5856_0"},
+    "06036905": {"name": "Firehole River near West Yellowstone",
+                 "above_midway": False,
+                 "feature_id": "river_5998_0"},
 }
 
 
@@ -133,11 +122,16 @@ def _dem_mean_depth(
             widths.append(width)
             depths.append(md)
 
+    n_attempted = (n_samples + 1) if n_samples > 0 else 0
+    n_valid = len(depths)
+    valid_fraction = (n_valid / n_attempted) if n_attempted else 0.0
     if not depths:
         return {
             "depth_m": 1.1,
             "status": "default_assumed_no_valid_transects",
             "source": f"feature {feature['id']}: no valid DEM transects",
+            "n_transects_valid": 0,
+            "valid_fraction": 0.0,
         }
 
     mean_area = float(np.mean(areas))
@@ -149,10 +143,13 @@ def _dem_mean_depth(
         "depth_m": round(mean_depth, 3),
         "status": "authored_estimate_from_usgs_3dep_dem",
         "source": (
-            f"USGS 3DEP DEM transects every {spacing_m:.0f}m over {total_length:.0f}m; "
-            f"mean_area={mean_area:.1f}m2 mean_width={mean_width:.1f}m "
-            f"depth_std={std_depth:.2f}m"
+            f"USGS 3DEP DEM transects every {spacing_m:.0f}m over "
+            f"{total_length:.0f}m; mean_area={mean_area:.1f}m2 "
+            f"mean_width={mean_width:.1f}m depth_std={std_depth:.2f}m"
         ),
+        "n_transects_valid": n_valid,
+        "n_transects_attempted": n_attempted,
+        "valid_fraction": round(valid_fraction, 3),
     }
 
 
@@ -194,15 +191,17 @@ def analyze(
     world: dict,
     terrain: np.ndarray,
     usgs_data: dict | None = None,
+    usgs_feature_id: str | None = None,
 ) -> dict:
-    """Derive cross-section profiles for all Firehole chain features."""
+    """Derive cross-section profiles for all Firehole chain features (USGS at usgs_feature_id, DEM elsewhere).
+    """
     sample, _ = terrain_fns(terrain)
     chain_features = {
         f["id"]: f for f in world["rivers"]
         if f["id"] in FIREHOLE_CHAIN
     }
 
-    profiles = {}
+    profiles: dict = {}
     for fid in FIREHOLE_CHAIN:
         feature = chain_features.get(fid)
         if feature is None:
@@ -210,15 +209,23 @@ def analyze(
             continue
 
         dem_result = _dem_mean_depth(feature, sample)
-        usgs_result = _usgs_mean_depth(usgs_data) if usgs_data else None
+        allow_usgs = usgs_data is not None and (
+            usgs_feature_id is None or usgs_feature_id == fid)
+        usgs_result = (_usgs_mean_depth(usgs_data)
+                       if allow_usgs and usgs_data is not None else None)
 
         if usgs_result and usgs_result["depth_m"] > 0.2:
             usgs_result["dem_cross_check_depth_m"] = dem_result["depth_m"]
+            usgs_result["water_surface_source"] = "usgs_field_measurement"
+            usgs_result["bathymetry_status"] = "measured_current_meter"
             profiles[fid] = usgs_result
         else:
+            dem_result["water_surface_source"] = "world_centerline_elevation"
+            dem_result["bathymetry_status"] = "dem_derived_not_measured"
             profiles[fid] = dem_result
 
-        print(f"{fid}: depth={profiles[fid]['depth_m']:.3f}m  ({profiles[fid]['status']})")
+        print(f"{fid}: depth={profiles[fid]['depth_m']:.3f}m "
+              f" ({profiles[fid]['status']})")
 
     return profiles
 
@@ -236,11 +243,19 @@ def main() -> int:
     terrain = load_terrain(str(args.terrain))
 
     usgs_data = None
+    usgs_feature_id = None
     if args.usgs_data:
         usgs_data = json.loads(args.usgs_data.read_text())
         print(f"Using USGS site {args.usgs_site} field measurements")
+        if args.usgs_site is not None:
+            feature_id_value = USGS_SITES[args.usgs_site].get("feature_id")
+            usgs_feature_id = (str(feature_id_value)
+                               if feature_id_value is not None else None)
+            if usgs_feature_id is not None:
+                print(f"Restricting USGS override to feature {usgs_feature_id}")
 
-    profiles = analyze(world, terrain, usgs_data)
+    profiles = analyze(world, terrain, usgs_data,
+                       usgs_feature_id=usgs_feature_id)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(profiles, indent=2) + "\n")

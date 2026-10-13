@@ -1,9 +1,5 @@
-"""Tests for the aquatic vertical slice (all synthetic, offline).
-
-Literature-anchor tests pin transferred values; mechanism tests prove
-the coupling direction (heat -> prey -> refuge); ledger tests prove
-accounting. No network, no midway data files.
-"""
+"""Tests for the aquatic vertical slice (synthetic, offline).
+Anchor tests pin transferred values; mechanism tests prove heat -> prey -> refuge; ledger tests prove accounting."""
 from __future__ import annotations
 
 import unittest
@@ -74,9 +70,7 @@ class PerformanceAnchorTests(unittest.TestCase):
             thermal_performance(15.0, "cutthroat_trout")
 
     def test_hot_water_never_ties_at_zero_weight(self):
-        # Regression (review F1): above feed_zero, feeding saturates at 0,
-        # so without the stress gradient every hot cell tied and ties
-        # broke toward the hottest water. Coolest must win at any weight.
+        # Regression: above feed_zero, feeding saturates at 0; stress keeps the coolest cell on top at any weight.
         from yellowstone_python.fish import suitability
         for weight in (0.0, 0.6, 2.0):
             scored = sorted((
@@ -93,8 +87,7 @@ class InsectGroupTests(unittest.TestCase):
             self.assertIn("transferred", params["status"])
 
     def test_group_table_ordering(self):
-        # Table-level claim: dipterans start later, develop faster, and
-        # tolerate more heat than EPT fauna.
+        # Table claim: dipterans start later, develop faster, tolerate more heat than EPT fauna.
         ept, dipt = INSECT_GROUPS["ept"], INSECT_GROUPS["dipteran"]
         self.assertGreater(dipt["tbase_c"], ept["tbase_c"])
         self.assertGreater(dipt["rate_per_dd"], ept["rate_per_dd"])
@@ -103,26 +96,26 @@ class InsectGroupTests(unittest.TestCase):
     def test_group_ordering_and_cutoff(self):
         e = INSECT_GROUPS["ept"]
         d = INSECT_GROUPS["dipteran"]
-        _, warm_ept = develop_benthic(0.5, 18.0, 86400.0, tbase=e["tbase_c"],
+        _, warm_ept, _ = develop_benthic(0.5, 18.0, 86400.0, tbase=e["tbase_c"],
                                       rate=e["rate_per_dd"],
                                       t_cutoff=e["t_cutoff_c"])
-        _, warm_dipt = develop_benthic(0.5, 18.0, 86400.0, tbase=d["tbase_c"],
+        _, warm_dipt, _ = develop_benthic(0.5, 18.0, 86400.0, tbase=d["tbase_c"],
                                        rate=d["rate_per_dd"],
                                        t_cutoff=d["t_cutoff_c"])
         self.assertGreater(warm_dipt, warm_ept)
-        _, cold_ept = develop_benthic(0.5, 6.0, 86400.0, tbase=e["tbase_c"],
+        _, cold_ept, _ = develop_benthic(0.5, 6.0, 86400.0, tbase=e["tbase_c"],
                                       rate=e["rate_per_dd"],
                                       t_cutoff=e["t_cutoff_c"])
-        _, cold_dipt = develop_benthic(0.5, 6.0, 86400.0, tbase=d["tbase_c"],
+        _, cold_dipt, _ = develop_benthic(0.5, 6.0, 86400.0, tbase=d["tbase_c"],
                                        rate=d["rate_per_dd"],
                                        t_cutoff=d["t_cutoff_c"])
         self.assertGreater(cold_ept, cold_dipt)
-        _, stupor = develop_benthic(0.5, 24.0, 86400.0, tbase=e["tbase_c"],
+        _, stupor, _ = develop_benthic(0.5, 24.0, 86400.0, tbase=e["tbase_c"],
                                     rate=e["rate_per_dd"],
                                     t_cutoff=e["t_cutoff_c"])
         self.assertEqual(stupor, 0.0)
-        # Legacy path (no cutoff) still emerges at 24 C.
-        _, legacy = develop_benthic(0.5, 24.0, 86400.0)
+        # Path with no cutoff still emerges at 24 C.
+        _, legacy, _ = develop_benthic(0.5, 24.0, 86400.0)
         self.assertGreater(legacy, 0.0)
 
     def test_diet_shifts_to_emergers_when_warm(self):
@@ -162,8 +155,7 @@ class FoodwebMechanismTests(unittest.TestCase):
             self.assertGreaterEqual(row["ne"], 0.0)
 
     def test_warming_moves_refuge_upstream(self):
-        # Control refuge sits mid-reach; a downstream heat plume makes the
-        # tail uninhabitable and the refuge jumps upstream of it.
+        # Control refuge sits mid-reach; a downstream heat plume moves the refuge upstream of it.
         control = fake_replay(
             [[16.0, 15.0, 14.0, 15.0, 16.0]] * 3)
         warm = fake_replay(
@@ -284,8 +276,7 @@ class TributaryRefugeTests(unittest.TestCase):
                          plain["trout"]["cell_id"])
 
     def test_food_scale_downranks_but_cold_still_wins_when_hot(self):
-        # Hot mainstem (all > 24 C, drive firing) plus one cold pocket
-        # at 1/20th food: the pocket must win on thermal + refuge terms.
+        # Hot mainstem (>24 C, drive firing) plus one cold pocket at 1/20 food; pocket wins on thermal + refuge terms.
         doc = fake_replay([[26.0, 26.5, 27.0, 27.5, 28.0]] * 3)
         land = thermal_landscape(doc)
         pocket = build_tributary_cell(
@@ -296,9 +287,7 @@ class TributaryRefugeTests(unittest.TestCase):
         self.assertEqual(out["trout"]["refuge_drive"], 0.0)
 
     def test_starved_pocket_loses_to_cool_mainstem(self):
-        # food_scale 0 pocket vs comfortable 16 C mainstem: the model
-        # must prefer real food — food still matters, cold is not a
-        # free win.
+        # food_scale 0 pocket vs 16 C mainstem; model prefers mainstem food.
         doc = fake_replay([[16.0] * 5] * 3)
         land = thermal_landscape(doc)
         pocket = build_tributary_cell(

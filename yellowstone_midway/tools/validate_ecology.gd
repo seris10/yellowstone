@@ -26,8 +26,16 @@ func run() -> void:
 	model.set_insect_forager_activity("test_dipper", "bridge_riparian", true, 0.000008)
 	model.step(3600.0)
 	check(absf(float(model.elapsed) - 3600.0) < 0.000001, "Elapsed time must remain physical seconds.")
-	check(absf(float(model.river[2].flow_m3s) - 8.0) < 0.000000001, "Upstream reaches must carry exactly boundary flow.")
-	check(absf(float(model.river[5].flow_m3s) - 8.26) < 0.000000001, "Source water must be added once and passed downstream.")
+	# Look up reaches by id so a reordered config still exercises the physics.
+	var upstream_id: String = str(config["river_reaches"][0]["id"])
+	var upstream_reach: Dictionary = model.river[int(model._reach_indices[upstream_id])]
+	check(absf(float(upstream_reach.flow_m3s) - float(config["boundary_m3s"])) < 0.000000001, "Upstream reaches must carry exactly boundary flow.")
+	var total_lateral: float = 0.0
+	for r: Dictionary in config["river_reaches"]:
+		for source: Dictionary in r.get("lateral_sources", []):
+			total_lateral += float(source.get("flow_m3s", 0.0))
+	var outlet: Dictionary = model.river[model.river.size() - 1]
+	check(absf(float(outlet.flow_m3s) - (float(config["boundary_m3s"]) + total_lateral)) < 0.000000001, "Source water must be added once and passed downstream.")
 	check(float(model.heat_budget_error) < 0.0000001, "Whole-domain heat residual must be < 1e-7 m3*C.")
 	check(float(model.water_budget_error_m3) < 0.000000001, "Whole-domain and reach water residuals must vanish.")
 	var grazed: Dictionary = model.patch("north_meadow")

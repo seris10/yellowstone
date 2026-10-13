@@ -1,10 +1,5 @@
-"""Tests for pandas obs-frame alignment (B1).
-
-All synthetic and offline. Requires pandas, which is NOT installed on
-the project interpreter: the whole module skips there and runs where
-pandas exists (validated in a contained venv). The skip is the honest
-state, not a hole — the pairs path stays the default until pandas is
-installed (see obs_frame module docstring).
+"""Tests for pandas obs-frame alignment B1 (synthetic, offline).
+Pandas not installed on the project interpreter; the module skips there.
 """
 from __future__ import annotations
 
@@ -78,8 +73,7 @@ class FrameTests(unittest.TestCase):
                  [0, 1, 2, 8, 9, 10]]
         frame = _frame_from_pairs(pairs, "test", 900.0)
         filled = bridge(frame, limit=2)
-        # 5-step gap with per-side limit 2: filled from both ends,
-        # middle survives.
+        # 5-step gap with per-side limit 2: filled from both ends; middle survives.
         self.assertEqual(int(filled["value"].isna().sum()), 1)
         filled5 = bridge(frame, limit=5)
         self.assertEqual(int(filled5["value"].isna().sum()), 0)
@@ -124,8 +118,7 @@ class FrameTests(unittest.TestCase):
 class AlignedArraysTests(unittest.TestCase):
     @staticmethod
     def _synthetic():
-        # Upstream pairs at the nominal IV step (900 s), met hourly:
-        # dense regular data where both alignment paths must agree.
+        # Upstream pairs at the IV step 900 s, met hourly; dense regular data where both alignment paths agree.
         t0 = time.time()
         n = int(2 * 86400 // 900)
         grid = [t0 + i * 900 for i in range(n + 1)]
@@ -162,9 +155,7 @@ class AlignedArraysTests(unittest.TestCase):
         self.assertIn("air_c", arrays["provenance"]["met_daily_means"])
 
     def test_parity_with_pairs_path(self):
-        # Two resampling conventions over the same dense synthetic
-        # data must agree closely; they differ exactly where data is
-        # sparse, which is the explicit part (gap reports above).
+        # Two resampling conventions over the same dense synthetic data agree closely; they differ where data is sparse.
         from yellowstone_python.replay.calibrate import (
             _fit_forcing_arrays,
         )

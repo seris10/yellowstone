@@ -55,7 +55,20 @@ atmosphere_controller = AtmosphereController.new()
 atmosphere_controller.name = "YellowstoneAtmosphere"
 add_child(atmosphere_controller)
 atmosphere_controller.configure(sun, environment, player)
-atmosphere_controller.set_simulation_time(ecosystem.clock_hour, int(spec.get("day_of_year", 196)))
+
+# Prefer the replay timestamp when the build supplies one; the local date and
+# day of year derive from it.
+if spec.has("simulation_epoch_unix"):
+	atmosphere_controller.set_simulation_timestamp(
+		float(spec["simulation_epoch_unix"]),
+		float(spec.get("utc_offset_hours", -6.0))
+	)
+else:
+	atmosphere_controller.set_simulation_time(
+		ecosystem.clock_hour,
+		int(spec.get("day_of_year", 196)),
+		float(spec.get("utc_offset_hours", -6.0))
+	)
 
 weather_snapshot_reader = WeatherSnapshotReader.new()
 weather_snapshot_reader.name = "WeatherSnapshotReader"
@@ -64,6 +77,14 @@ weather_snapshot_reader.bind(atmosphere_controller)
 ```
 
 This should run before the first call to `update_environment()`. The reader is optional if you want only the visual defaults and simulation-clock sun.
+
+For a replay clock, advance the timestamp each frame and hand the same value to the reader so `simulation_clock` freshness compares against simulated time:
+
+```gdscript
+simulation_epoch_unix += delta * simulation_rate
+atmosphere_controller.set_simulation_timestamp(simulation_epoch_unix, -6.0)
+weather_snapshot_reader.set_simulation_epoch_unix(simulation_epoch_unix)
+```
 
 ## 4. Replace `update_environment()`
 
@@ -74,8 +95,9 @@ func update_environment() -> void:
 	if atmosphere_controller == null or ecosystem == null:
 		return
 
-	# The scene clock drives fallback solar geometry. If the latest accepted
-	# weather snapshot provides both solar angles, those take precedence.
+	# The simulation clock drives fallback solar geometry. A weather snapshot
+	# that supplies both solar angles keeps priority until
+	# clear_weather_solar_override() is called.
 	atmosphere_controller.set_simulation_time(
 		ecosystem.clock_hour,
 		int(spec.get("day_of_year", 196))

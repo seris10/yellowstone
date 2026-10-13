@@ -34,7 +34,13 @@ def test_prescribed_quantities_decoupled():
         ["discharge"]
     assert prescribed_quantities({"hydro": {}}) == []
     assert prescribed_quantities({}) == []
-    assert prescribed_quantities({"replay": {}}) == \
+    # An empty replay block carries no explicit series, so it adds nothing.
+    assert prescribed_quantities({"replay": {}}) == []
+    # Each replay series is tracked independently.
+    assert prescribed_quantities({"replay": {"discharge": "x"}}) == \
+        ["discharge"]
+    assert prescribed_quantities(
+        {"replay": {"discharge": "x", "upstream_temperature": "y"}}) == \
         ["discharge", "upstream_temperature"]
 
 

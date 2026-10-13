@@ -1,24 +1,10 @@
 """Identifiability diagnostics for hydraulic knobs + structural alternative.
-
-Hydraulics: roughness, bank slope, and depth compensate in the Manning
-consistency ratio, so a good fit does not prove each value is real.
-Diagnostics here are Jacobian conditioning, linearized parameter
-correlation, multi-start consistency, and synthetic recovery, all on
-authored scenarios. No field data is fitted.
-
-Dependence policy: manning_n, bank_slope_zh, and depth_m vary over
-independent authored ranges because each carries separate provenance
-(Chow literature, authored banks, DEM-derived depth). Correlated
-quantities (shared reach slope, shared meteorology, width/depth from
-one profile) stay fixed. A SALib Sobol workflow joins only under this
-formulation or a dependence-aware method; scipy covers current needs.
+Jacobian conditioning, multi-start, synthetic recovery on authored scenarios.
 """
 from __future__ import annotations
 
 import math
 from typing import Any, Sequence
-
-import numpy as np
 
 from .hydraulics import cell_hydraulics
 from .river_transport import Cell, River, Series
@@ -74,6 +60,10 @@ def residual_against_truth(params: Sequence[float]) -> list[float]:
 
 def jacobian_at_truth(step: float = 1e-6) -> list[list[float]]:
     """Central-difference Jacobian of residuals at truth."""
+    import numpy as np
+    step = float(step)
+    if not math.isfinite(step) or step <= 0.0:
+        raise ValueError("step must be finite and positive")
     truth = np.array([TRUTH[name] for name in PARAM_NAMES])
     cols = []
     for i in range(len(PARAM_NAMES)):
@@ -86,16 +76,24 @@ def jacobian_at_truth(step: float = 1e-6) -> list[list[float]]:
 
 
 def conditioning(jacobian: Sequence[Sequence[float]],
-                   rank_tol: float = 1e-8) -> dict[str, Any]:
+                 rank_tol: float = 1e-8) -> dict[str, Any]:
     """SVD rank, null directions, and identified combination."""
+    import numpy as np
     jac = np.asarray(jacobian, dtype=float)
+    if jac.ndim != 2 or jac.shape[0] == 0 or jac.shape[1] == 0:
+        raise ValueError("jacobian must be a nonempty 2-D matrix")
+    if not np.isfinite(jac).all():
+        raise ValueError("jacobian contains nonfinite values")
     _, singular, vt = np.linalg.svd(jac)
     singular = singular.tolist()
+    if not singular:
+        raise ValueError("jacobian has no singular values")
     cutoff = max(singular) * rank_tol
     rank = sum(1 for s in singular if s > cutoff)
     return {"singular_values": singular,
             "rank": rank,
             "n_params": jac.shape[1],
+            "rank_tol": rank_tol,
             "null_directions": vt[rank:].tolist(),
             "identified_direction": vt[0].tolist(),
             "param_names": list(PARAM_NAMES)}
@@ -109,8 +107,28 @@ def multistart_fit(
     if starts is None:
         starts = [(0.025, 1.0, 0.7), (0.05, 2.0, 0.8),
                   (0.03, 2.5, 2.0), (0.055, 0.8, 1.8)]
-    bounds = ([PARAM_BOUNDS[name][0] for name in PARAM_NAMES],
-              [PARAM_BOUNDS[name][1] for name in PARAM_NAMES])
+    starts = list(starts)
+    if not starts:
+        raise ValueError("multistart_fit requires at least one start")
+    lower = [PARAM_BOUNDS[name][0] for name in PARAM_NAMES]
+    upper = [PARAM_BOUNDS[name][1] for name in PARAM_NAMES]
+    for idx, start in enumerate(starts):
+        start = list(start)
+        if len(start) != len(PARAM_NAMES):
+            raise ValueError(
+                f"start[{idx}] length {len(start)} differs from "
+                f"PARAM_NAMES length {len(PARAM_NAMES)}")
+        for value, name in zip(start, PARAM_NAMES):
+            fval = float(value)
+            if not math.isfinite(fval):
+                raise ValueError(
+                    f"start[{idx}] {name}={value!r} must be finite")
+        for value, name, lo, hi in zip(start, PARAM_NAMES, lower, upper):
+            if not lo <= float(value) <= hi:
+                raise ValueError(
+                    f"start[{idx}] {name}={value!r} outside bounds "
+                    f"[{lo}, {hi}]")
+    bounds = (lower, upper)
     runs = []
     for start in starts:
         result = least_squares(residual_against_truth, list(start),
@@ -121,8 +139,14 @@ def multistart_fit(
                      "success": bool(result.success),
                      "nfev": int(result.nfev)})
     truth = [TRUTH[name] for name in PARAM_NAMES]
-    spreads = [max(abs(r["solution"][i] - truth[i]) / truth[i]
-                   for r in runs) for i in range(len(PARAM_NAMES))]
+    spreads = []
+    for i in range(len(PARAM_NAMES)):
+        denom = abs(truth[i])
+        if denom == 0.0:
+            spreads.append(max(abs(r["solution"][i] - truth[i]) for r in runs))
+        else:
+            spreads.append(
+                max(abs(r["solution"][i] - truth[i]) / denom for r in runs))
     return {"runs": runs,
             "max_cost": max(r["cost"] for r in runs),
             "relative_spread": dict(zip(PARAM_NAMES, spreads)),
@@ -132,11 +156,16 @@ def multistart_fit(
 def structural_surface_spread(duration_s: float = 3600.0,
                               dt_s: float = 10.0) -> dict[str, Any]:
     """Newton vs explicit-budget trajectories on one synthetic channel.
-
-    Same geometry, discharge, and air series; only the surface
-    formulation differs. The gap is model-form spread, used for
-    comparison. It is not a calibrated prediction interval.
+    Gap is model-form spread for comparison; not a prediction interval.
     """
+    duration_s = float(duration_s)
+    dt_s = float(dt_s)
+    if not math.isfinite(duration_s) or duration_s <= 0.0:
+        raise ValueError("duration_s must be finite and positive")
+    if not math.isfinite(dt_s) or dt_s <= 0.0:
+        raise ValueError("dt_s must be finite and positive")
+    if dt_s > duration_s:
+        raise ValueError("dt_s must not exceed duration_s")
     n = 10
     dx = 100.0
     width, depth = 20.0, 1.1
@@ -248,13 +277,20 @@ def sobol_screen(n_base: int = 512, seed: int = 11,
             "status": "screening_not_calibration"}
 
 
-def run_diagnostics() -> dict[str, Any]:
+def run_diagnostics(step: float = 1e-6, rank_tol: float = 1e-8) -> dict[str, Any]:
     """Full Phase D diagnostic document."""
-    jac = jacobian_at_truth()
+    jac = jacobian_at_truth(step=step)
     return {
         "schema": SCHEMA,
         "status": "diagnostic_not_field_validation",
-        "conditioning": conditioning(jac),
+        "numerical_settings": {
+            "finite_difference_step": step,
+            "rank_tol": rank_tol,
+            "param_bounds": {name: list(PARAM_BOUNDS[name])
+                             for name in PARAM_NAMES},
+            "truth": dict(TRUTH),
+        },
+        "conditioning": conditioning(jac, rank_tol=rank_tol),
         "multistart": multistart_fit(),
         "structural_surface": structural_surface_spread(),
         "dependence_policy": DEPENDENCE_POLICY,

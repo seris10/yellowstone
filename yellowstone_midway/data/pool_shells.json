@@ -1,5 +1,5 @@
 {
-  "code_rev": "yellowstone_python-0.1.0",
+  "code_rev": "858e4972204ee2a80469f9f4ade22d219fdcef8b",
   "contract_version": "0.1.0",
   "parameter_provenance": {
     "outline": "mapped water polygons preserved",
@@ -7,8 +7,9 @@
   },
   "pool_shells": [
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         34.7736,
         -2027.663
@@ -47,6 +48,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_984_0",
+      "mapped_area_m2": 6232.9,
       "max_radius_m": 109.71,
       "name": "FEATHER LAKE",
       "outflow_bearing_deg": 90.0,
@@ -110,8 +112,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         -450.9849,
         -1853.3679
@@ -150,6 +153,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_988_0",
+      "mapped_area_m2": 98982.2,
       "max_radius_m": 317.7,
       "name": "GOOSE LAKE",
       "outflow_bearing_deg": 90.0,
@@ -401,8 +405,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         1841.2947,
         -1911.2232
@@ -441,6 +446,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_995_0",
+      "mapped_area_m2": 1378.9,
       "max_radius_m": 28.11,
       "name": " ",
       "outflow_bearing_deg": 90.0,
@@ -488,8 +494,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         -1728.396,
         -1862.2065
@@ -528,6 +535,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_996_0",
+      "mapped_area_m2": 1114.2,
       "max_radius_m": 27.36,
       "name": " ",
       "outflow_bearing_deg": 90.0,
@@ -579,8 +587,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 10.65,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         425.5918,
         -1532.9066
@@ -619,6 +628,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_1001_0",
+      "mapped_area_m2": 22969.9,
       "max_radius_m": 98.96,
       "name": "UNNAMED LAKE",
       "outflow_bearing_deg": 90.0,
@@ -734,8 +744,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         973.4447,
         -1235.5468
@@ -774,6 +785,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_1007_0",
+      "mapped_area_m2": 34916.7,
       "max_radius_m": 143.1,
       "name": "LOWER BASIN LAKE",
       "outflow_bearing_deg": 90.0,
@@ -929,8 +941,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         -152.534,
         -698.3644
@@ -969,6 +982,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_1018_0",
+      "mapped_area_m2": 5497.2,
       "max_radius_m": 73.53,
       "name": " ",
       "outflow_bearing_deg": 90.0,
@@ -1040,8 +1054,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.01,
       "center_xz": [
         -59.8721,
         -186.3623
@@ -1080,6 +1095,7 @@
       ],
       "depth_center_m": 6.0,
       "id": "pool_1028_0",
+      "mapped_area_m2": 219.7,
       "max_radius_m": 14.48,
       "name": "Turquoise Pool",
       "outflow_bearing_deg": 120.0,
@@ -1119,8 +1135,9 @@
       "t_edge_c": 40.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.02,
       "center_xz": [
         -134.8065,
         -185.8664
@@ -1159,6 +1176,7 @@
       ],
       "depth_center_m": 4.0,
       "id": "pool_1029_0",
+      "mapped_area_m2": 102.0,
       "max_radius_m": 10.82,
       "name": "Opal Pool",
       "outflow_bearing_deg": 120.0,
@@ -1194,8 +1212,9 @@
       "t_edge_c": 40.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 39.4,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         15.8116,
         -145.3024
@@ -1234,6 +1253,7 @@
       ],
       "depth_center_m": 8.0,
       "id": "pool_1030_0",
+      "mapped_area_m2": 2917.0,
       "max_radius_m": 36.07,
       "name": "Excelsior Geyser Crater",
       "outflow_bearing_deg": 95.0,
@@ -1297,8 +1317,9 @@
       "t_edge_c": 45.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 21.23,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         -94.7068,
         -10.6082
@@ -1337,6 +1358,7 @@
       ],
       "depth_center_m": 37.0,
       "id": "pool_1034_0",
+      "mapped_area_m2": 6723.7,
       "max_radius_m": 55.03,
       "name": "Grand Prismatic Spring",
       "outflow_bearing_deg": 100.0,
@@ -1416,8 +1438,9 @@
       "t_edge_c": 42.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         -844.4903,
         520.6786
@@ -1456,6 +1479,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_1048_0",
+      "mapped_area_m2": 22587.7,
       "max_radius_m": 207.09,
       "name": "GOOSENECK LAKE",
       "outflow_bearing_deg": 90.0,
@@ -1619,8 +1643,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         1082.187,
         716.6172
@@ -1659,6 +1684,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_1056_0",
+      "mapped_area_m2": 2178.2,
       "max_radius_m": 50.13,
       "name": " ",
       "outflow_bearing_deg": 90.0,
@@ -1726,8 +1752,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         -879.3138,
         1122.029
@@ -1766,6 +1793,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_1066_0",
+      "mapped_area_m2": 5271.8,
       "max_radius_m": 77.07,
       "name": "UNNAMED LAKE",
       "outflow_bearing_deg": 90.0,
@@ -1845,8 +1873,9 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid",
+      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
       "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
       "center_xz": [
         712.0396,
         1331.3885
@@ -1885,6 +1914,7 @@
       ],
       "depth_center_m": 3.0,
       "id": "pool_1071_0",
+      "mapped_area_m2": 5790.2,
       "max_radius_m": 59.99,
       "name": " ",
       "outflow_bearing_deg": 90.0,

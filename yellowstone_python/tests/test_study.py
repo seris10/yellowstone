@@ -57,7 +57,7 @@ def test_strict_schema_rejects_unknown_and_out_of_range():
     with pytest.raises(ValueError):
         _validate("routes", [])
     with pytest.raises(ValueError):
-        _validate("clock_hourly", 5.0)  # prefix lookalike, not an exact key
+        _validate("clock_hourly", 5.0)  # prefix lookalike (no exact-key match)
     with pytest.raises(ValueError):
         _validate("hydro.boundary_m3s", -2.0)
     with pytest.raises(ValueError):
@@ -87,8 +87,7 @@ def test_surge_merges_existing_attachments():
 def test_compare_quantifies_ab(tmp_path):
     from yellowstone_python.compare import compare_builds
     from pathlib import Path
-    # Newest build directory that carries the sidecars compare_builds
-    # reads; a build still in progress leaves a partial directory behind.
+    # Newest build directory that carries the sidecars compare_builds reads; a build in progress leaves a partial directory.
     complete = [p for p in Path("derived").iterdir()
                 if p.is_dir() and (p / "fish.json").exists()
                 and (p / "river_state.json").exists()]
@@ -96,12 +95,12 @@ def test_compare_quantifies_ab(tmp_path):
     a = max(complete, key=lambda p: p.stat().st_mtime)
     out = compare_builds(a, a)
     assert all(r["d_temp_c"] == 0.0 for r in out["reach_deltas"])
-    assert out["scope"].startswith("endpoint comparison")
+    assert out["scope"]["comparison_type"] == "endpoint"
 
 
 def test_allowed_prefixes_are_enforced():
     from yellowstone_python.study_mode import SCHEMA, _prefix_allowed
-    # Every schema key must sit under an allowed prefix.
+    # Each schema key sits under an allowed prefix.
     for key in SCHEMA:
         assert _prefix_allowed(key), key
     # A path that is not a slider stays unreachable even if spelled validly.

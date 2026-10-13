@@ -1,9 +1,6 @@
-"""Optional cached hydrology service provider.
+"""Cached hydrosim run on Midway terrain.f32 that reports soil wetness from caller rain.
 
-Drives the sibling hydrosim shallow-water model on real Midway terrain
-for one short step and reports soil wetness. Precipitation comes from
-the caller (measured bundle); terrain comes from terrain.f32.
-"""
+ground_wetness_fraction is the overland-runoff authority; snow_season's per-patch bucket is the phenology authority."""
 from __future__ import annotations
 
 import importlib
@@ -80,8 +77,10 @@ class HydrologyProvider:
         soil: str = DEFAULT_SOIL,
         grid: int = DEFAULT_GRID,
         sim_s: float = DEFAULT_SIM_S,
+        refuse_on_cfl_overflow: bool = False,
     ):
         self.module_name = module_name
+        self.refuse_on_cfl_overflow = bool(refuse_on_cfl_overflow)
         self.ttl_s = _finite("ttl_s", ttl_s)
         if self.ttl_s <= 0.0:
             raise ValueError("ttl_s must be positive")
@@ -224,24 +223,43 @@ class HydrologyProvider:
                 manning_overland=0.08, max_substeps=40),
             climate=climate, init_wetness=0.5)
         elapsed, remaining = 0.0, self.sim_s
+        boundary_condition = None
+        cfl_exceeded_count = 0
         while remaining > 1e-9:
             step = min(60.0, remaining)
-            sim.step(step, rain_mm_h)
+            result = sim.step(step, rain_mm_h)
+            if isinstance(result, dict):
+                if "boundary_condition" in result:
+                    boundary_condition = result["boundary_condition"]
+                count = result.get("cfl_exceeded_count")
+                if isinstance(count, (int, float)) and math.isfinite(count):
+                    cfl_exceeded_count += int(count)
             elapsed += step
             remaining -= step
         wetness = float(np.asarray(sim.soil_saturation()).mean())
         balance = sim.balance()
+        state = {
+            "sim_grid": self.grid,
+            "sim_cell_m": cell_m,
+            "sim_seconds": elapsed,
+            "soil": self.soil,
+            "avg_soil_saturation": wetness,
+            "balance_rel_error": float(balance["rel_error"]),
+            "hydrosim": "local-inertial shallow water on terrain.f32",
+            "boundary_condition": boundary_condition,
+            "cfl_exceeded_count": int(cfl_exceeded_count),
+        }
+        if self.refuse_on_cfl_overflow and cfl_exceeded_count > 0:
+            return HydrologySnapshot(
+                precipitation_rate_mm_h=float(rain_mm_h),
+                ground_wetness_fraction=None,
+                state=state,
+                status="refused_cfl_exceeded",
+                error=f"hydrosim exceeded CFL in {cfl_exceeded_count} substeps",
+            )
         return HydrologySnapshot(
             precipitation_rate_mm_h=float(rain_mm_h),
             ground_wetness_fraction=wetness,
-            state={
-                "sim_grid": self.grid,
-                "sim_cell_m": cell_m,
-                "sim_seconds": elapsed,
-                "soil": self.soil,
-                "avg_soil_saturation": wetness,
-                "balance_rel_error": float(balance["rel_error"]),
-                "hydrosim": "local-inertial shallow water on terrain.f32",
-            },
+            state=state,
             status="ok",
         )

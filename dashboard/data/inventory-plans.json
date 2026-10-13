@@ -1,0 +1,2125 @@
+{
+  "generated_from": "yellowstone_python/yellowstone_python/microclimate.py=84787991aab1; yellowstone_python/yellowstone_python/llm_backend.py=9acdff0d2982; yellowstone_python/yellowstone_python/claims.py=3c196f5cc797; yellowstone_python/yellowstone_python/validation/claims.py=56624c2ba4b0; yellowstone_python/yellowstone_python/replay/nc_export.py=30132420f04d; yellowstone_python/yellowstone_python/replay/uncertainty.py=54e885b370ec; yellowstone_python/yellowstone_python/replay/identifiability.py=3178aa4ba343; yellowstone_python/yellowstone_python/groundwater_provider.py=372d213eaa00; yellowstone_python/yellowstone_python/fish.py=1cf9974ac64c; yellowstone_python/yellowstone_python/build.py=ced890a68848; yellowstone_python/tools/calibrate_river_transport.py=647b551b75a5; yellowstone_midway/scripts/world.gd=ca76ede6b58b; yellowstone_midway/scripts/weather_http_consumer.gd=e097b7d72785; yellowstone_midway/scripts/yellowstone_atmosphere.gd=b7b6a62848d7; yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader=7f5acf01294f; yellowstone_atmosphere/scripts/weather_snapshot_reader.gd=57f4fd3173b1",
+  "scope_note": "This file lists ONLY components whose status is not_started (called for in current scope but no implementation exists) or next_phase (planned/plausible extensions, including educational interactivity) plus proposed couplings. Implemented and partially-wired items are covered by the other inventory agents.",
+  "components": [
+    {
+      "id": "star_catalog_vendor",
+      "label": "Vendored star catalog (RA, Dec, mag, B-V)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_midway/references/bsc5_catalog.gz.provenance.json (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_python_spec/fixes/fixes-14.md:188-203 (Star data vendor + convert to res://data/stars.bin)",
+        "rg star_catalog|starcatalog|stars.bin|catalog.json over repo returns no code hits outside fixes-14.md"
+      ],
+      "method": "Vendor Long-Night-style catalog once; convert to compact project asset.",
+      "validation": "none",
+      "notes": "BSC5 (CDS V/50) vendored with provenance; tools/convert_star_catalog.py writes data/stars.json, 9096 stars",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "sidereal_star_renderer",
+      "label": "Local sidereal-time star positioning + MultiMesh renderer",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_atmosphere.gd _load_star_catalog (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_python_spec/fixes/fixes-14.md:205-269 (RA/Dec->alt/az transform, Compatibility MultiMesh + magnitude/B-V)",
+        "rg sidereal|hour.angle|horizontal_to_world over repo returns no code hits"
+      ],
+      "method": "H=LST-RA; sin(alt)=sin(dec)sin(lat)+cos(dec)cos(lat)cos(H); world dir on +X east/+Y up/+Z south.",
+      "validation": "none",
+      "notes": "RA/Dec through local sidereal time, magnitude flux and B-V color from data/stars.json",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "milky_way_flux_layer",
+      "label": "Milky Way unresolved-flux background",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "fixes-14 ledger item 6 (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_python_spec/fixes/fixes-14.md:347-361 (galactic-coord population aggregated to equirectangular grid)",
+        "rg milky.?way over repo returns only fixes-14.md and improvements.md"
+      ],
+      "method": "Offline galactic-coord sampling + aggregate unresolved flux into 512x256 equirectangular or 6-face cubemap.",
+      "validation": "none",
+      "notes": "unresolved-flux grid wired; awaits visual verification with the catalog",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "moffat_point_spread",
+      "label": "Moffat star PSF + bright-star diffraction spikes",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "fixes-14 ledger item 5 (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_python_spec/fixes/fixes-14.md:333-341 (Moffat profile glsl snippet)"
+      ],
+      "method": "pow(1+r^2/a^2,-b) PSF; magnitude-gated diffraction spikes.",
+      "validation": "none",
+      "notes": "reduced to a 4-neighbor wing; full Moffat kernel pending",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "dust_extinction_reddening",
+      "label": "Galactic-plane dust extinction and reddening",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:359-360 (dust extinction near galactic plane in longitude bands)",
+        "yellowstone_python_spec/fixes/fixes-14.md:1064 (Phase 3 item: Add dust extinction and reddening)"
+      ],
+      "method": "Reduce flux near galactic plane in selected longitude bands.",
+      "validation": "none",
+      "notes": "Phase 3.",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "horizon_occlusion",
+      "label": "Terrain/horizon occlusion for celestial objects",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:8 (terrain occludes objects below the horizon)",
+        "yellowstone_python_spec/fixes/fixes-14.md:1066 (Phase 3: Add terrain/horizon occlusion)"
+      ],
+      "method": "Depth or ray-against-heightfield test for stars/planets/Moon.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "moon_ephemeris",
+      "label": "Moon position via skyfield/astropy ephemerides",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:150-157 (skyfield/astropy for Moon and planets)",
+        "yellowstone_python_spec/fixes/fixes-14.md:1061 (Phase 2 item: Add Moon and planet positions with skyfield or astropy)"
+      ],
+      "method": "Compute RA/Dec from ephemeris; convert to alt/az at simulation UTC+site.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "planet_ephemeris",
+      "label": "Planet positions via skyfield/astropy",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:6 (planets and the Moon computed separately)",
+        "yellowstone_python_spec/fixes/fixes-14.md:1061"
+      ],
+      "method": "Shared ephemeris pipeline with Moon; separate rendering treatment.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "pvlib_authoritative_solar",
+      "label": "pvlib authoritative solar geometry in Python snapshot",
+      "domain": "atmosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/microclimate.py",
+        "yellowstone_python/yellowstone_python/llm_backend.py"
+      ],
+      "godot": [
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd",
+        "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd",
+        "yellowstone_midway/scripts/weather_http_consumer.gd"
+      ],
+      "status": "partial_unwired",
+      "evidence": [
+        "derived/71c8f00455af/weather_snapshot.json solar.source unavailable (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_python/yellowstone_python/microclimate.py:394 (def solar_snapshot(...) returns solar_azimuth_deg/solar_elevation_deg + sunrise/sunset epochs via pvlib.solarposition)",
+        "yellowstone_python/yellowstone_python/microclimate.py:388 (result = solarposition.get_solarposition(times, latitude, longitude))",
+        "yellowstone_python/yellowstone_python/llm_backend.py:283-285 (from .microclimate import solar_snapshot; solar_block = solar_snapshot(now_unix, latitude=SITE_LATITUDE_DEG, longitude=SITE_LONGITUDE_DEG))",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:179-192 (reader pulls solar object from snapshot and merges into state)",
+        "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd:94-95 (controller consumes solar_azimuth_deg/solar_elevation_deg to drive sun)",
+        "yellowstone_midway/scripts/weather_http_consumer.gd:413-417 (HTTP consumer forwards solar_azimuth_deg/solar_elevation_deg to normalized snapshot)",
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+      ],
+      "method": "pvlib get_solarposition for UTC timestamp + lat/lon; serialize to normalized snapshot block consumed by the Godot weather snapshot reader and atmosphere controller.",
+      "validation": "none",
+      "notes": "snapshot carries a solar block but pvlib is not installed in the build Python, so the angles are omitted and Godot computes its own sun",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "weather_snapshot_schema_v2",
+      "label": "Unified schema_version 2 weather snapshot",
+      "domain": "atmosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/llm_backend.py"
+      ],
+      "godot": [
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd",
+        "yellowstone_atmosphere/scripts/weather_http_consumer.gd",
+        "yellowstone_midway/scripts/weather_http_consumer.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "godot_sidecars.write_weather_snapshot_json; weather_snapshot_reader.gd (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:10 (const SUPPORTED_SCHEMA_VERSION: int = 1)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:230 (if int(schema_value) != SUPPORTED_SCHEMA_VERSION fails)",
+        "yellowstone_midway/scripts/weather_http_consumer.gd:9 (const SCHEMA_VERSION: int = 1)",
+        "yellowstone_python/yellowstone_python/llm_backend.py:279 (Return a schema_version 1 nested weather snapshot for the Godot HTTP consumer)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:179-192 (solar nested block now accepted alongside weather) and reader-consumer parity on nested shape"
+      ],
+      "method": "Normalize provider adapters to {schema_version:2, generated_at_unix, valid_time_unix, simulation_time_unix, source, weather, solar, terrain}.",
+      "validation": "none",
+      "notes": "schema 2 produced by godot_sidecars and accepted by the reader and HTTP consumer",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "weather_http_consumer",
+      "label": "HTTP weather consumer with anti-overlap + endpoint provenance",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [
+        "yellowstone_midway/scripts/weather_http_consumer.gd",
+        "yellowstone_atmosphere/scripts/weather_http_consumer.gd"
+      ],
+      "status": "partial_unwired",
+      "evidence": [
+        "yellowstone_midway/scripts/weather_http_consumer.gd:1-2 (class_name YellowstoneWeatherHttpConsumer extends Node)",
+        "yellowstone_midway/scripts/weather_http_consumer.gd:9 (const SCHEMA_VERSION: int = 1)",
+        "yellowstone_midway/scripts/weather_http_consumer.gd:232-238 (generated_at_unix provenance from server; generated_at_unix recorded on normalized snapshot)",
+        "yellowstone_midway/scripts/weather_http_consumer.gd:413-417 (flat endpoint solar fields nested into solar block)",
+        "yellowstone_atmosphere/scripts/weather_http_consumer.gd:1-2 (same class in the add-on directory)",
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+      ],
+      "method": "Request-in-flight guard, provider-reported generated_at_unix, nested schema parity with file reader.",
+      "validation": "none",
+      "notes": "Script is installed in yellowstone_midway/scripts but nothing instantiates it; world.gd uses the file reader instead.",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "replay_live_bridge",
+      "label": "File-watch / UDP push live bridge from build to Godot",
+      "domain": "infrastructure",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:115 (optional M11 live_bridge.py; fallback is manual copy + F5)",
+        "rg live_bridge yellowstone_python/ returns no module"
+      ],
+      "method": "watchdog file observer or UDP delta push to running Godot editor.",
+      "validation": "none",
+      "notes": "Explicitly optional in spec; do-not-block.",
+      "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md"
+    },
+    {
+      "id": "species_gen_package",
+      "label": "yellowstone_species_gen Python package (registry, distributions, growth, color, pattern, individual, generate, validate)",
+      "domain": "terrestrial_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_species_gen/00_RESEARCH_SPEC.md:163-181 (full generator program design)",
+        "yellowstone_species_gen/ directory contains only 00_RESEARCH_SPEC.md and data/*.json; no ysg/ package directory"
+      ],
+      "method": "Sample order sex->age->growth(size)->proportions->morph loci->condition axes->pattern->seasonal overlay->jitter; truncnorm/lognormal/beta/dirichlet; von Bertalanffy and Gompertz growth.",
+      "validation": "none",
+      "notes": "Trait-library data (8 kingdom JSONs) exists but no sampler/CLI.",
+      "source": "yellowstone_species_gen/00_RESEARCH_SPEC.md"
+    },
+    {
+      "id": "species_gen_cli",
+      "label": "ysg generate --species X --n N --day D --seed S CLI",
+      "domain": "terrestrial_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_species_gen/00_RESEARCH_SPEC.md:174-181 (CLI contract and per-individual record output)",
+        "rg 'yellowstone_species_gen|ysg\\.|from ysg' yellowstone_python/ returns no hits"
+      ],
+      "method": "Deterministic-per-seed individual records consumable by wildlife_actor-style builders or glTF morph-target applier.",
+      "validation": "none",
+      "source": "yellowstone_species_gen/00_RESEARCH_SPEC.md"
+    },
+    {
+      "id": "species_gen_distribution_validator",
+      "label": "Distribution test harness (moments, KS, Dirichlet freq chi^2)",
+      "domain": "terrestrial_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_species_gen/00_RESEARCH_SPEC.md:177-178 (validate.py: N=10k samples/species, moments vs source ranges, KS, morph freq chi^2)"
+      ],
+      "method": "Monte Carlo check of sampled individuals vs documented ranges and morph frequencies.",
+      "validation": "none",
+      "source": "yellowstone_species_gen/00_RESEARCH_SPEC.md"
+    },
+    {
+      "id": "yellowstone_cutthroat_profile",
+      "label": "Yellowstone cutthroat trout thermal + growth profile",
+      "domain": "aquatic_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:12 (native species, no THERMAL_SPECIES entry)",
+        "yellowstone_python_spec/fish-spec.md:36 (priority missing; literature anchors Rogers 2022 16.5-16.9 C; Heinle 2025)"
+      ],
+      "method": "Literature-transferred THERMAL_SPECIES anchors; curve shape authored between points.",
+      "validation": "none",
+      "notes": "Core to native-species claim.",
+      "source": "yellowstone_python_spec/fish-spec.md"
+    },
+    {
+      "id": "arctic_grayling_profile",
+      "label": "Arctic grayling thermal profile",
+      "domain": "aquatic_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:13 (native; below Firehole Falls)",
+        "yellowstone_python_spec/fish-spec.md:37 (species to add)"
+      ],
+      "method": "Cold-water specialist; narrower thermal window than trout.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/fish-spec.md"
+    },
+    {
+      "id": "mountain_whitefish_profile",
+      "label": "Mountain whitefish thermal profile",
+      "domain": "aquatic_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:14 (native Madison/Firehole)",
+        "yellowstone_python_spec/fish-spec.md:38"
+      ],
+      "method": "Thermal preference + growth limits (cold-water).",
+      "validation": "none",
+      "source": "yellowstone_python_spec/fish-spec.md"
+    },
+    {
+      "id": "brook_trout_profile",
+      "label": "Brook trout THERMAL_SPECIES profile",
+      "domain": "aquatic_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:15 (papers already present; no profile configured)",
+        "yellowstone_python_spec/fish-spec.md:39 (Chadwick 2017 growth >16 C decreases; Jonsson 2023 UILT ~25.3 C)"
+      ],
+      "method": "THERMAL_SPECIES entry from Chadwick 2017 + Jonsson 2023 anchors.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/fish-spec.md"
+    },
+    {
+      "id": "nonsalmonid_native_fish",
+      "label": "Mottled sculpin / longnose dace / longnose sucker / redside shiner / Utah chub",
+      "domain": "aquatic_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_species_gen/00_RESEARCH_SPEC.md:53 (Fish list for species_gen includes mottled sculpin, longnose dace, longnose sucker, redside shiner, Utah chub)"
+      ],
+      "method": "parametric_mesh / deform_base per species per 00_RESEARCH_SPEC.md gen modes.",
+      "validation": "none",
+      "source": "yellowstone_species_gen/00_RESEARCH_SPEC.md"
+    },
+    {
+      "id": "river_cross_section_survey",
+      "label": "Surveyed Firehole + Excelsior cross-section geometry",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:32 (P0 asset 4: Firehole 3 + Excelsior outflow 1 bank mesh + per-reach depth/velocity)",
+        "yellowstone_python_spec/03_AUDIT_RESPONSE.md:66-69 (1-D advection-dispersion river + energy budget deferred: needs cross-section survey data)",
+        "yellowstone_python/yellowstone_python/replay/README.md (cross-sections optional; depth defaults to 1.1 m authored assumed)"
+      ],
+      "method": "Hand transects or bathymetric survey replacing uniform 1.1 m authored depth.",
+      "validation": "none",
+      "notes": "P0 asset gap; blocks honest 1-D advection-dispersion claim.",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "dynamic_hydraulic_routing",
+      "label": "1-D Saint-Venant or diffusive-wave dynamic hydraulic routing",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:862-884 (hydraulic levels 1-5; Manning is a resistance relationship not a complete unsteady model)",
+        "research/yellowstone-todo.md:163-170 (select and document shallow-water / diffusive-wave / kinematic-wave formulation)"
+      ],
+      "method": "Choose level 4 (1-D Saint-Venant) or 3 (kinematic/diffusive wave); replace quasi-steady Manning chain.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "two_d_shallow_water_backend",
+      "label": "Optional ANUGA/Clawpack 2-D shallow-water backend",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:541-542 (ANUGA, Clawpack/PyClaw/GeoClaw candidates)",
+        "yellowstone_python_spec/improvements.md:869-870 (Two-dimensional shallow-water model level)"
+      ],
+      "method": "Benchmark 2-D hydraulics on small reference domain; not a park-wide rewrite.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "bmi_component_interface",
+      "label": "CSDMS BMI/bmipy component interface",
+      "domain": "infrastructure",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:546 (CSDMS BMI / bmipy tool-table entry)",
+        "yellowstone_python_spec/improvements.md:748-761 (component interface shall expose BMI-compatible init/update/state/grid/time/finalize)"
+      ],
+      "method": "Add bmipy.Bmi-compatible wrappers for hydro_thermal, overland_flow, snow_season, microclimate, surface_flux.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "cf_netcdf_scientific_outputs",
+      "label": "CF-compatible NetCDF scientific-release outputs + IOOS compliance",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/nc_export.py",
+        "yellowstone_python/yellowstone_python/build.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/replay/nc_export.py:1 (CF-conformant NetCDF export of replay temperature frames (CF-1.11, Standard Name Table v83))",
+        "yellowstone_python/yellowstone_python/replay/nc_export.py:10-11 (SCHEMA = 'yellowstone.replay_netcdf.v1'; CF_CONVENTIONS = 'CF-1.11')",
+        "yellowstone_python/yellowstone_python/build.py:1305-1312 (if (cfg.get('replay', {}) or {}).get('netcdf', False): from .replay.nc_export import write_replay_netcdf; try: write_replay_netcdf(...))"
+      ],
+      "method": "xarray/netCDF4 export of replay cell_temperature_c with CF-1.11 conventions; opt-in via cfg.replay.netcdf.",
+      "validation": "none",
+      "notes": "Replay NetCDF only (not park-wide scientific release) and IOOS Compliance Checker is not yet wired into CI.",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "spotpy_calibration",
+      "label": "SPOTPY (or pyEMU/PEST++) calibration workflow",
+      "domain": "infrastructure",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:544-545 (SPOTPY, pyEMU/PEST++ candidates)",
+        "yellowstone_python_spec/improvements.md:1119 (adopt SPOTPY or pyEMU/PEST++ when workflow addresses demonstrated need)"
+      ],
+      "method": "Replace or supplement scipy.least_squares with SPOTPY DREAM/SCE-UA sampling + identifiability diagnostics.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "modflow6_groundwater_energy",
+      "label": "MODFLOW 6 Groundwater Energy backend via FloPy",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/groundwater_provider.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/groundwater_provider.py:6 (STATUS = 'authored_lateral_not_modeled')",
+        "yellowstone_python/yellowstone_python/groundwater_provider.py:118-139 (def synthetic_mf6_simulation builds a one-layer flopy.mf6.MFSimulation with GwfDis/Npf/Ic/Riv)",
+        "yellowstone_python/yellowstone_python/exporters/godot_sidecars.py:378 (groundwater_provider.STATUS is authored_lateral_not_modeled)",
+        "yellowstone_python/yellowstone_python/HANDOFF_TRACKER.json (tests_result: 403 passed, 2 skipped (flopy and landlab absent))"
+      ],
+      "method": "FloPy-based synthetic MF6 simulation + authored lateral inflows mapped to river Source dicts; benchmark path exists but build path uses authored lateral only.",
+      "validation": "none",
+      "notes": "Thermal exchange with the river heat budget is still authored lateral, not an MF6 Groundwater Energy run.",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "snodas_snow_assimilation",
+      "label": "SNODAS snow data assimilation",
+      "domain": "cryosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:610 (SNODAS candidate; data-assimilation product classification)"
+      ],
+      "method": "Fetch SNODAS daily SWE/depth; adapt to overland/snow_season grid; carry assimilation-product provenance.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "phreeqc_reactive_transport",
+      "label": "PhreeqcRM reactive-transport chemistry (silica, As, B)",
+      "domain": "hydrothermal",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:549 (PhreeqcRM / IPhreeqc)",
+        "yellowstone_python_spec/03_AUDIT_RESPONSE.md:70 (PHREEQC silica chemistry explicitly research-gated)"
+      ],
+      "method": "Couple geochemistry.py substrate rules to a reactive-transport reaction module for silica/As/B pathways.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "ice_cover_winter_heat",
+      "label": "Ice/snow interaction with river heat exchange + winter claim gate",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:906 (ice or snow interactions when winter claims are supported)",
+        "yellowstone_python_spec/improvements.md:977 (explicit ice-free applicability gate rather than running summer equations)"
+      ],
+      "method": "Add ice-cover energy term + applicability gate reporting ice-cover state.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "model_structure_uncertainty",
+      "label": "Model-structure uncertainty ensemble (alternative formulations)",
+      "domain": "observation",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:1143 (Model-structure uncertainty category)",
+        "yellowstone_python_spec/improvements.md:1149-1159 (evaluate >=1 scientifically meaningful alternative per high-impact weakly supported assumption)"
+      ],
+      "method": "Run ensembles of alternative roughness/shading/thermal-curve/hydraulic simplifications; report spread as scenario, not calibrated prediction interval.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "scientific_claim_registry",
+      "label": "Machine-readable scientific claim registry",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/claims.py",
+        "yellowstone_python/yellowstone_python/validation/claims.py",
+        "yellowstone_python/yellowstone_python/build.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/claims.py:7-24 (REQUIRED_CLAIM_FIELDS = ('claim_id','predicted_quantity','intended_use','spatial_domain','temporal_domain','supported_conditions','model_version','implementation_status','evidence_status','required_processes','required_observations','calibration_dataset_ids','evaluation_dataset_ids','metrics','acceptance_criteria','known_exclusions','evidence_artifact_ids','review_status'))",
+        "yellowstone_python/yellowstone_python/claims.py:52-55 (REVIEW_STATUSES, IMPLEMENTATION_STATUSES, EVIDENCE_STATUSES enum tuples)",
+        "yellowstone_python/yellowstone_python/build.py:1337 (from .claims import registry_errors as _claims_registry_errors)",
+        "yellowstone_python/yellowstone_python/build.py:1474-1475 (write_sidecar(out / 'claims.json', {'schema': 'yellowstone.claims.v1', 'claims': CLAIMS}))",
+        "yellowstone_python/yellowstone_python/validation/claims.py (per-claim gate: check_reach_rmse against recorded nulls; evidence_artifact resolution)"
+      ],
+      "method": "In-code CLAIMS registry with required/optional fields + per-claim gate checks against recorded nulls; sidecar JSON emitted on every build.",
+      "validation": "none",
+      "notes": "No Godot overlay yet consumes the sidecar's evidence_status/review_status.",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "salib_dependence_aware",
+      "label": "SALib dependence-aware sensitivity (correlated inputs)",
+      "domain": "observation",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/identifiability.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/replay/identifiability.py:25-35 (DEPENDENCE_POLICY = {'varied_independently': {...}, 'held_fixed': (...), 'salib_gate': 'independent-input formulation above, or a dependence-aware method with documented interpretation'})",
+        "yellowstone_python/yellowstone_python/replay/identifiability.py:217-233 (SALib.analyze.sobol + sampler with saltelli/sobol fallbacks; records salib_version)",
+        "yellowstone_python/yellowstone_python/replay/tests/test_identifiability.py:53 (self.assertIn('salib_gate', DEPENDENCE_POLICY))"
+      ],
+      "method": "Documented independence policy via DEPENDENCE_POLICY plus a Sobol screen implementation; no Shapley effects or copula-based variant.",
+      "validation": "none",
+      "notes": "Dependence policy is declared and gated; Shapley/copula-based alternative for correlated inputs is still absent.",
+      "source": "yellowstone_python_spec/improvements.md"
+    },
+    {
+      "id": "canopy_interception",
+      "label": "Canopy interception storage + throughfall partitioning",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "research/yellowstone-todo.md:71-80 (canopy interception, throughfall, canopy evap as separate flux)",
+        "rg canopy_intercept|throughfall yellowstone_python/ returns no module"
+      ],
+      "method": "Capacity-limited canopy bucket; drip + canopy evap as separate fluxes.",
+      "validation": "none",
+      "source": "research/yellowstone-todo.md"
+    },
+    {
+      "id": "storm_intensity_profile",
+      "label": "Smooth storm-intensity envelope (gradual onset/intensification/cessation)",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "research/yellowstone-todo.md:52-55 (continuous storm envelopes; stochastic point-process comparison)"
+      ],
+      "method": "Smooth temporal envelope separate from slider instant intensity; preserve integrated volume.",
+      "validation": "none",
+      "source": "research/yellowstone-todo.md"
+    },
+    {
+      "id": "spatial_rain_cells",
+      "label": "Spatial rain cells with configurable size/intensity/lifetime + advection",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "research/yellowstone-todo.md:55-58 (spatial rain cells with configurable size/intensity/lifetime/overlap; normalized to intended domain-average; advect by movement vector)"
+      ],
+      "method": "Lagrangian rain-cell generator with smooth spatial falloff; preserve intensity distribution and integrated volume.",
+      "validation": "none",
+      "source": "research/yellowstone-todo.md"
+    },
+    {
+      "id": "raindrop_size_distribution",
+      "label": "Documented raindrop-size distribution for splash/erosion",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "research/yellowstone-todo.md:66-67 (raindrop terminal velocity vs published; Marshall-Palmer or similar DSD)"
+      ],
+      "method": "Marshall-Palmer DSD only where drop impacts/splash/erosion require it.",
+      "validation": "none",
+      "source": "research/yellowstone-todo.md"
+    },
+    {
+      "id": "snow_fraction_from_wetbulb",
+      "label": "Rain/snow partitioning via wet-bulb temperature",
+      "domain": "atmosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/microclimate.py",
+        "yellowstone_python/yellowstone_python/llm_backend.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/weather_http_consumer.gd",
+        "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "weather_snapshot.json weather.snow_fraction (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_python/yellowstone_python/microclimate.py:430-449 (def metpy_wet_bulb_temperature uses mpcalc.wet_bulb_temperature with site pressure)",
+        "yellowstone_python/yellowstone_python/llm_backend.py:449-479 (t_w from metpy_wet_bulb_temperature with Stull 2011 fallback; partition ramp 100 percent snow at T_w <= -1 C, 0 at T_w >= 3 C, linear between)",
+        "yellowstone_python/yellowstone_python/llm_backend.py:486 (snow_fraction and snow_partition_source written to the weather extra block)",
+        "yellowstone_midway/scripts/weather_http_consumer.gd:10-19 (snow_fraction listed in REQUIRED_WEATHER_FIELDS)",
+        "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd (controller scales GPU snow emitter by snow_fraction)",
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+      ],
+      "method": "metpy_wet_bulb_temperature with Stull 2011 fallback; linear ramp 100 percent snow at T_w <= -1 C, 0 at T_w >= 3 C.",
+      "validation": "none",
+      "notes": "snow fraction (Stull 2011 wet bulb) published in the snapshot and consumed by the precipitation particles",
+      "source": "yellowstone_atmosphere/README.md"
+    },
+    {
+      "id": "scientific_tree_inventory_validation",
+      "label": "Blind-annotation + difference-estimator tree inventory validation",
+      "domain": "terrestrial_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/addons.md:36-55 (install + scientific_addons.py design)",
+        "yellowstone_python_spec/addons.md:179-258 (archive_run, frozen pre-review inventory, state_sha256, boundary_quality, scale_sensitivity)",
+        "yellowstone_python_spec/addons.md:336-412 (create_sample SRS WOR)",
+        "yellowstone_python_spec/addons.md:430-520 (annotate_sample blind GUI)",
+        "yellowstone_python_spec/addons.md:522-684 (match_points one-to-one; pooled_metrics; plot_bootstrap; difference_estimate)",
+        "rg scientific_addons|difference_estimator yellowstone_python/ returns no hits (archive/scientific_addons.py is historical, not integrated)"
+      ],
+      "method": "Hungarian one-to-one matching per tolerance; SRS-WOR corrected total with t-interval; plot-level bootstrap for exploratory metric bands.",
+      "validation": "none",
+      "notes": "canopy_census + census_validate exist but do not implement this methodology.",
+      "source": "yellowstone_python_spec/addons.md"
+    },
+    {
+      "id": "tree_inventory_boundary_quality",
+      "label": "Boundary-quality flagging + scale sensitivity",
+      "domain": "terrestrial_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python_spec/addons.md:261-316 (boundary_quality distance_transform_edt; scale_sensitivity area/density range)"
+      ],
+      "method": "distance_transform_edt against mask + explicit scale-range sensitivity (not a confidence interval).",
+      "validation": "none",
+      "source": "yellowstone_python_spec/addons.md"
+    },
+    {
+      "id": "weather_live_bridge_timestamp_coupling",
+      "label": "Simulation-timestamp freshness mode for weather snapshot reader",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd",
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "world.gd:137-138 (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:6 (Freshness modes: 'wall_clock' compares generated_at_unix with the computer clock, 'simulation_clock' compares it with a supplied simulation time)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd (@export_enum('wall_clock','simulation_clock','disabled') var freshness_mode)",
+        "yellowstone_midway/scripts/world.gd:137-138 (weather_snapshot_reader.set('freshness_mode','simulation_clock'); weather_snapshot_reader.set_simulation_epoch_unix(_simulation_epoch_unix))",
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+      ],
+      "method": "freshness_mode export; sim epoch written into reader when a simulation epoch is active.",
+      "validation": "none",
+      "notes": "reader in simulation_clock mode against the published snapshot",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "weather_content_signature_detection",
+      "label": "Content-hash file-change detection for snapshot reader",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "weather_snapshot_reader.gd (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:77-78 (Content signature catches rapid atomic replacements on filesystems with coarse timestamp resolution; var _last_signature: int = -1)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:141-142 (var signature := hash(bytes); if signature == _last_signature)",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:196 (_last_signature = signature)",
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+      ],
+      "method": "Hash file bytes with Godot's hash(); compare against last-seen signature; skip reload if unchanged.",
+      "validation": "none",
+      "notes": "content signature active on the published snapshot",
+      "source": "yellowstone_python_spec/fixes/fixes-14.md"
+    },
+    {
+      "id": "pool_shell_rim_meshes",
+      "label": "Hand-sculpted pool-shell and rim meshes for Grand Prismatic + Excelsior",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:29 (P0 asset 1)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:211 (Prompt 1: replace crude underwater terrain cut with authored pool-shell/rim meshes)"
+      ],
+      "method": "Low-poly shells preserving mapped water outline; separate crater wall, shelf, wetted rim, outflow lip.",
+      "validation": "none",
+      "notes": "Pool-overlay shim is rendered; underlying geometry still terrain cut.",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "thermal_apron_texture",
+      "label": "Thermal-apron eligibility texture at ~1 m",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:30 (P0 asset 2)"
+      ],
+      "method": "USGS thermal polygons + NAIP detail -> apron_mask.png at ~1 m.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "species_correct_wildlife_rigs",
+      "label": "Species-correct wildlife rigs (bison, Canada goose, dipper, raven, trout)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:31 (P0 asset 3)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:221-223 (Prompt 4: replace stand-ins with verified rigged models)"
+      ],
+      "method": "Keep path_xz / river_id indices / lateral_offset_m interface.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "lodgepole_pine_set",
+      "label": "Lodgepole-tuned pine set replacing generic Poly Haven pine",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:35 (P1 asset 5)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:144-145 (pine geometry is reduced Poly Haven; lodgepole set remains botanical art task)"
+      ],
+      "method": "Lodgepole silhouette/color/thin-bark; 3 LODs + billboard in existing MultiMesh slots.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "shrub_forb_grass_upgrades",
+      "label": "Sedge/willow/lupine variants + snag/down-wood",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:36 (P1 asset 6)"
+      ],
+      "method": "2-3 variants per guild + snag/down-wood for recruitment/mortality storytelling.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "insect_swarm_gpu_particles",
+      "label": "GPU insect swarm + dipper perch stones",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:37 (P1 asset 7)"
+      ],
+      "method": "GPU point/quad swarm driven by insect_activity + 2-3 perch stones.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "steam_volumetric_lite",
+      "label": "Steam upgrade from quads to soft volumetric-lite",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:38 (P1 asset 8)"
+      ],
+      "method": "Height-faded, wind-advected shader reading shared wind vector.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "boardwalk_microdetail",
+      "label": "Boardwalk/overlook microdetail (planks, rails, deck edge, drainage fingers)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:39 (P1 asset 9)"
+      ],
+      "method": "Sculpted from midway_orthophoto_detail.jpg.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "snow_phenology_overlays",
+      "label": "Seasonal ground-detail textures + bare-branch/needle tint variants",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:42 (P2 asset 10)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:233-235 (Prompt 7: physically coherent seasonal appearance)"
+      ],
+      "method": "Season-specific textures + phenology tint variants; keyed to GDD.",
+      "validation": "none",
+      "notes": "snow_map shader uniform exists; alternate texture layers not authored.",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "positional_audio_set",
+      "label": "Positional audio (Firehole whitewater, boardwalk footsteps, wind shelter vs clearing, waterfall)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:43 (P2 asset 11)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:155-159 (audio pass items)"
+      ],
+      "method": "Author source positions, near/far attenuation, bank/forest occlusion.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "field_notes_overlay_art",
+      "label": "Field-notes / binocular overlay art (pool_cross_section, plume_map, refuge_map, suitability notebook plates)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:44 (P2 asset 12)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:225-227 (Prompt 5: optional naturalist notebook)"
+      ],
+      "method": "Framed notebook plates triggered by I/M keys; progressive disclosure of scientific notes.",
+      "validation": "none",
+      "notes": "The PNGs are produced by Python M11; Godot does not consume them.",
+      "source": "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md"
+    },
+    {
+      "id": "naturalist_observation_mode",
+      "label": "Optional naturalist notebook / binocular observation mode",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:225-227 (Prompt 5 full text)",
+        "no gd script named notebook/binocular/observation under yellowstone_midway/scripts/"
+      ],
+      "method": "Binocular/camera view records observation (location, sim time, confidence); separate visible-category from exact ID when evidence insufficient; large-text + controller + keyboard support.",
+      "validation": "none",
+      "notes": "No XP, no mandatory checklists; local versioned schema.",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "study_mode_in_engine_ab_ui",
+      "label": "In-engine study-mode A/B slider UI with reset + side-by-side replay",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:229-231 (Prompt 6: labeled study mode, same parameter authority, reset + side-by-side)",
+        "yellowstone_python_spec/03_AUDIT_RESPONSE.md:71-74 (Timestamped replay / live service deferred: a player-visible A/B instrument needs the Godot UI pass)"
+      ],
+      "method": "In-engine sliders (Tair, shade, Q, Excelsior strength) write ecosystem.json variants A/B; split-screen or toggle replay.",
+      "validation": "none",
+      "notes": "Python study_mode.py writes variants; Godot UI pass not started.",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "counterexample_presets",
+      "label": "Counterexample study presets (single variable != whole habitat)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:106 (counterexample presets)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:231 (counterexamples showing why a single variable does not determine a whole habitat)"
+      ],
+      "method": "Preset experiment pairs that reveal masking failure of one-variable intuitions.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md"
+    },
+    {
+      "id": "guided_scenario_inquiry_prompts",
+      "label": "Guided scenario inquiry prompts + annotation overlays",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:44 (notebook plates: Prompt 5 without progression/XP)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:227 (progressive disclosure of scientific notes; separate visible category from exact ID)"
+      ],
+      "method": "Scripted narrator prompts tied to overlook/boardwalk/bridge/meadow waypoints; links back to notebook plates and study_mode variants.",
+      "validation": "none",
+      "notes": "Educational-interactivity hook over existing study_mode + compare + control-pulse toggle.",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "experiment_controls_in_scene",
+      "label": "In-scene experiment control toggles for air T, shade/cloud, upstream Q, Excelsior strength",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:104-108 (M10 sliders: air T, shade/cloud, upstream Q, Excelsior source strength)"
+      ],
+      "method": "Shared parameter authority writes ecosystem.json; same hooks drive M01/M02/M05/M06 responses.",
+      "validation": "none",
+      "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md"
+    },
+    {
+      "id": "gentle_physical_interactions",
+      "label": "Viewpoint sit, interpretive panels, binoculars, inspection",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:249-251 (Prompt 11)"
+      ],
+      "method": "Authored viewpoints + sourced interpretive panels; accessible dismissible overlays; no collection/damage/feeding.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "fairy_falls_extension",
+      "label": "Fairy Falls extension (DEM, orthophoto, cliff, wetted rock, spray + audio)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:45 (P2 asset 13 deferred until Milestone A passes)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:191 (extension row: Fairy Falls)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:237-239 (Prompt 8 full text)"
+      ],
+      "method": "Extend domain along true Fairy Falls route; cliff + stream junction with Firehole chain.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "lower_geyser_basin_tile",
+      "label": "Lower Geyser Basin / Fountain extension tile",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:192"
+      ],
+      "method": "New thermal-area map, mud/sinter material distinction, species eligibility.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "upper_geyser_basin_tile",
+      "label": "Upper Geyser Basin extension with time-dependent geyser plumbing",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:193"
+      ],
+      "method": "Time-dependent geyser plumbing + eruption-asset model with observational basis.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "firehole_canyon_madison_tile",
+      "label": "Firehole Canyon / Madison extension",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:194"
+      ],
+      "method": "Canyon meshes, banks, whitewater classification, stream junctions.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "hayden_valley_tile",
+      "label": "Hayden Valley extension",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:195",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:201 (Hayden/Lamar should not inherit Midway's forest eligibility mask)"
+      ],
+      "method": "Separate grassland + river wetlands + grazer habitat; distinct eligibility mask.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "lamar_valley_tile",
+      "label": "Lamar Valley extension",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:196"
+      ],
+      "method": "Northern-range grassland + riparian; connecting distances or explicit region-selection loading screen.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "canyon_lower_falls_tile",
+      "label": "Canyon / Lower Falls extension",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:197"
+      ],
+      "method": "Full cliff meshes, waterfall spray, long-range lighting, paths from source data.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "yellowstone_lake_tile",
+      "label": "Yellowstone Lake / West Thumb extension",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:198"
+      ],
+      "method": "Bathymetry where licensed; shoreline waves; native/non-native fish context.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "mammoth_travertine_basin",
+      "label": "Mammoth travertine basin (chemically distinct thermal landscape)",
+      "domain": "hydrothermal",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:199-201 (Mammoth cannot be implemented by whitening Grand Prismatic)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:253-255 (Prompt 12 full text)",
+        "yellowstone_python/yellowstone_python/geochemistry.py (sinter vs travertine guardrail only; no Mammoth model)"
+      ],
+      "method": "Travertine/calcite deposition model + terrace geometry + limestone-derived mineral system.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "whole_park_tile_architecture",
+      "label": "Versioned tile catalog + async loading + physics-safe handoffs + origin rebase",
+      "domain": "infrastructure",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:241-243 (Prompt 9 full text)"
+      ],
+      "method": "Separate geographic coordinates / runtime-relative coordinates / simulation IDs; shared transport+water graph ports; origin rebasing after precision test demonstrates need.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "measured_rendering_optimization",
+      "label": "Measured rendering optimization (frame-time percentiles, draw calls, LOD budgets)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:245-247 (Prompt 10 full text)"
+      ],
+      "method": "Record percentiles, draw calls, triangles, alpha overdraw, memory, shader stutters at the four starting places + continuous walk; produce Compatibility + Forward+ profiles.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "milestone_a_walking_route",
+      "label": "Milestone A: one finished walking route (overlook-to-basin)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:163-168 (acceptance: no open seam, no floating plant, no road in channel, no billboard failure, no ordinary wildlife in hot center)"
+      ],
+      "method": "Eye-height captures every 20-30 m; replace development fauna in this route; before/after ledger.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "milestone_c_seasonal_layers",
+      "label": "Milestone C: authored summer/autumn/winter appearance layers",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:175-179 (Milestone C acceptance)"
+      ],
+      "method": "Same geographic topology across seasons; snow depth in m with aspect/canopy/wind/thermal eligibility; alternate authored plant forms per season.",
+      "validation": "none",
+      "notes": "snow_season.py writes season.json; apply_season reads it; alternate seasonal visual asset layers not authored.",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "forward_plus_quality_tier",
+      "label": "Forward+ renderer quality tier (volumetric fog, SSAO/SSIL, volumetric clouds)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_atmosphere/README.md:27 (Compatibility renderer; volumetric fog Forward+-only; true ray-marched volumetric cloud should be a separate Forward+ quality tier)",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:152-153 (Forward+ quality profile can add local volumetric fog, SSAO/SSIL, better reflections)"
+      ],
+      "method": "Separate quality profile with ray-marched volumetric clouds, local volumetric fog, SSAO/SSIL.",
+      "validation": "none",
+      "source": "yellowstone_atmosphere/README.md"
+    },
+    {
+      "id": "audio_full_pass",
+      "label": "Full positional audio pass (source positions, occlusion, loop-seam audit)",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:155-159 (Audio should belong somewhere; source positions, near/far attenuation, bank occlusion, chorus-time labeling)"
+      ],
+      "method": "Author source positions + near/far attenuation + wind clearings vs forest shelter vs river-bank occlusion; inspect each loop seam.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "atmosphere_controller_install",
+      "label": "Install yellowstone_atmosphere/ controller into yellowstone_midway scripts + apply integration patch",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd",
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd",
+        "yellowstone_midway/scripts/weather_http_consumer.gd",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader",
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd (class_name YellowstoneAtmosphereController extends Node3D; Preetham physical sky with sun animated from a simulation timestamp)",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader:1 (shader_type spatial; Camera-following cloud-layer shell)",
+        "yellowstone_midway/scripts/world.gd:6-7 (const AtmosphereController = preload('res://scripts/yellowstone_atmosphere.gd'); const WeatherSnapshotReader = preload('res://scripts/weather_snapshot_reader.gd'))",
+        "yellowstone_midway/scripts/world.gd (atmosphere_controller = AtmosphereController.new(); atmosphere_controller.configure(sun, environment, player); weather_snapshot_reader.bind(atmosphere_controller))",
+        "yellowstone_midway/scripts/world.gd:132-138 (reader instantiated, bound, flipped to simulation_clock)"
+      ],
+      "method": "res://scripts/yellowstone_atmosphere.gd, weather_snapshot_reader.gd, weather_http_consumer.gd and the cloud shell shader present in the midway project; world.gd preloads, instantiates and configures the controller against sun/environment/player.",
+      "validation": "none",
+      "notes": "Package is installed and wired; sky material swap to PhysicalSkyMaterial not independently reverified here.",
+      "source": "yellowstone_atmosphere/README.md"
+    },
+    {
+      "id": "educational_annotation_overlays",
+      "label": "Educational annotation overlays tied to pool shells, plumes, fish refuges",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "next_phase",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:227 (progressive disclosure of scientific notes; retain source links)",
+        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:107-108 (Prompt 6 companion: units + uncertainty shown)"
+      ],
+      "method": "Trigger notebook plates / HUD annotations by proximity to features; show units, uncertainty, source link.",
+      "validation": "none",
+      "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
+    },
+    {
+      "id": "outflow_network_gps",
+      "label": "Grand Prismatic outflow channel network",
+      "domain": "hydrothermal",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/pool_crust.py:18-20 (OUTFLOW_CHANNELS holds only the authored Excelsior outflow)",
+        "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md problem 3"
+      ],
+      "method": "Flow routing from the spring rim over the 1 m 3DEP DEM, refined against 0.625 m NAIP wet-mat pixels",
+      "validation": "none",
+      "notes": "Radial distributary channels seen in aerial imagery are absent from data and world.",
+      "source": "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md"
+    },
+    {
+      "id": "outflow_temperature_field",
+      "label": "Outflow sheet-flow temperature field",
+      "domain": "hydrothermal",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "pool_crust.py:24-39 (authored t_center_c and t_edge_c only)",
+        "fixes-40 problem 2"
+      ],
+      "method": "Thin-film energy balance along each channel using replay/surface_flux terms",
+      "validation": "none",
+      "notes": "Needs spring discharge and channel depth data.",
+      "source": "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md"
+    },
+    {
+      "id": "microbial_mat_model",
+      "label": "Microbial mat community and pigment model",
+      "domain": "hydrothermal",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "pool_crust.py:41-48 (COLOR_STOPS fixed by radius fraction, labeled illustrative)",
+        "fixes-40 problem 1"
+      ],
+      "method": "Community class from local water temperature (Nugent et al. 2015 Table 1), pH gate, irradiance-driven chlorophyll to carotenoid index with a relaxation time",
+      "validation": "none",
+      "notes": "Mat colors today are a static radial ramp computed once per build.",
+      "source": "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md"
+    },
+    {
+      "id": "mat_pigment_render",
+      "label": "Mat pigment material on the apron and outflows",
+      "domain": "rendering",
+      "python": [],
+      "godot": [
+        "yellowstone_midway/shaders/thermal_apron.gdshader"
+      ],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_midway/shaders/terrain.gdshader (photo-based pigment boost from a 2 m macro orthophoto)",
+        "yellowstone_midway/docs/AUTHORING.md:68",
+        "fixes-40 problem 5"
+      ],
+      "method": "World-space pigment field from the mat model drives albedo and wet-film shading; NAIP kept as validation reference",
+      "validation": "none",
+      "notes": "thermal_apron.gdshader exists and is unused.",
+      "source": "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md"
+    },
+    {
+      "id": "thermal_core_microrelief",
+      "label": "Thermal core high-resolution terrain",
+      "domain": "rendering",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "yellowstone_midway/tools/prepare_world.py:19 (GRID 1025, STEP 4 m)",
+        "yellowstone_midway/references/dem_pixel_comparison.json (3DEP locked_1m sample available)",
+        "fixes-40 problem 6"
+      ],
+      "method": "Local 1 m lidar tile plus channel incision and authored sinter rim microrelief, stitched into the 4 m master grid",
+      "validation": "none",
+      "notes": "Apron reads as a flat single-color plane at 4 m.",
+      "source": "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md"
+    },
+    {
+      "id": "mat_validation_imagery",
+      "label": "Mat color validation against imagery",
+      "domain": "observation",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "fixes-40 problem 7"
+      ],
+      "method": "NAIP detail classification into mat color classes; confusion matrix against modeled classes",
+      "validation": "none",
+      "notes": "Validation only; no feedback into parameters without a declared calibration step.",
+      "source": "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md"
+    },
+    {
+      "id": "geothermal_solute_transport",
+      "label": "Geothermal solutes in the river (chloride, arsenic, boron)",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: one descriptive hit in geochemistry.py",
+        "fixes-41 item 1"
+      ],
+      "method": "Conservative advection on replay cells; chloride flux checked against gauge specific conductance",
+      "validation": "none",
+      "notes": "Chloride is an independent check on geothermal heat inputs (McCleskey et al. 2012); arsenic and boron are a separate trout stressor (Nimick et al. 1998; Goldstein 2001).",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "dissolved_oxygen",
+      "label": "Dissolved oxygen",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: no oxygen model",
+        "fixes-41 item 2"
+      ],
+      "method": "Temperature and pressure dependent saturation, reaeration from hydraulics, metabolism from periphyton",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "river_periphyton",
+      "label": "River primary producers (periphyton, aquatic plants)",
+      "domain": "aquatic_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: zero hits for periphyton, algae, primary production, nutrient",
+        "fixes-41 item 3"
+      ],
+      "method": "Light and temperature limited growth per cell, nutrient limitation authored",
+      "validation": "none",
+      "notes": "Food base for grazing invertebrates.",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "hot_spring_flies",
+      "label": "Hot-spring outflow food web (ephydrid flies, mites, predators)",
+      "domain": "hydrothermal",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: zero hits for ephydrid or brine fly",
+        "fixes-41 item 4"
+      ],
+      "method": "Fly occupancy on mats by temperature window, mite parasitism, predation by beetles and shorebirds",
+      "validation": "none",
+      "notes": "Brock, Wiegert and Brock 1969; Kuenzel and Wiegert 1973. Needs fixes-40 mat model.",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "ground_heat_flux_field",
+      "label": "Geothermal ground heat flux and soil temperature",
+      "domain": "hydrothermal",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: zero hits for ground heat flux or soil temperature",
+        "fixes-41 item 6"
+      ],
+      "method": "Basin field authored from apron mask and thermal imagery until measured",
+      "validation": "none",
+      "notes": "Drives snow-free refuges, thermal-soil plants and tree die-off.",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "river_shading",
+      "label": "Terrain and riparian shading of river shortwave",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "study_mode.py:2 (shade is a study slider only)",
+        "fixes-41 item 7"
+      ],
+      "method": "Sky view and direct-beam shading from DEM and canopy census",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "plume_microclimate_feedback",
+      "label": "Steam plume effect on local air, fog and rime",
+      "domain": "atmosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "build.py:828-844 (condensation index is one-way)",
+        "fixes-41 item 8"
+      ],
+      "method": "Pool and outflow heat and vapor flux into downwind humidity and temperature",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "aerial_insectivores",
+      "label": "Aerial insectivores and riparian spiders (swallows, bats)",
+      "domain": "terrestrial_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "fixes-41 item 9"
+      ],
+      "method": "Consumers of the emergent insect compartment",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "fish_piscivores",
+      "label": "Trout predators (osprey, eagle, merganser, kingfisher, otter)",
+      "domain": "aquatic_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "grazers.py:15-18 (predation listed as unknown only)",
+        "fixes-41 item 10"
+      ],
+      "method": "Size-class predation mortality from authored piscivore densities",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "grazer_nutrient_trampling",
+      "label": "Grazer nutrient return and trampling",
+      "domain": "terrestrial_ecology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: zero hits for dung, nutrient, trampling, wallow",
+        "fixes-41 item 11"
+      ],
+      "method": "Nitrogen return and disturbance per patch",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "evapotranspiration",
+      "label": "Plant water uptake (evapotranspiration)",
+      "domain": "cryosphere",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: zero hits for evapotranspiration",
+        "fixes-41 item 12"
+      ],
+      "method": "Reference ET from met forcing with a coefficient per patch type",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    },
+    {
+      "id": "hyporheic_exchange",
+      "label": "Hyporheic exchange",
+      "domain": "hydrology",
+      "python": [],
+      "godot": [],
+      "status": "not_started",
+      "evidence": [
+        "sweep: zero hits for hyporheic",
+        "fixes-41 item 12"
+      ],
+      "method": "Bed exchange term on replay cells, authored rates until measured",
+      "validation": "none",
+      "notes": "",
+      "source": "yellowstone_python_spec/fixes/fixes-41-missing-couplings-and-species.md"
+    }
+  ],
+  "couplings": [
+    {
+      "from": "species_gen_package",
+      "to": "wildlife_actors",
+      "quantity": "per-individual trait record consumed as spawn/skin parameters",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_species_gen/00_RESEARCH_SPEC.md:179-181 (output per individual is the exact record wildlife_actor-style builders or a glTF morph-target applier consumes)"
+      ],
+      "notes": "Deterministic per --seed."
+    },
+    {
+      "from": "pvlib_authoritative_solar",
+      "to": "atmosphere_controller_install",
+      "quantity": "solar_azimuth_deg, solar_elevation_deg (+ sunrise/sunset epochs)",
+      "status": "partial",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/llm_backend.py:283-285 (solar_block = solar_snapshot(now_unix, ...)) emitted in weather HTTP payload",
+        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:179-192 (reader merges nested solar block into state passed to controller)",
+        "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd:94-95 (controller stores solar_azimuth_deg/solar_elevation_deg and drives sun from them)",
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+      ],
+      "notes": "Solar block reaches the HTTP backend only. No Python code writes user://weather/latest.json (the path world.gd:132-138 binds through weather_snapshot_reader.gd:47), and no scene or script instantiates weather_http_consumer.gd, so this data does not reach the Godot sky."
+    },
+    {
+      "from": "moon_ephemeris",
+      "to": "atmosphere_controller_install",
+      "quantity": "lunar RA/Dec + altitude/azimuth; moon-phase illumination fraction",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:150-157 (skyfield/astropy for Moon/planets separate from stars)",
+        "yellowstone_python_spec/fixes/fixes-14.md:1061"
+      ]
+    },
+    {
+      "from": "star_catalog_vendor",
+      "to": "sidereal_star_renderer",
+      "quantity": "RA, Dec, mag, B-V per star (res://data/stars.bin)",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:187-203"
+      ]
+    },
+    {
+      "from": "sidereal_star_renderer",
+      "to": "milky_way_flux_layer",
+      "quantity": "fade stars between point layer and unresolved flux layer at limiting magnitude",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:357 (fade stars between the point layer and flux layer around the limiting magnitude)"
+      ]
+    },
+    {
+      "from": "weather_snapshot_schema_v2",
+      "to": "atmosphere_controller_install",
+      "quantity": "normalized {schema_version:2, generated_at_unix, valid_time_unix, simulation_time_unix, source, weather, solar, terrain} payload",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:1012-1039"
+      ]
+    },
+    {
+      "from": "weather_http_consumer",
+      "to": "weather_snapshot_schema_v2",
+      "quantity": "nested schema parity between HTTP and file reader",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fixes/fixes-14.md:697-736 (fix endpoint contract divergence)"
+      ]
+    },
+    {
+      "from": "snow_fraction_from_wetbulb",
+      "to": "weather_snapshot_schema_v2",
+      "quantity": "snow_fraction (0..1) field in weather block",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_atmosphere/README.md:25 (feed snow_fraction from meteorological pipeline, ideally wet-bulb)",
+        "yellowstone_python_spec/fixes/fixes-14.md:1088"
+      ]
+    },
+    {
+      "from": "pool_shell_rim_meshes",
+      "to": "thermal_apron_texture",
+      "quantity": "shared water-outline polygons feeding apron eligibility mask",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:29-30 (both P0; apron eligibility layer in a future art pass)"
+      ]
+    },
+    {
+      "from": "river_cross_section_survey",
+      "to": "dynamic_hydraulic_routing",
+      "quantity": "surveyed depth(x,y) + bank mesh + per-reach velocity for Saint-Venant / diffusive-wave",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/03_AUDIT_RESPONSE.md:67-69 (1-D advection-dispersion needs cross-section survey data before equations are honest)"
+      ]
+    },
+    {
+      "from": "modflow6_groundwater_energy",
+      "to": "river_heat_budget",
+      "quantity": "groundwater inflow (m3/s) with associated thermal energy",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:779-784 (one authoritative transfer record; groundwater inflow is water transfer with associated thermal energy)",
+        "yellowstone_python_spec/improvements.md:949-950"
+      ]
+    },
+    {
+      "from": "snodas_snow_assimilation",
+      "to": "snow_season",
+      "quantity": "SWE (mm) and snow depth (m) daily assimilation to snow_season grid",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:610"
+      ]
+    },
+    {
+      "from": "phreeqc_reactive_transport",
+      "to": "geochemistry_substrate_rules",
+      "quantity": "reaction-coupled silica/As/B species concentrations driving substrate transition rules",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:549",
+        "yellowstone_python_spec/03_AUDIT_RESPONSE.md:70"
+      ]
+    },
+    {
+      "from": "scientific_claim_registry",
+      "to": "rendering",
+      "quantity": "per-field evidence_status + applicability_limits consumed by Godot overlays",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:1298-1312 (Godot export requirements: evidence status, applicability limits, uncertainty where available)"
+      ]
+    },
+    {
+      "from": "cf_netcdf_scientific_outputs",
+      "to": "bmi_component_interface",
+      "quantity": "CF-labeled component I/O variables with grid + time metadata",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:546-547"
+      ]
+    },
+    {
+      "from": "yellowstone_cutthroat_profile",
+      "to": "fish_suitability",
+      "quantity": "THERMAL_SPECIES anchors (t_opt_lo/hi, t_feed_zero, t_refuge, t_uilt) + survivorship curve for native-species prediction",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:36"
+      ]
+    },
+    {
+      "from": "arctic_grayling_profile",
+      "to": "fish_suitability",
+      "quantity": "cold-water thermal window endpoints for extended Madison/confluence scope",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:37"
+      ]
+    },
+    {
+      "from": "mountain_whitefish_profile",
+      "to": "fish_suitability",
+      "quantity": "cold-water thermal preference endpoints",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:38"
+      ]
+    },
+    {
+      "from": "brook_trout_profile",
+      "to": "fish_suitability",
+      "quantity": "upper-growth-limit curve (Chadwick 2017, Jonsson 2023)",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/fish-spec.md:39"
+      ]
+    },
+    {
+      "from": "canopy_interception",
+      "to": "overland_flow",
+      "quantity": "throughfall as rainfall input to infiltration + surface storage (mm/h)",
+      "status": "proposed",
+      "evidence": [
+        "research/yellowstone-todo.md:80 (expose ground-level throughfall as the rainfall input)"
+      ]
+    },
+    {
+      "from": "spatial_rain_cells",
+      "to": "overland_flow",
+      "quantity": "spatially distributed precipitation intensity field (m/s per cell)",
+      "status": "proposed",
+      "evidence": [
+        "research/yellowstone-todo.md:51-63"
+      ]
+    },
+    {
+      "from": "study_mode_in_engine_ab_ui",
+      "to": "experiment_controls_in_scene",
+      "quantity": "slider state (air T, shade/cloud, upstream Q, Excelsior strength) written to ecosystem.json variant A/B",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:104-108"
+      ]
+    },
+    {
+      "from": "field_notes_overlay_art",
+      "to": "naturalist_observation_mode",
+      "quantity": "pool_cross_section/plume_map/refuge_map/suitability PNG consumed as framed plates in notebook",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:44",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:225-227"
+      ]
+    },
+    {
+      "from": "guided_scenario_inquiry_prompts",
+      "to": "study_mode_in_engine_ab_ui",
+      "quantity": "scenario preset ID + narrator prompt triggered at waypoint",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:225-227 (Prompt 5 progressive disclosure)",
+        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:106 (counterexample presets)"
+      ]
+    },
+    {
+      "from": "fairy_falls_extension",
+      "to": "whole_park_tile_architecture",
+      "quantity": "first additional UTM-aligned tile exercising shared transport + water graph ports",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:181-186 (Milestone D acceptance: crossing boundary preserves distance, heading, elevation and simulation state)"
+      ]
+    },
+    {
+      "from": "mammoth_travertine_basin",
+      "to": "phreeqc_reactive_transport",
+      "quantity": "travertine deposition from Ca-HCO3-CO2 chemistry drives terrace growth rules",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:199-201",
+        "yellowstone_python/yellowstone_python/geochemistry.py (sinter vs travertine guardrail only)"
+      ]
+    },
+    {
+      "from": "ice_cover_winter_heat",
+      "to": "river_heat_budget",
+      "quantity": "ice-cover state gate + modified longwave/sensible/evaporative terms when ice present",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:906"
+      ]
+    },
+    {
+      "from": "model_structure_uncertainty",
+      "to": "scientific_claim_registry",
+      "quantity": "alternative-structure scenario spread recorded as structural uncertainty category",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/improvements.md:1143-1159"
+      ]
+    },
+    {
+      "from": "scientific_tree_inventory_validation",
+      "to": "canopy_census",
+      "quantity": "frozen pre-review automated inventory + validation_report.json corrected total",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/addons.md:179-258",
+        "yellowstone_python_spec/addons.md:685-845 (evaluate_sample report + validation_report.json)"
+      ]
+    },
+    {
+      "from": "educational_annotation_overlays",
+      "to": "field_notes_overlay_art",
+      "quantity": "feature-proximity trigger id -> notebook plate asset",
+      "status": "proposed",
+      "evidence": [
+        "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:44",
+        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:225-227"
+      ]
+    },
+    {
+      "from": "outflow_network_gps",
+      "to": "outflow_temperature_field",
+      "quantity": "channel geometry and discharge split (m, m3/s)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problems 2-3"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "surface_flux",
+      "to": "outflow_temperature_field",
+      "quantity": "net surface heat flux on the outflow film (W/m2)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problem 2"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "outflow_temperature_field",
+      "to": "microbial_mat_model",
+      "quantity": "local water temperature (C)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problems 1, 4"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "pool_crust",
+      "to": "microbial_mat_model",
+      "quantity": "pool edge temperature and pH (C, pH)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problem 4"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "pvlib_authoritative_solar",
+      "to": "microbial_mat_model",
+      "quantity": "irradiance and season for the chlorophyll to carotenoid index (W/m2)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problems 1, 4"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "microbial_mat_model",
+      "to": "mat_pigment_render",
+      "quantity": "per-cell community class and pigment index",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problem 5"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "outflow_network_gps",
+      "to": "thermal_core_microrelief",
+      "quantity": "channel incision geometry (m)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problem 6"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "mat_validation_imagery",
+      "to": "microbial_mat_model",
+      "quantity": "class agreement scores (validation, not calibration)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-40 problem 7"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "tributary_sources",
+      "to": "geothermal_solute_transport",
+      "quantity": "hydrothermal inflow solute load (mg/s)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 1"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "geothermal_solute_transport",
+      "to": "fish",
+      "quantity": "arsenic and boron concentration as a stressor (ug/L)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 1"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "geothermal_solute_transport",
+      "to": "runner_fetch_firehole",
+      "quantity": "predicted chloride flux vs gauge specific conductance (validation)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 1"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "replay_river_transport",
+      "to": "dissolved_oxygen",
+      "quantity": "water temperature for oxygen saturation (C)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 2"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "replay_hydraulics",
+      "to": "dissolved_oxygen",
+      "quantity": "reaeration from depth and velocity",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 2"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "dissolved_oxygen",
+      "to": "fish",
+      "quantity": "dissolved oxygen (mg/L)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 2"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "shortwave_radiation",
+      "to": "river_periphyton",
+      "quantity": "light at the bed (W/m2)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 3"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "river_periphyton",
+      "to": "aquatic_foodweb",
+      "quantity": "producer biomass as food for grazing invertebrates",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 3"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "river_periphyton",
+      "to": "dissolved_oxygen",
+      "quantity": "photosynthesis and respiration (g O2/m2/d)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 items 2, 3"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "microbial_mat_model",
+      "to": "hot_spring_flies",
+      "quantity": "mat biomass and temperature window",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 4"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "hot_spring_flies",
+      "to": "insects_birds",
+      "quantity": "flies as prey for shorebirds and swallows",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 4"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "snow_season",
+      "to": "grazers",
+      "quantity": "snow depth and water equivalent as movement and forage cost",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 5"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "ground_heat_flux_field",
+      "to": "snow_season",
+      "quantity": "ground heat flux melting snow (W/m2)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 items 5, 6"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "ground_heat_flux_field",
+      "to": "vegetation",
+      "quantity": "soil temperature limit on plants and trees (C)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 6"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "river_shading",
+      "to": "surface_flux",
+      "quantity": "shaded fraction of direct beam and sky view",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 7"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "canopy_census",
+      "to": "river_shading",
+      "quantity": "riparian canopy geometry",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 7"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "plume_microclimate_feedback",
+      "to": "microclimate",
+      "quantity": "downwind humidity and air temperature adjustment",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 8"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "insects_birds",
+      "to": "aerial_insectivores",
+      "quantity": "emergent insect prey",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 9"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "fish_piscivores",
+      "to": "fish",
+      "quantity": "predation mortality by size class",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 10"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "grazers",
+      "to": "grazer_nutrient_trampling",
+      "quantity": "grazer presence per patch",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 11"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "grazer_nutrient_trampling",
+      "to": "patches",
+      "quantity": "nitrogen return and disturbance",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 11"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "evapotranspiration",
+      "to": "overland_flow",
+      "quantity": "soil water loss to plants (mm/d)",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 12"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "hyporheic_exchange",
+      "to": "replay_river_transport",
+      "quantity": "bed exchange of water and heat",
+      "status": "proposed",
+      "evidence": [
+        "fixes-41 item 12"
+      ],
+      "notes": ""
+    }
+  ],
+  "verified_utc": "2026-10-13T10:05Z"
+}

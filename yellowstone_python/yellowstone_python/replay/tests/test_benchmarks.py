@@ -1,8 +1,5 @@
-"""Tests for the applicable numerics benchmarks.
-
-All synthetic and offline. These verify mathematical behavior of the
-declared equation level, not Yellowstone calibration.
-"""
+"""Tests for the applicable numerics benchmarks (synthetic, offline).
+Verify mathematical behavior at the declared equation level."""
 from __future__ import annotations
 
 import unittest

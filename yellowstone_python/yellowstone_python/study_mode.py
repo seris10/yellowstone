@@ -1,16 +1,5 @@
-"""M10 study_mode: labeled A/B experiments, separate from the ordinary walk.
-
-Sliders from Prompt 6: air temperature, shade/cloud, upstream discharge,
-thermal source strength. Same parameter authority (M01/M02/M05/M06) drives
-every response; geography frozen; reset reproduces the baseline hash;
-side-by-side replay via two derived/ builds. Counterexample presets prove
-a single variable never determines a whole habitat.
-
-Usage:
-    python -m yellowstone_python.study_mode --list
-    python -m yellowstone_python.study_mode --write configs/experiments
-    python -m yellowstone_python.study_mode --diff configs/baseline.yaml configs/experiments/hot_surge.yaml
-"""
+"""M10 study_mode: labeled A/B experiments beside the walk.
+Sliders: air temperature, shade/cloud, upstream discharge, source strength."""
 from __future__ import annotations
 
 import argparse
@@ -21,30 +10,38 @@ from pathlib import Path
 
 from .run_mode import normalize_run_mode
 
-# Overrides are expressed as dotted paths into the build config. Only these
-# EXACT keys may change — world geometry, routes, pools, placements are
-# unreachable by construction (no key addresses them).
+# The schema table below lists the dotted paths a preset may set.
+NUMBER = "number"
+INTEGER = "integer"
+STRING = "string"
+WIND_VECTOR = "wind_xz_mps"
+ISODATE = "isodate"
+DAYLIST = "daylist"
+PATCH_LATERALS = "patch_laterals"
 SCHEMA = {
-    "clock_hour": (float, 0.0, 24.0, "exclusive"),
-    "run_mode": (str, None, None),
-    "weather.night_air_c": (float, -40.0, 40.0),
-    "weather.day_warming_c": (float, 0.0, 30.0),
-    "weather.wind_xz_mps": (list, None, None),
-    "weather.gust_mps": (float, 0.0, 5.0),
-    "weather.humidity": (float, 0.0, 1.0),
-    "weather.cloud": (float, 0.0, 1.0),
-    "weather.lag_hours": (float, 0.0, 6.0),
-    "hydro.boundary_m3s": (float, 0.1, 60.0),
-    "hydro.boundary_c": (float, -5.0, 40.0),
-    "hydro.simulate_seconds": (float, 0.0, 86400.0),
-    "insects.flowering_stage": (float, 0.0, 1.0),
-    "fish.food": (float, 0.0, 1.0),
-    "fish.cover": (float, 0.0, 1.0),
-    "snow.season": (str, None, None),
-    "snow.as_of_date": ("isodate", None, None),
-    "snow.days": (int, 1, 365),
-    "snow.precip_mm_d": (float, 0.0, 100.0),
-    "snow.air_c_by_day": ("daylist", None, None),
+    "clock_hour": (NUMBER, 0.0, 24.0, "exclusive"),
+    "run_mode": (STRING, None, None),
+    "weather.night_air_c": (NUMBER, -40.0, 40.0),
+    "weather.day_warming_c": (NUMBER, 0.0, 30.0),
+    "weather.wind_xz_mps": (WIND_VECTOR, None, None),
+    "weather.gust_mps": (NUMBER, 0.0, 5.0),
+    "weather.humidity": (NUMBER, 0.0, 1.0),
+    "weather.cloud": (NUMBER, 0.0, 1.0),
+    "weather.lag_hours": (NUMBER, 0.0, 6.0),
+    "hydro.boundary_m3s": (NUMBER, 0.1, 60.0),
+    "hydro.boundary_c": (NUMBER, -5.0, 40.0),
+    "hydro.simulate_seconds": (NUMBER, 0.0, 86400.0),
+    # hydro.attach and hydro.tributaries are populated by apply_preset via patch_laterals.
+    "hydro.attach": (PATCH_LATERALS, None, None),
+    "hydro.tributaries": (PATCH_LATERALS, None, None),
+    "insects.flowering_stage": (NUMBER, 0.0, 1.0),
+    "fish.food": (NUMBER, 0.0, 1.0),
+    "fish.cover": (NUMBER, 0.0, 1.0),
+    "snow.season": (STRING, None, None),
+    "snow.as_of_date": (ISODATE, None, None),
+    "snow.days": (INTEGER, 1, 365),
+    "snow.precip_mm_d": (NUMBER, 0.0, 100.0),
+    "snow.air_c_by_day": (DAYLIST, None, None),
 }
 ALLOWED_PREFIXES = ("weather.", "hydro.", "insects.", "fish.", "snow.", "clock_hour",
                      "run_mode")
@@ -76,7 +73,11 @@ def _validate(dotted: str, value) -> None:
     else:
         typ, lo, hi = entry
         flag = None
-    if typ == "isodate":
+    if typ == PATCH_LATERALS:
+        raise ValueError(
+            f"preset key {dotted!r} is managed by apply_preset through "
+            f"patch_laterals and may not be set directly")
+    if typ == ISODATE:
         if not isinstance(value, str):
             raise ValueError(f"{dotted!r} must be YYYY-MM-DD str")
         try:
@@ -85,20 +86,20 @@ def _validate(dotted: str, value) -> None:
             raise ValueError(f"{dotted!r}={value!r} is not a valid "
                              f"YYYY-MM-DD date")
         return
-    if typ == "daylist":
+    if typ == DAYLIST:
         if (not isinstance(value, (list, tuple)) or not (1 <= len(value) <= 366)
                 or not all(isinstance(v, (int, float)) and not isinstance(v, bool) and -60.0 <= v <= 45.0
                            for v in value)):
-            raise ValueError(f"{dotted!r} must be 1–366 daily °C in [-60, 45]")
+            raise ValueError(f"{dotted!r} must be 1 to 366 daily C in [-60, 45]")
         return
-    if typ is list:
+    if typ == WIND_VECTOR:
         if (not isinstance(value, (list, tuple)) or len(value) != 2
                 or not all(isinstance(v, (int, float)) and not isinstance(v, bool)
                            for v in value)
                 or not all(math.isfinite(float(v)) for v in value)):
             raise ValueError(f"{dotted!r} must be a 2-vector of finite numbers")
         return
-    if typ is str:
+    if typ == STRING:
         if not isinstance(value, str):
             raise ValueError(f"{dotted!r} must be str")
         if dotted == "snow.season" and value not in ("summer", "autumn",
@@ -108,20 +109,40 @@ def _validate(dotted: str, value) -> None:
             normalize_run_mode(value)
             return
         return
-    if isinstance(value, bool):
-        raise ValueError(f"{dotted!r} must not be boolean")
-    if not isinstance(value, (int, float)):
-        raise ValueError(f"{dotted!r} must be a number, "
-                         f"got {type(value).__name__}")
-    number = float(value)
-    if not math.isfinite(number):
-        raise ValueError(f"{dotted!r}={value} must be finite")
-    below = lo is not None and number < lo
-    above = (hi is not None and (number >= hi if flag == "exclusive"
-                                 else number > hi))
-    if below or above:
-        close = ")" if flag == "exclusive" else "]"
-        raise ValueError(f"{dotted!r}={value} outside [{lo}, {hi}{close}")
+    if typ == INTEGER:
+        if isinstance(value, bool):
+            raise ValueError(f"{dotted!r} must not be boolean")
+        if not isinstance(value, int):
+            raise ValueError(f"{dotted!r} must be an integer, "
+                             f"got {type(value).__name__}")
+        number = int(value)
+        below = lo is not None and number < lo
+        above = (hi is not None and (number >= hi if flag == "exclusive"
+                                     else number > hi))
+        if below or above:
+            close = ")" if flag == "exclusive" else "]"
+            raise ValueError(
+                f"{dotted!r}={value} outside [{lo}, {hi}{close}")
+        return
+    if typ == NUMBER:
+        if isinstance(value, bool):
+            raise ValueError(f"{dotted!r} must not be boolean")
+        if not isinstance(value, (int, float)):
+            raise ValueError(f"{dotted!r} must be a number, "
+                             f"got {type(value).__name__}")
+        number = float(value)
+        if not math.isfinite(number):
+            raise ValueError(f"{dotted!r}={value} must be finite")
+        below = lo is not None and number < lo
+        above = (hi is not None and (number >= hi if flag == "exclusive"
+                                     else number > hi))
+        if below or above:
+            close = ")" if flag == "exclusive" else "]"
+            raise ValueError(
+                f"{dotted!r}={value} outside [{lo}, {hi}{close}")
+        return
+    raise ValueError(
+        f"preset key {dotted!r} has unknown schema type {typ!r}")
 
 
 def _validate_lateral(rid: str, lateral: dict) -> dict:

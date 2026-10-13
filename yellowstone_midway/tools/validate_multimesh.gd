@@ -1,8 +1,5 @@
 extends SceneTree
-## Validate saved instance arrays without dummy-renderer getters.
-## Run: godot --headless --path . --script tools/validate_multimesh.gd
-## Requires a complete offline bake. Does not mutate the world.
-## Buffer order: RenderingServer.multimesh_set_buffer.
+## Validate saved instance arrays without dummy-renderer getters, read-only against a complete offline bake. Buffer order: RenderingServer.multimesh_set_buffer. Run: godot --headless --path . --script tools/validate_multimesh.gd
 
 const SCENE_PATH := "res://scenes/authored_world.tscn"
 const OUTPUT_PATH := "res://tests/multimesh_validation.json"

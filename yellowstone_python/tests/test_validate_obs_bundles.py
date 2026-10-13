@@ -116,3 +116,40 @@ def test_live_bundles_pass():
     snow = json.loads(LIVE_SNOTEL.read_text())
     assert gate_bundle(fire, "firehole")["passed"] is True
     assert gate_bundle(snow, "snow")["passed"] is True
+
+
+def test_verdict_records_bundle_fetched_at_utc():
+    bundle = _firehole()
+    bundle["fetched_at_utc"] = "2026-10-10T00:00:00+00:00"
+    v = gate_bundle(bundle, "firehole")
+    assert v["bundle_fetched_at_utc"] == "2026-10-10T00:00:00+00:00"
+    bundle = _firehole(gap_at=1)
+    bundle["fetched_at_utc"] = "2026-10-10T00:00:00+00:00"
+    v = gate_bundle(bundle, "firehole")
+    assert v["passed"] is False
+    assert v["bundle_fetched_at_utc"] == "2026-10-10T00:00:00+00:00"
+
+
+def test_unknown_schema_label():
+    bundle = _firehole()
+    bundle["schema"] = "yellowstone.something.v1"
+    v = gate_bundle(bundle, "auto")
+    assert v["passed"] is False
+    assert any(c["name"] == "unknown-schema" for c in v["checks"])
+
+
+def test_all_consumer_propagates_bundle_fetched_at_utc(tmp_path):
+    bundle = _firehole()
+    bundle["fetched_at_utc"] = "2026-10-10T00:00:00+00:00"
+    b = tmp_path / "bundle.json"
+    b.write_text(json.dumps(bundle))
+    out = tmp_path / "verdict.json"
+    r = subprocess.run([sys.executable, str(TOOL), "--bundle", str(b),
+                        "--out", str(out), "--consumer", "all"],
+                       capture_output=True, text=True, check=False)
+    doc = json.loads(out.read_text())
+    assert doc["bundle_fetched_at_utc"] == "2026-10-10T00:00:00+00:00"
+    assert all(v.get("bundle_fetched_at_utc") ==
+               "2026-10-10T00:00:00+00:00"
+               for v in doc["verdicts"].values())
+    assert r.returncode in (0, 1)

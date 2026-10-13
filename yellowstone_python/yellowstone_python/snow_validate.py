@@ -1,29 +1,5 @@
-"""M08 validation: snow + soil-water model vs NRCS SNOTEL observations.
-
-Drives snow_season.run_season with per-day SNOTEL forcing (TAVG -> air,
-PRCP -> precip) from a frozen bundle written by tools/fetch_snotel_obs.py,
-then compares modeled SWE against observed WTEQ: k_melt grid fit on a
-train split, holdout RMSE/bias/peak-timing, two nulls (persistence and
-no-melt accumulation-only). Snow depth (SNWD) is a secondary check on the
-authored 3.0 depth factor, not a fit target. Soil-moisture outputs are
-recorded but NOT validated (no soil observations exist).
-
-Every coefficient carries provenance (measured / fitted_single_window /
-authored); every output keeps status illustrative until a second
-independent window validates it. Offline: reads only the frozen bundle.
-
-Usage:
-    python3 -m yellowstone_python.snow_validate \
-        --bundle derived/snotel_obs.json \
-        --out derived/snow_degree_day_fit.json
-
-Second-window test (no refit, frozen params applied as-is):
-    python3 -m yellowstone_python.snow_validate \
-        --bundle derived/snotel_obs_prior_window.json \
-        --out derived/snow_degree_day_fit_prior_window.json \
-        --split-date 2025-03-01 \
-        --fixed-params derived/snow_degree_day_fit.json
-"""
+"""M08 validation: snow and soil-water model against NRCS SNOTEL observations.
+Grid-fits k_melt and wind_loss on a train split; reports holdout RMSE, bias, peak timing, two nulls."""
 from __future__ import annotations
 
 import argparse
@@ -38,9 +14,29 @@ from .snow_season import run_season
 SPLIT_DATE = "2026-03-01"  # train: accumulation season; holdout: melt season
 MAX_FILL_DAYS = 3  # longest imputable forcing gap; longer refuses the run
 STATUS = "fitted_not_validated_single_window"
-# Day-0 SWE a bundle may carry and still count as spun up (NRCS practice is
-# a small starting pack; larger means the window starts mid-season).
-SPINUP_THRESHOLD_MM = 25.4 * 0.04  # 0.04 in, named and recorded in output
+# Day-0 SWE still counting as spun up (small starting pack per NRCS practice).
+SPINUP_THRESHOLD_MM = 25.4 * 0.04
+
+
+def _validate_site_dates(dates: list, context: str = "site dates") -> None:
+    """Reject malformed ISO dates and duplicates in a site record."""
+    import datetime
+    if not dates:
+        raise ValueError(f"{context}: empty")
+    prior = None
+    seen = set()
+    for d in dates:
+        try:
+            parsed = datetime.date.fromisoformat(str(d))
+        except ValueError as exc:
+            raise ValueError(f"{context}: invalid ISO date {d!r}") from exc
+        if d in seen:
+            raise ValueError(f"{context}: duplicate date {d!r}")
+        seen.add(d)
+        if prior is not None and (parsed - prior).days > 1:
+            # Non-contiguous days are allowed; fits use sorted order.
+            pass
+        prior = parsed  # 0.04 in, named and recorded in output
 # First-listed grid point wins equal train RMSE (deterministic ordering).
 TIE_RULE = "first_grid_point_in_scan_order_wins_on_equal_train_rmse"
 
@@ -55,13 +51,8 @@ def in_to_mm(inches: float) -> float:
 
 def prepare_forcing(dates: list[str], tavg_f: list, prcp_in: list,
                     max_fill: int = MAX_FILL_DAYS) -> tuple[list, list, dict]:
-    """Daily air-C + precip-mm series with documented gap rules.
-
-    Null TAVG is forward-filled (previous day, first day refuses); a gap
-    longer than max_fill raises instead of inventing weather. Null PRCP is
-    read as 0.0 and counted (post-melt trace convention, flagged).
-    Returns (air_c, precip_mm, {"tavg_filled": n, "prcp_zeroed": n}).
-    """
+    """Daily air-C and precip-mm series with documented gap rules.
+    Returns (air_c, precip_mm, {"tavg_filled": n, "prcp_zeroed": n})."""
     air_c: list[float] = []
     filled = 0
     gap = 0
@@ -101,16 +92,8 @@ def train_holdout_split(dates: list[str],
 def daily_swe_series(patch: dict, air_c: list, precip_mm: list,
                      k_melt: float,
                      wind_loss: float | None = None) -> tuple[list, list]:
-    """Chained 1-day run_season calls -> (swe_mm, soil_mm) daily series.
-
-    run_season emits end-state only, so days chain through snow_mm/soil_mm.
-    Each day's storage ledger is asserted (tolerance 0.01: run_season
-    rounds patch state to mm precision, measured residual 5e-4/day).
-    wind_loss overrides the habitat-authored redistribution (None keeps
-    it); it is the site-effective seasonal loss fit hook. Phenology/gdd
-    outputs are meaningless in chained mode (they reset daily) and are not
-    collected; use a full-window run for those.
-    """
+    """Chained one-day run_season calls returning (swe_mm, soil_mm) series.
+    wind_loss (None keeps the habitat default) is the site-effective seasonal loss."""
     state = dict(patch)
     state["snow_mm"] = 0.0
     swe, soil = [], []
@@ -130,12 +113,8 @@ def daily_swe_series(patch: dict, air_c: list, precip_mm: list,
 
 def peak_timing_error_days(dates: list[str], modeled: list,
                            observed: list) -> int:
-    """Days between modeled and observed SWE peak (signed, model minus obs).
-
-    Dates must be ISO and the series equal length. A missing observed value
-    leaves the peak undefined, so a None anywhere refuses the run instead
-    of silently timing a partial peak.
-    """
+    """Signed day difference between modeled and observed SWE peaks (model minus obs).
+    Series must be equal length and carry no missing values."""
     if len(dates) != len(modeled) or len(dates) != len(observed):
         raise ValueError("dates, modeled, and observed must share a length")
     if not dates:
@@ -161,12 +140,7 @@ def ord_day(iso: str) -> int:
 
 def peak_timing_on_observed(dates: list[str], modeled: list,
                             observed: list) -> tuple[int, int]:
-    """(error_days, n_used) with missing-observation days excluded.
-
-    A missing observed value leaves the peak undefined for that day, so
-    peak timing is taken over the rows that carry an observation and the
-    count of rows used is returned alongside the error.
-    """
+    """(error_days, n_used) with missing-observation days excluded."""
     keep = [i for i in range(len(observed)) if observed[i] is not None]
     if len(keep) < 2:
         raise ValueError("peak timing needs at least two observed values")
@@ -177,11 +151,7 @@ def peak_timing_on_observed(dates: list[str], modeled: list,
 
 
 def _scored_pairs(idx: list, modeled: list, observed: list):
-    """Return (positions, modeled, observed) for pairs with both values.
-
-    A missing observation is excluded from scoring and counted separately;
-    it is never read as zero.
-    """
+    """Return (positions, modeled, observed) for pairs with both values."""
     keep = [i for i in idx if observed[i] is not None]
     return keep, [modeled[i] for i in keep], [observed[i] for i in keep]
 
@@ -210,16 +180,8 @@ def fit_snow_params(patch: dict, air_c: list, precip_mm: list,
                     obs_swe: list, train_idx: list,
                     k_grid=K_GRID,
                     wind_grid=WIND_GRID) -> dict:
-    """Joint grid fit of (k_melt, site-effective wind_loss) on train RMSE.
-
-    wind_loss absorbs seasonal redistribution + gauge undercatch +
-    sublimation at the site; the game default stays authored (validation
-    fits a site-effective value, it does not rewrite the game). Equal train
-    RMSE is broken by scan order (TIE_RULE) and the tie count is recorded,
-    so near-degenerate fits stay visible. Returns
-    {best_k, best_wind, train_rmse_mm, grid, n_candidates, tie_count,
-    train_n, train_scored_n}.
-    """
+    """Joint grid fit of (k_melt, wind_loss) on train RMSE.
+    Returns best values, grid info, and tie count."""
     k_grid = list(k_grid)
     wind_grid = list(wind_grid)
     if not k_grid or not wind_grid:
@@ -253,15 +215,12 @@ def validate_site(triplet: str, site: dict,
                   split: str = SPLIT_DATE,
                   bundle: dict | None = None) -> dict:
     """Full train/holdout/null validation for one SNOTEL site.
-
-    bundle is the parsed source artifact; its window label feeds the fit
-    provenance so a renamed or prior window reports its own identity.
-    """
-    # SNOTEL instruments sit in clearings: meadow modifiers fit better than
-    # forest canopy interception (authored choice, stated).
+    bundle supplies the window label used in fit provenance."""
+    # SNOTEL instruments sit in clearings; dry_meadow modifiers apply.
     patch = {"id": "snotel", "habitat": "dry_meadow",
              "center_xz": [0, 0], "moisture": 0.5}
     dates = sorted(site["days"])
+    _validate_site_dates(dates, context=f"{triplet} dates")
     get = lambda code: [site["days"][d][code] for d in dates]  # noqa: E731
     if (get("WTEQ")[0] or 0.0) > SPINUP_THRESHOLD_MM:
         raise ValueError(f"{triplet}: day-0 SWE exceeds spin-up threshold {SPINUP_THRESHOLD_MM} mm")
@@ -277,14 +236,16 @@ def validate_site(triplet: str, site: dict,
                               wind_loss=best_wind)
     hold_keep, hold_mod, hold_obs = _scored_pairs(hold_idx, swe, obs_swe)
     train_keep, _, _ = _scored_pairs(train_idx, swe, obs_swe)
+    if not hold_keep:
+        raise ValueError(
+            f"{triplet}: holdout has no scored observations")
     holdout = score_paired_series(hold_mod, hold_obs)
     # Null 1: persistence of last train observation through holdout.
     persist_source = next(obs_swe[i] for i in reversed(train_idx)
                           if obs_swe[i] is not None)
     persist = [persist_source] * len(hold_keep)
     null_persist = score_paired_series(persist, hold_obs)
-    # Null 2: no-melt accumulation-only run at the fitted wind (tests the
-    # melt process itself: same effective loss, melt switched off).
+    # Null 2: accumulation-only run at the fitted wind (melt switched off).
     swe_nomelt, _ = daily_swe_series(patch, air_c, precip_mm, 0.0,
                                      wind_loss=best_wind)
     nomelt_keep, nomelt_mod, _ = _scored_pairs(hold_idx, swe_nomelt,
@@ -363,14 +324,7 @@ def run_validation(bundle_path: str, split: str = SPLIT_DATE) -> dict:
 
 def load_fixed_params(path: str) -> dict[str, dict[str, float]]:
     """Read frozen {triplet: {k_melt, wind_loss}} from a prior fit artifact.
-
-    Accepts either a full fit artifact (sites[].fitted) or a plain
-    mapping file. The document must be a mapping of triplets to mappings
-    holding both keys; anything else (list, bare scalar, missing key)
-    raises with the offending shape. k_melt must sit exactly on the fit
-    grid and both values must be finite. A triplet with no site in the
-    evaluation bundle is refused at evaluation time.
-    """
+    Accepts a full artifact (sites[].fitted) or a plain mapping; k_melt must sit on the fit grid."""
     doc = json.loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(doc, dict):
         raise ValueError("fixed artifact: top level must be an object or "
@@ -420,14 +374,8 @@ def load_fixed_params(path: str) -> dict[str, dict[str, float]]:
 
 def evaluate_fixed_params(bundle_path: str, fixed: dict[str, dict[str, float]],
                           split: str = SPLIT_DATE) -> dict:
-    """True out-of-sample test: frozen params, new window, no refit.
-
-    Same holdout/null machinery as validate_site, but (k_melt,
-    wind_loss) come from a prior window's fit instead of the grid.
-    Status stays fitted_not_validated_single_window unless the caller
-    promotes it: the verdict fields (beats_nulls, rmse_ratio_vs_first)
-    carry the evidence either way.
-    """
+    """Out-of-sample test with frozen params and a new window.
+    Status stays fitted_not_validated_single_window; verdict fields carry the evidence."""
     bundle = json.loads(Path(bundle_path).read_text(encoding="utf-8"))
     if not isinstance(bundle.get("sites"), dict):
         raise ValueError("evaluation bundle: 'sites' must be a mapping")

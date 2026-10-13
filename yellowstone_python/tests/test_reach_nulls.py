@@ -35,7 +35,7 @@ def test_fit_reports_three_nulls():
                          [3.5], [30.0], [1.0],
                          spinup_s=86400.0, dt_s=1800.0)
     names = [m["name"] for m in doc["null_models"]]
-    assert names == ["upstream_persistence", "mixing_only_c0_at_champion_laterals",
+    assert names == ["upstream_persistence", "mixing_only_c0_refit",
                      "downstream_climatology"]
     for m in doc["null_models"]:
         assert math.isfinite(m["train_rmse"])

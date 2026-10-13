@@ -22,4 +22,14 @@ SALib>=1.4,<2
 # flopy>=3,<4
 pytest>=8
 dataretrieval>=1.0
+# pvlib supplies solar azimuth and elevation for the weather snapshot (microclimate.solar_snapshot).
+pvlib>=0.11,<1
+# metpy supplies the wet-bulb temperature behind the snow fraction; Stull 2011 applies where absent.
+metpy>=1.6,<2
 # shapely/rasterio/pyproj only needed for full re-bake (prepare_world.py); not for sim.
+# fipy is the independent reference solver for replay/fipy_reference.py
+# (analytic exponential-decay and MMS harness in validation.checks.run_all).
+# Optional: the gate skips with a stated reason where absent.
+# install the fipy extras group with `pip install fipy` before a build
+# that needs the dispersion and MMS references to run.
+# fipy>=3.4,<4

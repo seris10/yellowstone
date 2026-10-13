@@ -126,13 +126,23 @@ build, test, or publish the project.
 
 ## 7. Verify before reporting done
 
+The project interpreter is `.venv/bin/python` (created with
+`python3 -m venv --system-site-packages .venv` and
+`.venv/bin/python -m pip install -r requirements.txt`). It adds pandas,
+pvlib and metpy on top of the Homebrew Python, which refuses package
+installs.
+
 ```bash
-python3 -m pytest tests -q
-python3 -m yellowstone_python.build --config configs/baseline.yaml
-python3 tools/audit_provenance.py --dir derived
+.venv/bin/python -m pytest tests yellowstone_python/replay/tests -q
+.venv/bin/python -m yellowstone_python.build --config configs/baseline.yaml
+.venv/bin/python tools/audit_provenance.py --dir derived
+python3 tools/check_comment_style.py $(git diff --name-only HEAD | rg '\.(py|gd|gdshader)$') --root ..
 ```
 
-Suite is ~35s and must stay green. New modules ship with tests.
+Suite covers `tests/` and the replay suite at `yellowstone_python/replay/tests/`.
+Approximate runtime 35 s; must stay green. New modules ship with tests.
+The comment-style gate runs over files touched in the session and fails
+on any finding reported against AGENTS.md section 2.
 New artifacts land in `derived/<new-build-id>/`, never by editing an
 old build dir. Godot publish is transactional via
 `python3 -m yellowstone_python.publish --build derived/<id> --to

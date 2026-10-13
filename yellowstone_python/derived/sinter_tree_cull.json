@@ -1,5 +1,6 @@
 {
  "schema": "yellowstone.sinter_tree_cull.v1",
+ "status": "illustrative_not_calibrated",
  "date": "2026-10-09",
  "method": "NAIP 2022-07-19 detail ortho (0.625 m/px, local extent +-640 m). Crown evidence = ExG>0.05 & brightness<0.55 & not-water, dilated 2.5 m (same gates as canopy_census.detect). Any pine placement (placements.json trees + placement_overrides add) whose trunk lands without crown evidence inside the detail extent is removed via placement_overrides.json remove[]",
  "source_image_sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",

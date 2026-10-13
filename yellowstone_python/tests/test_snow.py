@@ -22,12 +22,12 @@ def test_conservation_storage():
 def test_canopy_wind_aspect_hit_right_processes():
     base = step_snow(100.0, -2.0, 10.0)
     canopy = step_snow(100.0, -2.0, 10.0, canopy_keep=0.7)
-    assert canopy[2] < base[2]  # interception cuts ACCUM, not melt
+    assert canopy[2] < base[2]  # interception reduces accumulation
     windy = step_snow(100.0, -2.0, 10.0, wind_loss=0.2)
     assert windy[4] > 0 and windy[0] < base[0]  # wind removes to runoff
     north = step_snow(100.0, 5.0, 0.0, aspect_retention=1.3)
     south = step_snow(100.0, 5.0, 0.0, aspect_retention=0.8)
-    assert north[1] < south[1]  # retention slows MELT
+    assert north[1] < south[1]  # retention slows melt
 
 
 def test_rain_recharges_soil_not_snowpack():
@@ -156,8 +156,7 @@ def _one_patch():
 
 
 def test_per_day_precip_series_totals_match():
-    # Above-freezing air turns all precip to rain: ledger must equal the
-    # series sum for one patch (offline synthetic, no network).
+    # Above-freezing air turns all precip to rain; the ledger equals the series sum for one patch.
     _, led = run_season(_one_patch(), days=5,
                         air_c_by_day=[5.0] * 5,
                         precip_mm_by_day=[0.0, 1.0, 2.0, 3.0, 4.0])
@@ -179,8 +178,16 @@ def test_per_day_precip_matches_scalar_when_flat():
 def test_per_day_precip_short_series_reuses_last():
     _, led = run_season(_one_patch(), days=3,
                         air_c_by_day=[5.0] * 3,
-                        precip_mm_by_day=[4.0])
+                        precip_mm_by_day=[4.0], extend_last=True)
     assert led["rain_mm"] == 12.0  # 1 patch x 3 d x 4 mm
+
+
+def test_per_day_precip_short_series_without_opt_in_rejects():
+    import pytest
+    with pytest.raises(ValueError):
+        run_season(_one_patch(), days=3,
+                   air_c_by_day=[5.0] * 3,
+                   precip_mm_by_day=[4.0])
 
 
 def test_empty_precip_series_falls_back_to_scalar():
@@ -188,3 +195,62 @@ def test_empty_precip_series_falls_back_to_scalar():
                         air_c_by_day=[5.0] * 4,
                         precip_mm_by_day=[], precip_mm_d=1.5)
     assert led["rain_mm"] == 6.0
+
+
+def test_hindcast_air_hourly_averages_to_daily():
+    import datetime
+    base = datetime.datetime(2026, 1, 1, 0, 0, 0,
+                             tzinfo=datetime.timezone.utc).timestamp()
+    hourly = []
+    for day in range(2):
+        for h in range(24):
+            air = -2.0 if day == 0 else 6.0
+            hourly.append([base + (day * 24 + h) * 3600.0,
+                           air, 0.5, 2.0, 100.0, 0.5])
+    out, led = run_season(_one_patch(), days=2,
+                          air_c_by_day=[0.0, 0.0],
+                          precip_mm_d=2.0,
+                          run_mode="hindcast",
+                          air_hourly_c=hourly)
+    assert "air_hourly_c" in led["forcing_source"]
+    assert led["run_mode"] == "hindcast"
+    assert led["accum_mm"] == 2.0
+    assert led["rain_mm"] == 2.0
+
+
+def test_illustrative_ignores_air_hourly_c():
+    import datetime
+    base = datetime.datetime(2026, 1, 1, 0, 0, 0,
+                             tzinfo=datetime.timezone.utc).timestamp()
+    hourly = [[base + h * 3600.0, 20.0, 0.5, 2.0, 100.0, 0.5]
+              for h in range(24)]
+    _, led = run_season(_one_patch(), days=1,
+                        air_c_by_day=[-5.0],
+                        precip_mm_d=4.0,
+                        run_mode="illustrative",
+                        air_hourly_c=hourly)
+    assert led["forcing_source"] == "air_c_by_day"
+    assert led["accum_mm"] == 4.0
+
+
+def test_run_mode_rejects_unknown_value():
+    import pytest
+    with pytest.raises(ValueError):
+        run_season(_one_patch(), days=1,
+                   air_c_by_day=[0.0], run_mode="forecast")
+
+
+def test_daily_air_c_from_hourly_grouping():
+    import datetime
+    from yellowstone_python.snow_season import daily_air_c_from_hourly
+    base = datetime.datetime(2026, 6, 1, 0, 0, 0,
+                             tzinfo=datetime.timezone.utc).timestamp()
+    rows = []
+    for h in range(48):
+        air = 10.0 + (h % 24) * 0.1
+        rows.append([base + h * 3600.0, air, 0.5, 2.0, 100.0, 0.5])
+    daily = daily_air_c_from_hourly(rows)
+    assert len(daily) == 2
+    expected = sum(10.0 + h * 0.1 for h in range(24)) / 24.0
+    assert abs(daily[0] - expected) < 1e-9
+    assert abs(daily[1] - expected) < 1e-9

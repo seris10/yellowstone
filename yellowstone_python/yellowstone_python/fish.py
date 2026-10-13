@@ -78,8 +78,7 @@ THERMAL_SPECIES = {
 }
 # Behavioral refuge ramp width above t_refuge: authored shape choice.
 REFUGE_RAMP_C = 2.0
-# Weight of the refuge-drive term in suitability: authored model choice
-# (the anchors it multiplies are literature; the weight is not).
+# Weight of the refuge-drive term in suitability. Authored model choice.
 REFUGE_WEIGHT = 0.6
 
 # Lab thermal measurements integration point. THERMAL_DATA_PATH = None  # Set to file path when measurements are available.
@@ -144,8 +143,8 @@ def suitability(food: float, cover: float, t_c: float, velocity: float,
                 depth: float, weights: dict | None = None,
                 species: str | None = None,
                 refuge_weight: float = 0.0) -> float:
-    """Ranking score with ceiling 1. Thermal term uncapped: hot ordering survives as negative avoidance."""
-    w = {**DEFAULT_WEIGHTS, **(weights or {})}
+    """Ranking score with ceiling 1. Weights are normalized to sum to 1 so ranking is scale invariant."""
+    w = normalize_weights({**DEFAULT_WEIGHTS, **(weights or {})})
     food_term = _clamp01(food)
     cover_term = _clamp01(cover)
     vel_term = min(1.0, abs(float(velocity) - VELOCITY_OPT_MPS) / VELOCITY_TOL_MPS)
@@ -213,7 +212,7 @@ def assign_reach(z: float, reaches: list) -> dict:
 
 
 def build_chainage(river_points: list) -> list:
-    """Cumulative metres along the saved downhill point order."""
+    """Cumulative meters along the saved downhill point order."""
     s = [0.0]
     for a, b in zip(river_points, river_points[1:]):
         s.append(s[-1] + math.hypot(float(b[0]) - float(a[0]),
@@ -221,22 +220,43 @@ def build_chainage(river_points: list) -> list:
     return s
 
 
-def reach_membership(river_points: list, reaches: list) -> list:
-    """Per-point reach id table using the declared upstream chain order. z-nearestness fails for looping or U-shaped channels. Walk the declared chain and assign every point to the reach whose z-window contains it; points outside every window fall back to the nearest reach by z, flagged."""
+def reach_anchors(river_points: list, reaches: list) -> list:
+    """Chainage anchor per reach in downstream chain order.
+    Anchors stay monotonic in chainage even on looping or U-shaped segments."""
     ordered = _chain_order(reaches)
+    chain = build_chainage(river_points)
+    zs = [float(p[2]) for p in river_points]
+    anchors = []
+    i = 0
+    for r in ordered:
+        rz = float(r["z"])
+        while i + 1 < len(zs) and zs[i] > rz:
+            i += 1
+        anchors.append({"id": r["id"], "s_m": chain[i], "z": rz})
+    return anchors
+
+
+def reach_membership(river_points: list, reaches: list,
+                     anchors: list | None = None) -> list:
+    """Per-point reach id table by chainage window.
+    Reach i owns [anchor_{i-1}.s_m, anchor_i.s_m); first reach extends to 0, last to polyline end."""
+    ordered = _chain_order(reaches)
+    chain = build_chainage(river_points)
+    if anchors is None:
+        anchors = reach_anchors(river_points, ordered)
+    if not anchors:
+        return [ordered[0]["id"] for _ in river_points] if ordered else []
+    # Build chainage breakpoints: between adjacent anchors.
+    breaks = []
+    for a, b in zip(anchors, anchors[1:]):
+        breaks.append((a["s_m"] + b["s_m"]) / 2.0)
+    ids = [a["id"] for a in anchors]
     out = []
-    for p in river_points:
-        z = float(p[2])
-        hit = None
-        for r in ordered:
-            lo = float(r.get("z_lo", -1e9))
-            hi = float(r.get("z_hi", 1e9))
-            if lo <= z <= hi:
-                hit = r["id"]
-                break
-        if hit is None:
-            hit = assign_reach(z, ordered)["id"]
-        out.append(hit)
+    for s in chain:
+        k = 0
+        while k < len(breaks) and s >= breaks[k]:
+            k += 1
+        out.append(ids[k])
     return out
 
 
@@ -252,8 +272,11 @@ def _chain_order(reaches: list) -> list:
     if missing:
         raise ValueError(f"unknown upstream reach IDs: {sorted(missing)}")
     starts = [r for r in reaches if not r.get("upstream_id")]
-    if len(starts) != 1:
-        return sorted(reaches, key=lambda r: -float(r["z"]))
+    if len(starts) == 0:
+        raise ValueError("reach chain has no boundary (no upstream_id-free reach)")
+    if len(starts) > 1:
+        root_ids = sorted(r["id"] for r in starts)
+        raise ValueError(f"reach chain has multiple roots: {root_ids}")
     ordered, seen = [], set()
     cur = starts[0]
     while cur is not None:
@@ -269,12 +292,42 @@ def _chain_order(reaches: list) -> list:
     return ordered
 
 
-def reach_z_windows(reaches: list) -> list:
+def reach_z_windows(reaches: list, river_points: list | None = None) -> list:
+    """Chain-ordered reaches with z and chainage windows.
+    With river_points, s and z ranges come from reach_anchors; else from the chain-order z pair."""
     ordered = _chain_order(reaches)
+    if river_points:
+        chain = build_chainage(river_points)
+        anchors = reach_anchors(river_points, ordered)
+        breaks = [0.0] + [
+            (a["s_m"] + b["s_m"]) / 2.0 for a, b in zip(anchors, anchors[1:])
+        ] + [chain[-1]]
+        out = []
+        for i, r in enumerate(ordered):
+            s_lo, s_hi = breaks[i], breaks[i + 1]
+            zs_in_window = [
+                float(p[2]) for p, s in zip(river_points, chain)
+                if s_lo <= s <= s_hi
+            ]
+            if zs_in_window:
+                z_lo = min(zs_in_window)
+                z_hi = max(zs_in_window)
+            else:
+                z_lo = z_hi = float(r["z"])
+            if z_lo > z_hi:
+                raise ValueError(
+                    f"invalid reach window for {r['id']}: {z_lo}, {z_hi}")
+            rec = dict(r)
+            rec["s_lo"] = s_lo
+            rec["s_hi"] = s_hi
+            rec["z_lo"] = z_lo
+            rec["z_hi"] = z_hi
+            out.append(rec)
+        return out
     out = []
     for i, r in enumerate(ordered):
         lo = float(r["z"])
-        hi = float(ordered[i - 1]["z"]) if i > 0 else 1e9
+        hi = float(ordered[i - 1]["z"]) if i > 0 else float("inf")
         if hi < lo:
             lo, hi = hi, lo
         if lo > hi:
@@ -330,16 +383,24 @@ def select_refuge(record: dict, river_points: list, membership: list,
             best, best_u, best_r, best_t = i, u, rid, t
     half = width // 2
     start = min(max(0, best - half), len(chainage) - 1 - width)
+    end = start + width
+    # Reach ids spanned by the holding window.
+    window_reach_ids: list[str] = []
+    for idx in range(start, end + 1):
+        rid = membership[idx]
+        if not window_reach_ids or window_reach_ids[-1] != rid:
+            window_reach_ids.append(rid)
     u0, r0, t0 = suitability_at(i0, river_points, membership, reaches,
                                 weights, food, cover, species,
                                 refuge_weight)
     basis = f"species {species} (literature performance)" if species \
-        else "legacy authored band"
-    return {"start": start, "end": start + width, "reach_id": best_r,
+        else "authored thermal band"
+    return {"start": start, "end": end, "reach_id": best_r,
+            "reach_ids": window_reach_ids,
             "U": round(best_u, 3), "reach_temp_c": round(best_t, 2),
-            "reason": (f"holding index {best} (U {best_u:.2f} at {best_t:.1f}°C) "
-                       f"beats index {i0} (U {u0:.2f} at {t0:.1f}°C) "
-                       f"within ±{REFUGE_WINDOW_M:.0f} m chainage [{basis}]")}  
+            "reason": (f"holding index {best} (U {best_u:.2f} at {best_t:.1f} C) "
+                       f"beats index {i0} (U {u0:.2f} at {t0:.1f} C) "
+                       f"within +/-{REFUGE_WINDOW_M:.0f} m chainage [{basis}]")}
 
 
 def trout_midpoint_z(record: dict, river_points: list) -> float:
@@ -350,14 +411,17 @@ def trout_midpoint_z(record: dict, river_points: list) -> float:
 
 def update_trout(wildlife: list, reaches: list, river_points: list,
                   weights: dict | None = None,
-                  food: float = 0.7, cover: float = 0.6) -> list:
-    """Refuge-selecting trout: holding window relocates toward max suitability
-    within swim range; hold/swim cadence follows reach temperature (shelter,
-    never mortality). Lateral offsets preserved and clamped to the 0.35
-    interior guard."""
-    ordered = reach_z_windows(reaches)
+                  food: float = 0.7, cover: float = 0.6,
+                  cell_velocity_mps: list | None = None,
+                  cell_depth_m: list | None = None) -> list:
+    """Refuge-selecting trout.
+    cell_velocity_mps and cell_depth_m supply per-river-point arrays; absent both, the reach-average fallback applies."""
+    ordered = reach_z_windows(reaches, river_points)
     membership = reach_membership(river_points, ordered)
     chainage = build_chainage(river_points)
+    per_cell = cell_velocity_mps is not None or cell_depth_m is not None
+    if per_cell:
+        _validate_per_cell(river_points, cell_velocity_mps, cell_depth_m)
     out = copy.deepcopy(wildlife)
     for rec in out:
         if "trout" not in str(rec.get("id", "")):
@@ -366,9 +430,15 @@ def update_trout(wildlife: list, reaches: list, river_points: list,
         if species not in THERMAL_SPECIES:
             rec["refuge_reason"] = f"unknown species {species!r}; skipped"
             continue
-        sel = select_refuge(rec, river_points, membership, chainage,
-                            ordered, weights, food, cover, species,
-                            REFUGE_WEIGHT)
+        if per_cell:
+            sel = _select_refuge_per_cell(
+                rec, river_points, membership, chainage, ordered,
+                cell_velocity_mps, cell_depth_m, weights, food, cover,
+                species, REFUGE_WEIGHT)
+        else:
+            sel = select_refuge(rec, river_points, membership, chainage,
+                                ordered, weights, food, cover, species,
+                                REFUGE_WEIGHT)
         rec["start_point_index"] = sel["start"]
         rec["end_point_index"] = sel["end"]
         t = sel["reach_temp_c"]
@@ -382,12 +452,83 @@ def update_trout(wildlife: list, reaches: list, river_points: list,
         lim = RIVER_WIDTH_M * MAX_LATERAL_FRACTION
         rec["lateral_offset_m"] = round(min(lim, max(-lim, lat)), 2)
         rec["reach_id"] = sel["reach_id"]
+        if "reach_ids" in sel:
+            rec["reach_ids"] = sel["reach_ids"]
         rec["reach_temp_c"] = t
         rec["suitability_U"] = sel["U"]
         rec["refuge_reason"] = sel["reason"]
         rec["species"] = species
         rec["thermal_performance"] = thermal_performance(t, species)
+        if per_cell:
+            rec["suitability_basis"] = "per_cell_velocity_depth"
     return out
+
+
+def _validate_per_cell(river_points: list, cell_velocity_mps: list | None,
+                       cell_depth_m: list | None) -> None:
+    if cell_velocity_mps is None or cell_depth_m is None:
+        raise ValueError(
+            "cell_velocity_mps and cell_depth_m must both be provided "
+            "to run the per-cell update_trout path")
+    if len(cell_velocity_mps) != len(river_points):
+        raise ValueError(
+            f"cell_velocity_mps length {len(cell_velocity_mps)} != "
+            f"river_points length {len(river_points)}")
+    if len(cell_depth_m) != len(river_points):
+        raise ValueError(
+            f"cell_depth_m length {len(cell_depth_m)} != "
+            f"river_points length {len(river_points)}")
+    for i, (v, d) in enumerate(zip(cell_velocity_mps, cell_depth_m)):
+        if not math.isfinite(float(v)) or float(v) < 0.0:
+            raise ValueError(f"cell_velocity_mps[{i}] must be finite and >= 0")
+        if not math.isfinite(float(d)) or float(d) <= 0.0:
+            raise ValueError(f"cell_depth_m[{i}] must be finite and > 0")
+
+
+def _select_refuge_per_cell(record, river_points, membership, chainage,
+                            reaches, cell_velocity_mps, cell_depth_m,
+                            weights, food, cover, species,
+                            refuge_weight) -> dict:
+    """select_refuge variant that scores with per-cell velocity and depth."""
+    i0 = int(record.get("start_point_index", 0))
+    i1 = int(record.get("end_point_index", 0))
+    if not river_points:
+        raise ValueError("empty river_points")
+    if len(chainage) != len(river_points):
+        raise ValueError("chainage and river_points length mismatch")
+    if not (0 <= i0 <= i1 < len(river_points)):
+        raise ValueError(f"invalid trout interval: {i0}, {i1}")
+    width = i1 - i0
+    mid_s = (chainage[i0] + chainage[i1]) / 2.0
+    from bisect import bisect_left, bisect_right
+    lo = max(0, bisect_left(chainage, mid_s - REFUGE_WINDOW_M))
+    hi = min(len(chainage) - 1,
+             bisect_right(chainage, mid_s + REFUGE_WINDOW_M))
+    best, best_u, best_r, best_t = i0, None, None, None
+    for i in range(lo, hi + 1):
+        reach = _reach_by_id(reaches, membership[i])
+        t = float(reach["temperature_c"])
+        v = float(cell_velocity_mps[i])
+        d = float(cell_depth_m[i])
+        u = suitability(food, cover, t, v, d, weights,
+                        species=species, refuge_weight=refuge_weight)
+        if best_u is None or u > best_u:
+            best, best_u, best_r, best_t = i, u, reach["id"], t
+    half = width // 2
+    start = min(max(0, best - half), len(chainage) - 1 - width)
+    end = start + width
+    window_reach_ids: list[str] = []
+    for idx in range(start, end + 1):
+        rid = membership[idx]
+        if not window_reach_ids or window_reach_ids[-1] != rid:
+            window_reach_ids.append(rid)
+    return {"start": start, "end": end, "reach_id": best_r,
+            "reach_ids": window_reach_ids,
+            "U": round(best_u, 3), "reach_temp_c": round(best_t, 2),
+            "reason": (f"per-cell refuge at index {best} "
+                       f"(U {best_u:.2f}, {best_t:.1f} C, "
+                       f"v={float(cell_velocity_mps[best]):.2f} m/s, "
+                       f"d={float(cell_depth_m[best]):.2f} m)")}
 
 
 def chainage_to_index(chainage: list, s: float) -> int:
@@ -405,19 +546,14 @@ def chainage_to_index(chainage: list, s: float) -> int:
 def place_trout_at_chainage(wildlife: list, reaches: list, river_points: list,
                             selection: dict, chainage_offset_m: float = 0.0
                             ) -> list:
-    """Hold each trout where the replay food web chose its refuge cell.
-
-    selection is the food web trout block: s_m, cell_id, temperature_c, U.
-    chainage_offset_m converts the replay's global chainage to the polyline's
-    local chainage. A selection outside the polyline clamps to the nearest end
-    and records the gap in refuge_off_polyline_m.
-    """
+    """Hold each trout at the replay food web refuge cell.
+    chainage_offset_m converts replay to polyline chainage; a selection outside the polyline clamps to the nearest end."""
     if not river_points:
         raise ValueError("empty river_points")
     s_m = selection.get("s_m")
     if s_m is None or not math.isfinite(float(s_m)):
         raise ValueError("food web trout selection needs a finite s_m")
-    ordered = reach_z_windows(reaches)
+    ordered = reach_z_windows(reaches, river_points)
     membership = reach_membership(river_points, ordered)
     chainage = build_chainage(river_points)
     width_total = len(chainage)
@@ -460,12 +596,14 @@ def place_trout_at_chainage(wildlife: list, reaches: list, river_points: list,
 
 
 def _samples_along(a: list, b: list, lateral: float, every_m: float = 2.0):
-    """Centerline AND laterally-offset segment samples (offsets matter)."""
+    """Centerline and both-side laterally-offset samples. Covers corridor width."""
     dx, dz = float(b[0]) - float(a[0]), float(b[2]) - float(a[2])
     length = math.hypot(dx, dz) or 1e-9
     tx, tz = -dz / length, dx / length  # unit side vector
     n = max(1, int(math.ceil(length / every_m)))
-    for off in (0.0, lateral):
+    abs_lat = abs(float(lateral))
+    offsets = (0.0,) if abs_lat == 0.0 else (0.0, abs_lat, -abs_lat)
+    for off in offsets:
         for k in range(n + 1):
             f = k / n
             yield (float(a[0]) + dx * f + tx * off,
@@ -474,8 +612,7 @@ def _samples_along(a: list, b: list, lateral: float, every_m: float = 2.0):
 
 def check_trout_clear_of_pools(wildlife: list, river_points: list,
                                shells: list) -> list:
-    """Every trout SEGMENT (centerline and laterally offset, sampled every
-    2 m) must lie outside every apron. Waypoint-only checks miss crossings."""
+    """Each trout segment (centerline and laterally offset, 2 m samples) must lie outside each apron."""
     from .pool_crust import in_apron
     bad = []
     for rec in wildlife:
@@ -504,14 +641,13 @@ def render_refuge_map(reaches: list, trout: list, path: str,
                       river_points: list | None = None,
                       shells: list | None = None,
                       w: int = 420, h: int = 420) -> str:
-    """Deterministic refuge map: Firehole centerline in world position, pool polygons, trout holding midpoints + selected-refuge markers. Every dot is a world coordinate; reproducible across processes and seeds."""
+    """Deterministic refuge map: centerline, pool polygons, trout midpoints, refuge markers. Dots are world coordinates."""
     from PIL import Image, ImageDraw
     from .pool_crust import HALF
     img = Image.new("RGB", (w, h), (14, 20, 18))
     dr = ImageDraw.Draw(img)
 
-    # Frame: tight box around the Firehole points actually used, so the
-    # whole channel and every pool ring fit. Falls back to the world square.
+    # Frame: tight box around the Firehole points used; falls back to the world square.
     if river_points:
         xs = [float(p[0]) for p in river_points]
         zs = [float(p[2]) for p in river_points]

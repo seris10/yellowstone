@@ -1,8 +1,6 @@
 class_name MidwayWildlifeActor
 extends Node3D
-## Articulated shape proxies at approximate real dimensions.
-## Routes and counts authored in JSON.
-## Actors never sample new habitat at runtime.
+## Articulated shape proxies at approximate real dimensions; routes and counts authored in JSON. Actors never sample new habitat at runtime.
 var record: Dictionary = {}
 var state: String = "rest"
 var _terrain: RefCounted
@@ -33,10 +31,7 @@ var _activity: float = 1.0
 var _perch_height: float = 0.0
 var _asset_backed: bool = false
 
-## Licensed third-party fauna models (data/asset_manifest.json).
-## Models face +Z as shipped; yaw PI turns them to Godot-forward (-Z).
-## "ground" places the AABB bottom at y=0; "center" centers vertically (fish).
-## Per-individual tint from record.individual.tint_rgb.
+## Licensed third-party fauna models (data/asset_manifest.json): shipped facing +Z, yaw PI turns them to Godot-forward (-Z), per-individual tint from record.individual.tint_rgb, mode ground places the bounding-box bottom at y=0 and center vertically centers fish.
 const FAUNA: Dictionary = {
 	"bison": {"path": "res://assets/imported/fauna/bison/bison.glb", "mode": "ground", "yaw": PI, "tint": Vector3(1.0, 1.0, 1.0)},
 	"goose": {"path": "res://assets/imported/fauna/goose/goose_mallard_base.glb", "mode": "ground", "yaw": PI, "tint": Vector3(1.0, 1.0, 1.0), "material": "res://assets/imported/fauna/goose/canada_goose_material.tres"},
@@ -45,6 +40,36 @@ const FAUNA: Dictionary = {
 	"rainbow_trout": {"path": "res://assets/imported/fauna/trout/trout.glb", "mode": "center", "yaw": PI, "tint": Vector3(1.0, 1.0, 1.0)},
 	"brown_trout": {"path": "res://assets/imported/fauna/trout/trout.glb", "mode": "center", "yaw": PI, "tint": Vector3(1.08, 0.92, 0.62)},
 }
+
+## Optional authored override: a wildlife_species_asset_map top-level block in data/asset_manifest.json with kind strings as keys and {path, mode, yaw, tint, material, length_axis} values; missing fields fall back to the hardcoded entry above. length_axis selects which bounding-box dimension carries the model's body length ("x", "y" or "z"; default "z"); yaw rotates the mesh so the chosen axis points to Godot forward (-Z).
+static var _manifest_fauna_cache: Dictionary = {}
+static var _manifest_fauna_loaded: bool = false
+
+static func _manifest_fauna() -> Dictionary:
+	if _manifest_fauna_loaded:
+		return _manifest_fauna_cache
+	_manifest_fauna_loaded = true
+	if not FileAccess.file_exists("res://data/asset_manifest.json"):
+		return _manifest_fauna_cache
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/asset_manifest.json"))
+	if parsed is Dictionary and parsed.has("wildlife_species_asset_map"):
+		var mapping: Variant = parsed["wildlife_species_asset_map"]
+		if mapping is Dictionary:
+			_manifest_fauna_cache = mapping
+	return _manifest_fauna_cache
+
+func _resolve_fauna(kind: String) -> Dictionary:
+	var mapping: Dictionary = _manifest_fauna()
+	if mapping.has(kind) and mapping[kind] is Dictionary:
+		var merged: Dictionary = {}
+		if FAUNA.has(kind):
+			merged = (FAUNA[kind] as Dictionary).duplicate(true)
+		for key: String in (mapping[kind] as Dictionary).keys():
+			merged[key] = (mapping[kind] as Dictionary)[key]
+		return merged
+	if FAUNA.has(kind):
+		return FAUNA[kind]
+	return {}
 
 func setup(data: Dictionary, terrain: RefCounted, ecosystem: Node) -> void:
 	record = data.duplicate(true)
@@ -80,7 +105,8 @@ func _ready() -> void:
 	_body.name = "ArticulatedProxy"
 	add_child(_body)
 	_body.scale = Vector3.ONE * float(record.get("scale", 1.0))
-	if FAUNA.has(_kind) and _build_asset_visual(FAUNA[_kind]):
+	var resolved_fauna: Dictionary = _resolve_fauna(_kind)
+	if not resolved_fauna.is_empty() and _build_asset_visual(resolved_fauna):
 		pass  # Licensed model instantiated.
 	else:
 		match _kind:
@@ -122,18 +148,34 @@ func _build_asset_visual(spec: Dictionary) -> bool:
 		return false
 	var inst: Node3D = packed.instantiate()
 	var aabb: AABB = _combined_aabb(inst)
-	if aabb.size.z <= 0.0:
+	# length_axis names which bounding-box dimension carries body length; "z" is the project default for GLBs shipped facing +Z.
+	var length_axis: String = str(spec.get("length_axis", "z")).to_lower()
+	var length_size: float = aabb.size.z
+	if length_axis == "x":
+		length_size = aabb.size.x
+	elif length_axis == "y":
+		length_size = aabb.size.y
+	if length_size <= 0.0:
 		inst.free()
 		return false
-	var norm: float = target_len / aabb.size.z
+	var norm: float = target_len / length_size
 	inst.scale = Vector3.ONE * norm
 	inst.rotation.y = float(spec.get("yaw", 0.0))
 	if str(spec.get("mode", "ground")) == "center":
 		inst.position.y = -(aabb.position.y + aabb.size.y * 0.5) * norm
 	else:
 		inst.position.y = -aabb.position.y * norm
+	# Center the mesh horizontally so the body pivot sits over the actor origin regardless of which axis carries length.
 	inst.position.x = -(aabb.position.x + aabb.size.x * 0.5) * norm
-	var tint: Vector3 = spec.get("tint", Vector3.ONE)
+	inst.position.z = -(aabb.position.z + aabb.size.z * 0.5) * norm
+	# Manifest tint arrives as a JSON Array (three floats) or a Vector3 from the fauna table; normalize before use.
+	var raw_tint: Variant = spec.get("tint", Vector3.ONE)
+	var tint: Vector3 = Vector3.ONE
+	if raw_tint is Vector3:
+		tint = raw_tint
+	elif raw_tint is Array and (raw_tint as Array).size() == 3:
+		var a: Array = raw_tint
+		tint = Vector3(float(a[0]), float(a[1]), float(a[2]))
 	var indiv: Dictionary = record.get("individual", {})
 	if indiv.has("tint_rgb"):
 		var t: Array = indiv["tint_rgb"]
@@ -247,8 +289,10 @@ func _build_route(world: Dictionary) -> void:
 	var length_m: float = 0.0
 	for i: int in range(1, _route.size()):
 		length_m += _route[i - 1].distance_to(_route[i])
-	if length_m > 200.0:
-		push_error("Local wildlife route exceeds authored 200m scope: " + _id)
+	# Authored route length cap, in meters. Defaults to 200m scope.
+	var max_route_length_m: float = float(record.get("max_route_length_m", 200.0))
+	if length_m > max_route_length_m:
+		push_error("Local wildlife route exceeds authored %sm scope: %s" % [max_route_length_m, _id])
 		_route.clear()
 
 func _inside_thermal_pool(point: Vector2, world: Dictionary) -> bool:
@@ -394,13 +438,22 @@ func _move_toward_target(dt: float, speed: float) -> bool:
 		if _perch_height > 0.0:
 			var perch_distance: float = Vector2(next.x - _route[0].x, next.z - _route[0].z).length()
 			next.y += _perch_height * clampf(1.0 - perch_distance / 0.4, 0.0, 1.0)
-	# River routes interpolate saved water elevations.
+	elif (_medium == "river" or _medium == "river_bank") and _ecosystem != null and _ecosystem.has_method("river_state_at_position"):
+		# River routes resample water_surface_m per step so per-cell variation lifts aquatic actors with it.
+		var reach_state: Dictionary = _ecosystem.call("river_state_at_position", next, str(record.get("river_id", "")))
+		var surface: float = float(reach_state.get("water_surface_m", NAN))
+		if is_finite(surface):
+			if _medium == "river":
+				next.y = surface + float(record.get("water_offset_m", 0.0))
+			else:
+				next.y = maxf(_ground_height(next.x, next.z) + 0.015, surface + 0.015)
 	_world_position = next
 	_face(difference, minf(1.0, dt * 3.0))
 	_moving = true
 	return step_distance >= distance - 0.001
 
 func _face(direction: Vector3, weight: float) -> void:
+	# Body yaw aligns the local -Z axis with the direction vector; the fauna spec yaw rotates the GLB first so its mesh forward also lines up.
 	if _body == null or Vector2(direction.x, direction.z).length_squared() < 0.000001:
 		return
 	var yaw: float = atan2(-direction.x, -direction.z)
@@ -557,8 +610,7 @@ func _make_goose() -> void:
 	_ellipsoid(_body, Vector3(0, 0.15, 0.34), Vector3(0.23, 0.15, 0.23), black)
 
 func _make_small_bird(is_raven: bool) -> void:
-	# Mesh construction has a 0.31m beak-to-tail envelope before scaling.
-	# Species sizes: 0.20m dipper, 0.55m raven.
+	# Mesh construction has a 0.31 m beak-to-tail envelope before scaling; species sizes 0.20 m dipper and 0.55 m raven.
 	var multiplier: float = 1.55 if is_raven else 0.65
 	_body.scale *= multiplier
 	var feather: StandardMaterial3D = _material(Color(0.06, 0.072, 0.065) if is_raven else Color(0.20, 0.23, 0.22))

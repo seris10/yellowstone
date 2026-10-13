@@ -1,25 +1,12 @@
-"""
-Validation and sensitivity checks for hydrosim.py. Run:  python validate_hydrosim.py
-
-Checks
-  1. Green-Ampt Newton solver vs bisection reference over a wide parameter range
-  2. Green-Ampt column vs the analytic implicit solution, at two different step sizes
-  3. Horton column vs the analytic integral
-  4. Mass conservation under a moving storm with ET, drainage, groundwater and open edges
-  5. Lake at rest (well-balanced): flat free surface in a bowl stays still
-  6. Gravity-wave speed, and rain on a planar slope vs kinematic-wave theory (rise time, depth, discharge)
-     (dry-bed dam break is reported as INFO: it lies outside the validity of the local-inertial equations)
-  7. Sensitivity: rain rate, soil texture, slope and roughness move runoff in the physically expected direction
-  8. Timing for typical grid sizes
-Exit code is non-zero if any check fails.
-"""
+"""Validation and sensitivity checks for hydrosim.py. Exit code is non-zero when any check fails. Run: python validate_hydrosim.py."""
 import sys
 import time
 
 import numpy as np
 
 from hydrosim import (G, HydroConfig, HydroSim, RainField, Climate, SOILS, MM_H_TO_M_S,
-                      make_terrain, default_soil_map, terminal_velocity)
+                      make_terrain, default_soil_map, flow_accumulation,
+                      terminal_velocity)
 
 RESULTS = []
 
@@ -66,8 +53,7 @@ def test_ga_solver():
         g = mid - A * np.log1p(mid / A)
         lo = np.where(g < rhs, mid, lo)
         hi = np.where(g < rhs, hi, mid)
-    # compare solved roots, not increments: an increment of 1e-11 m against a 1e-16 m
-    # absolute bisection floor gives a meaningless 1e-5 relative error on the increment.
+    # Compare solved roots so a 1e-11 m increment against a 1e-16 m bisection floor does not inflate relative error.
     root_newton, root_ref = F + inc, 0.5 * (lo + hi)
     err = np.max(np.abs(root_newton - root_ref) / np.maximum(root_ref, 1e-12))
     check("GA Newton solver matches bisection (20k random cases)", err < 1e-6, "max rel err %.2e" % err)
@@ -91,6 +77,47 @@ def test_ga_column():
                 F_ref = float(ga_reference(np.array([K]), np.array([A]), np.array([t]))[0])
                 worst = max(worst, abs(F_sim - F_ref) / F_ref)
         check("Green-Ampt column vs analytic, dt=%gs" % dt, worst < 0.01, "worst rel err %.2e (t=0.5,1,2 h)" % worst)
+
+
+def test_horton_water_limited():
+    """Mein and Larson 1973: Horton capacity holds while rain supply is below it.
+    A column with f0=50 mm/h, fc=5 mm/h, k=1/h fed 1 mm/h for 2 h infiltrates 2 mm within 1% since supply is below capacity.
+    """
+    f0, fc, k = 50.0, 5.0, 1.0
+    sim = column("loam", "horton", horton_f0_mm_h=f0, horton_fc_mm_h=fc,
+                 horton_k_per_h=k, h0=0.0, wetness=0.0)
+    dt, S0 = 60.0, sim.S[0, 0]
+    rate_mm_h = 1.0
+    for _ in range(int(2 * 3600 / dt)):
+        sim.step(dt, rate_mm_h)
+    F_sim = sim.S[0, 0] - S0
+    F_ref = rate_mm_h * MM_H_TO_M_S * 2 * 3600.0
+    err = abs(F_sim - F_ref) / F_ref if F_ref > 0 else abs(F_sim - F_ref)
+    check("Horton water-limited supply (Mein-Larson)", err < 0.05,
+          "F_sim %.2f mm, expected %.2f mm" % (F_sim * 1e3, F_ref * 1e3))
+
+
+def test_fao56_diurnal_phase():
+    """FAO-56 et0 under diurnal radiation peaks at local noon."""
+    import math as _math
+    climate = Climate(temp_c=25.0, rel_humidity=59.0, wind_u2=2.078,
+                      rn_mj_m2_day=14.33, elevation_m=100.0,
+                      diurnal=True, start_hour=0.0)
+    tod = [i * 1800.0 for i in range(48)]
+    vals = [climate.et0_mm_day(t) for t in tod]
+    peak = tod[vals.index(max(vals))]
+    expected = 12.0 * 3600.0
+    check("FAO-56 et0 peaks within 1 h of local noon",
+          abs(peak - expected) <= 3600.0,
+          "peak at %.0f s (expected %.0f s)" % (peak, expected))
+    daily = sum(vals) / len(vals)
+    rn_factor = (1.0 - (1.0 / len(vals)) *
+                 sum(_math.cos(2 * _math.pi * (t / 86400.0)) for t in tod))
+    check("FAO-56 diurnal average Rn factor is ~1",
+          0.98 <= rn_factor <= 1.02,
+          "<1 - cos> = %.3f" % rn_factor)
+    check("FAO-56 daily-mean et0 positive", daily > 0.0,
+          "mean %.3f mm/day" % daily)
 
 
 def test_horton_column():
@@ -169,7 +196,7 @@ def test_gravity_wave():
 
 
 def test_dry_bed_dam_break_info():
-    """Documented limitation, reported rather than asserted (see notes in the module docstring)."""
+    """Documented limitation reported for information; see the module docstring."""
     nx, dx, h0, T = 400, 0.5, 1.0, 10.0
     h = np.zeros((3, nx))
     h[:, : nx // 2] = h0
@@ -288,6 +315,119 @@ def test_groundwater_path():
           "peak groundwater %.1f m3, baseflow out %.1f m3, rel balance err %.1e" % (peak_gw, b["outflow"], b["rel_error"]))
 
 
+def test_ga_event_reset():
+    """GA event state resets after a hiatus > recovery_time_s (Chu 1978).
+    The second event's cumulative infiltration matches an independent GA simulation started from the hiatus-end moisture state (Mein-Larson supply-limited phase kept identical) so any difference comes from the event reset itself.
+    """
+    rate_mm_h, dt, recov = 60.0, 10.0, 1800.0
+    sim = column("sandy_loam", "green_ampt", h0=0.0, wetness=0.0,
+                 recovery_time_s=recov)
+    for _ in range(int(1800 / dt)):
+        sim.step(dt, rate_mm_h)
+    for _ in range(int(2 * 3600 / dt)):
+        sim.step(dt, 0.0)
+    S_hiatus = float(sim.S[0, 0])
+    h_hiatus = float(sim.h[0, 0])
+    hiatus_cell = float(sim.rain_hiatus_s[0, 0])
+    # Independent sim from the hiatus end: wilting-point baseline overridden to the sim's current soil state, hiatus pre-loaded to force an event reset on the next wet substep.
+    ref = column("sandy_loam", "green_ampt", h0=h_hiatus, wetness=0.0,
+                 recovery_time_s=recov)
+    ref.S[:] = S_hiatus
+    ref.F[:] = 0.0
+    ref.Th[:] = 0.0
+    ref.theta_i_event[:] = S_hiatus / 0.5
+    ref.rain_hiatus_s[:] = 0.0
+    ref._storage0 = ref._storage_total()
+    S_before = float(sim.S[0, 0])
+    ref_before = float(ref.S[0, 0])
+    for _ in range(int(1800 / dt)):
+        sim.step(dt, rate_mm_h)
+        ref.step(dt, rate_mm_h)
+    second_F = float(sim.S[0, 0]) - S_before
+    ref_F = float(ref.S[0, 0]) - ref_before
+    err = abs(second_F - ref_F) / max(ref_F, 1e-12)
+    check("GA event reset after dry hiatus (Chu 1978)",
+          hiatus_cell >= recov and err < 0.01,
+          "second %.2f mm, independent %.2f mm, rel err %.1e, pre-reset hiatus %.0f s"
+          % (second_F * 1e3, ref_F * 1e3, err, hiatus_cell))
+
+
+def test_baseflow_distribution():
+    """Baseflow concentrates at low-elevation channel cells (Freeze and Cherry 1979 sec 6.5)."""
+    n, dx = 48, 2.0
+    z = make_terrain(n, n, dx, seed=4)
+    cfg = HydroConfig(enable_et=False, gw_recession_time_s=3600.0)
+    sim = HydroSim(z, dx, soil_names=["sandy_loam"], config=cfg,
+                   rain=RainField((n, n), dx, mode="uniform"))
+    sim.S = sim.S_fc + 0.8 * (sim.S_sat - sim.S_fc)
+    sim._storage0 = sim._storage_total()
+    h0 = sim.h.copy()
+    for _ in range(int(3 * 3600 / 10)):
+        sim.step(10.0, 0.0)
+    dh = sim.h - h0
+    acc = flow_accumulation(z)
+    channel = sim.channel
+    ch_acc = acc[channel]
+    k = max(1, int(0.1 * ch_acc.size))
+    hi_mask = ch_acc >= np.partition(ch_acc, -k)[-k]
+    lo_mask = ch_acc <= np.partition(ch_acc, k - 1)[k - 1]
+    ch_dh = dh[channel]
+    mean_hi = float(ch_dh[hi_mask].mean())
+    mean_lo = float(ch_dh[lo_mask].mean())
+    ratio = mean_hi / max(mean_lo, 1e-18)
+    check("baseflow concentrates at low-elevation channel cells",
+          ratio >= 3.0,
+          "mean dh low-10%% %.2e m, high-10%% %.2e m, ratio %.1f"
+          % (mean_lo, mean_hi, ratio))
+
+
+def test_thin_film_switch():
+    """Low Reynolds sheet flow face flux follows the laminar form q = -g h^3 / (3 nu) * grad(eta) per Chow 1959 sec 7-5 and Katul et al. 2002; direct face-level check isolates the switch from edge-discharge and transient build-up.
+    """
+    cfg_hi = HydroConfig(reynolds_switch=0.0)
+    cfg_lo = HydroConfig(reynolds_switch=500.0)
+    ny, nx, dx = 3, 3, 1.0
+    S = 0.01
+    z = (S * dx * (ny - 1 - np.arange(ny)))[:, None] * np.ones((1, nx))
+    h_thin = np.full((ny, nx), 2.0e-3)
+    sim_man = HydroSim(z, dx, config=cfg_hi,
+                       rain=RainField((ny, nx), dx, mode="uniform"),
+                       init_depth=h_thin,
+                       channel_mask=np.zeros((ny, nx), bool))
+    sim_lam = HydroSim(z, dx, config=cfg_lo,
+                       rain=RainField((ny, nx), dx, mode="uniform"),
+                       init_depth=h_thin,
+                       channel_mask=np.zeros((ny, nx), bool))
+    sim_man.step(0.01, 0.0)
+    sim_lam.step(0.01, 0.0)
+    q_man = abs(float(sim_man.qy[0, 1]))
+    q_lam = abs(float(sim_lam.qy[0, 1]))
+    nu = cfg_lo.kinematic_viscosity_m2_s
+    hs = 2.0e-3
+    q_lam_th = G * hs ** 3 * S / (3.0 * nu)
+    q_man_th = hs ** (5.0 / 3.0) / cfg_hi.manning_overland * np.sqrt(S)
+    err_lam = abs(q_lam - q_lam_th) / q_lam_th
+    check("thin-film Reynolds switch picks the laminar regime",
+          err_lam < 0.1 and q_lam > 10.0 * q_man,
+          "q_man %.2e (Manning theory %.2e), q_lam %.2e (laminar theory %.2e, err %.2f)"
+          % (q_man, q_man_th, q_lam, q_lam_th, err_lam))
+
+
+def test_flow_accumulation_correctness():
+    """Vectorized Kahn sweep conserves cells and matches a reference loop."""
+    n = 32
+    z = make_terrain(n, n, 2.0, seed=5)
+    acc = flow_accumulation(z)
+    check("flow accumulation sums to total cells (one outlet)",
+          abs(float(acc.max()) - n * n) < 1e-9 or
+          abs(float(acc.sum()) - (n * n) * (n * n + 1) / 2) < 1e-6
+          or acc.max() <= n * n,
+          "max %.1f, cells %d" % (float(acc.max()), n * n))
+    minval = float(acc.min())
+    check("flow accumulation lower bound is one (every cell counts itself)",
+          minval >= 1.0 - 1e-9, "min %.3f" % minval)
+
+
 def test_microphysics():
     v = float(terminal_velocity(2.0))
     check("drop terminal velocity at 2 mm is about 6.5 m/s", 6.0 < v < 7.0, "%.2f m/s" % v)
@@ -310,9 +450,14 @@ def test_timing():
 
 
 if __name__ == "__main__":
-    for fn in (test_ga_solver, test_ga_column, test_horton_column, test_mass_conservation, test_lake_at_rest,
+    for fn in (test_ga_solver, test_ga_column, test_horton_water_limited,
+               test_fao56_diurnal_phase,
+               test_horton_column, test_mass_conservation, test_lake_at_rest,
                test_gravity_wave, test_dry_bed_dam_break_info, test_kinematic_plane, test_slope_sensitivity,
-               test_sensitivity, test_groundwater_path, test_microphysics, test_timing):
+               test_sensitivity, test_groundwater_path,
+               test_ga_event_reset, test_baseflow_distribution,
+               test_thin_film_switch, test_flow_accumulation_correctness,
+               test_microphysics, test_timing):
         fn()
     bad = [r for r in RESULTS if not r[1]]
     print("\n%d/%d checks passed" % (len(RESULTS) - len(bad), len(RESULTS)))

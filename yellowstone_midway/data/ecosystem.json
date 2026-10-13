@@ -5,22 +5,22 @@
   "physical_time": "One simulation second per physical second. day_rate changes clock/lighting phase only; transport and biomass retain physical seconds.",
   "clock_hour": 16.2,
   "day_rate": 1.0,
-  "humidity": 0.45,
-  "cloud": 0.16,
+  "humidity": 0.34,
+  "cloud": 0.0,
   "boundary_m3s": 8.0,
   "boundary_c": 17.5,
   "weather": {
-    "night_air_c": 7.0,
-    "day_warming_c": 15.0,
+    "night_air_c": 11.4,
+    "day_warming_c": 0.0,
     "wind_xz_mps": [
-      1.8,
-      0.6
+      2.11,
+      0.7
     ],
     "gust_mps": 0.45,
     "calibrated": false,
     "note": "Chosen summer artistic conditions; no date-specific weather claim.",
-    "humidity": 0.45,
-    "cloud": 0.16
+    "humidity": 0.34,
+    "cloud": 0.0
   },
   "parameter_provenance": {
     "all_reach_volumes": "Illustrative lumped compartments; not bathymetric measurements.",
@@ -56,7 +56,7 @@
       "upstream_id": "",
       "z": 1740.0,
       "volume_m3": 6600.0,
-      "temperature_c": 17.573460504601794,
+      "temperature_c": 17.38100711752514,
       "cooling_seconds": 21600.0,
       "lateral_sources": []
     },
@@ -65,7 +65,7 @@
       "upstream_id": "south_boundary",
       "z": 950.0,
       "volume_m3": 6800.0,
-      "temperature_c": 17.644975527575983,
+      "temperature_c": 17.390899397340664,
       "cooling_seconds": 21600.0,
       "lateral_sources": []
     },
@@ -74,7 +74,7 @@
       "upstream_id": "upper_corridor",
       "z": 220.0,
       "volume_m3": 5400.0,
-      "temperature_c": 17.77353113603797,
+      "temperature_c": 17.47121248981624,
       "cooling_seconds": 18000.0,
       "lateral_sources": []
     },
@@ -83,7 +83,7 @@
       "upstream_id": "upstream_midway",
       "z": -175.0,
       "volume_m3": 800.0,
-      "temperature_c": 19.18035013108645,
+      "temperature_c": 18.86751115283987,
       "cooling_seconds": 14400.0,
       "lateral_sources": [
         {
@@ -99,7 +99,7 @@
       "upstream_id": "excelsior_mixing",
       "z": -440.0,
       "volume_m3": 6200.0,
-      "temperature_c": 19.147297775611484,
+      "temperature_c": 18.822970521740807,
       "cooling_seconds": 18000.0,
       "lateral_sources": []
     },
@@ -108,7 +108,7 @@
       "upstream_id": "bridge_downstream",
       "z": -1390.0,
       "volume_m3": 12400.0,
-      "temperature_c": 18.959723497975794,
+      "temperature_c": 18.635739041275517,
       "cooling_seconds": 18000.0,
       "lateral_sources": []
     }
@@ -133,8 +133,9 @@
       "soil_mm": 84.0,
       "phenology": "peak_green",
       "pheno_stress": "none",
-      "gdd": 638.0,
-      "snow_depth_m": 0.0
+      "gdd": 342.0,
+      "snow_depth_m": 0.0,
+      "snow_cover_fraction": 0.0
     },
     {
       "id": "bridge_riparian",
@@ -148,15 +149,16 @@
       "capacity": 1.0,
       "moisture": 0.7,
       "growth_per_hour": 0.008,
-      "insect_resource": 0.8007717838495573,
+      "insect_resource": 0.8,
       "insect_recovery_per_hour": 0.06,
       "status": "Authored shared relative food index for visible river insect/dipper/trout interactions, not an invertebrate census.",
       "snow_mm": 0.0,
       "soil_mm": 84.0,
       "phenology": "peak_green",
       "pheno_stress": "none",
-      "gdd": 638.0,
-      "snow_depth_m": 0.0
+      "gdd": 342.0,
+      "snow_depth_m": 0.0,
+      "snow_cover_fraction": 0.0
     },
     {
       "id": "forest_edge",
@@ -168,17 +170,18 @@
       "radius_m": 85.0,
       "biomass": 0.6400460237409016,
       "capacity": 1.0,
-      "moisture": 0.699,
+      "moisture": 0.7,
       "growth_per_hour": 0.006,
       "insect_resource": 0.6,
       "insect_recovery_per_hour": 0.03,
       "status": "Reserved patch state; no unlisted wildlife generated.",
       "snow_mm": 0.0,
-      "soil_mm": 83.88,
+      "soil_mm": 84.0,
       "phenology": "peak_green",
       "pheno_stress": "none",
-      "gdd": 638.0,
-      "snow_depth_m": 0.0
+      "gdd": 342.0,
+      "snow_depth_m": 0.0,
+      "snow_cover_fraction": 0.0
     }
   ],
   "wildlife": [
@@ -221,11 +224,17 @@
       "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
       "timing_basis": {
         "patch_biomass": 0.8201,
-        "hypotheses": [
-          "forage_quality",
-          "predation_risk",
-          "hydrology"
-        ],
+        "model_context": {
+          "implemented": [
+            "forage_quality"
+          ],
+          "partial": [
+            "hydrology"
+          ],
+          "not_modeled": [
+            "predation_risk"
+          ]
+        },
         "causal_claim": "none_single; forage basis only, predation/hydrology unknowns listed"
       }
     },
@@ -268,11 +277,17 @@
       "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
       "timing_basis": {
         "patch_biomass": 0.8201,
-        "hypotheses": [
-          "forage_quality",
-          "predation_risk",
-          "hydrology"
-        ],
+        "model_context": {
+          "implemented": [
+            "forage_quality"
+          ],
+          "partial": [
+            "hydrology"
+          ],
+          "not_modeled": [
+            "predation_risk"
+          ]
+        },
         "causal_claim": "none_single; forage basis only, predation/hydrology unknowns listed"
       }
     },
@@ -315,11 +330,17 @@
       "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
       "timing_basis": {
         "patch_biomass": 0.8201,
-        "hypotheses": [
-          "forage_quality",
-          "predation_risk",
-          "hydrology"
-        ],
+        "model_context": {
+          "implemented": [
+            "forage_quality"
+          ],
+          "partial": [
+            "hydrology"
+          ],
+          "not_modeled": [
+            "predation_risk"
+          ]
+        },
         "causal_claim": "none_single; forage basis only, predation/hydrology unknowns listed"
       }
     },
@@ -382,8 +403,8 @@
       "perch_stone_height_m": 0.22,
       "phase": 0.7,
       "initial_state": "perch",
-      "perch_seconds": 6.72,
-      "forage_seconds": 16.71,
+      "perch_seconds": 19.49,
+      "forage_seconds": 6.13,
       "walk_mps": 0.2,
       "insect_index_per_second": 8e-06,
       "approx_dimensions_m": {
@@ -392,8 +413,9 @@
       },
       "art_status": "Original shape proxy and authored small perch stone",
       "evidence_scope": "NPS Firehole recording confirms species; exact perch is authored, not a location observation.",
-      "activity_basis": 0.1551,
-      "intake_basis_prey_per_h": 0.3794
+      "activity_basis": 0.0454,
+      "intake_basis_prey_per_h": 0.0402,
+      "intake_basis": "replay_foodweb"
     },
     {
       "id": "raven_01",
@@ -419,8 +441,8 @@
       "scale": 1.0,
       "phase": 2.4,
       "initial_state": "perch",
-      "perch_seconds": 29.05,
-      "forage_seconds": 11.53,
+      "perch_seconds": 25.7,
+      "forage_seconds": 12.22,
       "walk_mps": 0.28,
       "approx_dimensions_m": {
         "body_length": 0.55,
@@ -428,8 +450,9 @@
       },
       "art_status": "Original shape proxy and authored small perch stone",
       "evidence_scope": "Park-level presence; specific Midway placement is a habitat-based authored candidate.",
-      "activity_basis": 0.1551,
-      "intake_basis_prey_per_h": 0.0651
+      "activity_basis": 0.0454,
+      "intake_basis_prey_per_h": 0.1296,
+      "intake_basis": "insect_compartments"
     },
     {
       "id": "trout_01",
@@ -438,25 +461,43 @@
       "medium": "river",
       "patch_id": "bridge_riparian",
       "river_id": "river_5856_0",
-      "start_point_index": 354,
-      "end_point_index": 357,
+      "start_point_index": 374,
+      "end_point_index": 377,
       "lateral_offset_m": -1.8,
       "water_offset_m": -0.29,
       "scale": 0.8,
       "phase": 1.2,
       "initial_state": "hold",
-      "hold_seconds": 12.75,
-      "walk_mps": 0.179,
+      "hold_seconds": 15.94,
+      "walk_mps": 0.182,
       "insect_index_per_second": 3e-06,
       "approx_dimensions_m": {
         "body_length": 0.38
       },
       "art_status": "Original low-detail fish proxy",
       "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
-      "reach_id": "bridge_downstream",
-      "reach_temp_c": 19.15,
-      "suitability_U": 0.388,
-      "refuge_reason": "holding index 355 (U 0.39 at 19.1\u00b0C) beats index 403 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage"
+      "reach_id": "excelsior_mixing",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.35,
+      "suitability_U": -0.044,
+      "refuge_reason": "cell firehole_cell_00155 at s=3071 m (U -0.044, 17.35 C) selected by brown_trout literature suitability over 276 replay cells",
+      "species": "brown_trout",
+      "thermal_performance": {
+        "feeding": 0.6624999999999996,
+        "stress": 0.0,
+        "refuge_drive": 0.0,
+        "lethal_flag": 0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges"
+      },
+      "suitability_basis": "per_cell_velocity_depth",
+      "refuge_cell_id": "firehole_cell_00155",
+      "refuge_chainage_m": 3071.4,
+      "refuge_rendered_s_m": 1124.4,
+      "refuge_off_polyline_m": -0.6,
+      "refuge_basis": "replay_foodweb"
     },
     {
       "id": "trout_02",
@@ -465,25 +506,43 @@
       "medium": "river",
       "patch_id": "bridge_riparian",
       "river_id": "river_5856_0",
-      "start_point_index": 359,
-      "end_point_index": 362,
+      "start_point_index": 374,
+      "end_point_index": 377,
       "lateral_offset_m": 2.0,
       "water_offset_m": -0.29,
       "scale": 0.9,
       "phase": 3.5,
       "initial_state": "hold",
-      "hold_seconds": 15.62,
-      "walk_mps": 0.179,
+      "hold_seconds": 19.52,
+      "walk_mps": 0.182,
       "insect_index_per_second": 3e-06,
       "approx_dimensions_m": {
         "body_length": 0.4275
       },
       "art_status": "Original low-detail fish proxy",
       "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
-      "reach_id": "bridge_downstream",
-      "reach_temp_c": 19.15,
-      "suitability_U": 0.388,
-      "refuge_reason": "holding index 360 (U 0.39 at 19.1\u00b0C) beats index 408 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage"
+      "reach_id": "excelsior_mixing",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.35,
+      "suitability_U": -0.044,
+      "refuge_reason": "cell firehole_cell_00155 at s=3071 m (U -0.044, 17.35 C) selected by brown_trout literature suitability over 276 replay cells",
+      "species": "brown_trout",
+      "thermal_performance": {
+        "feeding": 0.6624999999999996,
+        "stress": 0.0,
+        "refuge_drive": 0.0,
+        "lethal_flag": 0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges"
+      },
+      "suitability_basis": "per_cell_velocity_depth",
+      "refuge_cell_id": "firehole_cell_00155",
+      "refuge_chainage_m": 3071.4,
+      "refuge_rendered_s_m": 1124.4,
+      "refuge_off_polyline_m": -0.6,
+      "refuge_basis": "replay_foodweb"
     },
     {
       "id": "trout_03",
@@ -492,25 +551,43 @@
       "medium": "river",
       "patch_id": "bridge_riparian",
       "river_id": "river_5856_0",
-      "start_point_index": 461,
-      "end_point_index": 464,
+      "start_point_index": 374,
+      "end_point_index": 377,
       "lateral_offset_m": 0.6,
       "water_offset_m": -0.29,
       "scale": 0.75,
       "phase": 5.0,
       "initial_state": "hold",
-      "hold_seconds": 17.5,
-      "walk_mps": 0.181,
+      "hold_seconds": 21.88,
+      "walk_mps": 0.182,
       "insect_index_per_second": 3e-06,
       "approx_dimensions_m": {
         "body_length": 0.3562
       },
       "art_status": "Original low-detail fish proxy",
       "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
-      "reach_id": "north_boundary",
-      "reach_temp_c": 18.96,
-      "suitability_U": 0.396,
-      "refuge_reason": "holding index 462 (U 0.40 at 19.0\u00b0C) beats index 418 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage"
+      "reach_id": "excelsior_mixing",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.35,
+      "suitability_U": -0.044,
+      "refuge_reason": "cell firehole_cell_00155 at s=3071 m (U -0.044, 17.35 C) selected by brown_trout literature suitability over 276 replay cells",
+      "species": "brown_trout",
+      "thermal_performance": {
+        "feeding": 0.6624999999999996,
+        "stress": 0.0,
+        "refuge_drive": 0.0,
+        "lethal_flag": 0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges"
+      },
+      "suitability_basis": "per_cell_velocity_depth",
+      "refuge_cell_id": "firehole_cell_00155",
+      "refuge_chainage_m": 3071.4,
+      "refuge_rendered_s_m": 1124.4,
+      "refuge_off_polyline_m": -0.6,
+      "refuge_basis": "replay_foodweb"
     },
     {
       "id": "trout_04",
@@ -519,25 +596,43 @@
       "medium": "river",
       "patch_id": "bridge_riparian",
       "river_id": "river_5856_0",
-      "start_point_index": 461,
-      "end_point_index": 464,
+      "start_point_index": 374,
+      "end_point_index": 377,
       "lateral_offset_m": -2.4,
       "water_offset_m": -0.29,
       "scale": 0.95,
       "phase": 0.2,
       "initial_state": "hold",
-      "hold_seconds": 11.5,
-      "walk_mps": 0.181,
+      "hold_seconds": 14.38,
+      "walk_mps": 0.182,
       "insect_index_per_second": 3e-06,
       "approx_dimensions_m": {
         "body_length": 0.4512
       },
       "art_status": "Original low-detail fish proxy",
       "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
-      "reach_id": "north_boundary",
-      "reach_temp_c": 18.96,
-      "suitability_U": 0.396,
-      "refuge_reason": "holding index 462 (U 0.40 at 19.0\u00b0C) beats index 422 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage"
+      "reach_id": "excelsior_mixing",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.35,
+      "suitability_U": -0.044,
+      "refuge_reason": "cell firehole_cell_00155 at s=3071 m (U -0.044, 17.35 C) selected by brown_trout literature suitability over 276 replay cells",
+      "species": "brown_trout",
+      "thermal_performance": {
+        "feeding": 0.6624999999999996,
+        "stress": 0.0,
+        "refuge_drive": 0.0,
+        "lethal_flag": 0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges"
+      },
+      "suitability_basis": "per_cell_velocity_depth",
+      "refuge_cell_id": "firehole_cell_00155",
+      "refuge_chainage_m": 3071.4,
+      "refuge_rendered_s_m": 1124.4,
+      "refuge_off_polyline_m": -0.6,
+      "refuge_basis": "replay_foodweb"
     },
     {
       "id": "river_insects_01",

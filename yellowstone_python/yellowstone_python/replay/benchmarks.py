@@ -1,20 +1,5 @@
 """Applicable numerical benchmarks for the declared equation level.
-
-Declared level: quasi-steady reach network plus 1-D advection-dispersion
-transport with prescribed discharge. No momentum equation is solved.
-
-Covered here: restart equivalence, closed thermal conservation,
-two-stream junction mixing, conservative tracer advection, temporal
-plus spatial convergence rates on smooth cases, dispersive steady
-rates with nonzero dispersion, and diffusive decay rates in space
-plus time, with a manufactured traveling wave driving the full
-unsteady operator through the per-cell heat hook. Each
-benchmark returns a small dict with a pass flag and measured values.
-
-Excluded by declaration: lake at rest over variable bed and dam-break
-transients exercise unsteady momentum and wetting behavior. The solver
-formulation carries no momentum equation, so those benchmarks are
-recorded as not applicable.
+Quasi-steady 1-D advection-dispersion with prescribed discharge; no momentum.
 """
 from __future__ import annotations
 
@@ -44,18 +29,27 @@ NOT_APPLICABLE = [
 
 
 def _max_abs_diff(a: Any, b: Any) -> float:
-    return max(abs(x - y) for x, y in zip(a, b))
+    """Maximum absolute pairwise gap; rejects empty or mismatched inputs."""
+    a_list, b_list = list(a), list(b)
+    if not a_list or not b_list:
+        raise ValueError("_max_abs_diff requires nonempty sequences")
+    if len(a_list) != len(b_list):
+        raise ValueError(
+            f"_max_abs_diff requires equal lengths, "
+            f"got {len(a_list)} and {len(b_list)}"
+        )
+    return max(abs(x - y) for x, y in zip(a_list, b_list))
 
 
 def benchmark_restart_equivalence() -> dict[str, Any]:
     """Split run equals continuous run on identical forcing."""
-    cells = [
-        Cell(f"c{i}", 50.0, 22.0, 50.0 * 22.0 * 1.1, 15.0,
-             dispersion_m2_s=1.0, exchange_w_m2_k=12.0)
-        for i in range(5)
-    ]
-
     def make() -> River:
+        # Fresh cells per River so no state carries between runs.
+        cells = [
+            Cell(f"c{i}", 50.0, 22.0, 50.0 * 22.0 * 1.1, 15.0,
+                 dispersion_m2_s=1.0, exchange_w_m2_k=12.0)
+            for i in range(5)
+        ]
         return River(
             cells, boundary_m3_s=8.0, boundary_c=17.5, air_c=9.0,
             sources=[Source("lat", "c2", 0.25, 60.0)],
@@ -109,15 +103,24 @@ def benchmark_closed_thermal() -> dict[str, Any]:
     budget = river.budget()
     drift = abs(end_mean - start_mean)
     tolerance = 1e-9
+    # Closed domain: zero boundary inflow and zero outlet export.
+    boundary_j = abs(budget["boundary_input_j"])
+    outlet_j = abs(budget["outlet_export_j"])
     return {
         "name": "closed_thermal_system",
         "start_volume_mean_c": start_mean,
         "end_volume_mean_c": end_mean,
         "drift_c": drift,
         "heat_relative_residual": budget["heat_relative_residual"],
+        "boundary_input_j": budget["boundary_input_j"],
+        "outlet_export_j": budget["outlet_export_j"],
         "tolerance_c": tolerance,
-        "passed": drift <= tolerance
-        and budget["heat_relative_residual"] <= 1e-9,
+        "passed": (
+            drift <= tolerance
+            and budget["heat_relative_residual"] <= 1e-9
+            and boundary_j == 0.0
+            and outlet_j == 0.0
+        ),
     }
 
 
@@ -180,21 +183,50 @@ def benchmark_conservative_tracer() -> dict[str, Any]:
     expected = discharge / (width_m * depth_m) * duration_s
     error_pct = 100.0 * (advected - expected) / expected
     budget = river.budget()
+    # Pulse retention: anomaly mass in the downstream-most 10% of cells stays below 1%.
+    tail_cells = max(1, n // 10)
+    end_temps = list(river.temperature_c)
+    anomalies_end = [max(0.0, t - background) for t in end_temps]
+    tail_mass = math.fsum(
+        v * a for v, a in zip(
+            volumes[-tail_cells:], anomalies_end[-tail_cells:]))
+    total_mass = math.fsum(v * a for v, a in zip(volumes, anomalies_end))
+    tail_fraction = tail_mass / total_mass if total_mass > 0.0 else 0.0
+    pulse_off_outlet = tail_fraction < 0.01
     passed = (budget["heat_relative_residual"] <= 1e-9
-              and abs(error_pct) <= 5.0)
+              and abs(error_pct) <= 5.0
+              and pulse_off_outlet)
     return {
         "name": "conservative_tracer",
         "advected_m": advected,
         "expected_m": expected,
         "advection_error_pct": error_pct,
         "heat_relative_residual": budget["heat_relative_residual"],
+        "outlet_tail_mass_fraction": tail_fraction,
+        "outlet_tail_cell_count": tail_cells,
+        "pulse_off_outlet": pulse_off_outlet,
         "passed": passed,
     }
 
 
 def _observed_rates(errors: list[float]) -> list[float]:
-    """Pairwise log2 error ratios for successive halving refinements."""
-    return [math.log2(a / b) for a, b in zip(errors, errors[1:])]
+    """Pairwise log2 error ratios for successive halving refinements.
+    Rejects nonfinite or negative; zero gives inf or -inf by side.
+    """
+    if len(errors) < 2:
+        raise ValueError("at least two errors are required")
+    for e in errors:
+        if not math.isfinite(e) or e < 0:
+            raise ValueError("errors must be finite and nonnegative")
+    rates = []
+    for coarse, fine in zip(errors, errors[1:]):
+        if fine == 0.0:
+            rates.append(math.inf if coarse > 0.0 else 0.0)
+        elif coarse == 0.0:
+            rates.append(-math.inf)
+        else:
+            rates.append(math.log2(coarse / fine))
+    return rates
 
 
 def benchmark_temporal_convergence() -> dict[str, Any]:
@@ -213,6 +245,7 @@ def benchmark_temporal_convergence() -> dict[str, Any]:
         "name": "temporal_convergence",
         "method": "backward Euler with direct tridiagonal solve",
         "expected_order": 1.0,
+        "rate_tolerance": [0.7, 1.3],
         "dt_s": dts,
         "errors_c": errors,
         "observed_rates": rates,
@@ -246,6 +279,7 @@ def benchmark_spatial_convergence() -> dict[str, Any]:
         "name": "spatial_convergence",
         "method": "first-order upwind steady solve",
         "expected_order": 1.0,
+        "rate_tolerance": [0.7, 1.3],
         "n_cells": counts,
         "errors_c": errors,
         "observed_rates": rates,
@@ -258,10 +292,7 @@ def _danckwerts_analytic(discharge: float, width: float,
                           upstream: float, air: float,
                           disp: float) -> tuple:
     """Closed-form steady profile for feed inlet plus zero-flux outlet.
-
-    The discrete upstream cell passes advective inflow only, which is
-    the Danckwerts feed condition. Factored form keeps all exponents
-    nonpositive across Peclet regimes.
+    Danckwerts feed; factored form keeps exponents nonpositive across Peclet.
     """
     area = width * depth
     exchange = coef * width / RHO_CP_J_M3_K
@@ -325,7 +356,9 @@ def benchmark_spatial_convergence_dispersive() -> dict[str, Any]:
 
 
 def benchmark_diffusive_decay() -> dict[str, Any]:
-    """Centered dispersion order from a Neumann cosine decay, Q zero."""
+    """Centered dispersion order from Neumann cosine decay at zero discharge.
+    Error at cell centers: 2nd-order spatial, 1st-order temporal (backward Euler).
+    """
     width, depth, length = 20.0, 1.1, 1000.0
     disp, coef, air = 1.0, 12.0, 5.0
     area = width * depth
@@ -415,10 +448,7 @@ def _mms_wave_run(n: int, dt: float, duration: float) -> tuple:
 
 def benchmark_mms_traveling_wave() -> dict[str, Any]:
     """Full unsteady operator rate from a manufactured traveling wave.
-
-    The analytic source drives advection, dispersion, exchange, and
-    storage together through the per-cell heat hook. Interior norm;
-    boundary closures match the steady dispersive benchmark.
+    Interior cells only (0, n-1 skipped) so boundary closure stays out.
     """
     hour = 3600.0
     counts = [15, 30, 60]

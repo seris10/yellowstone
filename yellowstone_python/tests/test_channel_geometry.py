@@ -1,8 +1,6 @@
 """Pinning tests for tools/channel_geometry.py (synthetic/offline, no I/O).
 
-The transect functions take a plain `sample` callable, so 100% of branch
-logic runs with stubs — no terrain.f32, no world.json. See
-tooling-spec-channel-geometry-pinning-test.md.
+The transect callable `sample` lets stubs cover branch logic.
 """
 
 import json
@@ -73,9 +71,11 @@ def test_dem_mean_depth_success_shape():
 
 def test_dem_mean_depth_fallback_shape():
     out = _dem_mean_depth(FEATURE, _dry)
-    assert out == {"depth_m": 1.1,
-                   "status": "default_assumed_no_valid_transects",
-                   "source": "feature stub_01: no valid DEM transects"}
+    assert out["depth_m"] == 1.1
+    assert out["status"] == "default_assumed_no_valid_transects"
+    assert out["source"] == "feature stub_01: no valid DEM transects"
+    assert out["n_transects_valid"] == 0
+    assert out["valid_fraction"] == 0.0
 
 
 def test_usgs_mean_depth_conversion():

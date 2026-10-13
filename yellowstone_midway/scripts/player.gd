@@ -1,10 +1,14 @@
 class_name MidwayWalker
 extends CharacterBody3D
-## Distances in meters, velocities in meters/second. Camera does not bob by default.
-@export var walk_speed := 3.0
-@export var brisk_speed := 6.5
-@export var step_height := 0.55
-@export var mouse_sensitivity := 0.0019
+## Distances in meters, velocities in meters/second.
+
+# Reference pace from NPS boardwalk signage, 3 mph brisk walk.
+@export_range(0.5, 10.0) var walk_speed := 3.0
+@export_range(0.5, 10.0) var brisk_speed := 6.5
+@export_range(0.0, 1.5) var step_height := 0.55
+# Jump initial velocity in m/s; a 0.72 m hop at g=9.81 m/s2.
+@export_range(0.0, 10.0) var jump_speed := 3.8
+@export_range(0.0005, 0.01) var mouse_sensitivity := 0.0019
 var camera: Camera3D
 var enabled := false
 var fly_mode := false
@@ -75,13 +79,14 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, direction.x * speed, delta * 7.0)
 		velocity.z = move_toward(velocity.z, direction.z * speed, delta * 7.0)
 		if not is_on_floor():
-			velocity.y -= 9.81 * delta
+			var gravity_mps2: float = float(ProjectSettings.get_setting("physics/3d/default_gravity", 9.81))
+			velocity.y -= gravity_mps2 * delta
 		elif Input.is_physical_key_pressed(KEY_SPACE):
-			velocity.y = 3.8
+			velocity.y = jump_speed
 		move_and_slide()
-		# Step-up assist for boardwalk lips and deck edges: snap alone pulls downward.
+		# Step-up assist for boardwalk lips and deck edges.
 		var flat := Vector3(direction.x, 0.0, direction.z)
-		if is_on_floor() and is_on_wall() and flat.length_squared() > 0.04:
+		if is_on_floor() and is_on_wall() and flat.length_squared() > 0.04 and velocity.y <= 0.0:
 			_try_step_up(flat.normalized())
 	if absf(position.x) > 2038.0 or absf(position.z) > 2038.0 or position.y < -50.0:
 		position = spawn

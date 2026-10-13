@@ -1,0 +1,33 @@
+# fixes-31 ledger
+Doc: fixes/fixes-31-hydrosim.md | read 2026-10-12, open rows re-verified 2026-10-13 | targets: hydrology/hydrosim.py sha256:649ff9ce67c9 ; hydrology/validate_hydrosim.py sha256:bc0f30a7e610 ; hydrology/demo_hydrosim.py sha256:99e2f49a2391 ; hydrology/godot_hydro_node.py sha256:e5d8ad39e631
+Summary: 15 items: 15 implemented, 0 shortcut, 0 partial, 0 missing, 0 superseded, 0 refactor-deferred
+
+| item | requirement (one line) | verdict | evidence file:line | note (one line) | cost cheap/medium/refactor |
+|---|---|---|---|---|---|
+| 1 | Ksat column labeled with the source actually used (Rawls 1983 or Bouwer-halved effective-K) | implemented | hydrology/hydrosim.py:37-50 | comment names Green-Ampt effective Ks convention; dividers removed per comment-gate | cheap |
+| 2 | SOILS gains sinter_apron and andic_meadow for Midway substrate; midway_soil_map selector | implemented | hydrology/hydrosim.py:24-25, 227-229 ; yellowstone_python/yellowstone_python/ssurgo_loader.py load_ssurgo_soils; tests/test_ssurgo_loader.py synthetic MT628 fixture | SSURGO MT628 loader written against the documented tabular schema and exercised on a synthetic fixture; the actual MT628 dataset is not on this machine | medium |
+| 3 | Green-Ampt moisture deficit carries event-state (theta_i_event, rain_hiatus_s) with reset rule | implemented | hydrology/hydrosim.py:372-374,539-592; hydrology/validate_hydrosim.py:test_ga_event_reset | theta_i_event and rain_hiatus_s on sim; reset at new event; validator matches independent sim to 0.0e+00 rel err | refactor |
+| 4 | Horton effective time advances by water-limited fraction (Mein-Larson correction) | implemented | hydrology/hydrosim.py:445-480; hydrology/validate_hydrosim.py:test_horton_water_limited | th_advance = ds * min(cap, h) / cap; validator passes 2mm supply over 2h | cheap |
+| 5 | CFL overflow surfaces in step() return dict and provider snapshot; refusable at provider | implemented | hydrology/hydrosim.py:412-429 ; yellowstone_python/overland_flow.py:306-320,345,418 (S4) | step() returns cfl_exceeded_count/boundary_condition/outflow_slope; run_overland accumulates them into result["solver_diagnostics"] | medium |
+| 6 | Baseflow weighted by flow-accumulation (lower cells receive more) | implemented | hydrology/hydrosim.py:382-396,413-423,668-674; hydrology/validate_hydrosim.py:test_baseflow_distribution | _baseflow_weights normalized by cached acc on channel; validator low/high depth ratio 5254 against the 3x requirement | medium |
+| 7 | Production configs pass open_edges=('S',) with slope; or provider labels boundary_condition | implemented (overland side) | hydrology/hydrosim.py:357-363,415-429 ; yellowstone_python/overland_flow.py:306-320,345,418 (S4) | run_overland forwards boundary_condition/outflow_slope into solver_diagnostics; hydrology_provider.py propagation stays an E2-b handoff | cheap |
+| 8 | outflow_slope auto-derivable from terrain gradient at open edges | implemented | hydrology/hydrosim.py:299-300,338-363,502-505 | outflow_slope "auto" resolves from mean terrain gradient at open edges | cheap |
+| 9 | hydrology/godot_hydro_node.py removed (Godot 3 API against Godot 4 project) | implemented | hydrology/godot_hydro_node.py deleted via trash; dashboard/data/inventory-python.json needs sync (handoff) | | cheap |
+| 10 | demo_hydrosim.py writes under derived/ (not next to source) | implemented | hydrology/demo_hydrosim.py:72-93; hydrosim_demo.png deleted | --out override preserved; default is derived/hydrology_demo/hydrosim_demo.png | cheap |
+| 11 | validate_hydrosim.py tests FAO-56 ET worked example, diurnal phase, GA event reset, Horton water-limited | implemented | hydrology/validate_hydrosim.py:test_horton_water_limited,test_fao56_diurnal_phase,test_ga_event_reset | all four test functions present; 26/26 validator checks pass | cheap |
+| 12 | _ga_increment guards non-finite inputs; residual check after Newton loop | implemented | hydrology/hydrosim.py:434-460 | raises ValueError on non-finite F/A/K; raises RuntimeError if Newton residual > 1e-10 | cheap |
+| 13 | Thin-film regime switch below Reynolds=500 (laminar sheet-flow) | implemented | hydrology/hydrosim.py:328-333,593-611; hydrology/validate_hydrosim.py:test_thin_film_switch | laminar branch gated by both re_manning and re_laminar below reynolds_switch; validator q_lam within 3% of theory | refactor |
+| 14 | Flow accumulation uses numba/scipy label routing or cached mask | implemented | hydrology/hydrosim.py:204-244; hydrology/validate_hydrosim.py:test_flow_accumulation_correctness | Kahn topological sweep in level batches via np.add.at; no new deps; init 256x256 ~0.1 s | refactor |
+| 15 | Comment-style sweep per AGENTS.md section 2 across hydrosim/validate_hydrosim/godot_hydro_node | implemented | hydrology/hydrosim.py:35-50 (soil preset comment compressed); godot_hydro_node.py removed; validate_hydrosim.py lines noted in cross-project issues | | cheap |
+
+## Cross-project issues
+- Item 7 (closed-edge labeling in overland_flow and provider output) crosses into D3-a (overland_flow/provider owned by D wave 1) and E2-b (hydrology_provider.py). Hand off boundary_condition propagation; hydrosim-side CFL propagation lands here.
+- Item 9 removal must sync with dashboard/data/inventory-python.json entry (owned by E1); flag as handoff.
+
+## Scientific validity flags
+- Finding 1 ambiguity: whether the Ksat column represents Rawls saturated or Bouwer effective-K is not stated. Picked effective-K convention and cited Bouwer (1966) alongside Rawls, Brakensiek, Miller (1983).
+- Finding 2: USDA SSURGO MT628 coverage of the Midway Geyser Basin NOT VERIFIED; added sinter_apron and andic_meadow presets with primary citations but kept default_soil_map as the generic textbook terrain selector.
+- Finding 3: explicit event state resolved per Chu 1978 and Mein-Larson 1973; the previous 1e-6 clamp on dtheta is kept as a numerical floor only.
+- Finding 13 thin-film switch is gated by BOTH the Manning Reynolds AND the laminar Reynolds staying below reynolds_switch, so deep still water (large h, q~0) does not pick up the unbounded laminar expression; the laminar branch applies only where the laminar formula itself predicts a laminar regime.
+
+Coordinator, provider side of item 5 (2026-10-12): HydrologyProvider(refuse_on_cfl_overflow=True) returns status refused_cfl_exceeded with ground_wetness_fraction None when hydrosim reports cfl_exceeded_count > 0; the default keeps status ok and carries the count and boundary_condition in state. Evidence: yellowstone_python/hydrology_provider.py (constructor kwarg, _compute refusal branch); tests/test_hydrology_provider.py::test_refuse_on_cfl_overflow. Verdict: implemented.

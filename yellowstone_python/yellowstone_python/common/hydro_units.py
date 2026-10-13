@@ -1,4 +1,4 @@
-"""USGS bundle + config hydro unit validation with an optional pint registry."""
+"""USGS bundle and config hydro unit validation with an optional pint registry."""
 from __future__ import annotations
 
 import math
@@ -12,22 +12,24 @@ except ImportError:
     _UREG = None
     HAS_PINT = False
 
-# Unit registry documentation. Canonical hydro units across ingestion.
 UNIT_DOC = {
     "discharge": "meter**3/second",
     "temperature": "degree_Celsius",
     "epoch": "second",
     "length": "meter",
     "velocity": "meter/second",
-    "pressure_flux": "watt/meter**2",
+    "irradiance": "watt/meter**2",
 }
 
 DISCHARGE_RANGE_M3S = (0.0, 200.0)
-TEMPERATURE_RANGE_C = (-10.0, 45.0)
+# Liquid water at ambient Firehole pressure; Goldstein 2001 peaks near 30 C.
+TEMPERATURE_RANGE_C = (0.0, 35.0)
 EPOCH_RANGE_S = (0.0, 5.0e9)
-AIR_RANGE_C = (-60.0, 60.0)
+# West Yellowstone surface air extremes with margin.
+AIR_RANGE_C = (-50.0, 40.0)
 RH_RANGE = (0.0, 1.0)
-WIND_RANGE_MPS = (0.0, 150.0)
+# Aligned with yellowstone_midway/scripts/weather_snapshot_reader.gd clamp.
+WIND_RANGE_MPS = (0.0, 65.0)
 SHORTWAVE_RANGE_W_M2 = (0.0, 1400.0)
 CLOUD_RANGE = (0.0, 1.0)
 
@@ -86,7 +88,7 @@ def validate_usgs_bundle(bundle: dict[str, Any]) -> None:
         _check_range("met wind_mps", row[3], WIND_RANGE_MPS,
                      UNIT_DOC["velocity"])
         _check_range("met shortwave_w_m2", row[4],
-                     SHORTWAVE_RANGE_W_M2, UNIT_DOC["pressure_flux"])
+                     SHORTWAVE_RANGE_W_M2, UNIT_DOC["irradiance"])
         _check_range("met cloud", row[5], CLOUD_RANGE, "dimensionless")
 
 

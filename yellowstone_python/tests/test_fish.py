@@ -8,8 +8,7 @@ from yellowstone_python.fish import (assign_reach, build_chainage,
 from yellowstone_python.pool_crust import build_all
 
 from paths import ECO_FROZEN, ECO_LIVE, WORLD_JSON as WORLD
-# Tests derive from the frozen shipped baseline (same rule as build.py),
-# never from live published variants.
+# Tests derive from the frozen shipped baseline, as build.py does.
 ECO = ECO_FROZEN if Path(ECO_FROZEN).exists() else ECO_LIVE
 
 
@@ -33,14 +32,13 @@ def test_hot_reach_relocates_not_dies():
     base = [t for t in wl if t["id"] == "trout_01"][0]
     cool = update_trout([base], reaches, pts)
     hot = update_trout([base], warm, pts)
-    # Refuge SELECTION: the hot window is abandoned for cooler chainage.
+    # Refuge selection: the hot window is abandoned for cooler chainage.
     assert hot[0]["reach_id"] != "excelsior_mixing"
     assert hot[0]["reach_temp_c"] < 24.0
-    # The hot fish ends in a reach at least as cool as the cool fish's reach
-    # (a warming event never makes a fish pick a hotter refuge).
+    # The hot fish ends in a reach at least as cool as the cool fish's reach.
     assert hot[0]["reach_temp_c"] <= cool[0]["reach_temp_c"] + 1e-6
     assert "chainage" in hot[0]["refuge_reason"]
-    # Timing still responds when temperature differs at the HOLD site.
+    # Timing still responds when temperature differs at the hold site.
     assert hot[0]["hold_seconds"] >= cool[0]["hold_seconds"]
 
 
@@ -82,3 +80,44 @@ def test_segment_check_covers_offsets():
     pts = list(_samples_along(a, b, 3.0, every_m=2.0))
     assert any(abs(x) < 1e-9 and abs(z - 3.0) < 1e-9 for x, z in pts)
     assert any(abs(z) < 1e-9 for x, z in pts)
+
+
+def test_update_trout_per_cell_velocity_depth():
+    """Per-cell velocity and depth arrays steer the refuge toward the preferred-velocity cell."""
+    pts, reaches, wl, _ = _data()
+    base = [t for t in wl if t["id"] == "trout_01"][0]
+    n = len(pts)
+    # Uniform array equal to reach-average velocity: result should match the reach-average call.
+    uniform_v = [0.34] * n
+    uniform_d = [1.1] * n
+    reach_result = update_trout([base], reaches, pts)[0]
+    per_cell_result = update_trout([base], reaches, pts,
+                                     cell_velocity_mps=uniform_v,
+                                     cell_depth_m=uniform_d)[0]
+    assert per_cell_result["suitability_basis"] == "per_cell_velocity_depth"
+    # Hold-interval start chosen from the same chainage window as the baseline.
+    assert abs(per_cell_result["reach_temp_c"]
+               - reach_result["reach_temp_c"]) < 2.0
+
+
+def test_update_trout_per_cell_rejects_length_mismatch():
+    pts, reaches, wl, _ = _data()
+    base = [t for t in wl if t["id"] == "trout_01"][0]
+    import pytest
+    with pytest.raises(ValueError):
+        update_trout([base], reaches, pts,
+                     cell_velocity_mps=[0.3],
+                     cell_depth_m=[1.0])
+
+
+def test_reach_z_windows_chainage_mode_bounds_first_reach():
+    from yellowstone_python.fish import reach_z_windows
+    pts, reaches, _, _ = _data()
+    windows = reach_z_windows(reaches, river_points=pts)
+    for w in windows:
+        assert "s_lo" in w and "s_hi" in w
+        assert w["s_hi"] >= w["s_lo"]
+        assert w["z_hi"] < 1e8
+        assert w["z_lo"] <= w["z_hi"]
+    legacy = reach_z_windows(reaches)
+    assert any(w.get("z_hi", 0.0) > 1e8 for w in legacy)

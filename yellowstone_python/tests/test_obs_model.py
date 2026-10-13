@@ -31,8 +31,9 @@ def test_stage_to_elevation_uses_current_datum():
 def test_interval_average_bins_from_first_time():
     times = [100.0, 130.0, 200.0, 260.0]
     values = [10.0, 14.0, 20.0, 22.0]
-    centers, means = interval_average(times, values, 100.0)
-    assert centers == [150.0, 250.0]
+    # Bin labels are left edges of half-open intervals (same convention as obs_frame._frame_from_pairs): [100,200) averages 10.0 and 14.0; [200,300) averages 20.0 and 22.0.
+    lefts, means = interval_average(times, values, 100.0)
+    assert lefts == [100.0, 200.0]
     assert means == [12.0, 21.0]
     with pytest.raises(ValueError):
         interval_average([], [], 100.0)

@@ -6,11 +6,14 @@ uniform sampler2D rock_albedo : source_color, filter_linear_mipmap_anisotropic, 
 uniform sampler2D macro_albedo : source_color, filter_linear_mipmap, repeat_disable;
 uniform sampler2D biome_map : filter_linear, repeat_disable;
 uniform sampler2D detail_map : filter_linear_mipmap, repeat_enable;
-uniform float wetness = 0.12;
-// Optional snow overlay (season.json + snow_map.png).
-// snow_amount 0 uses the default look; mask is world-extent with bare thermal holes.
+uniform float ground_wetness = 0.12;
+// Optional snow overlay (season.json + snow_map.png); snow_amount 0 keeps the default look and the mask is world-extent with bare thermal holes.
 uniform sampler2D snow_mask : filter_linear, repeat_disable;
 uniform float snow_amount = 0.0;
+// Snow water equivalent in mm from season.json; gates visible cover so a dusting (SWE under 5 mm) does not render as full cover regardless of depth.
+uniform float snow_swe_mm = 0.0;
+// Fractional snow cover in [0, 1] from season.json patches or the atmosphere terrain state; multiplies the painted cover so a partial pack reads partial.
+uniform float snow_cover_fraction = 1.0;
 // Foot-trail tread painted from mapped polylines (2 m/px). Dirt trails are ground here.
 uniform sampler2D trail_mask : filter_linear, repeat_disable;
 varying vec3 world;
@@ -44,11 +47,13 @@ void fragment() {
   float tread=smoothstep(0.18,0.72,texture(trail_mask,(world.xz+vec2(2048.0))/4096.0).r);
   vec3 dirt=vec3(0.40,0.345,0.26)*(0.55+0.65*macro);
   ground=mix(ground,dirt,tread);
-  ALBEDO=ground*mix(1.0,0.73,wetness*biome.b);
+  ALBEDO=ground*mix(1.0,0.73,ground_wetness*biome.b);
   if(snow_amount>0.001){
     float cover=texture(snow_mask,(world.xz+vec2(2048.0))/4096.0).r;
     float settle=smoothstep(0.30,0.62,world_normal.y);
-    float sn=clamp(snow_amount,0.0,1.0)*cover*settle;
+    // SWE in mm gates the visible cover: below ~5 mm the pack is a dusting, above ~15 mm it is persistent.
+    float swe_gate=smoothstep(5.0,15.0,snow_swe_mm);
+    float sn=clamp(snow_amount,0.0,1.0)*cover*settle*swe_gate*clamp(snow_cover_fraction,0.0,1.0);
     vec3 snowc=vec3(0.86,0.88,0.91)*(0.75+0.25*macro);
     ALBEDO=mix(ALBEDO,snowc,sn);
     ROUGHNESS=mix(ROUGHNESS,0.92,sn);
@@ -56,6 +61,6 @@ void fragment() {
   }
  NORMAL_MAP=texture(ground_normal,uv).rgb;
  NORMAL_MAP_DEPTH=0.45;
- ROUGHNESS=mix(0.95,0.47,wetness*biome.b);
+ ROUGHNESS=mix(0.95,0.47,ground_wetness*biome.b);
  SPECULAR=0.25;
 }

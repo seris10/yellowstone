@@ -1,36 +1,37 @@
-"""M04 vegetation: suitability fields + patch biomass + planting proposals.
-
-Paper forms:
-    λs(p) = λs,0 · Mhabitat(p) · fs(soil, moisture, slope, aspect, canopy,
-             disturbance) · Mexclusion(p)      (artist/science inputs)
-    dB/dt = r · flight · fwater · B(1−B/K) − G  (dimensionless index form)
-
-Rules: proposals are STABLE records with persistent IDs (never a runtime
-probability field, never a resample of data/placements.json). Thermal/water
-exclusions via M03 aprons. Separation is ENFORCED per guild (spatial hash),
-suitability is EVALUATED per candidate from terrain slope + moisture +
-canopy + exclusion (never assumed), and randomness is per-candidate
-(seed:guild:cell) so rejections cannot shift other candidates.
-"""
+"""M04 vegetation: suitability fields, patch biomass, planting proposals.
+Proposals are stable records; thermal/water exclusions via M03 aprons."""
 from __future__ import annotations
 
 import copy
 import math
 import random
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-import numpy as np
+if TYPE_CHECKING:
+    import numpy as np  # typing only; terrain helpers import numpy lazily.
+
+
+def _require_numpy():
+    """Return the imported numpy module, with a stated error when missing."""
+    try:
+        import numpy as _np
+    except ImportError as exc:
+        raise ImportError(
+            "numpy is required for terrain and raster helpers "
+            "(load_terrain, terrain_fns, render_suitability_png)"
+        ) from exc
+    return _np
+
 
 GRID = 1025
 STEP = 4.0
 HALF = 2048.0
 
-# Maximum candidate cells scanned per propose_plantings_reviewed call. Existing
-# pipeline grids peak at ~22k cells (meadow r=110); anything larger is
-# coarsened (see function docstring) instead of burning minutes.
+# Candidate-cell cap for propose_plantings_reviewed; larger grids are coarsened.
 GRID_BUDGET = 25000
 
-# Per-guild coefficients: authored inputs, not inferred from field data.
+# Per-guild coefficients, authored.
 GUILDS = {
     "lodgepole_pine": {"lambda0": 0.9, "min_sep_m": 6.0,
                        "slope_max_deg": 25.0, "needs": ["forest_lodgepole",
@@ -48,7 +49,7 @@ GUILDS = {
                                  "sinter_dry"]},
 }
 
-# Coefficients are authored, not inferred from field data.
+# Coefficients are authored.
 VEGETATION_PROVENANCE = {
     "status": "authored_illustrative_coefficients_not_inferred_from_field_data",
     "real_data_gap": ("Guild parameters (lambda0, slope_max, min_sep, needs, excluded) "
@@ -58,22 +59,42 @@ VEGETATION_PROVENANCE = {
 }
 
 
+def _reject_nonfinite(name: str, value) -> float:
+    if isinstance(value, bool):
+        raise ValueError(f"{name} must be numeric, not boolean")
+    try:
+        out = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{name} must be numeric") from exc
+    if not math.isfinite(out):
+        raise ValueError(f"{name} must be finite")
+    return out
+
+
 def suitability(lambda0: float = 0.9, m_habitat: float = 1.0,
                 factors: dict = None,
                 m_exclusion: float = 1.0) -> float:
-    """λs(p): all terms in [0,1]; returns [0,1] density potential."""
-    lambda0 = min(1.0, max(0.0, float(lambda0)))
+    """lambda_s(p): all terms in [0,1]; returns [0,1] density potential."""
+    lambda0 = _reject_nonfinite("lambda0", lambda0)
+    lambda0 = min(1.0, max(0.0, lambda0))
     f = 1.0
     for v in (factors or {}).values():
-        f *= min(1.0, max(0.0, float(v)))
-    return float(lambda0 * min(1.0, max(0.0, float(m_habitat))) * f
-                 * min(1.0, max(0.0, float(m_exclusion))))
+        f *= min(1.0, max(0.0, _reject_nonfinite("factor", v)))
+    m_hab = min(1.0, max(0.0, _reject_nonfinite("m_habitat", m_habitat)))
+    m_exc = min(1.0, max(0.0, _reject_nonfinite("m_exclusion", m_exclusion)))
+    return float(lambda0 * m_hab * f * m_exc)
 
 
 def guild_suitability(guild: str, habitat_id: str, slope_deg: float,
                       moisture: float, canopy: float = 0.5,
                       in_exclusion: bool = False) -> float:
     """Convenience evaluator used by proposal review + tests."""
+    moisture = _reject_nonfinite("moisture", moisture)
+    canopy = _reject_nonfinite("canopy", canopy)
+    if not 0.0 <= moisture <= 1.0:
+        raise ValueError(f"moisture must be in [0, 1], got {moisture}")
+    if not 0.0 <= canopy <= 1.0:
+        raise ValueError(f"canopy must be in [0, 1], got {canopy}")
     g = GUILDS[guild]
     if habitat_id in g["excluded"] or in_exclusion:
         return 0.0
@@ -91,13 +112,8 @@ def sunlight(hour: float) -> float:
 
 def patch_step(patches: list, hour: float, dt_s: float,
                grazers: dict | None = None) -> tuple[list, dict]:
-    """Advance patch biomass like ecosystem.gd::_advance_patches (growth part).
-
-    grazers: {grazer_id: {patch_id, active, rate_per_second}}. The rate is
-    a biomass-index decrement per second, so demand is in the same
-    dimensionless index units as biomass (no kg conversion exists).
-    Returns (updated_patches, ledger{consumed, growth}).
-    """
+    """Advance patch biomass (growth and grazing).
+    Returns (updated_patches, ledger{growth, consumed, consumed_by_patch})."""
     dt_s = _finite_value("dt_s", dt_s)
     if dt_s < 0:
         raise ValueError("dt_s must be >= 0")
@@ -109,9 +125,24 @@ def patch_step(patches: list, hour: float, dt_s: float,
         if pid in seen_ids:
             raise ValueError(f"duplicate patch id {pid!r}")
         seen_ids.add(pid)
+    # Pre-aggregate grazing demand per patch; unknown patch_id raises before growth.
+    demand_by_patch: dict = {}
+    if grazers:
+        for gid, g in grazers.items():
+            if not g.get("active"):
+                continue
+            pid = g.get("patch_id")
+            if pid not in seen_ids:
+                raise ValueError(
+                    f"grazer {gid!r} targets unknown patch_id {pid!r}")
+            rate = _nonnegative_value(
+                f"grazer {gid!r} rate_per_second",
+                g.get("rate_per_second", 0.0))
+            demand_by_patch[pid] = demand_by_patch.get(pid, 0.0) + rate * dt_s
     sun = sunlight(hour)
     hours = dt_s / 3600.0
     tot_growth = tot_eaten = 0.0
+    consumed_by_patch: dict = {}
     for p in out:
         b = _nonnegative_value(f"patch {p.get('id')!r} biomass",
                                p["biomass"])
@@ -125,18 +156,15 @@ def patch_step(patches: list, hour: float, dt_s: float,
                                   p.get("growth_per_hour", 0.012))
         growth = max(0.0, rate * sun * m * b * (1.0 - b / k) * hours)
         growth = min(growth, max(0.0, k - b))
-        demand = 0.0
-        if grazers:
-            for g in grazers.values():
-                if g.get("patch_id") == p["id"] and g.get("active"):
-                    demand += _nonnegative_value(
-                        f"grazer {g.get('patch_id')!r} rate_per_second",
-                        g.get("rate_per_second", 0.0)) * dt_s
+        demand = demand_by_patch.get(p["id"], 0.0)
         eaten = min(b + growth, demand)
         p["biomass"] = b + growth - eaten
         tot_growth += growth
         tot_eaten += eaten
+        if eaten > 0.0:
+            consumed_by_patch[p["id"]] = eaten
     return out, {"growth": tot_growth, "consumed": tot_eaten,
+                 "consumed_by_patch": consumed_by_patch,
                  "units": "dimensionless_index (not kg)"}
 
 
@@ -163,22 +191,19 @@ def propose_plantings(guild: str, center_xz: tuple, radius_m: float,
                       count: int, seed: int, start_index: int = 0,
                       habitat_id: str = "forest_edge",
                       exclusion_test=None) -> list:
-    """Deterministic proposal grid+jitter with per-guild min separation. Separation is best-effort here; prefer propose_plantings_reviewed() for enforced output. Preserves stable ids verbatim."""
+    """Deterministic proposal grid plus jitter with per-guild min separation.
+    Prefer propose_plantings_reviewed for enforced output."""
+    del start_index  # retained for backward call-site compatibility
     accepted, _ = propose_plantings_reviewed(
         guild, center_xz, radius_m, count, seed, habitat_id=habitat_id,
         exclusion_test=exclusion_test, terrain_fn=None, moisture=0.5,
         canopy=0.5, suitability_threshold=0.0)
-    seen = {r["stable_id"] for r in accepted}
-    legacy_prefix = f"prop_{guild}_{start_index:05d}"
-    collisions = any(r["stable_id"].startswith(legacy_prefix) for r in accepted)
-    if collisions:
-        for i, rec in enumerate(accepted):
-            rec["stable_id"] = f"prop_{guild}_{start_index + i:05d}"
     return accepted
 
 
-def load_terrain(path: str) -> np.ndarray:
-    """Little-endian float32 GRID×GRID, row zero north (matches height_field)."""
+def load_terrain(path: str) -> "np.ndarray":
+    """Little-endian float32 grid-sized array; row zero is north (matches height_field)."""
+    np = _require_numpy()
     h = np.fromfile(path, dtype="<f4")
     if h.size != GRID * GRID:
         raise ValueError(f"terrain size {h.size}, expected {GRID * GRID}")
@@ -187,14 +212,10 @@ def load_terrain(path: str) -> np.ndarray:
     return h.reshape(GRID, GRID)
 
 
-def terrain_fns(h: np.ndarray):
-    """(sample, slope_deg) closures matching height_field.gd diagonal + normal_at.
-
-    Both closures clamp their grid coordinates, so a query outside the DEM
-    reads the nearest edge cell: sample clamps to [0, GRID-1) for its
-    diagonal interpolation, slope_deg to [1, GRID-3] for its central
-    difference. The h array must be (GRID, GRID) and finite.
-    """
+def terrain_fns(h: "np.ndarray"):
+    """(sample, slope_deg) closures matching height_field.gd diagonal and normal_at.
+    Grid coordinates clamp to the nearest edge; h must be the full grid and finite."""
+    np = _require_numpy()
     h = np.asarray(h)
     if h.shape != (GRID, GRID):
         raise ValueError(f"terrain shape {h.shape}, expected {(GRID, GRID)}")
@@ -224,12 +245,8 @@ def terrain_fns(h: np.ndarray):
 def habitat_moisture_at(x: float, z: float, patches: list,
                         default_habitat: str = "unsuitable_matrix",
                         default_moisture: float = 0.2) -> tuple:
-    """Nearest patch covering (x, z) -> (habitat, moisture).
-
-    Selection is by center distance, so overlapping patches resolve the
-    same way regardless of their order in the list. Proposal generation
-    and rendering both read patches through this helper.
-    """
+    """Nearest patch covering (x, z) returns (habitat, moisture).
+    Selection by center distance; order independent."""
     best = None
     for p in patches:
         cx, cz = p.get("center_xz", [None, None])
@@ -258,18 +275,15 @@ def propose_plantings_reviewed(guild: str, center_xz: tuple, radius_m: float,
                                exclusion_test=None, terrain_fn=None,
                                patches: list | None = None,
                                moisture: float = 0.5, canopy: float = 0.5,
-                               suitability_threshold: float = 0.12
+                               suitability_threshold: float = 0.12,
+                               constraints=None
                                ) -> tuple[list, list]:
-    """Suitability-linked, separation-enforced proposals + review ledger.
-
-    Per-candidate randomness (seed:guild:cell) is independent: a rejection
-    consumes nothing shared, so later candidates never shift. Returns
-    (accepted_records, review_log[{stable_id|cell, decision, reason}]).
-
-    DoS guard: candidate grids larger than GRID_BUDGET cells are coarsened
-    (wider spacing, guild separation still enforced) and the coarsening is
-    logged; grids at/below the cap scan exactly as before.
-    """
+    """Suitability-linked, separation-enforced proposals with a review ledger.
+    Returns (accepted_records, review_log). Grids above GRID_BUDGET are coarsened and logged."""
+    if constraints is not None and not callable(getattr(constraints,
+                                                        "excluded", None)):
+        raise TypeError(
+            "constraints must expose an excluded(x, z) -> bool method")
     if guild not in GUILDS:
         raise ValueError(f"unknown guild {guild!r}; have {list(GUILDS)}")
     # Geometry/input validation.
@@ -341,6 +355,10 @@ def propose_plantings_reviewed(guild: str, center_xz: tuple, radius_m: float,
                 log.append({"cell": cell, "decision": "reject",
                             "reason": "thermal/water exclusion"})
                 continue
+            if constraints is not None and constraints.excluded(x, z):
+                log.append({"cell": cell, "decision": "reject",
+                            "reason": "placement_constraints_exclusion"})
+                continue
             sl = slope(x, z) if slope else 0.0
             mo = (moisture_at(x, z, patches) if patches is not None else moisture)
             suit = guild_suitability(guild, habitat_id, sl, mo, canopy,
@@ -378,9 +396,8 @@ def propose_plantings_reviewed(guild: str, center_xz: tuple, radius_m: float,
 def render_suitability_png(guild: str, size: int, path: str, *,
                            bbox: tuple, terrain_fn, patches: list,
                            shells: list, canopy: float = 0.6) -> str:
-    """Suitability field rendered FROM the model: DEM slope + patch moisture +
-    apron exclusion + habitat eligibility, evaluated per pixel. bbox =
-    (x0, z0, x1, z1) local metres."""
+    """Suitability field evaluated per pixel from DEM slope, patch moisture, aprons, and habitat.
+    bbox is (x0, z0, x1, z1) in meters."""
     from PIL import Image
     from .pool_crust import in_apron
     if guild not in GUILDS:

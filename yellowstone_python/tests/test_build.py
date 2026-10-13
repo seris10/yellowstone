@@ -4,8 +4,10 @@ import math
 import pytest
 import yaml
 
-from yellowstone_python.build import (_find, load_inputs, simulate_all,
-                                      validate_config)
+from yellowstone_python.build import (_find, _grazers_input_from_consumed,
+                                      _overland_runoff_to_boundary,
+                                      check_cross_sections, load_inputs,
+                                      simulate_all, validate_config)
 
 from paths import BASE_CONFIG as BASE
 
@@ -103,7 +105,7 @@ def test_replay_and_chain_share_the_configured_air_forcing():
     shape = max(0.0, math.sin((hour - 6.0 - lag) * math.pi / 12.0))
     assert forced == pytest.approx(night + warming * shape, abs=1e-6)
     assert forced == pytest.approx(res["air0"], abs=1e-6)
-    # Every sample on the solver's own clock, from the resolved hour.
+    # Samples run on the solver's own clock, from the resolved hour.
     forcing = res["replay_doc"]["forcing"]["air_c"]
     expected = [night + warming * max(0.0, math.sin(
         ((hour + t / 3600.0) % 24.0 - 6.0 - lag) * math.pi / 12.0))
@@ -148,3 +150,116 @@ def test_replay_config_validation():
     bad["replay"]["dispersion_m2_s"] = -1.0
     with pytest.raises(ValueError):
         validate_config(bad)
+
+
+def test_validate_config_is_non_mutating_and_returns_normalized():
+    cfg = _cfg()
+    before = copy.deepcopy(cfg)
+    normalized = validate_config(cfg)
+    assert cfg == before, "validate_config must not mutate its input"
+    assert normalized["run_mode"] == "illustrative"
+    assert normalized["world_root"]
+
+
+def test_validate_config_rejects_nan_and_inf_numerics():
+    bad = _cfg()
+    bad["hydro"]["boundary_m3s"] = float("nan")
+    with pytest.raises(ValueError):
+        validate_config(bad)
+    bad = _cfg()
+    bad["replay"]["duration_s"] = float("inf")
+    with pytest.raises(ValueError):
+        validate_config(bad)
+    bad = _cfg()
+    bad["hydro"]["boundary_c"] = True
+    with pytest.raises(ValueError):
+        validate_config(bad)
+
+
+def test_validate_config_requires_explicit_start_in_measured_modes():
+    cfg = _cfg()
+    cfg["run_mode"] = "hindcast"
+    with pytest.raises(ValueError, match="simulation"):
+        validate_config(cfg)
+    cfg["simulation"] = {"start_utc": "2026-07-15T22:20:00Z"}
+    validate_config(cfg)
+
+
+def test_check_cross_sections_detects_missing_and_unknown():
+    world = {"rivers": [{"id": "river_a"}, {"id": "river_b"}], "pools": []}
+    report = check_cross_sections(
+        {"river_a": {"depth_m": 0.5, "status": "x"},
+         "river_c": {"depth_m": 0.6, "status": "x"}},
+        world)
+    assert report["status"] == "partial"
+    assert "river_c" in report["unknown_feature_entries"]
+    assert "river_b" in report["missing_features"]
+
+
+def test_grazers_input_from_consumed_wiring():
+    out = _grazers_input_from_consumed({"north_meadow": 0.03}, dt_s=600.0)
+    assert out is not None
+    (entry,) = out.values()
+    assert entry["patch_id"] == "north_meadow"
+    assert entry["active"] is True
+    assert entry["rate_per_second"] == pytest.approx(0.03 / 600.0)
+    assert _grazers_input_from_consumed({}, dt_s=600.0) is None
+
+
+def test_overland_runoff_zero_when_disabled():
+    rate, report = _overland_runoff_to_boundary(
+        {"surface_runoff": {"outflow_m3": 0.0,
+                            "carries_runoff_signal": False}},
+        {"catchment": {"area_m2": None}}, 600.0)
+    assert rate == 0.0
+    assert report["status"] == "no_outflow"
+
+
+def test_overland_runoff_divides_outflow_by_window():
+    rate, report = _overland_runoff_to_boundary(
+        {"surface_runoff": {"outflow_m3": 60.0,
+                            "carries_runoff_signal": True}},
+        {"catchment": {"area_m2": 1.0e6}}, 600.0)
+    assert rate == pytest.approx(0.1)
+    assert report["status"] == "wired_mean_rate"
+    assert report["mean_rate_m3_s"] == pytest.approx(0.1)
+    assert report["coupling"].startswith("partial")
+
+
+def test_build_result_reports_cross_sections_overland_and_shared_tolerances():
+    cfg = _cfg()
+    baseline, world, deps, tfns = load_inputs(cfg)
+    res = simulate_all(cfg, baseline, world, tfns)
+    assert "cross_sections_report" in res
+    assert res["cross_sections_report"]["status"] in (
+        "covers", "partial", "empty", "no_cross_sections")
+    assert "overland_runoff_m3_s" in res
+    assert res["overland_runoff_m3_s"] >= 0.0
+    assert "bundle_window_check" in res
+    cs_report = res["replay_doc"].get(
+        "provenance", {}).get("cross_sections_report")
+    assert cs_report is not None
+
+
+def test_build_result_wires_per_cell_benthic_and_trout_hydraulics():
+    cfg = _cfg()
+    baseline, world, deps, tfns = load_inputs(cfg)
+    res = simulate_all(cfg, baseline, world, tfns)
+    assert "benthic_grid" in res
+    assert "trout_hydraulics_source" in res
+    bg = res["benthic_grid"]
+    if bg is not None and "cell_ids" in bg:
+        assert len(bg["cell_ids"]) == len(bg["water_c_cells"])
+        assert len(bg["nb"]) == len(bg["cell_ids"])
+    assert res["trout_hydraulics_source"] in (
+        "per_cell_from_replay_firehole_landscape_nearest_chainage",
+        "reach_level_fallback_no_firehole_cells")
+
+
+def test_snow_cover_fraction_in_season_patches():
+    cfg = _cfg()
+    baseline, world, deps, tfns = load_inputs(cfg)
+    res = simulate_all(cfg, baseline, world, tfns)
+    for patch in res["patches2"]:
+        assert "snow_cover_fraction" in patch
+        assert 0.0 <= float(patch["snow_cover_fraction"]) <= 1.0

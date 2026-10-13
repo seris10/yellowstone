@@ -25,6 +25,7 @@ var _reach_indices: Dictionary = {}
 var _patch_indices: Dictionary = {}
 var _grazers: Dictionary = {}
 var _insect_foragers: Dictionary = {}
+var _warned_patch_ids: Dictionary = {}
 
 func _ready() -> void:
 	if not FileAccess.file_exists("res://data/ecosystem.json"):
@@ -57,6 +58,7 @@ func configure(data: Dictionary) -> bool:
 	_patch_indices.clear()
 	_grazers.clear()
 	_insect_foragers.clear()
+	_warned_patch_ids.clear()
 	configuration_valid = not river.is_empty() and not patches.is_empty()
 	for i: int in range(river.size()):
 		var r: Dictionary = river[i]
@@ -152,6 +154,7 @@ func _update_weather() -> void:
 	wind = Vector2(float(direction[0]), float(direction[1])) + Vector2(sin(elapsed / 61.0), cos(elapsed / 87.0)) * gust
 
 func _advance_heat(dt: float) -> void:
+	# Explicit Euler for a well-mixed cell. Stability holds under the stable_dt CFL loop.
 	var old: Array = river.duplicate(true)
 	var before: float = 0.0
 	var after: float = 0.0
@@ -244,7 +247,7 @@ func unregister_actor(id: String) -> void:
 
 func reach_at(z: float) -> Dictionary:
 	if river.is_empty():
-		return {"id":"unavailable","temperature_c":0.0,"flow_m3s":0.0,"fish_activity":0.0}
+		return {"id":"unavailable","temperature_c":0.0,"flow_m3s":0.0,"fish_activity":0.0,"water_surface_m":NAN}
 	var best: Dictionary = river[0]
 	var distance: float = INF
 	for r: Dictionary in river:
@@ -257,24 +260,27 @@ func reach_at(z: float) -> Dictionary:
 func patch(id: String) -> Dictionary:
 	if _patch_indices.has(id):
 		return patches[int(_patch_indices[id])]
-	# Missing habitat raises.
+	if not _warned_patch_ids.has(id):
+		_warned_patch_ids[id] = true
+		push_warning("Unknown patch id: " + id)
 	return {"id":"unavailable","biomass":0.0,"capacity":1.0,"moisture":0.0,"insect_activity":0.0,"insect_resource":0.0}
 
 func steam_visibility(surface_c: float) -> float:
 	# Artistic condensation visibility proxy.
 	return clampf((surface_c - air_c) / 85.0 * (0.55 + humidity * 0.7), 0.0, 0.95)
 
-func _saturation_vapour_pressure_kpa(t_c: float) -> float:
-	# Magnus form, same convention as yellowstone_python.microclimate.
+func _saturation_vapor_pressure_kpa(t_c: float) -> float:
+	# Magnus form (Alduchov and Eskridge 1996 coefficients, converted to kPa).
 	return 0.61094 * exp(17.625 * t_c / (t_c + 243.04))
 
 func condensation_visibility(surface_c: float) -> float:
-	# Visible plume is condensed droplets. Mirrors yellowstone_python.microclimate.condensation_potential: entrained mixed parcel (30% surface-saturated, 70% ambient) is supersaturated when its vapor exceeds saturation. Returns relative supersaturation of the mixed parcel: (q_mix - es(t_mix)) / es_surf, bounded in [0,1]. Model output; renderer scales it (see STEAM_DENSITY_SCALE).
-	var es_surf := _saturation_vapour_pressure_kpa(surface_c)
-	var es_air := _saturation_vapour_pressure_kpa(air_c)
-	var ea := clampf(humidity, 0.0, 1.0) * es_air
-	var q_mix := 0.3 * es_surf + 0.7 * ea
-	var t_mix := 0.3 * surface_c + 0.7 * air_c
-	var supersat := maxf(0.0, q_mix - _saturation_vapour_pressure_kpa(t_mix))
+	# Mixed-parcel supersaturation index. Zero at ambient equilibrium, one when mixed vapor doubles its saturation.
+	var es_surf: float = _saturation_vapor_pressure_kpa(surface_c)
+	var es_air: float = _saturation_vapor_pressure_kpa(air_c)
+	var ea: float = clampf(humidity, 0.0, 1.0) * es_air
+	var e_mix: float = 0.3 * es_surf + 0.7 * ea
+	var t_mix: float = 0.3 * surface_c + 0.7 * air_c
+	var es_mix: float = _saturation_vapor_pressure_kpa(t_mix)
+	var supersat: float = maxf(0.0, e_mix - es_mix)
 	var wind_factor: float = exp(-wind.length() / 8.0)
-	return clampf(supersat / maxf(es_surf, 1e-6), 0.0, 1.0) * wind_factor
+	return clampf(supersat / maxf(es_mix, 1e-6), 0.0, 1.0) * wind_factor

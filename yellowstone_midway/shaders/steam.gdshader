@@ -4,6 +4,7 @@ uniform sampler2D cloud_texture : filter_linear_mipmap, repeat_enable;
 uniform float density = 0.30;
 uniform vec2 wind = vec2(1.8,0.6);
 varying float phase;
+// INSTANCE_CUSTOM.x is the per-plume phase in [0, 1], written by bake_world.append_instance.
 void vertex(){
  phase=INSTANCE_CUSTOM.x;
  float t=mod(TIME*0.14+phase,1.0);

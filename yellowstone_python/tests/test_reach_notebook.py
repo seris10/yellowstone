@@ -1,9 +1,6 @@
 """Notebook discipline + execution tests for reach_fit.ipynb.
 
-Stored cleared (no outputs, no execution counts); executes offline on
-a synthetic bundle via tools.execute_notebook with OBS/FIG_DIR pointed
-at tmp_path. Full-jupyter execution (nbconvert) is a manual validation
-step — see the A3 handoff note — not a unit test.
+Stored cleared, executes offline on a synthetic bundle via tools.execute_notebook.
 """
 import json
 import math
@@ -31,8 +28,7 @@ def _synthetic_bundle(path: Path) -> None:
         "met": {"hourly": met}}
     fwd = run_fit_forward(draft, 300000.0, 600000.0, 3.5, 30.0, 1.0,
                           dt_s=1800.0)
-    # NOTE: inverse crime — same forward model generates and fits.
-    # Proves the notebook machinery runs, not model validity.
+    # Inverse crime: the same forward model generates and fits here; this exercises the notebook machinery.
     draft["sites"]["06036905"]["series"] = {
         "temperature_c": [[g, v] for g, v in zip(fwd["grid"],
                                                  fwd["modeled_c"])],

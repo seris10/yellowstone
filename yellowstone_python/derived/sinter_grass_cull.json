@@ -1,5 +1,6 @@
 {
  "schema": "yellowstone.sinter_grass_cull.v1",
+ "status": "illustrative_not_calibrated",
  "date": "2026-10-09",
  "method": "NAIP 2022-07-19 detail ortho (0.625 m/px). Green evidence = ExG>0.05 & not-water, dilated 1.5 m. Grass placement removed iff no green evidence AND ground brightness >= 0.60 (bare sinter/mineral/road). Dark-ground no-evidence records (riparian shadow / wet bank) reviewed and KEPT, listed under kept_dark.",
  "source_image_sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",

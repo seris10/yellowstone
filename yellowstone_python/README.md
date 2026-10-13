@@ -109,8 +109,11 @@ for the external audit and what changed because of it.
   brown trout, 14 d. Runner: `tools/run_hot_lowflow.py`; artifacts
   `derived/hot_lowflow_replay.json` +
   `derived/aquatic_hot_lowflow.json`.
-- Result: in-chain water 25.1–28.5 C (mean 26.6) — NO cell below the Kaya
-  24 C threshold anywhere in 276 cells. Refuge drive fires (0.0 → 1.0),
+- Result: in-chain water (per-cell time means) 25.05–28.50 C (overall mean
+  26.60), rounded in prose to 25.1–28.5 C (mean 26.6). No cell's time mean
+  falls below the Kaya mean threshold 24 C across 276 cells; the raw frame
+  minimum is 24.95 C, within 0.05 C of the mean threshold and below the Kaya
+  max threshold 25 C. Refuge drive fires (0.0 → 1.0),
   feeding 0.66 → 0.0, U −0.03 → −1.23; trout holds cell_00263 (s=5230 m,
   27.8 C, above the 26 C UILT flag) as least-bad food, shifting +2357 m
   DOWNSTREAM into warmer water — the predicted upstream jump did not
@@ -196,10 +199,13 @@ for the external audit and what changed because of it.
 - Dispersion alone (D1 vs D85, baseline boundary): refuge moves 636 m
   upstream (s=2873 → 2236, same 17.4 C water, drive silent), emergence
   +1.5, dipper +0.01 — placement shifts, ecology nil.
-- Intervention repeated at D85: drive fires, trout holds s=5230 @27.7 C,
-  emergence −220, dipper +1.85 — same qualitative outcome as D1
-  (+2357 m, −221, +1.85). Conclusion robust: at 2.5 m3/s + 26 C boundary
-  the mainstem offers no sub-24 C water at either dispersion.
+- Intervention repeated at D85 (control D85 baseline cell_00113 at
+  s=2236 m, 17.4 C; pulse D85 hot cell_00263 at s=5230 m, 27.7 C):
+  refuge shift +2993.8 m, drive 0.0 → 1.0, emergence −220, dipper +1.85.
+  For comparison the D1 run against the pinned D1 baseline (cell_00145 at
+  s=2873 m, 17.4 C) shifts +2357 m with the same qualitative outcome.
+  Conclusion robust: at 2.5 m3/s and 26 C boundary the mainstem offers no
+  sub-24 C water at either dispersion.
 
 ## Run it
 

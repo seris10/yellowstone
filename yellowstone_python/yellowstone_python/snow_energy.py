@@ -1,24 +1,5 @@
 """Energy-balance snowmelt vs SNOTEL observations.
-
-Replaces the degree-day melt rate with a daily energy budget while
-reusing the degree-day accumulation, phase split, canopy, and wind
-rules from snow_season.step_snow. Melt energy per day:
-
-    SW_down = S_RAD * TOA(doi, lat) * cloud(dtr)
-    net = (1 - albedo(age)) * SW_down + C0 + C_T * TAVG
-    melt = max(0, net) * 86400 / L_F
-
-TOA is deterministic top-of-atmosphere insolation. cloud(dtr) is an
-authored diurnal-range modulation. Fitted per site on the train
-window: s_rad (scales radiation to net shortwave) and c_t
-(turbulent W/m2/K). Albedo resets on fresh snow and decays to a
-floor, all authored. C0 is an authored net longwave deficit.
-
-Same train/holdout/null machinery as snow_validate: train Oct-Feb,
-holdout Mar-Jul melt season, persistence + no-melt nulls, plus the
-fitted degree-day champion as a reference. Offline: reads only the
-frozen bundle.
-"""
+Daily budget on top of snow_season accumulation; s_rad and c_t fitted per site."""
 from __future__ import annotations
 
 import argparse
@@ -42,24 +23,33 @@ ALB_DECAY_DAY = 0.008
 ALB_PROVENANCE = "authored_reset_and_decay"
 DTR_REF_C = 20.0
 DTR_PROVENANCE = "authored_diurnal_range_cloud_shape"
+# Reference air temperature for the turbulent flux term: 0 C anchors c_t at W/m2/K.
+T_REF_C = 0.0
+T_REF_PROVENANCE = "authored_melting_point_anchor"
+# SWE-to-depth conversion for the depth check: density ratio of ~333 kg/m3.
+SWE_TO_DEPTH_RATIO = 3.0
+SWE_TO_DEPTH_PROVENANCE = (
+    "authored_illustrative_density_ratio_333_kg_m3_not_measured")
 
 S_GRID = [0.0] + [round(0.02 + 0.02 * i, 2) for i in range(50)]
 CT_GRID = [round(0.0 + 2.0 * i, 1) for i in range(16)]
 
 
 def clear_sky_toa_w_m2(day_of_year: int, lat_deg: float) -> float:
-    """Daily-mean TOA insolation from solar geometry."""
+    """Daily-mean TOA insolation on a horizontal surface, from solar geometry."""
     lat = math.radians(float(lat_deg))
+    doi = int(day_of_year)
     dec = math.radians(-23.44 * math.cos(2 * math.pi
-                                         * (int(day_of_year) + 10) / 365.0))
+                                         * (doi + 10) / 365.0))
+    ecc = 1.0 + 0.033 * math.cos(2 * math.pi * doi / 365.0)
     cos_h = -math.tan(lat) * math.tan(dec)
     if cos_h <= -1.0:
-        return SOLAR_W_M2 * (1.0 + 0.033
-                             * math.cos(2 * math.pi * day_of_year / 365.0))
-    if cos_h >= 1.0:
+        # Polar day (24 h sun): h0 = pi; sin(pi) = 0 drops the second term.
+        h0 = math.pi
+    elif cos_h >= 1.0:
         return 0.0
-    h0 = math.acos(max(-1.0, min(1.0, cos_h)))
-    ecc = 1.0 + 0.033 * math.cos(2 * math.pi * day_of_year / 365.0)
+    else:
+        h0 = math.acos(cos_h)
     return (SOLAR_W_M2 * ecc / math.pi
             * (h0 * math.sin(lat) * math.sin(dec)
                + math.cos(lat) * math.cos(dec) * math.sin(h0)))
@@ -72,12 +62,15 @@ def cloud_factor(dtr_c: float) -> float:
 
 
 def day_of_year(iso: str) -> int:
+    """Day-of-year for an ISO date string."""
     import datetime
-    y, m, d = (int(x) for x in iso.split("-"))
-    return datetime.date(y, m, d).timetuple().tm_yday
+    d = datetime.date.fromisoformat(str(iso))
+    return d.timetuple().tm_yday
 
 
 def _fill_temps(vals: list, max_fill: int = 3) -> list[float]:
+    """Forward-fill missing temperatures up to max_fill consecutive days.
+    Leading None values are refused."""
     out: list[float] = []
     gap = 0
     for v in vals:
@@ -126,7 +119,8 @@ def step_snow_eb(snow_mm: float, albedo: float, air_c: float,
         albedo = max(ALB_FLOOR, albedo - ALB_DECAY_DAY)
     sw = (s_rad * toa_w_m2 * cloud_factor(tmax_c - tmin_c)
           * (1.0 - albedo))
-    net = sw + C0_W_M2 + c_t * air_c
+    # Sensible-heat exchange anchored at T_REF_C gives c_t units W/m2/K.
+    net = sw + C0_W_M2 + c_t * (air_c - T_REF_C)
     melt = min(avail, max(0.0, net) * SEC_DAY / L_F_J_KG)
     return (avail - melt, melt, accum, rain, blown, albedo)
 
@@ -150,12 +144,10 @@ def fit_eb_params(lat_deg: float, air_c: list, tmax_c: list,
                   tmin_c: list, precip_mm: list, dois: list,
                   obs_swe: list, train_idx: list,
                   s_grid=S_GRID,
-                  ct_grid=CT_GRID) -> tuple[float, float, float, list]:
+                  ct_grid=CT_GRID,
+                  tie_rel_tol: float = 0.01) -> dict:
     """Joint grid fit of (s_rad, c_t) on train RMSE.
-
-    Returns (best_s, best_c, best_rmse, runners_up) where runners_up
-    holds the next two grid points by train RMSE, so near-ties and
-    train/holdout tension stay visible in the artifact."""
+    Returns best, runners_up, parameter_at_grid_boundary, near_tie_count."""
     scored = []
     for s in s_grid:
         for c in ct_grid:
@@ -169,7 +161,22 @@ def fit_eb_params(lat_deg: float, air_c: list, tmax_c: list,
     runners = [{"s_rad": rs, "c_turb_w_m2_k": rc,
                 "train_rmse_mm": round(rr, 2)}
                for rr, rs, rc in scored[1:3]]
-    return s, c, round(rmse, 2), runners
+    threshold = rmse * (1.0 + float(tie_rel_tol)) if rmse > 0 else rmse
+    near_tie_count = sum(1 for rr, _, _ in scored if rr <= threshold)
+    at_boundary = bool(s == s_grid[0] or s == s_grid[-1]
+                       or c == ct_grid[0] or c == ct_grid[-1])
+    return {
+        "best_s_rad": s,
+        "best_c_turb_w_m2_k": c,
+        "train_rmse_mm": round(rmse, 2),
+        "runners_up": runners,
+        "parameter_at_grid_boundary": at_boundary,
+        "near_tie_count": near_tie_count,
+        "tie_rel_tol": tie_rel_tol,
+        "grid": {"s_rad_min": s_grid[0], "s_rad_max": s_grid[-1],
+                 "c_turb_min": ct_grid[0], "c_turb_max": ct_grid[-1],
+                 "n_s": len(s_grid), "n_c": len(ct_grid)},
+    }
 
 
 def validate_site_eb(triplet: str, site: dict,
@@ -187,8 +194,13 @@ def validate_site_eb(triplet: str, site: dict,
     obs_swe = [in_to_mm(v or 0.0) for v in get("WTEQ")]
     obs_depth_mm = [in_to_mm(v or 0.0) for v in get("SNWD")]
     train_idx, hold_idx = train_holdout_split(dates, split=split)
-    s_rad, c_t, train_rmse, runners = fit_eb_params(
-        lat, air_c, tmax_c, tmin_c, precip_mm, dois, obs_swe, train_idx)
+    _validate_unique_iso_dates(dates, context=f"{triplet} dates")
+    fit = fit_eb_params(lat, air_c, tmax_c, tmin_c, precip_mm, dois,
+                        obs_swe, train_idx)
+    s_rad = fit["best_s_rad"]
+    c_t = fit["best_c_turb_w_m2_k"]
+    train_rmse = fit["train_rmse_mm"]
+    runners = fit["runners_up"]
     swe = daily_swe_series_eb(lat, air_c, tmax_c, tmin_c, precip_mm,
                               dois, s_rad, c_t)
     holdout = score_paired_series([swe[i] for i in hold_idx],
@@ -206,14 +218,22 @@ def validate_site_eb(triplet: str, site: dict,
                                       [obs_swe[i] for i in hold_idx])
     patch = {"id": "snotel", "habitat": "dry_meadow",
              "center_xz": [0, 0], "moisture": 0.5}
-    dd_k, dd_w, dd_train = fit_snow_params(patch, air_c, precip_mm,
-                                           obs_swe, train_idx)
+    dd_fit = fit_snow_params(patch, air_c, precip_mm, obs_swe, train_idx)
+    dd_k = dd_fit["best_k"]
+    dd_w = dd_fit["best_wind"]
+    dd_train = dd_fit["train_rmse_mm"]
     swe_dd, _ = daily_swe_series(patch, air_c, precip_mm, dd_k,
                                  wind_loss=dd_w)
     dd_holdout = score_paired_series([swe_dd[i] for i in hold_idx],
                                      [obs_swe[i] for i in hold_idx])
-    depth_mm = [s * 3.0 for s in swe]
-    depth = score_paired_series(depth_mm, obs_depth_mm)
+    # Depth check and peak-timing error restricted to the holdout window.
+    depth_mm_holdout = [swe[i] * SWE_TO_DEPTH_RATIO for i in hold_idx]
+    obs_depth_mm_holdout = [obs_depth_mm[i] for i in hold_idx]
+    depth = score_paired_series(depth_mm_holdout, obs_depth_mm_holdout)
+    hold_dates = [dates[i] for i in hold_idx]
+    hold_swe = [swe[i] for i in hold_idx]
+    hold_obs_swe = [obs_swe[i] for i in hold_idx]
+    peak_timing = peak_timing_error_days(hold_dates, hold_swe, hold_obs_swe)
     return {
         "triplet": triplet,
         "n_days": len(dates),
@@ -227,25 +247,48 @@ def validate_site_eb(triplet: str, site: dict,
                     "c0_w_m2": C0_W_M2, "c0_provenance": C0_PROVENANCE,
                     "albedo_provenance": ALB_PROVENANCE,
                     "dtr_provenance": DTR_PROVENANCE,
+                    "t_ref_c": T_REF_C,
+                    "t_ref_provenance": T_REF_PROVENANCE,
                     "game_default_untouched": True,
                     "train_rmse_mm": train_rmse,
-                    "runners_up": runners},
+                    "runners_up": runners,
+                    "parameter_at_grid_boundary": fit["parameter_at_grid_boundary"],
+                    "near_tie_count": fit["near_tie_count"],
+                    "fit_grid": fit["grid"]},
         "holdout_swe_mm": {k: round(v, 2) for k, v in holdout.items()},
         "train_swe_mm": {k: round(v, 2) for k, v in train.items()},
         "null_persistence_rmse_mm": round(null_persist["rmse"], 2),
         "null_nomelt_rmse_mm": round(null_nomelt["rmse"], 2),
         "degree_day_holdout_rmse_mm": round(dd_holdout["rmse"], 2),
         "degree_day_fitted": {"k_melt": dd_k, "wind_loss": dd_w,
-                              "train_rmse_mm": dd_train},
+                              "train_rmse_mm": dd_train,
+                              "parameter_policy": "comparator_refit_each_window"},
         "beats_both_nulls": bool(
             holdout["rmse"] < null_persist["rmse"]
             and holdout["rmse"] < null_nomelt["rmse"]),
         "beats_degree_day": bool(holdout["rmse"] < dd_holdout["rmse"]),
-        "peak_timing_error_days": peak_timing_error_days(
-            dates, swe, obs_swe),
+        "peak_timing_error_days": peak_timing,
+        "peak_timing_window": "holdout",
         "depth_check_rmse_mm": round(depth["rmse"], 2),
+        "depth_check_window": "holdout",
+        "swe_to_depth_ratio": SWE_TO_DEPTH_RATIO,
+        "swe_to_depth_provenance": SWE_TO_DEPTH_PROVENANCE,
         "status": STATUS,
     }
+
+
+def _validate_unique_iso_dates(dates: list, context: str = "dates") -> None:
+    """Ensure dates are ISO yyyy-mm-dd strings with no duplicates."""
+    import datetime
+    seen = set()
+    for d in dates:
+        try:
+            datetime.date.fromisoformat(str(d))
+        except ValueError as exc:
+            raise ValueError(f"{context}: invalid ISO date {d!r}") from exc
+        if d in seen:
+            raise ValueError(f"{context}: duplicate date {d!r}")
+        seen.add(d)
 
 
 def run_validation(bundle_path: str, split: str = SPLIT_DATE) -> dict:
@@ -274,25 +317,57 @@ def run_validation(bundle_path: str, split: str = SPLIT_DATE) -> dict:
     }
 
 
+def _finite_param(name: str, value) -> float:
+    """Strict finite-float with explicit bool rejection."""
+    if isinstance(value, bool):
+        raise ValueError(f"{name} must be numeric, not boolean")
+    try:
+        result = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{name} must be numeric") from exc
+    if not math.isfinite(result):
+        raise ValueError(f"{name} must be finite")
+    return result
+
+
+def _on_grid(value: float, grid: list[float], name: str, context: str) -> None:
+    if value not in grid:
+        raise ValueError(
+            f"{context}: frozen {name} {value!r} not on fit grid "
+            f"[{grid[0]}..{grid[-1]}]")
+
+
 def load_fixed_params(path: str) -> dict[str, dict[str, float]]:
     """Read frozen {triplet: {s_rad, c_turb}} from a prior fit artifact."""
     doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(doc, dict):
+        raise ValueError(
+            f"{path}: fixed-params doc must be a JSON object, got "
+            f"{type(doc).__name__}")
     if isinstance(doc.get("sites"), dict) and all(
             isinstance(v, dict) and "fitted" in v
             for v in doc["sites"].values()):
-        out = {t: {"s_rad": float(v["fitted"]["s_rad"]),
-                   "c_turb_w_m2_k": float(v["fitted"]["c_turb_w_m2_k"])}
-               for t, v in doc["sites"].items()}
+        source = doc["sites"]
+        extract = lambda rec: (rec["fitted"]["s_rad"],
+                               rec["fitted"]["c_turb_w_m2_k"])
     else:
-        out = {t: {"s_rad": float(v["s_rad"]),
-                   "c_turb_w_m2_k": float(v["c_turb_w_m2_k"])}
-               for t, v in doc.items()}
-    for triplet, params in out.items():
-        s, c = params["s_rad"], params["c_turb_w_m2_k"]
-        if s not in S_GRID:
-            raise ValueError(f"{triplet}: frozen s_rad {s} not on fit grid")
-        if c not in CT_GRID:
-            raise ValueError(f"{triplet}: frozen c_t {c} not on fit grid")
+        source = doc
+        extract = lambda rec: (rec["s_rad"], rec["c_turb_w_m2_k"])
+    out: dict[str, dict[str, float]] = {}
+    for triplet, rec in source.items():
+        if not isinstance(rec, dict):
+            raise ValueError(
+                f"{triplet}: fixed-params record must be an object")
+        try:
+            raw_s, raw_c = extract(rec)
+        except KeyError as exc:
+            raise ValueError(
+                f"{triplet}: fixed-params record missing {exc}") from exc
+        s = _finite_param(f"{triplet}.s_rad", raw_s)
+        c = _finite_param(f"{triplet}.c_turb_w_m2_k", raw_c)
+        _on_grid(s, S_GRID, "s_rad", triplet)
+        _on_grid(c, CT_GRID, "c_turb_w_m2_k", triplet)
+        out[triplet] = {"s_rad": s, "c_turb_w_m2_k": c}
     return out
 
 
@@ -337,8 +412,15 @@ def evaluate_fixed_params(bundle_path: str, fixed: dict[str, dict[str, float]],
                                      wind_loss=dd_w)
         dd_holdout = score_paired_series([swe_dd[i] for i in hold_idx],
                                          [obs_swe[i] for i in hold_idx])
-        depth_mm = [s * 3.0 for s in swe]
-        depth = score_paired_series(depth_mm, obs_depth_mm)
+        # Depth check and peak-timing error restricted to the holdout window.
+        depth_mm_holdout = [swe[i] * SWE_TO_DEPTH_RATIO for i in hold_idx]
+        obs_depth_mm_holdout = [obs_depth_mm[i] for i in hold_idx]
+        depth = score_paired_series(depth_mm_holdout, obs_depth_mm_holdout)
+        _validate_unique_iso_dates(dates, context=f"{triplet} dates")
+        hold_dates = [dates[i] for i in hold_idx]
+        hold_swe = [swe[i] for i in hold_idx]
+        hold_obs_swe = [obs_swe[i] for i in hold_idx]
+        peak_timing = peak_timing_error_days(hold_dates, hold_swe, hold_obs_swe)
         beats = (holdout["rmse"] < null_persist["rmse"]
                  and holdout["rmse"] < null_nomelt["rmse"])
         sites[triplet] = {
@@ -356,11 +438,15 @@ def evaluate_fixed_params(bundle_path: str, fixed: dict[str, dict[str, float]],
             "beats_both_nulls": beats,
             "degree_day_holdout_rmse_mm": round(dd_holdout["rmse"], 2),
             "degree_day_fitted": {"k_melt": dd_k, "wind_loss": dd_w,
-                                  "train_rmse_mm": dd_train},
+                                  "train_rmse_mm": dd_train,
+                                  "parameter_policy": "comparator_refit_each_window"},
             "beats_degree_day": bool(holdout["rmse"] < dd_holdout["rmse"]),
-            "peak_timing_error_days": peak_timing_error_days(
-                dates, swe, obs_swe),
+            "peak_timing_error_days": peak_timing,
+            "peak_timing_window": "holdout",
             "depth_check_rmse_mm": round(depth["rmse"], 2),
+            "depth_check_window": "holdout",
+            "swe_to_depth_ratio": SWE_TO_DEPTH_RATIO,
+            "swe_to_depth_provenance": SWE_TO_DEPTH_PROVENANCE,
             "status": STATUS,
         }
     return {

@@ -1,27 +1,5 @@
 """Reach-scale calibration and dispersion experiments for the Firehole.
-
-Two independent analyses, both labeled, both reproducible:
-
-1. dispersion_sweep -- method-of-moments check of the 1-D solver.
-   A Gaussian temperature pulse advects down a uniform channel at
-   several specified dispersions D. Spatial variance growth gives an
-   EFFECTIVE dispersion D_eff = (s2 - s1) / (2 dt); comparing D_eff
-   against specified D separates solver fidelity from the physical
-   question of which D the Firehole needs. Pure numerics, no
-   observations required.
-
-2. reach_heat_fit -- lumped reach heat budget fitted to MEASURED data.
-   Upstream USGS gauge (06036805) supplies boundary discharge and
-   temperature; Open-Meteo supplies surface-budget forcing; the
-   downstream USGS gauge (06036905) is the calibration target. The
-   single-cell River (conservation-tested machinery from
-   river_transport) fits lateral inflow (Q_lat, T_lat) and a turbulent
-   exchange multiplier, train/holdout split, against two null models:
-   upstream persistence and pure mixing without surface exchange.
-
-Status discipline: fitted parameters are labeled fitted_not_validated
-until an independent window confirms them; geometry they depend on
-(effective volume/area) is authored_illustrative unless stated.
+dispersion_sweep: solver fidelity. reach_heat_fit: lumped budget fit.
 """
 from __future__ import annotations
 
@@ -42,10 +20,6 @@ SCHEMA_DISPERSION = "yellowstone.dispersion_sweep.v1"
 SCHEMA_FIT = "yellowstone.reach_heat_fit.v1"
 
 
-# ---------------------------------------------------------------------------
-# Shared helpers
-# ---------------------------------------------------------------------------
-
 def _finite(value: Any, name: str) -> float:
     result = float(value)
     if not math.isfinite(result):
@@ -53,47 +27,60 @@ def _finite(value: Any, name: str) -> float:
     return result
 
 
-def resample_bin_mean(pairs: list[list[float]], grid: list[float],
-                      dt_s: float) -> tuple[list[float | None], float]:
-    """Bin-average irregular [epoch, value] pairs onto a uniform grid.
-
-    Returns (values, coverage) where missing bins are None and coverage
-    is the fraction of filled bins. Bin i covers
-    [grid[0] + (i - 0.5) * dt, grid[0] + (i + 0.5) * dt).
-    Callers must branch on None/coverage — averaging over Nones or
-    treating them as zeros fabricates data.
+def resample_bin_mean(
+    pairs: list[list[float]], grid: list[float], dt_s: float
+) -> tuple[list[float | None], float, list[int]]:
+    """Bin-average irregular pairs onto a uniform grid.
+    Returns (values, coverage, counts); missing bins are None and count 0.
     """
     dt_s = _finite(dt_s, "dt_s")
     if dt_s <= 0.0:
         raise ValueError("dt_s must be positive")
     if not grid:
         raise ValueError("grid must be nonempty")
+    for i, g in enumerate(grid):
+        _finite(g, f"grid[{i}]")
+    if any(b <= a for a, b in zip(grid, grid[1:])):
+        raise ValueError("grid must be strictly increasing")
+    spacing_tol = 1e-6 * dt_s
+    for a, b in zip(grid, grid[1:]):
+        if abs((b - a) - dt_s) > spacing_tol:
+            raise ValueError(
+                f"grid spacing must match dt_s ({dt_s:g} s), "
+                f"found {b - a:g} s")
     sums = [0.0] * len(grid)
     counts = [0] * len(grid)
     origin = grid[0]
-    for epoch, value in pairs:
-        epoch = _finite(epoch, "epoch")
-        value = _finite(value, "pair value")
-        index = int(round((epoch - origin) / dt_s))
+    last_epoch: float | None = None
+    for i, (epoch, value) in enumerate(pairs):
+        epoch = _finite(epoch, f"pairs[{i}] epoch")
+        value = _finite(value, f"pairs[{i}] value")
+        if last_epoch is not None and epoch <= last_epoch:
+            raise ValueError(
+                "pairs epochs must be strictly increasing; "
+                f"pairs[{i}] epoch {epoch:g} <= previous {last_epoch:g}")
+        last_epoch = epoch
+        index = int(math.floor((epoch - origin) / dt_s + 0.5))
         if 0 <= index < len(grid):
             sums[index] += value
             counts[index] += 1
     values = [(sums[i] / counts[i] if counts[i] else None)
               for i in range(len(grid))]
     filled = sum(1 for c in counts if c)
-    return values, filled / len(grid)
+    return values, filled / len(grid), counts
 
 
 def interp_series(pairs: list[list[float]], times: list[float]) -> list[float]:
     """Piecewise-linear interpolation; endpoints clamp (no extrapolation).
 
-    Deliberately dumb: gap detection is the caller's job (see
-    check_continuity). Never use this to silently bridge instrument gaps.
+    Rejects duplicate timestamps (keep gap detection in check_continuity).
     """
     if not pairs:
         raise ValueError("pairs must be nonempty")
     clean = sorted(((_finite(t, "time"), _finite(v, "value"))
                     for t, v in pairs))
+    if any(t1 <= t0 for (t0, _), (t1, _) in zip(clean, clean[1:])):
+        raise ValueError("interpolation times must be strictly increasing")
     out = []
     for t in times:
         t = _finite(t, "query time")
@@ -112,16 +99,19 @@ def interp_series(pairs: list[list[float]], times: list[float]) -> list[float]:
 
 def check_continuity(pairs: list[list[float]], label: str,
                      max_gap_s: float) -> float:
-    """Reject instrument gaps instead of interpolating across them.
-
-    Returns the nominal step (median interval). Raises ValueError naming
-    the gap if any consecutive interval exceeds max_gap_s. Call before
-    interp_series on every ingested series — a bridged multi-day outage
-    looks like data and fits to it are fiction.
+    """Reject gaps larger than max_gap_s; return the nominal (median) step.
+    Raises ValueError naming the gap when any interval exceeds max_gap_s.
     """
     if len(pairs) < 2:
         raise ValueError(f"{label}: need >= 2 points for continuity")
+    max_gap_s = _finite(max_gap_s, f"{label} max_gap_s")
+    if max_gap_s <= 0.0:
+        raise ValueError(f"{label}: max_gap_s must be positive")
     times = sorted(_finite(t, f"{label} time") for t, _ in pairs)
+    if any(b <= a for a, b in zip(times, times[1:])):
+        raise ValueError(
+            f"{label}: timestamps must be strictly increasing"
+        )
     for v in pairs:
         _finite(v[1], f"{label} value")
     intervals = [b - a for a, b in zip(times, times[1:])]
@@ -137,10 +127,7 @@ def check_continuity(pairs: list[list[float]], label: str,
 def estimate_lag(upstream: list[float], downstream: list[float],
                  dt_s: float, max_lag_s: float) -> dict[str, Any]:
     """Advective lag from cross-correlation of demeaned series.
-
-    Returns the lag (seconds, downstream behind upstream) maximizing
-    correlation, plus the peak correlation. Both series must be equal
-    length, uniformly spaced, and non-constant.
+    Lag in seconds (downstream behind upstream) plus peak correlation.
     """
     if len(upstream) != len(downstream) or not upstream:
         raise ValueError("series must be nonempty and equal length")
@@ -170,13 +157,9 @@ def estimate_lag(upstream: list[float], downstream: list[float],
 
 
 def regime_scores_by_flow(modeled: list[float], observed: list[float],
-                           flows: list[float]) -> dict[str, Any]:
-    """Holdout scores split by upstream-flow tercile plus the full window.
-
-    Aggregate RMSE hides regime failure, so each tercile reports its own
-    rmse, bias, and n. Constant flow collapses to the "all" entry only.
-    Near-constant flow still emits all three groups; empty groups carry
-    n 0 and null scores.
+                          flows: list[float]) -> dict[str, Any]:
+    """Scores split by upstream-flow tercile plus the full window.
+    Each tercile reports rmse, bias, n; constant flow yields "all" only.
     """
     if not (len(modeled) == len(observed) == len(flows)) or not modeled:
         raise ValueError("modeled, observed, and flows must be nonempty "
@@ -189,7 +172,9 @@ def regime_scores_by_flow(modeled: list[float], observed: list[float],
     b2 = ordered[2 * len(ordered) // 3]
     if b1 == b2:
         return out
-    groups = {"low": [], "mid": [], "high": []}
+    groups: dict[str, list[tuple[float, float]]] = {
+        "low": [], "mid": [], "high": []
+    }
     for m, o, q in zip(modeled, observed, flows):
         groups["low" if q < b1 else "high" if q >= b2 else "mid"].append((m, o))
     out["bounds_m3_s"] = [b1, b2]
@@ -204,18 +189,26 @@ def regime_scores_by_flow(modeled: list[float], observed: list[float],
     return out
 
 
-# ---------------------------------------------------------------------------
-# 1. Dispersion sweep (method of moments)
-# ---------------------------------------------------------------------------
-
+# Section 1: Dispersion sweep (method of moments)
 def pulse_moments(centers_m: list[float], volume_m3: list[float],
                   temperatures_c: list[float],
                   background_c: float) -> dict[str, float]:
     """Mass, centroid, and spatial variance of a temperature anomaly.
-
-    Negative anomalies are clipped to zero: this measures HEAT pulses.
-    A cold pulse needs the sign flipped by the caller, explicitly.
+    Warm (positive) anomalies only; flip sign for a cold pulse.
     """
+    if not centers_m:
+        raise ValueError("centers_m, volume_m3, temperatures_c must be nonempty")
+    if not (len(centers_m) == len(volume_m3) == len(temperatures_c)):
+        raise ValueError(
+            f"length mismatch: centers_m={len(centers_m)}, "
+            f"volume_m3={len(volume_m3)}, "
+            f"temperatures_c={len(temperatures_c)}")
+    for i, v in enumerate(volume_m3):
+        v = _finite(v, f"volume_m3[{i}]")
+        if v <= 0.0:
+            raise ValueError(f"volume_m3[{i}] must be positive")
+    for i, x in enumerate(centers_m):
+        _finite(x, f"centers_m[{i}]")
     background_c = _finite(background_c, "background_c")
     anomalies = [max(0.0, _finite(t, "temperature") - background_c)
                  for t in temperatures_c]
@@ -239,10 +232,36 @@ def uniform_pulse_run(length_m: float = 3000.0, n_cells: int = 60,
                       dispersion_m2_s: float = 1.0,
                       duration_s: float = 3600.0,
                       dt_s: float = 5.0) -> dict[str, Any]:
-    """Advect one Gaussian pulse; return moment-derived effective D."""
+    """Advect one Gaussian pulse; return moment-derived effective D.
+    pulse_c is a signed Celsius anomaly added to the Gaussian pulse.
+    """
     from .river_transport import Cell
+    length_m = _finite(length_m, "length_m")
+    width_m = _finite(width_m, "width_m")
+    depth_m = _finite(depth_m, "depth_m")
+    discharge_m3_s = _finite(discharge_m3_s, "discharge_m3_s")
+    dispersion_m2_s = _finite(dispersion_m2_s, "dispersion_m2_s")
+    duration_s = _finite(duration_s, "duration_s")
+    dt_s = _finite(dt_s, "dt_s")
+    pulse_sigma_m = _finite(pulse_sigma_m, "pulse_sigma_m")
     if n_cells < 8:
         raise ValueError("n_cells must be >= 8 for moment resolution")
+    if length_m <= 0.0:
+        raise ValueError("length_m must be positive")
+    if width_m <= 0.0:
+        raise ValueError("width_m must be positive")
+    if depth_m <= 0.0:
+        raise ValueError("depth_m must be positive")
+    if discharge_m3_s <= 0.0:
+        raise ValueError("discharge_m3_s must be positive")
+    if dispersion_m2_s < 0.0:
+        raise ValueError("dispersion_m2_s must be nonnegative")
+    if duration_s <= 0.0:
+        raise ValueError("duration_s must be positive")
+    if dt_s <= 0.0 or dt_s > duration_s:
+        raise ValueError("dt_s must be positive and <= duration_s")
+    if pulse_sigma_m <= 0.0:
+        raise ValueError("pulse_sigma_m must be positive")
     dx = length_m / n_cells
     centers = [(i + 0.5) * dx for i in range(n_cells)]
     middle = length_m / 2.0
@@ -293,24 +312,63 @@ def dispersion_sweep(d_values: list[float] | None = None,
             "runs": runs}
 
 
-# ---------------------------------------------------------------------------
-# 2. Reach heat-budget fit to measured gauges
-# ---------------------------------------------------------------------------
+# Section 2: Reach heat-budget fit to measured gauges
+SURFACE_SOLVER_OPTIONS = ("damped_newton",)
+
 
 def build_fit_river(volume_m3: float, area_m2: float,
-                    boundary_q_m3_s: float,
+                    boundary_q_m3_s: Any,
                     boundary_t: Series, lateral_q: float, lateral_t: float,
                     met: dict[str, Series], c_mult: float,
-                    initial_c: float) -> River:
-    """Single well-mixed cell: measured upstream in, fitted lateral in,
-    explicit surface budget with scaled turbulent coefficients."""
+                    initial_c: float,
+                    surface_solver: str = "damped_newton",
+                    max_surface_iterations: int = 24,
+                    surface_tolerance_c: float = 1e-7,
+                    surface_relaxation: float = 0.8) -> River:
+    """Single well-mixed cell with upstream in, lateral in, surface budget.
+    boundary_q_m3_s is a scalar or Series; surface_solver = damped_newton.
+    """
     from .river_transport import Cell, Source
+    volume_m3 = _finite(volume_m3, "volume_m3")
+    area_m2 = _finite(area_m2, "area_m2")
+    lateral_q = _finite(lateral_q, "lateral_q")
+    lateral_t = _finite(lateral_t, "lateral_t")
+    c_mult = _finite(c_mult, "c_mult")
+    initial_c = _finite(initial_c, "initial_c")
+    if volume_m3 <= 0.0:
+        raise ValueError("volume_m3 must be positive")
+    if area_m2 <= 0.0:
+        raise ValueError("area_m2 must be positive")
+    if lateral_q < 0.0:
+        raise ValueError("lateral_q must be nonnegative")
+    if c_mult < 0.0:
+        raise ValueError("c_mult must be nonnegative")
+    if surface_solver not in SURFACE_SOLVER_OPTIONS:
+        raise ValueError(
+            f"surface_solver must be one of {SURFACE_SOLVER_OPTIONS}; "
+            f"got {surface_solver!r}")
+    if (isinstance(max_surface_iterations, bool)
+            or not isinstance(max_surface_iterations, int)):
+        raise ValueError("max_surface_iterations must be an integer")
+    if max_surface_iterations < 1:
+        raise ValueError("max_surface_iterations must be positive")
+    surface_tolerance_c = _finite(surface_tolerance_c, "surface_tolerance_c")
+    if surface_tolerance_c <= 0.0:
+        raise ValueError("surface_tolerance_c must be positive")
+    surface_relaxation = _finite(surface_relaxation, "surface_relaxation")
+    if not 0.0 < surface_relaxation <= 1.0:
+        raise ValueError("surface_relaxation must lie in (0, 1]")
+    for key in ("air_c", "rh", "wind_mps", "sw", "cloud"):
+        if key not in met:
+            raise ValueError(f"met missing required Series: {key}")
+    surface_area_m2 = area_m2
     params = BudgetParams(c_h=BudgetParams.c_h * c_mult,
                           c_e=BudgetParams.c_e * c_mult)
     return River(
         [Cell(id="reach_lumped", length_m=1000.0,
-              width_m=area_m2 / 1000.0, volume_m3=volume_m3,
-              initial_c=initial_c)],
+              width_m=surface_area_m2 / 1000.0, volume_m3=volume_m3,
+              initial_c=initial_c, geometry_status=(
+                  "authored_illustrative_effective_mixing_geometry"))],
         boundary_m3_s=boundary_q_m3_s, boundary_c=boundary_t,
         sources=[Source(id="aggregate_lateral", cell_id="reach_lumped",
                         flow_m3_s=lateral_q, temperature_c=lateral_t,
@@ -326,34 +384,28 @@ def build_fit_river(volume_m3: float, area_m2: float,
                         "cloud": {"times_s": list(met["cloud"].times_s),
                                   "values": list(met["cloud"].values)},
                         "params": {"c_h": params.c_h, "c_e": params.c_e}},
+        max_surface_iterations=max_surface_iterations,
+        surface_tolerance_c=surface_tolerance_c,
+        surface_relaxation=surface_relaxation,
     )
 
 
-# ---------------------------------------------------------------------------
-# Shared forcing preparation (one construction, two integrators)
-# ---------------------------------------------------------------------------
-
+# Shared forcing preparation: one construction, two integrators.
 def _fit_forcing_arrays(bundle: dict[str, Any],
                         dt_s: float = 900.0) -> dict[str, Any]:
-    """Uniform-grid forcing both integrators share, bit for bit.
-
-    run_fit_forward (River backward-Euler) and ivp_crosscheck (SciPy
-    RK45) build their forcing from these arrays, so trajectory
-    differences measure integrator numerics.
+    """Uniform-grid forcing both integrators share bit for bit.
+    Backward-Euler and RK45 use these arrays so trajectory diffs are numerics.
     """
-    from ..common.hydro_units import validate_usgs_bundle
-    validate_usgs_bundle(bundle)
+    from .fit_grid import build_fit_grid
     up = bundle["sites"]["06036805"]["series"]
     met_rows = bundle["met"]["hourly"]
-    # Gap tolerance 4x nominal step: a few missed transmissions pass, an
-    # outage refuses. IV nominal 900 s, met nominal 3600 s.
+    # Gap tolerance 4x nominal step. IV nominal 900 s, met nominal 3600 s.
     check_continuity(up["temperature_c"], "upstream temperature", 3600.0)
     check_continuity(up["discharge_m3_s"], "upstream discharge", 3600.0)
     check_continuity([[r[0], r[1]] for r in met_rows], "met air", 14400.0)
-    t0 = max(up["temperature_c"][0][0], met_rows[0][0])
-    t1 = min(up["temperature_c"][-1][0], met_rows[-1][0])
-    n = int((t1 - t0) // dt_s)
-    grid = [t0 + i * dt_s for i in range(n + 1)]
+    grid_info = build_fit_grid(bundle, dt_s)
+    grid = grid_info["grid"]
+    t0 = grid_info["t0"]
     up_t = interp_series(up["temperature_c"], grid)
     up_q = interp_series(up["discharge_m3_s"], grid)
     mean_q = math.fsum(up_q) / len(up_q)
@@ -368,10 +420,23 @@ def _fit_forcing_arrays(bundle: dict[str, Any],
         return Series(tuple([0.0] + [r for r in rel[1:]]),
                       tuple(values))
 
+    # Measured discharge Series kept alongside the mean for schedule callers.
+    up_q_series = to_series(up_q)
     return {"grid": grid, "t0": t0, "mean_q": mean_q,
             "up_t": up_t, "up_q": up_q, "air": air, "rh": rh,
             "wind": wind, "sw": sw, "cloud": cloud,
+            "forcing_window": {
+                "start_epoch_unix": t0,
+                "end_epoch_unix": grid[-1],
+                "dt_s": dt_s,
+            },
+            "data_window": {
+                "start_epoch_unix": grid[0],
+                "end_epoch_unix": grid[-1],
+                "n_samples": len(grid),
+            },
             "up_t_series": to_series(up_t),
+            "up_q_series": up_q_series,
             "met_series": {"air_c": to_series(air), "rh": to_series(rh),
                            "wind_mps": to_series(wind),
                            "sw": to_series(sw),
@@ -381,14 +446,14 @@ def _fit_forcing_arrays(bundle: dict[str, Any],
 def run_fit_forward(bundle: dict[str, Any], volume_m3: float, area_m2: float,
                     lateral_q: float, lateral_t: float, c_mult: float,
                     dt_s: float = 900.0,
-                    backend: str = "pairs") -> dict[str, Any]:
-    """Forward lumped run over the bundle window; returns epoch grid + T.
-
-    backend="pairs" is the hand-rolled alignment (default: no new
-    dependencies); backend="pandas" routes through replay.obs_frame
-    (explicit gaps/coverage, same grid convention). The two agree to
-    float noise on gap-free data (parity test); the default flips when
-    pandas is installed on the project interpreter.
+                    backend: str = "pairs",
+                    boundary_discharge: str = "mean",
+                    surface_solver: str = "damped_newton",
+                    max_surface_iterations: int = 24,
+                    surface_tolerance_c: float = 1e-7,
+                    surface_relaxation: float = 0.8) -> dict[str, Any]:
+    """Forward lumped run over the bundle window; returns epoch grid and T.
+    backend: pairs or pandas; boundary_discharge: mean or measured_series.
     """
     if backend == "pandas":
         from .obs_frame import aligned_fit_arrays
@@ -398,28 +463,192 @@ def run_fit_forward(bundle: dict[str, Any], volume_m3: float, area_m2: float,
     else:
         raise ValueError(f"backend must be 'pairs' or 'pandas': {backend!r}")
     grid = arrays["grid"]
+    if boundary_discharge == "mean":
+        boundary_q: Any = arrays["mean_q"]
+        boundary_q_source = "mean_of_measured_upstream_series"
+        discharge_variability_ignored = True
+    elif boundary_discharge == "measured_series":
+        boundary_q = arrays["up_q_series"]
+        boundary_q_source = "measured_upstream_series_schedule"
+        discharge_variability_ignored = False
+    else:
+        raise ValueError(
+            f"boundary_discharge must be 'mean' or 'measured_series': "
+            f"{boundary_discharge!r}")
     river = build_fit_river(
-        volume_m3, area_m2, arrays["mean_q"], arrays["up_t_series"],
+        volume_m3, area_m2, boundary_q, arrays["up_t_series"],
         lateral_q, lateral_t, arrays["met_series"], c_mult,
-        initial_c=arrays["up_t"][0])
+        initial_c=arrays["up_t"][0],
+        surface_solver=surface_solver,
+        max_surface_iterations=max_surface_iterations,
+        surface_tolerance_c=surface_tolerance_c,
+        surface_relaxation=surface_relaxation)
     n = len(grid) - 1
     frames = river.run(n * dt_s, dt_s=dt_s, sample_s=dt_s)
     modeled = [f["temperature_c"][0] for f in frames]
+    if len(modeled) != len(grid):
+        raise ArithmeticError(
+            f"run_fit_forward produced {len(modeled)} samples for a "
+            f"grid of {len(grid)} points; the integrator did not emit "
+            f"one sample per grid point")
     budget = river.budget()
-    # Scale-aware closure: reach volumes (~1e5 m3) carry ~1e13-1e14 J, so
-    # the solver's 1e-9 demo tolerance is pure float noise here (a 1e-5
-    # relative residual is ~0.001 C temperature error). Raw value and
-    # component totals are reported for inspection.
-    keep = ("boundary_input_j", "lateral_input_j", "outlet_export_j",
-            "surface_exchange_j", "surface_shortwave_j",
-            "surface_longwave_j", "surface_sensible_j", "surface_latent_j",
-            "storage_change_j", "expected_change_j", "heat_residual_j",
-            "heat_relative_residual")
+    # 1e-5 relative residual tolerates about 0.001 C at reach volumes near 1e5 m3.
+    keep: list[str] = [
+        "boundary_input_j", "lateral_input_j", "outlet_export_j",
+        "surface_exchange_j", "surface_shortwave_j",
+        "surface_longwave_j", "surface_sensible_j", "surface_latent_j",
+        "storage_change_j", "expected_change_j", "heat_residual_j",
+        "heat_relative_residual",
+    ]
+    extra_keys = (
+        "additional_heat_flux_j", "surface_component_sum_j",
+        "surface_component_difference_j", "surface_iteration_failures",
+        "max_surface_iterations_used",
+        "max_surface_linearization_error_w",
+    )
+    for key in extra_keys:
+        if key in budget:
+            keep.append(key)
+    budget_totals = {k: budget[k] for k in keep}
+    boundary_q_report: Any
+    discharge_relative_residual: float = 0.0
+    discharge_residual_source = "mean_mode_not_applicable"
+    if boundary_discharge == "mean":
+        boundary_q_report = arrays["mean_q"]
+        mode_doc = (
+            "constant mean upstream discharge; measured temporal "
+            "variation collapsed to the arithmetic mean. "
+            "Set boundary_discharge='measured_series' to drive the "
+            "measured hydrograph through River (fixes-33 item 1)."
+        )
+    else:
+        boundary_q_report = {
+            "times_s": list(arrays["up_q_series"].times_s),
+            "values": list(arrays["up_q_series"].values),
+            "mean_m3_s": arrays["mean_q"],
+        }
+        mode_doc = (
+            "scheduled measured upstream discharge; face flows and "
+            "water budget follow the measured hydrograph per step "
+            "(fixes-33 item 1 piecewise-constant Series semantics)."
+        )
+        # Modeled downstream Q(t) = boundary_q.at(t) + lateral_q; relative RMSE scores the fit.
+        try:
+            down_pairs = bundle["sites"]["06036905"]["series"].get(
+                "discharge_m3_s")
+        except (KeyError, TypeError):
+            down_pairs = None
+        if down_pairs:
+            measured_down = interp_series(down_pairs, grid)
+            modeled_down = [
+                float(arrays["up_q_series"].at(t - grid[0])) + lateral_q
+                for t in grid
+            ]
+            n_q = len(measured_down)
+            residuals = [
+                m - o for m, o in zip(modeled_down, measured_down)
+            ]
+            rmse_q = math.sqrt(
+                math.fsum(r * r for r in residuals) / n_q)
+            mean_measured = math.fsum(measured_down) / n_q
+            scale = max(1e-9, abs(mean_measured))
+            discharge_relative_residual = rmse_q / scale
+            discharge_residual_source = (
+                "modeled_vs_measured_downstream_discharge")
+        else:
+            discharge_residual_source = (
+                "measured_series_mode_no_downstream_discharge_in_bundle")
+    calibration_mode = (
+        "constant_flow_effective_reach_calibration"
+        if boundary_discharge == "mean"
+        else "scheduled_boundary_effective_reach_calibration"
+    )
     return {"grid": grid, "modeled_c": modeled,
-            "boundary_q_m3_s": arrays["mean_q"],
+            "boundary_q_m3_s": boundary_q_report,
+            "boundary_q_source": boundary_q_source,
+            "boundary_discharge_mode": mode_doc,
+            "boundary_discharge": boundary_discharge,
+            "discharge_variability_ignored": discharge_variability_ignored,
+            "discharge_relative_residual": discharge_relative_residual,
+            "discharge_residual_source": discharge_residual_source,
+            "calibration_mode": calibration_mode,
+            "numerical_method": {
+                "surface_solver": surface_solver,
+                "max_surface_iterations": max_surface_iterations,
+                "surface_tolerance_c": surface_tolerance_c,
+                "surface_relaxation": surface_relaxation,
+            },
             "heat_relative_residual": budget["heat_relative_residual"],
-            "budget_ok": budget["heat_relative_residual"] <= 1e-5,
-            "budget_totals": {k: budget[k] for k in keep}}
+            "budget_ok": (budget["heat_relative_residual"] <= 1e-5
+                          and budget.get(
+                              "surface_iteration_failures", 0) == 0),
+            "budget_totals": budget_totals}
+
+
+OBJECTIVE_WEIGHTS_DEFAULT = {
+    "temperature_rmse": 1.0,
+    "temperature_abs_bias": 0.25,
+    "heat_residual": 0.1,
+    "newton_failure_penalty": 10.0,
+    "discharge_residual": 0.0,
+}
+
+
+def composite_score(train_rmse: float, train_bias: float,
+                    heat_relative_residual: float,
+                    surface_iteration_failures: int,
+                    weights: dict[str, float] | None = None,
+                    discharge_relative_residual: float = 0.0,
+                    ) -> dict[str, float]:
+    """Named weighted sum of RMSE, abs bias, heat residual, Newton failures, discharge residual.
+    discharge_relative_residual only contributes under boundary_discharge measured_series."""
+    if weights is None:
+        weights = OBJECTIVE_WEIGHTS_DEFAULT
+    temp_term = weights["temperature_rmse"] * float(train_rmse)
+    bias_term = weights["temperature_abs_bias"] * abs(float(train_bias))
+    energy_term = (
+        weights["heat_residual"] * abs(float(heat_relative_residual)))
+    newton_term = (
+        weights["newton_failure_penalty"]
+        * float(max(0, int(surface_iteration_failures))))
+    discharge_term = (
+        weights.get("discharge_residual", 0.0)
+        * abs(float(discharge_relative_residual)))
+    score = temp_term + bias_term + energy_term + newton_term + discharge_term
+    return {
+        "score": score,
+        "temperature_rmse_term": temp_term,
+        "temperature_abs_bias_term": bias_term,
+        "heat_residual_term": energy_term,
+        "newton_failure_term": newton_term,
+        "discharge_residual_term": discharge_term,
+    }
+
+
+def timestep_convergence(bundle: dict[str, Any], volume_m3: float,
+                         area_m2: float, lateral_q: float, lateral_t: float,
+                         c_mult: float, dt_s: float) -> dict[str, float]:
+    """Run the forward model at dt_s and dt_s/2; report agreement.
+    Returns max absolute diff and RMSE on the coarser grid samples.
+    """
+    coarse = run_fit_forward(bundle, volume_m3, area_m2,
+                             lateral_q, lateral_t, c_mult, dt_s)
+    fine = run_fit_forward(bundle, volume_m3, area_m2,
+                           lateral_q, lateral_t, c_mult, dt_s / 2.0)
+    coarse_c = coarse["modeled_c"]
+    fine_sampled = fine["modeled_c"][::2]
+    n_compare = min(len(coarse_c), len(fine_sampled))
+    diffs = [abs(coarse_c[i] - fine_sampled[i]) for i in range(n_compare)]
+    max_diff = max(diffs) if diffs else 0.0
+    rmse_diff = (math.sqrt(math.fsum(d * d for d in diffs) / n_compare)
+                 if n_compare else 0.0)
+    return {
+        "dt_s": float(dt_s),
+        "half_dt_s": float(dt_s / 2.0),
+        "n_compared": int(n_compare),
+        "max_difference_c": float(max_diff),
+        "rmse_difference_c": float(rmse_diff),
+    }
 
 
 def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
@@ -429,25 +658,55 @@ def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
                    spinup_s: float = 86400.0,
                    train_frac: float = 0.7,
                    dt_s: float = 900.0,
-                   return_all: bool = False) -> dict[str, Any]:
-    """Grid-search the lumped budget; train/holdout + null-model comparison.
-
-    Null A (persistence): downstream == upstream now. Null B (mixing
-    only): same model with c_mult = 0, Q_lat/T_lat refit on train.
-    Null C (climatology): downstream == train-window mean, one estimated
-    parameter for selection scoring.
-
-    return_all=True adds every grid row under "all_results" (needed by
-    the ridge ensemble in uncertainty.py); the default artifact keeps
-    top10 only.
+                   return_all: bool = False,
+                   locked_final_frac: float | None = None,
+                   volume_sigma_m3: float | None = None,
+                   area_sigma_m2: float | None = None,
+                   objective_weights: dict[str, float] | None = None,
+                   run_timestep_convergence: bool = False,
+                   ) -> dict[str, Any]:
+    """Grid-search the lumped budget with train/holdout and three null models.
+    Null A persistence, Null B mixing-only refit, Null C train climatology.
     """
+    weights = (OBJECTIVE_WEIGHTS_DEFAULT if objective_weights is None
+               else dict(objective_weights))
+    for key in OBJECTIVE_WEIGHTS_DEFAULT:
+        if key not in weights:
+            raise ValueError(
+                f"objective_weights missing key {key!r}")
+        _finite(weights[key], f"objective_weights[{key!r}]")
+    for name, g in (("lateral_q_grid", lateral_q_grid),
+                    ("lateral_t_grid", lateral_t_grid),
+                    ("c_mult_grid", c_mult_grid)):
+        if not g:
+            raise ValueError(f"{name} must be nonempty")
+        for i, v in enumerate(g):
+            _finite(v, f"{name}[{i}]")
+    if not math.isfinite(train_frac) or not 0.0 < train_frac < 1.0:
+        raise ValueError("train_frac must lie strictly between 0 and 1")
+    if locked_final_frac is not None:
+        locked_final_frac = _finite(locked_final_frac, "locked_final_frac")
+        if not 0.0 <= locked_final_frac < 1.0:
+            raise ValueError(
+                "locked_final_frac must satisfy 0 <= frac < 1")
+        if train_frac + locked_final_frac >= 1.0:
+            raise ValueError(
+                "train_frac + locked_final_frac must leave a holdout")
+    for name, sigma in (("volume_sigma_m3", volume_sigma_m3),
+                        ("area_sigma_m2", area_sigma_m2)):
+        if sigma is not None:
+            sigma = _finite(sigma, name)
+            if sigma < 0.0:
+                raise ValueError(f"{name} must be nonnegative")
+    spinup_s = _finite(spinup_s, "spinup_s")
+    if spinup_s < 0.0:
+        raise ValueError("spinup_s must be nonnegative")
     down = bundle["sites"]["06036905"]["series"]
     check_continuity(down["temperature_c"], "downstream temperature", 3600.0)
     lag_info = None
-    best: dict[str, Any] | None = None
-    results = []
+    results: list[dict[str, Any]] = []
 
-    # Cache one forward run per (q, t, c) — reuse Null B from the same grid.
+    # Cache one forward run per (q, t, c); Null B reuses the same grid.
     forward_cache: dict[tuple, dict[str, Any]] = {}
 
     def forward(q: float, t: float, c: float) -> dict[str, Any]:
@@ -468,9 +727,22 @@ def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
     up_q = interp_series(bundle["sites"]["06036805"]["series"]
                          ["discharge_m3_s"], grid)
     start = next(i for i, g in enumerate(grid) if g - grid[0] >= spinup_s)
-    split = start + int((len(grid) - start) * train_frac)
+    post_spinup_len = len(grid) - start
+    split = start + int(post_spinup_len * train_frac)
+    if locked_final_frac is None or locked_final_frac == 0.0:
+        locked_final_split = len(grid)
+    else:
+        locked_final_split = len(grid) - int(
+            post_spinup_len * locked_final_frac)
+        if locked_final_split <= split:
+            raise ValueError(
+                "locked_final_frac leaves no holdout between train and "
+                "locked_final after indexing")
     train = slice(start, split)
-    holdout = slice(split, len(grid))
+    holdout = slice(split, locked_final_split)
+    locked_final = slice(locked_final_split, len(grid))
+    locked_final_active = (
+        locked_final_split < len(grid) and (locked_final.stop - locked_final.start) > 0)
 
     lag_probe = estimate_lag(up_t[start:split], target[start:split],
                              dt_s, max_lag_s=86400.0)
@@ -482,22 +754,141 @@ def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
     for q in lateral_q_grid:
         for t in lateral_t_grid:
             for c in c_mult_grid:
-                modeled = forward(q, t, c)["modeled_c"]
+                fwd = forward(q, t, c)
+                modeled = fwd["modeled_c"]
                 tr = window_score(modeled, train)
-                results.append({"q_lat": q, "t_lat": t, "c_mult": c,
-                                "train_rmse": tr["rmse"],
-                                "train_bias": tr["bias"],
-                                "holdout_rmse": window_score(
-                                    modeled, holdout)["rmse"]})
+                row: dict[str, Any] = {
+                    "q_lat": q, "t_lat": t, "c_mult": c,
+                    "train_rmse": tr["rmse"],
+                    "train_bias": tr["bias"],
+                    "holdout_rmse": (
+                        window_score(modeled, holdout)["rmse"]
+                        if (holdout.stop - holdout.start) > 0 else None),
+                    "budget_ok": fwd["budget_ok"],
+                    "heat_relative_residual": fwd["heat_relative_residual"],
+                    "discharge_relative_residual": fwd.get(
+                        "discharge_relative_residual", 0.0),
+                    "surface_iteration_failures": fwd["budget_totals"].get(
+                        "surface_iteration_failures", 0),
+                }
+                comp = composite_score(
+                    row["train_rmse"], row["train_bias"],
+                    row["heat_relative_residual"],
+                    row["surface_iteration_failures"], weights,
+                    discharge_relative_residual=row[
+                        "discharge_relative_residual"],
+                )
+                row["composite_score"] = comp["score"]
+                row["composite_terms"] = comp
+                if locked_final_active:
+                    row["locked_final_rmse"] = window_score(
+                        modeled, locked_final)["rmse"]
+                results.append(row)
+    # Primary ranking by train_rmse; champion prefers budget_ok, tiebreak composite.
     results.sort(key=lambda r: r["train_rmse"])
-    champion = dict(results[0])
+    valid = [r for r in results if r["budget_ok"]]
+    if valid:
+        valid.sort(key=lambda r: r["composite_score"])
+        champion_row = valid[0]
+        champion_selection = "validity_filtered_composite_score"
+    else:
+        champion_row = results[0]
+        champion_selection = "composite_filter_rejected_all_candidates"
+    champion: dict[str, Any] = dict(champion_row)
+    champion["selection_rule"] = champion_selection
     champ_forward = forward(champion["q_lat"], champion["t_lat"],
                             champion["c_mult"])
-    champion["holdout_bias"] = score_paired_series(
-        champ_forward["modeled_c"][holdout],
-        target[holdout])["bias"]
+    if (holdout.stop - holdout.start) > 0:
+        champion["holdout_bias"] = score_paired_series(
+            champ_forward["modeled_c"][holdout],
+            target[holdout])["bias"]
+    else:
+        champion["holdout_bias"] = None
+    if locked_final_active:
+        locked_scores = score_paired_series(
+            champ_forward["modeled_c"][locked_final],
+            target[locked_final])
+        champion["locked_final_rmse"] = locked_scores["rmse"]
+        champion["locked_final_bias"] = locked_scores["bias"]
     champion["budget_ok"] = champ_forward["budget_ok"]
     champion["budget_totals"] = champ_forward["budget_totals"]
+    axis_grids = {
+        "q_lat": lateral_q_grid,
+        "t_lat": lateral_t_grid,
+        "c_mult": c_mult_grid,
+    }
+    champion["at_parameter_boundary"] = {
+        name: {
+            "at_min": champion[name] == min(axis),
+            "at_max": champion[name] == max(axis),
+            "grid_min": min(axis),
+            "grid_max": max(axis),
+        }
+        for name, axis in axis_grids.items()
+    }
+    from .surface_flux import describe_surface_model
+    champ_params = BudgetParams(
+        c_h=BudgetParams.c_h * champion["c_mult"],
+        c_e=BudgetParams.c_e * champion["c_mult"])
+    champion["surface_model"] = describe_surface_model(
+        champ_params,
+        status_overrides={
+            "c_h": "scaled_by_calibration",
+            "c_e": "scaled_by_calibration",
+        },
+    )
+    champion["calibration_hierarchy"] = {
+        "L1_fixed_physics": [
+            "RHO_CP_J_M3_K", "sigma_Stefan_Boltzmann",
+            "latent_heat_vaporization",
+        ],
+        "L2_authored_defaults": [
+            "albedo", "emissivity", "pressure_kpa",
+            "cloud_longwave_factor", "a_RH", "b_RH",
+            "shortwave_multiplier", "longwave_multiplier",
+            "longwave_bias_w_m2",
+        ],
+        "L3_fitted_effective": ["q_lat", "t_lat", "c_mult"],
+        "L4_derived_outputs": [
+            "modeled_downstream_temperature_c",
+            "effective_turbulent_transfer_coefficients",
+        ],
+        "note": (
+            "L1 physical constants: unchanged. "
+            "L2 authored defaults: not fitted here; override via "
+            "BudgetParams before building the river. "
+            "L3 fitted parameters: effective, not uniquely identified. "
+            "L4 derived outputs: computed from L1 through L3. "
+            "c_h and c_e are not identified independently from a single "
+            "scalar target (see surface_model.not_identified_independently)."
+        ),
+    }
+    champion["calibrated_parameters"] = {
+        "q_lat": {
+            "meaning": "effective aggregate lateral discharge",
+            "units": "m3/s",
+            "status": "fitted_not_validated",
+            "hierarchy_level": "L3_fitted_effective",
+        },
+        "t_lat": {
+            "meaning": "effective aggregate lateral temperature",
+            "units": "C",
+            "status": "fitted_not_validated",
+            "hierarchy_level": "L3_fitted_effective",
+        },
+        "c_mult": {
+            "meaning": (
+                "common multiplier applied to baseline sensible and "
+                "latent transfer coefficients; "
+                "effective_turbulent_transfer_multiplier under an "
+                "identifiability constraint (c_h and c_e not fit "
+                "separately)"
+            ),
+            "units": "dimensionless",
+            "status": "fitted_not_validated",
+            "hierarchy_level": "L3_fitted_effective",
+        },
+    }
 
     null_a = {"name": "upstream_persistence",
               "train_rmse": score_paired_series(
@@ -506,13 +897,19 @@ def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
                   up_t[holdout], target[holdout])["rmse"]}
     noburn = [r for r in results if r["c_mult"] == 0.0]
     if not noburn:
-        zero = forward(champion["q_lat"], champion["t_lat"], 0.0)["modeled_c"]
-        null_b = {"name": "mixing_only_c0_at_champion_laterals",
-                  "train_rmse": window_score(zero, train)["rmse"],
-                  "holdout_rmse": window_score(zero, holdout)["rmse"]}
-    else:
-        pick = min(noburn, key=lambda r: r["train_rmse"])
-        null_b = {"name": "mixing_only_c0_refit", **pick}
+        for q in lateral_q_grid:
+            for t in lateral_t_grid:
+                modeled_zero = forward(q, t, 0.0)["modeled_c"]
+                tr_zero = window_score(modeled_zero, train)
+                noburn.append({
+                    "q_lat": q, "t_lat": t, "c_mult": 0.0,
+                    "train_rmse": tr_zero["rmse"],
+                    "train_bias": tr_zero["bias"],
+                    "holdout_rmse": window_score(
+                        modeled_zero, holdout)["rmse"],
+                })
+    pick = min(noburn, key=lambda r: r["train_rmse"])
+    null_b = {"name": "mixing_only_c0_refit", **pick}
 
     clim_mean = math.fsum(target[train]) / len(target[train])
     clim = [clim_mean] * len(grid)
@@ -523,51 +920,127 @@ def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
     check_split([PRESCRIBED_DISCHARGE, PRESCRIBED_UPSTREAM_TEMPERATURE],
                 ["downstream_temperature"])
 
-    return {"schema": SCHEMA_FIT,
-            "status": "fitted_not_validated_single_window",
-            "fetched_at_utc": bundle.get("fetched_at_utc"),
-            "mode_claim": {"prescribed": [PRESCRIBED_DISCHARGE,
-                                          PRESCRIBED_UPSTREAM_TEMPERATURE],
-                           "validated": ["downstream_temperature"]},
-            "effective_geometry": {
-                "volume_m3": volume_m3, "area_m2": area_m2,
-                "status": ("authored_illustrative_effective_mixing_volume; "
-                           "see sensitivity in parameter_notes")},
-            "grids": {"q_lat": lateral_q_grid, "t_lat": lateral_t_grid,
-                      "c_mult": c_mult_grid},
-            "spinup_s": spinup_s, "train_frac": train_frac,
-            "measured_lag": lag_info,
-            "champion": {**champion,
-                         "status": "fitted_not_validated_single_window"},
-            "top10_train": results[:10],
-            "null_models": [null_a, null_b, null_c],
-            "regime_scores": regime_scores_by_flow(
-                champ_forward["modeled_c"][holdout], target[holdout],
-                up_q[holdout]),
-            "n_grid_points": len(results),
-            **({"all_results": results} if return_all else {})}
+    parameter_status_summary = {
+        "calibrated_effective": ["q_lat", "t_lat", "c_mult"],
+        "assumed_authored": [
+            "albedo", "emissivity", "c_h", "c_e",
+            "pressure_kpa", "cloud_longwave_factor",
+            "a_RH", "b_RH",
+            "shortwave_multiplier", "longwave_multiplier",
+            "longwave_bias_w_m2",
+            "volume_m3", "area_m2",
+        ],
+        "observed_forcing": [
+            "air_c", "rh", "wind_mps",
+            "shortwave_w_m2", "cloud_fraction",
+            "upstream_discharge_m3_s",
+            "upstream_temperature_c",
+        ],
+        "observed_target": ["downstream_temperature_c"],
+        "identifiability_note": (
+            "c_h and c_e are fit jointly through c_mult; a single "
+            "downstream temperature series cannot separate them. "
+            "q_lat and t_lat can compensate for each other and for "
+            "errors in volume_m3, area_m2, albedo, emissivity, cloud "
+            "longwave factor, humidity bias, and shortwave or longwave "
+            "multipliers. Treat fitted values as effective, not "
+            "uniquely measured."
+        ),
+        "sensitivity_flags": [
+            "c_mult covaries with area_m2 (surface heating power).",
+            "q_lat and t_lat trade off along a ridge; the fit's spread "
+            "lies in uncertainty.ridge_members.",
+            "Constant mean upstream discharge makes regime_scores_by_flow "
+            "diagnostic only, not calibration-informed.",
+        ],
+    }
+
+    effective_geometry = {
+        "volume_m3": volume_m3,
+        "area_m2": area_m2,
+        "surface_area_m2": area_m2,
+        "status": ("authored_illustrative_effective_mixing_volume; "
+                   "surface area equals area_m2, not cross-sectional "
+                   "area; see fixes-15.2 calibration notes"),
+    }
+    if volume_sigma_m3 is not None:
+        effective_geometry["volume_sigma_m3"] = float(volume_sigma_m3)
+        effective_geometry["volume_uncertainty_source"] = (
+            "caller_supplied_prior_or_measurement_sigma")
+    if area_sigma_m2 is not None:
+        effective_geometry["area_sigma_m2"] = float(area_sigma_m2)
+        effective_geometry["area_uncertainty_source"] = (
+            "caller_supplied_prior_or_measurement_sigma")
+
+    timestep_block: dict[str, Any] | None = None
+    if run_timestep_convergence:
+        timestep_block = timestep_convergence(
+            bundle, volume_m3, area_m2,
+            champion["q_lat"], champion["t_lat"], champion["c_mult"], dt_s)
+
+    windows = {
+        "spinup_s": spinup_s,
+        "train_frac": train_frac,
+        "train_indices": [train.start, train.stop],
+        "holdout_indices": [holdout.start, holdout.stop],
+    }
+    if locked_final_frac is not None:
+        windows["locked_final_frac"] = float(locked_final_frac)
+        windows["locked_final_indices"] = [
+            locked_final.start, locked_final.stop]
+        windows["locked_final_active"] = bool(locked_final_active)
+
+    artifact = {"schema": SCHEMA_FIT,
+                "status": "fitted_not_validated_single_window",
+                "fetched_at_utc": bundle.get("fetched_at_utc"),
+                "calibration_mode": champ_forward["calibration_mode"],
+                "numerical_method": champ_forward["numerical_method"],
+                "objective_weights": weights,
+                "parameter_status_summary": parameter_status_summary,
+                "mode_claim": {"prescribed": [PRESCRIBED_DISCHARGE,
+                                              PRESCRIBED_UPSTREAM_TEMPERATURE],
+                               "validated": ["downstream_temperature"]},
+                "effective_geometry": effective_geometry,
+                "grids": {"q_lat": lateral_q_grid,
+                          "t_lat": lateral_t_grid,
+                          "c_mult": c_mult_grid},
+                "spinup_s": spinup_s, "train_frac": train_frac,
+                "windows": windows,
+                "dt_s": dt_s,
+                "measured_lag": lag_info,
+                "champion": {**champion,
+                             "status": "fitted_not_validated_single_window"},
+                "top10_train": results[:10],
+                "null_models": [null_a, null_b, null_c],
+                "regime_scores": regime_scores_by_flow(
+                    champ_forward["modeled_c"][holdout], target[holdout],
+                    up_q[holdout])
+                if (holdout.stop - holdout.start) > 0 else None,
+                "n_grid_points": len(results)}
+    if timestep_block is not None:
+        artifact["timestep_convergence"] = timestep_block
+    if return_all:
+        artifact["all_results"] = results
+    return artifact
 
 
-# ---------------------------------------------------------------------------
-# 3. SciPy passes (A2): bounded fit, information criteria, IVP cross-check
-# ---------------------------------------------------------------------------
-
+# Section 3: SciPy passes: bounded fit, information criteria, IVP cross-check.
 LS_BOUNDS = {"q_lat": (0.5, 8.0), "t_lat": (-10.0, 60.0),
              "c_mult": (0.0, 8.0)}
 
 
 def aic_bic(rss: float, n: int, k: int) -> dict[str, float]:
-    """Akaike / Bayesian information criteria from a residual sum of squares.
-
-    AIC = n ln(RSS/n) + 2k, BIC = n ln(RSS/n) + k ln n. Lower wins.
-    k counts process parameters. The residual variance term is omitted
-    uniformly, so relative rankings match the full K convention.
+    """Akaike and Bayesian information criteria from residual sum of squares.
+    AIC = n ln(RSS/n) + 2k, BIC = n ln(RSS/n) + k ln n; lower wins.
     """
     rss = _finite(rss, "rss")
-    if rss <= 0.0:
-        raise ValueError("rss must be positive")
+    if rss < 0.0:
+        raise ValueError("rss must be nonnegative")
     if n <= 0 or k < 0:
         raise ValueError("need n >= 1 and k >= 0")
+    if rss == 0.0:
+        return {"aic": -math.inf, "bic": -math.inf,
+                "n": float(n), "k": float(k)}
     base = n * math.log(rss / n)
     return {"aic": base + 2.0 * k, "bic": base + k * math.log(n),
             "n": float(n), "k": float(k)}
@@ -581,15 +1054,24 @@ def least_squares_fit(bundle: dict[str, Any], volume_m3: float,
                       dt_s: float = 900.0,
                       max_nfev: int = 60) -> dict[str, Any]:
     """Bounded least-squares refinement of the grid champion.
-
-    scipy.optimize.least_squares over (Q_lat, T_lat, c_mult) against the
-    train window, starting at the grid champion (or x0). Residuals are
-    raw train errors, so the optimum matches the grid's RMSE scale.
-    max_nfev caps forward runs (each costs one); the grid stays the
-    global search, this is local polish — not a replacement.
+    scipy.optimize.least_squares over (Q_lat, T_lat, c_mult) on train window.
     """
     import numpy as np
     from scipy.optimize import least_squares
+    if x0 is None:
+        raise ValueError("x0 (grid champion) is required")
+    if isinstance(max_nfev, bool) or not isinstance(max_nfev, int):
+        raise ValueError("max_nfev must be an integer")
+    if max_nfev <= 0:
+        raise ValueError("max_nfev must be positive")
+    knob_order = ("q_lat", "t_lat", "c_mult")
+    lower = [LS_BOUNDS[k][0] for k in knob_order]
+    upper = [LS_BOUNDS[k][1] for k in knob_order]
+    for name, value, lo, hi in zip(knob_order, x0, lower, upper):
+        xv = _finite(value, f"x0[{name}]")
+        if not lo <= xv <= hi:
+            raise ValueError(
+                f"x0[{name}]={xv:g} outside LS_BOUNDS[{lo:g}, {hi:g}]")
     arrays = _fit_forcing_arrays(bundle, dt_s)
     grid = arrays["grid"]
     down = bundle["sites"]["06036905"]["series"]
@@ -606,10 +1088,6 @@ def least_squares_fit(bundle: dict[str, Any], volume_m3: float,
         fwd = run_fit_forward(bundle, volume_m3, area_m2, q, t, c, dt_s)
         return np.asarray(fwd["modeled_c"][train]) - train_target
 
-    if x0 is None:
-        raise ValueError("x0 (grid champion) is required")
-    lower = [LS_BOUNDS[k][0] for k in ("q_lat", "t_lat", "c_mult")]
-    upper = [LS_BOUNDS[k][1] for k in ("q_lat", "t_lat", "c_mult")]
     result = least_squares(residuals, list(x0), bounds=(lower, upper),
                            max_nfev=max_nfev)
     q, t, c = (float(result.x[0]), float(result.x[1]),
@@ -630,21 +1108,13 @@ def ivp_crosscheck(bundle: dict[str, Any], volume_m3: float, area_m2: float,
                    lateral_q: float, lateral_t: float, c_mult: float,
                    dt_s: float = 900.0,
                    euler_dt_s: float | None = None) -> dict[str, Any]:
-    """Independent RK45 integration of the lumped cell vs backward-Euler.
-
-    Same volume, area, laterals, and the shared forcing arrays — the
-    only difference is the integrator: adaptive RK45 on the NONLINEAR
-    surface budget vs River's backward-Euler on step-frozen linearized
-    forcing. At the fit's dt the two differ by first-order truncation
-    (tenths of a °C on fast transients — measured, not assumed), so the
-    verification is CONVERGENCE: halve euler_dt_s and the max gap must
-    roughly halve. euler_dt_s defaults to dt_s and must divide it; both
-    trajectories are compared at the dt_s sample times.
+    """RK45 integration of the lumped cell versus River backward Euler.
+    Diffs measure timestep and integration-method error; repeat at smaller dt_s.
     """
     import numpy as np
     from scipy.integrate import solve_ivp
     from .river_transport import RHO_CP_J_M3_K
-    from .surface_flux import BudgetParams, MetState, flux_at
+    from .surface_flux import MetState, flux_at
     arrays = _fit_forcing_arrays(bundle, dt_s)
     grid = arrays["grid"]
     rel = np.asarray([g - grid[0] for g in grid])
@@ -659,10 +1129,12 @@ def ivp_crosscheck(bundle: dict[str, Any], volume_m3: float, area_m2: float,
                           c_e=BudgetParams.c_e * c_mult)
 
     def hold(values: Any, t: float) -> float:
-        """Zero-order hold matching Series.at (bisect_right, previous knot)."""
+        """Zero-order hold matching Series.at (bisect_right, previous knot).
+        Pre-grid queries return the first value, matching Series.at semantics.
+        """
         index = int(np.searchsorted(rel, t, side="right")) - 1
         if index < 0:
-            index = len(values) - 1
+            index = 0
         return float(values[min(index, len(values) - 1)])
 
     def rhs(t: float, y: Any) -> Any:
@@ -682,8 +1154,13 @@ def ivp_crosscheck(bundle: dict[str, Any], volume_m3: float, area_m2: float,
         initial_c=arrays["up_t"][0])
     n = len(grid) - 1
     step = euler_dt_s if euler_dt_s is not None else dt_s
-    if step <= 0 or dt_s % step != 0:
-        raise ValueError("euler_dt_s must be positive and divide dt_s")
+    if step <= 0:
+        raise ValueError("euler_dt_s must be positive")
+    sub_steps = round(dt_s / step)
+    if sub_steps < 1 or abs(dt_s - sub_steps * step) > 1e-9 * dt_s:
+        raise ValueError(
+            f"euler_dt_s={step:g} does not divide dt_s={dt_s:g} to "
+            f"float tolerance (nearest ratio {sub_steps})")
     frames = river.run(n * dt_s, dt_s=step, sample_s=dt_s)
     euler_t = np.asarray([f["temperature_c"][0] for f in frames])
     solution = solve_ivp(rhs, (0.0, n * dt_s), [arrays["up_t"][0]],
@@ -695,6 +1172,22 @@ def ivp_crosscheck(bundle: dict[str, Any], volume_m3: float, area_m2: float,
             f"solve_ivp failed: {solution.message}")
     rk_t = solution.y[0]
     diff = np.abs(rk_t - euler_t)
+    budget = river.budget()
+    euler_budget_ok = (
+        budget["heat_relative_residual"] <= 1e-5
+        and budget.get("surface_iteration_failures", 0) == 0
+    )
+    surface_solver_diag = {
+        "max_iterations_used": budget.get(
+            "max_surface_iterations_used", None
+        ),
+        "iteration_failures": budget.get(
+            "surface_iteration_failures", 0
+        ),
+        "max_surface_linearization_error_w": budget.get(
+            "max_surface_linearization_error_w", None
+        ),
+    }
     return {"n_steps": n + 1, "rk_nfev": int(solution.nfev),
             "euler_dt_s": step,
             "max_abs_diff_c": float(np.max(diff)),
@@ -702,13 +1195,16 @@ def ivp_crosscheck(bundle: dict[str, Any], volume_m3: float, area_m2: float,
             "argmax_s": float(int(np.argmax(diff)) * dt_s),
             "rk_final_c": float(rk_t[-1]),
             "euler_final_c": float(euler_t[-1]),
-            "budget_ok": river.budget()["heat_relative_residual"] <= 1e-5}
+            "euler_budget_ok": euler_budget_ok,
+            "budget_ok": euler_budget_ok,
+            "budget_ok_scope": (
+                "euler_only; RK45 lacks a closed heat residual here, so "
+                "this flag reports the River backward-Euler budget only"
+            ),
+            "surface_solver": surface_solver_diag}
 
 
-# ---------------------------------------------------------------------------
 # CLI
-# ---------------------------------------------------------------------------
-
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -804,7 +1300,14 @@ def main() -> int:
                 "name": "lumped_fit_k3", **aic_bic(rss, n_train, 3),
                 "train_rmse": polished["train_rmse"],
                 "holdout_rmse": polished["holdout_rmse"]}]
-            for null, k in zip(fit_doc["null_models"], (0, 2, 1)):
+            null_param_counts = {
+                "upstream_persistence": 0,
+                "mixing_only_c0_refit": 2,
+                "mixing_only_c0_at_champion_laterals": 0,
+                "downstream_climatology": 1,
+            }
+            for null in fit_doc["null_models"]:
+                k = null_param_counts[null["name"]]
                 rss_n = (null["train_rmse"] ** 2) * n_train
                 models.append({"name": null["name"],
                                **aic_bic(rss_n, n_train, k),
@@ -818,8 +1321,10 @@ def main() -> int:
                 "effective_geometry": {
                     "volume_m3": args.volume_m3,
                     "area_m2": args.area_m2,
-                    "status": ("authored_illustrative_effective_"
-                               "mixing_volume")},
+                    "surface_area_m2": args.area_m2,
+                    "status": ("authored_illustrative_effective_mixing_volume; "
+                               "surface area is area_m2, not cross-sectional; "
+                               "see fixes-15.2 calibration notes")},
                 "grid_champion": champ, "polished": polished,
                 "selection": models,
                 "train_skill": skill_scores(fwd["modeled_c"][train],

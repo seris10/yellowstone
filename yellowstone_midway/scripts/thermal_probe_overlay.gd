@@ -1,7 +1,6 @@
 extends Node3D
 
-## Optional simulated-temperature markers.
-## Fixed color scale supports comparison between control and pulse runs.
+## Lives in study.tscn, requires ecosystem_path to the Ecosystem child. Fixed color scale supports comparison between control and pulse runs.
 
 @export var ecosystem_path: NodePath
 @export var temperature_min_c: float = 17.0
@@ -12,6 +11,8 @@ var _markers: Array[MeshInstance3D] = []
 
 func _ready() -> void:
 	visible = false
+	if ecosystem_path.is_empty():
+		push_warning("Thermal overlay has no ecosystem_path; markers will stay hidden.")
 	if temperature_max_c <= temperature_min_c:
 		push_error("Thermal overlay requires increasing temperature bounds.")
 		set_process(false)

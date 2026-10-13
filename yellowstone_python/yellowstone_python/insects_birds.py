@@ -4,22 +4,37 @@ from __future__ import annotations
 import copy
 import math
 
-HOVER_THRESHOLD = 0.035  # wildlife_actor.gd::_update_insects (legacy interface)
+HOVER_THRESHOLD = 0.035  # wildlife_actor.gd::_update_insects; strict > threshold matches the renderer.
+WIND_DECAY_SCALE = 8.0  # m/s scale for wind mortality on emergent prey
+# Civil-twilight band in degrees: light fades to zero at -6 deg elevation.
+SUNLIGHT_CIVIL_TWILIGHT_DEG = -6.0
+
+
+def _solar_elevation_deg_from_hour(hour: float) -> float:
+    """Nominal solar elevation (deg) from local solar hour.
+    Cosine profile peaking at hour 12 with 90 deg amplitude."""
+    return 90.0 * math.cos((float(hour) - 12.0) * math.pi / 12.0)
 
 
 def sunlight(hour: float) -> float:
-    return max(0.0, math.sin((float(hour) - 6.0) * math.pi / 12.0))
+    """Smooth sunlight weight in [0, 1] from solar elevation.
+    Linear ramp from zero at -6 deg civil twilight to one at zenith; no hard clip at sunrise/sunset."""
+    hour = _finite("hour", hour)
+    elev = _solar_elevation_deg_from_hour(hour)
+    span = 90.0 - SUNLIGHT_CIVIL_TWILIGHT_DEG
+    return min(1.0, max(0.0, (elev - SUNLIGHT_CIVIL_TWILIGHT_DEG) / span))
 
 
 def wind_factor(wind_mps: float) -> float:
-    """Exposed insects suppress flight in wind; calm → 1."""
-    return math.exp(-max(0.0, float(wind_mps)) / 8.0)
+    """Exposed insects suppress flight in wind; calm returns 1."""
+    wind_mps = _nonnegative("wind_mps", wind_mps)
+    return math.exp(-wind_mps / WIND_DECAY_SCALE)
 
 
 def flowering_factor(stage: float) -> float:
     """0 = no bloom, 1 = full bloom; food baseline 0.5 even without bloom."""
-    s = min(1.0, max(0.0, float(stage)))
-    return 0.5 + 0.5 * s
+    stage = _unit_interval("stage", stage)
+    return 0.5 + 0.5 * stage
 
 
 def insect_activity(*, sun: float, air_c: float, cloud: float,
@@ -41,15 +56,18 @@ def insect_activity(*, sun: float, air_c: float, cloud: float,
 
 
 def foraging_state(activity: float) -> str:
-    return "hover" if float(activity) > HOVER_THRESHOLD else "inactive"
+    activity = _finite("activity", activity)
+    return "hover" if activity > HOVER_THRESHOLD else "inactive"
 
 
 def bird_timing(activity: float, base_perch_s: float,
                 base_forage_s: float) -> tuple[float, float]:
-    """High activity → shorter perch, longer forage bout (bounded)."""
-    a = min(1.0, max(0.0, float(activity)))
-    perch = float(base_perch_s) * (1.5 - a)
-    forage = float(base_forage_s) * (0.5 + a)
+    """High activity -> shorter perch, longer forage bout (bounded)."""
+    activity = _unit_interval("activity", activity)
+    base_perch_s = _nonnegative("base_perch_s", base_perch_s)
+    base_forage_s = _nonnegative("base_forage_s", base_forage_s)
+    perch = base_perch_s * (1.5 - activity)
+    forage = base_forage_s * (0.5 + activity)
     return (max(2.0, perch), max(2.0, forage))
 
 
@@ -73,18 +91,29 @@ def step_resource(resource: float, recovery_per_hour: float, sun: float,
     return min(1.0, max(0.0, resource + gain - max(0.0, consumed)))
 
 
+def _validate_wildlife_records(wildlife: list) -> None:
+    """Raise if wildlife list contains non-mapping entries."""
+    if not isinstance(wildlife, list):
+        raise ValueError("wildlife must be a list")
+    for i, rec in enumerate(wildlife):
+        if not isinstance(rec, dict):
+            raise ValueError(f"wildlife[{i}] must be a mapping")
+
+
 def update_wildlife(wildlife: list, activity_by_patch: dict) -> list:
-    """Retune dipper/raven cadence from shared activity. Kept because wildlife_actor.gd reads timer values from records. Prefer update_wildlife_from_intake() for intake-driven timing."""
+    """Retune dipper/raven cadence from shared activity.
+    Prefer update_wildlife_from_intake() for intake-driven timing."""
+    _validate_wildlife_records(wildlife)
     out = copy.deepcopy(wildlife)
     for rec in out:
         if rec.get("id") not in ("dipper_01", "raven_01"):
             continue
-        a = activity_by_patch.get(rec.get("patch_id", ""), 0.0)
-        perch, forage = bird_timing(a, rec.get("perch_seconds", 12.0),
+        activity = _finite("activity", float(activity_by_patch.get(rec.get("patch_id", ""), 0.0)))
+        perch, forage = bird_timing(activity, rec.get("perch_seconds", 12.0),
                                     rec.get("forage_seconds", 18.0))
         rec["perch_seconds"] = round(perch, 2)
         rec["forage_seconds"] = round(forage, 2)
-        rec["activity_basis"] = round(a, 4)
+        rec["activity_basis"] = round(activity, 4)
     return out
 
 
@@ -108,8 +137,10 @@ def holling_type_ii(n: float, attack_rate: float,
 def develop_benthic(nb: float, water_c: float, dt_s: float,
                     tbase: float = 4.0, rate: float = 0.02,
                     capacity: float = 1.0, disturbance: float = 0.0,
-                    t_cutoff: float | None = None) -> tuple[float, float]:
-    """Benthic larvae degree-day development to emergence flux."""
+                    t_cutoff: float | None = None
+                    ) -> tuple[float, float, float]:
+    """Benthic degree-day development to emergence flux.
+    Returns (nb_new, emergence, disturbance_loss); disturbance_loss is the stock removed by shear."""
     nb = _finite("nb", nb)
     # Float noise from prior steps reads as tiny negatives; clamp those.
     if -1e-12 < nb < 0.0:
@@ -130,11 +161,40 @@ def develop_benthic(nb: float, water_c: float, dt_s: float,
     else:
         dd = max(0.0, water_c - tbase) * dt_s / 86400.0
     emergence = min(nb, float(rate) * dd * nb)
-    nb2 = nb - emergence
-    nb2 *= max(0.0, 1.0 - float(disturbance))
+    remaining = nb - emergence
+    disturbance_loss = remaining * float(disturbance)
+    remaining -= disturbance_loss
     hours = dt_s / 3600.0
-    nb2 = min(capacity, nb2 + 0.01 * (1.0 - nb2 / capacity) * hours)
-    return (max(0.0, nb2), emergence)
+    nb2 = min(capacity, remaining + 0.01 * (1.0 - remaining / capacity) * hours)
+    return (max(0.0, nb2), emergence, disturbance_loss)
+
+
+def develop_benthic_grid(nb_cells: list, water_c_cells: list, dt_s: float,
+                         tbase: float = 4.0, rate: float = 0.02,
+                         capacity: float = 1.0, disturbance: float = 0.0,
+                         t_cutoff: float | None = None) -> dict:
+    """Per-cell develop_benthic driven by a per-cell temperature array.
+    Lengths must match; returns dict with nb, emergence, disturbance_loss lists."""
+    if not isinstance(nb_cells, (list, tuple)):
+        raise ValueError("nb_cells must be a list or tuple")
+    if not isinstance(water_c_cells, (list, tuple)):
+        raise ValueError("water_c_cells must be a list or tuple")
+    if len(nb_cells) != len(water_c_cells):
+        raise ValueError(
+            f"nb_cells length {len(nb_cells)} != water_c_cells "
+            f"length {len(water_c_cells)}")
+    nb_out: list[float] = []
+    emergence_out: list[float] = []
+    disturb_out: list[float] = []
+    for nb_i, t_i in zip(nb_cells, water_c_cells):
+        nb_new, emergence, disturb_loss = develop_benthic(
+            nb_i, t_i, dt_s, tbase=tbase, rate=rate, capacity=capacity,
+            disturbance=disturbance, t_cutoff=t_cutoff)
+        nb_out.append(nb_new)
+        emergence_out.append(emergence)
+        disturb_out.append(disturb_loss)
+    return {"nb": nb_out, "emergence": emergence_out,
+            "disturbance_loss": disturb_out}
 
 
 PREY_COMPARTMENTS = frozenset({
@@ -221,24 +281,29 @@ INSECT_GROUPS = {
 
 
 def trout_diet_at_temp(water_c: float) -> dict[str, float]:
-    """Trout benthic-vs-emergent shares shift with temperature. Cold water: almost entirely benthic; warm water: heavily emerging (Kaeding & Kaya 1978). Linear transition 15 -> 21 C; shape authored, endpoints transferred. Molluscs not modeled."""
-    t = float(water_c)
-    frac = min(1.0, max(0.0, (t - 15.0) / (21.0 - 15.0)))
+    """Trout benthic-vs-emergent shares shift with temperature (Kaeding & Kaya 1978).
+    Linear transition 15 to 21 C; molluscs omitted."""
+    water_c = _finite("water_c", water_c)
+    frac = min(1.0, max(0.0, (water_c - 15.0) / (21.0 - 15.0)))
     return {"emergent": 0.2 + 0.5 * frac, "benthic": 0.8 - 0.5 * frac}
 
 
 def step_compartments(state: dict, forcing: dict, dt_s: float,
                       consumers: dict | None = None) -> tuple[dict, dict]:
-    """Advance {Nt, Nb, Ne} one step. forcing: sun/air/cloud/moisture/wind/
-    flowering/water_c/disturbance. consumers: {dipper:{a,h,share}, ...}.
-    Returns (new_state, ledger{emergence, consumed_by, activity})."""
+    """Advance {Nt, Nb, Ne} one step.
+    Returns (new_state, ledger{emergence, consumed_by, activity, state, wind_loss, disturbance_loss})."""
     f = forcing
-    sun = float(f.get("sun", 0.5))
-    bloom = 0.5 + 0.5 * min(1.0, max(0.0, float(f.get("flowering", 0.5))))
-    nt = max(0.0, float(state.get("Nt", 0.5)))
+    sun = _unit_interval("sun", float(f.get("sun", 0.5)))
+    cloud = _unit_interval("cloud", float(f.get("cloud", 0.2)))
+    moisture = _unit_interval("moisture", float(f.get("moisture", 0.6)))
+    flowering_forced = _unit_interval("flowering", float(f.get("flowering", 0.5)))
+    bloom = 0.5 + 0.5 * min(1.0, max(0.0, flowering_forced))
+    nt = _unit_interval("Nt", float(state.get("Nt", 0.5)))
+    dt_s = _nonnegative("dt_s", dt_s)
     hours = dt_s / 3600.0
     nt += (0.05 * sun * bloom * nt * (1.0 - nt) - 0.01 * nt) * hours
-    nb, emergence = develop_benthic(
+    nt = min(1.0, max(0.0, nt))
+    nb, emergence, disturbance_loss = develop_benthic(
         float(state.get("Nb", 0.5)), float(f.get("water_c", 15.0)), dt_s,
         disturbance=float(f.get("disturbance", 0.0)))
     ne = max(0.0, float(state.get("Ne", 0.2)) + emergence)
@@ -290,23 +355,28 @@ def step_compartments(state: dict, forcing: dict, dt_s: float,
     nt = prey["terrestrial"]
     nb = prey["benthic"]
     ne = prey["emergent"]
-    ne *= math.exp(-max(0.0, float(f.get("wind_mps", 0.0))) / 8.0 * hours)
-    new_state = {"Nt": round(max(0.0, nt), 6), "Nb": round(max(0.0, nb), 6),
+    ne *= math.exp(-max(0.0, float(f.get("wind_mps", 0.0))) / WIND_DECAY_SCALE * hours)
+    wind_loss = 1.0 - math.exp(-max(0.0, float(f.get("wind_mps", 0.0))) / WIND_DECAY_SCALE * hours)
+    new_state = {"Nt": round(min(1.0, max(0.0, nt)), 6),
+                 "Nb": round(max(0.0, nb), 6),
                  "Ne": round(max(0.0, ne), 6)}
     activity = insect_activity(
-        sun=sun, air_c=float(f.get("air_c", 15.0)),
-        cloud=float(f.get("cloud", 0.2)), moisture=float(f.get("moisture", 0.6)),
-        resource=new_state["Nt"], wind_mps=float(f.get("wind_mps", 0.0)),
-        flowering=float(f.get("flowering", 0.5)))
+        sun=sun, air_c=_finite("air_c", float(f.get("air_c", 15.0))),
+        cloud=_unit_interval("cloud", float(f.get("cloud", 0.2))),
+        moisture=_unit_interval("moisture", float(f.get("moisture", 0.6))),
+        resource=min(1.0, max(0.0, new_state["Nt"])),
+        wind_mps=float(f.get("wind_mps", 0.0)),
+        flowering=_unit_interval("flowering", float(f.get("flowering", 0.5))))
     ledger = {"emergence": round(emergence, 6), "consumed_by": consumed_by,
               "activity": round(activity, 4),
+              "wind_loss": round(wind_loss, 6),
+              "disturbance_loss": round(disturbance_loss, 6),
               "state": foraging_state(activity)}
     return new_state, ledger
 
 
 DEFAULT_DIETS = {
-    # Dipper: benthic wading + emergent aerial; trout: emergent/drift;
-    # raven: generalist background (never reducible to the insect signal).
+    # Dipper: benthic + emergent; trout: emergent/drift; raven: generalist background.
     "dipper": {"a": 1.2, "h": 0.4, "diet": {"benthic": 0.7, "emergent": 0.3}},
     "trout": {"a": 1.0, "h": 0.5, "diet": {"emergent": 0.6, "benthic": 0.4}},
     "raven": {"a": 0.4, "h": 0.8, "diet": {"terrestrial": 0.6, "emergent": 0.4}},
@@ -316,16 +386,17 @@ DEFAULT_DIETS = {
 def update_wildlife_from_intake(wildlife: list, intake_by_id: dict,
                                 basis_by_consumer: dict | None = None) -> list:
     """Bout timing from Holling intake rate (satiation shortens foraging).
-    intake_by_id: consumer id → prey/hour. Raven floor: generalist diet keeps
-    a baseline bout regardless of insect intake."""
+    intake_by_id: consumer id -> prey/hour; raven floor keeps a baseline bout."""
     basis_by_consumer = basis_by_consumer or {}
+    _validate_wildlife_records(wildlife)
     out = copy.deepcopy(wildlife)
     for rec in out:
         rid = rec.get("id")
         if rid not in ("dipper_01", "raven_01"):
             continue
         consumer = "dipper" if "dipper" in rid else "raven"
-        intake = float(intake_by_id.get(consumer, 0.0))
+        intake = _nonnegative(f"{consumer} intake",
+                            float(intake_by_id.get(consumer, 0.0)))
         satiety = min(1.0, intake * 4.0)
         base_p, base_f = rec.get("perch_seconds", 12.0), rec.get("forage_seconds", 18.0)
         if "raven" in rid:
@@ -340,14 +411,20 @@ def update_wildlife_from_intake(wildlife: list, intake_by_id: dict,
 
 def daily_trace(patch: dict, weather: dict, wind_mps: float = 0.0,
                 flowering: float = 0.5) -> list:
-    """Hourly activity proving overcast+wind → inactive, calm sun → hover."""
+    """Hourly activity proving overcast+wind -> inactive, calm sun -> hover."""
+    if not isinstance(patch, dict):
+        raise ValueError("patch must be a mapping")
+    if not isinstance(weather, dict):
+        raise ValueError("weather must be a mapping")
+    wind_mps = _nonnegative("wind_mps", wind_mps)
+    flowering = _unit_interval("flowering", flowering)
     out = []
     for h in range(24):
         sun = sunlight(h)
         a = insect_activity(sun=sun, air_c=7.0 + 15.0 * sun,
-                            cloud=weather.get("cloud", 0.16),
-                            moisture=patch.get("moisture", 0.6),
-                            resource=patch.get("insect_resource", 0.8),
+                            cloud=_finite("cloud", float(weather.get("cloud", 0.16))),
+                            moisture=_finite("moisture", float(patch.get("moisture", 0.6))),
+                            resource=_finite("resource", float(patch.get("insect_resource", 0.8))),
                             wind_mps=wind_mps, flowering=flowering)
         out.append({"hour": h, "activity": round(a, 4),
                     "state": foraging_state(a)})

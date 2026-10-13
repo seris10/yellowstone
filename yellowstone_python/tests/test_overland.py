@@ -1,7 +1,6 @@
 """Offline tests for M12 overland_flow (synthetic terrain, no network).
 
-hydrosim is an optional sibling checkout; when it is absent the module must
-degrade to a not_available status instead of raising.
+When hydrosim is absent the module degrades to a not_available status.
 """
 import math
 
@@ -123,3 +122,45 @@ def test_configuration_records_effective_settings(tmp_path):
         assert key in cfg
     assert cfg["source_dem_cells"] == [GRID, GRID]
     assert cfg["downsampling"] == "block_mean_full_extent"
+    assert cfg["runoff_boundary_mode"] == "closed_domain"
+    assert cfg["boundary_role"] == "upstream_inflow"
+    assert out["outflow_mapping_status"] == "not_available"
+    assert out["runoff_series"] is None
+    diag = out["solver_diagnostics"]
+    assert diag["cfl_exceeded_count"] == 0
+    assert "boundary_condition" in diag
+    assert "outflow_slope" in diag
+
+
+def test_open_edges_validation_rejects_unknown(tmp_path):
+    root = _write_terrain(tmp_path)
+    with pytest.raises(ValueError, match="unknown open edges"):
+        run_overland(root, grid=8, sim_s=60.0, dt_s=60.0,
+                     open_edges=("east",))
+    with pytest.raises(ValueError, match="string"):
+        run_overland(root, grid=8, sim_s=60.0, dt_s=60.0,
+                     open_edges="left")
+
+
+def test_boundary_role_round_trips_in_configuration(tmp_path):
+    root = _write_terrain(tmp_path)
+    out = run_overland(root, grid=8, sim_s=0.0, dt_s=60.0,
+                       boundary_role="lateral_source")
+    # sim_s=0 skips the hydrosim loop; the response is not_available or illustrative_not_calibrated depending on install, and the configured role echoes back.
+    if "configuration" in out:
+        assert out["configuration"]["boundary_role"] == "lateral_source"
+    with pytest.raises(ValueError, match="boundary_role"):
+        run_overland(root, grid=8, sim_s=0.0, dt_s=60.0,
+                     boundary_role="floating")
+
+
+@needs_hydrosim
+def test_rain_schedule_mapping_splits_at_breakpoints(tmp_path):
+    root = _write_terrain(tmp_path)
+    schedule = {"times_s": [0.0, 60.0], "values": [20.0, 0.0]}
+    out = run_overland(root, grid=8, sim_s=120.0, dt_s=120.0,
+                       rain_mm_h=schedule)
+    assert out["rain_schedule"]["mode"] == "piecewise_constant"
+    # The breakpoint at t=60 splits the single 120 s step into two.
+    assert len(out["outflow_series"]["times_s"]) == 2
+    assert out["rain_mm_h"] == pytest.approx(10.0, rel=1e-9)

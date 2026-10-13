@@ -62,8 +62,7 @@ def test_reviewed_ids_derive_from_cells():
 
 
 def test_review_honors_suitability_threshold():
-    # Suitability here is ~0.095 for every candidate: below the default
-    # 0.12 floor, above an explicit 0.0 gate.
+    # Suitability here is about 0.095 for each candidate: below the default 0.12 floor and above an explicit 0.0 gate.
     from yellowstone_python.review_proposals import review
     kw = dict(guild="meadow_grass", center_xz=(0, 0), radius_m=30,
               count=10, seed=11, habitat_id="dry_meadow",
@@ -142,6 +141,36 @@ def test_load_terrain_refuses_nonfinite(tmp_path):
     path.write_bytes(h.tobytes())
     with pytest.raises(ValueError, match="NaN or infinite"):
         load_terrain(str(path))
+
+
+def test_propose_plantings_reviewed_applies_constraints():
+    class _Pc:
+        def excluded(self, x, z):
+            return x > 0.0
+
+    kw = dict(guild="lodgepole_pine", center_xz=(0, 0), radius_m=30,
+              count=50, seed=7, habitat_id="forest_edge",
+              terrain_fn=_flat_terrain(),
+              patches=[{"id": "p", "center_xz": [0, 0], "radius_m": 200,
+                        "moisture": 0.6}],
+              suitability_threshold=0.12,
+              constraints=_Pc())
+    accepted, log = propose_plantings_reviewed(**kw)
+    for r in accepted:
+        assert r["x"] <= 0.0
+    assert any(row.get("reason") == "placement_constraints_exclusion"
+               for row in log)
+
+
+def test_propose_plantings_reviewed_rejects_bad_constraints():
+    import pytest
+    with pytest.raises(TypeError):
+        propose_plantings_reviewed(
+            "lodgepole_pine", (0, 0), 30, 5, 7,
+            terrain_fn=_flat_terrain(),
+            patches=[{"id": "p", "center_xz": [0, 0], "radius_m": 200,
+                      "moisture": 0.6}],
+            constraints=object())
 
 
 def test_render_suitability_validates_inputs_and_creates_dirs(tmp_path):

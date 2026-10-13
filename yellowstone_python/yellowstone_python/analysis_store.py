@@ -13,8 +13,12 @@ SCHEMA_VERSION = "yellowstone.analysis_store.v1"
 STATUS = "illustrative"
 CONFIDENCES = ("low", "medium", "high")
 
-# Unit factors: SNOTEL stores WTEQ/PRCP/SNWD in inches, TAVG/TMAX/TMIN in degF.
+# Unit factors for SNOTEL raw codes (depth codes in inches, temperature codes in degF).
 IN_TO_MM = 25.4
+
+
+class NoStoreError(FileNotFoundError):
+    """Raised when no analysis store file exists at the resolved path."""
 
 
 def f_to_c(f: float) -> float:
@@ -29,7 +33,7 @@ def _finite_float(name: str, value, *, allow_none=False):
     if value is None and allow_none:
         return None
     if isinstance(value, bool):
-        raise ValueError(f"{name} must be numeric, not boolean")
+        raise ValueError(f"{name} must be numeric (boolean rejected)")
     try:
         result = float(value)
     except (TypeError, ValueError) as exc:
@@ -53,15 +57,15 @@ def _sha256(path: Path) -> str:
 
 
 def require_rtree(con: sqlite3.Connection) -> None:
-    """Fail loudly if this SQLite lacks the R-tree module."""
+    """Raise RuntimeError when the connected SQLite lacks the R-tree module."""
     try:
         con.execute("CREATE VIRTUAL TABLE IF NOT EXISTS "
                     "_rtree_probe USING rtree(id, x0, x1, z0, z1)")
         con.execute("DROP TABLE _rtree_probe")
     except sqlite3.OperationalError as exc:
         raise RuntimeError(
-            f"SQLite R-tree module unavailable ({exc}); refusing to build "
-            f"a store that would silently full-scan spatial queries"
+            f"SQLite R-tree module unavailable ({exc}); spatial queries "
+            f"require it"
         ) from exc
 
 
@@ -95,17 +99,22 @@ CREATE TABLE fits_reach(
   source_file TEXT NOT NULL, volume_m3 REAL,
   q_lat REAL, t_lat REAL, c_mult REAL,
   train_rmse REAL, holdout_rmse REAL, train_bias REAL, holdout_bias REAL,
-  champion INTEGER NOT NULL, status TEXT NOT NULL);
+  champion INTEGER NOT NULL, status TEXT NOT NULL,
+  window_start_epoch REAL, window_end_epoch REAL,
+  n_train INTEGER, n_holdout INTEGER);
 CREATE TABLE fits_reach_nulls(
   source_file TEXT NOT NULL, name TEXT NOT NULL,
   q_lat REAL, t_lat REAL, c_mult REAL,
-  train_rmse REAL, holdout_rmse REAL);
+  train_rmse REAL, holdout_rmse REAL,
+  k INTEGER);
+CREATE INDEX fits_reach_nulls_src_name ON fits_reach_nulls(source_file, name);
 CREATE TABLE fits_snow(
   source_file TEXT NOT NULL, site TEXT NOT NULL,
   k_melt REAL, wind_loss REAL,
   train_rmse_mm REAL, holdout_rmse_mm REAL, holdout_bias_mm REAL,
   null_persistence_rmse_mm REAL, null_nomelt_rmse_mm REAL,
-  peak_timing_err_d REAL, status TEXT NOT NULL);
+  peak_timing_err_d REAL, status TEXT NOT NULL,
+  holdout_start_day TEXT, holdout_end_day TEXT);
 CREATE TABLE meta(
   schema_version TEXT NOT NULL, build_id TEXT NOT NULL,
   source_shas TEXT NOT NULL, created_utc TEXT NOT NULL,
@@ -123,10 +132,18 @@ def _unwrap_replay(doc: dict) -> dict:
 
 
 def _velocity_of(cell: dict) -> float:
-    hydro = cell.get("hydraulics") or {}
-    v = hydro.get("velocity_continuity_m_s",
-                  cell.get("representative_velocity_m_s", 0.0))
-    return float(v or 0.0)
+    """Velocity (m/s) from continuity first, representative fallback. None raises."""
+    hydro = cell.get("hydraulics")
+    if isinstance(hydro, dict) and hydro.get("velocity_continuity_m_s") is not None:
+        return _finite_float("velocity_continuity_m_s",
+                             hydro["velocity_continuity_m_s"])
+    if cell.get("representative_velocity_m_s") is not None:
+        return _finite_float("representative_velocity_m_s",
+                             cell["representative_velocity_m_s"])
+    raise ValueError(
+        f"replay cell {cell.get('id')!r}: no velocity "
+        f"(expected hydraulics.velocity_continuity_m_s or "
+        f"representative_velocity_m_s)")
 
 
 def create_empty() -> sqlite3.Connection:
@@ -142,7 +159,6 @@ def ingest_census(con: sqlite3.Connection, doc: dict) -> int:
         raise ValueError("census doc: 'trees' must be a list")
     n = 0
     for i, t in enumerate(trees):
-        sid = str(t.get("stable_id", f"missing_{i}"))
         for k in ("stable_id", "x", "z", "crown_r_m",
                   "confidence", "peak_exg"):
             if k not in t:
@@ -155,8 +171,7 @@ def ingest_census(con: sqlite3.Connection, doc: dict) -> int:
         crown_r = _finite_float(f"census tree #{i} crown_r_m", t["crown_r_m"])
         peak_exg = _finite_float(f"census tree #{i} peak_exg", t["peak_exg"])
         sid = str(t["stable_id"])
-        # OR REPLACE frees the old rowid; its R-tree entry would otherwise
-        # survive as garbage pointing at a dead (later reusable) rowid.
+        # Last write wins on duplicate stable_id; drop the paired rtree row for the retired rowid first.
         old = con.execute("SELECT rowid FROM census_trees WHERE stable_id=?",
                           (sid,)).fetchone()
         if old is not None:
@@ -173,26 +188,45 @@ def ingest_census(con: sqlite3.Connection, doc: dict) -> int:
     return n
 
 
+REQUIRED_REPLAY_CELL = (
+    "id", "river_id", "start_s_m", "end_s_m",
+    "length_m", "width_m", "depth_m", "volume_m3",
+)
+
+
 def ingest_replay(con: sqlite3.Connection, doc: dict) -> tuple[int, int]:
     rep = _unwrap_replay(doc)
     cells, frames = rep["cells"], rep["frames"]
-    # Clear replay tables before ingestion to prevent stale frames.
+    # Replay tables are rebuilt on each ingest.
     con.execute("DELETE FROM replay_frames")
     con.execute("DELETE FROM replay_cells")
     for ci, c in enumerate(cells):
-        if "id" not in c:
-            raise ValueError(f"replay cell #{ci}: missing 'id'")
+        for k in REQUIRED_REPLAY_CELL:
+            if k not in c:
+                raise ValueError(f"replay cell #{ci}: missing {k!r}")
+        start_s = _finite_float(f"replay cell #{ci} start_s_m", c["start_s_m"])
+        end_s = _finite_float(f"replay cell #{ci} end_s_m", c["end_s_m"])
+        if not start_s < end_s:
+            raise ValueError(
+                f"replay cell #{ci}: start_s_m {start_s} must be less than "
+                f"end_s_m {end_s}")
+        length = _finite_float(f"replay cell #{ci} length_m", c["length_m"])
+        width = _finite_float(f"replay cell #{ci} width_m", c["width_m"])
+        depth = _finite_float(f"replay cell #{ci} depth_m", c["depth_m"])
+        volume = _finite_float(f"replay cell #{ci} volume_m3", c["volume_m3"])
+        for label, value in (("length_m", length), ("width_m", width),
+                             ("depth_m", depth), ("volume_m3", volume)):
+            if value <= 0:
+                raise ValueError(
+                    f"replay cell #{ci}: {label} must be positive, got {value}")
+        center_s = _finite_float(
+            f"replay cell #{ci} center_s_m",
+            c.get("center_s_m", (start_s + end_s) / 2.0))
         vel = _velocity_of(c)
         con.execute(
             "INSERT OR REPLACE INTO replay_cells VALUES (?,?,?,?,?,?,?,?,?,?)",
-            (str(c["id"]), str(c.get("river_id", "?")),
-             float(c.get("center_s_m",
-                         (float(c.get("start_s_m", 0.0))
-                          + float(c.get("end_s_m", 0.0))) / 2.0)),
-             float(c.get("start_s_m", 0.0)), float(c.get("end_s_m", 0.0)),
-             float(c.get("length_m", 0.0)), float(c.get("width_m", 20.0)),
-             float(c.get("depth_m", 0.5)), vel,
-             float(c.get("volume_m3", 0.0))))
+            (str(c["id"]), str(c["river_id"]), center_s,
+             start_s, end_s, length, width, depth, vel, volume))
     nf = 0
     for f in frames:
         if "t_s" not in f or "temperature_c" not in f:
@@ -215,15 +249,48 @@ def ingest_replay(con: sqlite3.Connection, doc: dict) -> tuple[int, int]:
     return len(cells), nf
 
 
+def _ingest_firehole_series(label: str, pairs) -> dict:
+    if not isinstance(pairs, list):
+        raise ValueError(f"firehole {label}: series must be a list, got "
+                         f"{type(pairs).__name__}")
+    out: dict = {}
+    for i, pair in enumerate(pairs):
+        if not isinstance(pair, (list, tuple)) or len(pair) != 2:
+            raise ValueError(
+                f"firehole {label} #{i}: expected [epoch, value]")
+        epoch = _finite_float(f"firehole {label} #{i} epoch", pair[0])
+        value = _finite_float(f"firehole {label} #{i} value", pair[1],
+                              allow_none=True)
+        if epoch in out and out[epoch] != value:
+            raise ValueError(
+                f"firehole {label}: duplicate epoch {epoch} with "
+                f"divergent values ({out[epoch]} vs {value})")
+        out[epoch] = value
+    return out
+
+
 def ingest_firehole(con: sqlite3.Connection, doc: dict) -> int:
+    sites = doc.get("sites")
+    if not isinstance(sites, dict):
+        raise ValueError("firehole doc: 'sites' must be an object, got "
+                         f"{type(sites).__name__}")
     n = 0
-    for site, rec in doc.get("sites", {}).items():
-        series = rec.get("series", {})
-        q = {e: v for e, v in series.get("discharge_m3_s", [])}
-        t = {e: v for e, v in series.get("temperature_c", [])}
+    for site, rec in sites.items():
+        series = (rec or {}).get("series") or {}
+        q = _ingest_firehole_series(f"{site} discharge_m3_s",
+                                     series.get("discharge_m3_s", []))
+        t = _ingest_firehole_series(f"{site} temperature_c",
+                                     series.get("temperature_c", []))
         for epoch in sorted(set(q) | set(t)):
+            ep = _finite_float(f"firehole {site} epoch", epoch)
+            discharge = _finite_float(
+                f"firehole {site} discharge_m3_s@{epoch}",
+                q.get(epoch), allow_none=True)
+            temperature = _finite_float(
+                f"firehole {site} temperature_c@{epoch}",
+                t.get(epoch), allow_none=True)
             con.execute("INSERT INTO obs_usgs VALUES (?,?,?,?)",
-                        (site, float(epoch), q.get(epoch), t.get(epoch)))
+                        (site, ep, discharge, temperature))
             n += 1
     return n
 
@@ -238,15 +305,22 @@ def ingest_snotel(con: sqlite3.Connection, doc: dict) -> int:
             except ValueError:
                 raise ValueError(f"snotel: invalid date {day!r}; must be YYYY-MM-DD")
             d = rec["days"][day]
+
+            def _finite_optional_mm(code: str, value, converter):
+                if value is None:
+                    return None
+                _finite_float(f"snotel {site} {day} {code}", value)
+                return converter(value)
+
             con.execute(
                 "INSERT INTO obs_snotel VALUES (?,?,?,?,?,?,?,?)",
                 (site, day,
-                 in_to_mm(d["WTEQ"]) if d.get("WTEQ") is not None else None,
-                 in_to_mm(d["PRCP"]) if d.get("PRCP") is not None else None,
-                 in_to_mm(d["SNWD"]) if d.get("SNWD") is not None else None,
-                 f_to_c(d["TAVG"]) if d.get("TAVG") is not None else None,
-                 f_to_c(d["TMAX"]) if d.get("TMAX") is not None else None,
-                 f_to_c(d["TMIN"]) if d.get("TMIN") is not None else None))
+                 _finite_optional_mm("WTEQ", d.get("WTEQ"), in_to_mm),
+                 _finite_optional_mm("PRCP", d.get("PRCP"), in_to_mm),
+                 _finite_optional_mm("SNWD", d.get("SNWD"), in_to_mm),
+                 _finite_optional_mm("TAVG", d.get("TAVG"), f_to_c),
+                 _finite_optional_mm("TMAX", d.get("TMAX"), f_to_c),
+                 _finite_optional_mm("TMIN", d.get("TMIN"), f_to_c)))
             n += 1
     return n
 
@@ -255,29 +329,37 @@ def ingest_reach_fit(con: sqlite3.Connection, doc: dict,
                      source_file: str) -> int:
     champ = doc.get("champion") or {}
     vol = (doc.get("effective_geometry") or {}).get("volume_m3")
+    window = doc.get("window") or {}
+    window_start = window.get("start_epoch")
+    window_end = window.get("end_epoch")
+    n_train = doc.get("n_train")
+    n_holdout = doc.get("n_holdout")
     con.execute(
-        "INSERT INTO fits_reach VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO fits_reach VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (source_file, vol,
          champ.get("q_lat"), champ.get("t_lat"), champ.get("c_mult"),
          champ.get("train_rmse"), champ.get("holdout_rmse"),
          champ.get("train_bias"), champ.get("holdout_bias"), 1,
-         str(doc.get("status", ""))))
+         str(doc.get("status", "")),
+         window_start, window_end, n_train, n_holdout))
     for row in doc.get("top10_train", [])[:10]:
         if (row.get("q_lat") == champ.get("q_lat")
                 and row.get("t_lat") == champ.get("t_lat")
                 and row.get("c_mult") == champ.get("c_mult")):
             continue
         con.execute(
-            "INSERT INTO fits_reach VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO fits_reach VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (source_file, vol, row.get("q_lat"), row.get("t_lat"),
              row.get("c_mult"), row.get("train_rmse"),
              row.get("holdout_rmse"), row.get("train_bias"),
-             row.get("holdout_bias"), 0, str(doc.get("status", ""))))
+             row.get("holdout_bias"), 0, str(doc.get("status", "")),
+             window_start, window_end, n_train, n_holdout))
     for nm in doc.get("null_models", []) or []:
-        con.execute("INSERT INTO fits_reach_nulls VALUES (?,?,?,?,?,?,?)",
+        con.execute("INSERT INTO fits_reach_nulls VALUES (?,?,?,?,?,?,?,?)",
                     (source_file, str(nm.get("name", "?")),
                      nm.get("q_lat"), nm.get("t_lat"), nm.get("c_mult"),
-                     nm.get("train_rmse"), nm.get("holdout_rmse")))
+                     nm.get("train_rmse"), nm.get("holdout_rmse"),
+                     nm.get("k")))
     return 1
 
 
@@ -287,8 +369,30 @@ def ingest_snow_fit(con: sqlite3.Connection, doc: dict,
     for site, rec in doc.get("sites", {}).items():
         fit = rec.get("fitted", {})
         hold = rec.get("holdout_swe_mm", {})
+        # wind_loss is a dimensionless fraction in [0, 1]; reject anything else.
+        wl = fit.get("wind_loss_effective")
+        if wl is not None:
+            wl_f = _finite_float(f"snow fit {site} wind_loss_effective", wl)
+            if not 0.0 <= wl_f <= 1.0:
+                raise ValueError(
+                    f"snow fit {site}: wind_loss_effective={wl_f} outside "
+                    f"[0, 1] (dimensionless fraction)")
+        hold_start = hold.get("start_day")
+        hold_end = hold.get("end_day")
+        for label, value in (("holdout start_day", hold_start),
+                             ("holdout end_day", hold_end)):
+            if value is not None:
+                if not isinstance(value, str) or not value:
+                    raise ValueError(
+                        f"snow fit {site}: {label} must be a nonempty string")
+                try:
+                    datetime.date.fromisoformat(value)
+                except ValueError as exc:
+                    raise ValueError(
+                        f"snow fit {site}: {label} {value!r} must be "
+                        f"YYYY-MM-DD") from exc
         con.execute(
-            "INSERT INTO fits_snow VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO fits_snow VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (source_file, site,
              (fit.get("k_melt_mm_per_deg_day")),
              (fit.get("wind_loss_effective")),
@@ -297,7 +401,8 @@ def ingest_snow_fit(con: sqlite3.Connection, doc: dict,
              rec.get("null_persistence_rmse_mm"),
              rec.get("null_nomelt_rmse_mm"),
              rec.get("peak_timing_error_days"),
-             str(rec.get("status", doc.get("status", "")))))
+             str(rec.get("status", doc.get("status", ""))),
+             hold_start, hold_end))
         n += 1
     return n
 
@@ -334,11 +439,22 @@ def build_con(*, build_id: str, census: dict, replay: dict,
     return con
 
 
+def _source_record(path: Path) -> dict:
+    """Return a path/basename/sha256/bytes record for one source file."""
+    p = Path(path)
+    return {
+        "path": str(p.resolve()),
+        "basename": p.name,
+        "sha256": _sha256(p),
+        "bytes": p.stat().st_size,
+    }
+
+
 def build_file(*, build_dir: Path, out: Path,
                census_path: Path, firehole_path: Path, snotel_path: Path,
                reach_fit_paths: list[Path] | None = None,
                snow_fit_paths: list[Path] | None = None) -> dict:
-    """Build a store file from one build dir + obs inputs. Atomic write. Refuses to overwrite existing files."""
+    """Build a store file from one build dir and obs inputs. Atomic write; refuses to overwrite."""
     build_dir, out = Path(build_dir), Path(out)
     if out.exists():
         raise FileExistsError(
@@ -351,39 +467,67 @@ def build_file(*, build_dir: Path, out: Path,
         "firehole_obs": json.loads(Path(firehole_path).read_text()),
         "snotel_obs": json.loads(Path(snotel_path).read_text()),
     }
-    shas = {str(replay_path): _sha256(replay_path),
-            str(census_path): _sha256(census_path),
-            str(firehole_path): _sha256(firehole_path),
-            str(snotel_path): _sha256(snotel_path)}
+    shas: dict[str, dict] = {
+        f"derived/{build_dir.name}/river_replay.json": _source_record(replay_path),
+        "census": _source_record(census_path),
+        "firehole_obs": _source_record(firehole_path),
+        "snotel_obs": _source_record(snotel_path),
+    }
     reach_fits, snow_fits = [], []
     for p in reach_fit_paths or []:
         d = json.loads(Path(p).read_text())
         reach_fits.append((Path(p).name, d))
-        shas[str(p)] = _sha256(p)
+        shas[f"reach_fit:{Path(p).name}"] = _source_record(p)
     for p in snow_fit_paths or []:
         d = json.loads(Path(p).read_text())
         snow_fits.append((Path(p).name, d))
-        shas[str(p)] = _sha256(p)
+        shas[f"snow_fit:{Path(p).name}"] = _source_record(p)
     con = build_con(build_id=build_dir.name, census=docs["census"],
                     replay=docs["river_replay.json"],
                     firehole=docs["firehole_obs"], snotel=docs["snotel_obs"],
                     reach_fits=reach_fits, snow_fits=snow_fits,
                     source_shas=shas)
+    import os
     out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.with_suffix(out.suffix + ".tmp")
+    if tmp.exists():
+        tmp.unlink()
     disk = sqlite3.connect(str(tmp))
     try:
         con.backup(disk)
         disk.commit()
     finally:
         disk.close()
-    # Atomic replace; clean up any leftover temp files on failure.
+    # Fsync tmp before the rename, then fsync the parent directory to survive a crash.
     try:
+        file_handle = os.open(str(tmp), os.O_RDONLY)
+        try:
+            os.fsync(file_handle)
+        finally:
+            os.close(file_handle)
+        if out.exists():
+            raise FileExistsError(
+                f"{out} appeared after existence check (concurrent writer); "
+                f"refusing to overwrite")
         tmp.replace(out)
+        dir_handle = os.open(str(out.parent), os.O_RDONLY)
+        try:
+            os.fsync(dir_handle)
+        except OSError:
+            pass
+        finally:
+            os.close(dir_handle)
     except OSError:
         if tmp.exists():
             tmp.unlink()
         raise
+    # Mark the finished store read-only so a later open-for-write would fail.
+    import stat
+    try:
+        mode = out.stat().st_mode
+        out.chmod(mode & ~(stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
+    except OSError:
+        pass
     row = con.execute("SELECT notes FROM meta").fetchone()
     con.close()
     return {"out": str(out), "build_id": build_dir.name,
@@ -404,26 +548,43 @@ QUERY_TABLES: dict[str, list[str]] = {
                    "tavg_c", "tmax_c", "tmin_c"],
     "fits_reach": ["source_file", "volume_m3", "q_lat", "t_lat", "c_mult",
                    "train_rmse", "holdout_rmse", "train_bias",
-                   "holdout_bias", "champion", "status"],
+                   "holdout_bias", "champion", "status",
+                   "window_start_epoch", "window_end_epoch",
+                   "n_train", "n_holdout"],
     "fits_reach_nulls": ["source_file", "name", "q_lat", "t_lat", "c_mult",
-                         "train_rmse", "holdout_rmse"],
+                         "train_rmse", "holdout_rmse", "k"],
     "fits_snow": ["source_file", "site", "k_melt", "wind_loss",
                   "train_rmse_mm", "holdout_rmse_mm", "holdout_bias_mm",
                   "null_persistence_rmse_mm", "null_nomelt_rmse_mm",
-                  "peak_timing_err_d", "status"],
+                  "peak_timing_err_d", "status",
+                  "holdout_start_day", "holdout_end_day"],
     "meta": ["schema_version", "build_id", "source_shas", "created_utc",
              "status", "notes"],
 }
 DEFAULT_LIMIT = 100
 MAX_LIMIT = 5000
-# Circle-radius bounds single-sourced here; llm_backend aliases these.
+# Circle-radius bounds for density queries, in meters.
 RADIUS_MIN_M = 0.1
 RADIUS_MAX_M = 5000.0
 
 
+# Explicit per-table order-by clauses; the values are code constants that document the index each table relies on.
+ORDER_BY: dict[str, tuple[str, ...]] = {
+    "census_trees": ("stable_id",),
+    "replay_cells": ("cell_id",),
+    "replay_frames": ("cell_id", "t_s"),
+    "obs_usgs": ("site", "epoch"),
+    "obs_snotel": ("site", "day"),
+    "fits_reach": ("source_file", "champion DESC"),
+    "fits_reach_nulls": ("source_file", "name"),
+    "fits_snow": ("source_file", "site"),
+    "meta": ("rowid",),
+}
+
+
 def _as_float_strict(name: str, value) -> float:
     if isinstance(value, bool):
-        raise ValueError(f"{name} must be a number, not boolean")
+        raise ValueError(f"{name} must be a finite number (boolean rejected)")
     try:
         out = float(value)
     except (TypeError, ValueError) as exc:
@@ -435,7 +596,7 @@ def _as_float_strict(name: str, value) -> float:
 
 def _as_int_strict(name: str, value) -> int:
     if isinstance(value, bool):
-        raise ValueError(f"{name} must be an integer, not boolean")
+        raise ValueError(f"{name} must be an integer (boolean rejected)")
     if isinstance(value, int):
         return value
     if isinstance(value, float):
@@ -450,14 +611,25 @@ def _as_int_strict(name: str, value) -> int:
     raise ValueError(f"{name} must be an integer")
 
 
+def _require_nonempty_string(name: str, value) -> str:
+    if not isinstance(value, str) or not value:
+        raise ValueError(f"{name} must be a nonempty string")
+    return value
+
+
+def _require_enum(name: str, value, allowed) -> str:
+    if value not in allowed:
+        raise ValueError(f"{name} must be one of {tuple(allowed)}")
+    return value
+
+
 def _open(con_or_path) -> sqlite3.Connection:
+    """Return a read-only connection; caller-owned connections are not mutated."""
     if isinstance(con_or_path, sqlite3.Connection):
-        con = con_or_path
-        con.execute("PRAGMA query_only = ON")
-        return con
+        return con_or_path
     p = Path(con_or_path)
     if not p.exists():
-        raise FileNotFoundError(f"analysis store not found: {p}")
+        raise NoStoreError(f"analysis store not found: {p}")
     con = sqlite3.connect(f"file:{p}?mode=ro", uri=True)
     con.execute("PRAGMA query_only = ON")
     return con
@@ -466,13 +638,7 @@ def _open(con_or_path) -> sqlite3.Connection:
 def query(con_or_path, table: str, *, columns: list[str] | None = None,
           limit: int = DEFAULT_LIMIT, offset: int = 0,
           **filters) -> dict:
-    """Read-only bounded query over allow-listed tables/columns/filters.
-
-    Filters per table: census_trees: x0,x1,z0,z1,confidence;
-    replay_cells: river_id,cell_id; replay_frames: cell_id,t0,t1;
-    obs_usgs: site,epoch0,epoch1; obs_snotel: site,day0,day1;
-    fits_*/meta: none. Unknown filter keys raise ValueError.
-    """
+    """Read-only bounded query over allow-listed tables/columns/filters."""
     if table not in QUERY_TABLES:
         raise ValueError(
             f"unknown table {table!r}; have {sorted(QUERY_TABLES)}")
@@ -502,11 +668,14 @@ def query(con_or_path, table: str, *, columns: list[str] | None = None,
         z1 = filters.pop("z1", None)
         conf = filters.pop("confidence", None)
         if conf is not None:
-            if conf not in CONFIDENCES:
-                raise ValueError(
-                    f"confidence must be one of {CONFIDENCES}")
+            _require_enum("confidence", conf, CONFIDENCES)
             where.append("census_trees.confidence = ?")
             args.append(conf)
+        ec = filters.pop("evidence_class", None)
+        if ec is not None:
+            _require_nonempty_string("evidence_class", ec)
+            where.append("census_trees.evidence_class = ?")
+            args.append(ec)
         if (x0 is None) != (x1 is None) or (z0 is None) != (z1 is None):
             raise ValueError("bbox needs both x0+x1 and/or both z0+z1")
         if x0 is not None and z0 is not None:
@@ -520,16 +689,12 @@ def query(con_or_path, table: str, *, columns: list[str] | None = None,
     elif table == "replay_cells":
         for k in ("river_id", "cell_id"):
             if k in filters:
-                v = filters.pop(k)
-                if not isinstance(v, str) or not v:
-                    raise ValueError(f"{k} must be a nonempty string")
+                v = _require_nonempty_string(k, filters.pop(k))
                 where.append(f"replay_cells.{k} = ?")
                 args.append(v)
     elif table == "replay_frames":
         if "cell_id" in filters:
-            v = filters.pop("cell_id")
-            if not isinstance(v, str) or not v:
-                raise ValueError("cell_id must be a nonempty string")
+            v = _require_nonempty_string("cell_id", filters.pop("cell_id"))
             where.append("replay_frames.cell_id = ?")
             args.append(v)
         for k, col in (("t0", "t_s"), ("t1", "t_s")):
@@ -545,9 +710,7 @@ def query(con_or_path, table: str, *, columns: list[str] | None = None,
             args.append(t1)
     elif table == "obs_usgs":
         if "site" in filters:
-            v = filters.pop("site")
-            if not isinstance(v, str) or not v:
-                raise ValueError("site must be a nonempty string")
+            v = _require_nonempty_string("site", filters.pop("site"))
             where.append("obs_usgs.site = ?")
             args.append(v)
         for k in ("epoch0", "epoch1"):
@@ -561,17 +724,12 @@ def query(con_or_path, table: str, *, columns: list[str] | None = None,
             args.append(filters.pop("epoch1"))
     elif table == "obs_snotel":
         if "site" in filters:
-            v = filters.pop("site")
-            if not isinstance(v, str) or not v:
-                raise ValueError("site must be a nonempty string")
+            v = _require_nonempty_string("site", filters.pop("site"))
             where.append("obs_snotel.site = ?")
             args.append(v)
         for k in ("day0", "day1"):
             if k in filters:
-                v = filters.pop(k)
-                if not isinstance(v, str) or not v:
-                    raise ValueError(f"{k} must be a nonempty string")
-                filters[k] = v  # validated; consumed below
+                filters[k] = _require_nonempty_string(k, filters.pop(k))
         if "day0" in filters:
             where.append("obs_snotel.day >= ?")
             args.append(filters.pop("day0"))
@@ -602,8 +760,8 @@ def query(con_or_path, table: str, *, columns: list[str] | None = None,
             sql = f'SELECT {sel} FROM "{table}"'
             if where:
                 sql += " WHERE " + " AND ".join(where)
-            order_col = "stable_id" if table == "census_trees" else ("cell_id,t_s" if table == "replay_frames" else ("site,epoch" if table == "obs_usgs" else ("site,day" if table == "obs_snotel" else ("source_file" if table.startswith("fits_") else "rowid"))))
-            sql += f" ORDER BY {order_col} LIMIT ? OFFSET ?"
+            order_cols = ", ".join(ORDER_BY[table])
+            sql += f" ORDER BY {order_cols} LIMIT ? OFFSET ?"
             cur = con.execute(sql, args + [limit + 1, offset])
             cols_out = cols
         rows = cur.fetchall()
@@ -617,14 +775,20 @@ def query(con_or_path, table: str, *, columns: list[str] | None = None,
             "limit": limit, "offset": offset}
 
 
-def census_circle_count(con_or_path, x: float, z: float,
-                        r: float) -> dict:
-    """Circle crown count via R-tree. Used by /api/density when a store file is present."""
-    x, z, r = (_as_float_strict(k, v)
-               for k, v in (("x", x), ("z", z), ("r", r)))
+def _validate_circle(x, z, r):
+    x = _as_float_strict("x", x)
+    z = _as_float_strict("z", z)
+    r = _as_float_strict("r", r)
     if not RADIUS_MIN_M <= r <= RADIUS_MAX_M:
         raise ValueError(
             f"radius r must be in [{RADIUS_MIN_M}, {RADIUS_MAX_M}] m")
+    return x, z, r
+
+
+def census_center_count(con_or_path, x: float, z: float,
+                        r: float) -> dict:
+    """Count tree centers inside the circle of radius r m."""
+    x, z, r = _validate_circle(x, z, r)
     con = _open(con_or_path)
     try:
         cur = con.execute(
@@ -640,3 +804,33 @@ def census_circle_count(con_or_path, x: float, z: float,
     area_ha = math.pi * r ** 2 / 1e4
     return {"n": inside, "area_ha": round(area_ha, 4),
             "trees_per_ha": round(inside / area_ha, 1)}
+
+
+def census_crown_overlap_count(con_or_path, x: float, z: float,
+                               r: float) -> dict:
+    """Count tree crowns overlapping the circle of radius r m."""
+    x, z, r = _validate_circle(x, z, r)
+    con = _open(con_or_path)
+    try:
+        row = con.execute(
+            "SELECT COALESCE(MAX(crown_r_m), 0.0) FROM census_trees"
+        ).fetchone()
+        max_crown = float(row[0] or 0.0)
+        probe = r + max_crown
+        cur = con.execute(
+            "SELECT t.x, t.z, t.crown_r_m FROM census_trees t "
+            "JOIN census_rtree r ON r.tree_row = t.rowid "
+            "WHERE r.x0 BETWEEN ? AND ? AND r.z0 BETWEEN ? AND ?",
+            (x - probe, x + probe, z - probe, z + probe))
+        inside = sum(1 for px, pz, pc in cur
+                     if math.hypot(px - x, pz - z) <= r + float(pc or 0.0))
+    finally:
+        if not isinstance(con_or_path, sqlite3.Connection):
+            con.close()
+    area_ha = math.pi * r ** 2 / 1e4
+    return {"n": inside, "area_ha": round(area_ha, 4),
+            "trees_per_ha": round(inside / area_ha, 1)}
+
+
+# Backward-compatible alias; llm_backend reads this name.
+census_circle_count = census_center_count

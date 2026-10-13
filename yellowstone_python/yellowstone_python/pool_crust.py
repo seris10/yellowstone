@@ -1,20 +1,5 @@
-"""M03 pool_crust: authored pool shells + aprons for Midway thermal pools.
-
-Replaces the flat terrain-cut visual floor with separate authored features:
-crater wall, shallow shelf, wetted rim, drainage apron, outflow connection.
-Mapped water outlines are PRESERVED (never resized for composition).
-
-Inputs: data/world.json::pools (id, source_id, name, center, ring, area_m2,
-        temperature_c as illustrative surface-center, temperature_status).
-Reference dims: Grand Prismatic 61–101 m across, >37 m deep (NPS, mapped
-bounding ~94×102 m, area 6723.7 m²); Excelsior crater 61×91 m + drainage
-(area 2917.0 m²); Turquoise 219.7 / Opal 102.0 m².
-
-NO universal temperature→rainbow equation: color_stops are authored pigment
-bands keyed to (temperature, depth, substrate, light). All depths are
-illustrative fill — bathymetry is unmeasured. Silica sinter only (Midway);
-travertine lives in M09, never applied here.
-"""
+"""M03 pool_crust: authored pool shells and aprons for Midway thermal pools.
+Builds crater, shelf, rim, apron, and outflow around the mapped water outline."""
 from __future__ import annotations
 
 import json
@@ -27,16 +12,14 @@ try:
 except ImportError:
     _HAS_SHAPELY = False
 
-HALF = 2048.0  # world half-extent, metres (matches coords.py)
+HALF = 2048.0  # world half-extent, meters (matches coords.py)
 
-# Outflow channel links keyed by the stable pool source_id from world.json,
-# so the builder stays independent of any one pool id.
+# Outflow channel links keyed by the stable pool source_id from world.json.
 OUTFLOW_CHANNELS = {
     "1030": "authored_excelsior_outflow_01",
 }
 
 # Authored shell recipe per named pool: multipliers/offsets on r_water.
-# Documented design decisions, not measurements.
 RECIPES = {
     "Grand Prismatic Spring": {"shelf": 1.18, "rim_m": 7.0, "apron_m": 30.0,
                                "depth_center_m": 37.0, "shelf_depth_m": 1.2,
@@ -55,7 +38,7 @@ DEFAULT_RECIPE = {"shelf": 1.2, "rim_m": 4.0, "apron_m": 15.0,
                   "depth_center_m": 3.0, "shelf_depth_m": 0.6,
                   "t_edge_c": 38.0, "outflow_bearing_deg": 90.0}
 
-# Base pigment bands (fraction of r_water, color, meaning). Per-pool copies adjusted by make_ramp_stops(). Authored bands keyed to depth + gradient + substrate.
+# Base pigment bands (fraction of r_water, color, meaning). Per-pool copies adjusted by make_ramp_stops().
 COLOR_STOPS = [
     (0.00, "#0b3d91", "deep hot center (illustrative)"),
     (0.35, "#1b7f79", "teal transition (illustrative)"),
@@ -76,14 +59,8 @@ def _mix(c1: tuple, c2: tuple, f: float) -> tuple:
 
 
 def make_ramp_stops(shell: dict) -> dict:
-    """Per-pool pigment stops. Deeper centers render darker; stronger
-    center→edge gradients narrow the blue core and widen the microbial bands.
-    Authored, not thermometry.
-
-    Pure: returns {"stops": [...], "ramp_params": {...}} and leaves the
-    shell unmodified. Fractions are clamped to [0, 1.3] and the caller
-    checks monotonicity through validate_ramp_stops().
-    """
+    """Per-pool pigment stops; returns {"stops": [...], "ramp_params": {...}}.
+    Fractions clamped to [0, 1.3]; monotonicity checked by validate_ramp_stops()."""
     depth_f = min(1.0, float(shell.get("depth_center_m", 5.0)) / 40.0)
     grad = (float(shell["t_center_c"]) - float(shell["t_edge_c"])) / max(
         1.0, float(shell["t_center_c"]))
@@ -148,11 +125,8 @@ def r_water_from_area(area_m2: float) -> float:
 
 
 def _validate_ring(ring) -> list:
-    """Return the ring as finite [x, z] pairs, or refuse it.
-
-    At least three points are required, each with two finite coordinates.
-    Consecutive duplicates are dropped; a self-touching outline is refused.
-    """
+    """Return the ring as finite [x, z] pairs.
+    Three distinct points required; consecutive duplicates dropped."""
     if ring is None or len(list(ring)) < 3:
         raise ValueError("pool ring requires at least three points")
     cleaned = []
@@ -172,7 +146,7 @@ def _validate_ring(ring) -> list:
 
 
 def _ring_area(ring: list) -> float:
-    """Shoelace polygon area (metres squared)."""
+    """Shoelace polygon area in square meters."""
     total = 0.0
     for (x0, z0), (x1, z1) in zip(ring, ring[1:] + ring[:1]):
         total += x0 * z1 - x1 * z0
@@ -186,7 +160,7 @@ def _perimeter(ring: list) -> float:
 
 
 def point_in_ring(x: float, z: float, ring: list) -> bool:
-    """Ray-cast point-in-polygon on the MAPPED outline (exact, not circular)."""
+    """Ray-cast point-in-polygon on the mapped outline."""
     inside = False
     pts = [(float(p[0]), float(p[1])) for p in ring]
     n = len(pts)
@@ -207,13 +181,8 @@ def buffer_method() -> str:
 
 
 def buffered_ring(ring: list, center: tuple, margin_m: float) -> list:
-    """Outline expanded by an absolute margin, in metres.
-
-    With shapely present this is an exact Minkowski buffer. Without it the
-    fallback expands each vertex away from the centroid, which covers
-    star-shaped outlines and is recorded by buffer_method() as an
-    approximation that carries no conservatism guarantee.
-    """
+    """Outline expanded by an absolute margin in meters.
+    Minkowski buffer with shapely; vertex-radial fallback otherwise (see buffer_method())."""
     margin_m = float(margin_m)
     if not math.isfinite(margin_m) or margin_m < 0:
         raise ValueError("margin must be finite and >= 0")
@@ -239,11 +208,8 @@ def buffered_ring(ring: list, center: tuple, margin_m: float) -> list:
 
 def radial_temp(r: float, r_water: float, t_center: float,
                 t_edge: float) -> float:
-    """Quadratic falloff reaching exactly t_edge at the water edge.
-
-    At and beyond the edge the value stays t_edge; the apron is a constant
-    apron temperature, not a relaxation profile.
-    """
+    """Quadratic falloff reaching t_edge at the water edge.
+    Beyond the edge the value stays t_edge."""
     r_water = float(r_water)
     if not math.isfinite(r_water) or r_water <= 0:
         raise ValueError(f"r_water must be finite and > 0, got {r_water}")
@@ -296,8 +262,7 @@ def shell_for_pool(pool: dict) -> dict:
     perim = _perimeter(ring) if ring else 2 * math.pi * rw
     circularity = (4 * math.pi * float(pool.get("area_m2", 0.0)) / perim ** 2
                    if perim > 0 else 1.0)
-    # Declared area versus the shoelace area of the mapped outline: the
-    # shell radii come from the declared area while in_water uses the ring.
+    # Declared area versus shoelace area; shell radii come from the declared area.
     mapped_area = _ring_area(ring) if ring else math.pi * rw * rw
     area_disagreement_pct = (abs(mapped_area
                                  - float(pool.get("area_m2", mapped_area)))
@@ -305,8 +270,7 @@ def shell_for_pool(pool: dict) -> dict:
                              * 100.0)
     t_center = float(pool.get("temperature_c", 60.0))
     r_shelf = max(rw * recipe["shelf"], max_r + 2.0)
-    # Guarantee strictly growing radii for large pools where an additive rim
-    # would otherwise fall inside a multiplicative shelf.
+    # Keep radii strictly growing even when an additive rim would land inside the shelf.
     r_rim = max(rw + recipe["rim_m"], r_shelf + 2.0)
     r_apron = max(rw + recipe["apron_m"], r_rim + 5.0, max_r + 8.0)
     apron_margin = max(0.0, r_apron - max_r)
@@ -400,8 +364,8 @@ def render_apron_mask(shells: list, size: int, path: str) -> str:
 
 
 def render_apron_tiles(shells: list, outdir: str, size: int = 128) -> list:
-    """Per-pool high-resolution apron tiles (~1–2 m/px) for pool inspection.
-    World mask pixels are ~16 m; small pools need these local tiles."""
+    """Per-pool apron tiles (about 1 to 2 m per pixel) for pool inspection.
+    World mask pixels are about 16 m; small pools use these local tiles."""
     from PIL import Image, ImageDraw
     import os
     os.makedirs(outdir, exist_ok=True)
@@ -428,7 +392,7 @@ def render_apron_tiles(shells: list, outdir: str, size: int = 128) -> list:
 
 def render_cross_section(shell: dict, path: str, w: int = 640,
                          h: int = 240) -> str:
-    """Side-view diagram plate for field notes (I key)."""
+    """Side-view diagram plate for field notes (field-notes key)."""
     from PIL import Image, ImageDraw
     w, h = int(w), int(h)
     if w < 2 or h < 2:
@@ -465,8 +429,7 @@ def render_cross_section(shell: dict, path: str, w: int = 640,
     if parent:
         os.makedirs(parent, exist_ok=True)
     img.save(path)
-    # The plate is a radial diagram on circular-equivalent radii, not the
-    # mapped polygon; the sidecar states that next to the image.
+    # The plate is a radial diagram on circular-equivalent radii; the sidecar states that beside the image.
     meta = {
         "schema": "yellowstone.pool_cross_section_meta.v1",
         "pool_id": shell["id"],

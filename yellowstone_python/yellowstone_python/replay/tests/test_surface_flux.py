@@ -1,8 +1,5 @@
 """Tests for the explicit surface energy budget.
-
-Physics sign conventions and solver integration only — coefficients are
-illustrative, not fitted, and no test asserts a Yellowstone temperature.
-"""
+Physics sign conventions and solver integration only; coefficients illustrative."""
 from __future__ import annotations
 
 import importlib.util
@@ -20,6 +17,9 @@ from yellowstone_python.replay.surface_flux import (
     flux_at,
     linearized,
 )
+
+# Fixed replay epoch so the clock is deterministic across runs.
+REPLAY_START = {"simulation_start_epoch_unix": 1784000000.0}
 
 HAS_SYMPY = importlib.util.find_spec("sympy") is not None
 
@@ -83,14 +83,8 @@ class FluxComponentTests(unittest.TestCase):
 
 @unittest.skipUnless(HAS_SYMPY, "sympy not installed")
 class SymbolicJacobianTests(unittest.TestCase):
-    """The hand-derived dF/dT vs symbolic differentiation.
-
-    flux_at is re-expressed from the module's documented equations and
-    differentiated by SymPy — the independence is in the differentiation,
-    not the transcription (the flux VALUE is asserted equal too, so a
-    transcription slip fails loudly instead of cancelling). Requires
-    sympy, which is test-only: the test skips where sympy is absent.
-    """
+    """Hand-derived dF/dT compared to symbolic differentiation.
+    flux_at is re-expressed from the module equations and differentiated by SymPy; requires test-only sympy."""
 
     @staticmethod
     def _lambdified():
@@ -169,16 +163,27 @@ def budget_river(**kw):
 
 
 class BudgetSolverTests(unittest.TestCase):
-    def test_budget_closes_and_components_sum(self):
+    def test_budget_closes_and_components_track_the_total(self):
         river = budget_river()
         river.run(3600.0, dt_s=30.0, sample_s=3600.0)
         totals = river.budget()
         self.assertLess(totals["heat_relative_residual"], 1e-9)
+        # surface_exchange_j is the linearized total integrated by the solver; component totals are nonlinear.
+        components = math.fsum(
+            totals[name]
+            for name in ("surface_shortwave_j", "surface_longwave_j",
+                         "surface_sensible_j", "surface_latent_j")
+        )
         self.assertAlmostEqual(
-            totals["surface_exchange_j"],
-            totals["surface_shortwave_j"] + totals["surface_longwave_j"]
-            + totals["surface_sensible_j"] + totals["surface_latent_j"],
-            places=3)
+            totals["surface_exchange_j"], components,
+            delta=abs(components) * 1e-6,
+        )
+        self.assertLess(
+            totals["max_surface_linearization_error_w"],
+            abs(components) * 1e-6,
+        )
+        self.assertAlmostEqual(totals["additional_heat_flux_j"], 0.0,
+                               places=6)
 
     def test_sunlit_water_runs_hotter_than_newton(self):
         sunny = budget_river(budget={"shortwave_w_m2": 800.0})
@@ -254,18 +259,59 @@ class MappedBudgetTests(unittest.TestCase):
             "weather": {"humidity": 0.5, "cloud": 0.1},
             "river_reaches": [],
         }
-        doc = build_mapped_replay(world, ecosystem, duration_s=600.0,
+        doc = build_mapped_replay(world, ecosystem, **REPLAY_START, duration_s=600.0,
                                   maximum_cell_m=25.0, energy_budget=True)
         self.assertTrue(doc["numerical_checks"]["passed"])
         self.assertEqual(doc["model"]["surface_flux"], "explicit_budget")
         self.assertIn("Explicit", doc["parameter_notes"]["exchange_status"])
         self.assertIsNotNone(doc["forcing"]["surface_budget"])
-        # Same geometry as the lumped path: budget changes heat, not volume.
-        plain = build_mapped_replay(world, ecosystem, duration_s=60.0,
+        # Same geometry as the lumped path; budget changes heat only.
+        plain = build_mapped_replay(world, ecosystem, **REPLAY_START, duration_s=60.0,
                                     maximum_cell_m=25.0)
         self.assertEqual(
             [c["volume_m3"] for c in doc["cells"]][:5],
             [c["volume_m3"] for c in plain["cells"]][:5])
+
+
+class SensibleLatentComparatorTests(unittest.TestCase):
+    def test_absent_observations_report_no_observation(self):
+        from yellowstone_python.replay.surface_flux import (
+            compare_sensible_latent,
+        )
+        state = met(air_c=10.0, rh=0.5, wind_mps=2.0)
+        report = compare_sensible_latent(20.0, state)
+        rows = {row["channel"]: row for row in report["rows"]}
+        for name in ("sensible", "latent"):
+            self.assertEqual(rows[name]["status"], "no_observation")
+            self.assertIsNone(rows[name]["observed_w_m2"])
+            self.assertIsNone(rows[name]["residual_w_m2"])
+            self.assertTrue(math.isfinite(rows[name]["modeled_w_m2"]))
+
+    def test_observations_produce_signed_residuals(self):
+        from yellowstone_python.replay.surface_flux import (
+            compare_sensible_latent,
+        )
+        state = met(air_c=10.0, rh=0.5, wind_mps=2.0)
+        baseline = flux_at(20.0, state)
+        report = compare_sensible_latent(
+            20.0, state,
+            observed_sensible_w_m2=baseline["sensible"] - 5.0,
+            observed_latent_w_m2=baseline["latent"] + 7.0,
+        )
+        rows = {row["channel"]: row for row in report["rows"]}
+        self.assertAlmostEqual(
+            rows["sensible"]["residual_w_m2"], 5.0, places=6)
+        self.assertAlmostEqual(
+            rows["latent"]["residual_w_m2"], -7.0, places=6)
+
+    def test_nonfinite_observation_is_refused(self):
+        from yellowstone_python.replay.surface_flux import (
+            compare_sensible_latent,
+        )
+        state = met()
+        with self.assertRaises(ValueError):
+            compare_sensible_latent(
+                20.0, state, observed_sensible_w_m2=float("nan"))
 
 
 if __name__ == "__main__":

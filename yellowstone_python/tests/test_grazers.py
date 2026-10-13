@@ -39,7 +39,9 @@ def test_grazer_update_keeps_ids_and_hypotheses():
     out = update_grazers(wl, [{"id": "north_meadow", "biomass": 0.8}])
     assert out[0]["id"] == "bison_01"
     assert out[0]["graze_seconds"] > 24  # rich patch extends bout
-    assert "predation_risk" in out[0]["timing_basis"]["hypotheses"]
+    context = out[0]["timing_basis"]["model_context"]
+    assert "forage_quality" in context.get("implemented", [])
+    assert "predation_risk" in context.get("not_modeled", [])
 
 
 def test_segment_sampling_catches_midpoint_crossing():
@@ -58,8 +60,7 @@ def test_planner_rejects_blocked_endpoints_and_corner_cuts():
     path = plan_path((-20, 0), (20, 0), wall, cell_m=4.0,
                      bounds=(-30, -20, 30, 20))
     assert all(not wall(x, z) for x, z in path)
-    # A diagonal step between two free cells can still clip a blocked region
-    # smaller than the cell pitch — the planner must reject that too.
+    # A diagonal step clips a blocked region smaller than the cell pitch; the planner rejects it.
     block = lambda x, z: -2 < x < 2 and -2 < z < 2
     path = plan_path((-6, -6), (6, 6), block, cell_m=4.0,
                      bounds=(-10, -10, 10, 10))
@@ -75,3 +76,19 @@ def test_grazer_timing_uses_capacity_fraction():
     rich = update_grazers(wl, [{"id": "m", "biomass": 1.6, "capacity": 2.0}])[0]
     poor = update_grazers(wl, [{"id": "m", "biomass": 0.2, "capacity": 2.0}])[0]
     assert rich["graze_seconds"] > poor["graze_seconds"]
+
+
+def test_single_point_anchor_is_gated_as_a_point():
+    shells = [{"id": "pool_1034_0", "center_xz": [-94.7, -10.6],
+               "r_apron_m": 76.0}]
+    clear = [{"id": "swarm_a", "kind": "insects", "medium": "land",
+              "path_xz": [[78, -317]]}]
+    assert check_routes(clear, shells) == []
+    inside = [{"id": "swarm_b", "kind": "insects", "medium": "land",
+               "path_xz": [[-94.7, -10.6]]}]
+    bad = check_routes(inside, shells)
+    assert [b["why"] for b in bad] == ["anchor inside apron"]
+    empty = [{"id": "swarm_c", "kind": "insects", "medium": "land",
+              "path_xz": []}]
+    assert [b["why"] for b in check_routes(empty, shells)] == [
+        "route path_xz is empty"]

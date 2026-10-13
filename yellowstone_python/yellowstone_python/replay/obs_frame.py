@@ -1,22 +1,5 @@
-"""Pandas obs-frame alignment for the fetch-then-fit path (B1).
-
-Replaces silent hand-rolled alignment with explicit state: every series
-becomes a DatetimeIndex frame at its nominal step (resample-mean bins,
-NaN where nothing was measured), gaps are listed withrun lengths,
-coverage is a number, bridging is an interpolate(limit=...) whose limit
-is recorded, and anything still NaN after bridging refuses loudly.
-The incident behind this module: hand interpolation once bridged a
-multi-day outage and the fit treated it as data (now also guarded by
-check_continuity on the pairs path).
-
-Scope: obs path only. The solver (river_transport) stays dependency
-light — pandas is imported here and only here. Requires pandas, which
-is NOT installed on the project interpreter (externally managed);
-code importing this module raises a guided ImportError there, and its
-tests skip. The pairs path in calibrate stays the default until pandas
-is installed; aligned_fit_arrays must agree with it (see the parity
-test) before the default flips.
-"""
+"""Pandas obs-frame alignment for B1: resample-mean bins at nominal step with left-edge half-open labels anchored at t0.
+Shared with obs_model.interval_average. Bridging via interpolate(limit=BRIDGE_STEPS); unbridgeable gaps raise."""
 from __future__ import annotations
 
 from typing import Any
@@ -33,27 +16,47 @@ NOMINAL_STEP_S = {"usgs_iv": 900.0, "met": 3600.0}
 BRIDGE_STEPS = 4  # same 4x-nominal rule as check_continuity
 
 
+def _finite(name: str, value) -> float:
+    """Convert value to a finite float or raise with name context."""
+    try:
+        out = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{name} must be numeric") from exc
+    import math as _math
+    if not _math.isfinite(out):
+        raise ValueError(f"{name} must be finite")
+    return out
+
+
 def _frame_from_pairs(pairs: list[list[float]], name: str,
                       step_s: float) -> Any:
     """Irregular [epoch, value] pairs -> nominal-step frame.
-
-    Values sharing a bin are averaged (resample-mean, the explicit
-    cousin of resample_bin_mean); empty bins are NaN, never zero.
-    """
+    Shared-bin values averaged (resample-mean); empty bins stay NaN."""
+    step_s = _finite("step_s", step_s)
     if step_s <= 0.0:
         raise ValueError("step_s must be positive")
     if not pairs:
         raise ValueError(f"{name}: no pairs to frame")
-    frame = pd.DataFrame({"value": [float(v) for _, v in pairs]},
-                         index=pd.to_datetime([t for t, _ in pairs],
+    cleaned_pairs: list[tuple[float, float]] = []
+    for i, pair in enumerate(pairs):
+        if not isinstance(pair, (list, tuple)) or len(pair) != 2:
+            raise ValueError(f"{name}: pair {i} must be [epoch, value]")
+        epoch = _finite(f"{name}[{i}].epoch", pair[0])
+        value = _finite(f"{name}[{i}].value", pair[1])
+        cleaned_pairs.append((epoch, value))
+    frame = pd.DataFrame({"value": [v for _, v in cleaned_pairs]},
+                         index=pd.to_datetime([t for t, _ in cleaned_pairs],
                                               unit="s", utc=True))
     frame = frame.sort_index()
-    frame = frame[~frame.index.duplicated(keep="last")]
-    # Anchor bins at the first observation, not the epoch: epoch-
-    # anchored bins shift regular series by up to a step against the
-    # observation times (measured failure, Oct 2026).
-    return frame.resample(f"{step_s:g}s",
-                          origin=frame.index[0]).mean()
+    measured_t_min = min(t for t, _ in cleaned_pairs)
+    measured_t_max = max(t for t, _ in cleaned_pairs)
+    # Mean averages dup timestamps; bins anchor at first obs; label/closed left matches obs_model.interval_average.
+    resampled = frame.resample(f"{step_s:g}s", origin=frame.index[0],
+                               label="left", closed="left").mean()
+    resampled.attrs["measured_t_min_s"] = measured_t_min
+    resampled.attrs["measured_t_max_s"] = measured_t_max
+    resampled.attrs["bin_label_convention"] = "left_edge_half_open"
+    return resampled
 
 
 def met_frame(rows: list[list[float]], step_s: float = 3600.0) -> Any:
@@ -63,21 +66,36 @@ def met_frame(rows: list[list[float]], step_s: float = 3600.0) -> Any:
     """
     if not rows:
         raise ValueError("met: no rows to frame")
+    for i, row in enumerate(rows):
+        if not isinstance(row, (list, tuple)) or len(row) < 6:
+            raise ValueError(
+                f"met row {i}: expected [epoch, air, rh, wind, sw, cloud]")
+    epochs = [_finite(f"met row {i}.epoch", r[0])
+              for i, r in enumerate(rows)]
+    for i, row in enumerate(rows):
+        for j, name in enumerate(
+                ("air_c", "rh", "wind_mps", "shortwave_w_m2", "cloud"), 1):
+            _finite(f"met row {i}.{name}", row[j])
     frame = pd.DataFrame(
         {"air_c": [float(r[1]) for r in rows],
          "rh": [float(r[2]) for r in rows],
          "wind_mps": [float(r[3]) for r in rows],
          "shortwave_w_m2": [float(r[4]) for r in rows],
          "cloud": [float(r[5]) for r in rows]},
-        index=pd.to_datetime([r[0] for r in rows], unit="s", utc=True))
+        index=pd.to_datetime(epochs, unit="s", utc=True))
     frame = frame.sort_index()
-    frame = frame[~frame.index.duplicated(keep="last")]
-    return frame.resample(f"{step_s:g}s",
-                          origin=frame.index[0]).mean()
+    # Mean averages dup timestamps; label/closed left matches obs_model.interval_average.
+    resampled = frame.resample(f"{step_s:g}s", origin=frame.index[0],
+                               label="left", closed="left").mean()
+    resampled.attrs["measured_t_min_s"] = min(epochs)
+    resampled.attrs["measured_t_max_s"] = max(epochs)
+    resampled.attrs["bin_label_convention"] = "left_edge_half_open"
+    return resampled
 
 
 def gap_report(frame: Any, name: str) -> dict[str, Any]:
-    """Coverage + every NaN run (start, end, length in steps)."""
+    """Coverage, NaN runs, and measured-vs-bin-label extent.
+    measured_t_{min,max}_s carry raw first/last obs epochs; last bin label can trail last obs by up to one step."""
     missing = frame["value"].isna() if "value" in frame else frame.isna()
     if isinstance(missing, pd.DataFrame):
         missing = missing.any(axis=1)
@@ -92,11 +110,20 @@ def gap_report(frame: Any, name: str) -> dict[str, Any]:
                     "end": group.index[-1].isoformat(),
                     "steps": int(len(group))})
     filled = int((~missing).sum()) if total else 0
+    bin_min = frame.index[0].isoformat() if total else None
+    bin_max = frame.index[-1].isoformat() if total else None
+    attrs = getattr(frame, "attrs", {}) or {}
     return {"name": name, "n_expected": total, "n_filled": filled,
             "coverage": filled / total if total else 0.0,
             "gaps": blocks,
             "worst_gap_steps": max((b["steps"] for b in blocks),
-                                   default=0)}
+                                   default=0),
+            "bin_label_t_min": bin_min,
+            "bin_label_t_max": bin_max,
+            "measured_t_min_s": attrs.get("measured_t_min_s"),
+            "measured_t_max_s": attrs.get("measured_t_max_s"),
+            "bin_label_convention": attrs.get(
+                "bin_label_convention", "left_edge_half_open")}
 
 
 def assert_coverable(report: dict[str, Any],
@@ -114,27 +141,17 @@ def assert_coverable(report: dict[str, Any],
 
 
 def bridge(frame: Any, limit: int = BRIDGE_STEPS) -> Any:
-    """Linearly bridge NaN runs, each direction separately up to limit.
-
-    Standalone explicit helper. Note limit_direction="both" fills from
-    each side, so interior runs up to 2x limit are fully bridged; the
-    fit path (to_grid) applies its own half-limit to match the 4x rule.
-    """
+    """Linearly bridge NaN runs, each direction up to limit.
+    limit_direction="both" fills interior runs up to 2x limit; to_grid uses a half-limit to match the 4x rule."""
     return frame.interpolate(method="linear", limit=limit,
                              limit_direction="both")
 
 
 def to_grid(frame: Any, grid: list[float], name: str,
-            limit: int = BRIDGE_STEPS // 2) -> list[float]:
-    """Frame values onto epoch grid; anything unbridgeable refuses.
-
-    Linear interpolation between neighboring bins, each side bridged up
-    to `limit` steps — interior gaps up to 2x limit (= BRIDGE_STEPS)
-    fill, matching check_continuity's 4x-nominal rule; anything longer
-    survives as NaN and raises, naming the first offending epoch.
-    Grid endpoints must lie inside measured coverage (no silent
-    endpoint clamp, unlike the pairs path).
-    """
+            limit: int = BRIDGE_STEPS) -> list[float]:
+    """Frame values onto epoch grid by linear interpolation in time; unbridgeable gaps raise.
+    A grid point is bridged when its bracketing valid samples lie at most limit nominal steps apart."""
+    import numpy as np
     if any(b < a for a, b in zip(grid, grid[1:])):
         raise ValueError(f"{name}: grid must be increasing")
     first, last = frame.index[0], frame.index[-1]
@@ -144,11 +161,24 @@ def to_grid(frame: Any, grid: list[float], name: str,
             f"{name}: grid [{stamps[0].isoformat()}.."
             f"{stamps[-1].isoformat()}] outruns measured coverage "
             f"[{first.isoformat()}..{last.isoformat()}]")
-    values = frame.reindex(frame.index.union(stamps)).interpolate(
-        method="linear", limit=limit,
-        limit_direction="both").reindex(stamps)
-    column = values["value"] if "value" in values else values
-    out = [float(v) for v in column.to_numpy()]
+    column = frame["value"] if "value" in frame else frame.iloc[:, 0]
+    index_s = np.array([ts.timestamp() for ts in frame.index])
+    nominal = float(np.median(np.diff(index_s))) if len(index_s) > 1 else 0.0
+    valid = column.notna().to_numpy()
+    t_valid = index_s[valid]
+    v_valid = column.to_numpy(dtype=float)[valid]
+    if t_valid.size == 0:
+        raise ValueError(f"{name}: no valid samples")
+    g = np.asarray(grid, dtype=float)
+    values = np.interp(g, t_valid, v_valid)
+    right = np.clip(np.searchsorted(t_valid, g, side="left"), 0, t_valid.size - 1)
+    left = np.clip(right - 1, 0, t_valid.size - 1)
+    tol = 1e-3
+    on_sample = np.abs(t_valid[right] - g) <= tol
+    span = t_valid[right] - t_valid[left]
+    values[(~on_sample) & (span > limit * nominal + tol)] = np.nan
+    values[(g < t_valid[0] - tol) | (g > t_valid[-1] + tol)] = np.nan
+    out = [float(v) for v in values]
     nans = [g for g, v in zip(grid, out) if v != v]
     if nans:
         raise ValueError(
@@ -161,13 +191,19 @@ def to_grid(frame: Any, grid: list[float], name: str,
 def rolling_mean(frame: Any, window_steps: int,
                  min_periods: int = 1) -> Any:
     """Trailing rolling mean for diagnostic smoothing (e.g. daily met)."""
+    if isinstance(window_steps, bool) or not isinstance(window_steps, int):
+        raise ValueError("window_steps must be an integer")
     if window_steps < 1:
         raise ValueError("window_steps must be >= 1")
+    if isinstance(min_periods, bool) or not isinstance(min_periods, int):
+        raise ValueError("min_periods must be an integer")
+    if min_periods < 1:
+        raise ValueError("min_periods must be >= 1")
     return frame.rolling(window=window_steps,
                          min_periods=min_periods).mean()
 
 
-def daily_met_means(frame: Any) -> dict[str, float]:
+def daily_met_means(frame: Any) -> dict[str, list[float]]:
     """Calendar-day means of each met column (forcing summary)."""
     daily = frame.resample("1D").mean(numeric_only=True)
     return {column: [float(v) for v in daily[column]]
@@ -175,18 +211,14 @@ def daily_met_means(frame: Any) -> dict[str, float]:
 
 
 def aligned_fit_arrays(bundle: dict[str, Any],
-                       dt_s: float = 900.0) -> dict[str, Any]:
+                       dt_s: float = 900.0,
+                       upstream_site: str = "06036805") -> dict[str, Any]:
     """Fit forcing arrays through frames; same shape as _fit_forcing_arrays.
-
-    Raises on unbridgeable gaps (assert_coverable) or grid points
-    outside coverage (to_grid). Returns the arrays plus a provenance
-    report carrying every coverage number and the bridge limit, so the
-    fit artifact can record what the alignment assumed.
-    """
+    Raises on unbridgeable gaps or out-of-coverage grid points; returns arrays plus coverage/bridge-limit provenance."""
     from yellowstone_python.common.hydro_units import validate_usgs_bundle
     validate_usgs_bundle(bundle)
-    from .calibrate import _fit_forcing_arrays  # grid convention only
-    up = bundle["sites"]["06036805"]["series"]
+    from .fit_grid import build_fit_grid
+    up = bundle["sites"][upstream_site]["series"]
     met_rows = bundle["met"]["hourly"]
     up_t = _frame_from_pairs(up["temperature_c"], "upstream temperature",
                              NOMINAL_STEP_S["usgs_iv"])
@@ -198,9 +230,8 @@ def aligned_fit_arrays(bundle: dict[str, Any],
                gap_report(met, "met")]
     for report in reports:
         assert_coverable(report)
-    # NOTE: frames go to the grid unbridged; to_grid applies the
-    # recorded limit itself, so one mechanism owns bridging.
-    grid = _fit_forcing_arrays(bundle, dt_s)["grid"]
+    # Frames go to grid unbridged; to_grid applies the recorded limit.
+    grid = build_fit_grid(bundle, dt_s)["grid"]
 
     def series_of(values: list[float]) -> Any:
         from .river_transport import Series

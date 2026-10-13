@@ -1,0 +1,1868 @@
+{
+  "generated_from": "key file sha256-12: build.py=ced890a68848; publish.py=3f92130e7d5a; coupling.py=e40a50612622; exporters/godot_sidecars.py=b819d1e8621e; exporters/to_ecosystem.py=574fef67b79b; exporters/to_map.py=8cde48caa922; validation/checks.py=b5b5db09702f; validation/claims.py=56624c2ba4b0; replay/fit_grid.py=a177ff733f3b; replay/river_transport.py=4130072f8dcf; replay/river_world.py=2941e135f367; replay/surface_flux.py=132ca073debb; hydrology_provider.py=124271259a8d; microclimate.py=84787991aab1; overland_flow.py=0f770c01c5ad; snow_season.py=34f1081aef68; vegetation.py=da671984898f; insects_birds.py=66fe99dff4ad; fish.py=1cf9974ac64c; grazers.py=a6c5a0fab811; pool_crust.py=bba660647805; geochemistry.py=9fdd27bb5a5a; aquatic_foodweb.py=a075e086ff80; hydro_thermal.py=aa0eb33963be; claims.py=3c196f5cc797; equations.py=71c333f59705; param_registry.py=f064b95863b6; tools/calibrate_river_transport.py=647b551b75a5; latest build dir derived/839a78f1c159",
+  "components": [
+    {
+      "id": "build_orchestrator",
+      "label": "Build pipeline (simulate_all + render_all + gate)",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/build.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "build.py:502 simulate_all",
+        "build.py:993 render_all",
+        "build.py:1054 main CLI",
+        "build.py:1266 _write_variant_and_gate",
+        "build.py:1491 produce_all sidecars",
+        "build.py:367 guard_terrain called in load_inputs"
+      ],
+      "method": "sequential call tree: shells -> veg (canopy from census) -> snow season (hourly air from bundle) -> snow runoff -> M01 mixing -> M01b replay -> M05b foodweb -> M05 insects (disturbance from bridge-cell shear) -> M06 fish -> M07 grazers -> M12 overland (bundle precip when available) -> merge variant -> validate -> sidecars + CHECKS + godot_sidecars + BUILD",
+      "validation": "none",
+      "notes": "writes derived/<build-id>/ including ecosystem.godot.json, ecosystem.variant.json, river_state.json, river_replay.json, weather.json, met.json, overland_flow.json, overland_field.json, catchment_runoff.json, pool_shells.json, substrate_rules.json, patch_state.json, planting_proposal.json, insect_bird.json, fish.json, aquatic_foodweb.json, grazer.json, season.json, plume_field.json, geochemistry.json, calibration_summary.json, census.json, CHECKS.json, BUILD.json, coupling.json, coupling_check.json, claims.json, param_registry.json, equations.json, numerics_benchmarks.json, identifiability.json plus PNG renders"
+    },
+    {
+      "id": "publish_transaction",
+      "label": "Transactional publish to Godot world",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/publish.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "publish.py:16 FILES allowlist",
+        "publish.py:38 DIRS allowlist",
+        "publish.py:122 ecosystem schema check",
+        "publish.py:141 produce_sidecars called in-flight",
+        "publish.py:171 backup+copy+hash-verify flow"
+      ],
+      "method": "run godot_sidecars producers, stage sidecars, verify study-replay source_build_id resolves, back up overwritten targets, copy, hash-verify; rollback on failure; writes .publish-<id>.receipt.json",
+      "validation": "none",
+      "notes": "ships ecosystem.godot.json, pool_shells.json, planting_proposal.review.json, snow_map.png, season.json, plume_field.json, geochemistry.json, calibration_summary.json, pools_state.json, snow_cover.json, overland_field.json, groundwater_field.json, census.json, firehole_control.json, firehole_pulse.json plus pool_ramps/*.png; sidecars absent in build are logged as gaps and skipped"
+    },
+    {
+      "id": "run_mode",
+      "label": "Run mode declaration and prescribed/predicted split",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/run_mode.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "run_mode.py:4 RUN_MODES",
+        "run_mode.py:14 forecast refused",
+        "build.py:719 validate_config normalizes mode"
+      ],
+      "method": "enum validation of run_mode plus list of prescribed/predicted quantities",
+      "validation": "none",
+      "notes": "feeds BUILD.json manifest and validation checks"
+    },
+    {
+      "id": "claims_registry",
+      "label": "Scientific claim registry",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/claims.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "claims.py:36 reach_water_temperature_ice_free",
+        "claims.py:64 snow_swe_clearings",
+        "claims.py:88 upstream_discharge_predicted",
+        "claims.py:111 groundwater_lateral_heat",
+        "claims.py:135 channel_velocity_inundation_2d",
+        "build.py:1032 claims.json sidecar"
+      ],
+      "method": "static list of five claims each with required processes, calibration/evaluation dataset IDs, acceptance criteria; all review_status=not_yet_accepted",
+      "validation": "none",
+      "notes": "two seed claims (reach temperature, snow SWE) have evidence artifacts; the three provider claims (discharge, groundwater, 2-D channel) have empty datasets"
+    },
+    {
+      "id": "coupling_registry",
+      "label": "Component exchange contract",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/coupling.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "coupling.py:22 EXCHANGES list",
+        "coupling.py:174 validate_contract",
+        "coupling.py:246 check_coupling verifier",
+        "coupling.py:481 check_cross_family",
+        "build.py:1462 coupling.json sidecar",
+        "build.py:1468 coupling_check.json sidecar"
+      ],
+      "method": "static table of 11 inter-component exchanges with units, sign, support, conservation flag; check_coupling distinguishes absent and empty forcing/sources/frames inputs; check_cross_family compares lumped reaches against the replay profile",
+      "validation": "none",
+      "notes": "named exchanges: boundary_water, boundary_heat, lateral_water, lateral_heat, outlet_export, surface_newton, surface_budget, landscape_temperature, pocket_holding, snow_runoff_discharge, shear_disturbance; coupling_check.json records the verifier verdict per build"
+    },
+    {
+      "id": "equations_registry",
+      "label": "Governing equations inventory",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/equations.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "equations.py:7 COMPONENTS",
+        "build.py:1041 equations.json sidecar"
+      ],
+      "method": "static declaration of model level, equations, assumptions, limits per component",
+      "validation": "none",
+      "notes": "10 components covering M01, M01b, surface flux, 2-D plume, pool crust, patch biomass, insect compartments, trout suitability, grazer routing, snow+soil"
+    },
+    {
+      "id": "param_registry",
+      "label": "Parameter class and evidence registry",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/param_registry.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "param_registry.py:19 PARAMS table",
+        "param_registry.py:326 registry_errors",
+        "build.py:1036 param_registry.json sidecar"
+      ],
+      "method": "per-knob record of param_class (observed, derived, literature, calibrated, assumed, illustrative, physical_constant), source references, applicability, uncertainty, missingness, review",
+      "validation": "none",
+      "notes": "unknown uncertainty allowed; registry_errors cross-checks source references against config files"
+    },
+    {
+      "id": "provenance",
+      "label": "Hashes, build IDs, sidecars",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/common/provenance.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "common/provenance.py:1 docstring",
+        "build.py:11 imports (CONTRACT_VERSION, WORLD_ID, build_id, sha256_file, sha256_json, write_sidecar)"
+      ],
+      "method": "SHA-256 hashing of inputs/code/config; build_id = short digest; write_sidecar adds parameter_provenance block",
+      "validation": "none",
+      "notes": "every build artifact carries sources and params provenance block"
+    },
+    {
+      "id": "validation_checks",
+      "label": "Build gate (M11 checks)",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/validation/checks.py",
+        "yellowstone_python/yellowstone_python/validation/claims.py",
+        "yellowstone_python/yellowstone_python/common/validate.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "validation/checks.py:46 run_all",
+        "validation/claims.py:131 run_claim_gates",
+        "common/validate.py:1 NoData/NaN guards",
+        "build.py:1343 run_all; CHECKS.json written at build.py:1446",
+        "build.py:1366 claim gates folded into checks",
+        "publish.py:105 refuses publish on checks fail"
+      ],
+      "method": "conservation (heat ledger), topology, provenance, determinism, run-mode split; folds coupling, cross-family and FiPy convergence checks; validation/claims.py gates reach and SNOTEL holdout rmse against null models; aggregates godot/apron/refuge/substrate/snow/grazer/replay-budget failures",
+      "validation": "none",
+      "notes": "exit code 2 when any gate fails"
+    },
+    {
+      "id": "hydro_units",
+      "label": "Hydrology unit validation",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/common/hydro_units.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "common/hydro_units.py:1 docstring",
+        "build.py:85 validate_hydro_units called in validate_config"
+      ],
+      "method": "optional pint registry; refuses bare or mixed-unit hydro fields",
+      "validation": "none",
+      "notes": ""
+    },
+    {
+      "id": "coords_frame",
+      "label": "Single EPSG:32612 coordinate frame",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/common/coords.py",
+        "yellowstone_python/yellowstone_python/common/units.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "common/coords.py:1 docstring E0 N0 H0 GRID STEP HALF",
+        "common/units.py:1 explicit converters"
+      ],
+      "method": "central constants matched against prepare_world.py; unit converters fail on bare or mixed units",
+      "validation": "none",
+      "notes": ""
+    },
+    {
+      "id": "exporter_to_ecosystem",
+      "label": "Merge Python fragments into schema-v1 ecosystem.json",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/exporters/to_ecosystem.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/ecosystem.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "exporters/to_ecosystem.py:1 docstring",
+        "build.py:14 merge_fragments, validate_for_godot",
+        "build.py:602 merge_fragments(baseline, river_state, weather, clock_hour)",
+        "build.py:900 _atomic_json_write ecosystem.godot.json",
+        "publish.py:26 ships to data/ecosystem.json",
+        "yellowstone_midway/scripts/ecosystem.gd:30 reads res://data/ecosystem.json"
+      ],
+      "method": "copy baseline, overwrite river_reaches, inject weather keys, set clock_hour, attach patches2 and wildlife3; validate_for_godot gates schema",
+      "validation": "illustrative",
+      "notes": "sole published surface for river/weather/patches/wildlife; ecosystem.gd advances insect_activity, biomass, moisture off these records"
+    },
+    {
+      "id": "exporter_to_map",
+      "label": "Reproject PNG fields into midway_macro frame",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/exporters/to_map.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "exporters/to_map.py:1 M11 to_map (stub)"
+      ],
+      "method": "stub placeholder, 9 lines",
+      "validation": "none",
+      "notes": "declared M11 responsibility; no implementation and not called by build"
+    },
+    {
+      "id": "analysis_store",
+      "label": "SQLite analysis store (per-build)",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/analysis_store.py",
+        "yellowstone_python/tools/build_store.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "analysis_store.py:1 docstring",
+        "tools/build_store.py:1 CLI builder",
+        "yellowstone_python/AGENTS.md:4 built manually after build.py; not invoked by build.py"
+      ],
+      "method": "read-only queries over allow-listed tables and columns (census_trees, replay_cells, replay_frames, obs_usgs, obs_snotel, fits_reach, fits_snow, meta)",
+      "validation": "none",
+      "notes": "operator runs tools/build_store.py after a build; neither build.py nor publish.py call it"
+    },
+    {
+      "id": "llm_backend",
+      "label": "HTTP backend for census analysis and proposal review",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/llm_backend.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "llm_backend.py:1 docstring",
+        "llm_backend.py:36 imports analysis_store, canopy_census, review_proposals, hydrology_provider"
+      ],
+      "method": "stdlib HTTP server exposing /api/snapshot, /api/density, /api/compare, /api/propose over analysis_store and provider stacks",
+      "validation": "none",
+      "notes": "runs on demand (python3 -m yellowstone_python.llm_backend --serve); not touched by build/publish"
+    },
+    {
+      "id": "study_mode",
+      "label": "M10 study_mode A/B presets",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/study_mode.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scenes/study.tscn"
+      ],
+      "status": "partial_unwired",
+      "evidence": [
+        "study_mode.py:1 docstring",
+        "study_mode.py:222 apply_preset",
+        "study_mode.py:280 main CLI",
+        "scenes/study.tscn:8 replay_path = firehole_pulse.json"
+      ],
+      "method": "allow-listed config overrides (air temperature, discharge, shade/cloud, thermal source); writes two ecosystem.json variants",
+      "validation": "none",
+      "notes": "firehole_control.json / firehole_pulse.json are produced via study_mode runs or hot_lowflow tools and consumed by python_river_replay.gd; build.py does not call study_mode"
+    },
+    {
+      "id": "time_utils",
+      "label": "Game-clock epoch parsing",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/time_utils.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "build.py:22 imports epoch_unix_for_local, parse_simulation_start",
+        "build.py:232 resolve_replay_start_epoch"
+      ],
+      "method": "ISO date to local-offset epoch converter",
+      "validation": "none",
+      "notes": ""
+    },
+    {
+      "id": "microclimate",
+      "label": "M02 microclimate (air, wind, humidity, condensation)",
+      "domain": "atmosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/microclimate.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/ecosystem.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "microclimate.py:76 air_temp",
+        "microclimate.py:217 trace (60 s wind trace)",
+        "microclimate.py:134 condensation_potential",
+        "microclimate.py:241 load_weather_bundle",
+        "microclimate.py:257 bundle_weather",
+        "build.py:340 air0 forcing",
+        "build.py:343 wind_trace",
+        "build.py:329 weather bundle wins over authored defaults",
+        "ecosystem.gd:433 reads reach_temp/flow/wind from variant"
+      ],
+      "method": "sinusoidal diurnal air curve lagging 15:00; mean + stochastic wind trace with seed; Magnus-Tetens dewpoint; measured Open-Meteo bundle (if present) overrides authored defaults",
+      "validation": "fitted_not_validated",
+      "notes": "Python curve lags noon by 3 h; Godot ecosystem.gd uses noon-peaking curve, residual documented at build.py:359"
+    },
+    {
+      "id": "met_forcing_fetcher",
+      "label": "Open-Meteo met forcing fetcher",
+      "domain": "atmosphere",
+      "python": [
+        "yellowstone_python/tools/fetch_met_forcing.py",
+        "yellowstone_python/tools/fetch_firehole_obs.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "tools/fetch_met_forcing.py:1 docstring",
+        "tools/fetch_firehole_obs.py:1 docstring",
+        "build.py:332 PKG_ROOT/derived/met.json read by simulate_all"
+      ],
+      "method": "stdlib urllib Open-Meteo hourly bundle (shortwave, air, humidity, wind) frozen to derived/met.json",
+      "validation": "none",
+      "notes": "operator runs these fetchers; build.py loads whatever met.json exists"
+    },
+    {
+      "id": "surface_flux",
+      "label": "Explicit surface energy budget",
+      "domain": "atmosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/surface_flux.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "replay/surface_flux.py:1 docstring",
+        "replay/river_world.py imports surface_flux (called by run_replay_solver)"
+      ],
+      "method": "shortwave, longwave, sensible, latent (W/m2) with scaled turbulent coefficients, linearized implicitly",
+      "validation": "illustrative",
+      "notes": "selected when replay.energy_budget flag or explicit meteorology bundle; otherwise Newton lumped exchange is used"
+    },
+    {
+      "id": "hydro_thermal_mixing",
+      "label": "M01 six-reach mixing chain",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/hydro_thermal.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/ecosystem.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "hydro_thermal.py:129 step_heat",
+        "hydro_thermal.py:188 steady_state",
+        "hydro_thermal.py:211 run_simulation",
+        "hydro_thermal.py:11 DEFAULT_TRIBUTARIES",
+        "build.py:441 run_simulation call",
+        "build.py:602 merge_fragments writes river_state into variant river_reaches",
+        "ecosystem.gd:46 reads river_reaches from ecosystem.json"
+      ],
+      "method": "quasi-steady fully-mixed reach network, d(ViTi)/dt = sum enthalpies + Vi(Tair-Ti)/tau; Qout = Qin + Qhot plus lateral additions",
+      "validation": "illustrative",
+      "notes": "feeds reach.temperature_c and reach.flow_m3s per authored chain"
+    },
+    {
+      "id": "replay_river_world",
+      "label": "Mapped Firehole chain for the replay solver",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/river_world.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/python_river_replay.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "replay/river_world.py:1 docstring",
+        "build.py:21 import build_mapped_replay",
+        "build.py:282 build_mapped_replay call",
+        "publish.py:38 firehole_control/pulse.json ships to data/",
+        "python_river_replay.gd:40 schema yellowstone.mapped_river_replay.v1"
+      ],
+      "method": "map saved Midway Firehole to cells with chainage and cross-sections; feed river_transport solver",
+      "validation": "illustrative",
+      "notes": "study scene (scenes/study.tscn) plays firehole_control.json / firehole_pulse.json; build.py writes river_replay.json but publish.py does not ship it"
+    },
+    {
+      "id": "replay_river_transport",
+      "label": "M01b conservative 1-D advection-dispersion solver",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/river_transport.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/python_river_replay.gd",
+        "yellowstone_midway/scripts/thermal_probe_overlay.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "replay/river_transport.py:1 docstring",
+        "equations.json M01b 1-D advection-dispersion replay",
+        "python_river_replay.gd reads replay frames via world.gd:96"
+      ],
+      "method": "finite-volume d(V T)/dt = Q(T_{i-1}-T_i) + D A (T_{i+1}-2T_i+T_{i-1})/dx + Phi_i with per-cell sources and Newton or explicit budget surface flux",
+      "validation": "illustrative",
+      "notes": "closes heat residual <1e-9 J and water residual <1e-12 m3 per CHECKS metrics"
+    },
+    {
+      "id": "replay_hydraulics",
+      "label": "Trapezoidal channel hydraulics diagnostics",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/hydraulics.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "replay/hydraulics.py:1 docstring",
+        "build.py:294 bank_slope_zh, manning_n passed to build_mapped_replay",
+        "build.py:984 hydraulics_summary metrics"
+      ],
+      "method": "V = Q/A on trapezoidal cross-section, Manning consistency ratio, Froude, Fischer longitudinal dispersion, bed shear",
+      "validation": "fitted_not_validated",
+      "notes": "diagnostic only; river_transport solver remains rectangular. bed_shear_pa feeds foodweb shear_disturbance"
+    },
+    {
+      "id": "replay_identifiability",
+      "label": "Hydraulic identifiability diagnostics",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/identifiability.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "replay/identifiability.py:1 docstring",
+        "build.py:1005 run_diagnostics",
+        "build.py:1023 identifiability.json sidecar"
+      ],
+      "method": "roughness, bank-slope, depth multi-start Manning-ratio cost; rank+max-cost reported",
+      "validation": "fitted_not_validated",
+      "notes": "records rank and surface-flux structural gap in CHECKS metrics"
+    },
+    {
+      "id": "replay_benchmarks",
+      "label": "Numerical benchmarks for the replay solver",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/benchmarks.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "replay/benchmarks.py:1 docstring",
+        "build.py:1018 run_all_benchmarks",
+        "build.py:1019 numerics_benchmarks.json sidecar"
+      ],
+      "method": "advection and dispersion benchmarks for the declared equation level (no momentum)",
+      "validation": "illustrative",
+      "notes": ""
+    },
+    {
+      "id": "replay_calibrate",
+      "label": "Reach-scale calibration and dispersion experiments",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/calibrate.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "replay/calibrate.py:1 docstring",
+        "no import from build.py or publish.py"
+      ],
+      "method": "fit Newton h, dispersion, surface budget params against Firehole obs bundle",
+      "validation": "fitted_not_validated",
+      "notes": "operator-run (reach_heat_fit_v300k.json evidence artifact); not part of build"
+    },
+    {
+      "id": "replay_uncertainty",
+      "label": "Reach fit uncertainty quantification",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/uncertainty.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "replay/uncertainty.py:1 docstring",
+        "no import from build.py"
+      ],
+      "method": "lumped-fit UQ + authored-knob sensitivity",
+      "validation": "fitted_not_validated",
+      "notes": "standalone CLI; evidence artifact reach_ensemble_uq_v300k.json"
+    },
+    {
+      "id": "replay_fipy_reference",
+      "label": "FiPy steady 1-D advection + Newton reference",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/fipy_reference.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "replay/fipy_reference.py:1 docstring",
+        "no import from build.py"
+      ],
+      "method": "FiPy reference compared against analytic profile",
+      "validation": "illustrative",
+      "notes": "optional dependency gated by importlib.util"
+    },
+    {
+      "id": "replay_figures",
+      "label": "Diagnostic replay figures",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/figures.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "replay/figures.py:1 docstring",
+        "no import from build.py"
+      ],
+      "method": "matplotlib Agg figures from frozen artifacts",
+      "validation": "none",
+      "notes": ""
+    },
+    {
+      "id": "replay_obs_frame",
+      "label": "Pandas obs-frame alignment for fits",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/obs_frame.py",
+        "yellowstone_python/yellowstone_python/replay/obs_model.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "replay/obs_frame.py:1 docstring",
+        "replay/obs_model.py:1 docstring",
+        "no build.py import"
+      ],
+      "method": "DatetimeIndex resample-mean alignment; H(x) measurement operator over station chainage",
+      "validation": "none",
+      "notes": "used by calibrate/uncertainty"
+    },
+    {
+      "id": "replay_datasets",
+      "label": "Reference dataset split roles",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/datasets.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "replay/datasets.py:1 docstring",
+        "claims.py:52 evaluation_dataset_ids references firehole_obs.json splits"
+      ],
+      "method": "calibration/development/locked-final split assignment",
+      "validation": "none",
+      "notes": "declarative metadata"
+    },
+    {
+      "id": "replay_nc_export",
+      "label": "CF-style NetCDF export",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/nc_export.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "replay/nc_export.py:1 docstring",
+        "no build.py import"
+      ],
+      "method": "CF export of temperature frames",
+      "validation": "none",
+      "notes": "standalone utility"
+    },
+    {
+      "id": "replay_plume2d",
+      "label": "Steady 2-D thermal plume (Excelsior mixing zone)",
+      "domain": "hydrothermal",
+      "python": [
+        "yellowstone_python/yellowstone_python/replay/plume2d.py",
+        "yellowstone_python/yellowstone_python/hydro_thermal.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_midway/scripts/scientific_overlays.gd plume overlay (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "replay/plume2d.py:41 solve_steady",
+        "exporters/godot_sidecars.py:63 write_plume_field_json",
+        "exporters/godot_sidecars.py:98 solve_steady call",
+        "publish.py:24 plume_field.json shipped",
+        "yellowstone_midway/scripts/world.gd:153 _plume_field_summary = load_optional_sidecar(res://data/plume_field.json)"
+      ],
+      "method": "u dT/dz = Dx d2T/dx2 + Dz d2T/dz2 - k(T-ambient) on 128x128 implicit upwind/centered grid",
+      "validation": "illustrative",
+      "notes": "plume_field.json drawn as a world-space temperature quad with legend"
+    },
+    {
+      "id": "overland_flow",
+      "label": "M12 overland flow (rainfall/infiltration/runoff)",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/overland_flow.py",
+        "hydrology/hydrosim.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "python_only",
+      "evidence": [
+        "scientific_overlays.gd overland tint (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "overland_flow.py:174 _import_hydrosim",
+        "overland_flow.py:195 run_overland",
+        "build.py:20 import run_overland",
+        "build.py:909 run_overland call when overland.enabled",
+        "build.py:1316 overland_flow.json sidecar",
+        "exporters/godot_sidecars.py:327 write_overland_field_json",
+        "publish.py:29 overland_field.json shipped",
+        "yellowstone_midway/scripts/world.gd:159 _overland_summary = load_optional_sidecar(res://data/overland_field.json)"
+      ],
+      "method": "wraps hydrology/hydrosim.py local-inertial shallow-water solver (Bates et al. 2010) with Green-Ampt infiltration on block-mean terrain.f32; rain source is overland.rain_mm_h, then met_bundle precipitation_mm, then snow.precip_mm_d",
+      "validation": "illustrative",
+      "notes": "outlet runoff now reaches the river boundary; Godot shows a scene-wide tint from a scalar only, no per-cell field yet"
+    },
+    {
+      "id": "hydrosim_prototype",
+      "label": "Standalone shallow-water + soil model",
+      "domain": "hydrology",
+      "python": [
+        "hydrology/hydrosim.py",
+        "hydrology/demo_hydrosim.py",
+        "hydrology/validate_hydrosim.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "hydrology/hydrosim.py:1 docstring (NumPy-only engine)",
+        "hydrology/validate_hydrosim.py:1 docstring (Green-Ampt vs analytic)"
+      ],
+      "method": "Green-Ampt / Horton infiltration, local-inertial Bates shallow-water, Brooks-Corey drainage, FAO-56 ET, linear-reservoir groundwater",
+      "validation": "validated",
+      "notes": "self-validated against analytic + Newton bisection in validate_hydrosim.py; integrated into build only through overland_flow.run_overland; the Godot 3 plugin wrapper godot_hydro_node.py was removed (fixes-31 F9)"
+    },
+    {
+      "id": "hydrology_provider",
+      "label": "Cached hydrology service wrapper around hydrosim",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/hydrology_provider.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "hydrology_provider.py:1 docstring",
+        "hydrology_provider.py:80 refuse_on_cfl_overflow option",
+        "hydrology_provider.py:130 snapshot entry point",
+        "hydrology_provider.py:252 refused_cfl_exceeded status when overflow count > 0",
+        "llm_backend.py imports HydrologyProvider",
+        "no build.py or publish.py import"
+      ],
+      "method": "snapshot(weather, hour) wrapper over hydrosim; returns ground_wetness_fraction and a status string; refuse_on_cfl_overflow=True yields status=refused_cfl_exceeded when hydrosim exceeds its CFL",
+      "validation": "none",
+      "notes": "surfaced only through llm_backend HTTP server; the overland-runoff authority remains overland_flow in the build"
+    },
+    {
+      "id": "overland_provider",
+      "label": "Synthetic-catchment runoff discharge series",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/overland_provider.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "overland_provider.py:42 predict_discharge",
+        "overland_provider.py:92 predict_discharge_landlab",
+        "replay/tests/test_river_world.py:236 only call site"
+      ],
+      "method": "synthetic elevation + Green-Ampt predicts discharge series; optional landlab path",
+      "validation": "illustrative",
+      "notes": "claim upstream_discharge_predicted (not_yet_accepted); not called by build/publish"
+    },
+    {
+      "id": "groundwater_provider",
+      "label": "Synthetic MODFLOW RIV laterals",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/yellowstone_python/groundwater_provider.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "groundwater_provider.py:47 riv_reaches_to_sources",
+        "groundwater_provider.py:133 synthetic_mf6_simulation",
+        "replay/tests/test_river_world.py:204 only call site"
+      ],
+      "method": "flopy-driven synthetic MF6 model; maps RIV package to replay Source dicts with lateral discharge + temperature",
+      "validation": "illustrative",
+      "notes": "claim groundwater_lateral_heat (not_yet_accepted); not called by build/publish"
+    },
+    {
+      "id": "pool_crust",
+      "label": "M03 hydrothermal pool shells, rims, aprons",
+      "domain": "hydrothermal",
+      "python": [
+        "yellowstone_python/yellowstone_python/pool_crust.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/pool_overlay.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "pool_crust.py:279 shell_for_pool",
+        "pool_crust.py:341 build_all",
+        "pool_crust.py:357 in_apron",
+        "pool_crust.py:117 render_ramp",
+        "pool_crust.py:379 render_apron_mask",
+        "pool_crust.py:429 render_cross_section",
+        "build.py:372 build_shells call",
+        "build.py:684 render_apron_mask + render_apron_tiles + render_ramp loop",
+        "pool_overlay.gd:7 res://data/pool_shells.json",
+        "pool_overlay.gd:24 pool_ramps PNG per shell"
+      ],
+      "method": "radial T(r)=T_edge+(T_c-T_edge)(1-(r/rw)^2); color ramp per RECIPE; apron buffered ring; exclusion test used by vegetation and grazer planners",
+      "validation": "illustrative",
+      "notes": "pool_shells.json and pool_ramps/*.png are shipped by publish.py"
+    },
+    {
+      "id": "geochemistry",
+      "label": "M09 geochemistry / substrate rules / silica",
+      "domain": "hydrothermal",
+      "python": [
+        "yellowstone_python/yellowstone_python/geochemistry.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "scientific_overlays.gd geochemistry markers (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "geochemistry.py:67 check_midway_shells",
+        "geochemistry.py:81 validate_palette",
+        "geochemistry.py:101 rules_doc",
+        "geochemistry.py:174 quartz_solubility_mg_L",
+        "geochemistry.py:200 silica_saturation_index",
+        "geochemistry.py:211 diagnose_replay_frame",
+        "exporters/godot_sidecars.py:139 write_geochemistry_json",
+        "publish.py:25 geochemistry.json shipped",
+        "yellowstone_midway/scripts/world.gd:154 _geochemistry_summary = load_optional_sidecar(res://data/geochemistry.json)"
+      ],
+      "method": "siliceous Midway vs travertine Mammoth palette gate; silica solubility T-polynomials (quartz, chalcedony, amorphous) and saturation index per cell from the last replay frame",
+      "validation": "literature",
+      "notes": "silica saturation markers along the Firehole; geochemistry.json now carries chainage_m, x_m, z_m, overlay still spaces markers along the mainline"
+    },
+    {
+      "id": "snow_season",
+      "label": "M08 snowpack, soil water, phenology",
+      "domain": "cryosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/snow_season.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "snow_season.py:12 degree_days",
+        "snow_season.py:50 resolve_game_clock",
+        "snow_season.py:96 step_snow",
+        "snow_season.py:157 run_season",
+        "snow_season.py:262 catchment_runoff_m3_s",
+        "snow_season.py:297 render_snow_map",
+        "build.py:402 run_season",
+        "build.py:416 catchment_runoff_m3_s",
+        "build.py:665 render_snow_map to snow_map.png",
+        "publish.py:34 snow_map.png + season.json shipped",
+        "world.gd:122 reads season.json",
+        "world.gd:135 loads snow_map.png as mask"
+      ],
+      "method": "degree-day melt = k_melt max(0, T-tbase) + thermal ground flux; soil bucket with ET and drainage; phenology stage from GDD and moisture",
+      "validation": "fitted_not_validated",
+      "notes": "produces snow_runoff_m3_s as a discharge increment added to boundary_m3s; geometry frozen so renderer applies snow via shader mask"
+    },
+    {
+      "id": "snow_energy",
+      "label": "Energy-balance snowmelt vs SNOTEL",
+      "domain": "cryosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/snow_energy.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "snow_energy.py:1 docstring",
+        "snow_energy.py:50 clear_sky_toa_w_m2",
+        "no build.py import"
+      ],
+      "method": "SW_down = S_RAD * TOA(doi,lat) * cloud(dtr); melt = (1-albedo)*SW + C0 + C_T*TAVG",
+      "validation": "fitted_not_validated",
+      "notes": "replaces degree-day with energy budget; standalone validator against SNOTEL"
+    },
+    {
+      "id": "snow_validate",
+      "label": "SNOTEL validation of snow and soil water model",
+      "domain": "cryosphere",
+      "python": [
+        "yellowstone_python/yellowstone_python/snow_validate.py",
+        "yellowstone_python/tools/fetch_snotel_obs.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "snow_validate.py:1 docstring",
+        "snow_validate.py:209 fit_snow_params",
+        "snow_validate.py:525 main",
+        "no build.py import"
+      ],
+      "method": "train/holdout split on SNOTEL WTEQ/PRCP/TAVG; k_melt grid fit; RMSE/bias/peak-timing against persistence and no-melt nulls",
+      "validation": "validated",
+      "notes": "claim snow_swe_clearings evidence; standalone operator CLI"
+    },
+    {
+      "id": "vegetation",
+      "label": "M04 patch biomass, suitability, plantings",
+      "domain": "terrestrial_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/vegetation.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/ecosystem.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "vegetation.py:61 suitability (lambda0, m_habitat, slope, canopy)",
+        "vegetation.py:92 patch_step dB/dt = r f_light f_water B(1-B/K) - G",
+        "vegetation.py:162 propose_plantings",
+        "vegetation.py:180 load_terrain + 190 terrain_fns",
+        "vegetation.py:255 propose_plantings_reviewed",
+        "build.py:382 patch_step",
+        "build.py:385 propose_plantings_reviewed",
+        "ecosystem.gd:47 reads patches, _advance_patches at 196"
+      ],
+      "method": "logistic biomass with light/water factors and grazing loss; proposals pass thermal exclusion, slope, suitability, pair-separation gates",
+      "validation": "illustrative",
+      "notes": "patch_state.json sidecar is diagnostic; the live patches reach Godot via ecosystem.variant.patches"
+    },
+    {
+      "id": "canopy_census",
+      "label": "Canopy census tree detector",
+      "domain": "terrestrial_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/canopy_census.py",
+        "yellowstone_python/yellowstone_python/census_validate.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_midway/scripts/map_view.gd set_census (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "canopy_census.py:1 docstring",
+        "census_validate.py:1 docstring",
+        "build.py:199 _canopy_from_census",
+        "build.py:621 _canopy_from_census(proposal_center, proposal_radius_m, PKG_ROOT / derived / census.json)",
+        "exporters/godot_sidecars.py:382 write_census_sidecar",
+        "publish.py:31 census.json shipped",
+        "yellowstone_midway/scripts/world.gd:156 _census_summary = load_optional_sidecar(res://data/census.json)"
+      ],
+      "method": "NAIP tree detection with QA self-check; blind SRS plot validation with Hungarian matching; crown-area canopy fraction fed to the planting-proposal reviewer",
+      "validation": "validated",
+      "notes": "census crowns drawn on the map view; canopy also drives vegetation suitability"
+    },
+    {
+      "id": "gen_flora",
+      "label": "Flora density generator and machine-review",
+      "domain": "terrestrial_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/gen_flora.py",
+        "yellowstone_python/yellowstone_python/review_proposals.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "gen_flora.py:1 docstring",
+        "gen_flora.py:25 imports review",
+        "review_proposals.py:1 docstring"
+      ],
+      "method": "regional seeded point sets passed through review (slope, thermal exclusion, suitability, pairwise separation)",
+      "validation": "illustrative",
+      "notes": "writes placement_overrides.json manually; not called by build"
+    },
+    {
+      "id": "gen_trail_mask",
+      "label": "Foot trail mask bake",
+      "domain": "terrestrial_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/gen_trail_mask.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "gen_trail_mask.py:1 docstring"
+      ],
+      "method": "paint trail polylines into a 2048x2048 world-extent mask with core + soft shoulder for the terrain shader",
+      "validation": "none",
+      "notes": "operator bake, consumed by Godot terrain shader; not called by build.py"
+    },
+    {
+      "id": "insects_birds",
+      "label": "M05 insect activity, compartments, bird intake",
+      "domain": "aquatic_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/insects_birds.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/ecosystem.gd",
+        "yellowstone_midway/scripts/wildlife_actor.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "insects_birds.py:28 insect_activity",
+        "insects_birds.py:109 holling_type_ii",
+        "insects_birds.py:124 develop_benthic (benthic -> emergent degree-day)",
+        "insects_birds.py:250 step_compartments",
+        "insects_birds.py:348 update_wildlife_from_intake",
+        "build.py:483 insect_activity call",
+        "build.py:496 update_wildlife insect_activity update",
+        "build.py:502 step_compartments 1-minute loop",
+        "build.py:526 update_wildlife_from_intake",
+        "ecosystem.gd:229 computes insect_activity from patch moisture and sunlight",
+        "wildlife_actor.gd:443 reads insect_index_per_second feeding gate"
+      ],
+      "method": "activity = sun*wind*cloud*moisture*flowering gates; Holling type II prey intake; compartments Nt (terrestrial), Nb (benthic), Ne (emergent) with degree-day emergence",
+      "validation": "illustrative",
+      "notes": "activity is published via ecosystem.variant.patches[].insect_activity and wildlife durations"
+    },
+    {
+      "id": "fish",
+      "label": "M06 trout suitability, refuge, chainage placement",
+      "domain": "aquatic_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/fish.py",
+        "yellowstone_python/yellowstone_python/thermal_curves.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/wildlife_actor.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "fish.py:88 load_lab_thermal",
+        "fish.py:100 thermal_data_status",
+        "equations.py:68 trout U = wf F + wc C - wt phi(T) - wv V - wd D",
+        "build.py:531 update_trout",
+        "build.py:537 build_chainage, place_trout_at_chainage, reach_membership, reach_z_windows",
+        "build.py:545 place_trout_at_chainage picks refuge cell from aquatic_foodweb",
+        "build.py:548 check_trout_clear_of_pools",
+        "build.py:655 render_refuge_map"
+      ],
+      "method": "suitability-weighted score Ui = wf Fi + wc Ci - wt phi(Ti) - wv Vi - wd Di; refuge chosen as argmax within swim range; chainage-window hold placement",
+      "validation": "illustrative",
+      "notes": "trout wildlife records merged into ecosystem.variant; fish.json sidecar + refuge_map.png are diagnostic (not published)"
+    },
+    {
+      "id": "thermal_curves",
+      "label": "Trout thermal response fits",
+      "domain": "aquatic_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/thermal_curves.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "thermal_curves.py:259 growth, 264 feeding, 269 survival, 274 refuge_drive, 279 reproduction",
+        "replay/tests/test_thermal_curves.py:8 test import",
+        "no build.py import"
+      ],
+      "method": "species-specific split-Gaussian / logistic curves fitted via scipy least_squares to literature anchors",
+      "validation": "literature",
+      "notes": "fish.py uses THERMAL_SPECIES lookup; thermal_curves fits are standalone"
+    },
+    {
+      "id": "aquatic_foodweb",
+      "label": "M05b 14-day insect/trout/dipper food web on replay thermal landscape",
+      "domain": "aquatic_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/aquatic_foodweb.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/wildlife_actor.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "aquatic_foodweb.py:102 thermal_landscape (time-mean per cell)",
+        "aquatic_foodweb.py:153 build_tributary_cell",
+        "aquatic_foodweb.py:217 append_tributary_cells",
+        "aquatic_foodweb.py:245 shear_to_disturbance",
+        "aquatic_foodweb.py:267 run_foodweb",
+        "aquatic_foodweb.py:469 compare_runs",
+        "build.py:467 run_aquatic_foodweb",
+        "build.py:521 fw_dipper intake feeds dipper rate",
+        "build.py:547 refuge placement for rendered trout"
+      ],
+      "method": "time-mean thermal landscape -> per-cell suitability + Holling II prey splits among trout and dipper, with benthic degree-day emergence; bed-shear ramp disturbs benthic stock",
+      "validation": "illustrative",
+      "notes": "aquatic_foodweb.json sidecar not read by Godot; refuge chainage and dipper intake flow into wildlife records in ecosystem.variant"
+    },
+    {
+      "id": "grazers",
+      "label": "M07 grazer plan-paths and route validation",
+      "domain": "terrestrial_ecology",
+      "python": [
+        "yellowstone_python/yellowstone_python/grazers.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/wildlife_actor.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "grazers.py:65 update_grazers (grazing timings from patch biomass)",
+        "grazers.py:102 check_routes",
+        "grazers.py:133 plan_path (A*-style with blocked segments)",
+        "grazers.py:255 render_tracks",
+        "build.py:552 update_grazers call",
+        "build.py:565 plan_path re-walk of authored bison route",
+        "wildlife_actor.gd:237 reads path_xz, 440 set_grazer_activity"
+      ],
+      "method": "Euclidean-heuristic shortest path with per-cell block tests; grazing timings from biomass vs capacity",
+      "validation": "illustrative",
+      "notes": "grazer.json sidecar not read by Godot; wildlife path_xz travels through ecosystem.variant"
+    },
+    {
+      "id": "compare",
+      "label": "A/B scenario endpoint comparison",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/yellowstone_python/compare.py"
+      ],
+      "godot": [],
+      "status": "partial_unwired",
+      "evidence": [
+        "compare.py:1 docstring",
+        "no build.py import"
+      ],
+      "method": "reads two derived/<build-id> dirs and reports deltas (temperatures, flows, trout holds, insect activity, snow, phenology, heat budget)",
+      "validation": "none",
+      "notes": "endpoint deltas only; exposure-duration metrics flagged for later phase"
+    },
+    {
+      "id": "runner_hot_lowflow",
+      "label": "Hot low-flow scenario runner",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/tools/run_hot_lowflow.py",
+        "yellowstone_python/tools/run_hot_lowflow_with_tributaries_v2.py",
+        "yellowstone_python/tools/run_hot_lowflow_tributary_refuge.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/python_river_replay.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "tools/run_hot_lowflow.py:1 docstring",
+        "tools/run_hot_lowflow_tributary_refuge.py:1 docstring",
+        "tools/run_hot_lowflow_with_tributaries_v2.py:1 docstring",
+        "yellowstone_midway/scenes/study.tscn:8 firehole_pulse.json consumer"
+      ],
+      "method": "re-runs run_replay_solver at Burkhalter 1979 baseflow 2.5 m3/s and 26 C upstream; appends authored cold-tributary pockets as landscape cells; writes firehole_pulse.json / firehole_control.json pair carrying a source_build_id",
+      "validation": "illustrative",
+      "notes": "the earlier run_hot_lowflow_with_tributaries.py (v1) was deleted; _v2 is the current measured-USGS runner. publish.py refuses a replay whose source_build_id does not resolve to a sibling build dir"
+    },
+    {
+      "id": "runner_fetch_firehole",
+      "label": "Firehole obs bundle fetcher",
+      "domain": "observation",
+      "python": [
+        "yellowstone_python/tools/fetch_firehole_obs.py",
+        "yellowstone_python/tools/usgs_nwis.py",
+        "yellowstone_python/tools/fetch_yellowstone_tributaries.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "tools/fetch_firehole_obs.py:1 docstring (USGS IV 00060/00010)",
+        "tools/usgs_nwis.py:1 docstring",
+        "tools/fetch_yellowstone_tributaries.py:1 docstring"
+      ],
+      "method": "stdlib urllib fetch of USGS Water Services + Open-Meteo for Firehole gauges and tributary candidates; writes frozen bundles for the calibrate/validate paths",
+      "validation": "none",
+      "notes": "evidence for claim reach_water_temperature_ice_free"
+    },
+    {
+      "id": "runner_fetch_snotel",
+      "label": "SNOTEL obs bundle fetcher",
+      "domain": "observation",
+      "python": [
+        "yellowstone_python/tools/fetch_snotel_obs.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "tools/fetch_snotel_obs.py:1 docstring (NRCS NWCC AWDB)"
+      ],
+      "method": "fetch daily WTEQ, PRCP, SNWD, TAVG/TMAX/TMIN for configured SNOTEL sites",
+      "validation": "none",
+      "notes": "feeds snow_validate.py"
+    },
+    {
+      "id": "runner_validate_obs",
+      "label": "Observation bundle gate",
+      "domain": "observation",
+      "python": [
+        "yellowstone_python/tools/validate_obs_bundles.py",
+        "yellowstone_python/tools/compare_bundles.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "tools/validate_obs_bundles.py:1 docstring",
+        "tools/compare_bundles.py:1 docstring"
+      ],
+      "method": "schema/continuity/coverage checks and old-vs-refetch drift detection",
+      "validation": "none",
+      "notes": ""
+    },
+    {
+      "id": "runner_channel_geometry",
+      "label": "Channel cross-section geometry derivation",
+      "domain": "hydrology",
+      "python": [
+        "yellowstone_python/tools/channel_geometry.py",
+        "yellowstone_python/tools/check_terrain.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "tools/channel_geometry.py:1 docstring",
+        "tools/check_terrain.py:1 docstring (guards terrain.f32 hash/dims/range)"
+      ],
+      "method": "USGS NWIS field measurements + 3DEP DEM used to build trapezoidal cross-section profiles consumed by replay.hydraulics",
+      "validation": "none",
+      "notes": ""
+    },
+    {
+      "id": "runner_audit_provenance",
+      "label": "Provenance audit over derived/",
+      "domain": "infrastructure",
+      "python": [
+        "yellowstone_python/tools/audit_provenance.py",
+        "yellowstone_python/tools/plot_fit.py",
+        "yellowstone_python/tools/execute_notebook.py"
+      ],
+      "godot": [],
+      "status": "python_only",
+      "evidence": [
+        "tools/audit_provenance.py:1 docstring",
+        "tools/plot_fit.py:1 docstring",
+        "tools/execute_notebook.py:1 docstring"
+      ],
+      "method": "mechanical check of status strings against measured vocabulary; Pillow-only diagnostic PNGs; stdlib notebook smoke executor",
+      "validation": "none",
+      "notes": ""
+    },
+    {
+      "id": "calibration_summary",
+      "label": "Calibration summary sidecar for Godot",
+      "domain": "observation",
+      "python": [
+        "yellowstone_python/yellowstone_python/exporters/godot_sidecars.py",
+        "yellowstone_python/tools/calibrate_river_transport.py"
+      ],
+      "godot": [
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_midway/scripts/calibration_panel.gd (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "exporters/godot_sidecars.py:195 write_calibration_summary_json",
+        "exporters/godot_sidecars.py:206 reach_heat_fit*.json candidate search in derived/",
+        "exporters/godot_sidecars.py:234 firehole_obs(_locked_final).json gauge trace",
+        "tools/calibrate_river_transport.py:1 staged reach-scale calibrator",
+        "publish.py:26 calibration_summary.json shipped",
+        "yellowstone_midway/scripts/world.gd:155 _calibration_summary = load_optional_sidecar(res://data/calibration_summary.json)"
+      ],
+      "method": "pack the champion reach-heat fit scalars (q_lat, t_lat, c_mult, train/holdout rmse and bias, budget_ok) with the first gauge site's discharge-temperature trace",
+      "validation": "fitted_not_validated",
+      "notes": "reach fit and gauge trace drawn in the calibration panel"
+    }
+  ],
+  "couplings": [
+    {
+      "from": "air_temperature",
+      "to": "hydro_thermal_mixing",
+      "quantity": "surface Newton air forcing (C)",
+      "status": "wired",
+      "evidence": [
+        "build.py:340 air0 = air_temp(hour0, ...)",
+        "build.py:443 run_simulation(... air0, sim_s)"
+      ],
+      "notes": "microclimate.air_temp feeds the chain surface Newton term"
+    },
+    {
+      "from": "air_temperature",
+      "to": "replay_river_transport",
+      "quantity": "surface Newton or budget air forcing",
+      "status": "wired",
+      "evidence": [
+        "build.py:453 run_replay_solver(cfg, baseline, world, hour0, weather_frag, boundary_m3s)",
+        "build.py:214 injected weather keys include lag_hours/night_air_c/day_warming_c"
+      ],
+      "notes": "weather_frag carries authored or measured air curve into the replay solver"
+    },
+    {
+      "from": "weather_bundle",
+      "to": "microclimate",
+      "quantity": "measured hourly air, humidity, wind, cloud, shortwave",
+      "status": "wired",
+      "evidence": [
+        "build.py:333 load_weather_bundle(met_path)",
+        "build.py:335 bundle_weather(met_bundle, hour=hour0)"
+      ],
+      "notes": "frozen Open-Meteo bundle overrides authored defaults"
+    },
+    {
+      "from": "shortwave_radiation",
+      "to": "surface_flux",
+      "quantity": "net SW into water (W/m2)",
+      "status": "wired",
+      "evidence": [
+        "build.py energy_budget_choice (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "replay/surface_flux.py:1 docstring (SW/LW/sensible/latent)",
+        "coupling.py EXCHANGES surface_budget",
+        "build.py:293 energy_budget flag passed through"
+      ],
+      "notes": "explicit surface budget forced by the measured bundle in hindcast and observed_replay; Newton exchange stays the declared illustrative default"
+    },
+    {
+      "from": "boundary_discharge",
+      "to": "hydro_thermal_mixing",
+      "quantity": "upstream water inflow (m3/s)",
+      "status": "wired",
+      "evidence": [
+        "build.py:439 baseflow_m3s = hcfg.boundary_m3s",
+        "build.py:442 run_simulation(reaches_in, boundary_m3s, ...)",
+        "coupling.py EXCHANGES boundary_water"
+      ],
+      "notes": "prescribed forcing"
+    },
+    {
+      "from": "boundary_discharge",
+      "to": "replay_river_transport",
+      "quantity": "upstream water inflow (m3/s)",
+      "status": "wired",
+      "evidence": [
+        "build.py:453 run_replay_solver(..., boundary_m3s=boundary_m3s)"
+      ],
+      "notes": "same effective boundary as the mixing chain"
+    },
+    {
+      "from": "boundary_temperature",
+      "to": "hydro_thermal_mixing",
+      "quantity": "upstream water temperature (C)",
+      "status": "wired",
+      "evidence": [
+        "build.py:443 run_simulation(... hcfg.boundary_c ... air0, sim_s)"
+      ],
+      "notes": "prescribed forcing"
+    },
+    {
+      "from": "boundary_temperature",
+      "to": "replay_river_transport",
+      "quantity": "upstream water temperature (C)",
+      "status": "wired",
+      "evidence": [
+        "build.py:210 eco.boundary_c for replay"
+      ],
+      "notes": "shared with chain via _prepare_replay_ecosystem"
+    },
+    {
+      "from": "snow_season",
+      "to": "replay_river_transport",
+      "quantity": "snowmelt runoff added to boundary discharge (m3/s)",
+      "status": "wired",
+      "evidence": [
+        "build.py:416 catchment_runoff_m3_s(patches1, snow_ledger, ...)",
+        "build.py:440 boundary_m3s = baseflow_m3s + runoff_m3_s",
+        "coupling.py EXCHANGES snow_runoff_discharge"
+      ],
+      "notes": "only when hydro.catchment.area_m2 configured; otherwise storage-only"
+    },
+    {
+      "from": "snow_season",
+      "to": "hydro_thermal_mixing",
+      "quantity": "snowmelt runoff increment on prescribed baseflow (m3/s)",
+      "status": "wired",
+      "evidence": [
+        "build.py:440 shared boundary_m3s",
+        "build.py:442 passed to run_simulation"
+      ],
+      "notes": "same increment reaches both hydrology models"
+    },
+    {
+      "from": "tributary_sources",
+      "to": "replay_river_transport",
+      "quantity": "lateral water + heat per authored source",
+      "status": "wired",
+      "evidence": [
+        "build.py:218 tribs = DEFAULT_TRIBUTARIES merged with hcfg.tributaries",
+        "build.py:220 hcfg.attach places lateral_sources on reaches",
+        "coupling.py EXCHANGES lateral_water, lateral_heat"
+      ],
+      "notes": "authored illustrative tributaries; status marked illustrative on each entry"
+    },
+    {
+      "from": "tributary_sources",
+      "to": "hydro_thermal_mixing",
+      "quantity": "lateral water + heat per authored source",
+      "status": "wired",
+      "evidence": [
+        "build.py:430 hcfg.attach applied to reaches_in"
+      ],
+      "notes": "same lateral_sources structure as the replay path"
+    },
+    {
+      "from": "overland_flow",
+      "to": "replay_river_transport",
+      "quantity": "surface runoff -> upstream discharge increment (m3/s)",
+      "status": "partial",
+      "evidence": [
+        "build.py _overland_runoff_to_boundary; replay/river_world.py boundary Series (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "build.py:581 run_overland result stored only in overland_field",
+        "build.py:912 overland_flow.json sidecar",
+        "no reads of overland_field.surface_runoff anywhere in build.py"
+      ],
+      "notes": "overland outlet runoff added to the scheduled river boundary and recorded separately in BUILD.json; contributing area not delineated from terrain"
+    },
+    {
+      "from": "groundwater_provider",
+      "to": "replay_river_transport",
+      "quantity": "lateral groundwater inflow + temperature per cell",
+      "status": "partial",
+      "evidence": [
+        "groundwater_provider.py head_gradient_exchange; build.py groundwater_exchange (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "groundwater_provider.py:47 riv_reaches_to_sources",
+        "replay/tests/test_river_world.py:204 only call site",
+        "no build.py import"
+      ],
+      "notes": "head-gradient exchange implemented with sign and budget test; build calls it only when hydro.groundwater.cells is configured (baseline has none)"
+    },
+    {
+      "from": "replay_river_transport",
+      "to": "aquatic_foodweb",
+      "quantity": "thermal landscape (cell time-mean temperature + hydraulics)",
+      "status": "wired",
+      "evidence": [
+        "aquatic_foodweb.py:102 thermal_landscape",
+        "build.py:468 thermal_landscape(replay_doc)",
+        "coupling.py EXCHANGES landscape_temperature"
+      ],
+      "notes": "landscape also fed to validation.checks and figures"
+    },
+    {
+      "from": "replay_hydraulics",
+      "to": "aquatic_foodweb",
+      "quantity": "bed shear (Pa) -> benthic disturbance fraction",
+      "status": "wired",
+      "evidence": [
+        "aquatic_foodweb.py:148 shear_pa = hydro.bed_shear_pa",
+        "aquatic_foodweb.py:245 shear_to_disturbance",
+        "coupling.py EXCHANGES shear_disturbance",
+        "build.py:465 shear_disturb_pa default 20 Pa"
+      ],
+      "notes": "None shear maps to 0 so coupling degrades silently where Manning is undefined"
+    },
+    {
+      "from": "replay_hydraulics",
+      "to": "insects_birds",
+      "quantity": "bed shear disturbance for insect compartments",
+      "status": "wired",
+      "evidence": [
+        "build.py:780 bridge_cell_shear_pa = bridge_cell.get('shear_pa')",
+        "build.py:781 bridge_disturbance = shear_to_disturbance(bridge_cell_shear_pa, foodweb_shear_disturb_pa)",
+        "build.py:795 'disturbance': bridge_disturbance passed to step_compartments",
+        "insects_birds.py:144 disturbance is a step input"
+      ],
+      "notes": "the per-minute insect compartments now take disturbance from the bridge-cell shear through the shared shear_to_disturbance ramp"
+    },
+    {
+      "from": "aquatic_foodweb",
+      "to": "fish",
+      "quantity": "refuge cell (chainage, temperature, suitability) for the rendered trout",
+      "status": "wired",
+      "evidence": [
+        "build.py:547 place_trout_at_chainage(wildlife2, river_state, firehole_points, aquatic_foodweb['trout'], chainage_offset_m=fh_offset)",
+        "fish.py build_chainage / place_trout_at_chainage"
+      ],
+      "notes": "landscape foodweb picks the refuge; fish.py places the rendered trout actor there"
+    },
+    {
+      "from": "aquatic_foodweb",
+      "to": "insects_birds",
+      "quantity": "dipper intake per day",
+      "status": "wired",
+      "evidence": [
+        "build.py:521 fw_dipper = aquatic_foodweb['dipper']",
+        "build.py:523 rates['dipper'] = intake_per_day/24.0",
+        "build.py:526 update_wildlife_from_intake"
+      ],
+      "notes": "dipper rate comes from the replay landscape; raven stays on the legacy insect-compartment ledger"
+    },
+    {
+      "from": "replay_river_transport",
+      "to": "fish",
+      "quantity": "reach-cell temperature and flow for trout suitability",
+      "status": "wired",
+      "evidence": [
+        "build.py:531 update_trout(... river_state ...)",
+        "equations.py:68 trout U = wf F + wc C - wt phi(T) - wv V - wd D"
+      ],
+      "notes": "update_trout uses mixing-chain reach_state (not replay cells); replay landscape informs refuge argmax"
+    },
+    {
+      "from": "replay_river_transport",
+      "to": "ecosystem_variant",
+      "quantity": "river_reaches temperature + flow for Godot",
+      "status": "wired",
+      "evidence": [
+        "build.py:602 merge_fragments(baseline, river_state, ...)",
+        "exporters/to_ecosystem.py merges reach fields",
+        "ecosystem.gd:46 reads river_reaches"
+      ],
+      "notes": "mixing-chain state is what reaches Godot; python_river_replay.gd handles the separate study-scene A/B pair"
+    },
+    {
+      "from": "pool_crust",
+      "to": "vegetation",
+      "quantity": "apron exclusion test (hydrothermal keep-out)",
+      "status": "wired",
+      "evidence": [
+        "build.py:376 _excluded = any(_in_apron(x,z,s) for s in shells)",
+        "build.py:391 propose_plantings_reviewed(exclusion_test=_excluded)",
+        "pool_crust.py:357 in_apron"
+      ],
+      "notes": "proposed plantings refused inside the buffered apron rings"
+    },
+    {
+      "from": "pool_crust",
+      "to": "grazers",
+      "quantity": "apron exclusion test for route planner",
+      "status": "wired",
+      "evidence": [
+        "build.py:552 update_grazers(wildlife2, patches1)",
+        "build.py:565 plan_path(_a, _b, _excluded, cell_m=4.0, bounds=_bounds)",
+        "grazers.py:102 check_routes against shells"
+      ],
+      "notes": "A*-style planner rejects segments crossing apron"
+    },
+    {
+      "from": "pool_crust",
+      "to": "snow_season",
+      "quantity": "thermal exclusion for snow accumulation (bare apron)",
+      "status": "wired",
+      "evidence": [
+        "build.py:405 run_season(... thermal_test=_excluded)",
+        "snow_season.py:157 run_season uses thermal_test"
+      ],
+      "notes": "snow kept off thermally active apron tiles"
+    },
+    {
+      "from": "pool_crust",
+      "to": "fish",
+      "quantity": "exclusion check for trout route (clear of pools)",
+      "status": "wired",
+      "evidence": [
+        "build.py:548 check_trout_clear_of_pools(wildlife2, firehole_points, shells)"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "geochemistry",
+      "to": "pool_crust",
+      "quantity": "siliceous substrate palette gate (Midway vs Mammoth)",
+      "status": "wired",
+      "evidence": [
+        "geochemistry.py:67 check_midway_shells",
+        "geochemistry.py:81 validate_palette",
+        "build.py:374 check_midway_shells(shells)"
+      ],
+      "notes": "whitening palettes refused on silica systems"
+    },
+    {
+      "from": "replay_river_transport",
+      "to": "geochemistry",
+      "quantity": "cell temperature -> silica saturation index",
+      "status": "wired",
+      "evidence": [
+        "exporters/godot_sidecars.py:143 _load_json(build_dir / 'river_replay.json')",
+        "exporters/godot_sidecars.py:157 diagnose_replay_frame call with last-frame temperatures",
+        "build.py:1491 produce_all runs the geochemistry producer against the build"
+      ],
+      "notes": "the godot_sidecars producer feeds the last replay frame through diagnose_replay_frame and writes geochemistry.json per build"
+    },
+    {
+      "from": "pool_crust",
+      "to": "plume_field",
+      "quantity": "hot source temperature for 2-D plume (Excelsior reach T)",
+      "status": "partial",
+      "evidence": [
+        "build.py:674 plume_field(nx=128, nz=128, hot_c=float(exc.temperature_c), river_c=float(river_ref.temperature_c))",
+        "publish.py:28 plume_map.png not shipped"
+      ],
+      "notes": "rendered to PNG in derived/ only"
+    },
+    {
+      "from": "weather_bundle",
+      "to": "overland_flow",
+      "quantity": "rainfall rate (mm/h)",
+      "status": "wired",
+      "evidence": [
+        "build.py:873 bundle_precip = met_bundle.get('precipitation_mm')",
+        "build.py:884 window-mean mm/h computed from the bundle",
+        "build.py:909 run_overland(..., rain_mm_h=rain_mm_h)"
+      ],
+      "notes": "overland.rain_mm_h wins; otherwise in run_mode hindcast or observed_replay the met_bundle precipitation_mm mean drives the forcing; snow.precip_mm_d is only the illustrative fallback"
+    },
+    {
+      "from": "weather_bundle",
+      "to": "snow_season",
+      "quantity": "hourly air temperature from the met bundle plus authored daily air",
+      "status": "wired",
+      "evidence": [
+        "build.py:645 air_hourly_c=(met_bundle.get('hourly') if met_bundle else None) passed to run_season",
+        "snow_season.py run_season consumes air_hourly_c",
+        "snow_validate.py drives run_season from the SNOTEL bundle for the standalone validator"
+      ],
+      "notes": "the build now hands met_bundle hourly air to run_season alongside the authored daily series; SNOTEL still reaches snow_season only through snow_validate for the holdout gate"
+    },
+    {
+      "from": "patches",
+      "to": "insects_birds",
+      "quantity": "patch moisture + insect_resource -> activity + resource decay",
+      "status": "wired",
+      "evidence": [
+        "build.py:481 riparian = _find(patches1, 'id', PATCH_RIPARIAN, 'patch')",
+        "build.py:486 insect_activity(..., moisture=riparian['moisture'], resource=riparian['insect_resource'], ...)"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "patches",
+      "to": "grazers",
+      "quantity": "patch biomass + capacity -> grazing cadence",
+      "status": "wired",
+      "evidence": [
+        "grazers.py:57 graze_timing(biomass, capacity, ...)",
+        "build.py:552 update_grazers(wildlife2, patches1)"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "grazers",
+      "to": "patches",
+      "quantity": "grazing pressure on patch biomass",
+      "status": "wired",
+      "evidence": [
+        "build.py _grazers_input_from_consumed (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "vegetation.py:92 patch_step grazers argument",
+        "build.py:382 patch_step(patches0, hour0, sim_s, grazers=vcfg.grazers)"
+      ],
+      "notes": "previous step consumed_by_patch feeds vegetation patch_step (lag 1)"
+    },
+    {
+      "from": "snow_season",
+      "to": "patches",
+      "quantity": "snow depth / soil moisture / phenology updates on patches",
+      "status": "wired",
+      "evidence": [
+        "build.py:402 patches2, snow_ledger = run_season(patches1, ...)"
+      ],
+      "notes": "patches2 goes into ecosystem.variant"
+    },
+    {
+      "from": "snow_season",
+      "to": "world_shader",
+      "quantity": "snow mask + snow_depth summary for terrain shader",
+      "status": "wired",
+      "evidence": [
+        "snow_season.py:297 render_snow_map",
+        "build.py:665 render_snow_map",
+        "world.gd:122 reads season.json",
+        "world.gd:135 loads snow_map.png"
+      ],
+      "notes": "Godot terrain shader blends snow by this mask"
+    },
+    {
+      "from": "insects_birds",
+      "to": "wildlife_variant",
+      "quantity": "dipper / raven foraging cadence from intake",
+      "status": "wired",
+      "evidence": [
+        "build.py:526 update_wildlife_from_intake(wildlife1, rates, intake_basis)",
+        "wildlife_actor.gd:443 set_insect_forager_activity"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "fish",
+      "to": "wildlife_variant",
+      "quantity": "trout hold location + swim parameters",
+      "status": "wired",
+      "evidence": [
+        "build.py:545 place_trout_at_chainage returns updated wildlife2",
+        "wildlife_actor.gd:98 kind dispatch for authored proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "grazers",
+      "to": "wildlife_variant",
+      "quantity": "bison / elk route and grazing timing",
+      "status": "wired",
+      "evidence": [
+        "build.py:552 wildlife3 = update_grazers(...)",
+        "wildlife_actor.gd:237 path_xz consumer"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "vegetation",
+      "to": "ecosystem_variant",
+      "quantity": "patches biomass + capacity for Godot patch advance",
+      "status": "wired",
+      "evidence": [
+        "build.py:608 variant['patches'] = patches2",
+        "ecosystem.gd:196 _advance_patches reads biomass/capacity/moisture"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "microclimate",
+      "to": "ecosystem_variant",
+      "quantity": "weather keys (night_air_c, day_warming_c, wind_xz_mps, gust_mps, humidity, cloud)",
+      "status": "wired",
+      "evidence": [
+        "build.py:603 filter of weather_frag into merge_fragments weather subset",
+        "ecosystem.gd:433 uses wind + air_c"
+      ],
+      "notes": ""
+    },
+    {
+      "from": "canopy_census",
+      "to": "vegetation",
+      "quantity": "canopy fraction over the proposal circle for suitability",
+      "status": "wired",
+      "evidence": [
+        "build.py:199 _canopy_from_census crown-area sum",
+        "build.py:621 canopy_input, canopy_source = _canopy_from_census(proposal_center, proposal_radius_m, census.json)",
+        "build.py:623 propose_plantings_reviewed(..., canopy=canopy_input, ...)",
+        "vegetation.py:61 suitability takes canopy argument"
+      ],
+      "notes": "fallback 0.6 remains when derived/census.json is missing, empty, or has a bad proposal radius; otherwise the crown-area sum over the proposal circle drives suitability"
+    },
+    {
+      "from": "overland_flow",
+      "to": "snow_season",
+      "quantity": "soil moisture / infiltration feedback",
+      "status": "proposed",
+      "evidence": [
+        "hydrology/hydrosim.py docstring soil bucket",
+        "snow_season.py:132 patch_modifiers soil model"
+      ],
+      "notes": "the two water-balance models run side by side without exchanging soil state"
+    },
+    {
+      "from": "overland_flow",
+      "to": "vegetation",
+      "quantity": "cell soil wetness influencing suitability",
+      "status": "proposed",
+      "evidence": [
+        "hydrology_provider.py:131 snapshot returns soil wetness",
+        "vegetation.py:224 habitat_moisture_at currently uses patch moisture"
+      ],
+      "notes": "hydrology_provider surface exposed only through llm_backend; not fed into patch moisture"
+    },
+    {
+      "from": "replay_hydraulics",
+      "to": "fish",
+      "quantity": "cell velocity / depth for trout velocity-cost term",
+      "status": "wired",
+      "evidence": [
+        "build.py _per_point_hydraulics_from_cells (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "fish.py update_trout uses reach-level flows",
+        "replay/hydraulics.py provides per-cell V = Q/A diagnostics"
+      ],
+      "notes": "per-cell velocity and depth feed fish.update_trout"
+    },
+    {
+      "from": "replay_river_transport",
+      "to": "insects_birds",
+      "quantity": "water temperature forcing on benthic degree-day development",
+      "status": "wired",
+      "evidence": [
+        "build.py develop_benthic_grid wiring (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "build.py:507 water_c = bridge.temperature_c passed to step_compartments",
+        "insects_birds.py:124 develop_benthic"
+      ],
+      "notes": "per-cell water temperature drives develop_benthic_grid; benthic_grid.json published"
+    },
+    {
+      "from": "plume_field",
+      "to": "aquatic_foodweb",
+      "quantity": "2-D plume heat as a landscape temperature overlay",
+      "status": "proposed",
+      "evidence": [
+        "replay/plume2d.py 2-D steady plume",
+        "aquatic_foodweb.py:102 thermal_landscape uses only 1-D replay cells"
+      ],
+      "notes": "plume is rendered to PNG and never merged into the foodweb landscape"
+    },
+    {
+      "from": "geochemistry",
+      "to": "aquatic_ecology",
+      "quantity": "silica saturation / substrate pH gate on habitat",
+      "status": "proposed",
+      "evidence": [
+        "geochemistry.py:200 silica_saturation_index",
+        "geochemistry.py:211 diagnose_replay_frame (unused)"
+      ],
+      "notes": "chemistry diagnostics defined but no biological consumer; absent in coupling.json EXCHANGES"
+    },
+    {
+      "from": "weather_bundle",
+      "to": "surface_flux",
+      "quantity": "shortwave, longwave, humidity, wind for explicit budget",
+      "status": "wired",
+      "evidence": [
+        "build.py budget_mode_source (syn 2026-10-13 after fixes pass 2: build 71c8f00455af passed, 950 tests pass, main and study scenes 0 script errors)",
+        "replay/surface_flux.py:1 docstring",
+        "coupling.py EXCHANGES surface_budget 'prescribed meteorology series'",
+        "build.py:293 energy_budget flag off by default"
+      ],
+      "notes": "full measured bundle selects the explicit budget in measured run modes"
+    },
+    {
+      "from": "replay_plume2d",
+      "to": "world_display",
+      "quantity": "2-D plume field summary to the Godot status HUD",
+      "status": "wired",
+      "evidence": [
+        "exporters/godot_sidecars.py:63 write_plume_field_json",
+        "publish.py:24 plume_field.json shipped",
+        "yellowstone_midway/scripts/world.gd:153 load_optional_sidecar(res://data/plume_field.json)",
+        "yellowstone_midway/scripts/world.gd:657 reports plume_field grid, Excelsior and bridge temperatures"
+      ],
+      "notes": "replaces the earlier publish.py exclusion of plume_map.png with a published plume_field.json"
+    },
+    {
+      "from": "geochemistry",
+      "to": "world_display",
+      "quantity": "per-cell silica saturation summary to the Godot status HUD",
+      "status": "wired",
+      "evidence": [
+        "exporters/godot_sidecars.py:139 write_geochemistry_json",
+        "publish.py:25 geochemistry.json shipped",
+        "yellowstone_midway/scripts/world.gd:154 load_optional_sidecar(res://data/geochemistry.json)",
+        "yellowstone_midway/scripts/world.gd:658 geochemistry.cells read for HUD"
+      ],
+      "notes": "cells are quartz-phase saturation only; sio2_obs_mg_L stays null until an observed field is wired"
+    },
+    {
+      "from": "calibration_summary",
+      "to": "world_display",
+      "quantity": "reach heat fit scalars + first gauge trace to the Godot status HUD",
+      "status": "wired",
+      "evidence": [
+        "exporters/godot_sidecars.py:195 write_calibration_summary_json",
+        "publish.py:26 calibration_summary.json shipped",
+        "yellowstone_midway/scripts/world.gd:155 load_optional_sidecar(res://data/calibration_summary.json)",
+        "yellowstone_midway/scripts/world.gd:668 reach_fit summary line"
+      ],
+      "notes": "source files are the latest derived/reach_heat_fit*.json and firehole_obs_locked_final.json or firehole_obs.json"
+    },
+    {
+      "from": "canopy_census",
+      "to": "world_display",
+      "quantity": "census tree records to the Godot status HUD",
+      "status": "wired",
+      "evidence": [
+        "exporters/godot_sidecars.py:382 write_census_sidecar",
+        "publish.py:31 census.json shipped",
+        "yellowstone_midway/scripts/world.gd:156 load_optional_sidecar(res://data/census.json)",
+        "yellowstone_midway/scripts/world.gd:674 census summary line"
+      ],
+      "notes": "the Godot reader unwraps either the raw census.json or the godot_sidecars wrapper carrying it under payload"
+    },
+    {
+      "from": "overland_flow",
+      "to": "world_display",
+      "quantity": "overland field status to the Godot status HUD",
+      "status": "wired",
+      "evidence": [
+        "exporters/godot_sidecars.py:327 write_overland_field_json",
+        "publish.py:29 overland_field.json shipped",
+        "yellowstone_midway/scripts/world.gd:159 load_optional_sidecar(res://data/overland_field.json)",
+        "yellowstone_midway/scripts/world.gd:685 overland field status line"
+      ],
+      "notes": "overland field is a diagnostic status only; it is still not routed to the river boundary"
+    }
+  ],
+  "verified_utc": "2026-10-13T08:06Z"
+}

@@ -1,7 +1,6 @@
 """Tests for the LLM analysis store: builder, query validation, cross-checks.
 
-All synthetic/offline: small hand-built docs in tmp_path, no network, no
-6 MB fixtures.
+Synthetic and offline: small hand-built docs in tmp_path, no network.
 """
 import json
 import math
@@ -18,8 +17,7 @@ from yellowstone_python.llm_backend import Backend, _Handler
 
 
 def _census_doc():
-    # Edge coordinates deliberate: e1 sits exactly on the (0,0,10,10)
-    # bbox edges and must be INCLUDED; e2 sits just outside.
+    # Edge coordinates: e1 sits on the (0,0,10,10) bbox edges and is in; e2 sits outside.
     trees = [
         {"stable_id": "t_edge", "x": 0.0, "z": 0.0,
          "crown_r_m": 1.0, "confidence": "high", "peak_exg": 0.2,
@@ -79,6 +77,8 @@ def _snotel_doc():
 def _reach_fit_doc():
     return {"status": "fitted_not_validated_single_window",
             "effective_geometry": {"volume_m3": 300000.0},
+            "window": {"start_epoch": 1000.0, "end_epoch": 2000.0},
+            "n_train": 123, "n_holdout": 45,
             "champion": {"q_lat": 3.5, "t_lat": 30.0, "c_mult": 1.0,
                          "train_rmse": 0.5, "holdout_rmse": 0.6,
                          "train_bias": 0.03, "holdout_bias": 0.3},
@@ -89,10 +89,10 @@ def _reach_fit_doc():
                  "train_rmse": 0.9, "holdout_rmse": 1.0}],
             "null_models": [
                 {"name": "upstream_persistence",
-                 "train_rmse": 7.0, "holdout_rmse": 6.9},
+                 "train_rmse": 7.0, "holdout_rmse": 6.9, "k": 0},
                 {"name": "mixing_only_c0_refit", "q_lat": 3.5,
                  "t_lat": 25.0, "c_mult": 0.0,
-                 "train_rmse": 1.0, "holdout_rmse": 1.6}]}
+                 "train_rmse": 1.0, "holdout_rmse": 1.6, "k": 2}]}
 
 
 def _snow_fit_doc():
@@ -350,8 +350,7 @@ def test_long_format_frame_rowcount_and_index():
 
 
 def test_snotel_day_filters_are_applied():
-    # Regression: day0/day1 once passed validation but were silently
-    # discarded, returning the unfiltered table.
+    # Regression: day0/day1 filter the result and do apply.
     con = _mem_con()
     jan1 = A.query(con, "obs_snotel", day0="2026-01-01", day1="2026-01-01",
                    limit=10)
@@ -394,15 +393,44 @@ def test_radius_bounds_single_sourced():
 
 def test_replay_garbage_raises_valueerror():
     con = A.create_empty()
+
+    def _cell(**over):
+        base = {"id": "c", "river_id": "r",
+                "start_s_m": 0.0, "end_s_m": 10.0, "length_m": 10.0,
+                "width_m": 10.0, "depth_m": 0.5, "volume_m3": 50.0,
+                "representative_velocity_m_s": 0.5}
+        base.update(over)
+        return base
+
     no_id = {"cells": [{"river_id": "r"}],
              "frames": [{"t_s": 0.0, "temperature_c": [1.0]}]}
     with pytest.raises(ValueError, match="missing 'id'"):
         A.ingest_replay(con, no_id)
-    none_temp = {"cells": [{"id": "c"}],
+    missing_geo = {"cells": [{"id": "c",
+                              "representative_velocity_m_s": 0.5}],
+                   "frames": [{"t_s": 0.0, "temperature_c": [1.0]}]}
+    with pytest.raises(ValueError, match="missing 'river_id'"):
+        A.ingest_replay(con, missing_geo)
+    bad_volume = {"cells": [_cell(volume_m3=0.0)],
+                  "frames": [{"t_s": 0.0, "temperature_c": [1.0]}]}
+    with pytest.raises(ValueError, match="volume_m3 must be positive"):
+        A.ingest_replay(con, bad_volume)
+    inverted = {"cells": [_cell(start_s_m=10.0, end_s_m=0.0)],
+                "frames": [{"t_s": 0.0, "temperature_c": [1.0]}]}
+    with pytest.raises(ValueError, match="start_s_m .* must be less than"):
+        A.ingest_replay(con, inverted)
+    # A cell with no velocity source raises; missing is not zero.
+    no_vel_cell = _cell()
+    no_vel_cell.pop("representative_velocity_m_s")
+    no_velocity = {"cells": [no_vel_cell],
+                   "frames": [{"t_s": 0.0, "temperature_c": [1.0]}]}
+    with pytest.raises(ValueError, match="no velocity"):
+        A.ingest_replay(con, no_velocity)
+    none_temp = {"cells": [_cell()],
                  "frames": [{"t_s": 0.0, "temperature_c": [None]}]}
     with pytest.raises(ValueError, match="non-numeric"):
         A.ingest_replay(con, none_temp)
-    no_ts = {"cells": [{"id": "c"}],
+    no_ts = {"cells": [_cell()],
              "frames": [{"temperature_c": [1.0]}]}
     with pytest.raises(ValueError, match="t_s"):
         A.ingest_replay(con, no_ts)
@@ -427,3 +455,167 @@ def test_build_file_refuses_overwrite(tmp_path):
                    census_path=tmp_path / "c.json",
                    firehole_path=tmp_path / "f.json",
                    snotel_path=tmp_path / "s.json")
+
+
+def _write_build_tree(tmp_path):
+    (tmp_path / "river_replay.json").write_text(json.dumps(_replay_doc()))
+    census = tmp_path / "census.json"
+    firehole = tmp_path / "firehole_obs.json"
+    snotel = tmp_path / "snotel_obs.json"
+    census.write_text(json.dumps(_census_doc()))
+    firehole.write_text(json.dumps(_firehole_doc()))
+    snotel.write_text(json.dumps(_snotel_doc()))
+    return census, firehole, snotel
+
+
+def test_build_file_sources_record_shape_and_readonly(tmp_path):
+    from yellowstone_python.analysis_store import build_file
+    census, firehole, snotel = _write_build_tree(tmp_path)
+    out = tmp_path / "analysis_build_rec.sqlite"
+    build_file(build_dir=tmp_path, out=out,
+               census_path=census, firehole_path=firehole,
+               snotel_path=snotel)
+    import stat as _stat
+    mode = out.stat().st_mode
+    assert not mode & _stat.S_IWUSR
+    con = sqlite3.connect(f"file:{out}?mode=ro", uri=True)
+    try:
+        shas_text = con.execute(
+            "SELECT source_shas FROM meta").fetchone()[0]
+        shas = json.loads(shas_text)
+    finally:
+        con.close()
+    assert "census" in shas and "firehole_obs" in shas and "snotel_obs" in shas
+    rec = shas["census"]
+    assert set(rec) == {"path", "basename", "sha256", "bytes"}
+    assert rec["basename"] == "census.json"
+    assert rec["bytes"] > 0
+    assert len(rec["sha256"]) == 64
+    replay_key = next(k for k in shas if k.endswith("/river_replay.json"))
+    assert tmp_path.name in replay_key
+
+
+def test_ingest_replay_rejects_missing_geometry_field():
+    con = A.create_empty()
+    bad = {"cells": [{"id": "c", "river_id": "r",
+                      "start_s_m": 0.0, "end_s_m": 10.0}],
+           "frames": [{"t_s": 0.0, "temperature_c": [1.0]}]}
+    with pytest.raises(ValueError, match="missing 'length_m'"):
+        A.ingest_replay(con, bad)
+    con.close()
+
+
+def test_fits_reach_window_and_null_k_recorded():
+    con = _mem_con()
+    champ = con.execute(
+        "SELECT window_start_epoch, window_end_epoch, "
+        "n_train, n_holdout FROM fits_reach "
+        "WHERE champion=1").fetchone()
+    assert champ == (1000.0, 2000.0, 123, 45)
+    nulls = dict(con.execute(
+        "SELECT name, k FROM fits_reach_nulls").fetchall())
+    assert nulls == {"upstream_persistence": 0, "mixing_only_c0_refit": 2}
+    con.close()
+
+
+def test_fits_reach_order_champion_first():
+    con = _mem_con()
+    rows = A.query(con, "fits_reach",
+                   columns=["source_file", "champion", "q_lat"],
+                   limit=10)
+    assert rows["rows"][0][1] == 1
+    assert rows["rows"][-1][1] == 0
+    con.close()
+
+
+def test_fits_reach_nulls_source_name_index_exists():
+    con = _mem_con()
+    rows = con.execute(
+        "PRAGMA index_list(fits_reach_nulls)").fetchall()
+    assert any("src_name" in str(row).lower() or
+               "source_file" in str(row).lower() for row in rows)
+    con.close()
+
+
+def test_query_filter_evidence_class():
+    con = A.create_empty()
+    doc = {"trees": [
+        {"stable_id": "s", "x": 1.0, "z": 1.0, "crown_r_m": 0.5,
+         "confidence": "high", "peak_exg": 0.2,
+         "evidence_class": "synthetic"},
+        {"stable_id": "n", "x": 2.0, "z": 2.0, "crown_r_m": 0.5,
+         "confidence": "high", "peak_exg": 0.2,
+         "evidence_class": "naip_detect"},
+    ]}
+    A.ingest_census(con, doc)
+    syn = A.query(con, "census_trees", evidence_class="synthetic", limit=10)
+    naip = A.query(con, "census_trees", evidence_class="naip_detect", limit=10)
+    assert syn["n"] == 1 and syn["rows"][0][0] == "s"
+    assert naip["n"] == 1 and naip["rows"][0][0] == "n"
+    with pytest.raises(ValueError, match="evidence_class"):
+        A.query(con, "census_trees", evidence_class="")
+    con.close()
+
+
+def test_ingest_snow_fit_rejects_wind_loss_outside_01():
+    con = A.create_empty()
+    bad = {"status": "fitted_not_validated_single_window",
+           "sites": {"X": {"fitted": {"k_melt_mm_per_deg_day": 1.0,
+                                      "wind_loss_effective": 1.5},
+                           "holdout_swe_mm": {"rmse": 1.0, "bias": 0.0}}}}
+    with pytest.raises(ValueError, match="wind_loss_effective"):
+        A.ingest_snow_fit(con, bad, "snow.json")
+    con.close()
+
+
+def test_ingest_snow_fit_records_holdout_window():
+    con = A.create_empty()
+    doc = {"status": "fitted_not_validated_single_window",
+           "sites": {"X": {"fitted": {"k_melt_mm_per_deg_day": 1.0,
+                                      "wind_loss_effective": 0.1,
+                                      "train_rmse_mm": 5.0},
+                           "holdout_swe_mm": {"rmse": 10.0, "bias": 2.0,
+                                              "start_day": "2026-02-01",
+                                              "end_day": "2026-04-30"},
+                           "null_persistence_rmse_mm": 50.0,
+                           "null_nomelt_rmse_mm": 60.0,
+                           "peak_timing_error_days": 3}}}
+    A.ingest_snow_fit(con, doc, "snow.json")
+    row = con.execute(
+        "SELECT holdout_start_day, holdout_end_day FROM fits_snow").fetchone()
+    assert row == ("2026-02-01", "2026-04-30")
+    con.close()
+
+
+def test_no_store_error_subclass_of_file_not_found():
+    assert issubclass(A.NoStoreError, FileNotFoundError)
+    with pytest.raises(A.NoStoreError):
+        A.query("/this/path/does/not/exist.sqlite", "meta")
+
+
+def test_query_does_not_leak_query_only_pragma():
+    con = A.create_empty()
+    doc = _census_doc()
+    A.ingest_census(con, doc)
+    A.query(con, "census_trees", limit=10)
+    doc2 = {"trees": [
+        {"stable_id": "later", "x": 7.0, "z": 7.0, "crown_r_m": 1.0,
+         "confidence": "high", "peak_exg": 0.1,
+         "evidence_class": "synthetic"}]}
+    A.ingest_census(con, doc2)
+    con.close()
+
+
+def test_crown_overlap_count_includes_overlapping_crown():
+    con = A.create_empty()
+    doc = {"trees": [
+        {"stable_id": "near", "x": 2.1, "z": 0.0, "crown_r_m": 2.0,
+         "confidence": "high", "peak_exg": 0.1,
+         "evidence_class": "synthetic"},
+    ]}
+    A.ingest_census(con, doc)
+    center = A.census_center_count(con, 0.0, 0.0, 1.0)
+    crown = A.census_crown_overlap_count(con, 0.0, 0.0, 1.0)
+    assert center["n"] == 0
+    assert crown["n"] == 1
+    con.close()

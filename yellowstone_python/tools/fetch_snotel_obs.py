@@ -1,31 +1,4 @@
-"""Fetch a frozen SNOTEL observation bundle for snow + soil-water validation.
-
-Sources (all measured, all remote — nothing authored here):
-  - NRCS NWCC AWDB REST: daily WTEQ (in), PRCP (in), SNWD (in),
-    TAVG/TMAX/TMIN (degF) for two verified SNOTEL sites:
-      609:MT:SNTL Madison Plateau (2350 m, upper-Madison plateau snow
-        source ~15 km SE of West Yellowstone, between Firehole/Madison arms)
-      924:MT:SNTL West Yellowstone (2036 m, valley floor ~5 km from
-        Madison Junction / Firehole confluence)
-  - Site selection, element periods-of-record, and the recommended WY2026
-    window were verified live by a parallel worker; see
-    worker_briefs/snotel_sites.md (cited, not copied: re-verify
-    coverage counts below at fetch time).
-
-Values are stored RAW as returned (in / degF) with their storedUnitCode;
-unit conversion (x25.4, degF->degC) happens in the consuming validation
-with documented factors, so the bundle stays a faithful fetch record.
-Null value = missing day, preserved as null. PRCP is a daily accumulation
-increment; confirm accumulation-vs-increment semantics in consuming code
-before water-balance use (flagged in the site brief).
-
-Output is a timestamped JSON bundle under derived/. This tool never fits
-anything.
-
-Usage:
-    python3 tools/fetch_snotel_obs.py --out derived/snotel_obs.json
-    python3 tools/fetch_snotel_obs.py --out derived/snotel_obs.json \
-        --begin 2025-10-01 --end 2026-07-31
+"""Fetch a frozen SNOTEL observation bundle for snow and soil-water validation.
 """
 from __future__ import annotations
 
@@ -36,10 +9,31 @@ import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+try:
+    from tools.observation_io import atomic_write_json
+except ImportError:
+    from observation_io import atomic_write_json
+
 AWDB_DATA = "https://wcc.sc.egov.usda.gov/awdbRestApi/services/v1/data"
 USER_AGENT = "yellowstone-python/0.1 (research calibration fetch)"
 
 ELEMENTS = ("WTEQ", "PRCP", "SNWD", "TAVG", "TMAX", "TMIN")
+
+EXPECTED_UNITS = {
+    "WTEQ": "in", "PRCP": "in", "SNWD": "in",
+    "TAVG": "degF", "TMAX": "degF", "TMIN": "degF",
+}
+
+ELEMENT_SEMANTICS = {
+    "WTEQ": "state",
+    "SNWD": "state",
+    "PRCP": "accumulation_increment",
+    "TAVG": "state",
+    "TMAX": "state",
+    "TMIN": "state",
+}
+
+MAX_WINDOW_DAYS = 400
 
 SITES = {
     "609:MT:SNTL": {
@@ -67,18 +61,50 @@ def _get_json(url: str) -> list:
         return json.loads(resp.read().decode("utf-8"))
 
 
-def fetch_site_daily(triplet: str, begin: str, end: str) -> dict:
-    """Daily element series for one station triplet over [begin, end].
+def validate_date_window(begin: str, end: str) -> tuple[date, date]:
+    try:
+        begin_date = date.fromisoformat(begin)
+        end_date = date.fromisoformat(end)
+    except ValueError as exc:
+        raise ValueError(f"invalid date in window: {exc}") from exc
+    if end_date < begin_date:
+        raise ValueError("end precedes begin")
+    if (end_date - begin_date).days > MAX_WINDOW_DAYS:
+        raise ValueError(
+            f"window over {MAX_WINDOW_DAYS} days; split the fetch")
+    return begin_date, end_date
 
-    Returns {"url": ..., "days": {date: {element: value-or-None}},
-    "units": {element: storedUnitCode}, "coverage": {element: non-null n}}.
+
+def _coerce_awdb_value(code: str, raw: object) -> float | None:
+    """Return a finite float or None; rejects strings and sentinel values."""
+    if raw is None:
+        return None
+    if isinstance(raw, bool):
+        return None
+    if not isinstance(raw, (int, float)):
+        return None
+    value = float(raw)
+    if value != value:  # NaN check without math import duplication
+        return None
+    if value <= -999.0 or value >= 9999.0:
+        return None
+    if code in ("WTEQ", "SNWD") and value < 0.0:
+        return None
+    return value
+
+
+def fetch_site_daily(triplet: str, begin: str, end: str) -> dict:
+    """Daily element series for one station triplet over [begin, end], with units, coverage and rejections.
     """
+    begin_date, end_date = validate_date_window(begin, end)
+    begin_iso = begin_date.isoformat()
+    end_iso = end_date.isoformat()
     params = urllib.parse.urlencode({
         "stationTriplets": triplet,
         "elements": ",".join(ELEMENTS),
         "duration": "DAILY",
-        "beginDate": begin,
-        "endDate": end,
+        "beginDate": begin_iso,
+        "endDate": end_iso,
     })
     url = f"{AWDB_DATA}?{params}"
     data = _get_json(url)
@@ -86,25 +112,53 @@ def fetch_site_daily(triplet: str, begin: str, end: str) -> dict:
         raise RuntimeError(f"AWDB: unexpected station envelope for {triplet}")
     days: dict[str, dict] = {}
     units: dict[str, str] = {}
+    unexpected: dict[str, str] = {}
+    rejections: dict[str, dict[str, int]] = {
+        code: {"malformed_date": 0, "non_numeric": 0, "sentinel": 0}
+        for code in ELEMENTS
+    }
     for block in data[0].get("data", []):
         el = block.get("stationElement", {})
         code = el.get("elementCode")
         if code not in ELEMENTS:
             continue
-        units[code] = el.get("storedUnitCode", "unknown")
+        stored = el.get("storedUnitCode", "unknown")
+        units[code] = stored
+        if EXPECTED_UNITS.get(code) and stored != EXPECTED_UNITS[code]:
+            unexpected[code] = stored
         for row in block.get("values", []):
             day = row.get("date")
-            if not day:
+            if not isinstance(day, str) or not day:
+                rejections[code]["malformed_date"] += 1
                 continue
-            days.setdefault(day, {})[code] = row.get("value")
-    for day in days:
+            try:
+                date.fromisoformat(day)
+            except ValueError:
+                rejections[code]["malformed_date"] += 1
+                continue
+            raw = row.get("value")
+            coerced = _coerce_awdb_value(code, raw)
+            if coerced is None and raw is not None:
+                if isinstance(raw, (int, float)) and not isinstance(raw, bool):
+                    rejections[code]["sentinel"] += 1
+                else:
+                    rejections[code]["non_numeric"] += 1
+            days.setdefault(day, {})[code] = coerced
+    current = begin_date
+    while current <= end_date:
+        iso = current.isoformat()
+        days.setdefault(iso, {})
         for code in ELEMENTS:
-            days[day].setdefault(code, None)
+            days[iso].setdefault(code, None)
+        current = date.fromordinal(current.toordinal() + 1)
     coverage = {code: sum(1 for d in days.values() if d[code] is not None)
                 for code in ELEMENTS}
-    if not days:
-        raise RuntimeError(f"AWDB: no daily rows for {triplet}")
-    return {"url": url, "days": days, "units": units, "coverage": coverage}
+    if not any(coverage.values()):
+        raise RuntimeError(f"AWDB: no non-null daily values for {triplet}")
+    return {"url": url, "days": days, "units": units,
+            "coverage": coverage,
+            "rejections": rejections,
+            "unexpected_units": unexpected}
 
 
 def main() -> int:
@@ -113,18 +167,18 @@ def main() -> int:
     parser.add_argument("--begin", default="2025-10-01")
     parser.add_argument("--end", default="2026-07-31")
     args = parser.parse_args()
-    begin = date.fromisoformat(args.begin)
-    end = date.fromisoformat(args.end)
-    if end < begin:
-        parser.error("--end precedes --begin")
-    if (end - begin).days > 400:
-        parser.error("window over 400 days; split the fetch")
+    try:
+        begin_date, end_date = validate_date_window(args.begin, args.end)
+    except ValueError as exc:
+        parser.error(str(exc))
+    begin_iso = begin_date.isoformat()
+    end_iso = end_date.isoformat()
 
     fetched_at = datetime.now(timezone.utc).isoformat()
     sites = {}
     for triplet, info in SITES.items():
         print(f"AWDB {triplet} ({info['name']}) ...")
-        result = fetch_site_daily(triplet, args.begin, args.end)
+        result = fetch_site_daily(triplet, begin_iso, end_iso)
         n_days = len(result["days"])
         print(f"  days={n_days} coverage={result['coverage']}")
         sites[triplet] = {**info, **result}
@@ -132,8 +186,14 @@ def main() -> int:
     bundle = {
         "schema": "yellowstone.snotel_obs.v1",
         "status": "measured_remote_not_calibrated",
+        "components": {
+            "sites": {"kind": "observation",
+                      "status": "measured_remote_not_calibrated"},
+        },
         "fetched_at_utc": fetched_at,
-        "window": {"begin": args.begin, "end": args.end},
+        "window": {"begin": begin_iso, "end": end_iso},
+        "semantics": dict(ELEMENT_SEMANTICS),
+        "expected_units": dict(EXPECTED_UNITS),
         "site_brief": ("worker_briefs/snotel_sites.md: site "
                        "selection + element POR verified live; "
                        "coverage counts above recomputed at fetch time"),
@@ -141,18 +201,15 @@ def main() -> int:
             "awdb": ("NRCS NWCC AWDB REST, provisional and subject to "
                      "revision; values stored raw in reported units, see "
                      "per-site units table"),
-            "prcp": ("PRCP is a daily accumulation increment; consuming "
-                     "code must confirm accumulation-vs-increment "
-                     "semantics before water-balance use"),
+            "prcp": ("PRCP is a daily accumulation increment (semantics "
+                     "map labels it accumulation_increment); water balance "
+                     "code must sum, not difference"),
             "units": ("WTEQ/PRCP/SNWD in inches (x25.4 -> mm); "
                       "TAVG/TMAX/TMIN in degF ((F-32)x5/9 -> degC)"),
         },
         "sites": sites,
     }
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    tmp = args.out.with_name(args.out.name + ".tmp")
-    tmp.write_text(json.dumps(bundle, indent=1) + "\n", encoding="utf-8")
-    tmp.replace(args.out)
+    atomic_write_json(args.out, bundle)
     print(f"Wrote {args.out}")
     return 0
 

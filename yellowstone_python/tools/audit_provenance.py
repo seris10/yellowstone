@@ -1,11 +1,9 @@
-"""Mechanical standing-rules check over derived/ provenance labels.
-
-Matches status strings against the measured in-use vocabulary (see
-tooling-spec-audit-provenance.md); reports, never rewrites, artifacts.
+"""Mechanical standing-rules check over derived/ provenance labels (reports only).
 """
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -13,7 +11,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 SCHEMA_AUDIT = "yellowstone.provenance_audit.v1"
 
-# Exact vocabulary measured across derived/*.json (28 occurrences, 2026-10-10).
 STATUS_VOCABULARY = (
     "measured_remote_not_calibrated",
     "fitted_not_validated_single_window",
@@ -27,9 +24,9 @@ STATUS_VOCABULARY = (
     "hydrology, wildlife abundance or a biological forecast.",
 )
 
-# Files with no schema/status contract (legacy, allowlisted not failed).
 LEGACY_ALLOWLIST = ("usgs_06036805.json", "llm_snapshot.json")
 
+# Required when contract_version is present. Status is checked separately.
 SIDECAR_KEYS = ("contract_version", "world_id", "code_rev",
                 "parameter_provenance", "sources")
 
@@ -57,8 +54,7 @@ def audit_file(path: Path, strict: bool = False) -> list:
     if path.name in LEGACY_ALLOWLIST:
         return []
     if not isinstance(doc, dict):
-        # river_state.json is a bare list of reach dicts; it carries no
-        # schema/status contract of its own. Report, do not crash.
+        # river_state.json is a bare list of reach dicts with no schema/status contract; this reports it without crashing.
         return [{"file": path.name, "rule": "non-dict-artifact",
                  "found": f"{type(doc).__name__} len={len(doc)}"}]
     if "schema" not in doc:
@@ -87,6 +83,122 @@ def audit_file(path: Path, strict: bool = False) -> list:
     return failures
 
 
+ALLOWED_STORE_TABLES = frozenset([
+    "census_trees", "replay_cells", "replay_frames", "obs_usgs",
+    "obs_snotel", "fits_reach", "fits_reach_nulls", "fits_snow", "meta",
+    "sqlite_sequence",
+])
+
+
+def _dir_bytes(path: Path) -> int:
+    total = 0
+    for root, _, files in os.walk(path):  # fd-ok: need per-entry st_size
+        for name in files:
+            try:
+                total += (Path(root) / name).stat().st_size
+            except OSError:
+                continue
+    return total
+
+
+def _per_build_disk(derived: Path) -> dict:
+    """Return bytes per immediate build subdirectory under derived/."""
+    out: dict = {}
+    for child in sorted(derived.iterdir()):
+        if child.is_dir():
+            out[child.name] = _dir_bytes(child)
+    return out
+
+
+def _audit_store_sources(meta: dict) -> list:
+    """Classify each entry in meta.source_shas against the live derived/."""
+    out: list = []
+    raw = meta.get("source_shas")
+    if raw is None:
+        return out
+    import hashlib
+    try:
+        records = json.loads(raw) if isinstance(raw, str) else raw
+    except ValueError:
+        return [{"status": "UNKNOWN_PATH",
+                 "detail": "source_shas is not valid JSON"}]
+    if not isinstance(records, list):
+        return [{"status": "UNKNOWN_PATH",
+                 "detail": f"source_shas type {type(records).__name__}"}]
+    for rec in records:
+        if not isinstance(rec, dict):
+            out.append({"status": "UNKNOWN_PATH", "record": repr(rec)[:120]})
+            continue
+        path_str = rec.get("path")
+        basename = rec.get("basename")
+        sha = rec.get("sha256")
+        label = basename or path_str or "<unlabeled>"
+        if path_str is None:
+            out.append({"status": "UNKNOWN_PATH", "label": label})
+            continue
+        path = Path(path_str)
+        if not path.exists():
+            if path.parent.exists():
+                out.append({"status": "MISSING_BUILD_DIR", "label": label,
+                            "path": path_str})
+            else:
+                out.append({"status": "MISSING_BUILD_DIR", "label": label,
+                            "path": path_str,
+                            "detail": "parent build dir absent"})
+            continue
+        if sha:
+            try:
+                data = path.read_bytes()
+            except OSError as exc:
+                out.append({"status": "UNKNOWN_PATH", "label": label,
+                            "detail": str(exc)})
+                continue
+            on_disk = hashlib.sha256(data).hexdigest()
+            if on_disk != sha:
+                out.append({"status": "STALE_SOURCE", "label": label,
+                            "path": path_str,
+                            "detail": f"expected {sha[:12]}, "
+                                      f"found {on_disk[:12]}"})
+                continue
+        out.append({"status": "OK", "label": label, "path": path_str})
+    return out
+
+
+def _audit_store(store_path: Path) -> dict:
+    """Audit one sqlite analysis store (tables allow-listed; sources checked)."""
+    import sqlite3
+    try:
+        st = store_path.stat()
+    except OSError as exc:
+        return {"path": str(store_path), "error": str(exc)}
+    out: dict = {"path": str(store_path), "bytes": st.st_size,
+                 "mode": oct(st.st_mode & 0o777)}
+    try:
+        con = sqlite3.connect(f"file:{store_path}?mode=ro",
+                              uri=True, timeout=1.0)
+        try:
+            tables = [r[0] for r in con.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' "
+                "ORDER BY name").fetchall()]
+            out["tables"] = tables
+            unknown = [t for t in tables if t not in ALLOWED_STORE_TABLES]
+            if unknown:
+                out["unknown_tables"] = unknown
+            try:
+                rows = con.execute(
+                    "SELECT key, value FROM meta").fetchall()
+                meta = {k: v for k, v in rows}
+            except sqlite3.DatabaseError:
+                meta = {}
+            out["meta"] = meta
+            out["source_audit"] = _audit_store_sources(meta)
+        finally:
+            con.close()
+    except sqlite3.DatabaseError as exc:
+        out["error"] = f"sqlite: {exc}"
+    return out
+
+
 def audit_dir(directory: Path, strict: bool = False) -> dict:
     files = sorted(directory.glob("*.json"))
     failures = []
@@ -105,8 +217,7 @@ def audit_dir(directory: Path, strict: bool = False) -> dict:
     for name, d in docs.items():
         if name in LEGACY_ALLOWLIST or not isinstance(d, dict):
             continue
-        # met.json is the forcing bundle itself; its fetched_at_utc is its own
-        # timestamp, not a pointer at an obs bundle.
+        # met.json is the forcing bundle itself.
         if name == "met.json":
             continue
         for key in ("fetched_at_utc", "bundle_fetched_at_utc"):
@@ -124,10 +235,21 @@ def main() -> int:
     parser.add_argument("--dir", type=Path, default=Path("derived"))
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--strict", action="store_true")
+    parser.add_argument("--derived-disk", action="store_true",
+                        help="append disk usage summary to the report")
+    parser.add_argument("--audit-stores", action="store_true",
+                        help="audit every analysis_*.sqlite in --dir")
     args = parser.parse_args()
     if not args.dir.is_dir():
         parser.error(f"not a directory: {args.dir}")
     report = audit_dir(args.dir, args.strict)
+    if args.derived_disk:
+        report["disk"] = {"path": str(args.dir),
+                          "bytes": _dir_bytes(args.dir),
+                          "per_build": _per_build_disk(args.dir)}
+    if args.audit_stores:
+        stores = sorted(args.dir.glob("analysis_*.sqlite"))
+        report["stores"] = [_audit_store(p) for p in stores]
     if args.out is not None:
         try:
             args.out.parent.mkdir(parents=True, exist_ok=True)
@@ -142,6 +264,27 @@ def main() -> int:
         print(f"FAIL {f['rule']}: {f['file']}: {f['found']}")
     print(f"audit: {report['n_files']} files, "
           f"{len(report['failures'])} failure(s)")
+    if args.derived_disk:
+        mib = report["disk"]["bytes"] / (1024 * 1024)
+        print(f"disk: {args.dir} {mib:.1f} MiB")
+        for build, bytes_ in sorted(report["disk"]["per_build"].items(),
+                                     key=lambda kv: -kv[1])[:10]:
+            print(f"  {build}: {bytes_ / (1024 * 1024):.1f} MiB")
+    if args.audit_stores:
+        for s in report["stores"]:
+            label = Path(s["path"]).name
+            if "error" in s:
+                print(f"store FAIL {label}: {s['error']}")
+                continue
+            unknown = s.get("unknown_tables") or []
+            src = s.get("source_audit") or []
+            tag = f"{s['bytes']} bytes, {len(s.get('tables', []))} tables"
+            if unknown:
+                tag += f", unknown_tables={unknown}"
+            print(f"store {label}: {tag}")
+            for row in src:
+                print(f"  {row['status']}: {row.get('label', '?')} "
+                      f"{row.get('detail', '')}".rstrip())
     return 0 if report["passed"] else 1
 
 

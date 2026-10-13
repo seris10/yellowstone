@@ -52,7 +52,8 @@ def _inputs(tmp_path):
            "catchment": {"enabled": False, "status": "storage_only",
                          "runoff_m3_s": 0.0},
            "baseflow_m3s": 8.0,
-           "boundary_m3s": 8.0}
+           "boundary_m3s": 8.0,
+           "air0": 12.0}
     checks = {"passed": True, "failures": ["note: example"],
               "metrics": {}}
     return cfg, deps, res, checks

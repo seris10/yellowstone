@@ -53,7 +53,7 @@ def test_wrapper_backcompat(monkeypatch):
     import tools.fetch_met_forcing as mf
     monkeypatch.setattr(mf, "_get_json", lambda url: _met_json())
     out = f.fetch_met(44.459333, -110.822272, 7)
-    assert set(out) == {"url", "elevation_m", "hourly"}
+    assert {"url", "elevation_m", "hourly"}.issubset(set(out))
     assert out["hourly"][0][1] == 16.8
     assert "past_days=7" in out["url"]
 
@@ -106,3 +106,48 @@ def test_vars_wrong_width_rejected():
         "--vars", "temperature_2m,cloud_cover",
         "--out", "/tmp/x.json"], capture_output=True, text=True)
     assert r.returncode == 2
+
+
+def _met_json_with_precip():
+    doc = _met_json()
+    doc["hourly"]["precipitation"] = [0.0, 1.25]
+    return doc
+
+
+def test_build_met_rows_emits_hourly_origin_and_precipitation():
+    """fixes-33 item 7: hourly origin plus a precipitation sidecar series."""
+    out = build_met_rows(_met_json_with_precip())
+    assert out["hourly"][0][0] == out["hourly_origin_epoch_s"]
+    assert out["precipitation_mm"] == [0.0, 1.25]
+    assert all(len(r) == 6 for r in out["hourly"])
+
+
+def test_build_met_rows_absent_precip_is_none():
+    """No precipitation column -> precipitation_mm is None, origin set."""
+    out = build_met_rows(_met_json())
+    assert out["precipitation_mm"] is None
+    assert out["hourly_origin_epoch_s"] == out["hourly"][0][0]
+
+
+def test_build_met_rows_precip_length_mismatch_raises():
+    bad = _met_json_with_precip()
+    bad["hourly"]["precipitation"] = [0.0]
+    with pytest.raises(RuntimeError, match="precipitation column length"):
+        build_met_rows(bad)
+
+
+def test_fetch_met_forcing_adds_precipitation_to_query(monkeypatch):
+    """The outgoing URL must include the precipitation variable."""
+    import tools.fetch_met_forcing as mf
+
+    captured_url = {}
+
+    def fake(url):
+        captured_url["url"] = url
+        return _met_json_with_precip()
+
+    monkeypatch.setattr(mf, "_get_json", fake)
+    out = mf.fetch_met_forcing(44.459333, -110.822272, 7)
+    assert "precipitation" in captured_url["url"]
+    assert out["precipitation_mm"] == [0.0, 1.25]
+    assert out["hourly_origin_epoch_s"] == out["hourly"][0][0]

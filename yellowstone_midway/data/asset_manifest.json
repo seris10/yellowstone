@@ -1372,5 +1372,64 @@
     ],
     "dependency_note": "pyrender pins older PyOpenGL; this Python 3.12 environment needed 3.1.10 for ctypes compatibility. Only offline rendering depends on it."
   },
-  "optional_assets_included": false
+  "optional_assets_included": false,
+  "wildlife_species_asset_map": {
+    "bison": {
+      "path": "res://assets/meshes/fauna/bison.glb",
+      "mode": "ground",
+      "yaw": 1.5707963267948966,
+      "length_axis": "x",
+      "tint": [1.0, 1.0, 1.0]
+    },
+    "rainbow_trout": {
+      "path": "res://assets/meshes/fauna/yellowstone_cutthroat.glb",
+      "mode": "center",
+      "yaw": 1.5707963267948966,
+      "length_axis": "x",
+      "tint": [1.0, 1.0, 1.0]
+    },
+    "brown_trout": {
+      "path": "res://assets/meshes/fauna/yellowstone_cutthroat.glb",
+      "mode": "center",
+      "yaw": 1.5707963267948966,
+      "length_axis": "x",
+      "tint": [1.08, 0.92, 0.62]
+    }
+  },
+  "wildlife_assets_tracked": [
+    {
+      "id": "midway_bison_mesh",
+      "kind": "bison",
+      "path": "assets/meshes/fauna/bison.glb",
+      "sha256": "bbbeb371431d0871285ba1478f68c9fe59383be1a50cbcb5be5d87e16c237587",
+      "aabb_m": {"size": [1.0, 0.621629, 0.318501], "length_axis": "x"},
+      "yaw_rad_to_godot_forward": 1.5707963267948966,
+      "notes": [
+        "Model ships oriented with body length along +X; yaw PI/2 maps the head to Godot forward (-Z).",
+        "AABB measured headless with tools/_g2_inspect_new_fauna.gd."
+      ]
+    },
+    {
+      "id": "yellowstone_cutthroat_mesh",
+      "kind": "rainbow_trout",
+      "path": "assets/meshes/fauna/yellowstone_cutthroat.glb",
+      "sha256": "f91f5dc8791cb1a95104f83a9626b46185f90e4c6fa111f1b7e54625cb5e703a",
+      "aabb_m": {"size": [1.1868, 0.39597, 0.206837], "length_axis": "x"},
+      "yaw_rad_to_godot_forward": 1.5707963267948966,
+      "notes": [
+        "Shared mesh for rainbow_trout and brown_trout actors; brown_trout receives a warm-tint override.",
+        "Model ships oriented with body length along +X; yaw PI/2 maps the head to Godot forward (-Z)."
+      ]
+    },
+    {
+      "id": "snake_river_cutthroat_school9_mesh",
+      "kind": null,
+      "path": "assets/meshes/fauna/snake_river_cutthroat_school9.glb",
+      "status": "source_file_truncated",
+      "notes": [
+        "Source download at /Users/kreed/Downloads/yellowstone-fish/download/sample_school9_swim_snake_river_fine_spotted_cutthroat.glb is 450000 bytes but the GLB header declares 596748 bytes; Godot imports it as ERR_FILE_CORRUPT (gltf_document.cpp _parse_glb chunk_length mismatch).",
+        "Not copied into the project. Re-download before registering."
+      ]
+    }
+  ]
 }

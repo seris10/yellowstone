@@ -1,8 +1,4 @@
-"""Gate an observation bundle before fitting (schema/continuity/coverage).
-
-Calls (never copies) check_continuity from replay.calibrate and mirrors the
-snow coverage rules in snow_validate (SPLIT_DATE, MAX_FILL_DAYS, spin-up).
-See tooling-spec-validate-obs-bundles.md.
+"""Gate an observation bundle before fitting (schema, continuity, coverage).
 """
 
 import argparse
@@ -20,8 +16,7 @@ SCHEMA_FIREHOLE = "yellowstone.firehole_obs.v1"
 SCHEMA_SNOTEL = "yellowstone.snotel_obs.v1"
 SCHEMA_VERDICT = "yellowstone.obs_bundle_verdict.v1"
 
-# Gap tolerances from calibrate.py _fit_forcing_arrays (4x nominal step:
-# IV nominal 900 s, met nominal 3600 s).
+# Gap tolerances from calibrate.py _fit_forcing_arrays: 4x nominal step (IV nominal 900 s, met nominal 3600 s).
 GAP_USGS_S = 3600.0
 GAP_MET_S = 14400.0
 
@@ -181,11 +176,15 @@ def gate_bundle(bundle: dict, consumer: str) -> dict:
     elif consumer == "snow":
         passed = _gate_snow(bundle, checks, nominal_steps)
     else:
-        _check("schema", False, f"unknown schema {schema!r}", checks)
+        _check("unknown-schema", False,
+               f"schema {schema!r} is neither {SCHEMA_FIREHOLE!r} nor "
+               f"{SCHEMA_SNOTEL!r}", checks)
         passed = False
     return {"schema": SCHEMA_VERDICT,
             "status": bundle.get("status", "measured_remote_not_calibrated"),
-            "bundle_schema": schema, "consumer": consumer,
+            "bundle_schema": schema,
+            "bundle_fetched_at_utc": bundle.get("fetched_at_utc"),
+            "consumer": consumer,
             "passed": passed, "checks": checks,
             "nominal_steps": nominal_steps}
 
@@ -204,12 +203,15 @@ def main() -> int:
         return 1
     if args.consumer == "all":
         verdicts = {c: gate_bundle(bundle, c) for c in ("firehole", "snow")}
+        for v in verdicts.values():
+            v["bundle"] = str(args.bundle)
         passed = any(v["passed"] for v in verdicts.values())
         verdict = {"schema": SCHEMA_VERDICT,
                    "status": bundle.get("status",
                                         "measured_remote_not_calibrated"),
                    "bundle": str(args.bundle),
                    "bundle_schema": bundle.get("schema"),
+                   "bundle_fetched_at_utc": bundle.get("fetched_at_utc"),
                    "consumer": "all", "passed": passed,
                    "verdicts": verdicts}
     else:

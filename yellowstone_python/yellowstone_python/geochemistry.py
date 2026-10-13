@@ -1,12 +1,5 @@
-"""M09 geochemistry: sinter-vs-travertine guardrail (import-only, no Midway recolor).
-
-NPS G4: Mammoth's calcium-carbonate travertine terraces are a different
-mineral system from the siliceous sinter of the geyser basins. This module
-records fluid-chemistry → substrate → palette rules so a future basin can
-never be built by "whitening Grand Prismatic." It does NOT alter Midway:
-every Midway shell must validate as siliceous, and any travertine palette
-applied to a Midway pool raises.
-"""
+"""M09 geochemistry: sinter-vs-travertine guardrail.
+Records fluid-chemistry to substrate to palette rules; Midway shells must validate as siliceous."""
 from __future__ import annotations
 
 SYSTEMS = {
@@ -36,11 +29,33 @@ SYSTEMS = {
 
 MIDWAY_POOLS = {"pool_1034_0", "pool_1030_0", "pool_1028_0", "pool_1029_0"}
 
-MIDWAY_SUBSTRATE = "siliceous_sinter_illustrative"
+# Asset schema label plus the mineral-system id; the two are checked together at import time.
+MIDWAY_SUBSTRATE_SYSTEM = "siliceous_sinter"
+MIDWAY_SUBSTRATE_SUFFIX = "illustrative"
+MIDWAY_SUBSTRATE = f"{MIDWAY_SUBSTRATE_SYSTEM}_{MIDWAY_SUBSTRATE_SUFFIX}"
+if MIDWAY_SUBSTRATE_SYSTEM not in SYSTEMS:
+    raise ValueError(
+        f"MIDWAY_SUBSTRATE_SYSTEM {MIDWAY_SUBSTRATE_SYSTEM!r} "
+        f"must be a SYSTEMS key; have {sorted(SYSTEMS)}")
+if not SYSTEMS[MIDWAY_SUBSTRATE_SYSTEM].get("midway_use", False):
+    raise ValueError(
+        f"MIDWAY_SUBSTRATE_SYSTEM {MIDWAY_SUBSTRATE_SYSTEM!r} is not "
+        f"flagged for Midway use in SYSTEMS")
 
 
 class SubstrateError(ValueError):
     pass
+
+
+# Feature-to-system mapping: import-time duplicate detection.
+FEATURE_OWNERS: dict[str, str] = {}
+for _sys_id, _sys_info in SYSTEMS.items():
+    for _feat in _sys_info.get("features", []):
+        if _feat in FEATURE_OWNERS:
+            raise SubstrateError(
+                f"duplicate feature assignment: {_feat!r} maps to both "
+                f"{FEATURE_OWNERS[_feat]!r} and {_sys_id!r}")
+        FEATURE_OWNERS[_feat] = _sys_id
 
 
 def system_for_feature(feature: str) -> str:
@@ -52,7 +67,7 @@ def system_for_feature(feature: str) -> str:
 
 
 def check_midway_shells(shells: list) -> list:
-    """Every Midway shell must be siliceous_sinter. Returns failure strings."""
+    """Each Midway shell must be siliceous_sinter; returns failure strings."""
     failures = []
     for s in shells:
         if not isinstance(s, dict):
@@ -63,6 +78,18 @@ def check_midway_shells(shells: list) -> list:
             failures.append(f"shell {shell_id}: Midway requires siliceous "
                             f"sinter, got {s.get('substrate')}")
     return failures
+
+
+def validate_palette(shell_id: str, system_id: str, palette: str) -> None:
+    """Validate that a palette belongs to the selected mineral system."""
+    if system_id not in SYSTEMS:
+        raise SubstrateError(f"unknown mineral system: {system_id!r}")
+    allowed = SYSTEMS[system_id].get("palette", [])
+    if palette not in allowed:
+        raise SubstrateError(
+            f"palette {palette!r} is not valid for system {system_id!r}; "
+            f"allowed: {allowed}")
+    forbid_whitening(shell_id, palette)
 
 
 def forbid_whitening(shell_id: str, palette: str) -> None:

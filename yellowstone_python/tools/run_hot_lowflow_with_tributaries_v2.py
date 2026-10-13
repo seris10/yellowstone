@@ -1,26 +1,5 @@
 #!/usr/bin/env python3
-"""Add tributary refuge cells to hot low-flow scenario using real USGS data.
-
-This script extends the hot low-flow scenario with cold tributary refuge cells
-based on real data from USGS and other scientific sources, replacing the
-authored/temporary values used in the previous implementation.
-
-Task 1: Find cold lateral inflows in the baseline ecosystem
-- Check lateral sources / tributary temps in the world data
-- Discover actual values, do not invent
-- Determine which runs colder than 24C under hot-lowflow conditions
-- Identify where they join (chainage)
-
-Task 2: Extend the foodweb landscape with tributary refuge cells
-- Confluence position, cold temperature, small habitat area for food scaling
-- State every assumption with provenance authored
-- Minimal honest design: N cold cells appended to the landscape the trout can select
-
-Task 3: Re-run the hot-vs-control comparison at D1
-- Report: does the refuge flip upstream to a cold cell?
-- At what tributary temperature/size threshold does it flip (sensitivity sweep, 3+ values)
-- Diet, emergence, dipper as before
-- If it never flips, say so with the U-math showing why
+"""Add tributary refuge cells to the hot low-flow scenario from measured USGS data.
 """
 from __future__ import annotations
 
@@ -29,6 +8,7 @@ import copy
 import json
 import math
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -36,6 +16,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from yellowstone_python.aquatic_foodweb import compare_runs
 from yellowstone_python.build import (load_config, load_inputs,
                                       run_replay_solver, validate_config)
+from yellowstone_python.common.provenance import (build_id as _build_id,
+                                                  sha256_json)
+from yellowstone_python.replay.river_world import Channel, firehole_chain
+from yellowstone_python.run_mode import normalize_run_mode
 
 # Load real tributary data
 REAL_TRIBUTARY_DATA_PATH = Path(__file__).resolve().parents[1] / "derived" / "yellowstone_tributaries_real.json"
@@ -45,29 +29,26 @@ BOUNDARY_C = 26.0  # authored scenario; below observed 29.5 C max
 T_REFUGE_THRESHOLD_C = 24.0  # Kaya, Kaeding & Burkhalter 1977 measured threshold
 
 
-def load_real_tributary_data() -> dict:
-    """Load real tributary data from USGS and other sources.
-    
-    Returns:
-        Dictionary with real tributary data and analysis
-    """
+def load_real_tributary_data(*, real_data_only: bool = False) -> dict:
+    """Load real tributary data; fallback only when real_data_only is False."""
     if not REAL_TRIBUTARY_DATA_PATH.exists():
-        print("WARNING: Real tributary data not found. Using fallback authored data.")
+        if real_data_only:
+            raise FileNotFoundError(
+                f"real-data-only: {REAL_TRIBUTARY_DATA_PATH} does not exist")
+        print("WARNING: Real tributary data not found. Using fallback.")
         return get_fallback_tributary_data()
-    
-    with open(REAL_TRIBUTARY_DATA_PATH, 'r') as f:
+
+    with open(REAL_TRIBUTARY_DATA_PATH, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 
 def get_fallback_tributary_data() -> dict:
-    """Fallback data using the previous authored approach.
-    
-    Returns:
-        Dictionary with fallback tributary data
-    """
+    """Fallback data using the previous authored approach."""
     return {
         "schema": "yellowstone.tributaries_fallback.v1",
         "status": "authored_temporary_values",
+        "scientific_use": "prohibited",
+        "visual_use": "allowed_as_landscape_pocket_only",
         "fallback_reason": "real_data_file_not_available",
         "tributaries": [
             {
@@ -112,33 +93,49 @@ def get_fallback_tributary_data() -> dict:
     }
 
 
-def create_tributary_refuge_cells(pulse_doc: dict, world: dict, 
-                                  tributary_data: dict) -> dict:
-    """Create tributary refuge cells based on real data.
-    
-    Args:
-        pulse_doc: The pulse scenario document
-        world: The world data
-        tributary_data: Real tributary data
-        
-    Returns:
-        Modified pulse_doc with tributary refuge cells
+def _normalize_tributary_record(trib: dict) -> dict:
+    """Lift nested analysis fields to the top-level solver keys."""
+    out = dict(trib)
+    analysis = trib.get("analysis") or {}
+    if "temperature_c" not in out and analysis.get("mean_temperature_c") is not None:
+        out["temperature_c"] = analysis["mean_temperature_c"]
+    if "discharge_m3s" not in out:
+        if analysis.get("mean_discharge_m3s") is not None:
+            out["discharge_m3s"] = analysis["mean_discharge_m3s"]
+        elif analysis.get("mean_discharge_m3_s") is not None:
+            out["discharge_m3s"] = analysis["mean_discharge_m3_s"]
+    if "habitat_area_m2" not in out and analysis.get("habitat_area_m2") is not None:
+        out["habitat_area_m2"] = analysis["habitat_area_m2"]
+    return out
+
+
+def create_tributary_refuge_cells(pulse_doc: dict, world: dict,
+                                  tributary_data: dict, *,
+                                  n_cells: int = 2) -> dict:
+    """Create tributary refuge cells from the evidence artifact into landscape_pocket_cells.
     """
-    # Create a deep copy to avoid modifying the original
     modified_doc = copy.deepcopy(pulse_doc)
-    
-    # Get real tributary candidates
-    real_candidates = tributary_data.get("cold_refuge_candidates", [])
-    
-    # If no real candidates, fall back to authored values
+    try:
+        channel = Channel(firehole_chain(world))
+    except (KeyError, ValueError, TypeError) as exc:
+        print(f"WARNING: channel unavailable ({exc}); position_xyz omitted.")
+        channel = None
+
+    real_candidates = [
+        _normalize_tributary_record(t)
+        for t in tributary_data.get("cold_refuge_candidates", []) or []
+    ]
     if not real_candidates:
-        real_candidates = tributary_data.get("tributaries", [])
-    
+        real_candidates = [
+            _normalize_tributary_record(t)
+            for t in tributary_data.get("tributaries", []) or []
+        ]
+
     logger = print
-    
-    # Create tributary refuge cells from real data
+    if n_cells < 1:
+        n_cells = 1
     tributary_cells = []
-    for i, trib in enumerate(real_candidates[:2]):  # Use up to 2 tributaries
+    for i, trib in enumerate(real_candidates[:n_cells]):
         # Create a realistic tributary cell based on real measurements
         confluence_s_m = trib.get("confluence_s_m", 3000.0 + i * 1000.0)
         temp_c = trib.get("temperature_c", 12.0 - i * 0.5)
@@ -154,7 +151,18 @@ def create_tributary_refuge_cells(pulse_doc: dict, world: dict,
         start_s_m = confluence_s_m
         end_s_m = confluence_s_m + 3.0
         
-        # Create tributary cell
+        # Resolve position from the channel topology, or mark it unmapped.
+        position_xyz = None
+        position_status = "chainage_only_not_world_mapped"
+        if channel is not None:
+            if 0.0 <= float(confluence_s_m) <= channel.length_m:
+                position_xyz = channel.position_at(float(confluence_s_m))
+                position_status = "channel_position_at_s_m"
+            else:
+                position_status = (
+                    "chainage_outside_channel_length_m_"
+                    f"{channel.length_m:.1f}"
+                )
         tributary_cell = {
             "id": f"firehole_tributary_{i+1}",
             "length_m": 3.0,
@@ -169,53 +177,29 @@ def create_tributary_refuge_cells(pulse_doc: dict, world: dict,
             "end_s_m": end_s_m,
             "cross_section_m2": width_m * depth_m,
             "surface_area_m2": area_m2,
-            "q_in_m3_s": discharge_m3s,
-            "q_out_m3_s": discharge_m3s * 2.5,  # Adds to main flow
-            "representative_velocity_m_s": min(0.5, discharge_m3s / (width_m * depth_m)),
-            "river_id": "river_5856_0",  # Joins main Firehole channel
+            "flow_m3_s": discharge_m3s,
+            "flow_status": "prescribed_tributary_inflow",
+            "representative_velocity_m_s": min(
+                0.5, discharge_m3s / (width_m * depth_m)),
+            "river_id": "tributary",
+            "conservation": "non_conservative",
             "depth_m": depth_m,
             "depth_status": "estimated_from_usgs_discharge_and_temperature",
-            "depth_source": "Based on USGS temperature and discharge measurements",
-            "position_xyz": [
-                confluence_s_m - 50.0,  # Adjusted x position to place tributary
-                8.0,
-                1500.0  # Elevation typical of cold tributaries
-            ],
-            "downstream_unit_xz": [
-                -0.7,   # Flow direction towards main stem
-                -0.7
-            ],
+            "depth_source": "USGS tributary temperature and discharge summary",
+            "position_xyz": position_xyz,
+            "position_status": position_status,
             "hydraulics": {
-                "bank_slope_zh": 1.5,
-                "manning_n": 0.035,
-                "area_rect_m2": width_m * depth_m,
-                "area_trap_m2": width_m * depth_m * 0.95,
-                "rectangular_bias_pct": 3.6,
-                "volume_rect_m3": area_m2 * depth_m * 0.95,
-                "volume_trap_m3": area_m2 * depth_m * 0.90,
-                "bottom_width_m": max(4.0, width_m),
-                "wetted_perimeter_m": 2 * (width_m + depth_m),
-                "hydraulic_radius_m": (width_m * depth_m) / (width_m + 2 * depth_m),
-                "hydraulic_depth_m": area_m2 / (width_m + 2 * depth_m),
-                "slope": 0.002,
-                "warnings": [],
+                "status": "not_computed",
+                "warnings": [
+                    "no surveyed tributary geometry or slope supplied",
+                    "no hydraulic function fitted to this reach",
+                ],
                 "provenance": {
-                    "top_width": "authored_width_based_on_real_measurements",
-                    "depth": "per-feature profile from USGS tributary data",
-                    "bank_slope_zh": "authored_illustrative_not_measured",
-                    "manning_n": "authored_illustrative_not_calibrated",
-                    "slope": "reach-averaged mapped grade over tributary reach"
+                    "top_width": "authored_width_from_usgs_summary_area",
+                    "depth": "estimated_from_area_and_width",
+                    "slope": "not_computed",
                 },
-                "velocity_rect_m_s": min(0.5, discharge_m3s / (width_m * depth_m)),
-                "velocity_continuity_m_s": min(0.55, discharge_m3s / (width_m * depth_m) * 1.1),
-                "travel_time_s": 8.0 + i * 5.0,
-                "froude_continuity": 0.08 + i * 0.02,
-                "velocity_manning_m_s": 0.5 + i * 0.1,
-                "froude_manning": 0.14 + i * 0.02,
-                "bed_shear_pa": 5.0 - i * 0.5,
-                "fischer_dispersion_m2_s": 1.0,
-                "manning_consistency_ratio": None
-            }
+            },
         }
         
         tributary_cells.append(tributary_cell)
@@ -227,20 +211,18 @@ def create_tributary_refuge_cells(pulse_doc: dict, world: dict,
         logger(f"  - Discharge: {discharge_m3s} m³/s")
         logger(f"  - Habitat area: {area_m2} m²")
     
-    # Append tributary refuge cells to the existing cells
-    modified_doc["cells"] = pulse_doc["cells"] + tributary_cells
-    
-    # Update the frames to include temperatures for the new cells
+    modified_doc["landscape_pocket_cells"] = tributary_cells
+    modified_doc["landscape_pocket_status"] = (
+        "evidence_backed_pockets_not_in_solver_array")
+    pocket_temps = [float(c["initial_c"]) for c in tributary_cells]
+    pocket_q = [float(c["flow_m3_s"]) for c in tributary_cells]
     for frame in modified_doc["frames"]:
-        new_temps = []
-        for _ in range(len(tributary_cells)):
-            new_temps.append(11.5)  # Base temperature, could be refined per tributary
-        
-        # Extend the temperature arrays for all frames
-        frame["temperature_c"] = frame["temperature_c"] + new_temps
-    
-    logger(f"\nTotal cells: {len(modified_doc['cells'])} (mainstem + {len(tributary_cells)} tributaries)")
-    
+        frame.setdefault("landscape_pocket_temperature_c", pocket_temps)
+        frame.setdefault("landscape_pocket_flow_m3_s", pocket_q)
+
+    logger(f"\nTotal cells: {len(modified_doc['cells'])} (mainstem) + "
+           f"{len(tributary_cells)} landscape pockets")
+
     return modified_doc
 
 
@@ -276,19 +258,39 @@ def main() -> int:
     
     # Load config and run baseline
     cfg = load_config(Path(args.config))
+    # The derived/ build the runner consumes comes from the unmutated config; its build id resolves to a sibling under derived/. The runner's own build id is for the mutated scenario config.
+    validate_config(cfg)
+    _base_baseline, _base_world, source_deps, _ = load_inputs(cfg)
+    source_build_id = _build_id(cfg, source_deps,
+                                code_rev=source_deps.get("code_rev"))
     hot = copy.deepcopy(cfg)
     hot.setdefault("hydro", {})["boundary_m3s"] = args.boundary_m3s
     hot["hydro"]["boundary_c"] = args.boundary_c
     hot.setdefault("replay", {})["dispersion_m2_s"] = args.dispersion_m2_s
+    hot["run_mode"] = "scenario"
     validate_config(hot)
-    baseline, world, _, _ = load_inputs(hot)
-    
+    baseline, world, deps, _ = load_inputs(hot)
+
     print(f"\nhot replay: Q={args.boundary_m3s} m3/s, T={args.boundary_c} C ...")
     pulse_doc = run_replay_solver(hot, baseline, world)
-    
+
     # Preserve original solver status
     pulse_doc["solver_status"] = pulse_doc.get("status")
     pulse_doc["status"] = "numerical_experiment_not_field_validation"
+    study_build_id = _build_id(hot, deps, code_rev=deps.get("code_rev"))
+    study_config_sha = sha256_json(hot)
+    run_mode = normalize_run_mode(hot.get("run_mode"))
+    pulse_doc["build_id"] = study_build_id
+    pulse_doc["source_build_id"] = source_build_id
+    pulse_doc["config_sha256"] = study_config_sha
+    pulse_doc["run_mode"] = run_mode
+    pulse_doc["run_provenance"] = {
+        "study_runner": "run_hot_lowflow_with_tributaries_v2",
+        "build_id": study_build_id,
+        "source_build_id": source_build_id,
+        "config_sha256": study_config_sha,
+        "run_mode": run_mode,
+    }
     
     args.out_replay.parent.mkdir(parents=True, exist_ok=True)
     tmp = args.out_replay.with_name(args.out_replay.name + ".tmp")
@@ -296,18 +298,20 @@ def main() -> int:
     tmp.replace(args.out_replay)
     print(f"Wrote {args.out_replay}")
     
-    # Load real tributary data
-    tributary_data = load_real_tributary_data()
-    
-    # Use custom tributary data if provided
+    try:
+        tributary_data = load_real_tributary_data(
+            real_data_only=args.real_data_only)
+    except FileNotFoundError as exc:
+        parser.error(str(exc))
+
     if args.tributary_data and args.tributary_data.exists():
-        with open(args.tributary_data, 'r') as f:
+        with open(args.tributary_data, 'r', encoding='utf-8') as f:
             tributary_data = json.load(f)
         print(f"Loaded custom tributary data from {args.tributary_data}")
-    
-    # Add tributary refuge cells based on real data
-    print(f"\nAdding tributary refuge cells based on real USGS data...")
-    pulse_doc_with_tributaries = create_tributary_refuge_cells(pulse_doc, world, tributary_data)
+
+    print("\nAdding tributary refuge cells based on evidence artifact...")
+    pulse_doc_with_tributaries = create_tributary_refuge_cells(
+        pulse_doc, world, tributary_data, n_cells=args.tributary_cells)
     
     # Write modified replay with tributary refuge cells
     modified_replay_path = args.out_replay.parent / "hot_lowflow_with_tributaries.json"
@@ -336,6 +340,10 @@ def main() -> int:
         "tributary_refuge_cells": args.tributary_cells,
         "real_data_used": not args.tributary_data and REAL_TRIBUTARY_DATA_PATH.exists(),
         "tributary_assumptions": tributary_data.get("tributary_assumptions", {}),
+        "study_build_id": study_build_id,
+        "study_config_sha256": study_config_sha,
+        "control_build_id": control_doc.get("build_id"),
+        "run_mode": run_mode,
         "provenance": {
             "tributary_data_source": "USGS_water_services_iv_with_documented_defaults",
             "data_retrieval_date": datetime.now(timezone.utc).isoformat(),

@@ -17,12 +17,12 @@ func _ready() -> void:
 
 func refresh() -> void:
 	if is_instance_valid(preview):
-		remove_child(preview)
 		preview.queue_free()
-	if asset==null:
+		preview = null
+	if asset == null:
 		return
-	preview=asset.instantiate() as Node3D
-	if preview:
-		preview.name="AssetPreview"
+	preview = asset.instantiate() as Node3D
+	if preview != null:
+		preview.name = "AssetPreview"
 		add_child(preview)
 		# Ownership stays with this authored wrapper.

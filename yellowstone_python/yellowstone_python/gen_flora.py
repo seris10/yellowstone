@@ -1,29 +1,16 @@
-"""Flora density pass: generate + machine-review + stage grass and pine infill.
-
-Regions (all inside the baked square, all exclusion-gated):
-  north_meadow   meadow_grass   2500  seed 101  (dry_meadow forage sward)
-  bridge_riparian meadow_grass  1500  seed 102  (river_bank tufts)
-  overlook hill meadow_grass    1500  seed 103  (sparse edge colonization)
-  forest_edge   lodgepole_pine   200  seed 201  (corridor stand infill)
-
-Grass is allowed under existing trees (min_existing_m=0); pines keep 2 m.
-Records land in placement_overrides.json::{add}; the next 4.5.1 bake
-consumes them. Never touches placements.json.
-
-Usage:
-    python -m yellowstone_python.gen_flora [--apply]
-"""
+"""Flora density pass: generate, machine-review, and stage grass and pine infill.
+Records land in placement_overrides.json::{add} for the next bake; placements.json is left alone."""
 from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
+import math
 
 from .common.provenance import default_world_root
 from .pool_crust import build_all as build_shells
 from .pool_crust import in_apron as _in_apron
 from .review_proposals import review, to_override_record
-from .vegetation import load_terrain, moisture_at, terrain_fns
+from .vegetation import HALF, load_terrain, moisture_at, terrain_fns
 from .vegetation import propose_plantings_reviewed
 
 WORLD = default_world_root()
@@ -64,25 +51,62 @@ def main() -> int:
     trees += [(r["position"][0], r["position"][2]) for r in ov0.get("add", [])
               if r.get("kind") == "pine"]
     patches = json.loads((WORLD / "data" / "ecosystem.json.pre-python").read_text())["patches"]
-    excluded = lambda x, z: any(_in_apron(x, z, s) for s in shells)  # noqa: E731
+    # River and route point sets for the shared constraints gate.
+    river_pts: list[tuple[float, float]] = []
+    river_hw: list[float] = []
+    for riv in world.get("rivers", []):
+        hw = float(riv.get("width", 22.0)) / 2.0 + 4.0
+        for pt in riv.get("points", []):
+            river_pts.append((float(pt[0]), float(pt[2])))
+            river_hw.append(hw)
+    route_pts: list[tuple[float, float, float]] = []
+    for rt in world.get("routes", []):
+        rw = 8.0 if rt.get("kind") == "road" else 5.0
+        for pt in rt.get("points", [])[::4]:
+            route_pts.append((float(pt[0]), float(pt[2]), rw))
+    pc = PlacementConstraints(shells=shells, patches=patches, trees=trees,
+                              river_pts=river_pts, river_hw=river_hw,
+                              route_pts=route_pts, ortho_data=None)
+    excluded = pc.excluded
 
     staged, total_log = [], []
-    for reg in REGIONS:
-        accepted, log = propose_plantings_reviewed(
-            reg["guild"], tuple(reg["center"]), reg["radius"], reg["count"],
-            reg["seed"], habitat_id=reg["habitat"], exclusion_test=excluded,
-            terrain_fn=(sample, slope), patches=patches,
-            canopy=reg["canopy"], suitability_threshold=reg["threshold"])
-        ok, ledger = review(accepted, shells, sample, slope, trees,
-                            lambda x, z: moisture_at(x, z, patches),
-                            canopy=reg["canopy"],
-                            min_existing_m=reg["min_existing_m"],
-                            suitability_threshold=reg["threshold"])
-        rej = sum(1 for r in ledger if r["decision"] == "reject")
-        print(f"{reg['guild']} @ {reg['center']}: {len(ok)}/{len(accepted)} "
-              f"staged ({rej} machine-rejected)")
-        staged.extend(ok)
-        total_log.extend(ledger)
+    run_all = not any([args.regions, args.forest_infill, args.corridor_flora,
+                       args.grove, args.deck_groves])
+    if run_all or args.regions:
+        for reg in REGIONS:
+            accepted, _rlog = propose_plantings_reviewed(
+                reg["guild"], tuple(reg["center"]), reg["radius"], reg["count"],
+                reg["seed"], habitat_id=reg["habitat"], exclusion_test=excluded,
+                terrain_fn=(sample, slope), patches=patches,
+                canopy=reg["canopy"], suitability_threshold=reg["threshold"],
+                constraints=pc)
+            ok, ledger = review(accepted, shells, sample, slope, trees,
+                                lambda x, z: moisture_at(x, z, patches),
+                                canopy=reg["canopy"],
+                                min_existing_m=reg["min_existing_m"],
+                                suitability_threshold=reg["threshold"],
+                                constraints=pc)
+            rej = sum(1 for r in ledger if r["decision"] == "reject")
+            print(f"{reg['guild']} @ {reg['center']}: {len(ok)}/{len(accepted)} "
+                  f"staged ({rej} machine-rejected)")
+            staged.extend(ok)
+            total_log.extend(ledger)
+    if args.forest_infill:
+        extra, _ = forest_infill()
+        print(f"forest_infill: {len(extra)} candidates")
+        staged.extend(extra)
+    if args.corridor_flora:
+        extra, _ = corridor_flora()
+        print(f"corridor_flora: {len(extra)} candidates")
+        staged.extend(extra)
+    if args.grove:
+        extra, _ = grove_planting()
+        print(f"grove_planting: {len(extra)} candidates")
+        staged.extend(extra)
+    if args.deck_groves:
+        extra, _ = deck_viewshed_groves()
+        print(f"deck_viewshed_groves: {len(extra)} candidates")
+        staged.extend(extra)
 
     print(f"TOTAL staged: {len(staged)}")
     if args.apply:
@@ -103,11 +127,6 @@ def main() -> int:
     else:
         print("dry run; pass --apply to stage")
     return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
-
 
 
 def _ortho():
@@ -191,7 +210,15 @@ def is_barren(im, H, W, x, z) -> bool:
     green, light = green_light_at(im, H, W, x, z)
     return light > 0.55 and green < 0.15
 
-_BARREN = (None,)
+
+def _broadphase_excluded(x, z, circles, shells) -> bool:
+    """Shared broad-phase gate: circle test then exact shell apron."""
+    for cx, cz, r in circles:
+        if (x - cx) ** 2 + (z - cz) ** 2 < (r + 2.0) ** 2:
+            for s in shells:
+                if _in_apron(x, z, s):
+                    return True
+    return False
 
 
 def forest_infill(count: int = 6000, seed: int = 301) -> tuple[list, list]:
@@ -347,9 +374,8 @@ def _stage(records: list) -> int:
 
 def corridor_flora() -> tuple[list, list]:
     barren_state = (True,) + _ortho()
-    """Grass verges + pine sentinels along every foot trail polyline, so the
-    walked routes read vegetated. Grass 1.5–5.5 m off centerline; pines
-    10–28 m off, forest-gated. IDs route/pulse stable."""
+    """Grass verges and pine sentinels along each foot trail polyline.
+    Grass 1.5 to 5.5 m off centerline; pines 10 to 28 m off, forest-gated. Stable route and pulse ids."""
     import math as _math
     import random as _random
     import numpy as _np
@@ -413,6 +439,14 @@ def corridor_flora() -> tuple[list, list]:
                 suit = guild_suitability("meadow_grass", "dry_meadow", sl, mo, 0.3)
                 if suit < 0.05:
                     continue
+                too_close = False
+                for prev in accepted:
+                    if prev.get("guild") == "meadow_grass":
+                        if (gx_ - prev["x"]) ** 2 + (gz_ - prev["z"]) ** 2 < 2.0 ** 2:
+                            too_close = True
+                            break
+                if too_close:
+                    continue
                 accepted.append({
                     "stable_id": f"prop_corr_grass_{ri:02d}_{k:04d}_{int(side)}",
                     "guild": "meadow_grass", "habitat": "dry_meadow",
@@ -471,10 +505,8 @@ def corridor_flora() -> tuple[list, list]:
 def grove_planting(canopy_light_max: float = 0.40, spacing_m: float = 4.0,
                    count: int = 4000, seed: int = 401) -> tuple[list, list]:
     barren_state = (True,) + _ortho()
-    """Closed-canopy groves where the NAIP aerial shows canopy (dark =
-    trees in 2022), at true stand spacing. Slope + water + route + existing
-    gates still apply; IDs cell-stable. This mirrors observed cover, it does
-    not invent forest where the photo shows meadow or sinter."""
+    """Closed-canopy groves where the NAIP aerial shows canopy.
+    True stand spacing; slope, water, route, and existing gates apply; cell-stable ids."""
     import math as _math
     import random as _random
     import numpy as _np
@@ -508,13 +540,17 @@ def grove_planting(canopy_light_max: float = 0.40, spacing_m: float = 4.0,
         hw = float(r["width"]) / 2.0 + 4.0
         for pt in r["points"]:
             river_pts.append((pt[0], pt[2])); river_hw.append(hw)
-    river_pts = _np.array(river_pts); river_hw = _np.array(river_hw)
+    river_pts = (_np.asarray(river_pts, dtype=float).reshape(-1, 2)
+                 if river_pts else _np.zeros((0, 2)))
+    river_hw = (_np.asarray(river_hw, dtype=float).reshape(-1)
+                if river_hw else _np.zeros((0,)))
     route_pts = []
     for r in world["routes"]:
         wdt = 8.0 if r["kind"] == "road" else 5.0
         for pt in r["points"][::4]:
             route_pts.append((pt[0], pt[2], wdt))
-    route_pts = _np.array(route_pts)
+    route_pts = (_np.asarray(route_pts, dtype=float).reshape(-1, 3)
+                 if route_pts else _np.zeros((0, 3)))
 
     accepted = []
     cell = 12.0
@@ -527,9 +563,6 @@ def grove_planting(canopy_light_max: float = 0.40, spacing_m: float = 4.0,
             if len(accepted) >= count:
                 break
             x0, z0 = -HALF + i * cell, -HALF + j * cell
-            ox, oz = int((x0 + HALF) / (2.0 * HALF) * (OW - 1)), int((z0 + HALF) / (2.0 * HALF) * (OH - 1))
-            if light[oz, ox] > canopy_light_max:
-                continue
             mx, mz = int((x0 + HALF) / STEP), int((z0 + HALF) / STEP)
             if not (0 <= mx < GRID and 0 <= mz < GRID):
                 continue
@@ -542,6 +575,12 @@ def grove_planting(canopy_light_max: float = 0.40, spacing_m: float = 4.0,
                         break
                     x = x0 + (a + 0.5) * spacing_m + (rng.random() - 0.5) * 2.0
                     z = z0 + (b + 0.5) * spacing_m + (rng.random() - 0.5) * 2.0
+                    # Canopy brightness read at the candidate point.
+                    ox = int((x + HALF) / (2.0 * HALF) * (OW - 1))
+                    oz = int((z + HALF) / (2.0 * HALF) * (OH - 1))
+                    if 0 <= ox < OW and 0 <= oz < OH:
+                        if light[oz, ox] > canopy_light_max:
+                            continue
                     if any((x - cx) ** 2 + (z - cz) ** 2 < (rr + 2.0) ** 2
                            for cx, cz, rr in circles):
                         continue
@@ -606,14 +645,13 @@ def deck_viewshed_groves(cx: float = -252.0, cz: float = 159.0,
                          r0: float = 100.0, r1: float = 400.0,
                          spacing_m: float = 4.0, count: int = 2500,
                          seed: int = 501) -> tuple[list, list]:
-    barren_state = (True,) + _ortho()
     """Art-directed density ring around the overlook deck. Planted where slope is walkable and ground is not water, sinter apron, trail, or road. Ledger-marked as enhancement."""
     import math as _math
     import random as _random
     import numpy as _np
-    from .pool_crust import in_apron, in_water
-    from .vegetation import GUILDS, guild_suitability, load_terrain, moisture_at
-    from .vegetation import GRID, HALF, STEP, terrain_fns as _tfns
+    from .vegetation import guild_suitability
+    from .vegetation import GRID, STEP, terrain_fns as _tfns
+    barren_state = (True,) + _ortho()
 
     h = load_terrain(str(WORLD / "data" / "terrain.f32"))
     sample, slope = _tfns(h)
@@ -637,13 +675,17 @@ def deck_viewshed_groves(cx: float = -252.0, cz: float = 159.0,
         hw = float(r["width"]) / 2.0 + 4.0
         for pt in r["points"]:
             river_pts.append((pt[0], pt[2])); river_hw.append(hw)
-    river_pts = _np.array(river_pts); river_hw = _np.array(river_hw)
+    river_pts = (_np.asarray(river_pts, dtype=float).reshape(-1, 2)
+                 if river_pts else _np.zeros((0, 2)))
+    river_hw = (_np.asarray(river_hw, dtype=float).reshape(-1)
+                if river_hw else _np.zeros((0,)))
     route_pts = []
     for r in world["routes"]:
         wdt = 10.0 if r["kind"] == "road" else 6.0
         for pt in r["points"][::4]:
             route_pts.append((pt[0], pt[2], wdt))
-    route_pts = _np.array(route_pts)
+    route_pts = (_np.asarray(route_pts, dtype=float).reshape(-1, 3)
+                 if route_pts else _np.zeros((0, 3)))
 
     accepted = []
     step = 8.0
@@ -722,3 +764,7 @@ def deck_viewshed_groves(cx: float = -252.0, cz: float = 159.0,
                 "author_note": "deck viewshed ring; explicit aesthetic fill",
             })
     return accepted, []
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

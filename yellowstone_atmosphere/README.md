@@ -4,11 +4,21 @@ A small, modular atmosphere renderer designed for the existing Yellowstone scene
 
 ## What is included
 
-- `scripts/yellowstone_atmosphere.gd`: atmosphere, solar geometry fallback, clouds, particles, fog and optional ground-wetness material binding.
+- `scripts/yellowstone_atmosphere.gd`: atmosphere, solar geometry, clouds, particles, fog and optional ground-wetness material binding.
 - `shaders/yellowstone_cloud_shell.gdshader`: world-space procedural cloud field on an ellipsoidal shell. It avoids ray marching and volumetric-fog requirements.
 - `scripts/weather_snapshot_reader.gd`: validates and polls an externally produced weather JSON snapshot. It does not make network requests.
 - `examples/latest_weather.example.json`: documented snapshot shape with example values. These are illustrative, not a real observation.
 - `docs/integration_patch.md`: precise integration changes for the main world script.
+
+## Simulation clock and weather API
+
+`set_simulation_timestamp(epoch_unix, utc_offset_hours)` is the authoritative clock input. Local date, day of year, and civil hour derive from it, which keeps leap years, month boundaries, and historical replay dates correct. `set_simulation_time(hour, day_of_year, utc_offset)` remains for callers that hold only a clock hour, and `clear_simulation_timestamp()` returns to that path.
+
+- `simulation_utc_offset_hours`: Yellowstone civil offset for the simulated date, UTC-7 in winter and UTC-6 in summer. A supplied offset argument wins.
+- `clear_weather_solar_override()`: drop a weather solar override and return to simulated solar geometry.
+- `set_weather_state()`: partial states merge into the current weather. Non-finite fields are rejected with a warning, a half-solar state is ignored, and accepted values are clamped to documented ranges.
+- `smooth_weather_transitions` / `weather_transition_seconds`: interpolate continuous fields (air temperature, wind, cloud, precipitation, visibility, wetness) toward the accepted snapshot. Set `weather_transition_seconds = 0` for exact replay application.
+- `get_render_state()` reports the timestamp, solar override state, and the render values it applied.
 
 ## Renderer and scientific scope
 

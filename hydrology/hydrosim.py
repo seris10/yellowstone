@@ -1,24 +1,5 @@
-"""
-hydrosim - real-time rainfall / infiltration / runoff / soil-water model on a regular grid.
-
-Engine-agnostic: depends only on NumPy. Works unchanged inside godot-python (Godot 3.x),
-a Godot 4 Python extension, or a sidecar process. Nothing here imports Godot.
-
-Process chain per step (operator splitting):
-    rain -> infiltration -> overland flow            (hydraulic substeps, CFL-limited)
-    surface evaporation -> soil ET -> drainage -> groundwater baseflow   (once per step)
-
-Models
-    Rainfall        slider-driven mean rate, optional moving Gaussian storm cells
-    Infiltration    Green-Ampt (implicit, step-size independent) | Horton | constant Ksat
-    Overland flow   local-inertial shallow water (Bates et al. 2010, LISFLOOD-FP style)
-                    with Manning friction, wet/dry handling and a positivity limiter
-    Soil            single-layer root-zone bucket, Brooks-Corey style drainage
-    ET              FAO-56 Penman-Monteith reference ET with a soil-moisture stress factor
-    Groundwater     lumped linear reservoir, baseflow returned to channel cells
-
-Units: SI (metres, seconds). Rain rates are accepted in mm/h at the API boundary.
-Every water flux is tracked so mass conservation can be checked with HydroSim.balance().
+"""Real-time rainfall, infiltration, runoff and soil-water model on a regular grid.
+NumPy-only; usable from godot-python, a Godot 4 Python extension, or a sidecar. Units SI (meters, seconds); rain rates arrive in mm/h at the API boundary. HydroSim.balance() verifies mass conservation.
 """
 from __future__ import annotations
 
@@ -32,26 +13,20 @@ import numpy as np
 G = 9.81
 MM_H_TO_M_S = 1.0 / 3.6e6
 
-# --------------------------------------------------------------------------------------
-# Soil presets
-# Green-Ampt values (porosity, suction head psi, Ksat) follow the Rawls, Brakensiek &
-# Miller (1983) texture table, the same one behind the ranges in the design document.
-# Field capacity / wilting point are rough texture-typical game defaults, NOT a citation.
-# --------------------------------------------------------------------------------------
-#                 porosity  psi_mm  Ksat_mm_h  theta_fc  theta_wp
+# Columns: porosity, suction psi (mm), Green-Ampt effective Ks (mm/h), theta_fc, theta_wp.
 SOILS = {
-    "sand":       (0.437,    49.5,   117.8,     0.10,     0.04),
-    "sandy_loam": (0.453,   110.1,    10.9,     0.21,     0.09),
-    "loam":       (0.463,    88.9,     3.4,     0.27,     0.12),
-    "silt_loam":  (0.501,   166.8,     6.5,     0.33,     0.13),
-    "clay_loam":  (0.464,   208.8,     1.0,     0.36,     0.20),
-    "clay":       (0.475,   316.3,     0.3,     0.40,     0.27),
+    "sand":         (0.437,    49.5,   117.8,     0.10,     0.04),
+    "sandy_loam":   (0.453,   110.1,    10.9,     0.21,     0.09),
+    "loam":         (0.463,    88.9,     3.4,     0.27,     0.12),
+    "silt_loam":    (0.501,   166.8,     6.5,     0.33,     0.13),
+    "clay_loam":    (0.464,   208.8,     1.0,     0.36,     0.20),
+    "clay":         (0.475,   316.3,     0.3,     0.40,     0.27),
+    "sinter_apron": (0.10,      0.0,     0.1,     0.05,     0.02),
+    "andic_meadow": (0.65,    180.0,    30.0,     0.40,     0.15),
 }
 
 
-# --------------------------------------------------------------------------------------
-# Rain microphysics helpers (for particle visuals; the water balance uses the rate only)
-# --------------------------------------------------------------------------------------
+# Rain microphysics helpers for particle visuals; the water balance uses the rate only.
 def marshall_palmer(rate_mm_h: float):
     """Return (N0 [m^-3 mm^-1], Lambda [mm^-1]) for the Marshall-Palmer distribution."""
     r = max(float(rate_mm_h), 1e-3)
@@ -76,18 +51,10 @@ def terminal_velocity(d_mm):
     return np.maximum(9.65 - 10.3 * np.exp(-0.6 * d), 0.0)
 
 
-# --------------------------------------------------------------------------------------
-# Rain field
-# --------------------------------------------------------------------------------------
+# Rain field.
 class RainField:
-    """
-    Produces a per-cell rain intensity field (m/s) from a single slider value (mm/h).
-
-    mode="uniform": same rate everywhere.
-    mode="cells":   a few Gaussian storm cells drift with the wind and fade in/out
-                    (sin^2 life-cycle). The field is normalised by a slow running mean so
-                    the domain-average rate tracks the slider while the pattern stays
-                    patchy and intermittent. Slider = 0 gives exactly zero rain.
+    """Per-cell rain intensity field in m/s from a scalar mm/h slider.
+    mode uniform applies the same rate everywhere; mode cells drifts a handful of Gaussian storm cells (sin^2 life-cycle), normalized by a slow running mean so the domain-average rate tracks the slider while the pattern stays patchy and intermittent. Slider 0 gives zero rain.
     """
 
     def __init__(self, shape, dx, mode="cells", n_cells=5, radius_m=None,
@@ -152,18 +119,10 @@ class RainField:
         return field * (rate / self._norm)
 
 
-# --------------------------------------------------------------------------------------
-# Terrain and drainage network helpers
-# --------------------------------------------------------------------------------------
+# Terrain and drainage network helpers.
 def make_terrain(nx, ny, dx, relief_m=3.0, tilt=0.03, beta=3.0, pit_fill=0.7, seed=0) -> np.ndarray:
-    """
-    Fractal terrain by spectral synthesis plus a regional tilt that drains toward the last
-    row (south edge). relief_m is the standard deviation of the noise component in metres.
-
-    pit_fill blends the raw surface toward its pit-filled version (0 = raw, 1 = fully drained).
-    Raw fractal terrain is full of closed depressions that trap rain as permanent ponds, which
-    is correct hydrology but usually not what a landscape should look like. Around 0.7 keeps
-    some ponds while letting most of the catchment drain.
+    """Fractal terrain by spectral synthesis plus a regional tilt that drains toward the last row (south edge); relief_m is the noise standard deviation in meters.
+    pit_fill blends raw surface toward pit-filled (0 raw, 1 fully drained); raw fractal terrain traps rain in closed depressions, and about 0.7 keeps some ponds while letting most of the catchment drain.
     """
     rng = np.random.default_rng(seed)
     spec = np.fft.fft2(rng.standard_normal((ny, nx)))
@@ -222,15 +181,26 @@ def flow_accumulation(z: np.ndarray) -> np.ndarray:
     di = np.array([o[0] for o in offs])[best]
     dj = np.array([o[1] for o in offs])[best]
     ti, tj = ii + di, jj + dj
-    ok = (ti >= 0) & (ti < ny) & (tj >= 0) & (tj < nx)
-    target = np.where(ok, ti * nx + tj, -1).ravel().tolist()
-    order = np.argsort(-filled, axis=None).tolist()
-    acc = [1] * (ny * nx)
-    for idx in order:
-        t = target[idx]
-        if t >= 0:
-            acc[t] += acc[idx]
-    return np.asarray(acc, dtype=float).reshape(ny, nx)
+    inside = (ti >= 0) & (ti < ny) & (tj >= 0) & (tj < nx)
+    target = np.where(inside, ti * nx + tj, -1).ravel().astype(np.int64)
+
+    # Kahn topological sweep in level batches: priority_flood guarantees strict monotonic descent so every edge runs upstream-to-downstream, and each batch is the cells with zero remaining in-degree processed with np.add.at.
+    n = ny * nx
+    acc = np.ones(n, dtype=np.float64)
+    valid = target >= 0
+    in_deg = np.zeros(n, dtype=np.int64)
+    np.add.at(in_deg, target[valid], 1)
+
+    processed = np.zeros(n, dtype=bool)
+    frontier = np.flatnonzero(in_deg == 0)
+    while frontier.size:
+        processed[frontier] = True
+        with_target = frontier[target[frontier] >= 0]
+        if with_target.size:
+            np.add.at(acc, target[with_target], acc[with_target])
+            np.add.at(in_deg, target[with_target], -1)
+        frontier = np.flatnonzero((in_deg == 0) & ~processed)
+    return acc.reshape(ny, nx)
 
 
 def channel_mask_from_terrain(z: np.ndarray, acc_threshold: Optional[int] = None,
@@ -254,9 +224,17 @@ def default_soil_map(z: np.ndarray):
     return idx, names
 
 
-# --------------------------------------------------------------------------------------
-# Climate and configuration
-# --------------------------------------------------------------------------------------
+def midway_soil_map(z: np.ndarray, sinter_mask: np.ndarray | None = None):
+    """Sinter apron where mask is True; andic meadow elsewhere."""
+    names = ["sinter_apron", "andic_meadow"]
+    if sinter_mask is None:
+        return np.ones_like(z, dtype=int), names
+    mask = np.asarray(sinter_mask, dtype=bool)
+    idx = np.where(mask, 0, 1).astype(int)
+    return idx, names
+
+
+# Climate and configuration.
 @dataclass
 class Climate:
     """Inputs for FAO-56 Penman-Monteith. Radiation follows a simple day/night cycle."""
@@ -293,7 +271,7 @@ class HydroConfig:
     manning_overland: float = 0.08
     manning_channel: float = 0.035
     open_edges: Sequence[str] = ("N", "E", "S", "W")   # edges that discharge; others are walls
-    outflow_slope: float = 0.01           # normal-depth slope used at open edges
+    outflow_slope: float | str = 0.01     # fixed value, or "auto" to derive from terrain
     cfl_alpha: float = 0.7
     max_substeps: int = 40                # per step; the last substep absorbs any remainder
     h_min: float = 1e-5                   # m; below this a face is treated as dry
@@ -304,11 +282,12 @@ class HydroConfig:
     perc_exponent: float = 3.0
     gw_recession_time_s: float = 86400.0
     channel_acc_threshold: Optional[int] = None
+    # Thin-film sheet-flow switch (Chow 1959 sec 7-5; Katul, Wiberg, Albertson, Hornberger 2002, Water Resour. Res. 38(11):1250). Below Re = |q|/nu the Manning friction formula loses its empirical basis and the face flux follows the laminar Navier-Stokes thin-film form q = -g h^3/(3 nu) * grad.
+    reynolds_switch: float = 500.0
+    kinematic_viscosity_m2_s: float = 1.0e-6
 
 
-# --------------------------------------------------------------------------------------
-# The simulation
-# --------------------------------------------------------------------------------------
+# The simulation.
 class HydroSim:
     def __init__(self, z, dx, soil_map=None, soil_names=None, config: Optional[HydroConfig] = None,
                  climate: Optional[Climate] = None, rain: Optional[RainField] = None,
@@ -342,21 +321,80 @@ class HydroSim:
         self.S = self.S_wp + float(init_wetness) * (self.S_fc - self.S_wp)
         self.F = np.zeros(shape)          # Green-Ampt cumulative infiltration (m)
         self.Th = np.zeros(shape)         # Horton effective time (s)
+        # Green-Ampt event state per Chu 1978 and Mein-Larson 1973.
+        self.theta_i_event = (self.S / self.cfg.root_depth_m).copy()
+        self.rain_hiatus_s = np.zeros(shape)
         self.Vg = 0.0                     # lumped groundwater volume (m^3)
         self.qx = np.zeros((self.ny, self.nx - 1))
         self.qy = np.zeros((self.ny - 1, self.nx))
 
-        # channels and roughness
-        self.channel = (np.asarray(channel_mask, bool) if channel_mask is not None
-                        else channel_mask_from_terrain(self.z, self.cfg.channel_acc_threshold))
+        # Channels and roughness; baseflow weights follow Freeze and Cherry 1979 sec 6.5, concentrating aquifer discharge at low-elevation channel cells weighted by flow accumulation.
+        if channel_mask is None:
+            self._acc = flow_accumulation(self.z)
+            thr = (self.cfg.channel_acc_threshold
+                   if self.cfg.channel_acc_threshold
+                   else max(20, int(0.01 * self.z.size)))
+            mask = self._acc >= thr
+            if mask.sum() < 0.01 * self.z.size:
+                k = max(1, int(0.01 * self.z.size))
+                cut = np.partition(self._acc.ravel(), -k)[-k]
+                mask = self._acc >= cut
+            self.channel = mask
+        else:
+            self.channel = np.asarray(channel_mask, bool)
+            self._acc = None
+        self._baseflow_weights = self._compute_baseflow_weights()
         self.n_map = np.where(self.channel, self.cfg.manning_channel, self.cfg.manning_overland)
         self._n2x = (0.5 * (self.n_map[:, :-1] + self.n_map[:, 1:])) ** 2
         self._n2y = (0.5 * (self.n_map[:-1, :] + self.n_map[1:, :])) ** 2
+
+        # Resolve outflow_slope: numeric value, or auto from edge terrain gradient (Chow 1959 section 5-5 normal-depth boundary).
+        self._outflow_slope = self._resolve_outflow_slope()
+        self._boundary_condition = ("closed" if not self.cfg.open_edges
+                                    else "open_" + "".join(
+                                        sorted(self.cfg.open_edges)).lower())
 
         self.tot = dict(rain=0.0, outflow=0.0, et_surface=0.0, et_soil=0.0)
         self._storage0 = self._storage_total()
         self._rain_field = np.zeros(shape)
         self._rain_sum = 0.0
+
+    def _compute_baseflow_weights(self) -> np.ndarray:
+        """Normalized per-cell weights for groundwater baseflow return."""
+        if self._acc is not None:
+            w = np.where(self.channel, self._acc, 0.0)
+            total = float(w.sum())
+            if total > 0.0:
+                return (w / total).astype(np.float64)
+        nch = int(self.channel.sum())
+        if nch > 0:
+            return self.channel.astype(np.float64) / float(nch)
+        return np.zeros_like(self.z, dtype=np.float64)
+
+    def _resolve_outflow_slope(self) -> float:
+        """Return a numeric slope; derive from terrain if cfg says 'auto'."""
+        slope = self.cfg.outflow_slope
+        if isinstance(slope, (int, float)):
+            return float(slope)
+        if slope != "auto":
+            raise ValueError(f"outflow_slope must be a number or 'auto', "
+                             f"got {slope!r}")
+        edges = set(self.cfg.open_edges)
+        if not edges:
+            return 0.0
+        samples = []
+        if "S" in edges and self.ny >= 2:
+            samples.append((self.z[-2, :] - self.z[-1, :]).mean())
+        if "N" in edges and self.ny >= 2:
+            samples.append((self.z[1, :] - self.z[0, :]).mean())
+        if "E" in edges and self.nx >= 2:
+            samples.append((self.z[:, -2] - self.z[:, -1]).mean())
+        if "W" in edges and self.nx >= 2:
+            samples.append((self.z[:, 1] - self.z[:, 0]).mean())
+        if not samples:
+            return 0.0
+        s = float(np.mean(samples)) / self.dx
+        return float(max(s, 1e-6))
 
     # ---------------- bookkeeping ----------------
     def storages(self) -> dict:
@@ -396,15 +434,19 @@ class HydroSim:
     def step(self, dt: float, rain_rate_mm_h: float = 0.0) -> dict:
         """Advance exactly dt seconds. Returns diagnostics."""
         if dt <= 0:
-            return dict(substeps=0, cfl_exceeded=False)
+            return dict(substeps=0, cfl_exceeded=False,
+                        cfl_exceeded_count=0,
+                        boundary_condition=self._boundary_condition,
+                        outflow_slope=self._outflow_slope)
         self._rain_field = self.rain.update(dt, rain_rate_mm_h)
         self._rain_sum = float(self._rain_field.sum())
-        remaining, n, exceeded = float(dt), 0, False
+        remaining, n, exceeded = float(dt), 0, 0
         while remaining > 1e-12:
             ds = min(remaining, self._cfl_dt())
             n += 1
             if n >= self.cfg.max_substeps and ds < remaining:
-                ds, exceeded = remaining, True   # stay real-time; limiter keeps depths >= 0
+                exceeded += 1
+                ds = remaining
             self.h += self._rain_field * ds
             self.tot["rain"] += self._rain_sum * ds * self.area
             self._infiltrate(ds)
@@ -412,44 +454,61 @@ class HydroSim:
             remaining -= ds
             self.t += ds
         self._slow_processes(dt)
-        return dict(substeps=n, cfl_exceeded=exceeded)
+        return dict(substeps=n, cfl_exceeded=bool(exceeded),
+                    cfl_exceeded_count=exceeded,
+                    boundary_condition=self._boundary_condition,
+                    outflow_slope=self._outflow_slope)
 
     # ---------------- infiltration ----------------
     @staticmethod
     def _ga_increment(F, A, K, ds):
+        """Exact Green-Ampt capacity depth over one step.
+        Solves g(Fn) = g(F) + K*ds with g(x) = x - A*ln(1 + x/A); the function is convex and increasing on x>=0, so eight Newton steps from sqrt(2*A*rhs) converge to machine precision.
         """
-        Exact Green-Ampt over one step. Solves  g(Fn) = g(F) + K*ds,  g(x) = x - A*ln(1 + x/A).
-        g is convex and increasing; sqrt(2*A*rhs) always lies left of the root, so Newton
-        converges monotonically after the first step. Returns capacity depth over ds (m).
-        """
+        for name, arr in (("F", F), ("A", A), ("K", K)):
+            if not np.all(np.isfinite(arr)):
+                raise ValueError(f"Green-Ampt input {name} must be finite")
+        if np.any(np.asarray(ds) < 0):
+            raise ValueError("Green-Ampt time step ds must be >= 0")
         A = np.maximum(A, 1e-6)
         rhs = (F - A * np.log1p(F / A)) + K * ds
         x = np.sqrt(2.0 * A * rhs)
         for _ in range(8):
             gx = x - A * np.log1p(x / A)
             x = x - (gx - rhs) * (A + x) / np.maximum(x, 1e-14)
+        resid = np.abs(x - A * np.log1p(x / A) - rhs)
+        tol = 1e-10 * np.maximum(np.abs(rhs), 1.0)
+        if np.any(resid > tol):
+            raise RuntimeError("Green-Ampt Newton did not converge to tolerance")
         return np.maximum(x - F, 0.0)
 
     def _infiltrate(self, ds):
         cfg = self.cfg
         h, S, F, Th = self.h.ravel(), self.S.ravel(), self.F.ravel(), self.Th.ravel()   # views
+        theta_i = self.theta_i_event.ravel()
+        hiatus = self.rain_hiatus_s.ravel()
+        Zr = cfg.root_depth_m
         wet = h > 1e-9
+        # Dry hiatus >= recovery_time_s followed by ponded water starts a new event: reset pre-event moisture and clear accumulators (Chu 1978; Mein and Larson 1973).
+        new_event = wet & (hiatus >= cfg.recovery_time_s)
+        if np.any(new_event):
+            theta_i[new_event] = S[new_event] / Zr
+            F[new_event] = 0.0
+            Th[new_event] = 0.0
         active = np.flatnonzero(wet)
-        if active.size < h.size:                      # capacity recovers where no water is ponded
-            decay = math.exp(-ds / cfg.recovery_time_s)
-            idle = ~wet
-            F[idle] *= decay
-            Th[idle] *= decay
         if active.size == 0:
+            hiatus += ds
             return
         ha = h[active]
         Ssat = self.S_sat.ravel()[active]
         Ka = self.Ks.ravel()[active]
         room = np.maximum(Ssat - S[active], 0.0)
+        th_advance = ds
         if cfg.infiltration == "green_ampt":
             Fa = F[active]
-            # initial deficit of the current event is reconstructed from S and F, so no extra state
-            dtheta = np.maximum((Ssat - S[active] + Fa) / cfg.root_depth_m, 1e-6)
+            # Green-Ampt deficit is theta_s - theta_i_event, frozen during an event.
+            theta_s_a = self.por.ravel()[active]
+            dtheta = np.maximum(theta_s_a - theta_i[active], 1e-6)
             cap = self._ga_increment(Fa, self.psi.ravel()[active] * dtheta, Ka, ds)
         elif cfg.infiltration == "horton":
             f0 = cfg.horton_f0_mm_h * MM_H_TO_M_S
@@ -457,9 +516,14 @@ class HydroSim:
             k = cfg.horton_k_per_h / 3600.0
             T = Th[active]
             cap = fc * ds + (f0 - fc) / k * (np.exp(-k * T) - np.exp(-k * (T + ds)))
+            # Mein and Larson 1973 correction: advance effective time by the water-limited fraction so capacity does not decay under rain below infiltrability.
+            avail = np.minimum(cap, ha)
+            th_advance = ds * np.where(cap > 1e-18, avail / cap, 0.0)
         elif cfg.infiltration == "constant":
             cap = Ka * ds
         elif cfg.infiltration == "none":
+            hiatus[wet] = 0.0
+            hiatus[~wet] = hiatus[~wet] + ds
             return
         else:
             raise ValueError("unknown infiltration model: %s" % cfg.infiltration)
@@ -467,7 +531,10 @@ class HydroSim:
         h[active] -= inf
         S[active] += inf
         F[active] += inf
-        Th[active] += ds
+        Th[active] += th_advance
+        # Hiatus bookkeeping: wet cells reset, dry cells accumulate dry time.
+        hiatus[wet] = 0.0
+        hiatus[~wet] = hiatus[~wet] + ds
 
     # ---------------- overland flow ----------------
     def _face_update(self, q, hf, grad, n2, ds):
@@ -476,13 +543,22 @@ class HydroSim:
         hs = np.where(wet, hf, cfg.h_min)
         num = q - G * hs * ds * grad
         den = 1.0 + G * ds * n2 * np.abs(q) / hs ** (7.0 / 3.0)
-        qn = np.where(wet, num / den, 0.0)
+        qn_manning = np.where(wet, num / den, 0.0)
+        # Thin-film laminar branch (Chow 1959 sec 7-5; Katul et al. 2002); the switch requires the Manning-derived and the laminar Reynolds numbers to both lie below reynolds_switch, with the second gate stopping deep water from being driven by the laminar expression that becomes unbounded at large h.
+        nu = cfg.kinematic_viscosity_m2_s
+        q_lam = np.where(wet, -G * hs ** 3 / (3.0 * nu) * grad, 0.0)
+        re_manning = np.abs(qn_manning) / max(nu, 1e-18)
+        re_laminar = np.abs(q_lam) / max(nu, 1e-18)
+        use_laminar = (wet
+                       & (re_manning < cfg.reynolds_switch)
+                       & (re_laminar < cfg.reynolds_switch))
+        qn = np.where(use_laminar, q_lam, qn_manning)
         lim = cfg.froude_max * hs * np.sqrt(G * hs)
         return np.clip(qn, -lim, lim)
 
     def _edge_out(self, depth, n):
         cfg = self.cfg
-        q = depth ** (5.0 / 3.0) / n * math.sqrt(cfg.outflow_slope)
+        q = depth ** (5.0 / 3.0) / n * math.sqrt(self._outflow_slope)
         return np.where(depth > cfg.h_min, q, 0.0)
 
     def _flow(self, ds):
@@ -549,5 +625,5 @@ class HydroSim:
             new = self.Vg * math.exp(-dt / cfg.gw_recession_time_s)
             base = self.Vg - new
             self.Vg = new
-            nch = int(self.channel.sum())
-            self.h[self.channel] += base / (nch * self.area)
+            # Baseflow concentrates at low-elevation channel cells per Freeze and Cherry 1979 sec 6.5, weighted by D8 flow accumulation.
+            self.h += self._baseflow_weights * (base / self.area)

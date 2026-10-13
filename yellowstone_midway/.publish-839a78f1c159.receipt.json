@@ -1,0 +1,149 @@
+{
+  "build_id": "839a78f1c159",
+  "utc": "20261013T063615Z",
+  "forced": false,
+  "checks_passed": true,
+  "files": {
+    "data/ecosystem.json": {
+      "source_sha256": "e7ad726de755b629d22752f30c0d7a3fbc4277bd9682ad51ab50b44ca4ba8e9b",
+      "target_sha256": "e7ad726de755b629d22752f30c0d7a3fbc4277bd9682ad51ab50b44ca4ba8e9b",
+      "size": 20849
+    },
+    "data/pool_shells.json": {
+      "source_sha256": "715a3759976de98b00f8778ccf6f014f9416a03b8d15a8c1c8f1f5d6a59c3b9b",
+      "target_sha256": "715a3759976de98b00f8778ccf6f014f9416a03b8d15a8c1c8f1f5d6a59c3b9b",
+      "size": 44210
+    },
+    "data/planting_proposal.review.json": {
+      "source_sha256": "e3c4783a87fbceb7ee5490e86c23adb13550e11de2c9767ab5a5664812c7b21d",
+      "target_sha256": "e3c4783a87fbceb7ee5490e86c23adb13550e11de2c9767ab5a5664812c7b21d",
+      "size": 20042
+    },
+    "assets/textures/snow_map.png": {
+      "source_sha256": "5933d4c44ed2bc2f431e2698b41923a18d056b24b450540bb109e7592a547060",
+      "target_sha256": "5933d4c44ed2bc2f431e2698b41923a18d056b24b450540bb109e7592a547060",
+      "size": 143
+    },
+    "data/season.json": {
+      "source_sha256": "5c7524ab2c3a71ac33f368215470e1ca69627ddb5bc1c6275a947128a7c441f5",
+      "target_sha256": "5c7524ab2c3a71ac33f368215470e1ca69627ddb5bc1c6275a947128a7c441f5",
+      "size": 1923
+    },
+    "data/plume_field.json": {
+      "source_sha256": "ae6f148b52a54728f42bbb0f41ac19b65f3f1ac6ad460fa80be15bb51e9a5e42",
+      "target_sha256": "ae6f148b52a54728f42bbb0f41ac19b65f3f1ac6ad460fa80be15bb51e9a5e42",
+      "size": 428016
+    },
+    "data/geochemistry.json": {
+      "source_sha256": "3326896886583bc492d1b1ab27118fc07909b96ccfdae2a20c8a25994ecf61b6",
+      "target_sha256": "3326896886583bc492d1b1ab27118fc07909b96ccfdae2a20c8a25994ecf61b6",
+      "size": 80657
+    },
+    "data/calibration_summary.json": {
+      "source_sha256": "5b1fe9636ef1843effd388e7532f6c272d521637bbb5af434fdd5400d9b8b417",
+      "target_sha256": "5b1fe9636ef1843effd388e7532f6c272d521637bbb5af434fdd5400d9b8b417",
+      "size": 90799
+    },
+    "data/overland_field.json": {
+      "source_sha256": "2125c1d88fa0d3bad92e1411a6f421252a7a32f35930612791e85155a2ddfc12",
+      "target_sha256": "2125c1d88fa0d3bad92e1411a6f421252a7a32f35930612791e85155a2ddfc12",
+      "size": 753
+    },
+    "data/census.json": {
+      "source_sha256": "272902122fc1ab3e58785b064b4a2f1378f239d07169f641f7aa2350ea743bea",
+      "target_sha256": "272902122fc1ab3e58785b064b4a2f1378f239d07169f641f7aa2350ea743bea",
+      "size": 8766988
+    },
+    "assets/textures/pool_ramps/pool_1001_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1007_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1018_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1028_0.png": {
+      "source_sha256": "5a5864e3055e5ec5c158c0e9168e77836d5a472b6811411a2a2cbdb95f4a496e",
+      "target_sha256": "5a5864e3055e5ec5c158c0e9168e77836d5a472b6811411a2a2cbdb95f4a496e",
+      "size": 205
+    },
+    "assets/textures/pool_ramps/pool_1029_0.png": {
+      "source_sha256": "0c67479f8166336923eeaf4d49612ceacc3953ea48185e9b499885700eca5189",
+      "target_sha256": "0c67479f8166336923eeaf4d49612ceacc3953ea48185e9b499885700eca5189",
+      "size": 212
+    },
+    "assets/textures/pool_ramps/pool_1030_0.png": {
+      "source_sha256": "63d3769f7a92d7bb7345e505d366c5c9db4b67af69aafb8514e1c0a2954ff748",
+      "target_sha256": "63d3769f7a92d7bb7345e505d366c5c9db4b67af69aafb8514e1c0a2954ff748",
+      "size": 209
+    },
+    "assets/textures/pool_ramps/pool_1034_0.png": {
+      "source_sha256": "cf0836f70de3cc12be38b3d0eb03f031ee745850d975949d52e73575223b4fcc",
+      "target_sha256": "cf0836f70de3cc12be38b3d0eb03f031ee745850d975949d52e73575223b4fcc",
+      "size": 214
+    },
+    "assets/textures/pool_ramps/pool_1048_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1056_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1066_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_1071_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_984_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_988_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_995_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    },
+    "assets/textures/pool_ramps/pool_996_0.png": {
+      "source_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "target_sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "size": 179
+    }
+  },
+  "warnings": [
+    "produced sidecar: calibration_summary.json",
+    "produced sidecar: census.json",
+    "produced sidecar: geochemistry.json",
+    "produced sidecar: overland_field.json",
+    "produced sidecar: plume_field.json",
+    "sidecar gap: pools_state.json: pools_state.json requires per-step pool thermal state; the build publishes only static pool_shells.json. Phase 2 pycl handoff (fixes-39 item 2) depends on a dynamic pool thermal model.",
+    "sidecar gap: snow_cover.json: season.json carries no snow_cover_fraction per patch; the snow model does not yet publish fractional cover (fixes-39 item 4 phase 2 awaits a model-side source).",
+    "sidecar gap: groundwater_field.json: groundwater_field.json requires a build-side groundwater sidecar; groundwater_provider.STATUS is authored_lateral_not_modeled and the build does not run MF6 or a Darcy exchange solve.",
+    "absent sidecar: pools_state.json (skipped, recorded)",
+    "absent sidecar: snow_cover.json (skipped, recorded)",
+    "absent sidecar: groundwater_field.json (skipped, recorded)",
+    "absent sidecar: firehole_control.json (skipped, recorded)",
+    "absent sidecar: firehole_pulse.json (skipped, recorded)"
+  ],
+  "backup": "../yellowstone_midway/backups/pre-839a78f1c159-20261013T063615Z"
+}

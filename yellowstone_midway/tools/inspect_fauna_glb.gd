@@ -1,6 +1,5 @@
 extends SceneTree
-## Inspect imported fauna GLBs: combined AABB, mesh/material inventory.
-## godot --headless --path . --script tools/inspect_fauna_glb.gd
+## Inspect imported fauna GLBs: combined bounding box, mesh/material inventory. godot --headless --path . --script tools/inspect_fauna_glb.gd
 
 const TARGETS: Array[String] = [
 	"res://assets/imported/fauna/bison/bison.glb",
@@ -21,7 +20,10 @@ func _init() -> void:
 		if packed == null:
 			print("  LOAD FAILED")
 			continue
-		var root: Node3D = packed.instantiate()
+		var root: Node3D = packed.instantiate() as Node3D
+		if root == null:
+			print("  INSTANTIATE FAILED")
+			continue
 		var boxes: Array[AABB] = []
 		_collect(root, boxes)
 		if boxes.is_empty():

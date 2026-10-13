@@ -60,10 +60,7 @@ def test_daily_series_accumulates_when_freezing():
 
 
 def test_fit_recovers_synthetic_params_optimizer_check_only():
-    # Inverse crime by construction: identical model generates and fits.
-    # Proves the optimizer works; says nothing about the real snowpack.
-    # Fit only over days where truth is positive: once the pack melts out
-    # every param set agrees (melt-limited days carry no information).
+    # Inverse crime by construction: identical model generates and fits; this exercises the optimizer. Fit only over days where truth is positive; after melt-out all param sets agree.
     air = [-2.0] * 60 + [3.0] * 30
     prcp = [10.0] * 60 + [0.0] * 30
     truth, _ = daily_swe_series(_patch(), air, prcp, 3.0, wind_loss=0.05)
@@ -74,7 +71,7 @@ def test_fit_recovers_synthetic_params_optimizer_check_only():
         k_grid=[2.5, 3.0, 3.5], wind_grid=[0.02, 0.05, 0.1])
     assert (fit["best_k"], fit["best_wind"]) == (3.0, 0.05)
     assert fit["train_rmse_mm"] == 0.0
-    # Tie/grid provenance is recorded, not implied.
+    # Tie and grid provenance are recorded.
     assert fit["grid"]["n_candidates"] == 9
     assert fit["grid"]["tie_rule"]
     assert fit["train_scored_n"] == len(idx)
@@ -82,8 +79,7 @@ def test_fit_recovers_synthetic_params_optimizer_check_only():
 
 
 def test_fit_metadata_records_grid_and_tie_count():
-    # Two grid points tied on RMSE must be reported, not hidden by the
-    # first-wins rule.
+    # Two grid points tied on RMSE are reported, in addition to the first-wins pick.
     air = [-2.0] * 30
     prcp = [10.0] * 30
     truth, _ = daily_swe_series(_patch(), air, prcp, 3.0, wind_loss=0.05)
@@ -107,8 +103,7 @@ def test_wind_override_keeps_ledger_and_default_untouched():
     out_zero, _ = run_season([_patch()], days=10,
                              air_c_by_day=[-2.0] * 10, precip_mm_d=5.0,
                              wind_loss=0.15)
-    # None keeps the authored dry_meadow 0.15: identical end state, and a
-    # lower fitted loss retains more pack than the authored default.
+    # None keeps the authored dry_meadow 0.15 (identical end state); a lower fitted loss retains more pack than the authored default.
     assert out_none[0]["snow_mm"] == out_zero[0]["snow_mm"]
     out_low, _ = run_season([_patch()], days=10,
                              air_c_by_day=[-2.0] * 10, precip_mm_d=5.0,
@@ -124,7 +119,7 @@ def _synthetic_bundle(tmp_path, start_year=2024):
               + datetime.timedelta(days=i)).isoformat()
              for i in range(90)]
     air_f = [23.0] * 60 + [41.0] * 30  # -5 C, then +5 C
-    # 0.4 in/day while freezing, dry melt (tests melt, not storms).
+    # 0.4 in/day while freezing, dry during melt (exercises melt only).
     prcp_in = [0.4] * 60 + [0.0] * 30
     truth, _ = daily_swe_series(_patch(),
                                 [f_to_c(f) for f in air_f],
@@ -145,8 +140,7 @@ def _synthetic_bundle(tmp_path, start_year=2024):
 
 
 def test_fixed_params_recovers_truth_without_refit(tmp_path):
-    # Inverse-crime check: frozen generating params must score ~0 holdout
-    # RMSE on the generating window; proves the no-refit path evaluates.
+    # Inverse-crime check: frozen generating params score about 0 holdout RMSE on the generating window; the no-refit path evaluates.
     bundle_path, dates = _synthetic_bundle(tmp_path)
     split = dates[60]  # melt onset
     fixed = {"999:XX:SNTL": {"k_melt_mm_per_deg_day": 3.0,
@@ -204,8 +198,7 @@ def test_load_fixed_params_reads_fit_artifact_shape(tmp_path):
 
 
 def test_validate_site_runs_end_to_end(tmp_path):
-    # Regression: provenance used an out-of-scope bundle name and every
-    # validate_site call died with NameError before returning.
+    # Regression: provenance once used an out-of-scope bundle name and the validate_site call raised NameError before returning.
     bundle_path, dates = _synthetic_bundle(tmp_path)
     import json
     bundle = json.loads(open(bundle_path).read())
@@ -221,9 +214,7 @@ def test_validate_site_runs_end_to_end(tmp_path):
 
 
 def test_accumulation_only_fit_records_unidentifiable_k(tmp_path):
-    # A training window with no melt days cannot separate k_melt: every
-    # grid point ties on train RMSE. The artifact must record the tie
-    # count instead of presenting the first grid point as a fit.
+    # A training window with no melt days cannot separate k_melt (all grid points tie on train RMSE); the artifact records the tie count under the first-wins pick.
     bundle_path, dates = _synthetic_bundle(tmp_path)
     import json
     bundle = json.loads(open(bundle_path).read())
@@ -282,8 +273,7 @@ def test_load_fixed_params_requires_exact_grid_membership(tmp_path):
 
 
 def test_missing_obs_excluded_from_scoring_with_counts(tmp_path):
-    # A None WTEQ day is dropped from the holdout score and counted, not
-    # read as zero.
+    # A None WTEQ day is dropped from the holdout score and counted.
     bundle_path, dates = _synthetic_bundle(tmp_path)
     import json
     doc = json.loads(open(bundle_path).read())

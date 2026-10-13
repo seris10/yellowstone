@@ -1,22 +1,38 @@
 """Publication-style diagnostic figures (matplotlib, headless Agg).
-
-A3 of the science-demo backlog. Every figure renders from frozen
-artifacts + the frozen obs bundle — no network, no Godot, no PIL
-sketches. Functions take data, write one PNG, return its path; the
-CLI rebuilds the full set under figs/.
-
-Backend discipline: pyplot is imported only inside _pyplot() after
-forcing Agg, so importing this module never steals a display backend
-from anything else.
+Figures render from frozen artifacts; pyplot is imported only inside _pyplot.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 from typing import Any, Sequence
 
-STATUS_NOTE = "fitted_not_validated_single_window"
+DEFAULT_STATUS_NOTE = "fitted_not_validated_single_window"
+STATUS_NOTE = DEFAULT_STATUS_NOTE
+
+
+def _resolve_status_note(*docs: dict[str, Any]) -> str:
+    """Pick the first explicit status string across the provided artifacts."""
+    for doc in docs:
+        if not isinstance(doc, dict):
+            continue
+        candidate = doc.get("status")
+        if isinstance(candidate, str) and candidate:
+            return candidate
+    return DEFAULT_STATUS_NOTE
+
+
+def _validate_slice(name: str, span: slice, length: int) -> None:
+    """Reject a slice that falls outside the provided series length."""
+    start = 0 if span.start is None else int(span.start)
+    stop = length if span.stop is None else int(span.stop)
+    if start < 0 or stop < 0 or start > length or stop > length:
+        raise ValueError(
+            f"{name} slice [{start}, {stop}) outside [0, {length}]")
+    if start > stop:
+        raise ValueError(f"{name} slice start exceeds stop")
 
 
 def _pyplot():  # type: ignore[no-untyped-def]
@@ -29,10 +45,21 @@ def _pyplot():  # type: ignore[no-untyped-def]
 def _save(fig: Any, out: Path) -> Path:
     out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out, dpi=150)
-    figure = fig
-    import matplotlib.pyplot as plt
-    plt.close(figure)
+    fig.clf()
     return out
+
+
+def _check_sizes(**series: Sequence[float]) -> None:
+    """All provided series must share the length of the first one."""
+    items = list(series.items())
+    if not items:
+        return
+    name0, s0 = items[0]
+    n = len(s0)
+    for name, s in items[1:]:
+        if len(s) != n:
+            raise ValueError(
+                f"{name} length {len(s)} differs from {name0} length {n}")
 
 
 def fit_holdout_figure(grid: Sequence[float],
@@ -43,14 +70,24 @@ def fit_holdout_figure(grid: Sequence[float],
                        title: str, out: Path) -> Path:
     """Observed vs modeled over train/holdout + persistence null."""
     plt = _pyplot()
+    _check_sizes(grid=grid, modeled=modeled, target=target,
+                 upstream=upstream)
+    _validate_slice("train", train, len(grid))
+    _validate_slice("holdout", holdout, len(grid))
+    if not grid:
+        raise ValueError("grid must be nonempty")
     hours = [(g - grid[0]) / 3600.0 for g in grid]
     fig, ax = plt.subplots(figsize=(9, 4))
-    ax.plot(hours, target, color="black", lw=1.2, label="downstream obs")
-    ax.plot(hours, modeled, color="#1f77b4", lw=1.0,
+    ax.plot(hours, list(target), color="black", lw=1.2,
+            label="downstream obs")
+    ax.plot(hours, list(modeled), color="#1f77b4", lw=1.0,
             label="lumped fit")
-    ax.plot(hours, upstream, color="gray", lw=0.8, alpha=0.7,
+    ax.plot(hours, list(upstream), color="gray", lw=0.8, alpha=0.7,
             label="null: upstream persistence")
-    ax.axvspan(hours[0], hours[train.start], color="gray", alpha=0.15)
+    holdout_start = train.stop
+    holdout_end = len(hours) - 1
+    ax.axvspan(hours[holdout_start], hours[holdout_end],
+               color="gray", alpha=0.15)
     ax.axvline(hours[train.stop], color="black", ls="--", lw=0.8)
     top = ax.get_ylim()[1]
     span = top - ax.get_ylim()[0]
@@ -107,11 +144,21 @@ def residual_figure(resid_train: Sequence[float],
     top.set_xlabel("sample index (train then holdout)")
     top.set_ylabel("residual (C)")
     top.legend(fontsize=8, loc="best")
-    bottom.scatter(list(qq_normal), list(qq_empirical), s=8,
-                   color="#1f77b4")
-    limits = [min(min(qq_normal), min(qq_empirical)),
-              max(max(qq_normal), max(qq_empirical))]
-    bottom.plot(limits, limits, color="black", lw=0.8)
+    qq_normal = list(qq_normal)
+    qq_empirical = list(qq_empirical)
+    if len(qq_normal) != len(qq_empirical):
+        raise ValueError(
+            "qq_empirical and qq_normal must have equal length")
+    if qq_normal and qq_empirical:
+        bottom.scatter(qq_normal, qq_empirical, s=8, color="#1f77b4")
+        limits = [min(min(qq_normal), min(qq_empirical)),
+                  max(max(qq_normal), max(qq_empirical))]
+        bottom.plot(limits, limits, color="black", lw=0.8)
+    else:
+        bottom.text(0.5, 0.5,
+                    "Q-Q unavailable (perfect or constant residual)",
+                    ha="center", va="center",
+                    transform=bottom.transAxes, fontsize=10)
     bottom.set_xlabel("theoretical normal quantiles")
     bottom.set_ylabel("empirical standardized quantiles")
     fig.suptitle(title + f" ({STATUS_NOTE})", fontsize=10)
@@ -126,7 +173,10 @@ def ridge_figure(rows: Sequence[dict[str, Any]],
     """Joint (Q_lat, T_lat) distribution colored by train RMSE."""
     plt = _pyplot()
     best_c = champion["c_mult"]
-    pts = [r for r in rows if r["c_mult"] == best_c]
+    pts = [r for r in rows
+           if math.isclose(r["c_mult"], best_c, rel_tol=0.0, abs_tol=1e-12)]
+    if not pts:
+        raise ValueError(f"no ridge rows found for c_mult={best_c}")
     fig, ax = plt.subplots(figsize=(6, 5))
     scatter = ax.scatter([r["q_lat"] for r in pts],
                          [r["t_lat"] for r in pts],
@@ -183,8 +233,17 @@ def build_all(bundle: dict[str, Any], uq_doc: dict[str, Any],
               refuge_s_m: float, refuge_label: str,
               out_dir: Path) -> list[Path]:
     """Rebuild the figure set from the recorded artifacts."""
+    from ..validation.checks import check_uq_document
     from . import calibrate, uncertainty
     from .hydraulics import residual_diagnostics
+    # Fail-closed on uq_doc shape before any field is read.
+    uq_failures = check_uq_document(uq_doc)
+    if uq_failures:
+        raise ValueError(
+            "uq_doc invalid: " + "; ".join(uq_failures))
+    # STATUS_NOTE comes from the artifacts so a differing run status shows up.
+    global STATUS_NOTE
+    STATUS_NOTE = _resolve_status_note(uq_doc, lsfit_doc, fit_doc)
     volume = uq_doc["effective_geometry"]["volume_m3"]
     area = uq_doc["effective_geometry"]["area_m2"]
     champ = lsfit_doc["grid_champion"]
@@ -215,7 +274,7 @@ def build_all(bundle: dict[str, Any], uq_doc: dict[str, Any],
         uq_doc["holdout_coverage"]["coverage"],
         "Ridge-ensemble bands", out_dir / "bands.png"))
     resid = residual_diagnostics(modeled[train], target[train])
-    qq_levels = sorted(resid["qq"])
+    qq_levels = sorted(resid.get("qq") or {})
     paths.append(residual_figure(
         [m - t for m, t in zip(modeled[train], target[train])],
         [m - t for m, t in zip(modeled[holdout], target[holdout])],
@@ -264,8 +323,10 @@ def main() -> int:
                               landscape, control["s_m"],
                               control["cell_id"], args.out_dir):
             print(f"Wrote {path} ({path.stat().st_size} bytes)")
-    except (ValueError, KeyError, ArithmeticError, OSError) as error:
-        parser.exit(2, f"figures failed: {error}\n")
+    except (ValueError, KeyError, IndexError, TypeError,
+            ArithmeticError, OSError) as error:
+        parser.exit(2, f"figures failed: {error.__class__.__name__}: "
+                       f"{error}\n")
     return 0
 
 

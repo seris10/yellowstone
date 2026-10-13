@@ -1,9 +1,7 @@
 class_name MidwayPythonRiverReplay
 extends "res://scripts/ecosystem.gd"
 
-## Python owns river thermal state when replay_path is nonempty.
-## Empty path uses the built-in ecosystem.
-## Replay interpolation is presentation, not a second solver.
+## Python owns river thermal state when replay_path is nonempty; empty path uses the built-in ecosystem. Replay interpolation is a presentation layer.
 
 @export_file("*.json") var replay_path: String = ""
 
@@ -134,6 +132,7 @@ func configure(data: Dictionary) -> bool:
 	_frames = candidate_frames
 	_features = candidate_features
 	for cell: Dictionary in _cells:
+		# position_xyz.y is the authored cell water surface; per-frame water_surface_m is bed_elevation_m plus depth_m once the publisher ships both.
 		_spatial_state.append({
 			"id": cell["id"],
 			"river_id": cell["river_id"],
@@ -141,6 +140,9 @@ func configure(data: Dictionary) -> bool:
 			"temperature_c": 0.0,
 			"flow_m3s": float(cell["q_out_m3_s"]),
 			"velocity_mps": float(cell["representative_velocity_m_s"]),
+			"water_surface_m": float(cell["position_xyz"][1]),
+			"bed_elevation_m": NAN,
+			"depth_m": NAN,
 			"fish_activity": 0.0,
 			"status": "Python simulated; uncalibrated.",
 		})
@@ -171,7 +173,7 @@ func step(dt: float) -> void:
 		var h: float = minf(DT, remaining)
 		elapsed = minf(final_t, elapsed + h)
 		clock_hour = fposmod(
-			float(_replay["clock_hour0"]) + elapsed / 3600.0, 24.0
+			float(_replay["clock_hour0"]) + elapsed * day_rate / 3600.0, 24.0
 		)
 		_update_weather()
 		_apply_replay(elapsed)
@@ -195,6 +197,14 @@ func _apply_replay(time_s: float) -> void:
 	if span > 0.0:
 		weight = clampf((time_s - float(a["t_s"])) / span, 0.0, 1.0)
 
+	# Mapped replay carries per-frame per-cell discharge as q_cells_m3s when available.
+	var a_q: Variant = a.get("q_cells_m3s")
+	var b_q: Variant = b.get("q_cells_m3s")
+	var have_frame_q: bool = a_q is Array and b_q is Array and (a_q as Array).size() == _spatial_state.size() and (b_q as Array).size() == _spatial_state.size()
+	# Optional per-frame depth paired with per-cell bed_elevation_m gives a live water_surface_m.
+	var a_depth: Variant = a.get("depth_m_cells")
+	var b_depth: Variant = b.get("depth_m_cells")
+	var have_frame_depth: bool = a_depth is Array and b_depth is Array and (a_depth as Array).size() == _spatial_state.size() and (b_depth as Array).size() == _spatial_state.size()
 	for i: int in range(_spatial_state.size()):
 		var temperature: float = lerpf(
 			float(a["temperature_c"][i]),
@@ -206,6 +216,14 @@ func _apply_replay(time_s: float) -> void:
 		_spatial_state[i]["fish_activity"] = clampf(
 			(26.0 - temperature) / 8.0, 0.0, 1.0
 		)
+		if have_frame_q:
+			_spatial_state[i]["flow_m3s"] = lerpf(float(a_q[i]), float(b_q[i]), weight)
+		if have_frame_depth:
+			var depth: float = lerpf(float(a_depth[i]), float(b_depth[i]), weight)
+			var bed: float = float(_cells[i].get("bed_elevation_m", _cells[i]["position_xyz"][1]))
+			_spatial_state[i]["depth_m"] = depth
+			_spatial_state[i]["bed_elevation_m"] = bed
+			_spatial_state[i]["water_surface_m"] = bed + depth
 
 	# Hold air forcing as Python did.
 	var weather_trace: Array = _replay["weather_trace"]

@@ -1,0 +1,40 @@
+{
+  "generated_at_unix": 1791885645,
+  "schema_version": 2,
+  "simulation_time_unix": 1791885645,
+  "solar": {
+    "latitude_deg": 44.459333,
+    "longitude_deg": -110.822272,
+    "solar_azimuth_deg": 58.55,
+    "solar_elevation_deg": -37.92,
+    "source": "pvlib",
+    "sunrise_epoch_unix": 1791898566.05427,
+    "sunset_epoch_unix": 1791938631.838764
+  },
+  "source": {
+    "analysis": "RTMA_proxy_via_open_meteo_bundle",
+    "forcing_mode": "measured_absolute_temperature",
+    "forecast": null,
+    "note": "weather bundle sourced from build/weather.json. precipitation enters only through the met bundle; no cloud-to-rain substitution.",
+    "precipitation_status": "measured_bundle_available_but_hour_not_resolved",
+    "snow_partition_source": "metpy_wet_bulb",
+    "station_correction": null
+  },
+  "terrain": {
+    "snow_cover_fraction": 0.0
+  },
+  "valid_time_unix": 1791885645,
+  "weather": {
+    "air_temperature_c": 11.4,
+    "cloud_base_agl_m": 1050.0,
+    "cloud_fraction": 0.0,
+    "cloud_thickness_m": 600.0,
+    "dewpoint_c": -1.8,
+    "precipitation_rate_mm_h": 0.0,
+    "relative_humidity": 0.34,
+    "snow_fraction": 0.0,
+    "visibility_m": 24000.0,
+    "wind_direction_deg": 251.6,
+    "wind_speed_mps": 2.223
+  }
+}

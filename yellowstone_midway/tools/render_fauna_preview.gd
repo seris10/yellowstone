@@ -1,6 +1,5 @@
 extends SceneTree
-## Render each fauna GLB to PNG for orientation/material review.
-## godot --headless --fixed-fps 60 --path . --script tools/render_fauna_preview.gd
+## Render each fauna GLB to PNG for orientation and material review: godot --headless --fixed-fps 60 --path . --script tools/render_fauna_preview.gd
 
 const TARGETS: Array[String] = [
 	"res://assets/imported/fauna/bison/bison.glb",
@@ -35,7 +34,15 @@ func _run() -> void:
 		env.ambient_light_energy = 1.0
 		cam.environment = env
 		var packed: PackedScene = load(path)
-		var inst: Node3D = packed.instantiate()
+		if packed == null:
+			print("skip ", path, " load_failed")
+			viewport.free()
+			continue
+		var inst: Node3D = packed.instantiate() as Node3D
+		if inst == null:
+			print("skip ", path, " instantiate_failed")
+			viewport.free()
+			continue
 		viewport.add_child(inst)
 		var aabb: AABB = _combined_aabb(inst)
 		var center: Vector3 = aabb.get_center()

@@ -1,26 +1,10 @@
 """Map the conservative thermal solver onto the saved Midway Firehole.
-
-Requires the previously provided river_transport.py in the same directory.
-
-Examples:
-    python river_world.py --world world.json --ecosystem ecosystem.json \
-        --out derived/firehole_control.json
-
-    python river_world.py --world world.json --ecosystem ecosystem.json \
-        --pulse-source excelsior_aggregate_outflow \
-        --pulse-start 300 --pulse-end 900 --pulse-delta-c 18 \
-        --out derived/firehole_pulse.json
-
-The pulse changes temperature at the river-entry boundary. It is not a
-simulation of the spring's underground plumbing or outflow cooling.
-
-No source geography, placements, ecosystem configuration, or Godot scene
-is overwritten.
-"""
+Replay clock requires --simulation-start-utc or --simulation-start-epoch; pulse adds a delta to its mapped lateral source."""
 from __future__ import annotations
 
 import argparse
 from bisect import bisect_right
+from datetime import datetime
 import hashlib
 import json
 import math
@@ -34,6 +18,13 @@ from .river_transport import (
     make_replay,
     positive,
 )
+from ..time_utils import (
+    ISO_HINT,
+    UTC,
+    parse_simulation_start,
+    timestamp_metadata,
+)
+from ..microclimate import air_temp, wind_at
 from .hydraulics import (
     DEFAULT_BANK_SLOPE_ZH,
     DEFAULT_MANNING_N,
@@ -41,30 +32,205 @@ from .hydraulics import (
     thermal_inventory,
 )
 
+# Upper physical guard for a pulse-adjusted lateral source temperature; site boiling point is near 93 C at the plateau pressure.
+PULSE_TEMPERATURE_UPPER_C = 100.0
+
 SCHEMA = "yellowstone.mapped_river_replay.v1"
 
-# Explicit association between the ecosystem's aggregate thermal boundary
-# and the representative authored channel used to locate its connection.
-# This does not assert that this one branch carries the actual aggregate.
+# Explicit association between the aggregate thermal boundary and the representative authored channel locating it.
 SOURCE_LINKS = {
     "excelsior_aggregate_outflow": "authored_excelsior_outflow_01",
 }
+
+# Weather keys accepting a scalar or {times_s, values} schedule.
+SCHEDULABLE_WEATHER_KEYS = (
+    "air_temperature_c",
+    "relative_humidity",
+    "wind_speed_mps",
+    "cloud_fraction",
+    "shortwave_w_m2",
+)
+
+# Scalar weather keys with their physical bounds.
+BOUNDED_WEATHER_KEYS = (
+    ("humidity", 0.0, 1.0),
+    ("cloud", 0.0, 1.0),
+    ("gust_mps", 0.0, None),
+    ("sw_noon_w_m2", 0.0, None),
+)
+
+
+def validate_duration_and_step(
+    duration_s: Any,
+    dt_s: Any,
+    sample_s: Any,
+) -> tuple[float, float, float]:
+    """Duration and time step of a run, with a sampleable output interval."""
+    duration = positive(duration_s, "duration")
+    dt = positive(dt_s, "dt_s")
+    sample = positive(sample_s, "sample_s")
+
+    if not math.isfinite(duration + dt + sample):
+        raise ValueError("duration and timestep values must be finite")
+
+    # Sampling below the step would repeat frames.
+    if sample < dt:
+        raise ValueError("sample_s must be >= dt_s")
+
+    return duration, dt, sample
+
+
+def validate_source_record(source: Any, location: str) -> None:
+    """Check one lateral source record before it reaches the solver."""
+    if not isinstance(source, dict):
+        raise ValueError(f"{location} must be an object")
+
+    for key in ("id", "flow_m3s", "temperature_c"):
+        if key not in source:
+            raise ValueError(f"{location} requires {key!r}")
+
+    source_id = source["id"]
+    if not isinstance(source_id, str) or not source_id.strip():
+        raise ValueError(f"{location}.id must be nonempty")
+
+    flow = source["flow_m3s"]
+    # Face flows derive once at initialization; a scheduled flow would apply one value to the whole window.
+    if isinstance(flow, dict):
+        raise ValueError(
+            f"{location}.flow_m3s cannot be scheduled yet; "
+            "river_transport derives fixed face flows at initialization"
+        )
+    finite(flow, f"{location}.flow_m3s", 0.0)
+    Series.parse(source["temperature_c"])
+
+
+def validate_mapped_inputs(world: dict, ecosystem: dict) -> None:
+    """Check the mapped inputs before any solver geometry is derived."""
+    if not isinstance(world, dict):
+        raise ValueError("world must be a JSON object")
+
+    if not isinstance(ecosystem, dict):
+        raise ValueError("ecosystem must be a JSON object")
+
+    if not isinstance(world.get("rivers"), list):
+        raise ValueError("world.rivers must be a list")
+
+    if not isinstance(ecosystem.get("river_reaches"), list):
+        raise ValueError("ecosystem.river_reaches must be a list")
+
+    for key in ("boundary_m3s", "boundary_c"):
+        if key not in ecosystem:
+            raise ValueError(f"ecosystem requires {key!r}")
+
+    finite(ecosystem["boundary_m3s"], "ecosystem boundary_m3s", 0.0)
+    finite(ecosystem["boundary_c"], "ecosystem boundary_c")
+
+    reach_ids: set[str] = set()
+    for index, reach in enumerate(ecosystem["river_reaches"]):
+        if not isinstance(reach, dict):
+            raise ValueError(f"river_reaches[{index}] must be an object")
+
+        reach_id = reach.get("id")
+        if not isinstance(reach_id, str) or not reach_id.strip():
+            raise ValueError(f"river_reaches[{index}] requires a nonempty id")
+
+        if reach_id in reach_ids:
+            raise ValueError(f"duplicate ecosystem river reach id {reach_id!r}")
+        reach_ids.add(reach_id)
+
+        lateral_sources = reach.get("lateral_sources", [])
+        if not isinstance(lateral_sources, list):
+            raise ValueError(f"reach {reach_id!r}.lateral_sources must be a list")
+
+        for source_index, source in enumerate(lateral_sources):
+            validate_source_record(
+                source,
+                f"reach {reach_id!r}.lateral_sources[{source_index}]",
+            )
+
+
+def validate_weather_configuration(ecosystem: dict) -> None:
+    """Check weather keys for type and range before a solver is created."""
+    weather = ecosystem.get("weather", {})
+    if not isinstance(weather, dict):
+        raise ValueError("ecosystem.weather must be an object")
+
+    for key, low, high in BOUNDED_WEATHER_KEYS:
+        if key not in weather:
+            continue
+        value = weather[key]
+        if isinstance(value, dict):
+            values = Series.parse(value).values
+        else:
+            values = (finite(value, f"weather.{key}"),)
+        for item in values:
+            if item < low:
+                raise ValueError(f"weather.{key} must be >= {low}")
+            if high is not None and item > high:
+                raise ValueError(f"weather.{key} must be <= {high}")
+
+    hour0 = finite(ecosystem.get("clock_hour", 16.2), "clock_hour")
+    if not 0.0 <= hour0 < 24.0:
+        raise ValueError("clock_hour must be in [0, 24)")
+
+    for key in SCHEDULABLE_WEATHER_KEYS:
+        if key not in weather:
+            continue
+        Series.parse(weather[key])
+
+    wind = weather.get("wind_xz_mps", [1.8, 0.6])
+    if not isinstance(wind, (list, tuple)) or len(wind) != 2:
+        raise ValueError("weather.wind_xz_mps must be a two-element vector")
+
+
+def add_temperature_pulse(
+    series: Series,
+    start_s: float,
+    end_s: float,
+    delta_c: float,
+    upper_c: float = PULSE_TEMPERATURE_UPPER_C,
+) -> Series:
+    """Insert pulse breakpoints and add delta_c inside the window.
+    Values above upper_c inside the window raise ValueError."""
+    if not 0.0 < start_s < end_s:
+        raise ValueError("temperature pulse requires 0 < start_s < end_s")
+
+    delta_c = finite(delta_c, "pulse temperature change")
+    upper_c = finite(upper_c, "pulse upper temperature")
+    breakpoints = sorted({0.0, start_s, end_s, *series.times_s})
+
+    values = []
+    for time_s in breakpoints:
+        base = series.at(time_s)
+        active = start_s <= time_s < end_s
+        value = base + delta_c if active else base
+        if active and value > upper_c:
+            raise ValueError(
+                "pulse-adjusted source temperature "
+                f"{value:.2f} C at t={time_s:g} s exceeds the physical "
+                f"upper guard of {upper_c:g} C"
+            )
+        values.append(value)
+
+    return Series(tuple(breakpoints), tuple(values))
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def parse_cross_sections(value: Any) -> dict[str, dict[str, Any]]:
-    """Validate per-feature mean-depth profiles. Format: {feature_id: {"depth_m": positive float, "status": str}}. Unknown feature ids rejected. channel_geometry fields real_measurement_site and dem_cross_check_depth_m are accepted and preserved."""
+    """Validate per-feature mean-depth profiles. Format: {feature_id: {depth_m: positive float, status: str}}.
+    channel_geometry.real_measurement_site is a USGS 8-15 digit site id; dem_cross_check_depth_m is positive."""
     if value is None:
         return {}
     if not isinstance(value, dict):
         raise ValueError("cross_sections must be an object")
     profiles = {}
     for feature_id, record in value.items():
+        if not isinstance(feature_id, str) or not feature_id:
+            raise ValueError(
+                "cross-section feature ids must be nonempty strings")
         if feature_id.startswith("_"):
             continue
-        if not isinstance(feature_id, str) or not feature_id:
-            raise ValueError("cross-section feature ids must be nonempty")
         if not isinstance(record, dict):
             raise ValueError(
                 f"cross-section {feature_id!r} must be an object")
@@ -91,9 +257,22 @@ def parse_cross_sections(value: Any) -> dict[str, dict[str, Any]]:
             "depth_m": depth, "status": status.strip(),
             "source": source.strip(),
         }
-        for opt in ("real_measurement_site", "dem_cross_check_depth_m"):
-            if opt in record:
-                profiles[feature_id][opt] = record[opt]
+        if "real_measurement_site" in record:
+            site = record["real_measurement_site"]
+            if isinstance(site, bool) or not isinstance(site, str):
+                raise ValueError(
+                    f"cross-section {feature_id!r} real_measurement_site "
+                    "must be a USGS gauge site id string of 8 to 15 digits")
+            if not site.isdigit() or not 8 <= len(site) <= 15:
+                raise ValueError(
+                    f"cross-section {feature_id!r} real_measurement_site "
+                    "must be a USGS gauge site id string of 8 to 15 digits")
+            profiles[feature_id]["real_measurement_site"] = site
+        if "dem_cross_check_depth_m" in record:
+            profiles[feature_id]["dem_cross_check_depth_m"] = positive(
+                record["dem_cross_check_depth_m"],
+                f"{feature_id} dem_cross_check_depth_m",
+            )
     return profiles
 
 def feature_by_id(world: dict, feature_id: str) -> dict:
@@ -121,8 +300,85 @@ def parse_silica_obs(value: Any) -> dict[str, float]:
         out[feature_id] = amount
     return out
 
+def parse_landscape_pockets(
+    value: Any,
+    channel: Channel | None = None,
+) -> list[dict[str, Any]]:
+    """Off-channel refuge pockets carried as a landscape artifact.
+    Pockets are non-conservative; records sit outside the solver cell list for downstream consumers."""
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise ValueError("landscape_pockets must be a list")
+    records: list[dict[str, Any]] = []
+    for entry in value:
+        if not isinstance(entry, dict):
+            raise ValueError("landscape_pockets entries must be objects")
+        pocket_id = entry.get("id")
+        if not isinstance(pocket_id, str) or not pocket_id.strip():
+            raise ValueError("landscape pocket id must be nonempty")
+        kind = entry.get("kind", "pocket")
+        if kind != "pocket":
+            raise ValueError(
+                f"landscape pocket {pocket_id!r} kind must be 'pocket'"
+            )
+        conservation = entry.get("conservation", "non_conservative")
+        if conservation != "non_conservative":
+            raise ValueError(
+                f"landscape pocket {pocket_id!r} conservation must be "
+                "'non_conservative' (solver cells carry the conservative path)"
+            )
+        river_id = entry.get("river_id")
+        if not isinstance(river_id, str) or not river_id.strip():
+            raise ValueError(
+                f"landscape pocket {pocket_id!r} river_id must be nonempty"
+            )
+        chainage_m = finite(
+            entry.get("chainage_m"),
+            f"landscape pocket {pocket_id!r} chainage_m", 0.0,
+        )
+        if channel is not None and chainage_m > channel.length_m:
+            raise ValueError(
+                f"landscape pocket {pocket_id!r} chainage_m exceeds channel length"
+            )
+        flow_m3_s = entry.get("flow_m3_s")
+        if isinstance(flow_m3_s, dict):
+            raise ValueError(
+                f"landscape pocket {pocket_id!r} flow_m3_s is a single "
+                "mass-conserving inflow; schedules are not supported"
+            )
+        flow_m3_s = finite(flow_m3_s, f"landscape pocket {pocket_id!r} flow_m3_s", 0.0)
+        # q_in == q_out for pockets; one flow carries; consumer treats as non-conservative holding.
+        temperature_c = entry.get("temperature_c")
+        Series.parse(temperature_c)
+        status = entry.get("status")
+        if not isinstance(status, str) or not status.strip():
+            raise ValueError(
+                f"landscape pocket {pocket_id!r} status must be nonempty"
+            )
+        record = {
+            "id": pocket_id,
+            "kind": "pocket",
+            "conservation": "non_conservative",
+            "river_id": river_id,
+            "chainage_m": chainage_m,
+            "flow_m3_s": flow_m3_s,
+            "temperature_c": temperature_c,
+            "status": status.strip(),
+        }
+        if channel is not None:
+            record["position_xyz"] = channel.position_at(chainage_m)
+        if "provenance" in entry:
+            record["provenance"] = entry["provenance"]
+        records.append(record)
+    ids = [record["id"] for record in records]
+    if len(ids) != len(set(ids)):
+        raise ValueError("duplicate landscape pocket ids")
+    return records
+
+
 def parse_extra_sources(value: Any) -> list[dict[str, Any]]:
-    """Provider laterals keyed by channel chainage, not ecosystem ids."""
+    """Provider laterals keyed by channel chainage."""
     if value is None:
         return []
     if not isinstance(value, list):
@@ -178,10 +434,7 @@ def parse_upstream_discharge(value: Any) -> dict[str, Any] | None:
 
 def firehole_chain(world: dict) -> list[dict]:
     """Find a single directed chain using declared endpoint IDs.
-
-    Do not infer direction from list order, velocity art parameters,
-    latitude, or local changes in z.
-    """
+    Direction comes from the declared endpoints only."""
     features = [
         feature for feature in world["rivers"]
         if str(feature.get("name", "")).strip().upper()
@@ -240,9 +493,22 @@ class Channel:
         self.features: dict[str, dict] = {}
 
         for feature in features:
+            if not isinstance(feature, dict):
+                raise ValueError("river features must be objects")
+            feature_id = feature.get("id")
+            if not isinstance(feature_id, str) or not feature_id.strip():
+                raise ValueError("river feature id must be a nonempty string")
+            if feature_id in self.features:
+                raise ValueError(
+                    f"{feature_id}: duplicate river feature id"
+                )
+            if "points" not in feature:
+                raise ValueError(f"{feature_id}: points required")
             raw = feature["points"]
+            if not isinstance(raw, list):
+                raise ValueError(f"{feature_id}: points must be a list")
             if len(raw) < 2:
-                raise ValueError(f"{feature['id']}: too few vertices")
+                raise ValueError(f"{feature_id}: too few vertices")
 
             points = [
                 [finite(value, "vertex coordinate") for value in point]
@@ -290,10 +556,13 @@ class Channel:
             }
 
         self.length_m = self.s_m[-1]
+        self._feature_records = sorted(
+            self.features.values(),
+            key=lambda record: record["start_s_m"],
+        )
         self._feature_ends = [
-            record["end_s_m"] for record in self.features.values()
+            record["end_s_m"] for record in self._feature_records
         ]
-        self._feature_records = list(self.features.values())
 
     def position_at(self, s_m: float) -> list[float]:
         s_m = finite(s_m, "chainage", 0.0)
@@ -313,6 +582,13 @@ class Channel:
         ]
 
     def feature_at(self, s_m: float) -> dict:
+        s_m = finite(s_m, "chainage", 0.0)
+
+        if s_m > self.length_m:
+            raise ValueError(
+                f"chainage {s_m} exceeds channel length {self.length_m}"
+            )
+
         index = min(
             bisect_right(self._feature_ends, s_m),
             len(self._feature_records) - 1,
@@ -320,7 +596,7 @@ class Channel:
         return self._feature_records[index]
 
     def chainage_at_z(self, z: float) -> float:
-        """Translate a reach anchor, refusing ambiguous crossings. Exists for compatibility with the six-reach display."""
+        """Translate a reach anchor, refusing ambiguous crossings. For compatibility with the six-reach display."""
         z = finite(z, "legacy reach z")
         candidates = []
 
@@ -353,6 +629,45 @@ class Channel:
             )
         return unique[0]
 
+def validate_outlet_record(outlet: dict, source_id: str) -> None:
+    """Check an authored outlet record before it drives a connection."""
+    if not isinstance(outlet, dict):
+        raise ValueError(f"outlet for source {source_id!r} must be an object")
+    target_id = outlet.get("target_river_id")
+    if not isinstance(target_id, str) or not target_id.strip():
+        raise ValueError(
+            f"outlet for source {source_id!r} target_river_id must be nonempty"
+        )
+    if "target_vertex_index" not in outlet:
+        raise ValueError(
+            f"outlet for source {source_id!r} requires target_vertex_index"
+        )
+    raw_index = outlet["target_vertex_index"]
+    if isinstance(raw_index, bool) or not isinstance(raw_index, (int, float)):
+        raise ValueError(
+            f"outlet for source {source_id!r} target_vertex_index "
+            "must be numeric"
+        )
+    if isinstance(raw_index, float) and not raw_index.is_integer():
+        raise ValueError(
+            f"outlet for source {source_id!r} target_vertex_index "
+            "must be an integer"
+        )
+    points = outlet.get("points")
+    if not isinstance(points, list) or not points:
+        raise ValueError(
+            f"outlet for source {source_id!r} points must be a nonempty list"
+        )
+    for index, point in enumerate(points):
+        if not isinstance(point, (list, tuple)) or len(point) != 3:
+            raise ValueError(
+                f"outlet for source {source_id!r} points[{index}] "
+                "must be [x, y, z]"
+            )
+        for value in point:
+            finite(value, f"outlet for source {source_id!r} point coordinate")
+
+
 def source_connection(
     world: dict,
     channel: Channel,
@@ -364,16 +679,14 @@ def source_connection(
         )
 
     outlet = feature_by_id(world, SOURCE_LINKS[source["id"]])
+    validate_outlet_record(outlet, source["id"])
     target_id = outlet["target_river_id"]
 
     if target_id not in channel.features:
         raise ValueError("thermal outlet targets a different water system")
 
     feature = channel.features[target_id]
-    raw_index = outlet["target_vertex_index"]
-    if isinstance(raw_index, bool) or int(raw_index) != raw_index:
-        raise ValueError("target_vertex_index must be an integer")
-    vertex_index = int(raw_index)
+    vertex_index = int(outlet["target_vertex_index"])
     if not 0 <= vertex_index < len(feature["points_xyz"]):
         raise ValueError("thermal target vertex outside feature")
 
@@ -384,6 +697,17 @@ def source_connection(
             f"thermal outlet endpoint misses target by {discrepancy:.6f} m"
         )
 
+    ecosystem_flow = source["flow_m3s"]
+    world_flow = outlet.get("flow_m3_s")
+    flow_comparison: dict[str, Any] = {
+        "ecosystem_m3_s": ecosystem_flow,
+        "world_outlet_m3_s": world_flow,
+        "status": "world_outlet_flow_absent",
+    }
+    if isinstance(world_flow, (int, float)) and math.isfinite(world_flow):
+        flow_comparison["difference_m3_s"] = ecosystem_flow - world_flow
+        flow_comparison["status"] = "both_flows_present_difference_reported"
+
     return {
         "source_id": source["id"],
         "outlet_feature_id": outlet["id"],
@@ -392,10 +716,11 @@ def source_connection(
         "s_m": feature["point_s_m"][vertex_index],
         "position_xyz": target,
         "join_error_m": discrepancy,
-        "ecosystem_flow_m3_s": source["flow_m3s"],
+        "ecosystem_flow_m3_s": ecosystem_flow,
         "ecosystem_entry_c": source["temperature_c"],
-        "world_outlet_flow_m3_s": outlet.get("flow_m3_s"),
+        "world_outlet_flow_m3_s": world_flow,
         "world_outlet_temperature_c": outlet.get("temperature_c"),
+        "flow_comparison": flow_comparison,
         "authority": (
             "ecosystem values define river-entry forcing; "
             "world outlet defines connection geometry only"
@@ -407,11 +732,7 @@ def cell_faces(
     required_faces: list[float],
     maximum_cell_m: float,
 ) -> list[float]:
-    """Split at sources and feature boundaries, then subdivide.
-
-    A source lies at the upstream face of its receiving cell, rather
-    than being smeared over a legacy compartment.
-    """
+    """Split at sources and feature boundaries, then subdivide; sources sit at the upstream face of their receiving cell."""
     maximum_cell_m = positive(maximum_cell_m, "maximum cell length")
     breaks = sorted(set([0.0, length_m, *required_faces]))
 
@@ -431,47 +752,105 @@ def cell_faces(
         result[-1] = finish
     return result
 
+def _weather_times(duration_s: float, interval_s: float) -> list[float]:
+    """Sample times on the physical clock, ending exactly at the duration."""
+    duration_s = finite(duration_s, "weather duration", 0.0)
+    interval_s = positive(interval_s, "weather interval")
+
+    times: list[float] = []
+    time_s = 0.0
+
+    while time_s < duration_s:
+        times.append(time_s)
+        next_time = time_s + interval_s
+        if next_time <= time_s:
+            raise ArithmeticError("weather clock failed to advance")
+        time_s = next_time
+
+    if not times:
+        times.append(0.0)
+
+    if math.isclose(times[-1], duration_s):
+        times[-1] = duration_s
+    else:
+        times.append(duration_s)
+
+    return times
+
+
+def _forcing_series_from_weather(
+    weather: dict,
+    key: str,
+    *,
+    default: Any,
+    name: str,
+) -> Series:
+    """Weather forcing given as a scalar or as a {times_s, values} schedule."""
+    if key in weather:
+        value = weather[key]
+        if isinstance(value, dict):
+            return Series.parse(value)
+        return Series.parse(finite(value, name))
+    return Series.parse(default)
+
+
 def physical_weather(
     ecosystem: dict,
     duration_s: float,
     interval_s: float = 60.0,
 ) -> tuple[Series, list[dict]]:
-    """Use the existing weather approximation on a physical clock.
+    """Air temperature and wind forcing on the physical clock (not measured meteorology).
+    weather.air_temperature_c scalar or schedule; otherwise authored diurnal curve with lag_hours; air constant per interval."""
+    duration_s = finite(duration_s, "weather duration", 0.0)
+    interval_s = positive(interval_s, "weather interval")
 
-    Air forcing is held constant over each interval. day_rate does not
-    accelerate scientific forcing. This is not measured meteorology.
-    lag_hours defaults to the microclimate air-curve lag so the solver and
-    the mixing chain share one curve.
-    """
     weather = ecosystem.get("weather", {})
+    if not isinstance(weather, dict):
+        raise ValueError("ecosystem.weather must be an object")
+
     hour0 = finite(ecosystem.get("clock_hour", 16.2), "clock_hour")
+    if not 0.0 <= hour0 < 24.0:
+        raise ValueError("clock_hour must be in [0, 24)")
+
+    times = _weather_times(duration_s, interval_s)
+
+    scheduled_air: Series | None = None
+    if "air_temperature_c" in weather:
+        scheduled_air = Series.parse(weather["air_temperature_c"])
+
     night = finite(weather.get("night_air_c", 7.0), "night air")
     warming = finite(weather.get("day_warming_c", 15.0), "day warming")
     lag = finite(weather.get("lag_hours", 3.0), "weather lag")
+
     wind = weather.get("wind_xz_mps", [1.8, 0.6])
+    if not isinstance(wind, (list, tuple)) or len(wind) != 2:
+        raise ValueError("weather.wind_xz_mps must be a two-element vector")
     wx, wz = [finite(value, "base wind") for value in wind]
     gust = finite(weather.get("gust_mps", 0.45), "gust", 0.0)
 
-    times = [
-        index * interval_s
-        for index in range(int(duration_s // interval_s) + 1)
-    ]
     temperatures = []
     records = []
 
     for time_s in times:
         hour = (hour0 + time_s / 3600.0) % 24.0
-        sun = max(0.0, math.sin((hour - 6.0 - lag) * math.pi / 12.0))
-        air = night + warming * sun
-        temperatures.append(air)
+
+        if scheduled_air is not None:
+            air = scheduled_air.at(time_s)
+            air_source = "scheduled_weather.air_temperature_c"
+        else:
+            # Share the microclimate diurnal curve with the ecosystem path.
+            air = air_temp(hour, night, warming, lag)
+            air_source = "authored_diurnal_approximation"
+
+        temperatures.append(finite(air, "weather air temperature"))
+        # Share the microclimate wind oscillation; identical period and gust shape.
+        wind_xz = wind_at(time_s, (wx, wz), gust)
         records.append({
             "t_s": time_s,
             "hour": hour,
-            "air_c": air,
-            "wind_xz_mps": [
-                wx + gust * math.sin(time_s / 61.0),
-                wz + gust * math.cos(time_s / 87.0),
-            ],
+            "air_c": temperatures[-1],
+            "air_source": air_source,
+            "wind_xz_mps": [float(wind_xz[0]), float(wind_xz[1])],
         })
 
     return Series(tuple(times), tuple(temperatures)), records
@@ -480,36 +859,72 @@ def energy_met_series(ecosystem: dict, duration_s: float,
                       interval_s: float = 60.0,
                       weather_records: list[dict] | None = None) -> dict:
     """Meteorological series for the explicit surface budget.
-
-    Relative humidity and cloud are held constant (no met station data);
-    wind speed reuses the physical_weather trace magnitude so both
-    forcings share one wind history; shortwave is a synthetic diurnal
-    curve scaled by sw_noon_w_m2. All labeled synthetic in the notes.
-    """
+    Scheduled RH/wind/cloud/shortwave override authored fallback (constant RH+cloud, physical_weather wind, synthetic diurnal shortwave)."""
     from .surface_flux import spec_from_series
+    duration_s = finite(duration_s, "meteorology duration", 0.0)
+    interval_s = positive(interval_s, "meteorology interval")
+
     weather = ecosystem.get("weather", {})
+    if not isinstance(weather, dict):
+        raise ValueError("ecosystem.weather must be an object")
+
     hour0 = finite(ecosystem.get("clock_hour", 16.2), "clock_hour")
-    humidity = finite(weather.get("humidity", 0.45), "humidity")
-    cloud = finite(weather.get("cloud", 0.16), "cloud")
-    sw_noon = finite(weather.get("sw_noon_w_m2", 700.0),
-                     "sw_noon_w_m2", 0.0)
+    if not 0.0 <= hour0 < 24.0:
+        raise ValueError("clock_hour must be in [0, 24)")
+
     if weather_records is None:
         _, weather_records = physical_weather(ecosystem, duration_s,
                                               interval_s)
-    times = [record["t_s"] for record in weather_records]
-    winds = [math.hypot(record["wind_xz_mps"][0],
-                        record["wind_xz_mps"][1])
-             for record in weather_records]
-    suns = []
-    for time_s in times:
-        hour = (hour0 + time_s / 3600.0) % 24.0
-        sun = max(0.0, math.sin((hour - 6.0) * math.pi / 12.0))
-        suns.append(sw_noon * sun ** 1.2)
+    if not weather_records:
+        raise ValueError("weather_records must not be empty")
+
+    times = tuple(
+        finite(record["t_s"], "weather record time", 0.0)
+        for record in weather_records
+    )
+    if times[0] != 0.0:
+        raise ValueError("weather records must begin at t=0")
+    if any(later <= earlier for earlier, later in zip(times, times[1:])):
+        raise ValueError("weather record times must be strictly increasing")
+
+    humidity = _forcing_series_from_weather(
+        weather, "relative_humidity",
+        default=finite(weather.get("humidity", 0.45), "humidity"),
+        name="relative humidity",
+    )
+    cloud = _forcing_series_from_weather(
+        weather, "cloud_fraction",
+        default=finite(weather.get("cloud", 0.16), "cloud"),
+        name="cloud fraction",
+    )
+
+    if "wind_speed_mps" in weather:
+        wind_speed = _forcing_series_from_weather(
+            weather, "wind_speed_mps", default=0.0, name="wind speed")
+        winds = [wind_speed.at(time_s) for time_s in times]
+    else:
+        winds = [math.hypot(record["wind_xz_mps"][0],
+                            record["wind_xz_mps"][1])
+                 for record in weather_records]
+
+    if "shortwave_w_m2" in weather:
+        shortwave = _forcing_series_from_weather(
+            weather, "shortwave_w_m2", default=0.0, name="shortwave_w_m2")
+        suns = [shortwave.at(time_s) for time_s in times]
+    else:
+        sw_noon = finite(weather.get("sw_noon_w_m2", 700.0),
+                         "sw_noon_w_m2", 0.0)
+        suns = []
+        for time_s in times:
+            hour = (hour0 + time_s / 3600.0) % 24.0
+            sun = max(0.0, math.sin((hour - 6.0) * math.pi / 12.0))
+            suns.append(sw_noon * sun ** 1.2)
+
     return spec_from_series(
-        Series(tuple(times), tuple([humidity] * len(times))),
-        Series(tuple(times), tuple(winds)),
-        Series(tuple(times), tuple(suns)),
-        Series(tuple(times), tuple([cloud] * len(times))),
+        Series(times, tuple(humidity.at(time_s) for time_s in times)),
+        Series(times, tuple(winds)),
+        Series(times, tuple(suns)),
+        Series(times, tuple(cloud.at(time_s) for time_s in times)),
     )
 
 def build_mapped_replay(
@@ -535,13 +950,25 @@ def build_mapped_replay(
     upstream_discharge: dict[str, Any] | None = None,
     extra_sources: list[dict[str, Any]] | None = None,
     silica_obs: dict[str, float] | None = None,
+    landscape_pockets: list[dict[str, Any]] | None = None,
+    simulation_start_utc: Any = None,
+    simulation_start_epoch_unix: Any = None,
 ) -> dict[str, Any]:
-    duration_s = positive(duration_s, "duration")
+    duration_s, dt_s, sample_s = validate_duration_and_step(
+        duration_s, dt_s, sample_s)
+    maximum_cell_m = positive(maximum_cell_m, "maximum cell length")
     depth_m = positive(depth_m, "assumed mean depth")
     dispersion_m2_s = finite(dispersion_m2_s, "dispersion", 0.0)
     exchange_w_m2_k = finite(exchange_w_m2_k, "exchange", 0.0)
     bank_slope_zh = finite(bank_slope_zh, "bank_slope_zh", 0.0)
     manning_n = positive(manning_n, "manning_n")
+    validate_mapped_inputs(world, ecosystem)
+    validate_weather_configuration(ecosystem)
+    simulation_start = parse_simulation_start(
+        simulation_start_utc=simulation_start_utc,
+        simulation_start_epoch_unix=simulation_start_epoch_unix,
+    )
+    simulation_time = timestamp_metadata(simulation_start, duration_s)
     profiles = parse_cross_sections(cross_sections)
     prediction = parse_upstream_discharge(upstream_discharge)
     extra = parse_extra_sources(extra_sources)
@@ -595,9 +1022,7 @@ def build_mapped_replay(
 
     cells = []
     mapping = []
-    # Reach-averaged grade per river feature (total drop / total length):
-    # cell-scale elevation differences are vertex/DEM noise, not energy
-    # slope. Standard open-channel practice uses the reach grade.
+    # Reach-averaged grade per river feature (total drop / total length); open-channel practice.
     feature_slopes: dict[str, float | None] = {}
     for feature in channel.features.values():
         pts = feature["points_xyz"]
@@ -633,8 +1058,7 @@ def build_mapped_replay(
         direction_length = math.hypot(b[0] - a[0], b[2] - a[2])
         if direction_length <= 0.0:
             raise ValueError("cell chord has no horizontal direction")
-        # Reach-averaged grade (see above); flat or adverse reaches stay
-        # None: Manning is reported undefined, never replaced.
+        # Reach-averaged grade; flat or adverse reaches stay None (Manning reported undefined).
         cell_slopes.append(feature_slopes[feature["id"]])
 
         cell_id = f"firehole_cell_{index:05d}"
@@ -648,12 +1072,15 @@ def build_mapped_replay(
             "exchange_w_m2_k": exchange_w_m2_k,
             "geometry_status": geometry_status,
         })
+        # Bed elevation: authored centerline y minus cell wetted depth; water surface is position_xyz[1]; depth_source carries provenance.
+        bed_elevation_m = position[1] - cell_depth
         mapping.append({
             "id": cell_id,
             "river_id": feature["id"],
             "depth_m": cell_depth,
             "depth_status": depth_status,
             "depth_source": depth_source,
+            "bed_elevation_m": bed_elevation_m,
             "position_xyz": position,
             "downstream_unit_xz": [
                 (b[0] - a[0]) / direction_length,
@@ -667,24 +1094,24 @@ def build_mapped_replay(
         if location >= channel.length_m:
             raise ValueError("lateral source cannot enter after last cell")
         index = bisect_right(faces, location) - 1
-        temperature = finite(source["temperature_c"], "entry temperature")
-        forcing: Any = temperature
+        base_temperature = Series.parse(source["temperature_c"])
 
         if source["id"] == pulse_source:
-            forcing = {
-                "times_s": [0.0, pulse_start_s, pulse_end_s],
-                "values": [
-                    temperature,
-                    temperature + pulse_delta_c,
-                    temperature,
-                ],
-            }
+            base_temperature = add_temperature_pulse(
+                base_temperature,
+                pulse_start_s,
+                pulse_end_s,
+                pulse_delta_c,
+            )
 
         solver_sources.append({
             "id": source["id"],
             "cell_id": cells[index]["id"],
             "flow_m3_s": finite(source["flow_m3s"], "lateral flow", 0.0),
-            "temperature_c": forcing,
+            "temperature_c": {
+                "times_s": list(base_temperature.times_s),
+                "values": list(base_temperature.values),
+            },
             "status": "illustrative_river_entry_forcing_not_measured",
         })
         connection["receiving_cell_id"] = cells[index]["id"]
@@ -699,7 +1126,19 @@ def build_mapped_replay(
             "status": record["status"],
         })
 
-    boundary_m3_s = finite(ecosystem["boundary_m3s"], "boundary flow")
+    # Accept scalar or Series boundary_m3s so overland can drive a scheduled hydrograph.
+    boundary_cfg = ecosystem["boundary_m3s"]
+    boundary_m3_s: Any
+    if isinstance(boundary_cfg, dict) and {"times_s", "values"} <= set(
+            boundary_cfg):
+        for value in boundary_cfg["values"]:
+            finite(value, "boundary flow", 0.0)
+        boundary_m3_s = {
+            "times_s": list(boundary_cfg["times_s"]),
+            "values": list(boundary_cfg["values"]),
+        }
+    else:
+        boundary_m3_s = finite(boundary_cfg, "boundary flow")
     upstream_note: dict[str, Any] | str = (
         "ecosystem prescribed boundary discharge")
     if prediction is not None:
@@ -722,6 +1161,8 @@ def build_mapped_replay(
                    if energy_budget else None)
     config = {
         "status": "mapped_illustrative_model_not_calibrated",
+        "simulation_start_utc": simulation_time["start_utc"],
+        "simulation_start_epoch_unix": simulation_time["start_epoch_unix"],
         "boundary_m3_s": boundary_m3_s,
         "boundary_c": ecosystem["boundary_c"],
         "air_c": {
@@ -763,9 +1204,20 @@ def build_mapped_replay(
                 "Not used; lumped Newton exchange only."
             ),
             "weather": (
-                "Existing diurnal approximation, sampled every 60 physical "
-                "seconds; not date-specific meteorology."
+                "Diurnal approximation or a scheduled air_temperature_c, "
+                "sampled every 60 physical seconds; not date-specific "
+                "meteorology."
             ),
+            "simulation_time": {
+                "authority": "UTC epoch timestamp",
+                "start_utc": simulation_time["start_utc"],
+                "end_utc": simulation_time["end_utc"],
+                "weather_clock": "physical seconds from replay start",
+                "scheduled_forcing": (
+                    "Right-continuous piecewise-constant Series; the "
+                    "integration splits at forcing changes."
+                ),
+            },
             "omitted_tributaries": (
                 "Only explicitly configured ecosystem lateral flows are "
                 "included. Mapped streams do not supply invented discharge."
@@ -810,9 +1262,7 @@ def build_mapped_replay(
     for record, spatial in zip(document["cells"], mapping):
         record.update(spatial)
 
-    # Trapezoidal hydraulics diagnostics (additive; solver volumes and
-    # temperatures above are unchanged). Discharge per cell is the
-    # downstream face flow, matching representative_velocity_m_s.
+    # Trapezoidal hydraulics diagnostics (additive); per-cell discharge is the downstream face flow matching representative_velocity_m_s.
     face_flows = document["face_flow_m3_s"]
     total_travel_s = 0.0
     manning_ratios: list[float] = []
@@ -829,6 +1279,8 @@ def build_mapped_replay(
             bank_slope_zh=bank_slope_zh,
             manning_n=manning_n,
         )
+        record["volume_authority"] = "solver_rectangular_length_width_depth"
+        record["hydraulics_authority"] = "diagnostic_trapezoidal_geometry"
         record["hydraulics"] = hydro
         if hydro["travel_time_s"] is not None:
             total_travel_s += hydro["travel_time_s"]
@@ -882,10 +1334,38 @@ def build_mapped_replay(
 
     legacy_queries = []
     reach_anchors = reach_anchors or {}
+    if not isinstance(reach_anchors, dict):
+        raise ValueError("reach_anchors must be an object")
+    known_reach_ids = {reach["id"] for reach in ecosystem["river_reaches"]}
+    unknown_anchor_ids = set(reach_anchors) - known_reach_ids
+    if unknown_anchor_ids:
+        raise ValueError(
+            "reach anchors reference unknown reaches: "
+            f"{sorted(unknown_anchor_ids)}"
+        )
     for reach in ecosystem["river_reaches"]:
         anchor = reach_anchors.get(reach["id"])
         if anchor:
-            feature = channel.features[anchor["river_id"]]
+            if not isinstance(anchor, dict):
+                raise ValueError(
+                    f"reach anchor for {reach['id']!r} must be an object"
+                )
+            if "river_id" not in anchor or "vertex_index" not in anchor:
+                raise ValueError(
+                    f"reach anchor for {reach['id']!r} requires "
+                    "river_id and vertex_index"
+                )
+            river_id = anchor["river_id"]
+            if not isinstance(river_id, str) or not river_id.strip():
+                raise ValueError(
+                    f"reach anchor for {reach['id']!r} river_id must be nonempty"
+                )
+            if river_id not in channel.features:
+                raise ValueError(
+                    f"reach anchor for {reach['id']!r} river_id {river_id!r} "
+                    "does not match a Firehole feature"
+                )
+            feature = channel.features[river_id]
             raw_index = anchor["vertex_index"]
             if isinstance(raw_index, bool) or int(raw_index) != raw_index:
                 raise ValueError("reach vertex anchor must be integer")
@@ -904,19 +1384,54 @@ def build_mapped_replay(
             "basis": basis,
         })
 
+    pockets = parse_landscape_pockets(landscape_pockets, channel)
+
+    # Per-frame per-cell discharge aligned with document["cells"] order; face flows constant under this solver.
+    cell_discharge_m3_s = list(face_flows[1:])
+    # Per-frame per-cell wetted depth; constant per cell; each frame repeats the authored depth array.
+    cell_depth_m = [record["depth_m"] for record in document["cells"]]
+    for frame in document["frames"]:
+        frame["q_cells_m3s"] = list(cell_discharge_m3_s)
+        frame["depth_m_cells"] = list(cell_depth_m)
+
     document.update({
         "river_features": channel.features,
         "legacy_queries": legacy_queries,
         "source_connections": connections,
         "weather_trace": weather_records,
+        "simulation_time": simulation_time,
+        "forcing_time_reference": {
+            "start_epoch_unix": simulation_time["start_epoch_unix"],
+            "meaning": (
+                "Forcing schedule times are physical seconds after "
+                "simulation_start_epoch_unix."
+            ),
+        },
+        "weather_forcing": {
+            "records": weather_records,
+            "air_temperature": {
+                "times_s": list(air.times_s),
+                "values": list(air.values),
+            },
+        },
         "clock_hour0": ecosystem.get("clock_hour", 16.2),
-        "humidity": ecosystem.get("humidity", 0.45),
-        "cloud": ecosystem.get("cloud", 0.16),
+        # Weather authority: humidity and cloud come from ecosystem.weather so the top-level document matches the met bundle.
+        "humidity": ecosystem.get("weather", {}).get("humidity", 0.45),
+        "cloud": ecosystem.get("weather", {}).get("cloud", 0.16),
         "georeference": world["georeference"],
+        "landscape_pockets": {
+            "status": "non_conservative_landscape_artifact",
+            "authority": (
+                "pockets are a landscape artifact; solver cells and the "
+                "numerical budget do not integrate them"
+            ),
+            "n": len(pockets),
+            "records": pockets,
+        },
         "mapping": {
             "length_m": channel.length_m,
             "chain_order": list(channel.features),
-            "distance": "horizontal polyline chainage in metres",
+            "distance": "horizontal polyline chainage in meters",
             "world_axes": "x east, y up, z south",
             "cell_ids": (
                 "Numerical-grid ids; persistent world feature and actor "
@@ -924,6 +1439,8 @@ def build_mapped_replay(
             ),
         },
     })
+    if budget_spec is not None:
+        document["weather_forcing"]["surface_budget"] = budget_spec
     return document
 
 def main() -> int:
@@ -931,6 +1448,15 @@ def main() -> int:
     parser.add_argument("--world", type=Path, required=True)
     parser.add_argument("--ecosystem", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--simulation-start-utc", default=None,
+        help="Replay start as a timezone-aware ISO-8601 UTC timestamp, "
+             f"{ISO_HINT}",
+    )
+    parser.add_argument(
+        "--simulation-start-epoch", type=float, default=None,
+        help="Replay start as Unix seconds since 1970-01-01 UTC",
+    )
     parser.add_argument("--duration", type=float, default=7200.0)
     parser.add_argument("--cell-m", type=float, default=20.0)
     parser.add_argument("--depth-m", type=float, default=1.1)
@@ -967,6 +1493,12 @@ def main() -> int:
              "SiO2 mg/L for the silica diagnostic",
     )
     parser.add_argument(
+        "--landscape-pockets", type=Path,
+        help="Optional JSON list of off-channel refuge pockets. Pockets "
+             "ship as a landscape artifact beside the solver; the thermal "
+             "solver does not integrate them.",
+    )
+    parser.add_argument(
         "--energy-budget", action="store_true",
         help="Use the explicit shortwave/longwave/sensible/latent "
              "surface budget instead of the lumped Newton coefficient",
@@ -983,6 +1515,12 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    if args.simulation_start_utc is None and args.simulation_start_epoch is None:
+        parser.error(
+            "one of --simulation-start-utc or --simulation-start-epoch "
+            "is required; the replay clock has no calendar date without it"
+        )
+
     # A diagnostic output path must never overwrite immutable inputs.
     inputs = [args.world, args.ecosystem]
     if args.reach_anchors:
@@ -995,6 +1533,8 @@ def main() -> int:
         inputs.append(args.extra_sources)
     if args.silica_obs:
         inputs.append(args.silica_obs)
+    if args.landscape_pockets:
+        inputs.append(args.landscape_pockets)
     if args.out.resolve() in {path.resolve() for path in inputs}:
         parser.error("output must not overwrite an input")
 
@@ -1023,9 +1563,15 @@ def main() -> int:
             json.loads(args.silica_obs.read_text(encoding="utf-8"))
             if args.silica_obs else None
         )
+        pockets_file = (
+            json.loads(args.landscape_pockets.read_text(encoding="utf-8"))
+            if args.landscape_pockets else None
+        )
 
         document = build_mapped_replay(
             world, ecosystem,
+            simulation_start_utc=args.simulation_start_utc,
+            simulation_start_epoch_unix=args.simulation_start_epoch,
             duration_s=args.duration,
             maximum_cell_m=args.cell_m,
             depth_m=args.depth_m,
@@ -1045,6 +1591,7 @@ def main() -> int:
             upstream_discharge=discharge,
             extra_sources=extra,
             silica_obs=silica_file,
+            landscape_pockets=pockets_file,
         )
         document["input_files"] = {
             "world": {"path": str(args.world), "sha256": sha256(args.world)},
@@ -1078,6 +1625,11 @@ def main() -> int:
                 "path": str(args.silica_obs),
                 "sha256": sha256(args.silica_obs),
             }
+        if args.landscape_pockets:
+            document["input_files"]["landscape_pockets"] = {
+                "path": str(args.landscape_pockets),
+                "sha256": sha256(args.landscape_pockets),
+            }
         document["adapter_code_sha256"] = sha256(Path(__file__))
 
         if not document["numerical_checks"]["passed"]:
@@ -1086,8 +1638,12 @@ def main() -> int:
         text = json.dumps(document, indent=2, allow_nan=False) + "\n"
         args.out.parent.mkdir(parents=True, exist_ok=True)
         temporary = args.out.with_name(args.out.name + ".tmp")
-        temporary.write_text(text, encoding="utf-8")
-        temporary.replace(args.out)
+        try:
+            temporary.write_text(text, encoding="utf-8")
+            temporary.replace(args.out)
+        finally:
+            if temporary.exists():
+                temporary.unlink()
 
     except (ValueError, TypeError, KeyError, ArithmeticError, OSError) as error:
         parser.exit(2, f"mapped river build failed: {error}\n")

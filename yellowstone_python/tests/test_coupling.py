@@ -10,9 +10,11 @@ from yellowstone_python.aquatic_foodweb import (
 from yellowstone_python.coupling import (
     EXCHANGES,
     POCKET_CONSERVATION,
+    PRESCRIBED_INCREMENT,
     check_coupling,
     validate_contract,
 )
+from yellowstone_python.replay.hydraulics import thermal_inventory
 from yellowstone_python.replay.river_transport import make_replay
 
 
@@ -36,7 +38,11 @@ def _doc():
              "status": "illustrative_not_calibrated"},
         ],
     }
-    return make_replay(config)
+    doc = make_replay(config)
+    doc["hydraulics_summary"] = {
+        "thermal_inventory": thermal_inventory(doc["forcing"]["sources"]),
+    }
+    return doc
 
 
 def test_contract_records_are_valid():
@@ -45,7 +51,8 @@ def test_contract_records_are_valid():
     assert len(ids) == len(set(ids))
     for record in EXCHANGES:
         assert record["conservation"] in ("conserved", "mapped",
-                                          POCKET_CONSERVATION)
+                                          POCKET_CONSERVATION,
+                                          PRESCRIBED_INCREMENT)
 
 
 def test_pocket_cells_carry_non_conservative_label():
@@ -99,3 +106,70 @@ def test_check_rejects_surface_method_mismatch():
     result = check_coupling(doc, thermal_landscape(doc))
     assert not result["passed"]
     assert any("Newton" in f for f in result["failures"])
+
+
+def test_check_names_missing_thermal_inventory():
+    doc = _doc()
+    del doc["hydraulics_summary"]
+    result = check_coupling(doc, thermal_landscape(doc))
+    assert not result["passed"]
+    assert any("missing hydraulics_summary" in f for f in result["failures"])
+
+
+def test_check_names_absent_thermal_inventory_key():
+    doc = _doc()
+    doc["hydraulics_summary"] = {}
+    result = check_coupling(doc, thermal_landscape(doc))
+    assert not result["passed"]
+    assert any("missing thermal_inventory" in f for f in result["failures"])
+
+
+def test_check_names_empty_thermal_inventory_sources():
+    doc = _doc()
+    doc["hydraulics_summary"] = {"thermal_inventory": {"sources": []}}
+    result = check_coupling(doc, thermal_landscape(doc))
+    assert not result["passed"]
+    assert any("empty thermal_inventory sources" in f
+               for f in result["failures"])
+
+
+def test_check_names_missing_final_budget():
+    doc = _doc()
+    del doc["final_budget"]
+    result = check_coupling(doc, thermal_landscape(doc))
+    assert not result["passed"]
+    assert any("missing final_budget" in f for f in result["failures"])
+
+
+def test_check_names_empty_final_budget():
+    doc = _doc()
+    doc["final_budget"] = {}
+    result = check_coupling(doc, thermal_landscape(doc))
+    assert not result["passed"]
+    assert any("empty final_budget" in f for f in result["failures"])
+
+
+def test_check_names_missing_frames():
+    doc = _doc()
+    landscape = thermal_landscape(doc)
+    del doc["frames"]
+    result = check_coupling(doc, landscape)
+    assert not result["passed"]
+    assert any("missing frames" in f for f in result["failures"])
+
+
+def test_check_names_empty_frames():
+    doc = _doc()
+    landscape = thermal_landscape(doc)
+    doc["frames"] = []
+    result = check_coupling(doc, landscape)
+    assert not result["passed"]
+    assert any("empty frames" in f for f in result["failures"])
+
+
+def test_check_names_missing_forcing_sources():
+    doc = _doc()
+    del doc["forcing"]["sources"]
+    result = check_coupling(doc, thermal_landscape(doc))
+    assert not result["passed"]
+    assert any("missing forcing.sources" in f for f in result["failures"])

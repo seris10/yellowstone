@@ -6,6 +6,7 @@ varying vec3 world;
 void vertex(){world=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz;}
 void fragment(){
  vec4 mat=texture(surface_map,UV);
+ // surface_map.a is a baked roughness proxy for the mineral band.
  vec3 stone=texture(mineral_texture,world.xz/1.8).rgb;
  ALBEDO=mat.rgb*(0.82+stone*0.30);
  ROUGHNESS=mix(0.54,0.91,mat.a);

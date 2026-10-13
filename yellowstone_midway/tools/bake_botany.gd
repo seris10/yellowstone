@@ -1,7 +1,5 @@
 extends SceneTree
-## Offline authoring tool. Every clump has a fixed JSON record and identity.
-## Creates genus/guild shape proxies.
-## Run after terrain changes: godot --headless --path . --script tools/bake_botany.gd
+## Offline authoring tool: each clump has a fixed JSON record and identity, and creates genus/guild shape proxies. Run after terrain changes: godot --headless --path . --script tools/bake_botany.gd
 const HEIGHT_FIELD = preload("res://scripts/height_field.gd")
 const GOLDEN_ANGLE: float = 2.399963229728653
 var terrain: RefCounted
@@ -33,6 +31,8 @@ func foliage_material() -> ShaderMaterial:
 	mat.set_shader_parameter("tint", Vector3.ONE)
 	mat.set_shader_parameter("wind_strength", 0.025)
 	mat.set_shader_parameter("use_texture", false)
+	# Overwritten by world.update_environment at runtime.
+	mat.set_shader_parameter("wind_vector", Vector2(1.8, 0.6))
 	return mat
 
 func begin_surface() -> SurfaceTool:

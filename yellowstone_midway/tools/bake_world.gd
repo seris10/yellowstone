@@ -1,6 +1,5 @@
 extends SceneTree
-## Offline only. Produces native .tscn/.res assets.
-## Run: godot --headless --path . --script tools/bake_world.gd
+## Offline only; produces native .tscn/.res assets. Run: godot --headless --path . --script tools/bake_world.gd
 const HeightField = preload("res://scripts/height_field.gd")
 var height_field: RefCounted
 var spec: Dictionary
@@ -34,7 +33,7 @@ func make_materials() -> void:
 	terrain_mat.shader = load("res://shaders/terrain.gdshader")
 	terrain_mat.set_shader_parameter("ground_albedo", load("res://assets/textures/forest_ground_04_diff_1k.jpg"))
 	terrain_mat.set_shader_parameter("ground_normal", load("res://assets/textures/forest_ground_04_nor_gl_1k.jpg"))
-	terrain_mat.set_shader_parameter("wetness", .12)
+	terrain_mat.set_shader_parameter("ground_wetness", .12)
 	terrain_mat.set_shader_parameter("rock_albedo", load("res://assets/textures/rock_boulder_dry_diff_1k.jpg"))
 	terrain_mat.set_shader_parameter("biome_map", load("res://assets/textures/habitat_mask.png"))
 	terrain_mat.set_shader_parameter("macro_albedo", load("res://assets/textures/midway_macro.jpg"))
@@ -57,8 +56,10 @@ func make_materials() -> void:
 	bark_mat.normal_texture = load("res://assets/textures/pine_bark_nor_gl_1k.jpg")
 
 func append_instance(buffer: PackedFloat32Array, xf: Transform3D, extra: Color) -> void:
-	# RenderingServer bulk layout: three row-major vec4s, then color/custom.
-	# Bulk assignment retains CPU data in headless bakes.
+	# RenderingServer bulk layout: three row-major vec4s then color/custom (16 floats per instance; 1_000_000 caps instance count at ~62k). Bulk assignment keeps CPU data in headless bakes.
+	if buffer.size() > 1_000_000:
+		push_error("Instance buffer exceeded safety limit; abort.")
+		return
 	buffer.append_array(PackedFloat32Array([
 		xf.basis.x.x,xf.basis.y.x,xf.basis.z.x,xf.origin.x,
 		xf.basis.x.y,xf.basis.y.y,xf.basis.z.y,xf.origin.y,
@@ -175,7 +176,7 @@ func ribbon(points: PackedVector3Array, width: float, mat: Material, closed := f
 			vertices.append(points[i]+side*(float(s)-0.5)*width)
 			normals.append(side.cross(tangent).normalized())
 			uvs.append(Vector2(float(s),arc))
-			# Tint stores source-to-mouth fraction in COLOR.r.
+			# Vertex color red stores the source-to-mouth fraction.
 			colors.append(Color(1.0 - fraction if tint else 1.0, 1, 1))
 		if i>0:
 			var a := (i-1)*2
@@ -205,9 +206,12 @@ func make_routes() -> void:
 		var mat: Material = asphalt_mat if r.kind=="road" or r.surface=="Asphalt" else gravel_mat
 		if r.surface=="Wood":
 			mat = wood_mat
-		elif r.kind=="trail" and r.surface=="Native":
-			# Dirt tread is ground, not deck: drape to terrain.
-			# Bridge spans keep deck height.
+		elif r.kind=="trail" and mat == gravel_mat:
+			# Trails edge-soften in meters: give each ribbon its own width_m.
+			mat = gravel_mat.duplicate()
+			(mat as ShaderMaterial).set_shader_parameter("width_m", float(r.width))
+		if r.kind=="trail" and r.surface=="Native":
+			# Dirt tread drapes to terrain; bridge spans keep deck height.
 			var bridged := {}
 			for span: Array in r.get("bridge_spans", []):
 				for k in range(int(span[0]), int(span[1]) + 1):
@@ -398,7 +402,7 @@ func make_water() -> void:
 			mat.set_shader_parameter("cascade",1.0)
 		var is_outflow := str(r.get("id",""))=="authored_excelsior_outflow_01"
 		if is_outflow:
-			# Visible current: faster ripple drift; cooling and foam from tinted COLOR.r.
+			# Visible current: faster ripple drift; cooling and foam from vertex color red.
 			mat.set_shader_parameter("flow_speed",2.2)
 		var water := add_geometry(ribbon(points_of(r.points),r.width,mat,false,is_outflow),r.id,group)
 		water.add_to_group("river_surfaces",true)

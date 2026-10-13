@@ -3,7 +3,10 @@ import yaml
 
 from yellowstone_python.build import validate_config
 from yellowstone_python.common.hydro_units import (
+    AIR_RANGE_C,
+    TEMPERATURE_RANGE_C,
     UNIT_DOC,
+    WIND_RANGE_MPS,
     validate_hydro_units,
     validate_usgs_bundle,
 )
@@ -28,6 +31,25 @@ def test_registry_documents_hydro_units():
     assert UNIT_DOC["discharge"] == "meter**3/second"
     assert UNIT_DOC["temperature"] == "degree_Celsius"
     assert UNIT_DOC["epoch"] == "second"
+
+
+def test_unit_doc_names_irradiance():
+    assert "irradiance" in UNIT_DOC
+    assert UNIT_DOC["irradiance"] == "watt/meter**2"
+    assert "pressure_flux" not in UNIT_DOC
+
+
+def test_bounds_align_with_godot_consumer():
+    # weather_snapshot_reader.gd:45 clamps wind_speed_mps to [0, 65].
+    assert WIND_RANGE_MPS == (0.0, 65.0)
+    assert AIR_RANGE_C == (-50.0, 40.0)
+    assert TEMPERATURE_RANGE_C == (0.0, 35.0)
+
+
+def test_subzero_water_rejected():
+    from yellowstone_python.common.hydro_units import check_temperature_c
+    with pytest.raises(ValueError):
+        check_temperature_c(-1.0)
 
 
 def test_valid_bundle_passes():

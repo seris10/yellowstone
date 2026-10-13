@@ -1,10 +1,5 @@
-"""Observation model: map scientific state to expected measurements.
-
-y = H(x) + e. H covers spatial mapping (station chainage), temporal
-aggregation (model step to sensor interval), and datum reconciliation
-(stage to elevation). e splits into measurement error and
-representativeness error (point sensor against cross-section mean).
-"""
+"""Observation model y = H(x) + e: spatial mapping, temporal aggregation, datum reconciliation.
+e splits into measurement + representativeness. Bins half-open with left-edge labels at t0 (shared with obs_frame)."""
 from __future__ import annotations
 
 import math
@@ -15,6 +10,7 @@ from .hydraulics import score_paired_series
 UNKNOWN = "unknown"
 
 STATIONS = {
+    # Station metadata is provenance-critical and immutable; copy for exploration.
     "06036805": {
         "name": "Firehole River at Old Faithful",
         "role": "upstream_boundary_above_midway",
@@ -64,27 +60,46 @@ def stage_to_elevation_ft_navd88(stage_ft: float, station: str) -> float:
     stage = float(stage_ft)
     if not math.isfinite(stage):
         raise ValueError("stage_ft must be finite")
+    if stage < 0.0:
+        raise ValueError("stage_ft must be >= 0")
     return stage + float(info["datum_ft_navd88"])
 
 
 def interval_average(times: list[float], values: list[float],
-                     interval_s: float) -> tuple:
-    """Bin-mean irregular samples onto interval centers from the first time."""
-    if interval_s <= 0.0:
-        raise ValueError("interval_s must be positive")
+                     interval_s: float) -> tuple[list[float], list[float]]:
+    """Bin-mean irregular samples onto left-edge labels from the first time.
+    Bin k is half-open [t0+k*interval, t0+(k+1)*interval); empty interior bins stay NaN; non-finite entries raise."""
+    if interval_s <= 0.0 or not math.isfinite(interval_s):
+        raise ValueError("interval_s must be a positive finite number")
     if len(times) != len(values) or not times:
         raise ValueError("times and values must be nonempty and equal length")
-    t0 = min(times)
-    bins: dict = {}
+    pairs: list[tuple[float, float]] = []
     for t, v in zip(times, values):
-        t = float(t)
-        v = float(v)
-        if not math.isfinite(t) or not math.isfinite(v):
+        tf = float(t)
+        vf = float(v)
+        if not math.isfinite(tf) or not math.isfinite(vf):
             raise ValueError("times and values must be finite")
+        pairs.append((tf, vf))
+    t0 = min(t for t, _ in pairs)
+    bins: dict[int, list[float]] = {}
+    for t, v in pairs:
         bins.setdefault(int((t - t0) // interval_s), []).append(v)
-    centers = [t0 + (k + 0.5) * interval_s for k in sorted(bins)]
-    means = [math.fsum(bins[k]) / len(bins[k]) for k in sorted(bins)]
-    return centers, means
+    if not bins:
+        return [], []
+    k_lo, k_hi = min(bins), max(bins)
+    lefts = [t0 + k * interval_s for k in range(k_lo, k_hi + 1)]
+    means: list[float] = [
+        math.fsum(bins[k]) / len(bins[k]) if k in bins else math.nan
+        for k in range(k_lo, k_hi + 1)
+    ]
+    return lefts, means
+
+
+def _uncertainty(name: str, value) -> float:
+    value = float(value)
+    if not math.isfinite(value) or value < 0:
+        raise ValueError(f"{name} must be finite and >= 0")
+    return value
 
 
 def compare(modeled: list[float], observed: list[float],
@@ -94,7 +109,14 @@ def compare(modeled: list[float], observed: list[float],
 
     Defaults match the station table. Both values pass through unmodified.
     """
+    if len(modeled) != len(observed):
+        raise ValueError("modeled and observed must have equal length")
+    if not modeled:
+        raise ValueError("modeled and observed must be nonempty")
+    measurement_error = _uncertainty("measurement_error", measurement_error)
+    representativeness = _uncertainty("representativeness", representativeness)
     scores = score_paired_series(modeled, observed)
     return {**scores,
             "measurement_error": measurement_error,
-            "representativeness": representativeness}
+            "representativeness": representativeness,
+            "combined_error": math.hypot(measurement_error, representativeness)}

@@ -1,16 +1,24 @@
-"""M00 units: explicit converters. Fail loudly on bare/mixed units."""
+"""M00 units: explicit converters. Fail loudly on bare or mixed units."""
 from __future__ import annotations
+
+import warnings
 
 
 class UnitError(ValueError):
     pass
 
 
-M3S_PER_GPM = 0.0000630902  # 1 US gal/min in m3/s
-GPM_PER_M3S = 1.0 / M3S_PER_GPM
+M3S_PER_US_GPM = 3.785411784e-3 / 60.0
+US_GPM_PER_M3S = 1.0 / M3S_PER_US_GPM
+
+M3S_PER_GPM = M3S_PER_US_GPM
+GPM_PER_M3S = US_GPM_PER_M3S
 
 
 def c_to_k(c: float) -> float:
+    """Celsius to Kelvin; rejects values below absolute zero (-273.15 C)."""
+    if c < -273.15:
+        raise UnitError(f"Celsius below absolute zero: {c}")
     return c + 273.15
 
 
@@ -20,16 +28,34 @@ def k_to_c(k: float) -> float:
     return k - 273.15
 
 
-def gpm_to_m3s(gpm: float) -> float:
+def us_gpm_to_m3s(gpm: float) -> float:
     if gpm < 0:
         raise UnitError(f"discharge cannot be negative: {gpm}")
-    return gpm * M3S_PER_GPM
+    return gpm * M3S_PER_US_GPM
+
+
+def m3s_to_us_gpm(m3s: float) -> float:
+    if m3s < 0:
+        raise UnitError(f"discharge cannot be negative: {m3s}")
+    return m3s * US_GPM_PER_M3S
+
+
+def gpm_to_m3s(gpm: float) -> float:
+    """Alias for us_gpm_to_m3s; emits a DeprecationWarning on each call."""
+    warnings.warn(
+        "gpm_to_m3s is deprecated; call us_gpm_to_m3s to disambiguate US and "
+        "imperial gallons",
+        DeprecationWarning, stacklevel=2)
+    return us_gpm_to_m3s(gpm)
 
 
 def m3s_to_gpm(m3s: float) -> float:
-    if m3s < 0:
-        raise UnitError(f"discharge cannot be negative: {m3s}")
-    return m3s * GPM_PER_M3S
+    """Alias for m3s_to_us_gpm; emits a DeprecationWarning on each call."""
+    warnings.warn(
+        "m3s_to_gpm is deprecated; call m3s_to_us_gpm to disambiguate US and "
+        "imperial gallons",
+        DeprecationWarning, stacklevel=2)
+    return m3s_to_us_gpm(m3s)
 
 
 def require_positive(name: str, value: float) -> float:
@@ -45,7 +71,7 @@ def require_fraction(name: str, value: float) -> float:
 
 
 def label_index(name: str, value: float) -> dict:
-    """Wrap a dimensionless 0..1 index so it can never be mistaken for kg/counts."""
+    """Wrap a dimensionless 0..1 index with a units tag."""
     return {"name": name, "value": require_fraction(name, value),
             "units": "dimensionless_index_0_1",
-            "warning": "relative index only; not kg, not organism counts"}
+            "warning": "relative index only; kg and organism counts are not implied"}

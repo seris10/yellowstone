@@ -16,7 +16,13 @@ LIVE_MIN, LIVE_MAX = -10.89, 238.13
 
 
 def _fixture(path: Path, shape=(1025, 1025), fill=50.0) -> Path:
-    arr = np.full(shape, fill, dtype="<f4")
+    rows, cols = shape
+    # Linear ramp in rows plus a per-column modulation so slope is non-zero (the flat-cell guard needs a gradient).
+    r = np.arange(rows, dtype="<f4").reshape(rows, 1)
+    c = np.arange(cols, dtype="<f4").reshape(1, cols)
+    arr = (np.full(shape, fill, dtype="<f4")
+           + (r * 0.001).astype("<f4")
+           + (c * 0.0005).astype("<f4"))
     arr.tofile(str(path))
     return path
 
@@ -40,8 +46,7 @@ def test_truncated_fails_size(tmp_path):
 
 
 def test_wrong_shape_fails(tmp_path):
-    # 1025x1024 has the wrong byte size, so the size guard fires first;
-    # the grid guard covers the same invariant post-read.
+    # 1025x1024 has the wrong byte size; the size guard fires first and the grid guard covers the same invariant post-read.
     p = _fixture(tmp_path / "t.f32", shape=(1025, 1024))
     assert p.stat().st_size != N_BYTES
     report = guard_terrain(p, None, DEFAULT_MIN_M, DEFAULT_MAX_M)

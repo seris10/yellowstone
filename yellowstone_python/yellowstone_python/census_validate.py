@@ -1,17 +1,5 @@
-"""Blind validation for the canopy census (no torch, no GUI deps to run).
-
-Workflow (plots must stay out of detector tuning):
-    1. freeze   snapshot census.json + input/code hashes (refusal to re-freeze)
-    2. sample   whole-image SRS plots + BLIND crops (no detector dots shown)
-    3. annotate click every visible crown centre per plot (human, display)
-    4. evaluate Hungarian matching at fixed tolerances + difference estimator
-
-Usage:
-    python -m yellowstone_python.census_validate freeze --census derived/census.json
-    python -m yellowstone_python.census_validate sample --plots 12 --cell-px 256 --seed 42
-    python -m yellowstone_python.census_validate annotate
-    python -m yellowstone_python.census_validate evaluate --tolerances 4 6 10
-"""
+"""Blind validation for the canopy census.
+Commands: freeze, sample, annotate, evaluate. Hungarian matching at fixed tolerances with a difference estimator."""
 from __future__ import annotations
 
 import argparse
@@ -52,14 +40,38 @@ def cmd_freeze(args) -> int:
     census = _load(census_src)
     VDIR.mkdir(parents=True)
     (VDIR / "census_frozen.json").write_text(census_src.read_text())
-    code = sorted((PKG / "yellowstone_python").rglob("*.py"))
+    code = sorted((PKG / "yellowstone_python").rglob("*.py"))  # fd-ok
     ch = hashlib.sha256()
     for py in code:
         ch.update(py.read_bytes())
+    # Detector params and image metadata hashed into the freeze.
+    from .canopy_census import PX_M, DETAIL_HALF
+    detector_params = {
+        "exg_min": 0.05, "crown_dark_max": 0.55,
+        "min_px": 3, "peak_distance_m": 2.0,
+        "px_m": PX_M, "detail_half_m": DETAIL_HALF,
+    }
+    pkg_versions: dict[str, str] = {}
+    for mod_name in ("numpy", "scipy", "PIL"):
+        try:
+            mod = __import__(mod_name)
+            pkg_versions[mod_name] = getattr(mod, "__version__", "unknown")
+        except ImportError:
+            pkg_versions[mod_name] = "unavailable"
+    world_path = default_world_root() / "data" / "world.json"
+    try:
+        world_sha = _sha(world_path)
+    except OSError:
+        world_sha = "unavailable"
+    source_meta = census.get("source", {})
     _save(VDIR / "manifest.json", {
         "census_sha256": _sha(census_src),
         "detail_sha256": _sha(Path(DETAIL)),
+        "world_pools_sha256": world_sha,
         "code_sha256": ch.hexdigest(),
+        "detector_params": detector_params,
+        "package_versions": pkg_versions,
+        "source_metadata": source_meta,
         "n_automated": census["n"],
         "status": "frozen_before_review",
     })
@@ -76,14 +88,23 @@ def cmd_sample(args) -> int:
     census = _load(VDIR / "census_frozen.json")
     img = Image.open(DETAIL).convert("RGB")
     W, H = img.size
+    # Census source extent is the single source of truth for the world window.
+    src = census.get("source", {})
+    extent = src.get("extent_m", [-640.0, -640.0, 640.0, 640.0])
+    x0_m, z0_m, x1_m, z1_m = (float(v) for v in extent)
+    ext_w = max(1e-9, x1_m - x0_m)
+    ext_h = max(1e-9, z1_m - z0_m)
     cell = args.cell_px
     cols = list(range(0, W, cell))
     rows = list(range(0, H, cell))
+    if args.plots > len(cols) * len(rows):
+        raise SystemExit(
+            f"--plots must be <= frame population ({len(cols) * len(rows)})")
     frame = []
     counts: dict[tuple, int] = {}
     for t in census["trees"]:
-        ix = int((t["x"] + 640.0) / 1280.0 * W)
-        iz = int((t["z"] + 640.0) / 1280.0 * H)
+        ix = int((t["x"] - x0_m) / ext_w * W)
+        iz = int((t["z"] - z0_m) / ext_h * H)
         counts[(iz // cell, ix // cell)] = counts.get((iz // cell, ix // cell), 0) + 1
     for r, y0 in enumerate(rows):
         for c, x0 in enumerate(cols):
@@ -100,10 +121,19 @@ def cmd_sample(args) -> int:
             crops / f"{plot['plot_id']}.png")
     _save(VDIR / "frame.json", frame)
     _save(VDIR / "sample.json", sample)
+    # Freeze tolerances into the sampling plan so evaluate uses the pre-registered set.
+    main_tol_px = 6
+    tolerances_frozen = [4, main_tol_px, 10]
     _save(VDIR / "sampling_plan.json", {
         "design": "SRSWOR whole-image cells (plots never used for tuning)",
         "population_cells": len(frame), "sample_cells": len(sample),
         "cell_px": cell, "seed": args.seed,
+        "image_dims_px": [W, H],
+        "extent_m": [x0_m, z0_m, x1_m, z1_m],
+        "main_tolerance_px": main_tol_px,
+        "tolerances_frozen_px": tolerances_frozen,
+        "main_tolerance_basis": (
+            "approx one crown radius at 0.625 m/px; fixed before results"),
         "selected": [p["plot_id"] for p in sample]})
     _save(VDIR / "reference_points.json", [])
     print(f"sampled {len(sample)}/{len(frame)} plots -> {crops} (BLIND: no dots)")
@@ -283,21 +313,43 @@ def cmd_annotate_web(args) -> int:
             _pts = payload.get("points", [])
             if not isinstance(_pts, list):
                 return self.send_error(400, "points must be a list")
+            crop_w = int(plot["x1"]) - int(plot["x0"])
+            crop_h = int(plot["y1"]) - int(plot["y0"])
             new = []
             for i, pt in enumerate(_pts, 1):
                 if not isinstance(pt, (list, tuple)) or len(pt) < 2:
                     return self.send_error(400, f"point {i}: expected [x, y, ...]")
-                x, y = float(pt[0]), float(pt[1])
+                try:
+                    x, y = float(pt[0]), float(pt[1])
+                except (TypeError, ValueError):
+                    return self.send_error(400, f"point {i}: non-numeric coordinates")
                 if not (math.isfinite(x) and math.isfinite(y)):
                     return self.send_error(400, f"point {i}: non-finite coordinates")
+                if not (0.0 <= x <= crop_w and 0.0 <= y <= crop_h):
+                    return self.send_error(
+                        400, f"point {i}: ({x}, {y}) outside crop "
+                             f"[0, 0, {crop_w}, {crop_h}]")
                 rest = pt[2:]
-                c = rest[0] if rest else 1
-                if not (isinstance(c, int) and 0 <= c < 4):
+                c_raw = rest[0] if rest else 1
+                try:
+                    c = int(c_raw)
+                except (TypeError, ValueError):
+                    c = 1
+                if not (0 <= c < len(_CL)):
                     c = 1  # default to M
                 new.append({"reference_id": f"{pid}_R{i:04d}", "plot_id": pid,
                             "pixel_x": round(x + plot["x0"], 1),
                             "pixel_y": round(y + plot["y0"], 1),
                             "size_class": _CL[c]})
+            # Record a submission marker even for zero-point plots.
+            marker_path = VDIR / "reference_submissions.json"
+            try:
+                marks = _load(marker_path) if marker_path.exists() else []
+            except (OSError, ValueError):
+                marks = []
+            marks = [m for m in marks if m.get("plot_id") != pid]
+            marks.append({"plot_id": pid, "submitted": True, "n": len(new)})
+            _save(marker_path, marks)
             refs[:] = nonlocal_refs + new
             for p in sample:
                 if p["plot_id"] == pid:
@@ -391,20 +443,59 @@ def cmd_evaluate(args) -> int:
         not math.isfinite(t) or t <= 0 for t in args.tolerances
     ):
         raise SystemExit("tolerances must be finite and > 0")
+    if len(set(args.tolerances)) != len(args.tolerances):
+        raise SystemExit("tolerances must be unique")
     from scipy import stats
     census = _load(VDIR / "census_frozen.json")
     sample = _load(VDIR / "sample.json")
     refs = _load(VDIR / "reference_points.json")
     frame = _load(VDIR / "frame.json")
-    if any(p.get("reference_count") is None or p.get("reference_count") == "" for p in sample):
-        # Zero-point plots must be explicitly submitted with empty points.
-        # We check the reference file directly for explicit markers.
-        pass  # relaxed: reference_points.json is source of truth.
+    plan_path = VDIR / "sampling_plan.json"
+    plan = _load(plan_path) if plan_path.exists() else {}
+    # Frozen main tolerance: evaluate against the pre-registered set; CLI tolerances outside it are exploratory.
+    frozen = plan.get("tolerances_frozen_px")
+    user_tol = list(args.tolerances)
+    tolerance_basis = plan.get(
+        "main_tolerance_basis",
+        "approx one crown radius at 0.625 m/px; fixed before results")
+    if frozen:
+        exploratory = sorted(set(user_tol) - set(frozen))
+        if exploratory:
+            tolerance_basis = (
+                f"{tolerance_basis}; exploratory tolerances this run: "
+                f"{exploratory}")
+    # Reference_points.json is the submission source of truth; plots with neither points nor a zero-marker are flagged.
+    submitted_plots = {r["plot_id"] for r in refs}
+    plan_zero_marked = set(plan.get("zero_point_plots", []))
+    unresolved = [p["plot_id"] for p in sample
+                  if p["plot_id"] not in submitted_plots
+                  and p["plot_id"] not in plan_zero_marked
+                  and (p.get("reference_count") in (None, ""))]
+    # Submission-marker: a plot appears in refs with points or in a zero-point markers file.
+    markers_path = VDIR / "reference_submissions.json"
+    if markers_path.exists():
+        try:
+            marks = _load(markers_path)
+            submitted_from_marks = {m["plot_id"] for m in marks
+                                    if m.get("submitted") is True}
+            unresolved = [p for p in unresolved if p not in submitted_from_marks]
+        except (OSError, ValueError):
+            pass
+    if unresolved:
+        print(f"warning: {len(unresolved)} plots have no reference submission "
+              f"and no zero-point marker: {unresolved[:5]}")
+    # Pixel mapping anchored to the census source extent and the frozen image dims.
+    src = census.get("source", {})
+    extent = src.get("extent_m", [-640.0, -640.0, 640.0, 640.0])
+    x0_m, z0_m, x1_m, z1_m = (float(v) for v in extent)
+    ext_w = max(1e-9, x1_m - x0_m)
+    ext_h = max(1e-9, z1_m - z0_m)
+    plan_dims = plan.get("image_dims_px", [2048, 2048])
+    W, H = int(plan_dims[0]), int(plan_dims[1])
     by_plot: dict[str, list] = {}
     for t in census["trees"]:
-        W = H = 2048
-        ix = int((t["x"] + 640.0) / 1280.0 * W)
-        iz = int((t["z"] + 640.0) / 1280.0 * H)
+        ix = int((t["x"] - x0_m) / ext_w * W)
+        iz = int((t["z"] - z0_m) / ext_h * H)
         for p in sample:
             if p["x0"] <= ix < p["x1"] and p["y0"] <= iz < p["y1"]:
                 by_plot.setdefault(p["plot_id"], []).append((ix, iz))
@@ -440,9 +531,11 @@ def cmd_evaluate(args) -> int:
     se = math.sqrt(max(0.0, var))
     hw = float(stats.t.ppf(0.975, n - 1)) * se if n > 1 else 0.0
     report = {
-        "reference_target": "visible crown centres (blind plots)",
-        "main_tolerance_px": 6,
-        "main_tolerance_basis": "approx one crown radius at 0.625 m/px; fixed before results",
+        "reference_target": "visible crown centers (blind plots)",
+        "main_tolerance_px": plan.get("main_tolerance_px", 6),
+        "main_tolerance_basis": tolerance_basis,
+        "tolerances_run_px": user_tol,
+        "tolerances_frozen_px": frozen,
         "evaluations": evaluations,
         "corrected_total": {
             "method": "fixed-prediction difference estimator SRSWOR",

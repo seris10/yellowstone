@@ -231,11 +231,27 @@ def _fit_spec(species: str, endpoint: str) -> dict:
 def _envelope(species: str, endpoint: str, value, fit: dict) -> dict:
     """Value plus provenance dict for one endpoint evaluation."""
     spec = _SPECS[(species, endpoint)]
+    cross_species_transfer: list[dict] = []
+    if "rise_from" in spec:
+        donor_species, _ = spec["rise_from"]
+        cross_species_transfer.append(
+            {"species": donor_species, "param": "sigma_rise_c"})
+    if "slope_from" in spec:
+        donor_species, _ = spec["slope_from"]
+        cross_species_transfer.append(
+            {"species": donor_species, "param": "slope_c"})
+    if not fit["params"]:
+        status = "no_data"
+    elif cross_species_transfer:
+        status = "fitted_to_mixed_species_anchors"
+    else:
+        status = "fitted_to_literature_anchors"
+    anchor_only_fit = bool(fit["params"]) and len(spec["points"]) < 5
     return {
         "value": value,
         "species": species,
         "endpoint": endpoint,
-        "status": "fitted_to_literature_anchors" if fit["params"] else "no_data",
+        "status": status,
         "provenance": {
             "study": spec["study"],
             "doi": spec["doi"],
@@ -244,6 +260,9 @@ def _envelope(species: str, endpoint: str, value, fit: dict) -> dict:
             "params": dict(fit["params"]),
             "rmse_vs_anchors": fit["rmse"],
             "note": spec["note"],
+            "curve_family": spec["form"],
+            "anchor_only_fit": anchor_only_fit,
+            "cross_species_transfer": cross_species_transfer,
         },
     }
 

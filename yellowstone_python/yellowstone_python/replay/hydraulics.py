@@ -1,38 +1,5 @@
 """Trapezoidal channel hydraulics diagnostics for the 1-D river solver.
-
-Scientific scope
-----------------
-Replaces the rectangular assumption (A = W*d) with a trapezoidal
-cross-section diagnostic, Manning velocity consistency, Froude regime,
-bed shear, reach travel times, and a Fischer-style dispersion estimate.
-All quantities are DIAGNOSTIC: the solver still integrates rectangular
-volumes (baseline preserved) until surveyed bathymetry exists. Each
-diagnostic carries explicit provenance — nothing here is calibrated.
-
-Cross-section convention
-------------------------
-Authored ``width_m`` from world.json is the water-surface (top) width.
-With bank slope z (horizontal:vertical) and center depth d::
-
-    bottom width  b = W - 2*z*d        (must stay positive)
-    area          A = (W - z*d) * d
-    wetted perimeter P = b + 2*d*sqrt(1 + z^2)
-    hydraulic radius R = A / P
-    hydraulic depth  H = A / W
-
-Rectangular is the z = 0 limit (A = W*d, P = W + 2*d).
-
-Manning velocity V = (1/n) * R^(2/3) * S^(1/2) requires a positive
-downstream energy slope S. Flat or adverse grades (S <= 0 from mapped
-elevations) leave Manning fields None with an explicit warning — the
-diagnostic refuses to invent a slope.
-
-Fischer dispersion D = 0.011 * V^2 * W^2 / (H * u*), u* = sqrt(g*R*S).
-Guarded: needs positive velocity, depth, and shear velocity.
-
-Observation scoring compares paired modeled/observed series (RMSE, bias,
-MAE). It never supplies observations — those live in caller-provided
-files (e.g. USGS NWIS fetches via tools/usgs_nwis.py).
+Trapezoid cross-section, Manning, Froude, shear, Fischer; solver stays rect.
 """
 
 from __future__ import annotations
@@ -44,28 +11,17 @@ from typing import Any, Sequence
 G_M_S2 = 9.81
 RHO_WATER_KG_M3 = 1000.0
 
-# Illustrative defaults, explicitly authored — not measurements.
-# REAL DATA STATUS: USGS field measurements (current-meter surveys,
-# bathymetry) unavailable via NWIS web API since Oct 2026 format change.
-# Integration point: load_usgs_cross_section(site_no) (see below)
-# would connect to machine-readable surveys when available.
-DEFAULT_BANK_SLOPE_ZH = 1.5  # vegetated natural banks, authored (not surveyed)
-DEFAULT_MANNING_N = 0.035  # gravel-bed stream, authored (Chow 1959 range; uncalibrated)
-MIN_SLOPE_FOR_MANNING = 1e-4  # authored noise floor: gentler mapped grades
-# are within centerline-elevation noise (sub-cm drops over cell scales),
-# so Manning is reported undefined rather than fitted to noise
+# Illustrative authored defaults; load_usgs_cross_section is the survey hook.
+DEFAULT_BANK_SLOPE_ZH = 1.5
+DEFAULT_MANNING_N = 0.035
+# Cell-level threshold so Manning fields stay None at near-zero mapped grade.
+MIN_SLOPE_FOR_MANNING = 1e-4
 
-# --- Real-data integration framework ---
-# Cross-section measurements (bank slope, Manning's n, depth profiles)
-# should come from USGS field surveys or in-situ bathymetry. Currently
-# unavailable via machine-readable NWIS (Oct 2026 format change); this
-# framework provides the hook for when surveys are restored or
-# directly ingested from survey files.
 USGS_NWIS_SITE_MAP = {
-    "river_5856_0": "06036805",  # Firehole at Old Faithful
+    "river_5856_0": "06036805",
     "river_5872_0": "06036805",
     "river_5913_0": "06036805",
-    "river_5933_0": "06036905",  # Firehole near West Yellowstone (downstream)
+    "river_5933_0": "06036905",
     "river_5998_0": "06036905",
 }
 CROSS_SECTION_PROVENANCE = {
@@ -74,30 +30,21 @@ CROSS_SECTION_PROVENANCE = {
     "top_width_m": "world_json_authored_not_surveyed",
     "depth_m": "dem_derived_estimate_not_bathymetry",
     "real_data_available": False,
-    "integration_notes": "USGS NWIS measurement pages moved to JS/HTML Oct 2026; "
-                           "machine-readable cross-section surveys (width/area/velocity) "
-                           "not currently fetchable. Tools/usgs_nwis.py documents gap.",
+    "integration_notes": "load_usgs_cross_section is the ingestion hook",
 }
 
 
-def load_usgs_cross_section(site_no: str, measurement_date: str | None = None) -> dict | None:
-    """Integration point for real USGS cross-section surveys.
-
-    When machine-readable NWIS measurement data is available (before
-    Oct 2026, or via restored API / direct survey file), this loads
-    measured width, area, velocity, and depth for use in place of
-    authored DEM-derived estimates.
-
-    Currently returns None with provenance documented; real data
-    requires either API restoration or manual survey file ingestion.
-    """
-    CROSS_SECTION_PROVENANCE["last_integration_attempt"] = {
+def load_usgs_cross_section(site_no: str,
+                            measurement_date: str | None = None
+                            ) -> dict | None:
+    """Integration hook for cross-section surveys. Returns a per-call attempt record without mutating module globals."""
+    attempt = {
         "site_no": site_no,
         "date": measurement_date,
-        "status": "unavailable_nwis_web_format_changed_oct_2026",
+        "status": "no_survey_loaded",
         "fallback": "authored_dem_estimate",
     }
-    return None
+    return {"loaded": False, "attempt": attempt}
 
 
 def _finite(value: Any, name: str, minimum: float | None = None) -> float:
@@ -161,7 +108,7 @@ class TrapezoidGeometry:
 
 
 def rectangular_area_m2(top_width_m: float, depth_m: float) -> float:
-    """Legacy solver assumption, kept for bias reporting."""
+    """Rectangular area A = W * d, kept for bias reporting against trapezoid."""
     return _positive(top_width_m, "top_width_m") * _positive(depth_m, "depth_m")
 
 
@@ -177,7 +124,7 @@ def manning_velocity_m_s(hydraulic_radius_m: float, slope: float,
 
 
 def froude_number(velocity_m_s: float, hydraulic_depth_m: float) -> float:
-    """Froude number. <1 subcritical, =1 critical, >1 supercritical."""
+    """Froude number. Zero velocity returns 0.0 by design; <1 subcritical, =1 critical, >1 supercritical."""
     velocity = _finite(velocity_m_s, "velocity_m_s", 0.0)
     depth = _positive(hydraulic_depth_m, "hydraulic_depth_m")
     return velocity / math.sqrt(G_M_S2 * depth)
@@ -203,17 +150,12 @@ def fischer_dispersion_m2_s(velocity_m_s: float, top_width_m: float,
                             hydraulic_depth_m: float,
                             shear_velocity_m_s_: float) -> float:
     """Fischer (1979) longitudinal dispersion estimate.
-
-    D = 0.011 * V^2 * W^2 / (H * u*). Order-of-magnitude diagnostic for
-    comparing against the solver's illustrative dispersion coefficient —
-    not a fitted value.
+    D = 0.011 * V^2 * W^2 / (H * u*); order-of-magnitude diagnostic.
     """
-    velocity = _finite(velocity_m_s, "velocity_m_s", 0.0)
+    velocity = _positive(velocity_m_s, "velocity_m_s")
     width = _positive(top_width_m, "top_width_m")
     depth = _positive(hydraulic_depth_m, "hydraulic_depth_m")
-    ustar = _finite(shear_velocity_m_s_, "shear_velocity_m_s", 0.0)
-    if ustar <= 0.0:
-        raise ValueError("shear velocity must be positive for Fischer D")
+    ustar = _positive(shear_velocity_m_s_, "shear_velocity_m_s")
     return 0.011 * velocity ** 2 * width ** 2 / (depth * ustar)
 
 
@@ -242,17 +184,14 @@ def cell_hydraulics(
     manning_n: float = DEFAULT_MANNING_N,
 ) -> dict[str, Any]:
     """Per-cell hydraulic diagnostics with explicit provenance.
-
-    Solver continuity velocity V = Q / A_trap is always defined for
-    positive discharge. Manning, Froude-vs-Manning, shear, and Fischer
-    fields are None when the mapped grade is flat/adverse (slope None
-    or <= MIN_SLOPE_FOR_MANNING) — the diagnostic reports the gap
-    instead of inventing a slope.
+    Manning fields None when slope is None or <= MIN_SLOPE_FOR_MANNING.
     """
     length = _positive(length_m, "length_m")
     discharge = _finite(discharge_m3_s, "discharge_m3_s", 0.0)
     geom = TrapezoidGeometry(top_width_m, depth_m, bank_slope_zh)
     n = _positive(manning_n, "manning_n")
+    # Normalize slope once so downstream comparisons never see mixed types.
+    grade = None if slope is None else _finite(slope, "slope")
 
     area_rect = rectangular_area_m2(geom.top_width_m, geom.depth_m)
     area_trap = geom.area_m2
@@ -268,7 +207,7 @@ def cell_hydraulics(
         "wetted_perimeter_m": geom.wetted_perimeter_m,
         "hydraulic_radius_m": geom.hydraulic_radius_m,
         "hydraulic_depth_m": geom.hydraulic_depth_m,
-        "slope": slope,
+        "slope": grade,
         "warnings": [],
         "provenance": {
             "top_width": "authored_width_from_world_json_not_surveyed_banks",
@@ -300,19 +239,18 @@ def cell_hydraulics(
     for key in ("velocity_manning_m_s", "froude_manning",
                 "bed_shear_pa", "fischer_dispersion_m2_s"):
         record[key] = None
-    if slope is None or not math.isfinite(slope) \
-            or slope <= MIN_SLOPE_FOR_MANNING:
+    if grade is None or grade <= MIN_SLOPE_FOR_MANNING:
         record["warnings"].append(
             "flat_or_adverse_grade_manning_undefined")
         record["manning_consistency_ratio"] = None
     else:
-        v_man = manning_velocity_m_s(geom.hydraulic_radius_m, slope, n)
-        ustar = shear_velocity_m_s(geom.hydraulic_radius_m, slope)
+        v_man = manning_velocity_m_s(geom.hydraulic_radius_m, grade, n)
+        ustar = shear_velocity_m_s(geom.hydraulic_radius_m, grade)
         record["velocity_manning_m_s"] = v_man
         record["froude_manning"] = froude_number(
             v_man, geom.hydraulic_depth_m)
         record["bed_shear_pa"] = bed_shear_pa(
-            geom.hydraulic_radius_m, slope)
+            geom.hydraulic_radius_m, grade)
         try:
             record["fischer_dispersion_m2_s"] = fischer_dispersion_m2_s(
                 v_man, geom.top_width_m, geom.hydraulic_depth_m, ustar)
@@ -334,10 +272,8 @@ def cell_hydraulics(
 
 def score_paired_series(modeled: Sequence[float],
                         observed: Sequence[float]) -> dict[str, float]:
-    """RMSE / bias / MAE / max-abs over paired modeled-observed values.
-
-    Raises on empty, mismatched-length, or nonfinite input. No time
-    interpolation — callers align series first and document the method.
+    """RMSE, bias, MAE, max-abs over paired modeled and observed values.
+    No time interpolation; callers align series first.
     """
     mod = [_finite(v, "modeled value") for v in modeled]
     obs = [_finite(v, "observed value") for v in observed]
@@ -360,13 +296,8 @@ def score_paired_series(modeled: Sequence[float],
 
 def skill_scores(modeled: Sequence[float],
                  observed: Sequence[float]) -> dict[str, Any]:
-    """Nash-Sutcliffe + Kling-Gupta skill scores (hydrologist's scale).
-
-    NSE = 1 - RSS/TSS: 1 is perfect, 0 means "as good as the observed
-    mean", negative is worse. KGE = 1 - ED(r, alpha, beta) with
-    correlation r, variability ratio alpha = std_m/std_o, bias ratio
-    beta = mean_m/mean_o. Raises on constant observed series (TSS = 0
-    makes NSE undefined) or zero observed mean (beta undefined).
+    """Nash-Sutcliffe and Kling-Gupta skill scores (hydrologist's scale).
+    NSE = 1 - RSS/TSS. KGE = 1 - ED(r, alpha, beta).
     """
     import numpy as np
     mod = np.asarray([_finite(v, "modeled value") for v in modeled],
@@ -394,9 +325,7 @@ def skill_scores(modeled: Sequence[float],
     alpha = std_m / std_o
     beta = float(np.mean(mod)) / mean_o
     if std_m == 0.0:
-        # A constant model (e.g. the observed mean) has no correlation
-        # by definition; NaN would propagate silently, so KGE is
-        # reported missing with an explicit flag instead.
+        # Constant model has no correlation; KGE and correlation are None.
         return {"n": n, "nse": nse, "kge": None, "correlation": None,
                 "alpha": alpha, "beta": beta, "constant_modeled": True}
     r = float(np.corrcoef(mod, obs)[0, 1])
@@ -412,14 +341,8 @@ QQ_LEVELS = (0.01, 0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95, 0.99)
 def residual_diagnostics(modeled: Sequence[float],
                          observed: Sequence[float],
                          max_lag: int = 5) -> dict[str, Any]:
-    """Autocorrelation + normal Q-Q of paired residuals.
-
-    Correlated residuals mean the model missed structure (diurnal
-    phase, event response); Q-Q gaps mean non-Gaussian errors that
-    RMSE-based bands misstate. Returns lag-1..max_lag autocorrelations
-    of demeaned residuals and empirical-vs-normal quantiles at fixed
-    levels, with the max Q-Q gap. All-zero residuals (a perfect fit)
-    report a flag instead of undefined correlations.
+    """Autocorrelation and normal Q-Q of paired residuals.
+    Returns lag-1..max_lag autocorrelations and quantile pairs at QQ_LEVELS.
     """
     import numpy as np
     from scipy.stats import norm
@@ -437,9 +360,15 @@ def residual_diagnostics(modeled: Sequence[float],
     resid = mod - obs
     if float(np.sum(resid ** 2)) == 0.0:
         return {"n": int(mod.size), "perfect_fit": True,
+                "constant_residual": True,
                 "autocorr": {}, "qq": {}, "max_qq_gap": 0.0}
     dev = resid - float(np.mean(resid))
     denom = float(np.sum(dev ** 2))
+    # Constant nonzero residual: zero deviance, autocorr and qq empty.
+    if denom == 0.0 or float(np.std(resid)) == 0.0:
+        return {"n": int(mod.size), "perfect_fit": False,
+                "constant_residual": True,
+                "autocorr": {}, "qq": {}, "max_qq_gap": None}
     autocorr = {}
     for lag in range(1, max_lag + 1):
         autocorr[lag] = float(np.sum(dev[:-lag] * dev[lag:]) / denom)
@@ -456,34 +385,59 @@ def residual_diagnostics(modeled: Sequence[float],
             "max_qq_gap": max(abs(row["gap"]) for row in qq.values())}
 
 
+def _validate_scheduled_source(raw_temp: dict, source_id: str) -> None:
+    """Check a scheduled source dict carries the Series schema keys."""
+    times = raw_temp.get("times_s")
+    values = raw_temp.get("values")
+    if times is None or values is None:
+        raise ValueError(
+            f"scheduled source {source_id!r}: dict temperature_c "
+            "must carry times_s and values keys")
+    try:
+        n_t = len(times)
+        n_v = len(values)
+    except TypeError as exc:
+        raise ValueError(
+            f"scheduled source {source_id!r}: times_s and values "
+            "must be sequences") from exc
+    if n_t == 0 or n_t != n_v:
+        raise ValueError(
+            f"scheduled source {source_id!r}: times_s and values "
+            "must be nonempty and equal length")
+    for name, series in (("times_s", times), ("values", values)):
+        for item in series:
+            fval = float(item)
+            if not math.isfinite(fval):
+                raise ValueError(
+                    f"scheduled source {source_id!r}: {name} must be finite")
+
+
 def thermal_inventory(sources: Sequence[dict[str, Any]]) -> dict[str, Any]:
     """Account total thermal inflow and flow-weighted entry temperature.
-
-    Pure bookkeeping over caller-supplied source dicts with flow_m3_s
-    and temperature_c. Constant temperatures enter the flow-weighted
-    mean; scheduled (Series-dict) temperatures are listed with
-    temperature_c None and EXCLUDED from the mean, with an explicit
-    count — a scheduled intervention has no single entry temperature.
-    Provenance passes through per-source status.
+    Constant temps enter the mean; scheduled (Series dict) temps are None.
     """
     total_q = 0.0
     total_qt = 0.0
     const_q = 0.0
+    scheduled_q = 0.0
     n_scheduled = 0
     rows = []
     for source in sources:
         flow = _finite(source.get("flow_m3_s", 0.0), "source flow", 0.0)
         raw_temp = source.get("temperature_c", 0.0)
+        source_id = source.get("id", "?")
         total_q += flow
         if isinstance(raw_temp, dict):
+            _validate_scheduled_source(raw_temp, source_id)
             n_scheduled += 1
+            scheduled_q += flow
             temp: float | None = None
         else:
             temp = _finite(raw_temp, "source temperature")
             total_qt += flow * temp
             const_q += flow
         rows.append({
-            "id": source.get("id", "?"),
+            "id": source_id,
             "flow_m3_s": flow,
             "temperature_c": temp,
             "scheduled": isinstance(raw_temp, dict),
@@ -493,6 +447,8 @@ def thermal_inventory(sources: Sequence[dict[str, Any]]) -> dict[str, Any]:
         "n_sources": len(rows),
         "n_scheduled_sources": n_scheduled,
         "total_thermal_flow_m3_s": total_q,
+        "constant_temperature_flow_m3_s": const_q,
+        "scheduled_flow_m3_s": scheduled_q,
         "flow_weighted_entry_c": (total_qt / const_q if const_q > 0 else None),
         "flow_weighted_entry_basis": (
             "constant-temperature sources only; scheduled interventions "

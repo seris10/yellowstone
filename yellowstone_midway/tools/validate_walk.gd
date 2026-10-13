@@ -1,8 +1,5 @@
 extends SceneTree
-## Focused collision integration test.
-## godot --headless --fixed-fps 60 --path . --script tools/validate_walk.gd
-## The player class supplies its capsule, floor angle, snap and safe margin.
-## Acceleration/gravity driven by deterministic waypoint input.
+## Focused collision integration test: the player class supplies its capsule, floor angle, snap and safe margin, and acceleration and gravity follow deterministic waypoint input. Run: godot --headless --fixed-fps 60 --path . --script tools/validate_walk.gd
 const PHYSICS_HZ: int = 60
 const ARRIVAL_RADIUS_M: float = 0.17
 var spec: Dictionary = {}

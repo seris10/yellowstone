@@ -1,8 +1,5 @@
-"""Tests for reach calibration and dispersion experiments.
-
-All synthetic and offline: no network, no USGS data. Network fetching
-lives in tools/ and is exercised manually, never in unit tests.
-"""
+"""Tests for reach calibration and dispersion experiments (synthetic, offline).
+Network fetching lives in tools/ and is exercised manually."""
 from __future__ import annotations
 
 import math
@@ -11,6 +8,7 @@ import unittest
 from yellowstone_python.replay.calibrate import (
     aic_bic,
     check_continuity,
+    composite_score,
     dispersion_sweep,
     estimate_lag,
     interp_series,
@@ -20,6 +18,8 @@ from yellowstone_python.replay.calibrate import (
     reach_heat_fit,
     resample_bin_mean,
     run_fit_forward,
+    score_paired_series,
+    timestep_convergence,
     uniform_pulse_run,
 )
 
@@ -28,7 +28,7 @@ class AlignmentTests(unittest.TestCase):
     def test_bin_mean_and_coverage(self):
         pairs = [[100.0, 1.0], [105.0, 3.0], [250.0, 9.0]]
         grid = [100.0, 200.0, 300.0]
-        values, coverage = resample_bin_mean(pairs, grid, 100.0)
+        values, coverage, count_per_bin = resample_bin_mean(pairs, grid, 100.0)
         self.assertAlmostEqual(values[0], 2.0)
         self.assertIsNone(values[1])
         self.assertAlmostEqual(values[2], 9.0)
@@ -146,12 +146,69 @@ class FitRecoveryTests(unittest.TestCase):
                               dt_s=1800.0)
         self.assertTrue(fwd["budget_ok"])
         self.assertEqual(len(fwd["modeled_c"]), len(fwd["grid"]))
+        self.assertEqual(fwd["boundary_discharge"], "mean")
+        self.assertTrue(fwd["discharge_variability_ignored"])
+
+    def test_forward_measured_series_boundary(self):
+        bundle = synthetic_bundle()
+        mean_fwd = run_fit_forward(bundle, 20000.0, 40000.0, 2.0, 25.0, 1.0,
+                                   dt_s=1800.0)
+        sched_fwd = run_fit_forward(bundle, 20000.0, 40000.0, 2.0, 25.0, 1.0,
+                                    dt_s=1800.0,
+                                    boundary_discharge="measured_series")
+        self.assertEqual(sched_fwd["boundary_discharge"], "measured_series")
+        self.assertFalse(sched_fwd["discharge_variability_ignored"])
+        self.assertEqual(
+            sched_fwd["boundary_q_source"],
+            "measured_upstream_series_schedule")
+        self.assertIsInstance(sched_fwd["boundary_q_m3_s"], dict)
+        self.assertIn("times_s", sched_fwd["boundary_q_m3_s"])
+        self.assertIn("values", sched_fwd["boundary_q_m3_s"])
+        # Constant upstream discharge; the two trajectories agree to float noise.
+        for m, s in zip(mean_fwd["modeled_c"], sched_fwd["modeled_c"]):
+            self.assertAlmostEqual(m, s, places=6)
+
+    def test_forward_rejects_unknown_boundary_discharge(self):
+        bundle = synthetic_bundle()
+        with self.assertRaises(ValueError):
+            run_fit_forward(bundle, 20000.0, 40000.0, 2.0, 25.0, 1.0,
+                            dt_s=1800.0, boundary_discharge="hydrograph")
+
+    def test_fit_null_b_refits_when_c0_missing(self):
+        bundle = synthetic_bundle()
+        doc = reach_heat_fit(
+            bundle, 20000.0, 40000.0,
+            lateral_q_grid=[1.0, 2.0, 3.0],
+            lateral_t_grid=[15.0, 25.0, 35.0],
+            c_mult_grid=[0.5, 1.0, 2.0],
+            spinup_s=3600.0, train_frac=0.6, dt_s=1800.0)
+        names = [n["name"] for n in doc["null_models"]]
+        self.assertIn("mixing_only_c0_refit", names)
+        self.assertNotIn("mixing_only_c0_at_champion_laterals", names)
+        boundaries = doc["champion"]["at_parameter_boundary"]
+        self.assertIn("q_lat", boundaries)
+        self.assertIn("at_min", boundaries["q_lat"])
+        hierarchy = doc["champion"]["calibration_hierarchy"]
+        self.assertIn("L3_fitted_effective", hierarchy)
+        self.assertEqual(
+            doc["champion"]["surface_model"]["not_identified_independently"],
+            ["c_h", "c_e"])
+
+    def test_fit_rejects_bad_arguments(self):
+        bundle = synthetic_bundle()
+        with self.assertRaises(ValueError):
+            reach_heat_fit(bundle, 20000.0, 40000.0,
+                           lateral_q_grid=[],
+                           lateral_t_grid=[25.0],
+                           c_mult_grid=[1.0], dt_s=1800.0)
+        with self.assertRaises(ValueError):
+            reach_heat_fit(bundle, 20000.0, 40000.0,
+                           lateral_q_grid=[2.0],
+                           lateral_t_grid=[25.0],
+                           c_mult_grid=[1.0], train_frac=1.0, dt_s=1800.0)
 
     def test_fit_recovers_synthetic_truth(self):
-        # NOTE: this is the inverse crime — the same forward model
-        # generates and fits, so it proves the optimizer/grid works, NOT
-        # that the model is right. Model validity comes from the null
-        # comparisons and holdout on real data, not from this test.
+        # Inverse crime: same forward model generates and fits; proves only that the optimizer/grid works.
         bundle = synthetic_bundle()
         doc = reach_heat_fit(
             bundle, 20000.0, 40000.0,
@@ -169,8 +226,7 @@ class FitRecoveryTests(unittest.TestCase):
 
 class LeastSquaresTests(unittest.TestCase):
     def test_polish_recovers_synthetic_truth(self):
-        # NOTE: inverse crime again — same model generates and fits.
-        # Proves the optimizer machinery, not model validity.
+        # Inverse crime again: same model generates and fits; proves optimizer machinery.
         bundle = synthetic_bundle()
         polished = least_squares_fit(
             bundle, 20000.0, 40000.0, (1.0, 15.0, 0.5),
@@ -215,15 +271,21 @@ class SelectionTests(unittest.TestCase):
 
     def test_aic_bic_reject_bad(self):
         with self.assertRaises(ValueError):
-            aic_bic(0.0, 100, 3)
+            aic_bic(-1.0, 100, 3)
         with self.assertRaises(ValueError):
             aic_bic(10.0, 0, 3)
+
+    def test_aic_bic_zero_rss_perfect_fit(self):
+        perfect = aic_bic(0.0, 100, 3)
+        self.assertEqual(perfect["aic"], -math.inf)
+        self.assertEqual(perfect["bic"], -math.inf)
+        self.assertEqual(perfect["n"], 100.0)
+        self.assertEqual(perfect["k"], 3.0)
 
 
 class IvpCrosscheckTests(unittest.TestCase):
     def test_euler_converges_first_order(self):
-        # Backward-Euler truncation must (roughly) halve with the step.
-        # Ratio far from 2 indicts the formulation, not the timestep.
+        # Backward-Euler truncation roughly halves with the step; ratio far from 2 indicts the formulation.
         bundle = synthetic_bundle()
         coarse = ivp_crosscheck(bundle, 20000.0, 40000.0, 2.0, 25.0,
                                 1.0, dt_s=1800.0, euler_dt_s=1800.0)
@@ -240,6 +302,154 @@ class IvpCrosscheckTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ivp_crosscheck(bundle, 20000.0, 40000.0, 2.0, 25.0, 1.0,
                            dt_s=1800.0, euler_dt_s=1000.0)
+
+
+class ScoreAndRankingTests(unittest.TestCase):
+    def test_composite_score_components(self):
+        comp = composite_score(0.5, 0.2, 1e-6, 0)
+        self.assertAlmostEqual(
+            comp["temperature_rmse_term"], 0.5)
+        self.assertAlmostEqual(
+            comp["temperature_abs_bias_term"], 0.25 * 0.2)
+        self.assertAlmostEqual(
+            comp["newton_failure_term"], 0.0)
+        self.assertAlmostEqual(
+            comp["score"],
+            comp["temperature_rmse_term"]
+            + comp["temperature_abs_bias_term"]
+            + comp["heat_residual_term"]
+            + comp["newton_failure_term"])
+
+    def test_composite_score_penalizes_newton_failure(self):
+        clean = composite_score(0.5, 0.0, 1e-6, 0)
+        failed = composite_score(0.5, 0.0, 1e-6, 1)
+        self.assertGreater(failed["score"], clean["score"] + 1.0)
+
+    def test_score_paired_series_available_on_calibrate(self):
+        out = score_paired_series([1.0, 2.0, 3.0], [1.0, 2.0, 4.0])
+        self.assertIn("rmse", out)
+
+
+class ValidityFilterAndWindowTests(unittest.TestCase):
+    def test_results_rows_carry_budget_and_composite(self):
+        bundle = synthetic_bundle()
+        doc = reach_heat_fit(
+            bundle, 20000.0, 40000.0,
+            lateral_q_grid=[1.0, 2.0],
+            lateral_t_grid=[15.0, 25.0],
+            c_mult_grid=[0.5, 1.0],
+            spinup_s=3600.0, train_frac=0.6, dt_s=1800.0,
+            return_all=True)
+        for row in doc["all_results"]:
+            self.assertIn("budget_ok", row)
+            self.assertIn("composite_score", row)
+            self.assertIn("heat_relative_residual", row)
+        champ = doc["champion"]
+        self.assertIn(champ["selection_rule"],
+                      ("validity_filtered_composite_score",
+                       "composite_filter_rejected_all_candidates"))
+
+    def test_locked_final_window(self):
+        bundle = synthetic_bundle()
+        doc = reach_heat_fit(
+            bundle, 20000.0, 40000.0,
+            lateral_q_grid=[2.0],
+            lateral_t_grid=[25.0],
+            c_mult_grid=[1.0],
+            spinup_s=3600.0, train_frac=0.5, dt_s=1800.0,
+            locked_final_frac=0.2)
+        self.assertTrue(doc["windows"]["locked_final_active"])
+        self.assertIn("locked_final_rmse", doc["champion"])
+        self.assertIsNotNone(doc["champion"]["locked_final_rmse"])
+
+    def test_locked_final_rejects_overflow(self):
+        bundle = synthetic_bundle()
+        with self.assertRaises(ValueError):
+            reach_heat_fit(
+                bundle, 20000.0, 40000.0,
+                lateral_q_grid=[2.0], lateral_t_grid=[25.0],
+                c_mult_grid=[1.0], spinup_s=3600.0,
+                train_frac=0.8, dt_s=1800.0,
+                locked_final_frac=0.3)
+
+    def test_parameter_status_summary_lists_three_tiers(self):
+        bundle = synthetic_bundle()
+        doc = reach_heat_fit(
+            bundle, 20000.0, 40000.0,
+            lateral_q_grid=[2.0], lateral_t_grid=[25.0],
+            c_mult_grid=[1.0], spinup_s=3600.0,
+            train_frac=0.6, dt_s=1800.0)
+        pss = doc["parameter_status_summary"]
+        self.assertEqual(
+            pss["calibrated_effective"], ["q_lat", "t_lat", "c_mult"])
+        self.assertIn("c_h", pss["assumed_authored"])
+        self.assertIn("upstream_discharge_m3_s", pss["observed_forcing"])
+        self.assertTrue(pss["sensitivity_flags"])
+
+    def test_effective_geometry_carries_uncertainty(self):
+        bundle = synthetic_bundle()
+        doc = reach_heat_fit(
+            bundle, 20000.0, 40000.0,
+            lateral_q_grid=[2.0], lateral_t_grid=[25.0],
+            c_mult_grid=[1.0], spinup_s=3600.0,
+            train_frac=0.6, dt_s=1800.0,
+            volume_sigma_m3=2000.0, area_sigma_m2=4000.0)
+        geom = doc["effective_geometry"]
+        self.assertEqual(geom["volume_sigma_m3"], 2000.0)
+        self.assertEqual(geom["area_sigma_m2"], 4000.0)
+
+    def test_run_fit_forward_numerical_method_recorded(self):
+        bundle = synthetic_bundle()
+        fwd = run_fit_forward(bundle, 20000.0, 40000.0, 2.0, 25.0, 1.0,
+                              dt_s=1800.0)
+        self.assertEqual(
+            fwd["numerical_method"]["surface_solver"], "damped_newton")
+        self.assertEqual(fwd["numerical_method"]["max_surface_iterations"],
+                         24)
+        self.assertEqual(
+            fwd["calibration_mode"],
+            "constant_flow_effective_reach_calibration")
+
+    def test_run_fit_forward_rejects_unknown_solver(self):
+        bundle = synthetic_bundle()
+        with self.assertRaises(ValueError):
+            run_fit_forward(bundle, 20000.0, 40000.0, 2.0, 25.0, 1.0,
+                            dt_s=1800.0, surface_solver="rk4_explicit")
+
+    def test_timestep_convergence_reports_difference(self):
+        bundle = synthetic_bundle()
+        tc = timestep_convergence(bundle, 20000.0, 40000.0,
+                                  2.0, 25.0, 1.0, dt_s=1800.0)
+        self.assertEqual(tc["dt_s"], 1800.0)
+        self.assertEqual(tc["half_dt_s"], 900.0)
+        self.assertGreaterEqual(tc["max_difference_c"], 0.0)
+        self.assertGreater(tc["n_compared"], 0)
+
+    def test_reach_heat_fit_timestep_convergence_block(self):
+        bundle = synthetic_bundle()
+        doc = reach_heat_fit(
+            bundle, 20000.0, 40000.0,
+            lateral_q_grid=[2.0], lateral_t_grid=[25.0],
+            c_mult_grid=[1.0], spinup_s=3600.0,
+            train_frac=0.6, dt_s=1800.0,
+            run_timestep_convergence=True)
+        self.assertIn("timestep_convergence", doc)
+        self.assertEqual(
+            doc["timestep_convergence"]["half_dt_s"], 900.0)
+
+
+class ResampleStrictnessTests(unittest.TestCase):
+    def test_resample_bin_mean_rejects_duplicate_epochs(self):
+        pairs = [[100.0, 1.0], [100.0, 2.0], [200.0, 3.0]]
+        grid = [100.0, 200.0, 300.0]
+        with self.assertRaises(ValueError):
+            resample_bin_mean(pairs, grid, 100.0)
+
+    def test_resample_bin_mean_rejects_out_of_order_epochs(self):
+        pairs = [[200.0, 1.0], [100.0, 2.0]]
+        grid = [100.0, 200.0, 300.0]
+        with self.assertRaises(ValueError):
+            resample_bin_mean(pairs, grid, 100.0)
 
 
 if __name__ == "__main__":

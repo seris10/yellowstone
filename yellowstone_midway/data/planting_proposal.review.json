@@ -1,22 +1,22 @@
 {
-  "code_rev": "yellowstone_python-0.1.0",
+  "code_rev": "858e4972204ee2a80469f9f4ade22d219fdcef8b",
   "contract_version": "0.1.0",
   "parameter_provenance": {
     "guild": "lodgepole_pine",
-    "n_accepted": 20,
-    "n_rejected": 101,
+    "n_accepted": 14,
+    "n_rejected": 107,
     "seed": 7
   },
   "proposals": [
     {
-      "author_note": "M04 reviewed proposal; suitability 0.27; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.22; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.14,
       "slope_deg": 7.5,
       "stable_id": "prop_lodgepole_pine_7_005_000",
-      "suitability": 0.268,
+      "suitability": 0.216,
       "variation_key": 1,
       "x": -361.726,
       "y": 71.602,
@@ -24,29 +24,14 @@
       "z": 230.237
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.14; review against NAIP + habitat forest_edge; seed 7",
-      "evidence_class": "habitat-based authored candidate",
-      "guild": "lodgepole_pine",
-      "habitat": "forest_edge",
-      "scale": 0.878,
-      "slope_deg": 15.6,
-      "stable_id": "prop_lodgepole_pine_7_003_001",
-      "suitability": 0.144,
-      "variation_key": 1,
-      "x": -372.07,
-      "y": 69.579,
-      "yaw": 0.014,
-      "z": 236.44
-    },
-    {
-      "author_note": "M04 reviewed proposal; suitability 0.27; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.22; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 0.895,
       "slope_deg": 7.1,
       "stable_id": "prop_lodgepole_pine_7_005_001",
-      "suitability": 0.274,
+      "suitability": 0.221,
       "variation_key": 0,
       "x": -358.35,
       "y": 72.081,
@@ -58,25 +43,10 @@
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
-      "scale": 1.06,
-      "slope_deg": 15.3,
-      "stable_id": "prop_lodgepole_pine_7_007_001",
-      "suitability": 0.148,
-      "variation_key": 2,
-      "x": -349.73,
-      "y": 73.693,
-      "yaw": 3.866,
-      "z": 236.284
-    },
-    {
-      "author_note": "M04 reviewed proposal; suitability 0.19; review against NAIP + habitat forest_edge; seed 7",
-      "evidence_class": "habitat-based authored candidate",
-      "guild": "lodgepole_pine",
-      "habitat": "forest_edge",
       "scale": 1.098,
       "slope_deg": 12.9,
       "stable_id": "prop_lodgepole_pine_7_002_002",
-      "suitability": 0.186,
+      "suitability": 0.15,
       "variation_key": 1,
       "x": -377.734,
       "y": 67.758,
@@ -84,14 +54,14 @@
       "z": 240.622
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.19; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.15; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.135,
       "slope_deg": 12.7,
       "stable_id": "prop_lodgepole_pine_7_004_002",
-      "suitability": 0.188,
+      "suitability": 0.151,
       "variation_key": 2,
       "x": -366.155,
       "y": 70.119,
@@ -99,29 +69,14 @@
       "z": 241.952
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.14; review against NAIP + habitat forest_edge; seed 7",
-      "evidence_class": "habitat-based authored candidate",
-      "guild": "lodgepole_pine",
-      "habitat": "forest_edge",
-      "scale": 1.178,
-      "slope_deg": 15.6,
-      "stable_id": "prop_lodgepole_pine_7_005_002",
-      "suitability": 0.144,
-      "variation_key": 1,
-      "x": -358.69,
-      "y": 70.39,
-      "yaw": 0.641,
-      "z": 243.127
-    },
-    {
-      "author_note": "M04 reviewed proposal; suitability 0.16; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.13; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.183,
       "slope_deg": 14.5,
       "stable_id": "prop_lodgepole_pine_7_006_002",
-      "suitability": 0.161,
+      "suitability": 0.129,
       "variation_key": 2,
       "x": -352.587,
       "y": 71.398,
@@ -129,14 +84,14 @@
       "z": 243.227
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.25; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.20; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 0.879,
       "slope_deg": 8.8,
       "stable_id": "prop_lodgepole_pine_7_001_003",
-      "suitability": 0.249,
+      "suitability": 0.2,
       "variation_key": 0,
       "x": -383.246,
       "y": 66.851,
@@ -144,14 +99,14 @@
       "z": 246.584
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.22; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.18; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.066,
       "slope_deg": 10.4,
       "stable_id": "prop_lodgepole_pine_7_003_003",
-      "suitability": 0.224,
+      "suitability": 0.18,
       "variation_key": 2,
       "x": -371.292,
       "y": 69.538,
@@ -159,44 +114,29 @@
       "z": 246.342
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.13; review against NAIP + habitat forest_edge; seed 7",
-      "evidence_class": "habitat-based authored candidate",
-      "guild": "lodgepole_pine",
-      "habitat": "forest_edge",
-      "scale": 1.15,
-      "slope_deg": 16.8,
-      "stable_id": "prop_lodgepole_pine_7_009_003",
-      "suitability": 0.125,
-      "variation_key": 0,
-      "x": -336.352,
-      "y": 71.08,
-      "yaw": 0.734,
-      "z": 249.618
-    },
-    {
-      "author_note": "M04 reviewed proposal; suitability 0.13; review against NAIP + habitat forest_edge; seed 7",
-      "evidence_class": "habitat-based authored candidate",
-      "guild": "lodgepole_pine",
-      "habitat": "forest_edge",
-      "scale": 1.088,
-      "slope_deg": 16.7,
-      "stable_id": "prop_lodgepole_pine_7_001_004",
-      "suitability": 0.127,
-      "variation_key": 1,
-      "x": -384.694,
-      "y": 67.803,
-      "yaw": 5.29,
-      "z": 252.782
-    },
-    {
       "author_note": "M04 reviewed proposal; suitability 0.17; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.043,
+      "slope_deg": 10.9,
+      "stable_id": "prop_lodgepole_pine_7_005_003",
+      "suitability": 0.174,
+      "variation_key": 2,
+      "x": -358.647,
+      "y": 69.865,
+      "yaw": 2.891,
+      "z": 247.849
+    },
+    {
+      "author_note": "M04 reviewed proposal; suitability 0.13; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.174,
       "slope_deg": 14.2,
       "stable_id": "prop_lodgepole_pine_7_003_004",
-      "suitability": 0.166,
+      "suitability": 0.134,
       "variation_key": 0,
       "x": -371.839,
       "y": 70.889,
@@ -204,14 +144,14 @@
       "z": 253.302
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.26; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.21; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.001,
       "slope_deg": 7.8,
       "stable_id": "prop_lodgepole_pine_7_005_004",
-      "suitability": 0.263,
+      "suitability": 0.212,
       "variation_key": 0,
       "x": -359.332,
       "y": 70.449,
@@ -219,14 +159,14 @@
       "z": 253.842
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.29; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.23; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.126,
       "slope_deg": 6.0,
       "stable_id": "prop_lodgepole_pine_7_006_004",
-      "suitability": 0.291,
+      "suitability": 0.235,
       "variation_key": 2,
       "x": -353.288,
       "y": 70.584,
@@ -234,14 +174,14 @@
       "z": 254.1
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.35; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.28; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 0.847,
       "slope_deg": 2.3,
       "stable_id": "prop_lodgepole_pine_7_008_004",
-      "suitability": 0.348,
+      "suitability": 0.28,
       "variation_key": 0,
       "x": -343.148,
       "y": 71.114,
@@ -249,64 +189,34 @@
       "z": 254.668
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.18; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.20; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
-      "scale": 1.107,
-      "slope_deg": 13.4,
-      "stable_id": "prop_lodgepole_pine_7_010_004",
-      "suitability": 0.178,
-      "variation_key": 1,
-      "x": -331.487,
-      "y": 69.841,
-      "yaw": 4.454,
-      "z": 255.088
+      "scale": 0.963,
+      "slope_deg": 8.7,
+      "stable_id": "prop_lodgepole_pine_7_009_004",
+      "suitability": 0.201,
+      "variation_key": 0,
+      "x": -334.28,
+      "y": 70.176,
+      "yaw": 6.143,
+      "z": 252.272
     },
     {
-      "author_note": "M04 reviewed proposal; suitability 0.23; review against NAIP + habitat forest_edge; seed 7",
+      "author_note": "M04 reviewed proposal; suitability 0.18; review against NAIP + habitat forest_edge; seed 7",
       "evidence_class": "habitat-based authored candidate",
       "guild": "lodgepole_pine",
       "habitat": "forest_edge",
       "scale": 1.117,
       "slope_deg": 10.3,
       "stable_id": "prop_lodgepole_pine_7_007_005",
-      "suitability": 0.226,
+      "suitability": 0.182,
       "variation_key": 0,
       "x": -348.156,
       "y": 71.806,
       "yaw": 0.287,
       "z": 259.263
-    },
-    {
-      "author_note": "M04 reviewed proposal; suitability 0.15; review against NAIP + habitat forest_edge; seed 7",
-      "evidence_class": "habitat-based authored candidate",
-      "guild": "lodgepole_pine",
-      "habitat": "forest_edge",
-      "scale": 1.008,
-      "slope_deg": 15.3,
-      "stable_id": "prop_lodgepole_pine_7_008_005",
-      "suitability": 0.149,
-      "variation_key": 0,
-      "x": -340.581,
-      "y": 72.534,
-      "yaw": 5.991,
-      "z": 261.014
-    },
-    {
-      "author_note": "M04 reviewed proposal; suitability 0.15; review against NAIP + habitat forest_edge; seed 7",
-      "evidence_class": "habitat-based authored candidate",
-      "guild": "lodgepole_pine",
-      "habitat": "forest_edge",
-      "scale": 0.96,
-      "slope_deg": 15.4,
-      "stable_id": "prop_lodgepole_pine_7_004_007",
-      "suitability": 0.148,
-      "variation_key": 1,
-      "x": -364.364,
-      "y": 78.273,
-      "yaw": 1.596,
-      "z": 273.508
     }
   ],
   "review": "merge reviewed rows into placement_overrides.json::{add}; never overwrite placements.json",
@@ -383,8 +293,8 @@
     },
     {
       "cell": "3:1",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_003_001"
+      "decision": "reject",
+      "reason": "suitability 0.116 < 0.12"
     },
     {
       "cell": "4:1",
@@ -403,13 +313,13 @@
     },
     {
       "cell": "7:1",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_007_001"
+      "decision": "reject",
+      "reason": "suitability 0.119 < 0.12"
     },
     {
       "cell": "8:1",
       "decision": "reject",
-      "reason": "suitability 0.110 < 0.12"
+      "reason": "suitability 0.088 < 0.12"
     },
     {
       "cell": "9:1",
@@ -448,8 +358,8 @@
     },
     {
       "cell": "5:2",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_005_002"
+      "decision": "reject",
+      "reason": "suitability 0.116 < 0.12"
     },
     {
       "cell": "6:2",
@@ -459,17 +369,17 @@
     {
       "cell": "7:2",
       "decision": "reject",
-      "reason": "suitability 0.115 < 0.12"
+      "reason": "suitability 0.092 < 0.12"
     },
     {
       "cell": "8:2",
       "decision": "reject",
-      "reason": "suitability 0.060 < 0.12"
+      "reason": "suitability 0.048 < 0.12"
     },
     {
       "cell": "9:2",
       "decision": "reject",
-      "reason": "suitability 0.062 < 0.12"
+      "reason": "suitability 0.050 < 0.12"
     },
     {
       "cell": "10:2",
@@ -503,8 +413,8 @@
     },
     {
       "cell": "5:3",
-      "decision": "reject",
-      "reason": "separation < 6.0 m"
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_005_003"
     },
     {
       "cell": "6:3",
@@ -514,17 +424,17 @@
     {
       "cell": "7:3",
       "decision": "reject",
-      "reason": "suitability 0.097 < 0.12"
+      "reason": "suitability 0.078 < 0.12"
     },
     {
       "cell": "8:3",
       "decision": "reject",
-      "reason": "suitability 0.068 < 0.12"
+      "reason": "suitability 0.055 < 0.12"
     },
     {
       "cell": "9:3",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_009_003"
+      "decision": "reject",
+      "reason": "suitability 0.101 < 0.12"
     },
     {
       "cell": "10:3",
@@ -538,13 +448,13 @@
     },
     {
       "cell": "1:4",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_001_004"
+      "decision": "reject",
+      "reason": "suitability 0.102 < 0.12"
     },
     {
       "cell": "2:4",
       "decision": "reject",
-      "reason": "suitability 0.069 < 0.12"
+      "reason": "suitability 0.055 < 0.12"
     },
     {
       "cell": "3:4",
@@ -578,48 +488,48 @@
     },
     {
       "cell": "9:4",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_009_004"
+    },
+    {
+      "cell": "10:4",
       "decision": "reject",
       "reason": "separation < 6.0 m"
     },
     {
-      "cell": "10:4",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_010_004"
-    },
-    {
       "cell": "0:5",
       "decision": "reject",
-      "reason": "suitability 0.065 < 0.12"
+      "reason": "suitability 0.052 < 0.12"
     },
     {
       "cell": "1:5",
       "decision": "reject",
-      "reason": "suitability 0.025 < 0.12"
+      "reason": "suitability 0.020 < 0.12"
     },
     {
       "cell": "2:5",
       "decision": "reject",
-      "reason": "suitability 0.039 < 0.12"
+      "reason": "suitability 0.032 < 0.12"
     },
     {
       "cell": "3:5",
       "decision": "reject",
-      "reason": "suitability 0.063 < 0.12"
+      "reason": "suitability 0.051 < 0.12"
     },
     {
       "cell": "4:5",
       "decision": "reject",
-      "reason": "suitability 0.092 < 0.12"
+      "reason": "suitability 0.074 < 0.12"
     },
     {
       "cell": "5:5",
       "decision": "reject",
-      "reason": "suitability 0.019 < 0.12"
+      "reason": "suitability 0.016 < 0.12"
     },
     {
       "cell": "6:5",
       "decision": "reject",
-      "reason": "suitability 0.062 < 0.12"
+      "reason": "suitability 0.050 < 0.12"
     },
     {
       "cell": "7:5",
@@ -628,18 +538,18 @@
     },
     {
       "cell": "8:5",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_008_005"
+      "decision": "reject",
+      "reason": "suitability 0.120 < 0.12"
     },
     {
       "cell": "9:5",
       "decision": "reject",
-      "reason": "suitability 0.101 < 0.12"
+      "reason": "suitability 0.081 < 0.12"
     },
     {
       "cell": "10:5",
       "decision": "reject",
-      "reason": "suitability 0.079 < 0.12"
+      "reason": "suitability 0.064 < 0.12"
     },
     {
       "cell": "0:6",
@@ -649,47 +559,47 @@
     {
       "cell": "1:6",
       "decision": "reject",
-      "reason": "suitability 0.040 < 0.12"
+      "reason": "suitability 0.032 < 0.12"
     },
     {
       "cell": "2:6",
       "decision": "reject",
-      "reason": "suitability 0.042 < 0.12"
+      "reason": "suitability 0.034 < 0.12"
     },
     {
       "cell": "3:6",
       "decision": "reject",
-      "reason": "suitability 0.046 < 0.12"
+      "reason": "suitability 0.037 < 0.12"
     },
     {
       "cell": "4:6",
       "decision": "reject",
-      "reason": "suitability 0.049 < 0.12"
+      "reason": "suitability 0.040 < 0.12"
     },
     {
       "cell": "5:6",
       "decision": "reject",
-      "reason": "suitability 0.011 < 0.12"
+      "reason": "suitability 0.009 < 0.12"
     },
     {
       "cell": "6:6",
       "decision": "reject",
-      "reason": "suitability 0.012 < 0.12"
+      "reason": "suitability 0.010 < 0.12"
     },
     {
       "cell": "7:6",
       "decision": "reject",
-      "reason": "suitability 0.072 < 0.12"
+      "reason": "suitability 0.058 < 0.12"
     },
     {
       "cell": "8:6",
       "decision": "reject",
-      "reason": "suitability 0.071 < 0.12"
+      "reason": "suitability 0.057 < 0.12"
     },
     {
       "cell": "9:6",
       "decision": "reject",
-      "reason": "suitability 0.058 < 0.12"
+      "reason": "suitability 0.046 < 0.12"
     },
     {
       "cell": "10:6",
@@ -704,47 +614,47 @@
     {
       "cell": "1:7",
       "decision": "reject",
-      "reason": "suitability 0.053 < 0.12"
+      "reason": "suitability 0.043 < 0.12"
     },
     {
       "cell": "2:7",
       "decision": "reject",
-      "reason": "suitability 0.047 < 0.12"
+      "reason": "suitability 0.038 < 0.12"
     },
     {
       "cell": "3:7",
       "decision": "reject",
-      "reason": "suitability 0.073 < 0.12"
+      "reason": "suitability 0.059 < 0.12"
     },
     {
       "cell": "4:7",
-      "decision": "accept",
-      "stable_id": "prop_lodgepole_pine_7_004_007"
-    },
-    {
-      "cell": "5:7",
       "decision": "reject",
       "reason": "suitability 0.119 < 0.12"
     },
     {
+      "cell": "5:7",
+      "decision": "reject",
+      "reason": "suitability 0.096 < 0.12"
+    },
+    {
       "cell": "6:7",
       "decision": "reject",
-      "reason": "suitability 0.020 < 0.12"
+      "reason": "suitability 0.016 < 0.12"
     },
     {
       "cell": "7:7",
       "decision": "reject",
-      "reason": "suitability 0.020 < 0.12"
+      "reason": "suitability 0.016 < 0.12"
     },
     {
       "cell": "8:7",
       "decision": "reject",
-      "reason": "suitability 0.014 < 0.12"
+      "reason": "suitability 0.011 < 0.12"
     },
     {
       "cell": "9:7",
       "decision": "reject",
-      "reason": "suitability 0.013 < 0.12"
+      "reason": "suitability 0.010 < 0.12"
     },
     {
       "cell": "10:7",
@@ -759,27 +669,27 @@
     {
       "cell": "1:8",
       "decision": "reject",
-      "reason": "suitability 0.028 < 0.12"
+      "reason": "suitability 0.022 < 0.12"
     },
     {
       "cell": "2:8",
       "decision": "reject",
-      "reason": "suitability 0.045 < 0.12"
+      "reason": "suitability 0.036 < 0.12"
     },
     {
       "cell": "3:8",
       "decision": "reject",
-      "reason": "suitability 0.069 < 0.12"
+      "reason": "suitability 0.055 < 0.12"
     },
     {
       "cell": "4:8",
       "decision": "reject",
-      "reason": "separation < 6.0 m"
+      "reason": "suitability 0.108 < 0.12"
     },
     {
       "cell": "5:8",
       "decision": "reject",
-      "reason": "suitability 0.067 < 0.12"
+      "reason": "suitability 0.054 < 0.12"
     },
     {
       "cell": "6:8",
@@ -819,22 +729,22 @@
     {
       "cell": "2:9",
       "decision": "reject",
-      "reason": "suitability 0.030 < 0.12"
+      "reason": "suitability 0.024 < 0.12"
     },
     {
       "cell": "3:9",
       "decision": "reject",
-      "reason": "suitability 0.049 < 0.12"
+      "reason": "suitability 0.039 < 0.12"
     },
     {
       "cell": "4:9",
       "decision": "reject",
-      "reason": "suitability 0.044 < 0.12"
+      "reason": "suitability 0.035 < 0.12"
     },
     {
       "cell": "5:9",
       "decision": "reject",
-      "reason": "suitability 0.079 < 0.12"
+      "reason": "suitability 0.063 < 0.12"
     },
     {
       "cell": "6:9",

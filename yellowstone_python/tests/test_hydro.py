@@ -19,7 +19,7 @@ def test_mixing_check():
 def test_conservation_and_stability():
     r = _reaches()
     s, led = run_simulation(r, 8.0, 17.5, air_c=18.0, seconds=600.0)
-    assert led["heat_budget_error"] < 1e-6, led
+    assert led["heat_budget_error_j"] < 1e-6, led
     assert led["water_budget_error_m3"] < 1e-6, led
 
 
@@ -28,7 +28,7 @@ def test_low_high_flow_stable():
     for q in (2.0, 20.0):
         rr = copy.deepcopy(r)
         s, led = run_simulation(rr, q, 17.5, air_c=18.0, seconds=120.0)
-        assert led["heat_budget_error"] < 1e-6
+        assert led["heat_budget_error_j"] < 1e-6
         assert all(0.0 <= x["fish_activity"] <= 1.0 for x in s)
 
 

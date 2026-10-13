@@ -82,12 +82,14 @@ def test_fit_recovers_synthetic():
                                  dois, 0.3, 6.0)
     assert max(obs) > 50.0
     assert obs[-1] == 0.0
-    s, c, _, runners = se.fit_eb_params(44.6, air, tmax, tmin, prcp, dois,
-                               obs, list(range(n)),
-                               s_grid=[0.1, 0.3, 0.5],
-                               ct_grid=[2.0, 6.0, 10.0])
-    assert (s, c) == (0.3, 6.0)
-    assert len(runners) == 2
+    fit = se.fit_eb_params(44.6, air, tmax, tmin, prcp, dois,
+                           obs, list(range(n)),
+                           s_grid=[0.1, 0.3, 0.5],
+                           ct_grid=[2.0, 6.0, 10.0])
+    assert (fit["best_s_rad"], fit["best_c_turb_w_m2_k"]) == (0.3, 6.0)
+    assert len(fit["runners_up"]) == 2
+    assert "parameter_at_grid_boundary" in fit
+    assert "near_tie_count" in fit
 
 
 def test_fixed_params_reject_off_grid(tmp_path):

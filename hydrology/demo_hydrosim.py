@@ -1,7 +1,7 @@
+"""Headless demo for hydrosim: drive the model with a rain schedule and plot.
+Usage: python demo_hydrosim.py [--out path]; without --out the figure lands in derived/hydrology_demo/hydrosim_demo.png under the project root (first ancestor containing a derived/ sibling).
 """
-Headless demo: drive the model with a rain-slider schedule and plot what happens.
-    python demo_hydrosim.py            -> writes hydrosim_demo.png next to this file
-"""
+import argparse
 import os
 
 import numpy as np
@@ -71,10 +71,33 @@ def main():
     ax[1, 2].semilogy(t, np.abs(rec["err"]) + 1e-18); ax[1, 2].set_xlabel("min")
     ax[1, 2].set_title("|relative water-balance error|")
     plt.tight_layout()
-    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hydrosim_demo.png")
+    out = _resolve_out()
+    os.makedirs(os.path.dirname(out), exist_ok=True)
     plt.savefig(out, dpi=110)
     print("wrote", out)
 
 
+def _resolve_out(explicit: str | None = None) -> str:
+    """Resolve the demo output path under derived/hydrology_demo/."""
+    if explicit:
+        return explicit
+    here = os.path.dirname(os.path.abspath(__file__))
+    for ancestor in (here, os.path.dirname(here),
+                     os.path.dirname(os.path.dirname(here))):
+        if os.path.isdir(os.path.join(ancestor, "yellowstone_python",
+                                      "derived")):
+            return os.path.join(ancestor, "yellowstone_python", "derived",
+                                "hydrology_demo", "hydrosim_demo.png")
+    return os.path.join(here, "..", "yellowstone_python", "derived",
+                        "hydrology_demo", "hydrosim_demo.png")
+
+
 if __name__ == "__main__":
+    ap = argparse.ArgumentParser(description="hydrosim demo")
+    ap.add_argument("--out", default=None,
+                    help="output PNG path (default under derived/)")
+    _cli = ap.parse_args()
+    if _cli.out is not None:
+        _original_resolve = _resolve_out
+        _resolve_out = lambda explicit=None, _out=_cli.out: _out  # noqa: E731
     main()

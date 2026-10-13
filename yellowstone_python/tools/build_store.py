@@ -1,22 +1,9 @@
-"""Build the LLM analysis store (SQLite) from one build dir + obs inputs.
-
-Derived artifacts are history: the default output is a NEW file per build
-(derived/analysis_<buildid>.sqlite), never an overwrite of an existing
-store. Pass --out explicitly to choose another path.
-
-Usage:
-    python3 tools/build_store.py --build derived/574c6165b5e9
-    python3 tools/build_store.py --build derived/574c6165b5e9 \
-        --census derived/census.json \
-        --firehole derived/firehole_obs.json \
-        --snotel derived/snotel_obs.json \
-        --reach-fit derived/reach_heat_fit_v300k.json \
-        --snow-fit derived/snow_degree_day_fit.json \
-        --out derived/analysis.sqlite
+"""Build the LLM analysis store (SQLite) from one build dir plus obs inputs.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -24,6 +11,57 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from yellowstone_python.analysis_store import build_file  # noqa: E402
+
+
+def _sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _collect_build_shas(build_dir: Path) -> dict:
+    """Return a basename to sha256 map harvested from BUILD.json entries."""
+    build_json = build_dir / "BUILD.json"
+    if not build_json.exists():
+        return {}
+    try:
+        doc = json.loads(build_json.read_text())
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out: dict = {}
+
+    def _walk(node):
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if isinstance(value, str) and len(value) == 64 and \
+                        all(c in "0123456789abcdef" for c in value):
+                    out.setdefault(Path(key).name, value)
+                else:
+                    _walk(value)
+        elif isinstance(node, list):
+            for item in node:
+                _walk(item)
+
+    for key in ("source_shas", "deps"):
+        if key in doc:
+            _walk(doc[key])
+    return out
+
+
+def _check_against_build(label: str, path: Path,
+                         known: dict, warnings: list) -> str | None:
+    """Return an error message when path's sha disagrees with BUILD.json."""
+    recorded = known.get(path.name)
+    if recorded is None:
+        warnings.append(
+            f"{label} {path}: not referenced by BUILD.json")
+        return None
+    if _sha256(path) != recorded:
+        return (f"source-sha-mismatch: {label} {path} does not match "
+                f"BUILD.json sha for basename {path.name!r}")
+    return None
 
 
 def main() -> int:
@@ -35,8 +73,8 @@ def main() -> int:
     ap.add_argument("--firehole", default="derived/firehole_obs.json")
     ap.add_argument("--snotel", default="derived/snotel_obs.json")
     ap.add_argument("--reach-fit", dest="reach_fits", action="append",
-                    default=[], help="repeatable; empty -> fits tables "
-                    "empty with a meta note, never an error")
+                    default=[], help="repeatable; omit to leave fits_reach "
+                    "and fits_reach_nulls empty with a meta note")
     ap.add_argument("--snow-fit", dest="snow_fits", action="append",
                     default=[])
     ap.add_argument("--out", default=None,
@@ -51,10 +89,24 @@ def main() -> int:
     for label, p in (("--census", args.census),
                      ("--firehole", args.firehole),
                      ("--snotel", args.snotel),
-                     *[(f"--reach-fit", f) for f in args.reach_fits],
-                     *[(f"--snow-fit", f) for f in args.snow_fits]):
+                     *[("--reach-fit", f) for f in args.reach_fits],
+                     *[("--snow-fit", f) for f in args.snow_fits]):
         if not Path(p).exists():
             ap.error(f"{label} {p} not found")
+    known_shas = _collect_build_shas(build_dir)
+    warnings: list[str] = []
+    for p in args.reach_fits:
+        err = _check_against_build("--reach-fit", Path(p),
+                                   known_shas, warnings)
+        if err is not None:
+            print(err, file=sys.stderr)
+            return 2
+    for p in args.snow_fits:
+        err = _check_against_build("--snow-fit", Path(p),
+                                   known_shas, warnings)
+        if err is not None:
+            print(err, file=sys.stderr)
+            return 2
     out = Path(args.out) if args.out else \
         Path("derived") / f"analysis_{build_dir.name}.sqlite"
     try:
@@ -66,6 +118,11 @@ def main() -> int:
             snow_fit_paths=[Path(p) for p in args.snow_fits])
     except FileExistsError as exc:
         ap.error(str(exc))
+    except (json.JSONDecodeError, OSError, RuntimeError) as exc:
+        print(f"build-failed: {exc}", file=sys.stderr)
+        return 1
+    for line in warnings:
+        print(line)
     print(json.dumps(summary, indent=1))
     return 0
 

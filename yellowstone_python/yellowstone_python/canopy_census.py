@@ -1,4 +1,5 @@
-"""Canopy census: detect trees from NAIP imagery and produce stable records. CLI flags: --qa for mechanical self-check."""
+"""Canopy census: detect trees from NAIP imagery and emit stable records.
+CLI --qa runs a mechanical self-check."""
 from __future__ import annotations
 
 import argparse
@@ -11,7 +12,7 @@ import numpy as np
 from .common.provenance import default_world_root
 
 DETAIL_PATH = str(default_world_root() / "references/midway_orthophoto_detail.jpg")
-DETAIL_HALF = 640.0  # local metres covered: [-640, 640]
+DETAIL_HALF = 640.0  # local meters covered: [-640, 640]
 PX_M = 1.25 / 2.0  # 0.625 m per pixel
 
 
@@ -46,16 +47,15 @@ def detect(rgb: np.ndarray, *, exg_min: float = 0.05,
     from scipy import ndimage
     sig = vegetation_signals(rgb)
     H, W = sig["exg"].shape
-    # Candidate crown pixels: green AND dark (conifer crowns, not grass).
-    crown = (sig["exg"] > exg_min) & (sig["light"] < crown_dark_max) & (~sig["water"])
+    # Candidate crown pixels: green and dark (conifer crowns; grass is lighter).
+    crown = crown_mask(sig, exg_min=exg_min, crown_dark_max=crown_dark_max)
     labeled, ncomp = ndimage.label(crown)
     sizes = ndimage.sum(crown, labeled, range(1, ncomp + 1))
     # Peaks: local maxima of ExG inside crown mask, >= 2 m apart.
     dist_px = max(2, int(round(peak_distance_m / PX_M)))
     local_max = (ndimage.maximum_filter(sig["exg"], size=2 * dist_px + 1)
                  == sig["exg"]) & crown
-    # Collapse flat-top plateaus: each connected max-component yields one
-    # peak at its centroid (uniform discs would otherwise count per pixel).
+    # Collapse flat-top plateaus: each connected max-component yields one peak at its centroid.
     plat, _ = ndimage.label(local_max)
     peak_iz, peak_ix = [], []
     for region in ndimage.find_objects(plat):
@@ -75,8 +75,7 @@ def detect(rgb: np.ndarray, *, exg_min: float = 0.05,
     for idx in order:
         if taken[idx]:
             continue
-        # Suppress weaker neighbors within the peak distance (same pass,
-        # strength-ordered, so suppression cannot shift later acceptances).
+        # Suppress weaker neighbors within the peak distance in a single strength-ordered pass.
         d2 = (peak_ix - peak_ix[idx]) ** 2 + (peak_iz - peak_iz[idx]) ** 2
         taken[(d2 < dist_px ** 2)] = True
         comp = int(peak_comp[idx])
@@ -118,9 +117,21 @@ def _in_poly(x: float, z: float, ring: list) -> bool:
     return inside
 
 
+def _point_to_segment_distance_sq(px: float, pz: float,
+                                  ax: float, az: float,
+                                  bx: float, bz: float) -> float:
+    """Squared distance from (px,pz) to the segment ab."""
+    dx, dz = bx - ax, bz - az
+    denom = dx * dx + dz * dz
+    if denom == 0.0:
+        return (px - ax) ** 2 + (pz - az) ** 2
+    t = max(0.0, min(1.0, ((px - ax) * dx + (pz - az) * dz) / denom))
+    qx, qz = ax + t * dx, az + t * dz
+    return (px - qx) ** 2 + (pz - qz) ** 2
+
+
 def exclude_pool_rims(records: list, margin_m: float = 5.0) -> tuple[list, int]:
-    """Drop detections inside mapped water + margin (rim artifacts, not
-    stems). Returns (kept, n_dropped)."""
+    """Drop detections inside mapped water plus a true point-to-segment margin."""
     rings = load_pool_rings()
     boxes = []
     for ring in rings:
@@ -128,18 +139,25 @@ def exclude_pool_rims(records: list, margin_m: float = 5.0) -> tuple[list, int]:
         zs = [p[1] for p in ring]
         boxes.append((min(xs) - margin_m, min(zs) - margin_m,
                       max(xs) + margin_m, max(zs) + margin_m))
+    margin_sq = margin_m ** 2
     kept, dropped = [], 0
     for r in records:
         bad = False
         for (x0, z0, x1, z1), ring in zip(boxes, rings):
             if x0 <= r["x"] <= x1 and z0 <= r["z"] <= z1:
-                # margin test: inside ring, or within margin of any vertex
                 if _in_poly(r["x"], r["z"], ring):
                     bad = True
                     break
-                if min((r["x"] - vx) ** 2 + (r["z"] - vz) ** 2
-                       for vx, vz in ring) < margin_m ** 2:
-                    bad = True
+                # Edge distance: scan every ring segment so points near a straight run are also caught.
+                nv = len(ring)
+                for i in range(nv):
+                    ax_, az_ = ring[i]
+                    bx_, bz_ = ring[(i + 1) % nv]
+                    if _point_to_segment_distance_sq(
+                            r["x"], r["z"], ax_, az_, bx_, bz_) < margin_sq:
+                        bad = True
+                        break
+                if bad:
                     break
         if bad:
             dropped += 1
@@ -149,7 +167,7 @@ def exclude_pool_rims(records: list, margin_m: float = 5.0) -> tuple[list, int]:
 
 
 def to_world(records: list, width: int = 2048, height: int = 2048) -> list:
-    """Pixel records -> stable local-metre records (id from pixel, stable)."""
+    """Pixel records to stable local-meter records; id derived from pixel coordinates."""
     out = []
     for r in records:
         x = (r["ix"] + 0.5) / width * (2 * DETAIL_HALF) - DETAIL_HALF
@@ -188,14 +206,15 @@ def _coord(record: object, axis: int) -> float:
 
 
 def density_stats(records: list, zones: dict) -> dict:
-    """Trees/ha per named zone. Zone spec: {"circle": (cx, cz, r)} or
-    {"ring": (cx, cz, r0, r1)} or {"box": (x0, z0, x1, z1)}.
-    Records may be dicts ({x,z,...}) or (x, z) tuples."""
+    """Trees/ha per named zone.
+    Zone spec: circle (cx,cz,r); ring (cx,cz,r0,r1); box (x0,z0,x1,z1). Records are dicts or (x,z) tuples."""
     out = {}
     for name, spec in zones.items():
         ((kind, val),) = spec.items()
         if kind == "circle":
             cx, cz, rr = val
+            if rr <= 0:
+                raise ValueError(f"circle zone {name}: radius {rr} must be > 0")
             inside = [r for r in records
                       if math.hypot(_coord(r, 0) - cx, _coord(r, 1) - cz) <= rr]
             area_ha = math.pi * rr ** 2 / 1e4
@@ -214,6 +233,8 @@ def density_stats(records: list, zones: dict) -> dict:
             inside = [r for r in records
                       if x0 <= _coord(r, 0) <= x1 and z0 <= _coord(r, 1) <= z1]
             area_ha = abs(x1 - x0) * abs(z1 - z0) / 1e4
+        else:
+            raise ValueError(f"unknown zone type {kind!r} for zone {name}")
         out[name] = {"n": len(inside), "area_ha": round(area_ha, 2),
                      "trees_per_ha": round(len(inside) / area_ha, 1)}
     return out
@@ -235,9 +256,59 @@ def qa_census(doc: dict) -> list:
                         f"found {doc.get('schema')!r}")
         return failures
     trees = doc.get("trees", [])
-    if doc.get("n") != len(trees):
-        failures.append(f"count: n={doc.get('n')} != len(trees)={len(trees)}")
+    if not isinstance(trees, list):
+        failures.append(f"trees: must be a list, got {type(trees).__name__}")
+        return failures
+    n_declared = doc.get("n")
+    if not isinstance(n_declared, int) or isinstance(n_declared, bool):
+        failures.append(f"n: must be an int, got {type(n_declared).__name__}")
+    elif n_declared != len(trees):
+        failures.append(f"count: n={n_declared} != len(trees)={len(trees)}")
+    # Extent for coord-bounds check, falls back to DETAIL_HALF defaults.
+    extent = doc.get("source", {}).get("extent_m",
+                                        [-DETAIL_HALF, -DETAIL_HALF,
+                                         DETAIL_HALF, DETAIL_HALF])
+    try:
+        x0, z0, x1, z1 = [float(v) for v in extent]
+    except (TypeError, ValueError):
+        x0, z0, x1, z1 = (-DETAIL_HALF, -DETAIL_HALF,
+                          DETAIL_HALF, DETAIL_HALF)
+    seen_ids: set = set()
+    seen_xy: set = set()
     for t in trees:
+        if not isinstance(t, dict):
+            failures.append(f"trees: entry {t!r} is not a mapping")
+            continue
+        sid = t.get("stable_id", "?")
+        if sid in seen_ids:
+            failures.append(f"stable_id: duplicate {sid!r}")
+        else:
+            seen_ids.add(sid)
+        xkey = (round(float(t.get("x", math.nan)), 2),
+                round(float(t.get("z", math.nan)), 2)) \
+            if isinstance(t.get("x"), (int, float)) \
+            and isinstance(t.get("z"), (int, float)) else None
+        if xkey is not None:
+            if xkey in seen_xy:
+                failures.append(f"coord: duplicate position {xkey} ({sid})")
+            else:
+                seen_xy.add(xkey)
+            if not (x0 <= xkey[0] <= x1 and z0 <= xkey[1] <= z1):
+                failures.append(
+                    f"coord: {sid} ({xkey[0]}, {xkey[1]}) outside extent "
+                    f"[{x0}, {z0}, {x1}, {z1}]")
+        peak = t.get("peak_exg")
+        if peak is not None:
+            try:
+                peak_f = float(peak)
+                if not math.isfinite(peak_f) or peak_f < -1.0 or peak_f > 2.0:
+                    failures.append(
+                        f"peak_exg: {sid} value {peak_f} outside [-1, 2]")
+            except (TypeError, ValueError):
+                failures.append(f"peak_exg: {sid} value {peak!r} invalid")
+    for t in trees:
+        if not isinstance(t, dict):
+            continue
         sid = t.get("stable_id", "?")
         missing = [f for f in QA_TREE_FIELDS if f not in t]
         if missing:
@@ -291,7 +362,8 @@ def main() -> int:
         return 1 if failures else 0
 
     rgb = load_detail(args.detail)
-    records = to_world(detect(rgb))
+    img_h, img_w = rgb.shape[:2]
+    records = to_world(detect(rgb), width=img_w, height=img_h)
     records, dropped_rim = exclude_pool_rims(records)
     doc = {"schema": "yellowstone.canopy_census.v1",
            "source": {"image": args.detail, "acquired": "2022-07-19",
@@ -332,7 +404,7 @@ def calibrate_lone_trees(rgb: np.ndarray, isolation_m: float = 10.0) -> dict:
     """Measure single isolated crowns: components with no neighbor centroid within isolation_m."""
     from scipy import ndimage
     sig = vegetation_signals(rgb)
-    crown = (sig["exg"] > 0.05) & (sig["light"] < 0.55) & (~sig["water"])
+    crown = crown_mask(sig)
     labeled, ncomp = ndimage.label(crown)
     if ncomp == 0:
         raise ValueError("no crown components found")

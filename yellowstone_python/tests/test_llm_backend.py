@@ -90,9 +90,20 @@ def test_http_endpoints():
         assert get("/api/compare?x=-252&z=159&r=120")["area_ha"] > 4.0
         assert get("/api/placements/summary")["baked_trees"] > 30000
         assert get("/api/ecosystem/summary")["wildlife_total"] == 12
-        # /api/weather serves the live forcing the renderer consumes.
+        # /api/weather returns schema_version 2 nested shape and flat aliases for older callers.
         w = get("/api/weather")
-        assert w["source"] in ("open-meteo_hourly_bundle", "authored_defaults")
+        assert w["schema_version"] == 2
+        assert isinstance(w["generated_at_unix"], int)
+        assert isinstance(w["valid_time_unix"], int)
+        assert isinstance(w["simulation_time_unix"], int)
+        assert isinstance(w["source"], dict)
+        assert w["source"]["endpoint"] in (
+            "open-meteo_hourly_bundle", "authored_defaults")
+        for k in ("air_temperature_c", "relative_humidity",
+                  "wind_speed_mps", "wind_direction_deg",
+                  "cloud_fraction", "precipitation_rate_mm_h",
+                  "snow_fraction", "visibility_m"):
+            assert k in w["weather"], f"nested weather missing {k}"
         assert "air_c" in w and "humidity" in w and "cloud" in w
         assert isinstance(w["wind_xz_mps"], list) and len(w["wind_xz_mps"]) == 2
         try:
@@ -117,7 +128,7 @@ def test_threshold_and_canopy_validated():
     import math
     import pytest
     b = _backend()
-    # NaN must not silently disable the suitability gate (gate bypass).
+    # Non-finite or out-of-range thresholds raise ValueError on the suitability gate.
     for bad_thresh in (float("nan"), float("inf"), -1.0, 2.0):
         with pytest.raises(ValueError):
             b.propose("lodgepole_pine", -360, 260, 30, 1,
@@ -135,7 +146,7 @@ def test_threshold_and_canopy_validated():
         b.propose("lodgepole_pine", -360, 260, 30, True)
     with pytest.raises(ValueError):
         b.circle_stats([(0, 0)], True, 0, 5)
-    # int(inf) overflow paths must be ValueError, not OverflowError.
+    # int(inf) overflow paths raise ValueError.
     with pytest.raises(ValueError):
         b.propose("lodgepole_pine", -360, 260, 30, 1, seed=float("inf"))
     with pytest.raises(ValueError):
@@ -161,9 +172,7 @@ def test_compare_returns_numeric_center():
 
 
 def test_zone_numbers_pinned():
-    # Independent recounts (2026-10-09): knoll 1175, apron ring 63, full box
-    # holds the whole census. Catches unit swaps and silent zone drops that
-    # self-consistency assertions miss.
+    # Independent recounts: knoll 1175, apron ring 63, full box holds the census. Catches unit swaps and zone drops that self-consistency assertions miss.
     zones = _backend().zones()
     assert set(zones) == {"spring_0_50m", "apron_50_100m",
                           "transition_100_200m", "outwash_200_400m",
@@ -261,8 +270,7 @@ def test_snapshot_degrades_section_not_bundle(tmp_path):
 
 
 def test_malformed_census_raises_data_error(tmp_path):
-    """Adversarial finding #1: a corrupt census.json must not silently return
-    plausible-but-wrong data (an empty list reads as '0 trees observed')."""
+    """Adversarial finding #1: a corrupt census.json raises DataError (an empty list reads as '0 trees observed')."""
     import pytest
     from yellowstone_python.llm_backend import Backend, DataError
     for label, doc in [
@@ -282,6 +290,52 @@ def test_malformed_census_raises_data_error(tmp_path):
                 b.census()
             else:
                 b.census_points()
+
+
+def test_weather_never_derives_rain_from_cloud(tmp_path):
+    """Overcast with no bundle precipitation leaves precipitation_rate at None."""
+    import json
+    import shutil
+    world = tmp_path / "world"
+    derived = tmp_path / "derived"
+    shutil.copytree(DATA, world / "data")
+    derived.mkdir()
+    # Six-column bundle (no precip column); cloud is 1.0 at every row.
+    bundle = {
+        "schema": "yellowstone.met_forcing.v1",
+        "hourly": [[float(epoch), 10.0, 0.5, 2.0, 150.0, 1.0]
+                   for epoch in range(0, 24 * 3600, 3600)],
+    }
+    (derived / "met.json").write_text(json.dumps(bundle))
+    from yellowstone_python.llm_backend import Backend
+    out = Backend(world=world, derived=derived).weather(hour=0.0)
+    assert out["weather"]["cloud_fraction"] == 1.0
+    # No seventh column means no measured precip and no cloud-to-rain substitution.
+    assert out["precipitation_rate_mm_h"] is None
+    assert out["precipitation_status"] == "unavailable"
+    assert out["weather"]["precipitation_rate_mm_h"] == 0.0
+
+
+def test_concurrent_census_reads_share_cache():
+    """Multiple threaded Backend.census() calls return the same cached object."""
+    from yellowstone_python.llm_backend import Backend
+    b = Backend()
+    seen: list = []
+    errors: list = []
+
+    def worker():
+        try:
+            seen.append(id(b.census()))
+        except Exception as exc:  # pragma: no cover (would fail the test)
+            errors.append(exc)
+    threads = [threading.Thread(target=worker) for _ in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert not errors, errors
+    assert len(seen) == 8
+    assert len(set(seen)) == 1
 
 
 def test_placed_points_strict_on_schema_violations(tmp_path):

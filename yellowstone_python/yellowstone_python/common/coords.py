@@ -1,15 +1,4 @@
-"""M00 coords: single EPSG:32612 frame authority for Yellowstone Midway.
-
-Matches:
-- tools/prepare_world.py constants (E0, N0, H0, GRID=1025, STEP=4, HALF=2048)
-- scripts/height_field.gd::sample diagonal (10-01): fx+fz<=1 branch.
-- GEOSPATIAL_CONTRACT numerics: floor indexing, no epsilon, GDAL centre note.
-
-Local mapping (project contract):
-    x = E - E0
-    y = H - H0        (H is NAVD88 orthometric, not ellipsoidal GPS height)
-    z = N0 - N        (positive z is south; north is -z)
-"""
+"""M00 coords: single frame authority for Yellowstone Midway."""
 from __future__ import annotations
 
 import math
@@ -21,9 +10,11 @@ GRID = 1025
 STEP = 4.0
 HALF = 2048.0
 CRS = "EPSG:32612"
+HORIZONTAL_DATUM = "WGS 84"
 VERTICAL_DATUM = "NAVD88"
+GEOID_MODEL = "GEOID12B"
 
-# Saved anchors (references/geoanchors.json; local x,z metres)
+# Saved anchor positions in local x,z meters.
 ANCHORS = {
     "grand_prismatic": (-94.707, -10.608),
     "excelsior": (15.812, -145.302),
@@ -31,7 +22,7 @@ ANCHORS = {
 
 
 def local_to_utm(x: float, y: float, z: float) -> tuple[float, float, float]:
-    """Local (x=east, y=up-from-2200, z=south) -> (E, N, H_NAVD88)."""
+    """Local to UTM; horizontal WGS 84 (zone 12N), vertical NAVD88 under GEOID12B."""
     return (x + E0, N0 - z, y + H0)
 
 
@@ -41,22 +32,18 @@ def utm_to_local(e: float, n: float, h: float) -> tuple[float, float, float]:
 
 
 def sample_index(x: float, z: float) -> tuple[int, int]:
-    """Grid indices via floor (never truncation, never epsilon nudge)."""
+    """Grid indices via floor. math.floor(-0.25) is -1; int() would give 0."""
     gx = (x + HALF) / STEP
     gz = (z + HALF) / STEP
     return (math.floor(gx), math.floor(gz))
 
 
 def sample_height(h: list | tuple, x: float, z: float) -> float:
-    """Bilinear sample matching height_field.gd diagonal.
-
-    h: flat row-major GRID*GRID array, row zero is north (iz=0 -> z=-HALF).
-    Clamps to valid range like GDScript clampf.
-    """
-    gx = min(max((x + HALF) / STEP, 0.0), float(GRID - 1) - 1e-5)
-    gz = min(max((z + HALF) / STEP, 0.0), float(GRID - 1) - 1e-5)
-    ix = math.floor(gx)
-    iz = math.floor(gz)
+    """Bilinear sample matching height_field.gd triangle diagonal."""
+    gx = min(max((x + HALF) / STEP, 0.0), float(GRID - 1))
+    gz = min(max((z + HALF) / STEP, 0.0), float(GRID - 1))
+    ix = min(math.floor(gx), GRID - 2)
+    iz = min(math.floor(gz), GRID - 2)
     fx = gx - ix
     fz = gz - iz
     a = h[iz * GRID + ix]

@@ -1,8 +1,5 @@
-"""Tests for publication diagnostic figures (headless Agg).
-
-All synthetic and offline. Each test renders to tmp_path — the repo
-never collects test figures.
-"""
+"""Tests for publication diagnostic figures (headless Agg; synthetic, offline).
+Each test renders to tmp_path."""
 from __future__ import annotations
 
 import math

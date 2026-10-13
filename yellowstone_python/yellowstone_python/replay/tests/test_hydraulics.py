@@ -19,6 +19,9 @@ from yellowstone_python.replay.hydraulics import (
 )
 from yellowstone_python.replay.river_world import build_mapped_replay
 
+# Fixed replay epoch so the clock is deterministic across runs.
+REPLAY_START = {"simulation_start_epoch_unix": 1784000000.0}
+
 
 class TrapezoidTests(unittest.TestCase):
     def test_rectangular_limit(self):
@@ -138,9 +141,7 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(inv["n_sources"], 2)
 
     def test_thermal_inventory_excludes_scheduled_temps(self):
-        # Regression (review): pulse sources carry Series dicts, which
-        # crashed _finite. Scheduled interventions are listed, counted,
-        # and excluded from the single-value mean — honestly, not averaged.
+        # Regression: pulse sources carry Series dicts; scheduled interventions are listed and excluded from the single-value mean.
         inv = thermal_inventory([
             {"id": "a", "flow_m3_s": 1.0, "temperature_c": 60.0,
              "status": "measured"},
@@ -178,7 +179,7 @@ def _sloped_world():
 class MappedHydraulicsTests(unittest.TestCase):
     def test_diagnostics_present_volumes_unchanged(self):
         world, ecosystem = _sloped_world()
-        doc = build_mapped_replay(world, ecosystem, duration_s=120.0,
+        doc = build_mapped_replay(world, ecosystem, **REPLAY_START, duration_s=120.0,
                                   maximum_cell_m=25.0)
         self.assertIn("hydraulics_summary", doc)
         self.assertIn("thermal_inventory",
@@ -210,7 +211,7 @@ class MappedHydraulicsTests(unittest.TestCase):
             }],
         }
         _, ecosystem = _sloped_world()
-        doc = build_mapped_replay(world, ecosystem, duration_s=60.0,
+        doc = build_mapped_replay(world, ecosystem, **REPLAY_START, duration_s=60.0,
                                   maximum_cell_m=200.0)
         for record in doc["cells"]:
             self.assertIn("flat_or_adverse_grade_manning_undefined",

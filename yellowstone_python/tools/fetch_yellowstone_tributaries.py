@@ -1,16 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch real tributary data for Yellowstone cold-refuge implementation.
-
-This script queries USGS and other real data sources to find actual cold-water
-tributaries that join the Firehole River system, replacing the authored/temporary
-values in the current tributary refuge implementation.
-
-TASK COMPLIANCE:
-✅ Find cold lateral inflows in the baseline ecosystem (check lateral sources / tributary temps)
-✅ Discover actual values, do not invent (use real USGS data where available)
-✅ Determine which runs colder than 24C under hot-lowflow conditions
-✅ Identify where they join (chainage)
-✅ Use minimal honest design with provenance documentation
+"""Fetch tributary data for Yellowstone cold-refuge implementation from USGS and documented sources.
 """
 from __future__ import annotations
 
@@ -136,18 +125,164 @@ def calculate_data_integrity_hash(data: dict) -> str:
     return hashlib.sha256(json.dumps(normalized, sort_keys=True).encode()).hexdigest()
 
 
+# Registry of gauges and streams verified against NWIS and USGS StreamStats. Entries list the verified attributes a candidate matches before it enters cold_refuge_candidates. The registry starts empty; an unchecked documented tributary carries association_status = unverified and stays out of the candidate list.
+VERIFIED_TRIBUTARY_REGISTRY: Dict[str, Dict[str, Any]] = {}
+
+
+def lookup_verified_identity(site_id: str, stream_name: str) -> Dict[str, Any]:
+    """Return the registry entry for site_id when its stream_name matches; mismatched name becomes unverified.
+    """
+    entry = VERIFIED_TRIBUTARY_REGISTRY.get(site_id)
+    if not entry:
+        return {
+            "association_status": "unverified",
+            "association_reason": (
+                "site_id not present in VERIFIED_TRIBUTARY_REGISTRY"
+            ),
+        }
+    expected = str(entry.get("stream_name", "")).strip().lower()
+    actual = stream_name.strip().lower()
+    if expected and actual and expected != actual:
+        return {
+            "association_status": "rejected",
+            "association_reason": (
+                f"stream_name {stream_name!r} does not match registry "
+                f"name {entry['stream_name']!r} for site_id {site_id}"
+            ),
+        }
+    return {
+        "association_status": "verified",
+        "association_method": entry.get(
+            "association_method", "manual_review"
+        ),
+        "target_river_id": entry.get("target_river_id"),
+        "confluence_node_id": entry.get("confluence_node_id"),
+        "confluence_s_m_registry": entry.get("confluence_s_m"),
+    }
+
+
+def validate_series_pairs(
+    pairs: List[List[float]], label: str
+) -> Dict[str, Any]:
+    """Report duplicates and non-monotonic ordering in a USGS time series (does raise).
+    """
+    if not pairs:
+        return {
+            "label": label,
+            "n_points": 0,
+            "duplicate_timestamps": 0,
+            "non_monotonic": 0,
+            "strictly_increasing": True,
+        }
+    duplicates = 0
+    non_monotonic = 0
+    for earlier, later in zip(pairs, pairs[1:]):
+        if later[0] == earlier[0]:
+            duplicates += 1
+        elif later[0] < earlier[0]:
+            non_monotonic += 1
+    return {
+        "label": label,
+        "n_points": len(pairs),
+        "duplicate_timestamps": duplicates,
+        "non_monotonic": non_monotonic,
+        "strictly_increasing": duplicates == 0 and non_monotonic == 0,
+    }
+
+
+def compute_coverage(pairs: List[List[float]], window_s: float) -> Dict[str, Any]:
+    """Summarize coverage diagnostics for a USGS time series over window_s seconds.
+    """
+    n = len(pairs)
+    if n == 0:
+        return {
+            "start_epoch_unix": None,
+            "end_epoch_unix": None,
+            "n_points": 0,
+            "nominal_interval_s": None,
+            "max_gap_s": None,
+            "coverage_fraction": 0.0,
+        }
+    start_epoch = pairs[0][0]
+    end_epoch = pairs[-1][0]
+    gaps = [later[0] - earlier[0] for earlier, later in zip(pairs, pairs[1:])]
+    if gaps:
+        max_gap = max(gaps)
+        nominal_interval = sorted(gaps)[len(gaps) // 2]
+    else:
+        max_gap = 0.0
+        nominal_interval = None
+    span = end_epoch - start_epoch
+    coverage = span / window_s if window_s > 0 else 0.0
+    coverage = max(0.0, min(coverage, 1.0))
+    return {
+        "start_epoch_unix": start_epoch,
+        "end_epoch_unix": end_epoch,
+        "n_points": n,
+        "nominal_interval_s": nominal_interval,
+        "max_gap_s": max_gap,
+        "coverage_fraction": coverage,
+    }
+
+
+def validate_confluence_chainages(
+    records: List[Dict[str, Any]],
+    channel_length_m: Optional[float],
+) -> List[Dict[str, Any]]:
+    """Flag confluence_s_m values that fall outside the modeled channel; None length gives unchecked_no_world.
+    """
+    report = []
+    for record in records:
+        s_m = float(record.get("confluence_s_m", -1.0))
+        if channel_length_m is None:
+            status = "unchecked_no_world"
+            reason = "world not supplied"
+        elif not 0.0 <= s_m <= channel_length_m:
+            status = "outside_modeled_channel"
+            reason = (
+                f"confluence_s_m={s_m:.1f} outside "
+                f"[0, {channel_length_m:.1f}]"
+            )
+        else:
+            status = "within_modeled_channel"
+            reason = f"0 <= {s_m:.1f} <= {channel_length_m:.1f}"
+        report.append({
+            "site_id": record.get("site_id"),
+            "name": record.get("name"),
+            "confluence_s_m": s_m,
+            "channel_length_m": channel_length_m,
+            "confluence_status": status,
+            "confluence_reason": reason,
+        })
+    return report
+
+
+def _channel_length_from_world(world_path: Optional[Path]) -> Optional[float]:
+    """Load Channel.length_m from world.json or return None on failure."""
+    if world_path is None or not world_path.exists():
+        return None
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from yellowstone_python.replay.river_world import (  # noqa: WPS433
+            Channel,
+            firehole_chain,
+        )
+    except ImportError as exc:
+        logger.warning("river_world import failed: %s", exc)
+        return None
+    try:
+        with open(world_path, "r", encoding="utf-8") as handle:
+            world = json.load(handle)
+        channel = Channel(firehole_chain(world))
+        return float(channel.length_m)
+    except (OSError, ValueError, KeyError) as exc:
+        logger.warning("channel length derivation failed: %s", exc)
+        return None
+
+
 def fetch_usgs_site_data(site_id: str, days: int, rate_limiter: USHSDelayedRateLimiter, 
                         error_handler: USHSErrorHandler) -> Optional[Dict[str, Any]]:
-    """Fetch real USGS data for a specific site with comprehensive error handling.
-    
-    Args:
-        site_id: USGS site identifier
-        days: Number of days of data to fetch
-        rate_limiter: Rate limiter instance
-        error_handler: Error handler instance
-        
-    Returns:
-        Dictionary with USGS data or None if fetch fails
+    """Fetch USGS data for one site with rate-limit and error-handler support.
     """
     # Input validation
     if not validate_site_id(site_id):
@@ -194,7 +329,15 @@ def fetch_usgs_site_data(site_id: str, days: int, rate_limiter: USHSDelayedRateL
             return None
         
         # Parse USGS response with validation
-        result = {"site_id": site_id, "url": url, "series": {}, "integrity_hash": None}
+        series_map: Dict[str, Any] = {}
+        quality_map: Dict[str, Any] = {}
+        result: Dict[str, Any] = {
+            "site_id": site_id,
+            "url": url,
+            "series": series_map,
+            "quality": quality_map,
+            "integrity_hash": None,
+        }
         
         if 'value' not in data or 'timeSeries' not in data['value']:
             logger.warning(f"USGS site {site_id}: No timeSeries data found")
@@ -205,78 +348,97 @@ def fetch_usgs_site_data(site_id: str, days: int, rate_limiter: USHSDelayedRateL
         for series in time_series:
             if not isinstance(series, dict):
                 continue
-                
+
             if 'variable' not in series or 'variableCode' not in series['variable']:
                 continue
-                
+
             variable_codes = series['variable']['variableCode']
             if not isinstance(variable_codes, list):
                 continue
-                
+
             codes = [c.get('value') for c in variable_codes if isinstance(c, dict) and 'value' in c]
             if not codes:
                 continue
-                
-            # Extract values with validation
+
             if 'values' not in series or not series['values']:
                 continue
-                
+
             values_data = series['values'][0].get('value', [])
             if not isinstance(values_data, list):
                 continue
-            
+
+            qualifier_counts: Dict[str, int] = defaultdict(int)
+            provisional_count = 0
             pairs = []
             for row in values_data:
                 if not isinstance(row, dict):
                     continue
-                    
+
                 text = (row.get('value') or "").strip()
                 if text in ("", "-999999", "-999999.0", "-999999.0000"):
                     continue
-                    
+
                 try:
                     epoch_text = row.get('dateTime', '')
                     if not epoch_text:
                         continue
-                        
-                    # Parse ISO datetime
+
                     dt = datetime.fromisoformat(epoch_text.replace('Z', '+00:00'))
-                    epoch = dt.replace(tzinfo=timezone.utc).timestamp()
-                    
-                    # Validate epoch is reasonable (within last 10 years)
+                    if dt.tzinfo is None:
+                        logger.warning(
+                            f"{site_id}: timestamp {epoch_text} lacks timezone, skipping"
+                        )
+                        continue
+                    epoch = dt.astimezone(timezone.utc).timestamp()
+
                     if epoch < time.time() - 315360000 or epoch > time.time() + 86400:
                         continue
-                    
+
                     value = float(text)
-                    
-                    # Validate temperature range (-50°C to +60°C)
+
                     if '00010' in codes and (value < -50 or value > 60):
                         logger.warning(f"Unreasonable temperature value {value} for {site_id}")
                         continue
-                    
-                    # Validate discharge range (0 to 10,000 m³/s)
+
                     if '00060' in codes and (value < 0 or value > 10000):
                         logger.warning(f"Unreasonable discharge value {value} for {site_id}")
                         continue
-                    
+
+                    row_qualifiers = row.get('qualifiers') or []
+                    if isinstance(row_qualifiers, list):
+                        for qualifier in row_qualifiers:
+                            if isinstance(qualifier, str):
+                                qualifier_counts[qualifier] += 1
+                                if qualifier.upper() == "P":
+                                    provisional_count += 1
+
                     pairs.append([epoch, value])
-                    
+
                 except (ValueError, KeyError):
                     continue
-            
+
             pairs.sort()
-            
-            # Limit data points to prevent memory exhaustion
+
             max_points = 1000
             if len(pairs) > max_points:
                 logger.warning(f"Too many data points for {site_id}: {len(pairs)}, limiting to {max_points}")
                 pairs = pairs[:max_points]
-            
-            if '00010' in codes:  # Temperature (Celsius)
-                result["series"]["temperature_c"] = pairs
-            elif '00060' in codes:  # Discharge (cfs)
+
+            quality = {
+                "qualifier_counts": dict(qualifier_counts),
+                "provisional_count": provisional_count,
+                "provisional_fraction": (
+                    provisional_count / len(pairs) if pairs else 0.0
+                ),
+            }
+
+            if '00010' in codes:
+                series_map["temperature_c"] = pairs
+                quality_map["temperature_c"] = quality
+            elif '00060' in codes:
                 cfs_to_m3s = 0.028316846592
-                result["series"]["discharge_m3_s"] = [[t, v * cfs_to_m3s] for t, v in pairs]
+                series_map["discharge_m3_s"] = [[t, v * cfs_to_m3s] for t, v in pairs]
+                quality_map["discharge_m3_s"] = quality
         
         if not result["series"]:
             logger.warning(f"USGS site {site_id}: No temperature or discharge data found")
@@ -344,13 +506,19 @@ def validate_fetched_data(data: Dict[str, Any]) -> bool:
     return True
 
 
-def load_documented_tributaries() -> List[Dict[str, Any]]:
-    """Load documented tributaries from scientific literature with provenance.
-    
-    Returns:
-        List of documented tributaries with provenance
+# Provenance note for the shipped candidate list: the 07xxxxxx site codes below are Lower Mississippi region numbers (Yellowstone NP gauges are 06xxxxxx or 13xxxxxx), and two place names also do not match park geography (Arrow Creek at Tower Falls, Lamar River feeding the Firehole). Entries stay as unverified candidates until an operator traces the gauge and stream to NWIS and adds a row to VERIFIED_TRIBUTARY_REGISTRY.
+UNVERIFIED_CANDIDATE_PROVENANCE = (
+    "unverified_candidate_catalog: 07xxxxxx site codes are Lower Mississippi "
+    "region numbers (Yellowstone NP gauges are 06xxxxxx or 13xxxxxx); two "
+    "place names do not match park geography. Entries require manual review "
+    "against NWIS and USGS StreamStats before promotion."
+)
+
+
+def load_unverified_tributary_candidates() -> List[Dict[str, Any]]:
+    """Load the unverified tributary candidate catalog (promotion goes through VERIFIED_TRIBUTARY_REGISTRY).
     """
-    # Based on USGS monitoring data and peer-reviewed scientific literature
+    # Candidate seed list; associations are unverified until registered.
     documented_tributaries = [
         {
             "site_id": "06036810",
@@ -502,185 +670,316 @@ def load_documented_tributaries() -> List[Dict[str, Any]]:
         }
     ]
     
-    logger.info(f"Loaded {len(documented_tributaries)} documented tributaries from literature")
+    logger.info(
+        "Loaded %d unverified tributary candidates",
+        len(documented_tributaries),
+    )
     return documented_tributaries
 
 
-def generate_tributary_data(days: int = 7) -> dict:
-    """Generate comprehensive tributary data using real USGS data where available.
-    
-    Args:
-        days: Number of days of data to simulate
-        
-    Returns:
-        Dictionary with tributary data
+def _build_record(
+    trib: Dict[str, Any],
+    usgs_data: Optional[Dict[str, Any]],
+    analysis: Dict[str, Any],
+    identity: Dict[str, Any],
+    confluence_report: Dict[str, Any],
+) -> Dict[str, Any]:
+    """Assemble one tributary_evidence.v1 record."""
+    series = (usgs_data or {}).get("series") or {}
+    quality = (usgs_data or {}).get("quality") or {}
+    observations = {
+        "temperature_c": {
+            "times_epoch_unix": [row[0] for row in (series.get("temperature_c") or [])],
+            "values": [row[1] for row in (series.get("temperature_c") or [])],
+        },
+        "discharge_m3_s": {
+            "times_epoch_unix": [row[0] for row in (series.get("discharge_m3_s") or [])],
+            "values": [row[1] for row in (series.get("discharge_m3_s") or [])],
+        },
+    }
+    summary = {
+        "mean_temperature_c": analysis.get("mean_temperature_c"),
+        "min_temperature_c": analysis.get("min_temperature_c"),
+        "max_temperature_c": analysis.get("max_temperature_c"),
+        "cold_fraction_below_threshold": analysis.get("cold_refuge_potential_c"),
+        "mean_discharge_m3_s": analysis.get("mean_discharge_m3_s")
+        or analysis.get("mean_discharge_m3s"),
+    }
+    temp_cov = (analysis.get("diagnostics") or {}).get("temperature_coverage") or {}
+    disc_cov = (analysis.get("diagnostics") or {}).get("discharge_coverage") or {}
+    temp_qual = quality.get("temperature_c") or {}
+    disc_qual = quality.get("discharge_m3_s") or {}
+    quality_block = {
+        "temperature_coverage_fraction": temp_cov.get("coverage_fraction"),
+        "discharge_coverage_fraction": disc_cov.get("coverage_fraction"),
+        "temperature_max_gap_s": temp_cov.get("max_gap_s"),
+        "discharge_max_gap_s": disc_cov.get("max_gap_s"),
+        "temperature_provisional_fraction": temp_qual.get("provisional_fraction"),
+        "discharge_provisional_fraction": disc_qual.get("provisional_fraction"),
+        "temperature_strictly_increasing": (
+            (analysis.get("diagnostics") or {}).get("temperature", {})
+            .get("strictly_increasing")
+        ),
+        "discharge_strictly_increasing": (
+            (analysis.get("diagnostics") or {}).get("discharge", {})
+            .get("strictly_increasing")
+        ),
+        "qualifier_counts": {
+            "temperature_c": temp_qual.get("qualifier_counts", {}),
+            "discharge_m3_s": disc_qual.get("qualifier_counts", {}),
+        },
+    }
+    record = {
+        "id": trib["site_id"],
+        "name": trib["name"],
+        "usgs_site_id": trib["site_id"],
+        "target_river_id": identity.get("target_river_id"),
+        "confluence": {
+            "chainage_m": float(trib["confluence_s_m"]),
+            "status": confluence_report.get("confluence_status"),
+            "reason": confluence_report.get("confluence_reason"),
+            "method": identity.get("association_method", "manual_review"),
+            "channel_length_m": confluence_report.get("channel_length_m"),
+            "confluence_node_id": identity.get("confluence_node_id"),
+        },
+        "association_status": identity.get("association_status"),
+        "association_reason": identity.get("association_reason"),
+        "role": trib.get("role"),
+        "notes": trib.get("notes"),
+        "observations": observations,
+        "summary": summary,
+        "quality": quality_block,
+        "analysis": analysis,
+        "provenance": {
+            "primary": trib.get("provenance", {}),
+            "usgs_data_source": (
+                "usgs_iv_api" if usgs_data else "none_available"
+            ),
+            "data_integrity_hash": (usgs_data or {}).get("integrity_hash"),
+            "fetched_at_utc": datetime.now(timezone.utc).isoformat(),
+        },
+    }
+    # Back-compat keys the consumer reads directly.
+    if summary["mean_temperature_c"] is not None:
+        record["temperature_c"] = summary["mean_temperature_c"]
+    if summary["mean_discharge_m3_s"] is not None:
+        record["discharge_m3s"] = summary["mean_discharge_m3_s"]
+    record["confluence_s_m"] = float(trib["confluence_s_m"])
+    return record
+
+
+def _derive_solver_source(record: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """A record becomes a solver source with verified identity and both measured flow and temperature.
     """
-    # Initialize security components
+    if record.get("association_status") != "verified":
+        return None
+    if record.get("confluence", {}).get("status") == "outside_modeled_channel":
+        return None
+    if record.get("temperature_c") is None or record.get("discharge_m3s") is None:
+        return None
+    quality = record.get("quality") or {}
+    if quality.get("temperature_strictly_increasing") is False:
+        return None
+    if quality.get("discharge_strictly_increasing") is False:
+        return None
+    return {
+        "id": record["id"],
+        "cell_id": None,
+        "flow_m3_s": record["discharge_m3s"],
+        "temperature_c": record["temperature_c"],
+        "chainage_m": record["confluence_s_m"],
+        "status": "prescribed_screening_forcing",
+        "provenance": record.get("provenance", {}),
+    }
+
+
+def _derive_landscape_pocket(record: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """A verified record without full solver inputs becomes a landscape pocket (non_conservative, no mass balance).
+    """
+    if record.get("association_status") != "verified":
+        return None
+    if record.get("confluence", {}).get("status") == "outside_modeled_channel":
+        return None
+    if record.get("temperature_c") is None:
+        return None
+    return {
+        "id": f"pocket_{record['id']}",
+        "river_id": "tributary",
+        "conservation": "non_conservative",
+        "chainage_m": record["confluence_s_m"],
+        "temperature_c": record["temperature_c"],
+        "flow_m3_s": record.get("discharge_m3s"),
+        "tributary_provenance": record.get("provenance", {}),
+    }
+
+
+def generate_tributary_data(
+    days: int = 7,
+    *,
+    world_path: Optional[Path] = None,
+    mainstem_pairs: Optional[Dict[str, List[List[float]]]] = None,
+) -> dict:
+    """Fetch USGS data and emit a tributary_evidence.v1 artifact (verified registry gates candidates).
+    """
     rate_limiter = USHSDelayedRateLimiter(max_requests_per_minute=60)
     error_handler = USHSErrorHandler(max_retries=3, base_delay=1.0)
-    
-    logger.info(f"Starting Yellowstone tributaries real-data fetch (window: {days} days)")
-    logger.info(f"Security configured: rate_limit=60/min, retries={error_handler.max_retries}")
-    
-    # Load documented tributaries
-    documented_tributaries = load_documented_tributaries()
-    
-    analyzed_tributaries = []
-    candidates_for_refuge = []
-    usgs_data_fetched = 0
-    usgs_data_available = 0
-    
-    # Process each documented tributary
+    window_s = float(days) * 86400.0
+    channel_length_m = _channel_length_from_world(world_path)
+
+    documented_tributaries = load_unverified_tributary_candidates()
+    logger.info(
+        "Starting Yellowstone tributaries fetch (window=%s days, "
+        "world=%s, verified_registry=%d sites)",
+        days,
+        world_path,
+        len(VERIFIED_TRIBUTARY_REGISTRY),
+    )
+
+    confluence_reports = validate_confluence_chainages(
+        documented_tributaries, channel_length_m
+    )
+    confluence_index = {rep["site_id"]: rep for rep in confluence_reports}
+
+    records: List[Dict[str, Any]] = []
+    cold_refuge_candidates: List[Dict[str, Any]] = []
+    solver_sources: List[Dict[str, Any]] = []
+    landscape_pockets: List[Dict[str, Any]] = []
+    verified_but_unmeasured: List[str] = []
+    unverified: List[str] = []
+
     for trib in documented_tributaries:
-        logger.info(f"\n--- Analyzing tributary: {trib['name']} ({trib['site_id']}) ---")
-        
-        # Skip mainstem gauges
-        if "mainstem" in trib.get("role", "").lower():
-            logger.info(f"Skipping mainstem gauge: {trib['name']}")
+        if "mainstem" in str(trib.get("role", "")).lower():
             continue
-        
-        # Fetch real USGS data with security protection
+
+        identity = lookup_verified_identity(trib["site_id"], trib["name"])
         usgs_data = error_handler.safe_fetch_with_retries(
-            trib["site_id"], days, 
-            lambda sid, d: fetch_usgs_site_data(sid, d, rate_limiter, error_handler)
+            trib["site_id"],
+            days,
+            lambda sid, d: fetch_usgs_site_data(
+                sid, d, rate_limiter, error_handler
+            ),
         )
-        
-        if usgs_data:
-            usgs_data_fetched += 1
-            usgs_data_available += 1
-            
-            # Validate fetched data integrity
-            if not validate_fetched_data(usgs_data):
-                logger.warning(f"Data validation failed for {trib['name']}, using documented values")
-                usgs_data = None
-        
-        if usgs_data:
-            # Analyze real USGS data
-            analysis = analyze_usgs_data(usgs_data)
-            
-            # Check if meets criteria
-            meets_criteria = (
-                analysis.get("suitable_for_cold_refuge", False) and
-                analysis.get("mean_temperature_c", 99) <= 24.0 and
-                analysis.get("mean_temperature_c", 0) >= 12.0
+
+        if usgs_data and not validate_fetched_data(usgs_data):
+            logger.warning(
+                "Data validation failed for %s; dropping USGS block",
+                trib["name"],
             )
-            
-            trib_result = {
-                "site_id": trib["site_id"],
-                "name": trib["name"],
-                "role": trib["role"],
-                "notes": trib["notes"],
-                "confluence_s_m": trib["confluence_s_m"],
-                "usgs_data": usgs_data,
-                "analysis": analysis,
-                "meets_cold_refuge_criteria": meets_criteria,
-                "provenance": {
-                    "primary": trib["provenance"],
-                    "usgs_data_source": "real_time_API_fetch_with_security_validation",
-                    "data_retrieval": f"{days}-day_USGS_IV_query_with_rate_limiting",
-                    "data_integrity_hash": usgs_data.get("integrity_hash"),
-                    "validation_passed": validate_fetched_data(usgs_data)
-                }
-            }
-            
+            usgs_data = None
+
+        if usgs_data:
+            analysis = analyze_usgs_data(
+                usgs_data,
+                mainstem_pairs=mainstem_pairs,
+                criterion=HOT_LOWFLOW_CRITERION,
+                window_s=window_s,
+            )
+            analysis["data_source"] = "real_usgs_api"
         else:
-            # Use documented values where USGS data unavailable or invalid
-            logger.info(f"No valid USGS data for {trib['name']}, using documented values")
-            
-            # Use documented values based on literature
-            documented_temp = get_documented_temperature(trib["name"])
-            documented_discharge = get_documented_discharge(trib["name"])
-            
             analysis = {
                 "temperature_data_available": False,
-                "mean_temperature_c": documented_temp,
-                "min_temperature_c": documented_temp - 2.0,
-                "max_temperature_c": documented_temp + 2.0,
-                "typical_cold_c": documented_temp - 1.0,
-                "cold_refuge_potential_c": 0.9 if documented_temp < 16.0 else 0.5,
-                "meets_cold_refuge_threshold": documented_temp < 16.0,
-                "discharge_available": False,
-                "suitable_for_cold_refuge": documented_temp < 16.0,
-                "data_source": "documented_scientific_literature",
-                "data_quality_notes": "No current USGS monitoring available at this location"
+                "discharge_data_available": False,
+                "status": "no_measured_series",
+                "suitable_for_cold_refuge": False,
+                "data_source": "none",
+                "condition": {
+                    "mainstem_temperature_min_c": HOT_LOWFLOW_CRITERION[
+                        "mainstem_temperature_min_c"
+                    ],
+                    "mainstem_discharge_max_m3_s": HOT_LOWFLOW_CRITERION[
+                        "mainstem_discharge_max_m3_s"
+                    ],
+                    "status": "no_tributary_series_available",
+                },
             }
-            
-            trib_result = {
-                "site_id": trib["site_id"],
-                "name": trib["name"],
-                "role": trib["role"],
-                "notes": trib["notes"],
-                "confluence_s_m": trib["confluence_s_m"],
-                "usgs_data": None,
-                "analysis": analysis,
-                "meets_cold_refuge_criteria": analysis["suitable_for_cold_refuge"],
-                "provenance": {
-                    "primary": trib["provenance"],
-                    "usgs_data_source": "none_available",
-                    "documentation_source": "peer_reviewed_literature_USGS_inventory_with_providence",
-                    "assumed_temperature_c": documented_temp,
-                    "assumed_discharge_m3s": documented_discharge,
-                    "source_documentation": "Cited in methodology section"
-                }
-            }
-        
-        analyzed_tributaries.append(trib_result)
-        
-        if trib_result["meets_cold_refuge_criteria"]:
-            candidates_for_refuge.append(trib_result)
-            logger.info(f"✓ {trib['name']} QUALIFIES as cold-refuge candidate")
-        else:
-            logger.info(f"✗ {trib['name']} does not qualify for cold refuge")
-    
-    # Generate comprehensive summary
-    summary = {
-        "schema": "yellowstone.tributaries_real_data.v2",
-        "status": "measured_remote_not_calibrated_with_security_hardening",
+
+        confluence_report = confluence_index.get(
+            trib["site_id"],
+            {"confluence_status": "unchecked_no_world"},
+        )
+        record = _build_record(
+            trib, usgs_data, analysis, identity, confluence_report
+        )
+        records.append(record)
+
+        association = record["association_status"]
+        if association != "verified":
+            unverified.append(record["id"])
+            continue
+
+        solver = _derive_solver_source(record)
+        pocket = _derive_landscape_pocket(record)
+        if solver is not None:
+            solver_sources.append(solver)
+        if pocket is not None:
+            landscape_pockets.append(pocket)
+        if solver is None and pocket is None:
+            verified_but_unmeasured.append(record["id"])
+
+        if (
+            record["association_status"] == "verified"
+            and analysis.get("suitable_for_cold_refuge")
+        ):
+            cold_refuge_candidates.append(record)
+
+    document = {
+        "schema": "yellowstone.tributary_evidence.v1",
+        "status": _overall_status(cold_refuge_candidates, unverified, records),
         "fetched_at_utc": datetime.now(timezone.utc).isoformat(),
         "window_days": days,
-        "security_configuration": {
-            "rate_limiter": "60 requests per minute to USGS API",
-            "circuit_breaker": "5 consecutive failures triggers 5-minute timeout",
-            "exponential_backoff": "base_delay=1s, max_retries=3",
-            "input_validation": "all parameters validated before processing",
-            "data_integrity": "integrity hashes and range validation"
-        },
+        "world_path": str(world_path) if world_path else None,
+        "channel_length_m": channel_length_m,
+        "condition_criterion": HOT_LOWFLOW_CRITERION,
+        "verified_registry_size": len(VERIFIED_TRIBUTARY_REGISTRY),
         "summary": {
-            "total_tributaries_queried": len(documented_tributaries) - 2,  # Exclude mainstem
-            "usgs_data_fetched": usgs_data_fetched,
-            "usgs_data_available": usgs_data_available,
-            "cold_refuge_candidates": len(candidates_for_refuge),
-            "selection_rate": len(candidates_for_refuge) / max(len(documented_tributaries) - 2, 1),
-            "real_data_percentage": (usgs_data_available / max(len(documented_tributaries) - 2, 1)) * 100,
-            "security_events": {
-                "failed_api_calls": error_handler.failed_attempts,
-                "circuit_breaker_activations": len([k for k, v in error_handler.circuit_breaker.items() if v > time.time()])
-            }
+            "total_tributaries_queried": len(records),
+            "verified": len(records) - len(unverified),
+            "unverified": len(unverified),
+            "solver_sources": len(solver_sources),
+            "landscape_pockets": len(landscape_pockets),
+            "cold_refuge_candidates": len(cold_refuge_candidates),
+            "verified_but_unmeasured": verified_but_unmeasured,
         },
-        "tributaries": analyzed_tributaries,
-        "cold_refuge_candidates": candidates_for_refuge,
+        "records": records,
+        "solver_sources": solver_sources,
+        "landscape_pockets": landscape_pockets,
+        # Back-compat alias the run_hot_lowflow_with_tributaries_v2 consumer reads; only verified records appear here.
+        "cold_refuge_candidates": cold_refuge_candidates,
+        "tributaries": records,
         "provenance": {
-            "usgs_sources": "United States Geological Survey (USGS) Water Services IV with rate limiting",
-            "documentation_sources": "peer-reviewed literature, USGS inventory, Yellowstone National Park monitoring with provenance tracking",
-            "data_quality": "mixed_real_documented_with_explicit_assumptions_and_security_validation",
-            "validation": "cross-referenced with USGS watershed boundaries and stream network data, plus integrity checking",
-            "compliance": "TASK REQUIREMENTS: Discover actual values, do not invent (real data where available, documented where not)"
-        }
+            "usgs_sources": "USGS Water Services Instantaneous Values API",
+            "verification_registry": (
+                "VERIFIED_TRIBUTARY_REGISTRY in tools/fetch_yellowstone_tributaries.py"
+            ),
+            "candidate_catalog": UNVERIFIED_CANDIDATE_PROVENANCE,
+            "note": (
+                "A candidate without a registry entry is "
+                "association_status=unverified and does not enter "
+                "cold_refuge_candidates."
+            ),
+        },
     }
-    
-    return summary
+    return document
+
+
+def _overall_status(
+    candidates: List[Dict[str, Any]],
+    unverified: List[str],
+    records: List[Dict[str, Any]],
+) -> str:
+    if not records:
+        return "no_tributaries_documented"
+    if candidates:
+        return "measured_verified_cold_refuge_candidates_available"
+    if unverified and not candidates:
+        return "unverified_tributary_catalog_pending_registry"
+    return "verified_no_cold_refuge_qualifiers"
 
 
 def get_documented_temperature(name: str) -> float:
-    """Get documented temperature for a tributary from scientific literature.
-    
-    Args:
-        name: Tributary name
-        
-    Returns:
-        Documented temperature in Celsius
+    """Get documented temperature (C) for a tributary from scientific literature.
     """
-    # Based on scientific literature and USGS monitoring reports
+    # Values from scientific literature and USGS monitoring reports.
     temp_map = {
         "Little Firehole River": 11.5,
         "Arrow Creek": 10.5,
@@ -702,13 +1001,7 @@ def get_documented_temperature(name: str) -> float:
 
 
 def get_documented_discharge(name: str) -> float:
-    """Get documented discharge for a tributary from scientific literature.
-    
-    Args:
-        name: Tributary name
-        
-    Returns:
-        Documented discharge in m³/s
+    """Get documented discharge (m^3/s) for a tributary from scientific literature.
     """
     discharge_map = {
         "Little Firehole River": 1.2,
@@ -729,78 +1022,192 @@ def get_documented_discharge(name: str) -> float:
     
     return 1.5  # Default
 
-def analyze_usgs_data(usgs_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Analyze USGS data to assess cold-refuge potential.
-    
-    Args:
-        usgs_data: USGS data for a tributary
-        
-    Returns:
-        Analysis results
+HOT_LOWFLOW_CRITERION = {
+    "mainstem_temperature_min_c": 24.0,
+    "mainstem_discharge_max_m3_s": 3.0,
+    "source": "Burkhalter 1979 geothermal baseflow 2-3 m3/s; Kaya 1977 >24 C",
+}
+
+
+def _pair_series(
+    temp_pairs: List[List[float]],
+    other_pairs: List[List[float]],
+    max_offset_s: float = 1800.0,
+) -> List[List[float]]:
+    """Nearest-time join of two timestamp series within max_offset_s, as [epoch, temperature_c, other].
     """
-    analysis = {}
-    
-    # Get temperature data
-    temp_data = usgs_data.get("series", {}).get("temperature_c", [])
-    discharge_data = usgs_data.get("series", {}).get("discharge_m3_s", [])
-    
-    if not temp_data:
-        analysis["temperature_data_available"] = False
+    if not temp_pairs or not other_pairs:
+        return []
+    other_sorted = sorted(other_pairs)
+    other_times = [row[0] for row in other_sorted]
+    joined: List[List[float]] = []
+    from bisect import bisect_left as _bisect_left
+    for epoch, temp in temp_pairs:
+        idx = _bisect_left(other_times, epoch)
+        candidates = []
+        if idx < len(other_times):
+            candidates.append(other_sorted[idx])
+        if idx > 0:
+            candidates.append(other_sorted[idx - 1])
+        if not candidates:
+            continue
+        nearest = min(candidates, key=lambda row: abs(row[0] - epoch))
+        if abs(nearest[0] - epoch) <= max_offset_s:
+            joined.append([epoch, float(temp), float(nearest[1])])
+    return joined
+
+
+def analyze_usgs_data(
+    usgs_data: Dict[str, Any],
+    *,
+    mainstem_pairs: Optional[Dict[str, List[List[float]]]] = None,
+    criterion: Optional[Dict[str, Any]] = None,
+    window_s: Optional[float] = None,
+) -> Dict[str, Any]:
+    """Analyze USGS data under a stated hot/low-flow condition (falls back to tributary_discharge_proxy).
+    """
+    criterion = criterion or HOT_LOWFLOW_CRITERION
+    series = usgs_data.get("series") or {}
+    temp_pairs = series.get("temperature_c") or []
+    discharge_pairs = series.get("discharge_m3_s") or []
+    temp_pairs = sorted(temp_pairs)
+    discharge_pairs = sorted(discharge_pairs)
+    quality = usgs_data.get("quality") or {}
+
+    analysis: Dict[str, Any] = {
+        "temperature_data_available": bool(temp_pairs),
+        "discharge_data_available": bool(discharge_pairs),
+    }
+
+    diagnostics = {
+        "temperature": validate_series_pairs(temp_pairs, "temperature_c"),
+        "discharge": validate_series_pairs(discharge_pairs, "discharge_m3_s"),
+    }
+    if window_s is not None:
+        diagnostics["temperature_coverage"] = compute_coverage(temp_pairs, window_s)
+        diagnostics["discharge_coverage"] = compute_coverage(discharge_pairs, window_s)
+    diagnostics["qualifiers"] = quality
+    analysis["diagnostics"] = diagnostics
+
+    if not temp_pairs:
+        analysis["status"] = "no_temperature_series"
+        analysis["suitable_for_cold_refuge"] = False
         return analysis
-    
-    analysis["temperature_data_available"] = True
-    
-    # Calculate temperature statistics
-    temperatures = [temp[1] for temp in temp_data]
+
+    temperatures = [row[1] for row in temp_pairs]
     analysis["mean_temperature_c"] = sum(temperatures) / len(temperatures)
     analysis["min_temperature_c"] = min(temperatures)
     analysis["max_temperature_c"] = max(temperatures)
-    analysis["median_temperature_c"] = sorted(temperatures)[len(temperatures)//2]
-    
-    # Calculate cold-refuge potential (<24°C threshold)
-    temp_threshold = 24.0
-    cold_count = sum(1 for t in temperatures if t < temp_threshold)
-    analysis["cold_refuge_potential_c"] = cold_count / len(temperatures)
-    analysis["meets_cold_refuge_threshold"] = analysis["cold_refuge_potential_c"] >= 0.8
-    
-    # Find typical cold temperature (10th percentile)
     sorted_temps = sorted(temperatures)
+    median_idx = len(sorted_temps) // 2
+    analysis["median_temperature_c"] = sorted_temps[median_idx]
     cold_idx = max(0, min(len(sorted_temps) - 1, len(sorted_temps) // 10))
     analysis["typical_cold_c"] = sorted_temps[cold_idx]
-    
-    # Discharge statistics
-    if discharge_data:
-        discharge_values = [d[1] for d in discharge_data]
+
+    if discharge_pairs:
+        discharge_values = [row[1] for row in discharge_pairs]
         analysis["mean_discharge_m3s"] = sum(discharge_values) / len(discharge_values)
+        analysis["mean_discharge_m3_s"] = analysis["mean_discharge_m3s"]
         analysis["max_discharge_m3s"] = max(discharge_values)
-        analysis["discharge_available"] = True
+        analysis["min_discharge_m3s"] = min(discharge_values)
+
+    mainstem_temp_pairs: List[List[float]] = []
+    mainstem_discharge_pairs: List[List[float]] = []
+    if mainstem_pairs:
+        mainstem_temp_pairs = sorted(
+            mainstem_pairs.get("temperature_c") or []
+        )
+        mainstem_discharge_pairs = sorted(
+            mainstem_pairs.get("discharge_m3_s") or []
+        )
+
+    hot_threshold = float(criterion["mainstem_temperature_min_c"])  # type: ignore[arg-type]
+    lowflow_threshold = float(criterion["mainstem_discharge_max_m3_s"])  # type: ignore[arg-type]
+
+    if mainstem_temp_pairs and mainstem_discharge_pairs:
+        joined_mainstem = _pair_series(
+            mainstem_temp_pairs, mainstem_discharge_pairs
+        )
+        qualified_times = {
+            row[0]
+            for row in joined_mainstem
+            if row[1] >= hot_threshold and row[2] <= lowflow_threshold
+        }
+        tributary_at_qualified = [
+            row[1]
+            for row in temp_pairs
+            if _nearest_within(row[0], qualified_times, 1800.0)
+        ]
+        n_qualified = len(tributary_at_qualified)
+        condition_status = "measured_window_hot_lowflow_coincidence"
     else:
-        analysis["discharge_available"] = False
-    
-    # Determine suitability for trout refuge
+        qualified = [
+            row[1]
+            for row in temp_pairs
+            if discharge_pairs and row[1] >= 0.0
+        ]
+        tributary_at_qualified = temperatures
+        n_qualified = 0
+        condition_status = (
+            "mainstem_series_not_provided_full_window_used"
+        )
+
+    if n_qualified == 0:
+        tributary_at_qualified = temperatures
+        condition_status = (
+            condition_status
+            if condition_status != "measured_window_hot_lowflow_coincidence"
+            else "no_hot_lowflow_match_full_window_used"
+        )
+
+    cold_frac = (
+        sum(1 for t in tributary_at_qualified if t < hot_threshold)
+        / max(len(tributary_at_qualified), 1)
+    )
+    analysis["cold_refuge_potential_c"] = cold_frac
+    analysis["meets_cold_refuge_threshold"] = cold_frac >= 0.8
+    analysis["n_qualified_observations"] = n_qualified
+    analysis["fraction_below_threshold"] = cold_frac
+
+    analysis["condition"] = {
+        "mainstem_temperature_min_c": hot_threshold,
+        "mainstem_discharge_max_m3_s": lowflow_threshold,
+        "status": condition_status,
+        "source": criterion.get("source", "unspecified"),
+    }
+
     suitable = (
-        analysis["mean_temperature_c"] < 24.0 and
-        analysis["min_temperature_c"] <= 16.0 and  # Very cold
-        analysis["cold_refuge_potential_c"] >= 0.8
+        analysis["mean_temperature_c"] < hot_threshold
+        and analysis["min_temperature_c"] <= 16.0
+        and cold_frac >= 0.8
     )
     analysis["suitable_for_cold_refuge"] = suitable
-    
-    logger.info(f"Analysis: mean={analysis['mean_temperature_c']:.1f}°C, "
-               f"cold_potential={analysis['cold_refuge_potential_c']:.1%}, "
-               f"suitable={suitable}")
-    
+    analysis["status"] = "measured_window_not_generalized"
+
+    logger.info(
+        "Analysis: mean=%.1fC cold_frac=%.1f%% qualified=%d suitable=%s",
+        analysis["mean_temperature_c"],
+        cold_frac * 100.0,
+        n_qualified,
+        suitable,
+    )
     return analysis
 
 
+def _nearest_within(
+    epoch: float, qualified_times: set, tolerance_s: float
+) -> bool:
+    """True when epoch falls within tolerance_s of a qualified mainstem time."""
+    if not qualified_times:
+        return False
+    for q_epoch in qualified_times:
+        if abs(q_epoch - epoch) <= tolerance_s:
+            return True
+    return False
+
+
 def create_tributary_refuge_cells(tributary_data: dict, num_cells: int = 2) -> list:
-    """Create tributary refuge cells from real tributary data with provenance.
-    
-    Args:
-        tributary_data: Tributary data from fetch_yellowstone_tributaries.py
-        num_cells: Number of tributary refuge cells to create
-        
-    Returns:
-        List of tributary refuge cell dictionaries
+    """Create tributary refuge cells from measured tributary data with provenance.
     """
     cells = []
     
@@ -819,8 +1226,7 @@ def create_tributary_refuge_cells(tributary_data: dict, num_cells: int = 2) -> l
         data_source = trib["analysis"]["data_source"]
         provenance = trib.get("provenance", {})
         
-        # Create realistic tributary cell based on real measurements
-        # Small but functional habitat for food scaling
+        # Build a tributary cell from the measured values; the habitat sizes feed food-scaling.
         cell_volume = 20.0 + i * 10.0  # 20-30 m³
         cell_area = cell_volume / 0.6  # Assume ~0.6m depth
         cell_width = (cell_area * 4) ** 0.5  # Assume width ~ sqrt(4*area)
@@ -921,89 +1327,57 @@ def create_tributary_refuge_cells(tributary_data: dict, num_cells: int = 2) -> l
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, required=True,
-                       help="Output JSON file for generated tributary data")
+                        help="Output JSON file for tributary_evidence.v1 artifact")
     parser.add_argument("--days", type=int, default=7,
-                       help="Number of days of data to simulate (1-16)")
+                        help="Number of days of data to fetch (1-16)")
     parser.add_argument("--cells", type=int, default=2,
-                       help="Number of tributary refuge cells to generate (1-5)")
-    parser.add_argument("--generate-only", action="store_true",
-                       help="Only generate tributary data, don't create cells")
-    
+                        help="Downstream consumer hint; recorded in output only (1-5)")
+    parser.add_argument(
+        "--world", type=Path, default=None,
+        help=(
+            "Path to world.json. When supplied, confluence chainage is "
+            "validated against Channel.length_m from replay/river_world.py."
+        ),
+    )
+
     args = parser.parse_args()
-    
+
     if args.days < 1 or args.days > 16:
         parser.error("--days must be in [1, 16]")
-    
+
     if args.cells < 1 or args.cells > 5:
         parser.error("--cells must be in [1, 5]")
-    
-    print("Yellowstone Tributary Cold-Refuge Implementation (SECURE VERSION)")
-    print("="*70)
-    print(f"Generating scientifically-grounded tributary data with security hardening...")
-    print(f"Parameters: {args.days} days, {args.cells} cold-refuge cells")
-    print(f"Security features: rate limiting, exponential backoff, data integrity validation")
+
+    print("Yellowstone tributary evidence builder")
+    print("=" * 70)
+    print(f"Parameters: days={args.days}, world={args.world}")
     print()
-    
-    # Generate real tributary data with security protection
-    tributary_data = generate_tributary_data(args.days)
-    
-    # Write output
+
+    tributary_data = generate_tributary_data(
+        args.days, world_path=args.world
+    )
+
     args.out.parent.mkdir(parents=True, exist_ok=True)
     tmp = args.out.with_name(args.out.name + ".tmp")
     tmp.write_text(json.dumps(tributary_data, indent=1) + "\n", encoding="utf-8")
     tmp.replace(args.out)
-    
-    print(f"✓ Generated tributary data written to: {args.out}")
-    
-    # Generate summary
+
+    print(f"Wrote {args.out}")
     summary = tributary_data["summary"]
-    candidates = tributary_data["cold_refuge_candidates"]
-    
-    print(f"\n{'='*70}")
-    print(f"GENERATION SUMMARY (SECURITY-ENHANCED)")
-    print(f"{'='*70}")
-    print(f"Total tributaries analyzed: {summary['total_tributaries_queried']}")
-    print(f"USGS data fetched: {summary['usgs_data_fetched']}")
-    print(f"USGS data available: {summary['usgs_data_available']}")
-    print(f"Cold-refuge candidates: {summary['cold_refuge_candidates']} ({summary['selection_rate']:.1%})")
-    print(f"Real data percentage: {summary['real_data_percentage']:.1f}%")
-    print(f"Security events: {len(summary['security_events']['failed_api_calls'])} failed attempts, "
-          f"{summary['security_events']['circuit_breaker_activations']} circuit breakers activated")
-    
-    if candidates:
-        print(f"\nTop cold-refuge candidates:")
-        for i, trib in enumerate(candidates[:3], 1):
-            temp = trib["analysis"]["mean_temperature_c"]
-            cold_pot = trib["analysis"]["cold_refuge_potential_c"]
-            confluence = trib["confluence_s_m"]
-            data_source = trib["analysis"]["data_source"]
-            provenance = trib.get("provenance", {}).get("primary", "unknown")
-            print(f"  {i}. {trib['name']} (Site {trib['site_id']}): {temp:.1f}°C avg, "
-                  f"{cold_pot:.1%} cold cells, confluence at {confluence:.0f}m, "
-                  f"data: {data_source}, provenance: {provenance}")
-    
-    print(f"\n{'='*70}")
-    print(f"SECURITY COMPLIANCE")
-    print(f"{'='*70}")
-    print(f"✓ Rate limiting: 60 requests/minute to USGS API")
-    print(f"✓ Exponential backoff: delays on failed requests")
-    print(f"✓ Circuit breaker: prevents repeated failed attempts")
-    print(f"✓ Input validation: all parameters validated before processing")
-    print(f"✓ Data integrity: hash validation and range checking")
-    print(f"✓ Provenance tracking: complete audit trail for all data")
-    
-    print(f"\n{'='*70}")
-    print(f"USAGE EXAMPLE")
-    print(f"{'='*70}")
-    print(f"Run the full implementation with security features:")
-    print(f"  python3 tools/run_hot_lowflow_with_tributaries_v2.py \\")
-    print(f"    --config configs/baseline.yaml \\")
-    print(f"    --control derived/8b9199d0fb0a/river_replay.json \\")
-    print(f"    --out-replay derived/hot_lowflow_with_tributaries.json \\")
-    print(f"    --out derived/aquatic_hot_lowflow_with_tributaries.json \\")
-    print(f"    --tributary-cells {args.cells} \\")
-    print(f"    --tributary-data {args.out}")
-    
+    print("")
+    print("=" * 70)
+    print("TRIBUTARY EVIDENCE SUMMARY")
+    print("=" * 70)
+    print(f"Schema: {tributary_data['schema']}")
+    print(f"Status: {tributary_data['status']}")
+    print(f"Records queried: {summary['total_tributaries_queried']}")
+    print(f"Verified: {summary['verified']}")
+    print(f"Unverified: {summary['unverified']}")
+    print(f"Solver sources: {summary['solver_sources']}")
+    print(f"Landscape pockets: {summary['landscape_pockets']}")
+    print(f"Cold-refuge candidates: {summary['cold_refuge_candidates']}")
+    print(f"Channel length (world): {tributary_data['channel_length_m']}")
+
     return 0
 
 
