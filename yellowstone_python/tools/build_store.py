@@ -1,5 +1,4 @@
-"""Build the LLM analysis store (SQLite) from one build dir plus obs inputs.
-"""
+"""SQLite analysis-store construction from build and observation inputs."""
 from __future__ import annotations
 
 import argparse
@@ -8,17 +7,10 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from yellowstone_python.analysis_store import build_file  # noqa: E402
+from yellowstone_python.service.analysis_store import build_file  # noqa: E402
 
 
-def _sha256(path: Path) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
+from yellowstone_python.common.io import sha256_file as _sha256
 
 
 def _collect_build_shas(build_dir: Path) -> dict:

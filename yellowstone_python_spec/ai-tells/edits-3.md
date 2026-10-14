@@ -2,7 +2,7 @@ Update the three AI tell audit docs to include the proposed fixed comment wordin
 
 **For each file below, read it, then add a "Proposed Fix" column to the existing tables and/or add a "Proposed Fixes" section at the end.**
 
-### File 1: `/Users/kreed/Downloads/yellowstone_python_spec/ai-tells/ai-tells-1.md`
+### File 1: `../../yellowstone_python_spec/ai-tells/ai-tells-1.md`
 
 Add a new section at the end titled "Proposed Comment Fixes" with a table mapping each AI tell to its proposed replacement:
 
@@ -103,7 +103,7 @@ Add a new section at the end titled "Proposed Comment Fixes" with a table mappin
 | SECURITY_HARDENED_TRIBUTARY_IMPL.md | Entire file | Remove emojis, replace "TASK COMPLIANCE:" with "Implementation:", "SECURITY COMPLIANCE" with "Security", "PROVENANCE DOCUMENTATION" with "Provenance" | (Apply throughout) |
 | TASK_1_TTRIBUTARY_COLD_REFUGE_SUMMARY.md | Entire file | Remove emojis, replace "Key Achievements" with "Summary", "Success Metrics" with "Results", "Critical Insights" with "Notes" | (Apply throughout) |
 
-### File 2: `/Users/kreed/Downloads/yellowstone_python_spec/ai-tells/ai-tells-2.md`
+### File 2: `../../yellowstone_python_spec/ai-tells/ai-tells-2.md`
 
 Add a new section at the end titled "Proposed Document Fixes" with recommendations for each file:
 
@@ -119,7 +119,7 @@ Add a new section at the end titled "Proposed Document Fixes" with recommendatio
 | 03_AUDIT_RESPONSE.md | 2 AI tells: em dashes | Replace em dashes with periods. |
 | tooling-spec-*.md (9 files) | "Status: spec (authored...)" headers, "No code written; no deletions.", em dashes | Remove "Status: spec" headers. Remove "No code written; no deletions." lines. Replace em dashes with periods. |
 
-### File 3: `/Users/kreed/Downloads/yellowstone_python_spec/ai-tells/ai-tells-3.md`
+### File 3: `../../yellowstone_python_spec/ai-tells/ai-tells-3.md`
 
 Add a new section at the end titled "Proposed Comment Fixes" with a table mapping each AI tell to its proposed replacement:
 

@@ -1,0 +1,25 @@
+{
+ "artifact_sha256": {
+  "blind_crops/L00070000.png": "7191a949d186cd5c514462fc51879a2ba0268f0b0b9d3ee536783cf0095caa5b",
+  "blind_crops/L00080001.png": "97e9213ab37744f8fd8f2729ac71e13df4a9c603adcef46ccde57a6030cb5a5b",
+  "blind_crops/L00100001.png": "56e662d5a8efe3ce74922f5bb46b147e5c7e38685bcd668b69bb262db2975071",
+  "blind_crops/L00130006.png": "6870478b824917a802ac1715217bd4e20312c038de4b663151db3ca0b79db7ac",
+  "blind_crops/L00150007.png": "0a44ffe606978de5eb2370cc4b2e05c2b944b0a891f31f98ca65d977ff681b0c",
+  "blind_crops/L00150008.png": "dffb28133d742b913efe3fb666cc5b104a4bc9d80d91c61a8c4831815d851b33",
+  "census_frozen.json": "13457bc9a179fb8111f415d4ef936a7f2dd6eb15de8555ec308a654b7e0af7f1",
+  "frame.json": "efe6e40271764299677dd938665611bd26bbbfaa29e0dec1a5aeb40e2b0fd266",
+  "sample.json": "9309aae12cafa0c71c8c147fb6eb586117a27490490014811f9850ee5d6a5cd0",
+  "sampling_plan.json": "ed49cf9ff925db420148f09f2c13535750d676373693001f485df5a3e35a6bbb"
+ },
+ "freeze_state": "frozen_before_review",
+ "schema": "yellowstone.lidar_blind_manifest.v1",
+ "source_hashes": {
+  "census_object": "fa8928cf23ee60dfbbacb8501fb5130bccd31b1e2f61040a3fc4fbb949555873",
+  "chm_metadata": "a97329049704008feb1eeeed07168730508c12bda7e4a93dd1a7362e8a88e984",
+  "detector_module": "7b2c7170cccbe64a4488e534d12c0f8ca8997c3be425078dcc296557946b8f8f",
+  "raw_chm": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9",
+  "review_image": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+  "validation_module": "e122467e998368b64406cf533f6c368b6eeaceef2df7a5bc8df155d3d4ea5415"
+ },
+ "status": "derived_not_field_validated"
+}

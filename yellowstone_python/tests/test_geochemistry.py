@@ -1,9 +1,6 @@
 import pytest
 
-from yellowstone_python.geochemistry import (MIDWAY_POOLS, SubstrateError,
-                                             check_midway_shells,
-                                             forbid_whitening, rules_doc,
-                                             system_for_feature)
+from yellowstone_python.thermal_features.geochemistry import MIDWAY_POOLS, SubstrateError, check_midway_shells, forbid_whitening, rules_doc, system_for_feature
 
 
 def test_midway_is_siliceous():

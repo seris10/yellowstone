@@ -353,7 +353,7 @@ This is the most serious issue:
 ```python
 spec_from_file_location(
     "hydrosim",
-    "/Users/kreed/Downloads/hydrology/hydrosim.py"
+    "../../hydrology/hydrosim.py"
 )
 ```
 
@@ -795,7 +795,7 @@ assert after["Nb"] <= before + expected_regrowth
 
 ## `llm_backend.py`
 
-- backend works without `/Users/kreed/...`;
+- backend works without `../../...`;
 - unavailable hydrology is explicitly reported;
 - no synthetic rain is reported as measured precipitation;
 - repeated weather requests use cached state;

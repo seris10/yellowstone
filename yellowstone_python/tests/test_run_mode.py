@@ -2,12 +2,9 @@ import pytest
 import yaml
 
 from yellowstone_python.build import validate_config
-from yellowstone_python.run_mode import (check_split, claim_allowed,
-                                         normalize_run_mode,
-                                         prescribed_quantities)
+from yellowstone_python.registry.run_mode import check_split, claim_allowed, normalize_run_mode, prescribed_quantities
 from yellowstone_python.validation.checks import run_all
 
-from paths import BASE_CONFIG as BASE
 
 
 def _cfg():
@@ -67,16 +64,19 @@ def test_check_split():
     raise AssertionError("expected ValueError")
 
 
-def test_validate_config_rejects_forecast():
+def test_validate_config_rejects_forecast(tmp_path):
     bad = _cfg()
+    bad["world_root"] = str(tmp_path)
     bad["run_mode"] = "forecast"
     with pytest.raises(ValueError):
         validate_config(bad)
     ok = _cfg()
+    ok["world_root"] = str(tmp_path)
     ok["run_mode"] = "scenario"
     validate_config(ok)
 
 
+@pytest.mark.needs_world
 def test_run_all_records_mode_and_prescribed():
     from yellowstone_python.build import load_inputs, simulate_all
     cfg = _cfg()
@@ -126,3 +126,11 @@ def test_run_all_forecast_single_failure():
                      run_mode="forecast", prescribed=[])
     assert checks["passed"] is False
     assert len(checks["failures"]) == 1
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'BASE', resolved_paths['BASE_CONFIG'], raising=False)

@@ -2,8 +2,7 @@
 import math
 import time
 
-from yellowstone_python.replay.calibrate import (reach_heat_fit,
-                                                 regime_scores_by_flow)
+from yellowstone_python.river.calibrate import reach_heat_fit, regime_scores_by_flow
 
 
 def _bundle(n_days=4, step=1800.0, q_ramp=None):

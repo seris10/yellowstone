@@ -1,4 +1,4 @@
-"""M11 to_ecosystem: merge Python fragments into schema-v1 ecosystem.json."""
+"""to_ecosystem: merge Python fragments into schema-v1 ecosystem.json."""
 from __future__ import annotations
 
 import copy
@@ -17,8 +17,7 @@ def merge_fragments(baseline: dict, river_state: list | None = None,
                     clock_hour: float | None = None,
                     boundary_m3s: float | None = None,
                     boundary_c: float | None = None) -> dict:
-    """Return a deep-copied ecosystem dict with fragments merged in.
-    humidity and cloud lift to the top level for ecosystem.gd; boundary_* carry solver upstream forcing."""
+    """Return a deep-copied ecosystem dict with fragments merged in."""
     out = copy.deepcopy(baseline)
     if river_state:
         by_id = {r["id"]: r for r in river_state if "id" in r}
@@ -45,9 +44,8 @@ def merge_fragments(baseline: dict, river_state: list | None = None,
 
 
 def validate_for_godot(doc: dict) -> list[str]:
-    """List contract violations ecosystem.json would hit in Godot.
-    An empty list means ecosystem.gd, thermal_probe_overlay.gd, and python_river_replay.gd read it fine."""
-    from ..common.validate import check_reach_chain
+    """List contract violations ecosystem.json would hit in Godot."""
+    from yellowstone_python.validation.contracts import check_reach_chain
     errors = check_reach_chain(doc.get("river_reaches", []))
     if doc.get("schema_version") != 1:
         errors.append(

@@ -1,12 +1,9 @@
-"""Diagnostic PNGs from fit artifacts (Pillow only).
-"""
+"""Diagnostic PNGs from fit artifacts (Pillow only)."""
 
 import argparse
 import json
 import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from PIL import Image, ImageDraw
 
@@ -32,8 +29,7 @@ def new_canvas(title: str, footer: str, doc: dict | None = None):
 
 
 def bar_groups(draw, groups, top, bottom, annotate=()):
-    """groups: [(group_label, [(series_label, value), ...])], each group
-    scaled independently; values printed. Returns y cursor."""
+    """Draw grouped series with independent axis scales."""
     area_w = W - 2 * MARGIN
     n = len(groups)
     row_h = (bottom - top) // max(n, 1)

@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from yellowstone_python import groundwater_provider as GP
-from yellowstone_python.replay.river_transport import Series
+import yellowstone_python.land.groundwater_provider as GP
+from yellowstone_python.river.river_transport import Series
 
 needs_flopy = pytest.mark.skipif(
     importlib.util.find_spec("flopy") is None, reason="flopy not present"
@@ -69,7 +69,7 @@ def test_provenance_names_cell_and_time_range():
 
 
 def test_rejects_bad_reaches():
-    """Malformed reaches fail loudly."""
+    """Malformed reaches raise an error."""
     with pytest.raises(ValueError):
         GP.authored_reaches_to_sources([])
     with pytest.raises(ValueError):
@@ -98,7 +98,7 @@ def test_chainage_adapter_stamps_s_m():
 
 
 def test_chainage_adapter_rejects():
-    """Missing chainage, hand-built losing laterals, and bad maps fail loudly."""
+    """Missing chainage, hand-built losing laterals, and bad maps raise an error."""
     out = GP.authored_reaches_to_sources([_reach()])
     with pytest.raises(ValueError):
         GP.with_chainage(out, {"other": 1.0})
@@ -116,6 +116,7 @@ def test_chainage_adapter_rejects():
         GP.with_chainage(hand_losing, {"gw_lateral_001": 1.0})
 
 
+@pytest.mark.needs_science
 @needs_flopy
 def test_flopy_model_carries_riv_package():
     """Synthetic MF6 simulation exposes a mapped RIV package."""
@@ -144,8 +145,7 @@ def _exchange_cell(**over):
 
 
 def test_groundwater_exchange_sign_and_budget():
-    """Gaining reach adds water and heat at the aquifer temperature.
-    Losing reach removes water at the river temperature; totals match C(h_aq - h_river)."""
+    """Gaining reach adds water and heat at the aquifer temperature."""
     gain = _exchange_cell()
     loss = _exchange_cell(
         cell_id="firehole_cell_00050",

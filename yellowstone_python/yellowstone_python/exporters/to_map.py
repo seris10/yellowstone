@@ -1,11 +1,10 @@
-"""M11 to_map: copy a field PNG into the midway_macro frame after size check."""
+"""to_map: copy a field PNG into the midway_macro frame after size check."""
 from __future__ import annotations
 
 
 def reproject_to_macro(field_png: str, out_png: str,
                        expected_size_px: tuple[int, int] | None = None) -> str:
-    """Copy a field PNG whose grid is the macro frame; verify its pixel size.
-    expected_size_px is required in production; the optional default keeps the stub call site working."""
+    """Copy a field PNG whose grid is the macro frame"""
     import shutil
 
     if expected_size_px is not None:

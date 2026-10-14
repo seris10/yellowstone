@@ -1,6 +1,4 @@
-from yellowstone_python.claims import (CLAIM_FIELDS, CLAIMS, get_claim,
-                                        registry_errors, resolve_artifact_id,
-                                        split_artifact_id, validate_claim)
+from yellowstone_python.registry.claims import CLAIM_FIELDS, CLAIMS, get_claim, registry_errors, resolve_artifact_id, split_artifact_id, validate_claim
 
 
 def test_registry_has_two_seed_claims():

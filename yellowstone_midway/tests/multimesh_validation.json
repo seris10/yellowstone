@@ -1,26 +1,26 @@
 {
-  "active_authored_placements": 63333,
-  "actual_instance_slots": 209489,
+  "active_authored_placements": 45934,
+  "actual_instance_slots": 139893,
   "actual_kind_slots": {
     "grass": 13498,
     "log": 435,
-    "pine": 194728,
+    "pine": 125132,
     "rock": 718,
     "steam": 110
   },
-  "actual_multimesh_resources": 4007,
+  "actual_multimesh_resources": 3623,
   "bounds_tolerance_m": 0.003,
-  "elapsed_seconds": 8.262,
-  "engine": "4.4.1-stable (official)",
-  "expected_instance_slots": 209489,
+  "elapsed_seconds": 8.037,
+  "engine": "4.5.1-stable (official)",
+  "expected_instance_slots": 139893,
   "expected_kind_slots": {
     "grass": 13498,
     "log": 435,
-    "pine": 194728,
+    "pine": 125132,
     "rock": 718,
     "steam": 110
   },
-  "expected_multimesh_resources": 4007,
+  "expected_multimesh_resources": 3623,
   "failure_count": 0,
   "failure_counts_by_code": {
 
@@ -28,26 +28,26 @@
   "failure_examples_truncated": false,
   "failures": [],
   "maximum_aabb_protrusion_m": 0.0,
-  "maximum_authored_position_error_m": 0.000518125190865248,
-  "maximum_basis_determinant": 13.8240213394165,
-  "minimum_basis_determinant": 0.0327679589390755,
+  "maximum_authored_position_error_m": 0.0000152587890625,
+  "maximum_basis_determinant": 13.8240032196045,
+  "minimum_basis_determinant": 0.0327679999172688,
   "ok": true,
-  "overrides_sha256": "60e8a9e670da725ea83466a9f5bf46626c7f93ec07160d6ba503c4e4236514a5",
+  "overrides_sha256": "75c5398b229abda4a1e4924347ea94f892a546f732452a79e536ad0cc4b6052a",
   "placements_sha256": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
   "position_tolerance_m": 0.01,
-  "scene_sha256": "fddc81af6f086d8c63ff452898c6c6ccbba1e9d7e55454aae03f6ca2b773de0d",
-  "serialized_buffer_floats": 3351824,
+  "scene_sha256": "0d1e6476f0ddc649217fa8c3d5b16416e6572cc188cc7a08cd9a5e29508f37d4",
+  "serialized_buffer_floats": 2238288,
   "steam_slots": 110,
   "validation_method": "CPU decode of saved MultiMesh.buffer; no renderer instance-transform/AABB getters",
-  "vegetation_slots": 209379,
+  "vegetation_slots": 139783,
   "world_origin_max_m": [
-    2042.81201171875,
-    244.835006713867,
+    2026.90100097656,
+    244.834808349609,
     2049.27905273438
   ],
   "world_origin_min_m": [
     -2048.93090820312,
-    -7.07399988174438,
+    -6.21999979019165,
     -2051.05810546875
   ],
   "zero_local_origins": 0

@@ -1,6 +1,4 @@
-from yellowstone_python.vegetation import (guild_suitability, patch_step,
-                                                 propose_plantings,
-                                                 propose_plantings_reviewed)
+from yellowstone_python.land.vegetation import guild_suitability, patch_step, propose_plantings, propose_plantings_reviewed
 
 
 def test_thermal_excluded_for_lodgepole():
@@ -63,7 +61,7 @@ def test_reviewed_ids_derive_from_cells():
 
 def test_review_honors_suitability_threshold():
     # Suitability here is about 0.095 for each candidate: below the default 0.12 floor and above an explicit 0.0 gate.
-    from yellowstone_python.review_proposals import review
+    from yellowstone_python.authoring.review_proposals import review
     kw = dict(guild="meadow_grass", center_xz=(0, 0), radius_m=30,
               count=10, seed=11, habitat_id="dry_meadow",
               terrain_fn=_flat_terrain(),
@@ -105,7 +103,7 @@ def test_patch_step_refuses_invalid_parameters():
 
 
 def test_habitat_moisture_at_is_order_independent():
-    from yellowstone_python.vegetation import habitat_moisture_at, moisture_at
+    from yellowstone_python.land.vegetation import habitat_moisture_at, moisture_at
     patches = [{"id": "far", "center_xz": [50, 0], "radius_m": 200,
                 "moisture": 0.9, "habitat": "wet_meadow"},
                {"id": "near", "center_xz": [5, 0], "radius_m": 50,
@@ -122,7 +120,7 @@ def test_habitat_moisture_at_is_order_independent():
 def test_terrain_fns_refuse_bad_shape_and_nonfinite():
     import numpy as np
     import pytest
-    from yellowstone_python.vegetation import GRID, terrain_fns
+    from yellowstone_python.land.vegetation import GRID, terrain_fns
     with pytest.raises(ValueError, match="shape"):
         terrain_fns(np.zeros((8, 8)))
     bad = np.zeros((GRID, GRID), dtype=np.float64)
@@ -134,7 +132,7 @@ def test_terrain_fns_refuse_bad_shape_and_nonfinite():
 def test_load_terrain_refuses_nonfinite(tmp_path):
     import numpy as np
     import pytest
-    from yellowstone_python.vegetation import GRID, load_terrain
+    from yellowstone_python.land.vegetation import GRID, load_terrain
     h = np.zeros(GRID * GRID, dtype="<f4")
     h[5] = np.inf
     path = tmp_path / "terrain.f32"
@@ -175,8 +173,7 @@ def test_propose_plantings_reviewed_rejects_bad_constraints():
 
 def test_render_suitability_validates_inputs_and_creates_dirs(tmp_path):
     import pytest
-    from yellowstone_python.vegetation import (habitat_moisture_at,
-                                               render_suitability_png)
+    from yellowstone_python.land.vegetation import habitat_moisture_at, render_suitability_png
     terrain_fn = (lambda x, z: 0.0, lambda x, z: 5.0)
     patches = [{"id": "p", "center_xz": [0, 0], "radius_m": 100,
                 "moisture": 0.5, "habitat": "forest_edge"}]

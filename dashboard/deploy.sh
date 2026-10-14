@@ -13,7 +13,7 @@ cp "$ROOT"/yellowstone_python_spec/fixes/fixes-*.md "$STAGE/yellowstone_python_s
 printf '/ /dashboard/ 302\n' > "$STAGE/_redirects"
 printf '/yellowstone_python_spec/*\n  Content-Type: text/plain; charset=utf-8\n' > "$STAGE/_headers"
 
-export CLOUDFLARE_API_TOKEN='pass://kjr/cf-kjr-deploy-code-api/API Key'
-export CLOUDFLARE_ACCOUNT_ID=95da8b892c927d6c9a4e8fc9c851d75c
+: "${CLOUDFLARE_API_TOKEN:?set CLOUDFLARE_API_TOKEN}"
+: "${CLOUDFLARE_ACCOUNT_ID:?set CLOUDFLARE_ACCOUNT_ID}"
 cd "$STAGE"
-pass-cli run -- wrangler pages deploy . --project-name=yellowstone-dashboard --branch=main --commit-dirty=true
+wrangler pages deploy . --project-name=yellowstone-dashboard --branch=main --commit-dirty=true

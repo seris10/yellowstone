@@ -1,0 +1,18 @@
+{
+  "schema": "yellowstone.provenance_sidecar.v1",
+  "status": "fitted_not_validated_single_window",
+  "path": "firehole_chem_validation.json",
+  "bytes": 3348,
+  "sha256": "643a6aea79873c746f1212e670e0047182ddad541aad72a72eaa090009c299eb",
+  "content_type": "application/json",
+  "urls": [
+    "https://waterservices.usgs.gov/nwis/dv/?sites=06036805&parameterCd=00060&statCd=00003&startDT=2010-05-13&endDT=2017-10-30&format=rdb",
+    "https://waterservices.usgs.gov/nwis/dv/?sites=06036905&parameterCd=00060,00095&statCd=00003&startDT=2010-05-13&endDT=2017-10-30&format=rdb",
+    "derived_from:firehole_chem_paired_samples.json",
+    "derived_from:firehole_upstream_sc_samples.json"
+  ],
+  "retrieved_utc": "2026-10-13",
+  "terms": "USGS Water Services and NWIS provisional terms.",
+  "agency": "USGS (source data); local calculation",
+  "citation": "USGS NWIS daily values at 06036805 and 06036905 for discharge (parameter 00060) and specific conductance (parameter 00095 at 06036905 only) spanning 2010-05-13 to 2017-10-30; local calculation of chloride flux through the WQP-derived chloride-conductance fit."
+}

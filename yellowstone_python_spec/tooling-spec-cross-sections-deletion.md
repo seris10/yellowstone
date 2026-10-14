@@ -2,7 +2,7 @@
 
 Status: spec (authored 2026-10-10, pycl-2). Transferred claims cite file:line verified 2026-10-10; authored claims marked [AUTHORED].
 NO DELETION PERFORMED — this spec is the authorization package; deletion happens in a LATER session.
-Target: `tools/cross_sections.py` (175 lines) in `/Users/kreed/Downloads/yellowstone_python/`.
+Target: `tools/cross_sections.py` (175 lines) in `../../yellowstone_python/`.
 
 ## 1. Purpose + non-goals
 

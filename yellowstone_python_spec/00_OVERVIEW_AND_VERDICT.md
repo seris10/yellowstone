@@ -5,7 +5,7 @@ Goal: walkable world where Python modeling is visible, even if much of the Pytho
 
 ## 1. Verdict: stick with Yellowstone
 
-Surveyed 8 Godot builds in `/Users/kreed/Downloads/` (see `shared-world-architecture/PROJECT_INVENTORY.md`):
+Surveyed 8 Godot builds in `../../` (see `shared-world-architecture/PROJECT_INVENTORY.md`):
 
 | Build | Why not primary |
 |---|---|
@@ -38,8 +38,8 @@ The project plan (`Yellowstone_Research_and_Future_Directions.md` Milestones A�
 ## 4. Research you actually have (so you don't re-hunt)
 
 - Usable now: 4096 m / 1025² @ 4 m DEM (`references/terrain_source.f32` absolute, `data/terrain.f32` authored local); origin E0=512952.5950985841, N0=4930199.044097667, H0=2200 NAVD88; mapping `x=E-E0, y=H-2200, z=N0-N`; NAIP 2022-07-19 (2 m export, 0.625 m detail core); 22 road / 26 trail / 27 river / 15 lake features; Firehole flows north; Excelsior >4,000 gpm ≈ 0.252 m³/s (order-magnitude ref, used as 0.26 illustrative); 56-entry `data/species_catalogue.json`; 16 habitat IDs; `PHYSICAL_FIELD_CATALOG.json` (22 fields) + `GEOSPATIAL_CONTRACT.md` numerics (floor-indexing, 1-sample halo, diagonal `10-01`).
-- In `/Users/kreed/Downloads/Recovered_Research_Reports/`: `Yellowstone_Research_and_Future_Directions.md` (= same as root copy, Part 1 §5 equations), `ECOLOGY_RESEARCH.md` (Osa pattern, reusable tick/structure), `Mojave_*` (best `sim.advance` + save pattern to copy), `Mono_Basin_*` (lake hydrology pattern).
-- In `/Users/kreed/Downloads/Scientific_World_Geography_Session_2/`: contracts + `validate_geography.py` (47 tests) — reuse validators, don't reinvent indexing/interpolation.
+- In `../../Recovered_Research_Reports/`: `Yellowstone_Research_and_Future_Directions.md` (= same as root copy, Part 1 §5 equations), `ECOLOGY_RESEARCH.md` (Osa pattern, reusable tick/structure), `Mojave_*` (best `sim.advance` + save pattern to copy), `Mono_Basin_*` (lake hydrology pattern).
+- In `../../Scientific_World_Geography_Session_2/`: contracts + `validate_geography.py` (47 tests) — reuse validators, don't reinvent indexing/interpolation.
 - Missing (do NOT block on): pool bathymetry, branch discharges, dated river T/Q, soil depth/Ksat/conductivity, hydroperiod, bed temp/salinity layers (stay `null` per contract), snow calibration, animal counts. All new params go in `parameter_provenance` as illustrative.
 
 ## 5. Definition of done for "sufficient python"

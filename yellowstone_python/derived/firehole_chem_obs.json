@@ -1,0 +1,156 @@
+{
+ "schema": "yellowstone.firehole_chem_obs.v1",
+ "status": "measured_remote_not_calibrated",
+ "components": {
+  "sites": {
+   "kind": "observation",
+   "status": "measured_remote_not_calibrated"
+  }
+ },
+ "fetched_at_utc": "2026-10-13T10:53:17.837379+00:00",
+ "window_days": 8,
+ "provenance": {
+  "usgs": "USGS Water Services IV, provisional and subject to revision; chemistry parameter codes 00095, 00300 and 00400",
+  "finding_policy": "A parameter absent from the window is a finding, not an error; the series status label distinguishes not_collected_in_window from retrieved."
+ },
+ "sites": {
+  "06036805": {
+   "name": "Firehole River at Old Faithful, YNP",
+   "role": "upstream_boundary_above_midway",
+   "latitude": 44.459333,
+   "longitude": -110.822272,
+   "url": "https://waterservices.usgs.gov/nwis/iv/?sites=06036805&parameterCd=00095,00300,00400&period=P8D&format=json",
+   "series": {
+    "specific_conductance": [],
+    "dissolved_oxygen": [],
+    "ph": []
+   },
+   "qualifiers": {
+    "specific_conductance": [],
+    "dissolved_oxygen": [],
+    "ph": []
+   },
+   "ingest_stats": {
+    "specific_conductance": {
+     "rows_seen": 0,
+     "rows_retained": 0,
+     "rejected": 0
+    },
+    "dissolved_oxygen": {
+     "rows_seen": 0,
+     "rows_retained": 0,
+     "rejected": 0
+    },
+    "ph": {
+     "rows_seen": 0,
+     "rows_retained": 0,
+     "rejected": 0
+    }
+   },
+   "series_status": {
+    "specific_conductance": "not_collected_in_window",
+    "dissolved_oxygen": "not_collected_in_window",
+    "ph": "not_collected_in_window"
+   },
+   "parameters": {
+    "00095": {
+     "code": "00095",
+     "name": "specific_conductance",
+     "normalized_units": "uS/cm_at_25C",
+     "value_range": [
+      0.0,
+      50000.0
+     ]
+    },
+    "00300": {
+     "code": "00300",
+     "name": "dissolved_oxygen",
+     "normalized_units": "mg/L",
+     "value_range": [
+      0.0,
+      25.0
+     ]
+    },
+    "00400": {
+     "code": "00400",
+     "name": "ph",
+     "normalized_units": "std_units",
+     "value_range": [
+      0.0,
+      14.0
+     ]
+    }
+   }
+  },
+  "06036905": {
+   "name": "Firehole River near West Yellowstone MT",
+   "role": "downstream_target_below_all_thermal_inflows",
+   "latitude": 44.620183,
+   "longitude": -110.863503,
+   "url": "https://waterservices.usgs.gov/nwis/iv/?sites=06036905&parameterCd=00095,00300,00400&period=P8D&format=json",
+   "series": {
+    "specific_conductance": [],
+    "dissolved_oxygen": [],
+    "ph": []
+   },
+   "qualifiers": {
+    "specific_conductance": [],
+    "dissolved_oxygen": [],
+    "ph": []
+   },
+   "ingest_stats": {
+    "specific_conductance": {
+     "rows_seen": 0,
+     "rows_retained": 0,
+     "rejected": 0
+    },
+    "dissolved_oxygen": {
+     "rows_seen": 0,
+     "rows_retained": 0,
+     "rejected": 0
+    },
+    "ph": {
+     "rows_seen": 0,
+     "rows_retained": 0,
+     "rejected": 0
+    }
+   },
+   "series_status": {
+    "specific_conductance": "not_collected_in_window",
+    "dissolved_oxygen": "not_collected_in_window",
+    "ph": "not_collected_in_window"
+   },
+   "parameters": {
+    "00095": {
+     "code": "00095",
+     "name": "specific_conductance",
+     "normalized_units": "uS/cm_at_25C",
+     "value_range": [
+      0.0,
+      50000.0
+     ]
+    },
+    "00300": {
+     "code": "00300",
+     "name": "dissolved_oxygen",
+     "normalized_units": "mg/L",
+     "value_range": [
+      0.0,
+      25.0
+     ]
+    },
+    "00400": {
+     "code": "00400",
+     "name": "ph",
+     "normalized_units": "std_units",
+     "value_range": [
+      0.0,
+      14.0
+     ]
+    }
+   }
+  }
+ },
+ "artifact_sha256": "836fba637af1aa49781153a28d7d683e3597bd66eb1d9566a9088c62e6d649f6",
+ "artifact_sha256_scope": "canonical_json_without_hash_fields"
+}

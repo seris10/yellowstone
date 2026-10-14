@@ -1,0 +1,4276 @@
+{
+  "schema": "yellowstone.lodgepole_assets.v1",
+  "scientific_name": "Pinus contorta var. latifolia",
+  "geometry_license": "Apache-2.0",
+  "needle_texture_license": "Apache-2.0",
+  "near_architecture_variants": 4,
+  "bark_texture_license": "CC0-1.0",
+  "archetypes": {
+    "dense": {
+      "height_m": 18.0,
+      "dbh_m": 0.26,
+      "crown_radius_m": 2.5,
+      "crown_ratio": 0.7
+    },
+    "edge": {
+      "height_m": 18.0,
+      "dbh_m": 0.32,
+      "crown_radius_m": 2.7,
+      "crown_ratio": 0.78
+    },
+    "open": {
+      "height_m": 16.0,
+      "dbh_m": 0.44,
+      "crown_radius_m": 3.15,
+      "crown_ratio": 0.85
+    },
+    "sapling": {
+      "height_m": 5.0,
+      "dbh_m": 0.07,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.86
+    },
+    "snag": {
+      "height_m": 14.0,
+      "dbh_m": 0.24,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.0
+    }
+  },
+  "dimension_provenance": "authored",
+  "uncertainty": "unknown",
+  "sources": [
+    {
+      "url": "https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/fseprd1178128.pdf",
+      "publisher": "USDA Forest Service",
+      "supports": "clear slender bole and short upper crown in dense stands; paired needles 1-3 inches"
+    },
+    {
+      "url": "https://www.nps.gov/romo/learn/nature/conifers.htm",
+      "publisher": "National Park Service",
+      "supports": "tall straight narrow crowns in dense stands, broader open-site crowns; two-needle fascicles"
+    },
+    {
+      "url": "https://polyhaven.com/license",
+      "publisher": "Poly Haven",
+      "supports": "CC0 asset license"
+    }
+  ],
+  "lod_ranges_m": [
+    [
+      0,
+      18
+    ],
+    [
+      18,
+      65
+    ],
+    [
+      65,
+      180
+    ],
+    [
+      180,
+      3000
+    ]
+  ],
+  "lods": [
+    {
+      "height_m": 18.0,
+      "dbh_m": 0.26,
+      "crown_radius_m": 2.5,
+      "crown_ratio": 0.7,
+      "live_crown_base_m": 5.4,
+      "clear_bole_fraction": 0.30000000000000004,
+      "bounds_m": [
+        [
+          -2.146788004217621,
+          0.0,
+          -2.331083656455158
+        ],
+        [
+          2.2261409378917505,
+          18.0,
+          2.3816912830709835
+        ]
+      ],
+      "primary_branches": 116,
+      "twig_branches": 784,
+      "needle_cards": 6306,
+      "triangles": 28240,
+      "lod": 0,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.16262190210341806
+        ],
+        [
+          0.9,
+          0.13500865318527347
+        ],
+        [
+          1.3,
+          0.13
+        ],
+        [
+          1.8,
+          0.12546340485068264
+        ],
+        [
+          2.7,
+          0.11886264086182605
+        ],
+        [
+          3.6,
+          0.11270356511010786
+        ],
+        [
+          4.5,
+          0.10656917685798699
+        ],
+        [
+          5.4,
+          0.10038677482420237
+        ],
+        [
+          6.3,
+          0.0941399797339726
+        ],
+        [
+          7.2,
+          0.08782098597935534
+        ],
+        [
+          8.1,
+          0.08142247126505968
+        ],
+        [
+          9.0,
+          0.07493598529188628
+        ],
+        [
+          9.9,
+          0.06835129262068769
+        ],
+        [
+          10.8,
+          0.06165568757684611
+        ],
+        [
+          11.700000000000001,
+          0.05483299512427901
+        ],
+        [
+          12.6,
+          0.047861973486077306
+        ],
+        [
+          13.5,
+          0.04071357960097613
+        ],
+        [
+          14.4,
+          0.03334587335232568
+        ],
+        [
+          15.3,
+          0.02569333132738292
+        ],
+        [
+          16.2,
+          0.017640020546595973
+        ],
+        [
+          17.1,
+          0.008926653143585716
+        ],
+        [
+          18.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4381",
+      "architecture_axes": 901,
+      "architecture_shoots": 3153,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.146788004217621,
+          5.4,
+          -2.331083656455158
+        ],
+        [
+          2.2261409378917505,
+          18.0,
+          2.3816912830709835
+        ]
+      ],
+      "archetype": "dense",
+      "path": "assets/imported/lodgepole/dense_lod0.gltf",
+      "buffer_bytes": 1588480
+    },
+    {
+      "height_m": 18.0,
+      "dbh_m": 0.26,
+      "crown_radius_m": 2.5,
+      "crown_ratio": 0.7,
+      "live_crown_base_m": 5.4,
+      "clear_bole_fraction": 0.30000000000000004,
+      "bounds_m": [
+        [
+          -2.146788004217621,
+          0.0,
+          -2.331083656455158
+        ],
+        [
+          2.226140937891751,
+          18.0,
+          2.381691283070984
+        ]
+      ],
+      "primary_branches": 58,
+      "twig_branches": 0,
+      "needle_cards": 204,
+      "triangles": 1236,
+      "lod": 1,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.16262190210341806
+        ],
+        [
+          1.3,
+          0.13
+        ],
+        [
+          1.8,
+          0.12546340485068264
+        ],
+        [
+          3.6,
+          0.11270356511010786
+        ],
+        [
+          5.4,
+          0.10038677482420237
+        ],
+        [
+          7.2,
+          0.08782098597935534
+        ],
+        [
+          9.0,
+          0.07493598529188628
+        ],
+        [
+          10.8,
+          0.06165568757684611
+        ],
+        [
+          12.6,
+          0.047861973486077306
+        ],
+        [
+          14.4,
+          0.03334587335232568
+        ],
+        [
+          16.2,
+          0.017640020546595973
+        ],
+        [
+          18.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4381",
+      "architecture_axes": 901,
+      "architecture_shoots": 3153,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.146788004217621,
+          5.4,
+          -2.331083656455158
+        ],
+        [
+          2.2261409378917505,
+          18.0,
+          2.3816912830709835
+        ]
+      ],
+      "archetype": "dense",
+      "path": "assets/imported/lodgepole/dense_lod1.gltf",
+      "buffer_bytes": 65904
+    },
+    {
+      "height_m": 18.0,
+      "dbh_m": 0.26,
+      "crown_radius_m": 2.5,
+      "crown_ratio": 0.7,
+      "live_crown_base_m": 5.4,
+      "clear_bole_fraction": 0.30000000000000004,
+      "bounds_m": [
+        [
+          -2.146788004217621,
+          0.0,
+          -2.331083656455158
+        ],
+        [
+          2.226140937891751,
+          18.0,
+          2.381691283070984
+        ]
+      ],
+      "primary_branches": 39,
+      "twig_branches": 0,
+      "needle_cards": 186,
+      "triangles": 888,
+      "lod": 2,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.16262190210341806
+        ],
+        [
+          1.3,
+          0.13
+        ],
+        [
+          3.6,
+          0.11270356511010786
+        ],
+        [
+          7.2,
+          0.08782098597935534
+        ],
+        [
+          10.8,
+          0.06165568757684611
+        ],
+        [
+          14.4,
+          0.03334587335232568
+        ],
+        [
+          18.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4381",
+      "architecture_axes": 901,
+      "architecture_shoots": 3153,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.146788004217621,
+          5.4,
+          -2.331083656455158
+        ],
+        [
+          2.2261409378917505,
+          18.0,
+          2.3816912830709835
+        ]
+      ],
+      "archetype": "dense",
+      "path": "assets/imported/lodgepole/dense_lod2.gltf",
+      "buffer_bytes": 50560
+    },
+    {
+      "height_m": 18.0,
+      "dbh_m": 0.32,
+      "crown_radius_m": 2.7,
+      "crown_ratio": 0.78,
+      "live_crown_base_m": 3.9599999999999995,
+      "clear_bole_fraction": 0.21999999999999997,
+      "bounds_m": [
+        [
+          -2.5078986007039448,
+          0.0,
+          -2.414013541597529
+        ],
+        [
+          2.185371963793243,
+          18.0,
+          2.696928062940888
+        ]
+      ],
+      "primary_branches": 126,
+      "twig_branches": 1002,
+      "needle_cards": 8098,
+      "triangles": 34940,
+      "lod": 0,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.200150033358053
+        ],
+        [
+          0.9,
+          0.16616449622802887
+        ],
+        [
+          1.3,
+          0.16
+        ],
+        [
+          1.8,
+          0.15441649827776327
+        ],
+        [
+          2.7,
+          0.14629248106070897
+        ],
+        [
+          3.6,
+          0.13871208013551736
+        ],
+        [
+          4.5,
+          0.13116206382521475
+        ],
+        [
+          5.4,
+          0.12355295362978755
+        ],
+        [
+          6.3,
+          0.11586459044181242
+        ],
+        [
+          7.2,
+          0.10808736735920657
+        ],
+        [
+          8.1,
+          0.1002122723262273
+        ],
+        [
+          9.0,
+          0.09222890497462927
+        ],
+        [
+          9.9,
+          0.08412466784084639
+        ],
+        [
+          10.8,
+          0.07588392317150291
+        ],
+        [
+          11.700000000000001,
+          0.06748676322988187
+        ],
+        [
+          12.6,
+          0.05890704429055669
+        ],
+        [
+          13.5,
+          0.050109021047355234
+        ],
+        [
+          14.4,
+          0.04104107489517007
+        ],
+        [
+          15.3,
+          0.03162256163370205
+        ],
+        [
+          16.2,
+          0.02171079451888735
+        ],
+        [
+          17.1,
+          0.010986650022874727
+        ],
+        [
+          18.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4382",
+      "architecture_axes": 1129,
+      "architecture_shoots": 4049,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.5078986007039448,
+          3.9599999999999995,
+          -2.414013541597529
+        ],
+        [
+          2.185371963793243,
+          18.0,
+          2.696928062940888
+        ]
+      ],
+      "archetype": "edge",
+      "path": "assets/imported/lodgepole/edge_lod0.gltf",
+      "buffer_bytes": 1993488
+    },
+    {
+      "height_m": 18.0,
+      "dbh_m": 0.32,
+      "crown_radius_m": 2.7,
+      "crown_ratio": 0.78,
+      "live_crown_base_m": 3.9599999999999995,
+      "clear_bole_fraction": 0.21999999999999997,
+      "bounds_m": [
+        [
+          -2.5078986007039448,
+          0.0,
+          -2.414013541597529
+        ],
+        [
+          2.185371963793243,
+          18.0,
+          2.6969280629408874
+        ]
+      ],
+      "primary_branches": 63,
+      "twig_branches": 0,
+      "needle_cards": 248,
+      "triangles": 1384,
+      "lod": 1,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.200150033358053
+        ],
+        [
+          1.3,
+          0.16
+        ],
+        [
+          1.8,
+          0.15441649827776327
+        ],
+        [
+          3.6,
+          0.13871208013551736
+        ],
+        [
+          5.4,
+          0.12355295362978755
+        ],
+        [
+          7.2,
+          0.10808736735920657
+        ],
+        [
+          9.0,
+          0.09222890497462927
+        ],
+        [
+          10.8,
+          0.07588392317150291
+        ],
+        [
+          12.6,
+          0.05890704429055669
+        ],
+        [
+          14.4,
+          0.04104107489517007
+        ],
+        [
+          16.2,
+          0.02171079451888735
+        ],
+        [
+          18.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4382",
+      "architecture_axes": 1129,
+      "architecture_shoots": 4049,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.5078986007039448,
+          3.9599999999999995,
+          -2.414013541597529
+        ],
+        [
+          2.185371963793243,
+          18.0,
+          2.696928062940888
+        ]
+      ],
+      "archetype": "edge",
+      "path": "assets/imported/lodgepole/edge_lod1.gltf",
+      "buffer_bytes": 75232
+    },
+    {
+      "height_m": 18.0,
+      "dbh_m": 0.32,
+      "crown_radius_m": 2.7,
+      "crown_ratio": 0.78,
+      "live_crown_base_m": 3.9599999999999995,
+      "clear_bole_fraction": 0.21999999999999997,
+      "bounds_m": [
+        [
+          -2.5078986007039448,
+          0.0,
+          -2.414013541597529
+        ],
+        [
+          2.185371963793243,
+          18.0,
+          2.6969280629408874
+        ]
+      ],
+      "primary_branches": 42,
+      "twig_branches": 0,
+      "needle_cards": 246,
+      "triangles": 1044,
+      "lod": 2,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.200150033358053
+        ],
+        [
+          1.3,
+          0.16
+        ],
+        [
+          3.6,
+          0.13871208013551736
+        ],
+        [
+          7.2,
+          0.10808736735920657
+        ],
+        [
+          10.8,
+          0.07588392317150291
+        ],
+        [
+          14.4,
+          0.04104107489517007
+        ],
+        [
+          18.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4382",
+      "architecture_axes": 1129,
+      "architecture_shoots": 4049,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.5078986007039448,
+          3.9599999999999995,
+          -2.414013541597529
+        ],
+        [
+          2.185371963793243,
+          18.0,
+          2.696928062940888
+        ]
+      ],
+      "archetype": "edge",
+      "path": "assets/imported/lodgepole/edge_lod2.gltf",
+      "buffer_bytes": 61264
+    },
+    {
+      "height_m": 16.0,
+      "dbh_m": 0.44,
+      "crown_radius_m": 3.15,
+      "crown_ratio": 0.85,
+      "live_crown_base_m": 2.4000000000000004,
+      "clear_bole_fraction": 0.15000000000000002,
+      "bounds_m": [
+        [
+          -2.908275672576431,
+          0.0,
+          -2.7686203887033822
+        ],
+        [
+          2.885305052778293,
+          16.0,
+          3.027019216004709
+        ]
+      ],
+      "primary_branches": 113,
+      "twig_branches": 900,
+      "needle_cards": 7232,
+      "triangles": 31334,
+      "lod": 0,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.2771632415314189
+        ],
+        [
+          0.8,
+          0.2319599354649567
+        ],
+        [
+          1.3,
+          0.22
+        ],
+        [
+          1.6,
+          0.21470328548170645
+        ],
+        [
+          2.4000000000000004,
+          0.20301999307670185
+        ],
+        [
+          3.2,
+          0.1923882138862882
+        ],
+        [
+          4.0,
+          0.18188959877467734
+        ],
+        [
+          4.800000000000001,
+          0.17133254097908693
+        ],
+        [
+          5.6000000000000005,
+          0.16067118789295318
+        ],
+        [
+          6.4,
+          0.1498879003296384
+        ],
+        [
+          7.2,
+          0.13896919467415428
+        ],
+        [
+          8.0,
+          0.12790043220523206
+        ],
+        [
+          8.8,
+          0.1166640994718779
+        ],
+        [
+          9.600000000000001,
+          0.10523850501565969
+        ],
+        [
+          10.4,
+          0.09359604511547172
+        ],
+        [
+          11.200000000000001,
+          0.08170047168322976
+        ],
+        [
+          12.0,
+          0.06950222462208466
+        ],
+        [
+          12.8,
+          0.056929735961939634
+        ],
+        [
+          13.600000000000001,
+          0.043871194459993317
+        ],
+        [
+          14.4,
+          0.03012876838581561
+        ],
+        [
+          15.200000000000001,
+          0.015260000663809475
+        ],
+        [
+          16.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4383",
+      "architecture_axes": 1014,
+      "architecture_shoots": 3616,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.908275672576431,
+          2.4000000000000004,
+          -2.7686203887033822
+        ],
+        [
+          2.885305052778293,
+          16.0,
+          3.027019216004709
+        ]
+      ],
+      "archetype": "open",
+      "path": "assets/imported/lodgepole/open_lod0.gltf",
+      "buffer_bytes": 1785224
+    },
+    {
+      "height_m": 16.0,
+      "dbh_m": 0.44,
+      "crown_radius_m": 3.15,
+      "crown_ratio": 0.85,
+      "live_crown_base_m": 2.4000000000000004,
+      "clear_bole_fraction": 0.15000000000000002,
+      "bounds_m": [
+        [
+          -2.908275672576431,
+          0.0,
+          -2.7686203887033822
+        ],
+        [
+          2.885305052778293,
+          16.0,
+          3.027019216004709
+        ]
+      ],
+      "primary_branches": 57,
+      "twig_branches": 0,
+      "needle_cards": 220,
+      "triangles": 1256,
+      "lod": 1,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.2771632415314189
+        ],
+        [
+          1.3,
+          0.22
+        ],
+        [
+          1.6,
+          0.21470328548170645
+        ],
+        [
+          3.2,
+          0.1923882138862882
+        ],
+        [
+          4.800000000000001,
+          0.17133254097908693
+        ],
+        [
+          6.4,
+          0.1498879003296384
+        ],
+        [
+          8.0,
+          0.12790043220523206
+        ],
+        [
+          9.600000000000001,
+          0.10523850501565969
+        ],
+        [
+          11.200000000000001,
+          0.08170047168322976
+        ],
+        [
+          12.8,
+          0.056929735961939634
+        ],
+        [
+          14.4,
+          0.03012876838581561
+        ],
+        [
+          16.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4383",
+      "architecture_axes": 1014,
+      "architecture_shoots": 3616,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.908275672576431,
+          2.4000000000000004,
+          -2.7686203887033822
+        ],
+        [
+          2.885305052778293,
+          16.0,
+          3.027019216004709
+        ]
+      ],
+      "archetype": "open",
+      "path": "assets/imported/lodgepole/open_lod1.gltf",
+      "buffer_bytes": 67808
+    },
+    {
+      "height_m": 16.0,
+      "dbh_m": 0.44,
+      "crown_radius_m": 3.15,
+      "crown_ratio": 0.85,
+      "live_crown_base_m": 2.4000000000000004,
+      "clear_bole_fraction": 0.15000000000000002,
+      "bounds_m": [
+        [
+          -2.908275672576431,
+          0.0,
+          -2.7686203887033822
+        ],
+        [
+          2.885305052778293,
+          16.0,
+          3.027019216004709
+        ]
+      ],
+      "primary_branches": 38,
+      "twig_branches": 0,
+      "needle_cards": 216,
+      "triangles": 936,
+      "lod": 2,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.2771632415314189
+        ],
+        [
+          1.3,
+          0.22
+        ],
+        [
+          3.2,
+          0.1923882138862882
+        ],
+        [
+          6.4,
+          0.1498879003296384
+        ],
+        [
+          9.600000000000001,
+          0.10523850501565969
+        ],
+        [
+          12.8,
+          0.056929735961939634
+        ],
+        [
+          16.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4383",
+      "architecture_axes": 1014,
+      "architecture_shoots": 3616,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -2.908275672576431,
+          2.4000000000000004,
+          -2.7686203887033822
+        ],
+        [
+          2.885305052778293,
+          16.0,
+          3.027019216004709
+        ]
+      ],
+      "archetype": "open",
+      "path": "assets/imported/lodgepole/open_lod2.gltf",
+      "buffer_bytes": 54592
+    },
+    {
+      "height_m": 5.0,
+      "dbh_m": 0.07,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.86,
+      "live_crown_base_m": 0.7000000000000001,
+      "clear_bole_fraction": 0.14,
+      "bounds_m": [
+        [
+          -0.7543289532421381,
+          0.0,
+          -0.7843812831907023
+        ],
+        [
+          0.7741237140539426,
+          5.0,
+          0.7039305571169923
+        ]
+      ],
+      "primary_branches": 37,
+      "twig_branches": 308,
+      "needle_cards": 2482,
+      "triangles": 10930,
+      "lod": 0,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.05168868749001407
+        ],
+        [
+          0.25,
+          0.0470056894484813
+        ],
+        [
+          0.5,
+          0.04339112369051324
+        ],
+        [
+          0.75,
+          0.0404175947016023
+        ],
+        [
+          1.0,
+          0.03782536255010882
+        ],
+        [
+          1.25,
+          0.0354563016055827
+        ],
+        [
+          1.3,
+          0.035
+        ],
+        [
+          1.5,
+          0.03321382781634295
+        ],
+        [
+          1.75,
+          0.031038571428306554
+        ],
+        [
+          2.0,
+          0.0288935922726345
+        ],
+        [
+          2.25,
+          0.026755371927361982
+        ],
+        [
+          2.5,
+          0.02460829320673071
+        ],
+        [
+          2.75,
+          0.02244120909717488
+        ],
+        [
+          3.0,
+          0.020245237282167903
+        ],
+        [
+          3.25,
+          0.018012226917927445
+        ],
+        [
+          3.5,
+          0.015733504362488146
+        ],
+        [
+          3.75,
+          0.01339853615538861
+        ],
+        [
+          4.0,
+          0.010992996527709988
+        ],
+        [
+          4.25,
+          0.00849511694073295
+        ],
+        [
+          4.5,
+          0.005866833663544929
+        ],
+        [
+          4.75,
+          0.0030234003519520308
+        ],
+        [
+          5.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4384",
+      "architecture_axes": 346,
+      "architecture_shoots": 1241,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -0.7543289532421381,
+          0.7000000000000001,
+          -0.7843812831907023
+        ],
+        [
+          0.7741237140539426,
+          5.0,
+          0.7039305571169923
+        ]
+      ],
+      "archetype": "sapling",
+      "path": "assets/imported/lodgepole/sapling_lod0.gltf",
+      "buffer_bytes": 617496
+    },
+    {
+      "height_m": 5.0,
+      "dbh_m": 0.07,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.86,
+      "live_crown_base_m": 0.7000000000000001,
+      "clear_bole_fraction": 0.14,
+      "bounds_m": [
+        [
+          -0.7543289532421381,
+          0.0,
+          -0.7843812831907023
+        ],
+        [
+          0.7741237140539426,
+          5.0,
+          0.7039305571169922
+        ]
+      ],
+      "primary_branches": 19,
+      "twig_branches": 0,
+      "needle_cards": 74,
+      "triangles": 508,
+      "lod": 1,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.05168868749001407
+        ],
+        [
+          0.5,
+          0.04339112369051324
+        ],
+        [
+          1.0,
+          0.03782536255010882
+        ],
+        [
+          1.3,
+          0.035
+        ],
+        [
+          1.5,
+          0.03321382781634295
+        ],
+        [
+          2.0,
+          0.0288935922726345
+        ],
+        [
+          2.5,
+          0.02460829320673071
+        ],
+        [
+          3.0,
+          0.020245237282167903
+        ],
+        [
+          3.5,
+          0.015733504362488146
+        ],
+        [
+          4.0,
+          0.010992996527709988
+        ],
+        [
+          4.5,
+          0.005866833663544929
+        ],
+        [
+          5.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4384",
+      "architecture_axes": 346,
+      "architecture_shoots": 1241,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -0.7543289532421381,
+          0.7000000000000001,
+          -0.7843812831907023
+        ],
+        [
+          0.7741237140539426,
+          5.0,
+          0.7039305571169923
+        ]
+      ],
+      "archetype": "sapling",
+      "path": "assets/imported/lodgepole/sapling_lod1.gltf",
+      "buffer_bytes": 25552
+    },
+    {
+      "height_m": 5.0,
+      "dbh_m": 0.07,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.86,
+      "live_crown_base_m": 0.7000000000000001,
+      "clear_bole_fraction": 0.14,
+      "bounds_m": [
+        [
+          -0.7543289532421381,
+          0.0,
+          -0.7843812831907023
+        ],
+        [
+          0.7741237140539426,
+          5.0,
+          0.7039305571169919
+        ]
+      ],
+      "primary_branches": 13,
+      "twig_branches": 0,
+      "needle_cards": 78,
+      "triangles": 360,
+      "lod": 2,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.05168868749001407
+        ],
+        [
+          1.0,
+          0.03782536255010882
+        ],
+        [
+          1.3,
+          0.035
+        ],
+        [
+          2.0,
+          0.0288935922726345
+        ],
+        [
+          3.0,
+          0.020245237282167903
+        ],
+        [
+          4.0,
+          0.010992996527709988
+        ],
+        [
+          5.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4384",
+      "architecture_axes": 346,
+      "architecture_shoots": 1241,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -0.7543289532421381,
+          0.7000000000000001,
+          -0.7843812831907023
+        ],
+        [
+          0.7741237140539426,
+          5.0,
+          0.7039305571169923
+        ]
+      ],
+      "archetype": "sapling",
+      "path": "assets/imported/lodgepole/sapling_lod2.gltf",
+      "buffer_bytes": 20416
+    },
+    {
+      "height_m": 14.0,
+      "dbh_m": 0.24,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.0,
+      "live_crown_base_m": null,
+      "clear_bole_fraction": 1.0,
+      "bounds_m": [
+        [
+          -0.621638156884544,
+          0.0,
+          -0.778230042136803
+        ],
+        [
+          0.7289075243785691,
+          14.0,
+          0.6506013112667095
+        ]
+      ],
+      "primary_branches": 83,
+      "twig_branches": 0,
+      "needle_cards": 0,
+      "triangles": 4570,
+      "lod": 0,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.15258120478052556
+        ],
+        [
+          0.7,
+          0.12893788566424247
+        ],
+        [
+          1.3,
+          0.12
+        ],
+        [
+          1.4,
+          0.11887325028090713
+        ],
+        [
+          2.0999999999999996,
+          0.11212101701992644
+        ],
+        [
+          2.8,
+          0.10614705773230405
+        ],
+        [
+          3.5,
+          0.10032362688432468
+        ],
+        [
+          4.199999999999999,
+          0.09449267039625671
+        ],
+        [
+          4.8999999999999995,
+          0.08861144578953667
+        ],
+        [
+          5.6,
+          0.08266500548297587
+        ],
+        [
+          6.3,
+          0.0766444422744707
+        ],
+        [
+          7.0,
+          0.07054128417224727
+        ],
+        [
+          7.699999999999999,
+          0.06434576829331516
+        ],
+        [
+          8.399999999999999,
+          0.05804590664053166
+        ],
+        [
+          9.1,
+          0.0516264718936421
+        ],
+        [
+          9.799999999999999,
+          0.04506747571273694
+        ],
+        [
+          10.5,
+          0.03834159112799608
+        ],
+        [
+          11.2,
+          0.031409356787106345
+        ],
+        [
+          11.899999999999999,
+          0.024209122039641515
+        ],
+        [
+          12.6,
+          0.016631806174383725
+        ],
+        [
+          13.299999999999999,
+          0.008433446660609153
+        ],
+        [
+          14.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4385",
+      "architecture_axes": 84,
+      "architecture_shoots": 0,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -0.621638156884544,
+          3.414163535682198,
+          -0.778230042136803
+        ],
+        [
+          0.7289075243785691,
+          11.944830763202203,
+          0.6506013112667095
+        ]
+      ],
+      "archetype": "snag",
+      "path": "assets/imported/lodgepole/snag_lod0.gltf",
+      "buffer_bytes": 158200
+    },
+    {
+      "height_m": 14.0,
+      "dbh_m": 0.24,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.0,
+      "live_crown_base_m": null,
+      "clear_bole_fraction": 1.0,
+      "bounds_m": [
+        [
+          -0.621638156884544,
+          0.0,
+          -0.778230042136803
+        ],
+        [
+          0.7289075243785689,
+          14.0,
+          0.6506013112667094
+        ]
+      ],
+      "primary_branches": 42,
+      "twig_branches": 0,
+      "needle_cards": 0,
+      "triangles": 636,
+      "lod": 1,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.15258120478052556
+        ],
+        [
+          1.3,
+          0.12
+        ],
+        [
+          1.4,
+          0.11887325028090713
+        ],
+        [
+          2.8,
+          0.10614705773230405
+        ],
+        [
+          4.199999999999999,
+          0.09449267039625671
+        ],
+        [
+          5.6,
+          0.08266500548297587
+        ],
+        [
+          7.0,
+          0.07054128417224727
+        ],
+        [
+          8.399999999999999,
+          0.05804590664053166
+        ],
+        [
+          9.799999999999999,
+          0.04506747571273694
+        ],
+        [
+          11.2,
+          0.031409356787106345
+        ],
+        [
+          12.6,
+          0.016631806174383725
+        ],
+        [
+          14.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4385",
+      "architecture_axes": 84,
+      "architecture_shoots": 0,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -0.621638156884544,
+          3.414163535682198,
+          -0.778230042136803
+        ],
+        [
+          0.7289075243785691,
+          11.944830763202203,
+          0.6506013112667095
+        ]
+      ],
+      "archetype": "snag",
+      "path": "assets/imported/lodgepole/snag_lod1.gltf",
+      "buffer_bytes": 26448
+    },
+    {
+      "height_m": 14.0,
+      "dbh_m": 0.24,
+      "crown_radius_m": 0.8,
+      "crown_ratio": 0.0,
+      "live_crown_base_m": null,
+      "clear_bole_fraction": 1.0,
+      "bounds_m": [
+        [
+          -0.621638156884544,
+          0.0,
+          -0.778230042136803
+        ],
+        [
+          0.7289075243785691,
+          14.0,
+          0.6506013112667094
+        ]
+      ],
+      "primary_branches": 28,
+      "twig_branches": 0,
+      "needle_cards": 0,
+      "triangles": 384,
+      "lod": 2,
+      "dimension_provenance": "authored",
+      "needle_length_m": 0.0508,
+      "needle_fascicle_count": 2,
+      "bole_profile_m": [
+        [
+          0.0,
+          0.15258120478052556
+        ],
+        [
+          1.3,
+          0.12
+        ],
+        [
+          2.8,
+          0.10614705773230405
+        ],
+        [
+          5.6,
+          0.08266500548297587
+        ],
+        [
+          8.399999999999999,
+          0.05804590664053166
+        ],
+        [
+          11.2,
+          0.031409356787106345
+        ],
+        [
+          14.0,
+          0.002
+        ]
+      ],
+      "architecture_identity": "4385",
+      "architecture_axes": 84,
+      "architecture_shoots": 0,
+      "architecture_status": "illustrative_not_locally_validated",
+      "crown_bounds_m": [
+        [
+          -0.621638156884544,
+          3.414163535682198,
+          -0.778230042136803
+        ],
+        [
+          0.7289075243785691,
+          11.944830763202203,
+          0.6506013112667095
+        ]
+      ],
+      "archetype": "snag",
+      "path": "assets/imported/lodgepole/snag_lod2.gltf",
+      "buffer_bytes": 16480
+    }
+  ],
+  "display_envelope_model": {
+    "id": "bechtold_lodgepole_dbh_only",
+    "citation": "Bechtold (2004), Table 3, Equation 3",
+    "url": "https://research.fs.usda.gov/download/treesearch/7732.pdf",
+    "coefficient_units": "LCW in ft; DBH in inches",
+    "coefficients": [
+      -1.1994,
+      1.5154,
+      -0.0232
+    ],
+    "dbh_range_in": [
+      5.0,
+      62.2
+    ],
+    "sample_n": 2761,
+    "fit_r2": 0.54,
+    "fit_rmse_ft": 2.9,
+    "fit_cv_percent": 30,
+    "output_scope": "Mean widest and perpendicular horizontal crown diameters of stand-grown trees",
+    "evidence_class": "transferred",
+    "local_error": "unknown"
+  },
+  "photo_display": {
+    "width_height_ratio": 0.28,
+    "width_height_ratio_range": [
+      0.24,
+      0.32
+    ],
+    "live_crown_ratio_floor": 0.7,
+    "evidence_class": "authored",
+    "evidence_basis": "image_derived_nonmetric_silhouette_estimates",
+    "uncertainty": "unknown",
+    "scale_m": null,
+    "camera_pose": null,
+    "limitations": "Occluded bases, perspective and overlapping crowns prevent metric width estimates",
+    "references": [
+      {
+        "sha256": "7b9c158facb147437e1d5a3d58bddfcc214aa6caa013c66c5155c0165c77a41b",
+        "id": 1,
+        "visible_tip_px": [
+          193,
+          202
+        ],
+        "visible_lower_px": [
+          191,
+          854
+        ],
+        "silhouette_width_px": 183,
+        "base_occluded": true
+      },
+      {
+        "sha256": "2073c39c7235803a5d8680654e80ed919975d50272abd2510d62b3cff9dcf57e",
+        "id": 2,
+        "visible_tip_px": [
+          829,
+          163
+        ],
+        "visible_lower_px": [
+          801,
+          594
+        ],
+        "silhouette_width_px": 150,
+        "base_occluded": true
+      },
+      {
+        "sha256": "4047a613d4dda3e1404fcb4e96570ad96eeeeb122e2765cf1eb9314e7c446342",
+        "id": 3,
+        "supports": "Small retained lower branches, straight boles and layered needle sprays; perspective width unmeasured"
+      },
+      {
+        "sha256": "7ffc9f014f9d8934966a6fa29fa061a655d200f6ca58609bff66fbeb68c57352",
+        "id": 4,
+        "visible_tip_px": [
+          758,
+          44
+        ],
+        "visible_lower_px": [
+          735,
+          981
+        ],
+        "silhouette_width_px": 258,
+        "base_occluded": true
+      },
+      {
+        "sha256": "ee982edab9a70f9b6cd85d3b2b227e1eb1623552068d8ad1e43866021c6e3210",
+        "id": 5,
+        "supports": "Overlapping lower foreground foliage; individual full crown boundaries unresolved"
+      }
+    ]
+  },
+  "architecture_method_sources": [
+    {
+      "id": "boudon_lpy",
+      "citation": "Boudon et al. (2012), doi:10.3389/fpls.2012.00076",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2012.00076/full",
+      "supports": "Rooted growth-unit graphs and stochastic lateral productions",
+      "transfer_scope": "Computational method; species-specific numerical parameters remain authored"
+    },
+    {
+      "id": "usda_silvics",
+      "citation": "Lotan and Critchfield (1990)",
+      "url": "https://research.fs.usda.gov/silvics/lodgepole-pine",
+      "supports": "Low stem taper, small limbs, poor natural pruning, shade intolerance",
+      "transfer_scope": "Qualitative Pinus contorta botanical context"
+    },
+    {
+      "id": "usda_needles",
+      "citation": "USDA Forest Service lodgepole identification guide",
+      "url": "https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/fseprd1178128.pdf",
+      "supports": "Two-needle fascicles and 1-3 inch needle lengths",
+      "transfer_scope": "Needle morphology"
+    }
+  ],
+  "display_envelope_reference_cases": [
+    {
+      "dbh_m": 0.127,
+      "radius_m": 0.88355424
+    },
+    {
+      "dbh_m": 0.254,
+      "radius_m": 1.77311304
+    },
+    {
+      "dbh_m": 0.508,
+      "radius_m": 3.02187864
+    },
+    {
+      "dbh_m": 1.57988,
+      "radius_m": 0.5031321408000032
+    }
+  ],
+  "limitations": [
+    "Archetype dimensions are authored rendering assumptions, not measured allometry.",
+    "LiDAR-derived heights remain independent; full display crowns combine retained core radii with transferred or authored envelopes.",
+    "Fallback DBH is authored; TreeMap DBH/crown ratio are transferred. Display crown base adds an authored photo-derived constraint.",
+    "Needle cards approximate shoots; distant LODs aggregate needles into larger cards.",
+    "Operator-supplied Tripo candidate is inspected separately and its unspecified license is not relabeled.",
+    "Far impostors retain the selected archetype crown ratio beyond 180 m.",
+    "Botanical acceptance and empirical allometry are not established by topology or rendering checks."
+  ],
+  "geometry_sha256": "4cfccd2f40a59deaec5085e9010c9f185e7d8ab8e96f755bb95778f3955360a7",
+  "near_variant_files": {
+    "dense": [
+      "dense_lod0.gltf",
+      "dense_variant1_lod0.gltf",
+      "dense_variant2_lod0.gltf",
+      "dense_variant3_lod0.gltf"
+    ],
+    "edge": [
+      "edge_lod0.gltf",
+      "edge_variant1_lod0.gltf",
+      "edge_variant2_lod0.gltf",
+      "edge_variant3_lod0.gltf"
+    ],
+    "open": [
+      "open_lod0.gltf",
+      "open_variant1_lod0.gltf",
+      "open_variant2_lod0.gltf",
+      "open_variant3_lod0.gltf"
+    ],
+    "sapling": [
+      "sapling_lod0.gltf",
+      "sapling_variant1_lod0.gltf",
+      "sapling_variant2_lod0.gltf",
+      "sapling_variant3_lod0.gltf"
+    ],
+    "snag": [
+      "snag_lod0.gltf",
+      "snag_variant1_lod0.gltf",
+      "snag_variant2_lod0.gltf",
+      "snag_variant3_lod0.gltf"
+    ]
+  },
+  "architecture_parameters_by_archetype": {
+    "dense": {
+      "whorl_spacing_m": 0.65,
+      "spacing_relative_variation": 0.35,
+      "branch_count_min": 4,
+      "branch_count_max": 7,
+      "branch_azimuth_jitter_rad": 0.2,
+      "branch_length_fraction_min": 0.65,
+      "branch_length_fraction_max": 1.0,
+      "lower_branch_survival": 0.82,
+      "branch_drop_fraction": 0.12,
+      "branch_tip_turn_fraction": 0.19,
+      "lateral_pairs_min": 3,
+      "lateral_pairs_max": 5,
+      "shoot_length_min_m": 0.16,
+      "shoot_length_max_m": 0.36,
+      "shoot_count_min": 3,
+      "shoot_count_max": 5,
+      "trunk_sway_fraction": 0.003,
+      "needle_length_m": 0.0508,
+      "fascicle_count": 2
+    },
+    "edge": {
+      "whorl_spacing_m": 0.65,
+      "spacing_relative_variation": 0.35,
+      "branch_count_min": 4,
+      "branch_count_max": 7,
+      "branch_azimuth_jitter_rad": 0.2,
+      "branch_length_fraction_min": 0.65,
+      "branch_length_fraction_max": 1.0,
+      "lower_branch_survival": 0.94,
+      "branch_drop_fraction": 0.12,
+      "branch_tip_turn_fraction": 0.19,
+      "lateral_pairs_min": 3,
+      "lateral_pairs_max": 5,
+      "shoot_length_min_m": 0.16,
+      "shoot_length_max_m": 0.36,
+      "shoot_count_min": 3,
+      "shoot_count_max": 5,
+      "trunk_sway_fraction": 0.003,
+      "needle_length_m": 0.0508,
+      "fascicle_count": 2
+    },
+    "open": {
+      "whorl_spacing_m": 0.65,
+      "spacing_relative_variation": 0.35,
+      "branch_count_min": 4,
+      "branch_count_max": 7,
+      "branch_azimuth_jitter_rad": 0.2,
+      "branch_length_fraction_min": 0.65,
+      "branch_length_fraction_max": 1.0,
+      "lower_branch_survival": 0.94,
+      "branch_drop_fraction": 0.12,
+      "branch_tip_turn_fraction": 0.19,
+      "lateral_pairs_min": 3,
+      "lateral_pairs_max": 5,
+      "shoot_length_min_m": 0.16,
+      "shoot_length_max_m": 0.36,
+      "shoot_count_min": 3,
+      "shoot_count_max": 5,
+      "trunk_sway_fraction": 0.003,
+      "needle_length_m": 0.0508,
+      "fascicle_count": 2
+    },
+    "sapling": {
+      "whorl_spacing_m": 0.65,
+      "spacing_relative_variation": 0.35,
+      "branch_count_min": 4,
+      "branch_count_max": 7,
+      "branch_azimuth_jitter_rad": 0.2,
+      "branch_length_fraction_min": 0.65,
+      "branch_length_fraction_max": 1.0,
+      "lower_branch_survival": 0.94,
+      "branch_drop_fraction": 0.12,
+      "branch_tip_turn_fraction": 0.19,
+      "lateral_pairs_min": 3,
+      "lateral_pairs_max": 5,
+      "shoot_length_min_m": 0.16,
+      "shoot_length_max_m": 0.36,
+      "shoot_count_min": 3,
+      "shoot_count_max": 5,
+      "trunk_sway_fraction": 0.003,
+      "needle_length_m": 0.0508,
+      "fascicle_count": 2
+    },
+    "snag": {
+      "whorl_spacing_m": 0.65,
+      "spacing_relative_variation": 0.35,
+      "branch_count_min": 4,
+      "branch_count_max": 7,
+      "branch_azimuth_jitter_rad": 0.2,
+      "branch_length_fraction_min": 0.65,
+      "branch_length_fraction_max": 1.0,
+      "lower_branch_survival": 0.82,
+      "branch_drop_fraction": 0.12,
+      "branch_tip_turn_fraction": 0.19,
+      "lateral_pairs_min": 3,
+      "lateral_pairs_max": 5,
+      "shoot_length_min_m": 0.16,
+      "shoot_length_max_m": 0.36,
+      "shoot_count_min": 3,
+      "shoot_count_max": 5,
+      "trunk_sway_fraction": 0.003,
+      "needle_length_m": 0.0508,
+      "fascicle_count": 2
+    }
+  },
+  "architecture_library_sha256": "9f4ae369f2d70e4f662eb2be6ddd2be75289e376b4c8016ecc09bb5e25c5cedd",
+  "near_variation_scope": "Four seeded branch graphs at LOD0; middle and far use canonical topology and view variation",
+  "billboard_source_sha256": "79161aecbe1004e7ddb0e9b2b3c4e3eb48a96d24c43dd2c3e278039dc28d5bbd",
+  "billboards": {
+    "dense": {
+      "views": [
+        "dense_billboard_0.png",
+        "dense_billboard_1.png",
+        "dense_billboard_2.png",
+        "dense_billboard_3.png"
+      ],
+      "width_m": 9.06,
+      "height_m": 18.12,
+      "center_y_m": 9.0,
+      "azimuth_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "resolution_px": [
+        512,
+        1024
+      ],
+      "lighting": "authored diffuse render for distant unshaded impostor"
+    },
+    "edge": {
+      "views": [
+        "edge_billboard_0.png",
+        "edge_billboard_1.png",
+        "edge_billboard_2.png",
+        "edge_billboard_3.png"
+      ],
+      "width_m": 9.06,
+      "height_m": 18.12,
+      "center_y_m": 9.0,
+      "azimuth_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "resolution_px": [
+        512,
+        1024
+      ],
+      "lighting": "authored diffuse render for distant unshaded impostor"
+    },
+    "open": {
+      "views": [
+        "open_billboard_0.png",
+        "open_billboard_1.png",
+        "open_billboard_2.png",
+        "open_billboard_3.png"
+      ],
+      "width_m": 8.06,
+      "height_m": 16.12,
+      "center_y_m": 8.0,
+      "azimuth_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "resolution_px": [
+        512,
+        1024
+      ],
+      "lighting": "authored diffuse render for distant unshaded impostor"
+    },
+    "sapling": {
+      "views": [
+        "sapling_billboard_0.png",
+        "sapling_billboard_1.png",
+        "sapling_billboard_2.png",
+        "sapling_billboard_3.png"
+      ],
+      "width_m": 2.56,
+      "height_m": 5.12,
+      "center_y_m": 2.5,
+      "azimuth_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "resolution_px": [
+        512,
+        1024
+      ],
+      "lighting": "authored diffuse render for distant unshaded impostor"
+    },
+    "snag": {
+      "views": [
+        "snag_billboard_0.png",
+        "snag_billboard_1.png",
+        "snag_billboard_2.png",
+        "snag_billboard_3.png"
+      ],
+      "width_m": 7.06,
+      "height_m": 14.12,
+      "center_y_m": 7.0,
+      "azimuth_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "resolution_px": [
+        512,
+        1024
+      ],
+      "lighting": "authored diffuse render for distant unshaded impostor"
+    }
+  },
+  "cutout_mips": {
+    "needle_shoot.png": {
+      "path": "needle_shoot.miprgba",
+      "sha256": "f0e4a3b5eb1968df29ed3cb18414456161b4c82fd62b79d40fc456dca719a9ef",
+      "source_sha256": "2ec7d0eae8c3782a029f52a747e73af8c70a48d259c304594328592c6dbbc136",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.18890762329101562,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.18890762329101562
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.18890380859375
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.18890380859375
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.18896484375
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.18896484375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.189453125
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.25
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "needle_cluster.png": {
+      "path": "needle_cluster.miprgba",
+      "sha256": "7a8b9aea660778f57a77e67634cfeceb00bd9412e19e66db846fc13e502abb15",
+      "source_sha256": "fa776a9ad7f80b37c2bff440605d95e968fde122e7f77117216982f9808eaa1d",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.25006866455078125,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.25006866455078125
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.25006866455078125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.25006103515625
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.2501220703125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.25
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.25
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.25
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.25
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.25
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.5
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "dense_billboard_0.png": {
+      "path": "dense_billboard_0.miprgba",
+      "sha256": "01dd635fdce2253527ad12dafb714f5503beeecb5b087e2fa160b72c77c2f972",
+      "source_sha256": "509cc7e8411b6948c61a1f221bb94637dfbe9bc53e8fb53bf24fa9a1fcb6d868",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.098663330078125,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.098663330078125
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.098663330078125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.098663330078125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.0986328125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.0986328125
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.099609375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1015625
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.09375
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "dense_billboard_1.png": {
+      "path": "dense_billboard_1.miprgba",
+      "sha256": "5fd12f168d7825709c53a9623791feea7750058cd018320f4c3fdb5125cd608e",
+      "source_sha256": "4f79ff9ecfe042adbdff1533d4575ac009167405b926761f472745736d85ad45",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.09904098510742188,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.09904098510742188
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.0990447998046875
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.099029541015625
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.0989990234375
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.09912109375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.099609375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1015625
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.09375
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "dense_billboard_2.png": {
+      "path": "dense_billboard_2.miprgba",
+      "sha256": "44b5a1744844fe63eb8812310c807bfcecea88c6ffb0f14afc5cc3b2f7d5f850",
+      "source_sha256": "be77b1d0889ad1ed374bcf1e8f8eda1e3122961d704ab65daf2c6630e4dd4c2a",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.09866714477539062,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.09866714477539062
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.098663330078125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.098663330078125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.0986328125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.0986328125
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.099609375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1015625
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.09375
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "dense_billboard_3.png": {
+      "path": "dense_billboard_3.miprgba",
+      "sha256": "fa850b7623b6f7312ab1ee21df4dae414372f788cf2b50df4fbc3073a21c4798",
+      "source_sha256": "23f3288e2a3bd030b0165d605da1be8c145aae21ffa65489f8ffeeaae5d3960d",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.098846435546875,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.098846435546875
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.098846435546875
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.098846435546875
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.098876953125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.0986328125
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.099609375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1015625
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.09375
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "edge_billboard_0.png": {
+      "path": "edge_billboard_0.miprgba",
+      "sha256": "7fa0538eed09b361ccbe4c7bc9798019b273fbe9d90279bfd9eb2649188bab25",
+      "source_sha256": "433fb6e548e94630d5f1d97f5fd576638ec46a3f7b53162d12b680fc014d50f6",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.13458824157714844,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.13458824157714844
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.13459014892578125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.13458251953125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1346435546875
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.134765625
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.134765625
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1328125
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "edge_billboard_1.png": {
+      "path": "edge_billboard_1.miprgba",
+      "sha256": "c6842190ac38b84ceb9a7333df080b7606103d241fb3e0482b01a8e18b29e941",
+      "source_sha256": "5b5190cc26ba8266e91469082e4c45eed325218302a814642e1263e6b6dbee5c",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.13504791259765625,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.13504791259765625
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.13504791259765625
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.135040283203125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.135009765625
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.13525390625
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.134765625
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1328125
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "edge_billboard_2.png": {
+      "path": "edge_billboard_2.miprgba",
+      "sha256": "6733d7f354a2bff072624b88c93eb2c955e2d7f33cef33c565bd817bf7aa22cb",
+      "source_sha256": "ec742340381e0f65df45ae1680716b00e1af4e6249908599b03e78e467770e1c",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.1346721649169922,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.1346721649169922
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.134674072265625
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.134674072265625
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1346435546875
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.134765625
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.134765625
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1328125
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "edge_billboard_3.png": {
+      "path": "edge_billboard_3.miprgba",
+      "sha256": "a469a3675c98e7782de151945fb2e14db1971a39d4baec3dcb4c84e724865677",
+      "source_sha256": "e08509e80a7f84590efe7848f676c5a33c9cffaa7c048a8f46b902bc2eca7b98",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.13502120971679688,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.13502120971679688
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.1350250244140625
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.135009765625
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.135009765625
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.13525390625
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.134765625
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1328125
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "open_billboard_0.png": {
+      "path": "open_billboard_0.miprgba",
+      "sha256": "58ea52d6ff8bdd848cbf10edf7a36e0976527d04030e853f9516c8474ef9afb1",
+      "source_sha256": "0993cd3b0f4e3d68e782be6e81d0650b9fa931ff5b700c3056d70cca537bbf65",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.17394638061523438,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.17394638061523438
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.1739501953125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.1739501953125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1739501953125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.173828125
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.173828125
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.171875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "open_billboard_1.png": {
+      "path": "open_billboard_1.miprgba",
+      "sha256": "70780567c66891023cb8dcf0043e0ced159f19cd7fcd459dc248edc171bf18dd",
+      "source_sha256": "692f5e25d40b14a489a89a0edfd96d0ebe6e45ba3a9171d5851ccf0f14fd8a03",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.1761493682861328,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.1761493682861328
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.1761474609375
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.1761474609375
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1761474609375
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.17626953125
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.17578125
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1796875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "open_billboard_2.png": {
+      "path": "open_billboard_2.miprgba",
+      "sha256": "b7f4fa7f516af667c55d51b8913d38423f7f62fdb8c30ff37389e33d9a956ae7",
+      "source_sha256": "5d48e1104c4b5df06c70bc90240816e0cd1a675c94e687fc377589ef5492419e",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.17385482788085938,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.17385482788085938
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.173858642578125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.173858642578125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.173828125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.173828125
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.173828125
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.171875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "open_billboard_3.png": {
+      "path": "open_billboard_3.miprgba",
+      "sha256": "d05efd9ca7b34234c1ec40ccf499bc1290ca4e1da5bcf12cccc3e068b03b999a",
+      "source_sha256": "383aa84431f08851e23718eeeb888d724de2344f8bc3ece1e1f632f474aa2e22",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.17610740661621094,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.17610740661621094
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.17610931396484375
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.176116943359375
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1761474609375
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.17626953125
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.17578125
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1796875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "sapling_billboard_0.png": {
+      "path": "sapling_billboard_0.miprgba",
+      "sha256": "03b70cf57d1102ecbea7e62973bdd55d6f305221cb1eefed1de78fc7ba3c4fd5",
+      "source_sha256": "41a9a3123152133f6a62bc3da50d9072d565590e0e3ed9df015e6c561b40511b",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.17857742309570312,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.17857742309570312
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.1785736083984375
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.1785888671875
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1785888671875
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.1787109375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.177734375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1796875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "sapling_billboard_1.png": {
+      "path": "sapling_billboard_1.miprgba",
+      "sha256": "801d8cb239dd487ecab1ca6a9c51c8fbd0ffef2caa3625be8cb66a4ba50a371f",
+      "source_sha256": "5959e2293f252faff4856be12582e119f574d53efc9d08ef1f543bd3fed6b44e",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.1775531768798828,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.1775531768798828
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.17755126953125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.17755126953125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1776123046875
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.177734375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.177734375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1796875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "sapling_billboard_2.png": {
+      "path": "sapling_billboard_2.miprgba",
+      "sha256": "94cd07df4873e75a179fd5983fefa9dbdf5032c6dd91c2824979564c75758c39",
+      "source_sha256": "f351401abfddddd29af175ef38ab30e06324c3336fd933123bbdb3da94d5f96c",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.17858314514160156,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.17858314514160156
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.17858123779296875
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.1785888671875
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1785888671875
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.1787109375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.177734375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1796875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "sapling_billboard_3.png": {
+      "path": "sapling_billboard_3.miprgba",
+      "sha256": "d1f03117fa184bcb8b8e8614995a55f6ea5ee13373a80bb434dd527ce740990d",
+      "source_sha256": "f02d38118f4c80124f2aabf95a3559f4b3753cbe969e1b159cec3b8815001d1c",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.177581787109375,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.177581787109375
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.177581787109375
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.177581787109375
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.1776123046875
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.177734375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.177734375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.1796875
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.1875
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.125
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "snag_billboard_0.png": {
+      "path": "snag_billboard_0.miprgba",
+      "sha256": "d2f989609bde2ce19819dddc2915a54b3b4d73e61e667a61abb3a3a0f32fc896",
+      "source_sha256": "6748ba1a3ee2e5986309c8521fddfee365189d5f01cd9fbdf5a15b944f3229ce",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.022726058959960938,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.022726058959960938
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.02272796630859375
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.022735595703125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.022705078125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.02294921875
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.03125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "snag_billboard_1.png": {
+      "path": "snag_billboard_1.miprgba",
+      "sha256": "95efecc5adeeb652b2e56046ca536fef69268fe455d20afc099b115ed15556e9",
+      "source_sha256": "5117561c279b067c2fcffec8ef8c48bad37d7b39c1e5e8bb3b17513108732e37",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.023502349853515625,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.023502349853515625
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.02349853515625
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.02349853515625
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.0235595703125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.03125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "snag_billboard_2.png": {
+      "path": "snag_billboard_2.miprgba",
+      "sha256": "6252fb15cc9ee9fe1ddcf81c414c7e0272e2b4a6ef136a4869183bfed30b24f8",
+      "source_sha256": "630de8882c88c8b9bcce78f0ceac0d01e5ddb8c1e79bf0e3aa0ee8cf6024fb29",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.022733688354492188,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.022733688354492188
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.022735595703125
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.022735595703125
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.022705078125
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.02294921875
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.03125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "snag_billboard_3.png": {
+      "path": "snag_billboard_3.miprgba",
+      "sha256": "9231fed1c2ce62aa24a45a511a20877b8fee4d6727755715aa39b82390748e70",
+      "source_sha256": "0e922964057670dc93f836d6ae579439cbb409270444a68a52b86cfd2c350fe3",
+      "bytes": 2796204,
+      "width": 512,
+      "height": 1024,
+      "cutoff": 0.32,
+      "base_coverage": 0.023496627807617188,
+      "levels": [
+        {
+          "level": 0,
+          "width": 512,
+          "height": 1024,
+          "offset": 0,
+          "bytes": 2097152,
+          "alpha_test_coverage": 0.023496627807617188
+        },
+        {
+          "level": 1,
+          "width": 256,
+          "height": 512,
+          "offset": 2097152,
+          "bytes": 524288,
+          "alpha_test_coverage": 0.02349853515625
+        },
+        {
+          "level": 2,
+          "width": 128,
+          "height": 256,
+          "offset": 2621440,
+          "bytes": 131072,
+          "alpha_test_coverage": 0.02349853515625
+        },
+        {
+          "level": 3,
+          "width": 64,
+          "height": 128,
+          "offset": 2752512,
+          "bytes": 32768,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 4,
+          "width": 32,
+          "height": 64,
+          "offset": 2785280,
+          "bytes": 8192,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 5,
+          "width": 16,
+          "height": 32,
+          "offset": 2793472,
+          "bytes": 2048,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 6,
+          "width": 8,
+          "height": 16,
+          "offset": 2795520,
+          "bytes": 512,
+          "alpha_test_coverage": 0.0234375
+        },
+        {
+          "level": 7,
+          "width": 4,
+          "height": 8,
+          "offset": 2796032,
+          "bytes": 128,
+          "alpha_test_coverage": 0.03125
+        },
+        {
+          "level": 8,
+          "width": 2,
+          "height": 4,
+          "offset": 2796160,
+          "bytes": 32,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 9,
+          "width": 1,
+          "height": 2,
+          "offset": 2796192,
+          "bytes": 8,
+          "alpha_test_coverage": 0.0
+        },
+        {
+          "level": 10,
+          "width": 1,
+          "height": 1,
+          "offset": 2796200,
+          "bytes": 4,
+          "alpha_test_coverage": 0.0
+        }
+      ],
+      "evidence_class": "authored",
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    }
+  },
+  "billboard_mips_pending": false
+}

@@ -5,7 +5,6 @@ extends Node
 
 ## Freshness modes: "wall_clock" compares generated_at_unix with the computer clock, "simulation_clock" compares it with a supplied simulation time, "disabled" accepts snapshots without age validation.
 
-## Producer writes a complete temporary file and atomically replaces the target snapshot; the reader keeps the last valid state when a file is missing, malformed, stale, or invalid.
 
 const SUPPORTED_SCHEMA_VERSIONS: Array[int] = [1, 2]
 
@@ -326,7 +325,7 @@ func _validate_freshness(root: Dictionary) -> bool:
 		)
 		freshness_mode = FRESHNESS_WALL_CLOCK
 
-	var generated_at := float(root["generated_at_unix"])
+	var generated_at := float(root.get("valid_time_unix", root.get("simulation_time_unix", root["generated_at_unix"]))) if freshness_mode == FRESHNESS_SIMULATION_CLOCK else float(root["generated_at_unix"])
 	var reference_time := Time.get_unix_time_from_system()
 
 	if freshness_mode == FRESHNESS_SIMULATION_CLOCK:

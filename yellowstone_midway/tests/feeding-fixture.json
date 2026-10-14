@@ -1,0 +1,145 @@
+{
+  "source": "yellowstone_python.aquatic.fish.thermal_performance",
+  "frames": [
+    {
+      "t_s": 0.0,
+      "temperature_c": [
+        2.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          0.0
+        ],
+        "rainbow_trout": [
+          0.0
+        ]
+      }
+    },
+    {
+      "t_s": 1.0,
+      "temperature_c": [
+        7.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          0.5
+        ],
+        "rainbow_trout": [
+          0.4545454545454546
+        ]
+      }
+    },
+    {
+      "t_s": 2.0,
+      "temperature_c": [
+        10.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          0.8
+        ],
+        "rainbow_trout": [
+          0.7272727272727273
+        ]
+      }
+    },
+    {
+      "t_s": 3.0,
+      "temperature_c": [
+        12.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          1.0
+        ],
+        "rainbow_trout": [
+          0.9090909090909091
+        ]
+      }
+    },
+    {
+      "t_s": 4.0,
+      "temperature_c": [
+        14.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          1.0
+        ],
+        "rainbow_trout": [
+          1.0
+        ]
+      }
+    },
+    {
+      "t_s": 5.0,
+      "temperature_c": [
+        16.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          1.0
+        ],
+        "rainbow_trout": [
+          1.0
+        ]
+      }
+    },
+    {
+      "t_s": 6.0,
+      "temperature_c": [
+        18.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          0.5
+        ],
+        "rainbow_trout": [
+          0.8
+        ]
+      }
+    },
+    {
+      "t_s": 7.0,
+      "temperature_c": [
+        20.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          0.0
+        ],
+        "rainbow_trout": [
+          0.4
+        ]
+      }
+    },
+    {
+      "t_s": 8.0,
+      "temperature_c": [
+        21.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          0.0
+        ],
+        "rainbow_trout": [
+          0.19999999999999996
+        ]
+      }
+    },
+    {
+      "t_s": 9.0,
+      "temperature_c": [
+        22.0
+      ],
+      "feeding_by_species": {
+        "brown_trout": [
+          0.0
+        ],
+        "rainbow_trout": [
+          0.0
+        ]
+      }
+    }
+  ]
+}

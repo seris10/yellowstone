@@ -1,6 +1,8 @@
 """Three-compartment prey + bird diets."""
 from __future__ import annotations
 
+from yellowstone_python.common.checks import finite as _finite, nonnegative as _nonnegative, positive as _positive, fraction as _unit_interval
+
 import copy
 import math
 
@@ -12,13 +14,13 @@ SUNLIGHT_CIVIL_TWILIGHT_DEG = -6.0
 
 def _solar_elevation_deg_from_hour(hour: float) -> float:
     """Nominal solar elevation (deg) from local solar hour.
-    Cosine profile peaking at hour 12 with 90 deg amplitude."""
+Cosine profile peaking at hour 12 with 90 deg amplitude."""
     return 90.0 * math.cos((float(hour) - 12.0) * math.pi / 12.0)
 
 
 def sunlight(hour: float) -> float:
     """Smooth sunlight weight in [0, 1] from solar elevation.
-    Linear ramp from zero at -6 deg civil twilight to one at zenith; no hard clip at sunrise/sunset."""
+Linear ramp from zero at -6 deg civil twilight to one at zenith; no hard clip at sunrise/sunset."""
     hour = _finite("hour", hour)
     elev = _solar_elevation_deg_from_hour(hour)
     span = 90.0 - SUNLIGHT_CIVIL_TWILIGHT_DEG
@@ -102,7 +104,7 @@ def _validate_wildlife_records(wildlife: list) -> None:
 
 def update_wildlife(wildlife: list, activity_by_patch: dict) -> list:
     """Retune dipper/raven cadence from shared activity.
-    Prefer update_wildlife_from_intake() for intake-driven timing."""
+Prefer update_wildlife_from_intake() for intake-driven timing."""
     _validate_wildlife_records(wildlife)
     out = copy.deepcopy(wildlife)
     for rec in out:
@@ -140,7 +142,7 @@ def develop_benthic(nb: float, water_c: float, dt_s: float,
                     t_cutoff: float | None = None
                     ) -> tuple[float, float, float]:
     """Benthic degree-day development to emergence flux.
-    Returns (nb_new, emergence, disturbance_loss); disturbance_loss is the stock removed by shear."""
+Returns (nb_new, emergence, disturbance_loss); disturbance_loss is the stock removed by shear."""
     nb = _finite("nb", nb)
     # Float noise from prior steps reads as tiny negatives; clamp those.
     if -1e-12 < nb < 0.0:
@@ -174,7 +176,7 @@ def develop_benthic_grid(nb_cells: list, water_c_cells: list, dt_s: float,
                          capacity: float = 1.0, disturbance: float = 0.0,
                          t_cutoff: float | None = None) -> dict:
     """Per-cell develop_benthic driven by a per-cell temperature array.
-    Lengths must match; returns dict with nb, emergence, disturbance_loss lists."""
+Lengths must match; returns dict with nb, emergence, disturbance_loss lists."""
     if not isinstance(nb_cells, (list, tuple)):
         raise ValueError("nb_cells must be a list or tuple")
     if not isinstance(water_c_cells, (list, tuple)):
@@ -202,37 +204,12 @@ PREY_COMPARTMENTS = frozenset({
 })
 
 
-def _finite(name: str, value):
-    if isinstance(value, bool):
-        raise ValueError(f"{name} must not be boolean")
-    try:
-        value = float(value)
-    except (TypeError, ValueError) as exc:
-        raise ValueError(f"{name} must be numeric") from exc
-    if not math.isfinite(value):
-        raise ValueError(f"{name} must be finite")
-    return value
 
 
-def _nonnegative(name: str, value):
-    value = _finite(name, value)
-    if value < 0:
-        raise ValueError(f"{name} must be >= 0")
-    return value
 
 
-def _positive(name: str, value):
-    value = _finite(name, value)
-    if value <= 0:
-        raise ValueError(f"{name} must be > 0")
-    return value
 
 
-def _unit_interval(name: str, value):
-    value = _finite(name, value)
-    if not (0.0 <= value <= 1.0):
-        raise ValueError(f"{name} must be in [0, 1]")
-    return value
 
 
 def _validate_consumer(cid: str, consumer: dict) -> dict:
@@ -261,28 +238,27 @@ INSECT_GROUPS = {
         "tbase_c": 2.0, "rate_per_dd": 0.012, "t_cutoff_c": 22.0,
         "status": "transferred_structure_authored_rates",
         "sources": [
-            "Kaeding & Kaya 1978 (cold-station benthic EPT diets)",
-            "Mackey 1977 (developmental zeroes down to ~2 C)",
-            "Benton 1987 (Ameletus development at 5-15 C)",
-            "Sweeney & Vannote 1981 (thermal equilibrium hypothesis)",
+            'Kaeding & Kaya (1978) (cold-station benthic EPT diets)',
+            'Mackey (1977) (developmental zeroes down to ~2 C)',
+            'Benton (1987) (Ameletus development at 5-15 C)',
+            'Sweeney & Vannote (1981) (thermal equilibrium hypothesis)',
         ],
     },
     "dipteran": {  # chironomid proxy: warm-tolerant, fast
         "tbase_c": 8.0, "rate_per_dd": 0.030, "t_cutoff_c": 30.0,
         "status": "transferred_structure_authored_rates",
         "sources": [
-            "Kaeding & Kaya 1978 (warm-station dipteran diets)",
-            "Maier et al. 1990 (lower limit 8-10 C, optimum ~20 C, "
-            "upper tolerance 28-30 C)",
-            "Mackey 1977 (lotic chironomid zeroes 2.4-9.7 C)",
+            'Kaeding & Kaya (1978) (warm-station dipteran diets)',
+            'Maier et al. (1990) (lower limit 8-10 C, optimum ~20 C, upper tolerance 28-30 C)',
+            'Mackey (1977) (lotic chironomid zeroes 2.4-9.7 C)',
         ],
     },
 }
 
 
 def trout_diet_at_temp(water_c: float) -> dict[str, float]:
-    """Trout benthic-vs-emergent shares shift with temperature (Kaeding & Kaya 1978).
-    Linear transition 15 to 21 C; molluscs omitted."""
+    """Trout benthic-vs-emergent shares shift with temperature (Kaeding & Kaya (1978)).
+Linear transition 15 to 21 C; molluscs omitted."""
     water_c = _finite("water_c", water_c)
     frac = min(1.0, max(0.0, (water_c - 15.0) / (21.0 - 15.0)))
     return {"emergent": 0.2 + 0.5 * frac, "benthic": 0.8 - 0.5 * frac}
@@ -290,8 +266,7 @@ def trout_diet_at_temp(water_c: float) -> dict[str, float]:
 
 def step_compartments(state: dict, forcing: dict, dt_s: float,
                       consumers: dict | None = None) -> tuple[dict, dict]:
-    """Advance {Nt, Nb, Ne} one step.
-    Returns (new_state, ledger{emergence, consumed_by, activity, state, wind_loss, disturbance_loss})."""
+    """Advance {Nt, Nb, Ne} one step."""
     f = forcing
     sun = _unit_interval("sun", float(f.get("sun", 0.5)))
     cloud = _unit_interval("cloud", float(f.get("cloud", 0.2)))
@@ -383,10 +358,67 @@ DEFAULT_DIETS = {
 }
 
 
+# Aerial and riparian consumers of the emergent compartment; Firehole-reach intake rates unmeasured.
+AERIAL_INSECTIVORE_DIETS = {
+    "swallow": {
+        "a": 0.9, "h": 0.35,
+        "diet": {"emergent": 0.85, "terrestrial": 0.15},
+        "status": "authored_illustrative",
+        "sources": [
+            'Nakano and Murakami (2001) Reciprocal subsidies: dynamic interdependence between terrestrial and aquatic food webs. PNAS 98:166 doi:10.1073/pnas.98.1.166',
+            'Baxter Fausch and Saunders (2005) Tangled webs: reciprocal flows of invertebrate prey link streams and riparian zones. Freshwater Biology 50:201 doi:10.1111/j.1365-2427.2004.01328.x',
+        ],
+    },
+    "bat": {
+        "a": 0.7, "h": 0.4,
+        "diet": {"emergent": 0.75, "terrestrial": 0.25},
+        "status": "authored_illustrative",
+        "sources": [
+            'Nakano and Murakami (2001) Reciprocal subsidies: dynamic interdependence between terrestrial and aquatic food webs. PNAS 98:166 doi:10.1073/pnas.98.1.166 (aquatic emergence subsidizes riparian aerial insectivores including bats)',
+            'Baxter Fausch and Saunders (2005) Tangled webs: reciprocal flows of invertebrate prey link streams and riparian zones. Freshwater Biology 50:201 doi:10.1111/j.1365-2427.2004.01328.x',
+        ],
+    },
+    "riparian_spider": {
+        "a": 0.5, "h": 0.6,
+        "diet": {"emergent": 0.9, "terrestrial": 0.1},
+        "status": "authored_illustrative",
+        "sources": [
+            'Baxter Fausch and Saunders (2005) Tangled webs: reciprocal flows of invertebrate prey link streams and riparian zones. Freshwater Biology 50:201 doi:10.1111/j.1365-2427.2004.01328.x',
+            'Nakano and Murakami (2001) Reciprocal subsidies: dynamic interdependence between terrestrial and aquatic food webs. PNAS 98:166 doi:10.1073/pnas.98.1.166',
+        ],
+    },
+}
+
+
+def emergence_total_from_taxa(emergence_by_taxon: dict[str, float]) -> float:
+    """Sum per-taxon emergence into the input to the emergent compartment.
+Entries with no_emergence set are ignored; negative emergence rejected."""
+    if not isinstance(emergence_by_taxon, dict):
+        raise ValueError("emergence_by_taxon must be a mapping")
+    total = 0.0
+    for taxon_id, value in emergence_by_taxon.items():
+        amount = _nonnegative(f"emergence.{taxon_id}", value)
+        total += amount
+    return total
+
+
+def diets_with_aerial_insectivores(base: dict | None = None) -> dict:
+    """Return a consumers dict combining base diets with aerial insectivores.
+base defaults to DEFAULT_DIETS; AERIAL_INSECTIVORE_DIETS entries override on key collision."""
+    merged = dict(base if base is not None else DEFAULT_DIETS)
+    for cid, consumer in AERIAL_INSECTIVORE_DIETS.items():
+        merged[cid] = {
+            "a": consumer["a"],
+            "h": consumer["h"],
+            "diet": consumer["diet"],
+        }
+    return merged
+
+
 def update_wildlife_from_intake(wildlife: list, intake_by_id: dict,
                                 basis_by_consumer: dict | None = None) -> list:
     """Bout timing from Holling intake rate (satiation shortens foraging).
-    intake_by_id: consumer id -> prey/hour; raven floor keeps a baseline bout."""
+intake_by_id: consumer id -> prey/hour; raven floor keeps a baseline bout."""
     basis_by_consumer = basis_by_consumer or {}
     _validate_wildlife_records(wildlife)
     out = copy.deepcopy(wildlife)

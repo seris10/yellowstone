@@ -1,9 +1,8 @@
 """Provider statuses, validation, cache keys, and a live hydrosim run."""
 import pytest
 
-from yellowstone_python.hydrology_provider import HydrologyProvider
+from yellowstone_python.land.hydrology_provider import HydrologyProvider
 
-from paths import TERRAIN_F32 as TERRAIN
 
 
 def _weather(rain=2.0):
@@ -64,7 +63,7 @@ def test_cache_key_tracks_inputs():
     class Probe(HydrologyProvider):
         def _compute(self, **kwargs):
             calls.append(kwargs["rain_mm_h"])
-            from yellowstone_python.hydrology_provider import HydrologySnapshot
+            from yellowstone_python.land.hydrology_provider import HydrologySnapshot
             return HydrologySnapshot(kwargs["rain_mm_h"], None, {}, "ok")
 
     p = Probe(terrain=np.zeros((8, 8)))
@@ -82,7 +81,7 @@ def test_hour_selects_hourly_rain():
 
     class Probe(HydrologyProvider):
         def _compute(self, **kwargs):
-            from yellowstone_python.hydrology_provider import HydrologySnapshot
+            from yellowstone_python.land.hydrology_provider import HydrologySnapshot
             return HydrologySnapshot(kwargs["rain_mm_h"], None, {}, "ok")
 
     p = Probe(terrain=np.zeros((8, 8)))
@@ -91,12 +90,13 @@ def test_hour_selects_hourly_rain():
     assert p.snapshot(weather=weather, hour=4.0).precipitation_rate_mm_h == 2.0
 
 
+@pytest.mark.needs_science
 def test_live_hydrosim_run():
-    from yellowstone_python.hydrology_provider import import_hydrosim
+    from yellowstone_python.land.hydrology_provider import import_hydrosim
     module, provenance = import_hydrosim()
     if module is None:
         pytest.skip("hydrosim not importable")
-    from yellowstone_python.vegetation import load_terrain
+    from yellowstone_python.land.vegetation import load_terrain
     terrain = load_terrain(TERRAIN)
     p = HydrologyProvider(terrain=terrain, grid=16, sim_s=30.0)
     snap = p.snapshot(weather=_weather(2.0), hour=16.0)
@@ -151,10 +151,10 @@ def test_refuse_on_cfl_overflow(monkeypatch):
     assert snap.state["cfl_exceeded_count"] == 3
 
 
-def test_rollout_end_to_end_bundle_to_provider_to_weather(tmp_path):
-    """fixes-5.5 rollout: measured bundle to provider to weather response."""
+def test_bundle_to_provider_to_weather(tmp_path):
+    """Meteorological bundle precipitation reaches the provider and weather response."""
     import json
-    from yellowstone_python.llm_backend import Backend
+    from yellowstone_python.service.llm_backend import Backend
 
     bundle_origin_epoch = 1_791_072_000.0
     rows = []
@@ -216,7 +216,7 @@ def test_rollout_end_to_end_bundle_to_provider_to_weather(tmp_path):
     assert isinstance(response["generated_at_unix"], int)
     assert "solar" in response
     assert response["source"]["endpoint"] == "open-meteo_hourly_bundle"
-    assert response["precipitation_status"] == "measured_bundle"
+    assert response["precipitation_status"] == "meteorological_model_forcing"
     assert response["precipitation_rate_mm_h"] == 2.0
     assert response["ground_wetness_fraction"] == 0.5
     assert response["source"]["hydrology_status"] == "ok"
@@ -225,6 +225,16 @@ def test_rollout_end_to_end_bundle_to_provider_to_weather(tmp_path):
     assert forwarded["precipitation_rate_mm_h"] == 2.0
 
     dry_response = backend.weather(hour=0.0)
-    assert dry_response["precipitation_status"] == "measured_bundle"
+    assert dry_response["precipitation_status"] == "meteorological_model_forcing"
     assert dry_response["precipitation_rate_mm_h"] == 0.0
     assert dry_response["source"]["hydrology_status"] == "ok"
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'TERRAIN', resolved_paths['TERRAIN_F32'], raising=False)

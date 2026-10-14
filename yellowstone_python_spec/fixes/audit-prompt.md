@@ -7,7 +7,7 @@ Reference docs (must read first):
 - `ai-tells/edits-2.md` (good vs bad comment examples)
 - `ai-tells/ai-tells-1.md`, `ai-tells-2.md` (full conventions)
 
-Work directory: `/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python`
+Work directory: `./yellowstone_python`
 Scope: all `*.py` under `yellowstone_python/` that have been edited in this session; check `tests/` updates; verify no rewrites occurred (use `git diff --stat` to report line-change counts, not full rewrites).
 
 Audit rules (per AGENTS.md / ai-tells):

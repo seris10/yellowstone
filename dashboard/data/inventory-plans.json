@@ -1,6 +1,6 @@
 {
-  "generated_from": "yellowstone_python/yellowstone_python/microclimate.py=84787991aab1; yellowstone_python/yellowstone_python/llm_backend.py=9acdff0d2982; yellowstone_python/yellowstone_python/claims.py=3c196f5cc797; yellowstone_python/yellowstone_python/validation/claims.py=56624c2ba4b0; yellowstone_python/yellowstone_python/replay/nc_export.py=30132420f04d; yellowstone_python/yellowstone_python/replay/uncertainty.py=54e885b370ec; yellowstone_python/yellowstone_python/replay/identifiability.py=3178aa4ba343; yellowstone_python/yellowstone_python/groundwater_provider.py=372d213eaa00; yellowstone_python/yellowstone_python/fish.py=1cf9974ac64c; yellowstone_python/yellowstone_python/build.py=ced890a68848; yellowstone_python/tools/calibrate_river_transport.py=647b551b75a5; yellowstone_midway/scripts/world.gd=ca76ede6b58b; yellowstone_midway/scripts/weather_http_consumer.gd=e097b7d72785; yellowstone_midway/scripts/yellowstone_atmosphere.gd=b7b6a62848d7; yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader=7f5acf01294f; yellowstone_atmosphere/scripts/weather_snapshot_reader.gd=57f4fd3173b1",
-  "scope_note": "This file lists ONLY components whose status is not_started (called for in current scope but no implementation exists) or next_phase (planned/plausible extensions, including educational interactivity) plus proposed couplings. Implemented and partially-wired items are covered by the other inventory agents.",
+  "generated_from": "Current referenced-source sha256-12: yellowstone_atmosphere/scripts/weather_http_consumer.gd=181a1f27512c; yellowstone_atmosphere/scripts/weather_snapshot_reader.gd=2054cd25daa5; yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd=466a8710e66c; yellowstone_midway/scripts/data_watcher.gd=6018ea44be50; yellowstone_midway/scripts/live_python_client.gd=9f22c6fb682a; yellowstone_midway/scripts/simulation_panel.gd=a2fe8d35f9c0; yellowstone_midway/scripts/weather_http_consumer.gd=181a1f27512c; yellowstone_midway/scripts/weather_snapshot_reader.gd=2054cd25daa5; yellowstone_midway/scripts/world.gd=286bf8522556; yellowstone_midway/scripts/yellowstone_atmosphere.gd=466a8710e66c; yellowstone_midway/shaders/terrain.gdshader=5da142ac6140; yellowstone_midway/shaders/thermal_apron.gdshader=34c3f60b866d; yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader=7f5acf01294f; yellowstone_midway/tools/prepare_world.py=bf1f7b278080; yellowstone_python/tests/river/test_identifiability.py=73016137e19b; yellowstone_python/tools/calibrate_river_transport.py=201c4b51512f; yellowstone_python/yellowstone_python/aquatic/fish.py=94aa2107d78b; yellowstone_python/yellowstone_python/atmosphere/microclimate.py=7d72a9ace691; yellowstone_python/yellowstone_python/build.py=794a32c0c86e; yellowstone_python/yellowstone_python/exporters/godot_sidecars.py=172d66696a74; yellowstone_python/yellowstone_python/land/groundwater_provider.py=db4f1db489ef; yellowstone_python/yellowstone_python/pipeline/sidecars.py=a3ee5a6bc71e; yellowstone_python/yellowstone_python/registry/claims.py=57faf990357e; yellowstone_python/yellowstone_python/river/identifiability.py=6965d5bbdb3a; yellowstone_python/yellowstone_python/river/nc_export.py=e1a5c0aaf8e7; yellowstone_python/yellowstone_python/service/live/engine.py=bcf14fe1218b; yellowstone_python/yellowstone_python/service/llm_backend.py=c56b1a993bde; yellowstone_python/yellowstone_python/service/server.py=646818416bd8; yellowstone_python/yellowstone_python/study_mode.py=51d920aa12ce; yellowstone_python/yellowstone_python/thermal_features/geochemistry.py=56ea01159b86; yellowstone_python/yellowstone_python/thermal_features/pool_crust.py=dc3314e9be3b; yellowstone_python/yellowstone_python/validation/claims.py=f0ff294f154e",
+  "scope_note": "Planning and extension records; implemented live controls and shared weather entries refreshed from current source. Other entries retain their previous verification scope.",
   "components": [
     {
       "id": "star_catalog_vendor",
@@ -135,28 +135,20 @@
       "label": "pvlib authoritative solar geometry in Python snapshot",
       "domain": "atmosphere",
       "python": [
-        "yellowstone_python/yellowstone_python/microclimate.py",
-        "yellowstone_python/yellowstone_python/llm_backend.py"
+        "yellowstone_python/yellowstone_python/atmosphere/microclimate.py"
       ],
       "godot": [
-        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd",
-        "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd",
-        "yellowstone_midway/scripts/weather_http_consumer.gd"
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd",
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd"
       ],
-      "status": "partial_unwired",
+      "status": "rendered",
       "evidence": [
-        "derived/71c8f00455af/weather_snapshot.json solar.source unavailable (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
-        "yellowstone_python/yellowstone_python/microclimate.py:394 (def solar_snapshot(...) returns solar_azimuth_deg/solar_elevation_deg + sunrise/sunset epochs via pvlib.solarposition)",
-        "yellowstone_python/yellowstone_python/microclimate.py:388 (result = solarposition.get_solarposition(times, latitude, longitude))",
-        "yellowstone_python/yellowstone_python/llm_backend.py:283-285 (from .microclimate import solar_snapshot; solar_block = solar_snapshot(now_unix, latitude=SITE_LATITUDE_DEG, longitude=SITE_LONGITUDE_DEG))",
-        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:179-192 (reader pulls solar object from snapshot and merges into state)",
-        "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd:94-95 (controller consumes solar_azimuth_deg/solar_elevation_deg to drive sun)",
-        "yellowstone_midway/scripts/weather_http_consumer.gd:413-417 (HTTP consumer forwards solar_azimuth_deg/solar_elevation_deg to normalized snapshot)",
-        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+        "yellowstone_python/yellowstone_python/atmosphere/microclimate.py:55 weather_snapshot",
+        "yellowstone_python/yellowstone_python/atmosphere/microclimate.py:500 solar_snapshot"
       ],
-      "method": "pvlib get_solarposition for UTC timestamp + lat/lon; serialize to normalized snapshot block consumed by the Godot weather snapshot reader and atmosphere controller.",
-      "validation": "none",
-      "notes": "snapshot carries a solar block but pvlib is not installed in the build Python, so the angles are omitted and Godot computes its own sun",
+      "method": "Shared Python weather snapshot uses the simulation epoch, common Midway site and pvlib solar geometry; Godot consumes the model snapshot.",
+      "validation": "weather_snapshot_tests",
+      "notes": "The current project environment includes pvlib. Unavailable solar is still labeled if that dependency is absent.",
       "source": "yellowstone_python_spec/fixes/fixes-14.md"
     },
     {
@@ -164,7 +156,7 @@
       "label": "Unified schema_version 2 weather snapshot",
       "domain": "atmosphere",
       "python": [
-        "yellowstone_python/yellowstone_python/llm_backend.py"
+        "yellowstone_python/yellowstone_python/service/llm_backend.py"
       ],
       "godot": [
         "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd",
@@ -177,7 +169,7 @@
         "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:10 (const SUPPORTED_SCHEMA_VERSION: int = 1)",
         "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:230 (if int(schema_value) != SUPPORTED_SCHEMA_VERSION fails)",
         "yellowstone_midway/scripts/weather_http_consumer.gd:9 (const SCHEMA_VERSION: int = 1)",
-        "yellowstone_python/yellowstone_python/llm_backend.py:279 (Return a schema_version 1 nested weather snapshot for the Godot HTTP consumer)",
+        "yellowstone_python/yellowstone_python/service/llm_backend.py:279 (Return a schema_version 1 nested weather snapshot for the Godot HTTP consumer)",
         "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:179-192 (solar nested block now accepted alongside weather) and reader-consumer parity on nested shape"
       ],
       "method": "Normalize provider adapters to {schema_version:2, generated_at_unix, valid_time_unix, simulation_time_unix, source, weather, solar, terrain}.",
@@ -210,18 +202,24 @@
     },
     {
       "id": "replay_live_bridge",
-      "label": "File-watch / UDP push live bridge from build to Godot",
+      "label": "Python live HTTP service and published-data watcher",
       "domain": "infrastructure",
-      "python": [],
-      "godot": [],
-      "status": "not_started",
-      "evidence": [
-        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:115 (optional M11 live_bridge.py; fallback is manual copy + F5)",
-        "rg live_bridge yellowstone_python/ returns no module"
+      "python": [
+        "yellowstone_python/yellowstone_python/service/live/engine.py",
+        "yellowstone_python/yellowstone_python/service/server.py"
       ],
-      "method": "watchdog file observer or UDP delta push to running Godot editor.",
-      "validation": "none",
-      "notes": "Explicitly optional in spec; do-not-block.",
+      "godot": [
+        "yellowstone_midway/scripts/live_python_client.gd",
+        "yellowstone_midway/scripts/data_watcher.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_midway/scripts/world.gd:224 setup_python_runtime",
+        "yellowstone_midway/scripts/world.gd:257 _published_changed"
+      ],
+      "method": "HTTP schema, control and buffered model frames; content-signature watcher reloads local published files.",
+      "validation": "local_runtime_tests",
+      "notes": "Actual Python service, unavailable-service baked mode, and sub-second watcher reload verified. Human visual acceptance remains pending.",
       "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md"
     },
     {
@@ -354,7 +352,7 @@
       "evidence": [
         "yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md:32 (P0 asset 4: Firehole 3 + Excelsior outflow 1 bank mesh + per-reach depth/velocity)",
         "yellowstone_python_spec/03_AUDIT_RESPONSE.md:66-69 (1-D advection-dispersion river + energy budget deferred: needs cross-section survey data)",
-        "yellowstone_python/yellowstone_python/replay/README.md (cross-sections optional; depth defaults to 1.1 m authored assumed)"
+        "yellowstone_python/yellowstone_python/river/README.md (cross-sections optional; depth defaults to 1.1 m authored assumed)"
       ],
       "method": "Hand transects or bathymetric survey replacing uniform 1.1 m authored depth.",
       "validation": "none",
@@ -411,15 +409,15 @@
       "label": "CF-compatible NetCDF scientific-release outputs + IOOS compliance",
       "domain": "infrastructure",
       "python": [
-        "yellowstone_python/yellowstone_python/replay/nc_export.py",
+        "yellowstone_python/yellowstone_python/river/nc_export.py",
         "yellowstone_python/yellowstone_python/build.py"
       ],
       "godot": [],
       "status": "python_only",
       "evidence": [
-        "yellowstone_python/yellowstone_python/replay/nc_export.py:1 (CF-conformant NetCDF export of replay temperature frames (CF-1.11, Standard Name Table v83))",
-        "yellowstone_python/yellowstone_python/replay/nc_export.py:10-11 (SCHEMA = 'yellowstone.replay_netcdf.v1'; CF_CONVENTIONS = 'CF-1.11')",
-        "yellowstone_python/yellowstone_python/build.py:1305-1312 (if (cfg.get('replay', {}) or {}).get('netcdf', False): from .replay.nc_export import write_replay_netcdf; try: write_replay_netcdf(...))"
+        "yellowstone_python/yellowstone_python/river/nc_export.py:1 (CF-conformant NetCDF export of replay temperature frames (CF-1.11, Standard Name Table v83))",
+        "yellowstone_python/yellowstone_python/river/nc_export.py:10-11 (SCHEMA = 'yellowstone.replay_netcdf.v1'; CF_CONVENTIONS = 'CF-1.11')",
+        "yellowstone_python/yellowstone_python/pipeline/sidecars.py:68 write_replay_netcdf"
       ],
       "method": "xarray/netCDF4 export of replay cell_temperature_c with CF-1.11 conventions; opt-in via cfg.replay.netcdf.",
       "validation": "none",
@@ -446,13 +444,13 @@
       "label": "MODFLOW 6 Groundwater Energy backend via FloPy",
       "domain": "hydrology",
       "python": [
-        "yellowstone_python/yellowstone_python/groundwater_provider.py"
+        "yellowstone_python/yellowstone_python/land/groundwater_provider.py"
       ],
       "godot": [],
       "status": "partial_unwired",
       "evidence": [
-        "yellowstone_python/yellowstone_python/groundwater_provider.py:6 (STATUS = 'authored_lateral_not_modeled')",
-        "yellowstone_python/yellowstone_python/groundwater_provider.py:118-139 (def synthetic_mf6_simulation builds a one-layer flopy.mf6.MFSimulation with GwfDis/Npf/Ic/Riv)",
+        "yellowstone_python/yellowstone_python/land/groundwater_provider.py:6 (STATUS = 'authored_lateral_not_modeled')",
+        "yellowstone_python/yellowstone_python/land/groundwater_provider.py:118-139 (def synthetic_mf6_simulation builds a one-layer flopy.mf6.MFSimulation with GwfDis/Npf/Ic/Riv)",
         "yellowstone_python/yellowstone_python/exporters/godot_sidecars.py:378 (groundwater_provider.STATUS is authored_lateral_not_modeled)",
         "yellowstone_python/yellowstone_python/HANDOFF_TRACKER.json (tests_result: 403 passed, 2 skipped (flopy and landlab absent))"
       ],
@@ -525,18 +523,18 @@
       "label": "Machine-readable scientific claim registry",
       "domain": "infrastructure",
       "python": [
-        "yellowstone_python/yellowstone_python/claims.py",
+        "yellowstone_python/yellowstone_python/registry/claims.py",
         "yellowstone_python/yellowstone_python/validation/claims.py",
         "yellowstone_python/yellowstone_python/build.py"
       ],
       "godot": [],
       "status": "python_only",
       "evidence": [
-        "yellowstone_python/yellowstone_python/claims.py:7-24 (REQUIRED_CLAIM_FIELDS = ('claim_id','predicted_quantity','intended_use','spatial_domain','temporal_domain','supported_conditions','model_version','implementation_status','evidence_status','required_processes','required_observations','calibration_dataset_ids','evaluation_dataset_ids','metrics','acceptance_criteria','known_exclusions','evidence_artifact_ids','review_status'))",
-        "yellowstone_python/yellowstone_python/claims.py:52-55 (REVIEW_STATUSES, IMPLEMENTATION_STATUSES, EVIDENCE_STATUSES enum tuples)",
-        "yellowstone_python/yellowstone_python/build.py:1337 (from .claims import registry_errors as _claims_registry_errors)",
-        "yellowstone_python/yellowstone_python/build.py:1474-1475 (write_sidecar(out / 'claims.json', {'schema': 'yellowstone.claims.v1', 'claims': CLAIMS}))",
-        "yellowstone_python/yellowstone_python/validation/claims.py (per-claim gate: check_reach_rmse against recorded nulls; evidence_artifact resolution)"
+        "yellowstone_python/yellowstone_python/registry/claims.py:7-24 (REQUIRED_CLAIM_FIELDS = ('claim_id','predicted_quantity','intended_use','spatial_domain','temporal_domain','supported_conditions','model_version','implementation_status','evidence_status','required_processes','required_observations','calibration_dataset_ids','evaluation_dataset_ids','metrics','acceptance_criteria','known_exclusions','evidence_artifact_ids','review_status'))",
+        "yellowstone_python/yellowstone_python/registry/claims.py:52-55 (REVIEW_STATUSES, IMPLEMENTATION_STATUSES, EVIDENCE_STATUSES enum tuples)",
+        "yellowstone_python/yellowstone_python/validation/claims.py (per-claim gate: check_reach_rmse against recorded nulls; evidence_artifact resolution)",
+        "yellowstone_python/yellowstone_python/pipeline/sidecars.py:99 registry_errors",
+        "yellowstone_python/yellowstone_python/pipeline/sidecars.py:302 claims sidecar"
       ],
       "method": "In-code CLAIMS registry with required/optional fields + per-claim gate checks against recorded nulls; sidecar JSON emitted on every build.",
       "validation": "none",
@@ -548,14 +546,14 @@
       "label": "SALib dependence-aware sensitivity (correlated inputs)",
       "domain": "observation",
       "python": [
-        "yellowstone_python/yellowstone_python/replay/identifiability.py"
+        "yellowstone_python/yellowstone_python/river/identifiability.py"
       ],
       "godot": [],
       "status": "partial_unwired",
       "evidence": [
-        "yellowstone_python/yellowstone_python/replay/identifiability.py:25-35 (DEPENDENCE_POLICY = {'varied_independently': {...}, 'held_fixed': (...), 'salib_gate': 'independent-input formulation above, or a dependence-aware method with documented interpretation'})",
-        "yellowstone_python/yellowstone_python/replay/identifiability.py:217-233 (SALib.analyze.sobol + sampler with saltelli/sobol fallbacks; records salib_version)",
-        "yellowstone_python/yellowstone_python/replay/tests/test_identifiability.py:53 (self.assertIn('salib_gate', DEPENDENCE_POLICY))"
+        "yellowstone_python/yellowstone_python/river/identifiability.py:25-35 (DEPENDENCE_POLICY = {'varied_independently': {...}, 'held_fixed': (...), 'salib_gate': 'independent-input formulation above, or a dependence-aware method with documented interpretation'})",
+        "yellowstone_python/yellowstone_python/river/identifiability.py:217-233 (SALib.analyze.sobol + sampler with saltelli/sobol fallbacks; records salib_version)",
+        "yellowstone_python/tests/river/test_identifiability.py:53 (self.assertIn('salib_gate', DEPENDENCE_POLICY))"
       ],
       "method": "Documented independence policy via DEPENDENCE_POLICY plus a Sobol screen implementation; no Shapley effects or copula-based variant.",
       "validation": "none",
@@ -624,8 +622,8 @@
       "label": "Rain/snow partitioning via wet-bulb temperature",
       "domain": "atmosphere",
       "python": [
-        "yellowstone_python/yellowstone_python/microclimate.py",
-        "yellowstone_python/yellowstone_python/llm_backend.py"
+        "yellowstone_python/yellowstone_python/atmosphere/microclimate.py",
+        "yellowstone_python/yellowstone_python/service/llm_backend.py"
       ],
       "godot": [
         "yellowstone_midway/scripts/weather_http_consumer.gd",
@@ -634,9 +632,9 @@
       "status": "rendered",
       "evidence": [
         "weather_snapshot.json weather.snow_fraction (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
-        "yellowstone_python/yellowstone_python/microclimate.py:430-449 (def metpy_wet_bulb_temperature uses mpcalc.wet_bulb_temperature with site pressure)",
-        "yellowstone_python/yellowstone_python/llm_backend.py:449-479 (t_w from metpy_wet_bulb_temperature with Stull 2011 fallback; partition ramp 100 percent snow at T_w <= -1 C, 0 at T_w >= 3 C, linear between)",
-        "yellowstone_python/yellowstone_python/llm_backend.py:486 (snow_fraction and snow_partition_source written to the weather extra block)",
+        "yellowstone_python/yellowstone_python/atmosphere/microclimate.py:430-449 (def metpy_wet_bulb_temperature uses mpcalc.wet_bulb_temperature with site pressure)",
+        "yellowstone_python/yellowstone_python/service/llm_backend.py:449-479 (t_w from metpy_wet_bulb_temperature with Stull 2011 fallback; partition ramp 100 percent snow at T_w <= -1 C, 0 at T_w >= 3 C, linear between)",
+        "yellowstone_python/yellowstone_python/service/llm_backend.py:486 (snow_fraction and snow_partition_source written to the weather extra block)",
         "yellowstone_midway/scripts/weather_http_consumer.gd:10-19 (snow_fraction listed in REQUIRED_WEATHER_FIELDS)",
         "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd (controller scales GPU snow emitter by snow_fraction)",
         "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
@@ -691,15 +689,12 @@
       ],
       "status": "rendered",
       "evidence": [
-        "world.gd:137-138 (syn 2026-10-13 after fixes pass 2: published build 71c8f00455af, main and study scenes 0 script errors; visual acceptance NOT TESTED)",
-        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:6 (Freshness modes: 'wall_clock' compares generated_at_unix with the computer clock, 'simulation_clock' compares it with a supplied simulation time)",
-        "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd (@export_enum('wall_clock','simulation_clock','disabled') var freshness_mode)",
-        "yellowstone_midway/scripts/world.gd:137-138 (weather_snapshot_reader.set('freshness_mode','simulation_clock'); weather_snapshot_reader.set_simulation_epoch_unix(_simulation_epoch_unix))",
-        "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
+        "yellowstone_midway/scripts/weather_snapshot_reader.gd:96 set_simulation_epoch_unix",
+        "yellowstone_midway/scripts/world.gd:224 setup_python_runtime"
       ],
       "method": "freshness_mode export; sim epoch written into reader when a simulation epoch is active.",
       "validation": "none",
-      "notes": "reader in simulation_clock mode against the published snapshot",
+      "notes": "Published baked snapshots and live frames use the same simulation epoch. Snapshot freshness is compared with simulation time.",
       "source": "yellowstone_python_spec/fixes/fixes-14.md"
     },
     {
@@ -906,32 +901,42 @@
       "id": "study_mode_in_engine_ab_ui",
       "label": "In-engine study-mode A/B slider UI with reset + side-by-side replay",
       "domain": "rendering",
-      "python": [],
-      "godot": [],
-      "status": "next_phase",
-      "evidence": [
-        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:229-231 (Prompt 6: labeled study mode, same parameter authority, reset + side-by-side)",
-        "yellowstone_python_spec/03_AUDIT_RESPONSE.md:71-74 (Timestamped replay / live service deferred: a player-visible A/B instrument needs the Godot UI pass)"
+      "python": [
+        "yellowstone_python/yellowstone_python/service/live/engine.py"
       ],
-      "method": "In-engine sliders (Tair, shade, Q, Excelsior strength) write ecosystem.json variants A/B; split-screen or toggle replay.",
-      "validation": "none",
-      "notes": "Python study_mode.py writes variants; Godot UI pass not started.",
+      "godot": [
+        "yellowstone_midway/scripts/simulation_panel.gd",
+        "yellowstone_midway/scripts/world.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_midway/scripts/world.gd:408 apply_comparison",
+        "yellowstone_midway/scripts/simulation_panel.gd:125 _build_schema"
+      ],
+      "method": "Mark A clones the Python model checkpoint; B controls recompute causal model frames; ghost actors and temperature ribbons show equal-time A/B output.",
+      "validation": "identical_branches_equal",
+      "notes": "Non-grid Mark A, physical-origin capture and zero identical-branch metrics verified against the actual service.",
       "source": "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md"
     },
     {
       "id": "counterexample_presets",
       "label": "Counterexample study presets (single variable != whole habitat)",
       "domain": "rendering",
-      "python": [],
-      "godot": [],
-      "status": "next_phase",
-      "evidence": [
-        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:106 (counterexample presets)",
-        "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:231 (counterexamples showing why a single variable does not determine a whole habitat)"
+      "python": [
+        "yellowstone_python/yellowstone_python/study_mode.py"
       ],
-      "method": "Preset experiment pairs that reveal masking failure of one-variable intuitions.",
-      "validation": "none",
-      "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md"
+      "godot": [
+        "yellowstone_midway/scripts/simulation_panel.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/study_mode.py:245 PRESETS",
+        "yellowstone_midway/scripts/simulation_panel.gd:125 _build_schema"
+      ],
+      "method": "Python scenario records define parameter changes, descriptions and expected responses; Godot reads the service schema.",
+      "validation": "preset_control_tests",
+      "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md",
+      "notes": "Presets preserve separate river and atmospheric forcing; expected responses remain model claims."
     },
     {
       "id": "guided_scenario_inquiry_prompts",
@@ -953,15 +958,22 @@
       "id": "experiment_controls_in_scene",
       "label": "In-scene experiment control toggles for air T, shade/cloud, upstream Q, Excelsior strength",
       "domain": "rendering",
-      "python": [],
-      "godot": [],
-      "status": "next_phase",
-      "evidence": [
-        "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md:104-108 (M10 sliders: air T, shade/cloud, upstream Q, Excelsior source strength)"
+      "python": [
+        "yellowstone_python/yellowstone_python/study_mode.py",
+        "yellowstone_python/yellowstone_python/service/live/engine.py"
       ],
-      "method": "Shared parameter authority writes ecosystem.json; same hooks drive M01/M02/M05/M06 responses.",
-      "validation": "none",
-      "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md"
+      "godot": [
+        "yellowstone_midway/scripts/simulation_panel.gd"
+      ],
+      "status": "rendered",
+      "evidence": [
+        "yellowstone_python/yellowstone_python/study_mode.py:20 SCHEMA",
+        "yellowstone_midway/scripts/simulation_panel.gd:125 _build_schema"
+      ],
+      "method": "Schema-driven controls send bounded values to Python; stage dependencies and provenance are displayed from the response.",
+      "validation": "actual_service_causal_boundary_test",
+      "source": "yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md",
+      "notes": "Live-only controls are disabled until the service schema is available."
     },
     {
       "id": "gentle_physical_interactions",
@@ -1102,7 +1114,7 @@
       "evidence": [
         "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:199-201 (Mammoth cannot be implemented by whitening Grand Prismatic)",
         "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:253-255 (Prompt 12 full text)",
-        "yellowstone_python/yellowstone_python/geochemistry.py (sinter vs travertine guardrail only; no Mammoth model)"
+        "yellowstone_python/yellowstone_python/thermal_features/geochemistry.py (sinter vs travertine guardrail only; no Mammoth model)"
       ],
       "method": "Travertine/calcite deposition model + terrace geometry + limestone-derived mineral system.",
       "validation": "none",
@@ -1242,7 +1254,7 @@
       "godot": [],
       "status": "not_started",
       "evidence": [
-        "yellowstone_python/yellowstone_python/pool_crust.py:18-20 (OUTFLOW_CHANNELS holds only the authored Excelsior outflow)",
+        "yellowstone_python/yellowstone_python/thermal_features/pool_crust.py:18-20 (OUTFLOW_CHANNELS holds only the authored Excelsior outflow)",
         "yellowstone_python_spec/fixes/fixes-40-microbial-mats-and-thermal-core-terrain.md problem 3"
       ],
       "method": "Flow routing from the spring rim over the 1 m 3DEP DEM, refined against 0.625 m NAIP wet-mat pixels",
@@ -1542,7 +1554,7 @@
       "quantity": "solar_azimuth_deg, solar_elevation_deg (+ sunrise/sunset epochs)",
       "status": "partial",
       "evidence": [
-        "yellowstone_python/yellowstone_python/llm_backend.py:283-285 (solar_block = solar_snapshot(now_unix, ...)) emitted in weather HTTP payload",
+        "yellowstone_python/yellowstone_python/service/llm_backend.py:283-285 (solar_block = solar_snapshot(now_unix, ...)) emitted in weather HTTP payload",
         "yellowstone_atmosphere/scripts/weather_snapshot_reader.gd:179-192 (reader merges nested solar block into state passed to controller)",
         "yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd:94-95 (controller stores solar_azimuth_deg/solar_elevation_deg and drives sun from them)",
         "yellowstone_midway/scripts/weather_snapshot_reader.gd:47 (snapshot_path = \"user://weather/latest.json\"); rg --no-ignore for latest.json/weather_http_consumer over yellowstone_python and yellowstone_midway scenes finds no writer and no instantiation (syn spot-check 2026-10-13)"
@@ -1769,7 +1781,7 @@
       "status": "proposed",
       "evidence": [
         "yellowstone_midway/docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md:199-201",
-        "yellowstone_python/yellowstone_python/geochemistry.py (sinter vs travertine guardrail only)"
+        "yellowstone_python/yellowstone_python/thermal_features/geochemistry.py (sinter vs travertine guardrail only)"
       ]
     },
     {
@@ -2121,5 +2133,6 @@
       "notes": ""
     }
   ],
-  "verified_utc": "2026-10-13T10:05Z"
+  "verified_utc": "2026-10-13T10:05Z",
+  "source_paths_refreshed_utc": "2026-10-14T01:36:42+00:00"
 }

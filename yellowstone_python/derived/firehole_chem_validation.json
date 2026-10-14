@@ -1,0 +1,57 @@
+{
+ "schema": "yellowstone.firehole_chem_validation.v1",
+ "status": "fitted_not_validated_single_window",
+ "assembled_at_utc": "2026-10-13T11:12:21.209643+00:00",
+ "window_start": "2010-05-13",
+ "window_end": "2017-10-30",
+ "fit": {
+  "slope_mg_l_per_us_cm": 0.1443548777788649,
+  "intercept_mg_l": -4.67230173559426,
+  "r_squared": 0.9406555326229988,
+  "residual_rms_mg_l": 2.7690112938132083,
+  "n_paired": 19
+ },
+ "downstream_gauge": {
+  "site_id": "USGS-06036905",
+  "n_daily": 1399,
+  "mean_q_m3_s": 8.174784168003706,
+  "mean_sc_us_cm": 482.87491065046464,
+  "mean_chloride_mg_l": 65.03304697383388,
+  "mean_chloride_flux_g_s": 494.68002490023935,
+  "notes": "Daily discharge and specific conductance from NWIS parameters 00060 and 00095 for 2010-05-13 to 2017-10-30. Chloride is the fit applied to daily SC."
+ },
+ "upstream_gauge": {
+  "site_id": "USGS-06036805",
+  "n_daily": 2728,
+  "mean_q_m3_s": 1.8122958280167412,
+  "sc_source": "wqp_sample_or_wqp_median_fallback",
+  "sc_median_us_cm_wqp": 93.0,
+  "mean_chloride_mg_l": 8.746351976530255,
+  "mean_chloride_flux_g_s": 15.81003178296612,
+  "notes": "Upstream has daily discharge only; SC is the WQP same-day discrete sample when available, otherwise the WQP median SC. No daily SC product exists at this gauge."
+ },
+ "reach_increment": {
+  "mean_q_increment_m3_s": 6.362488339986965,
+  "mean_chloride_flux_increment_g_s": 478.8699931172732,
+  "note": "Reach increment between the two gauges includes the Lower Geyser Basin (Fountain, Great Fountain and the Firehole Lake Drive springs), the Midway Geyser Basin, the Imperial Geyser area, and any ungauged tributary inputs. Comparison with the Midway-only model source flux is a bound, not a match."
+ },
+ "model_midway_source": {
+  "flow_m3_s": 0.26,
+  "source_concentration_mg_l": 258.0,
+  "source_concentration_provenance": "USGS OFR 2010-1192 (Ball, McCleskey, Nordstrom 2010) Table 11, p. 72, Excelsior Geyser Crater sample 07WA148, collected 2007-09-19, Cl 258 mg/L.",
+  "chloride_flux_g_s": 67.08,
+  "fraction_of_reach_increment": 0.1400797731412091,
+  "note": "The ecosystem model treats the Midway outflow as the only lateral hydrothermal source; the reach increment is the sum of all Lower Firehole hydrothermal and lateral inputs between the gauges. The Midway share reported here is thus a model fraction of the observed between-gauge chloride flux increment."
+ },
+ "mccleskey_2012_firehole_flux_context": "McCleskey et al. 2012 and USGS Data Series 632 (Clor et al. 2012) report chloride flux at the Firehole monitoring sites 06036905 and 06036805. Trend reported in those publications: Firehole thermal-water output decreased by about 10 percent from 1983 to 2011.",
+ "sources": {
+  "paired_samples": "yellowstone_python/derived/firehole_chem_paired_samples.json",
+  "upstream_sc_samples": "yellowstone_python/derived/firehole_upstream_sc_samples.json",
+  "daily_discharge_sc": [
+   "https://waterservices.usgs.gov/nwis/dv/?sites=06036805&parameterCd=00060&statCd=00003&startDT=2010-05-13&endDT=2017-10-30&format=rdb",
+   "https://waterservices.usgs.gov/nwis/dv/?sites=06036905&parameterCd=00060,00095&statCd=00003&startDT=2010-05-13&endDT=2017-10-30&format=rdb"
+  ]
+ },
+ "artifact_sha256": "1efbb9f244830ae2c9abca4a25d4fd27f0c63593676453fd6acfbf3b93d786fb",
+ "artifact_sha256_scope": "canonical_json_without_hash_fields"
+}

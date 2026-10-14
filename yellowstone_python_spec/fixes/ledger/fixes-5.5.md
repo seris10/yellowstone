@@ -4,7 +4,7 @@ Summary: 20 items: 20 implemented, 0 shortcut, 0 partial, 0 missing, 0 supersede
 
 | item | requirement (one line) | verdict | evidence file:line | note (one line) | cost cheap/medium/refactor |
 |---|---|---|---|---|---|
-| 1.a | Remove `spec_from_file_location("hydrosim", "/Users/kreed/Downloads/...")` | implemented | repo-wide search returns zero hits; hydrology_provider.py:47-66 uses `import_hydrosim` package-first then sibling-checkout | | cheap |
+| 1.a | Remove `spec_from_file_location("hydrosim", "../../...")` | implemented | repo-wide search returns zero hits; hydrology_provider.py:47-66 uses `import_hydrosim` package-first then sibling-checkout | | cheap |
 | 1.b | Add HydrologyProvider dataclass snapshot | implemented | hydrology_provider.py:19-25 `HydrologySnapshot`; :69-192 provider with ttl, lock, status | status strings: ok/unavailable/disabled/no_precipitation_input/no_terrain_input | medium |
 | 1.c | Package import (no load-by-path) | implemented | hydrology_provider.py:49-66 `import hydrosim` or sys.path insert sibling and re-import | | cheap |
 | 1.d | Thread-safe cached result | implemented | hydrology_provider.py:103 `self._lock=threading.Lock()`; :149 `with self._lock:` | cache key includes rounded inputs and hour | cheap |

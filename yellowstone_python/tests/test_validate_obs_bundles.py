@@ -5,8 +5,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 from tools.validate_obs_bundles import gate_bundle
 
 TOOL = Path(__file__).resolve().parents[1] / "tools" / "validate_obs_bundles.py"

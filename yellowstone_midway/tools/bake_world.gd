@@ -1,6 +1,9 @@
 extends SceneTree
 ## Offline only; produces native .tscn/.res assets. Run: godot --headless --path . --script tools/bake_world.gd
 const HeightField = preload("res://scripts/height_field.gd")
+const LodgepoleLibrary = preload("res://scripts/lodgepole_library.gd")
+const CanopySurface = preload("res://scripts/canopy_surface.gd")
+const ForestFloor = preload("res://scripts/forest_floor.gd")
 var height_field: RefCounted
 var spec: Dictionary
 var scene_root: Node3D
@@ -10,6 +13,10 @@ var asphalt_mat: StandardMaterial3D
 var gravel_mat: ShaderMaterial
 var stone_mat: StandardMaterial3D
 var bark_mat: StandardMaterial3D
+var deck_mat: ShaderMaterial
+var timber_post_mat: ShaderMaterial
+var timber_beam_mat: ShaderMaterial
+var timber_stringer_mat: ShaderMaterial
 var materials: Dictionary = {}
 var mesh_library: Dictionary = {}
 
@@ -54,6 +61,20 @@ func make_materials() -> void:
 	bark_mat.albedo_texture = load("res://assets/textures/pine_bark_diff_1k.jpg")
 	bark_mat.normal_enabled = true
 	bark_mat.normal_texture = load("res://assets/textures/pine_bark_nor_gl_1k.jpg")
+	deck_mat = wood_mat.duplicate()
+	deck_mat.set_shader_parameter("world_planks", 1.0)
+	ResourceSaver.save(deck_mat,"res://assets/materials/overlook_deck.tres")
+	timber_post_mat = timber_material(Vector3.UP, "timber_post")
+	timber_beam_mat = timber_material(Vector3.BACK, "timber_beam")
+	timber_stringer_mat = timber_material(Vector3.RIGHT, "timber_stringer")
+
+func timber_material(axis: Vector3, file_name: String) -> ShaderMaterial:
+	# Milled timber with grain along the member's long object-space axis.
+	var m := ShaderMaterial.new()
+	m.shader = load("res://shaders/timber.gdshader")
+	m.set_shader_parameter("grain_axis", axis)
+	ResourceSaver.save(m,"res://assets/materials/%s.tres" % file_name)
+	return m
 
 func append_instance(buffer: PackedFloat32Array, xf: Transform3D, extra: Color) -> void:
 	# RenderingServer bulk layout: three row-major vec4s then color/custom (16 floats per instance; 1_000_000 caps instance count at ~62k). Bulk assignment keeps CPU data in headless bakes.
@@ -82,6 +103,9 @@ func make_mesh(vertices: PackedVector3Array, normals: PackedVector3Array, uvs: P
 
 func bake() -> void:
 	var start := Time.get_ticks_msec()
+	if "--vegetation-only" in OS.get_cmdline_user_args():
+		bake_vegetation_only(start)
+		return
 	DirAccess.make_dir_recursive_absolute("res://scenes/baked")
 	DirAccess.make_dir_recursive_absolute("res://assets/meshes/terrain")
 	spec = JSON.parse_string(FileAccess.get_file_as_string("res://data/world.json"))
@@ -96,7 +120,9 @@ func bake() -> void:
 	print("Routes baked")
 	make_water()
 	print("Water baked")
-	make_vegetation()
+	if not make_vegetation():
+		quit(1)
+		return
 	print("Vegetation baked")
 	make_overlook()
 	var packed := PackedScene.new()
@@ -266,7 +292,7 @@ func make_routes() -> void:
 				var ground: float = height_field.sample(top.x,top.z)
 				var mesh := BoxMesh.new()
 				mesh.size = Vector3(1.8,maxf(top.y-ground,0.25),0.13)
-				mesh.material = bark_mat
+				mesh.material = timber_stringer_mat
 				var support := add_geometry(mesh,"Stringer",group)
 				support.position = Vector3(top.x,top.y-mesh.size.y*.5-.05,top.z)
 			make_skirts(points,float(r.width),group,wood_mat)
@@ -331,7 +357,7 @@ func make_skirts(points: PackedVector3Array, width: float, group: Node, mat: Mat
 func beam_between(a: Vector3, b: Vector3, thickness: float, parent: Node, collision := true) -> void:
 	var beam:=BoxMesh.new()
 	beam.size=Vector3(thickness,thickness,a.distance_to(b))
-	beam.material=bark_mat
+	beam.material=timber_beam_mat
 	var node:=add_geometry(beam,"TimberRail",parent,collision)
 	node.position=(a+b)*.5
 	node.look_at_from_position(node.position,b,Vector3.UP)
@@ -350,7 +376,7 @@ func make_bridge_rails(points: PackedVector3Array, width: float, parent: Node) -
 			if i%2==0 or i==edge.size()-1:
 				var post:=BoxMesh.new()
 				post.size=Vector3(.12,1.12,.12)
-				post.material=bark_mat
+				post.material=timber_post_mat
 				var node:=add_geometry(post,"BridgePost",parent,true)
 				node.position=a+Vector3.UP*.55
 			if i==edge.size()-1:continue
@@ -511,7 +537,7 @@ func make_overlook() -> void:
 	var y: float = height_field.sample(x,z)+.32
 	var deck := BoxMesh.new()
 	deck.size = Vector3(6.5,.18,4.5)
-	deck.material = wood_mat
+	deck.material = deck_mat
 	var node := add_geometry(deck,"ViewingPlatform",group,true)
 	node.position = Vector3(x,y,z)
 	# The mapped spur enters from the east. A short ramp connects its surface to the raised deck.
@@ -536,7 +562,7 @@ func make_overlook() -> void:
 			var base:=a.lerp(b,float(j)/float(count))
 			var post:=BoxMesh.new()
 			post.size=Vector3(.12,1.08,.12)
-			post.material=bark_mat
+			post.material=timber_post_mat
 			var post_node:=add_geometry(post,"OverlookPost",group,true)
 			post_node.position=base+Vector3.UP*.54
 		beam_between(a+Vector3.UP*1.04,b+Vector3.UP*1.04,.12,group)
@@ -553,33 +579,39 @@ func collect_meshes(node: Node, transform := Transform3D.IDENTITY) -> Array:
 		meshes.append_array(collect_meshes(child,xf))
 	return meshes
 
-func fallback_pine(variant: int) -> ArrayMesh:
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	# Fixed asset geometry reused by scene instances.
-	var trunk := CylinderMesh.new()
-	trunk.top_radius = .07
-	trunk.bottom_radius = .26
-	trunk.height = 15.0
-	trunk.radial_segments = 7
-	st.append_from(trunk,0,Transform3D(Basis(),Vector3(0,7.5,0)))
-	for level in 9:
-		var y := 3.0+level*1.3
-		var rad := (2.0-float(level)*.16)*(1.0+float(variant)*.08)
-		var cone := CylinderMesh.new()
-		cone.top_radius = .02
-		cone.bottom_radius = rad
-		cone.height = 2.5
-		cone.radial_segments = 9
-		st.append_from(cone,0,Transform3D(Basis(Vector3.UP,level*2.399),Vector3(0,y,0)))
-	st.generate_normals()
-	var mesh := st.commit()
-	mesh.surface_set_material(0,material(Color(.135,.20,.095)))
-	return mesh
+func bind_foliage_materials(assets: Array, kind: String) -> bool:
+	for asset: Array in assets:
+		var mesh: Mesh=asset[0]
+		if not mesh is ArrayMesh:
+			continue
+		for surface in mesh.get_surface_count():
+			var original: Material=mesh.surface_get_material(surface)
+			if original is StandardMaterial3D and original.transparency==BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR:
+				var leaves:=ShaderMaterial.new()
+				leaves.shader=load("res://shaders/foliage.gdshader")
+				var texture: Texture2D = original.albedo_texture
+				if kind in ["pine", "snag"]:
+					texture = LodgepoleLibrary.cutout_texture(texture.resource_path.get_file())
+					if texture == null:
+						return false
+				leaves.set_shader_parameter("albedo_texture",texture)
+				leaves.set_shader_parameter("alpha_cutoff",.40 if kind == "grass" else .32)
+				leaves.set_shader_parameter("use_texture",true)
+				leaves.set_shader_parameter("tint",Vector3(.86,.92,.82))
+				leaves.set_shader_parameter("wind_strength",.045 if kind=="grass" else .14)
+				mesh.surface_set_material(surface,leaves)
+	return true
 
-func make_vegetation() -> void:
+func make_vegetation() -> bool:
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/placements.json"))
 	var overrides: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/placement_overrides.json"))
+	var canopy_header: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/lidar_canopy/unresolved_render_canopy.json"))
+	if not canopy_header is Dictionary:
+		push_error("Tree detail bounds require canopy metadata")
+		return false
+	var canopy_cell_m: float = float(canopy_header.cell_size_m)
+	var detail_origin := Vector2(float(canopy_header.first_cell_x_m), float(canopy_header.first_cell_z_m)) - Vector2.ONE * canopy_cell_m * .5
+	var detail_bounds := Rect2(detail_origin, Vector2(float(canopy_header.width), float(canopy_header.height)) * canopy_cell_m)
 	var group := Node3D.new()
 	group.name = "AuthoredVegetation"
 	own(group)
@@ -589,19 +621,24 @@ func make_vegetation() -> void:
 	records.append_array(overrides.get("add",[]))
 	var bins: Dictionary = {}
 	for record: Dictionary in records:
-		if record.id in overrides.get("remove",[]):
+		var identity: String = str(record.get("id", record.get("stable_id", "")))
+		if identity in overrides.get("remove",[]):
 			continue
-		var r: Dictionary = overrides.get("replace",{}).get(record.id,record)
+		var r: Dictionary = overrides.get("replace",{}).get(identity,record)
 		var p: Array = r.position
-		var variant: int = int(r.get("variant",0))
-		var key := "%s_%d_%d_%d" % [r.kind,variant,int(floor(p[0]/256.0)),int(floor(p[2]/256.0))]
+		var variant: int = 0 if r.kind in ["pine", "snag"] else int(r.get("variant",0))
+		var form: String = LodgepoleLibrary.archetype(r) if r.kind in ["pine", "snag"] else ""
+		var cell_size_m: float = 64.0 if r.kind in ["pine", "snag"] and detail_bounds.has_point(Vector2(p[0], p[2])) else 256.0
+		var key := "%s_%s_%d_%d_%d_%d" % [r.kind,form,variant,int(cell_size_m),int(floor(p[0]/cell_size_m)),int(floor(p[2]/cell_size_m))]
 		if not bins.has(key):
 			bins[key] = []
 		bins[key].append(r)
 	for key: String in bins:
 		var entries: Array = bins[key]
 		var exemplar: Dictionary = entries[0]
-		var asset_key := "%s_%d" % [exemplar.kind,int(exemplar.get("variant",0))]
+		var variant: int = 0 if exemplar.kind in ["pine", "snag"] else int(exemplar.get("variant",0))
+		var form: String = LodgepoleLibrary.archetype(exemplar) if exemplar.kind in ["pine", "snag"] else ""
+		var asset_key := "%s_%s_%d" % [exemplar.kind,form,variant]
 		if not mesh_library.has(asset_key):
 			var assets: Array = []
 			if exemplar.kind=="grass":
@@ -611,33 +648,14 @@ func make_vegetation() -> void:
 					var source: Node = load(path).instantiate()
 					assets = collect_meshes(source)
 					source.free()
-			elif exemplar.kind=="pine":
-				var levels := [["pine_b_compact",0.0,65.0],["pine_b_lod1",65.0,210.0],["pine_b_lod2",210.0,800.0]]
-				for level: Array in levels:
-					var path := "res://assets/imported/pine_tree_01/%s.gltf" % level[0]
-					if ResourceLoader.exists(path):
-						var source: Node = load(path).instantiate()
-						for item: Array in collect_meshes(source):
-							item.append(level[1])
-							item.append(level[2])
-							assets.append(item)
-						source.free()
-				var far_mesh:=QuadMesh.new()
-				far_mesh.size=Vector2(10.6667,16.0)
-				var far_material:=StandardMaterial3D.new()
-				far_material.albedo_texture=load("res://assets/imported/pine_tree_01/pine_billboard_%d.png" % (int(exemplar.variant)%4))
-				far_material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
-				far_material.alpha_scissor_threshold=.38
-				far_material.billboard_mode=BaseMaterial3D.BILLBOARD_FIXED_Y
-				far_material.cull_mode=BaseMaterial3D.CULL_DISABLED
-				far_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
-				far_mesh.material=far_material
-				assets.append([far_mesh,Transform3D(Basis(),Vector3(0,7.7,0)),800.0,3000.0])
+			elif exemplar.kind in ["pine", "snag"]:
+				assets = LodgepoleLibrary.load_assets(form, variant)
+				if assets.is_empty():
+					push_error("Required lodgepole assets are unavailable: " + form)
+					return false
 			if assets.is_empty():
 				var mesh: Mesh
-				if exemplar.kind=="pine":
-					mesh = fallback_pine(int(exemplar.variant))
-				elif exemplar.kind=="rock":
+				if exemplar.kind=="rock":
 					var rock := SphereMesh.new()
 					rock.radial_segments = 7
 					rock.rings = 4
@@ -662,66 +680,138 @@ func make_vegetation() -> void:
 				if exemplar.kind=="log":
 					xf=Transform3D(Basis(Vector3.FORWARD,PI/2),Vector3(0,.20,0))
 				assets=[[mesh,xf]]
-			# Replace cutout surfaces with the shared wind shader.
-			for asset: Array in assets:
-				var mesh: Mesh=asset[0]
-				if not mesh is ArrayMesh:
-					continue
-				for surface in mesh.get_surface_count():
-					var original: Material=mesh.surface_get_material(surface)
-					if original is StandardMaterial3D and original.transparency==BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR:
-						var leaves:=ShaderMaterial.new()
-						leaves.shader=load("res://shaders/foliage.gdshader")
-						leaves.set_shader_parameter("albedo_texture",original.albedo_texture)
-						leaves.set_shader_parameter("use_texture",true)
-						leaves.set_shader_parameter("tint",Vector3(.86,.92,.82))
-						leaves.set_shader_parameter("wind_strength",.045 if exemplar.kind=="grass" else .14)
-						mesh.surface_set_material(surface,leaves)
+			if not bind_foliage_materials(assets, str(exemplar.kind)):
+				return false
 			mesh_library[asset_key]=assets
-		for asset: Array in mesh_library[asset_key]:
+		var asset_batches: Array = []
+		for source_asset: Array in mesh_library[asset_key]:
+			if exemplar.kind in ["pine", "snag"] and float(source_asset[2]) == 0.0 and str(source_asset[4]) in ["Branches", "NeedleCards"]:
+				for architecture_variant: int in range(4):
+					var variant_entries: Array = []
+					for record: Dictionary in entries:
+						if int(LodgepoleLibrary.variation_key(record)) == architecture_variant:
+							variant_entries.append(record)
+					if variant_entries.is_empty():
+						continue
+					var architecture_assets := LodgepoleLibrary.load_architecture(form, architecture_variant)
+					if not bind_foliage_materials(architecture_assets, str(exemplar.kind)):
+						return false
+					if architecture_assets.is_empty():
+						return false
+					for architecture_asset: Array in architecture_assets:
+						if str(architecture_asset[4]) == str(source_asset[4]):
+							asset_batches.append([architecture_asset, variant_entries, architecture_variant])
+			elif exemplar.kind in ["pine", "snag"] and str(source_asset[4]) == "Billboard":
+				for view: int in range(4):
+					var view_entries: Array = []
+					for record: Dictionary in entries:
+						if int(LodgepoleLibrary.variation_key(record)) == view:
+							view_entries.append(record)
+					if not view_entries.is_empty():
+						var view_assets: Array = LodgepoleLibrary.load_assets(form, view)
+						if view_assets.is_empty():
+							push_error("Required lodgepole billboard is unavailable: " + form)
+							return false
+						asset_batches.append([view_assets.back(), view_entries, view])
+			else:
+				asset_batches.append([source_asset, entries, -1])
+		var tree_meshes: Array[MultiMeshInstance3D] = []
+		var tree_bin_bounds := AABB()
+		for batch: Array in asset_batches:
+			var asset: Array = batch[0]
+			var render_entries: Array = batch[1]
 			var mm := MultiMesh.new()
 			mm.transform_format=MultiMesh.TRANSFORM_3D
 			mm.use_colors=true
 			mm.mesh=asset[0]
-			mm.instance_count=entries.size()
-			var center := Vector3(floor(float(exemplar.position[0])/256.0)*256+128,0,floor(float(exemplar.position[2])/256.0)*256+128)
+			mm.instance_count=render_entries.size()
+			var batch_cell_m: float = 64.0 if exemplar.kind in ["pine", "snag"] and detail_bounds.has_point(Vector2(exemplar.position[0], exemplar.position[2])) else 256.0
+			var center := Vector3((floor(float(exemplar.position[0])/batch_cell_m)+0.5)*batch_cell_m,0,(floor(float(exemplar.position[2])/batch_cell_m)+0.5)*batch_cell_m)
 			var instance_buffer:=PackedFloat32Array()
 			var instance_bounds:=AABB()
-			for i in entries.size():
-				var r: Dictionary=entries[i]
+			for i in render_entries.size():
+				var r: Dictionary=render_entries[i]
 				var p := Vector3(r.position[0],r.position[1],r.position[2])
-				var basis := Basis(Vector3.UP,float(r.yaw)).scaled(Vector3.ONE*float(r.scale))
-				var xf: Transform3D=Transform3D(basis,p-center)*asset[1]
+				var basis := Basis(Vector3.UP,float(r.yaw))
+				var local: Transform3D = LodgepoleLibrary.local_transform(r, str(asset[4])) if r.kind in ["pine", "snag"] else Transform3D(Basis.from_scale(Vector3.ONE * float(r.scale)), Vector3.ZERO)
+				var xf: Transform3D=Transform3D(basis,p-center)*local*asset[1]
+				if not xf.is_finite():
+					push_error("Vegetation transform is nonfinite: " + str(r.get("id", r.get("stable_id", "unknown"))))
+					return false
 				append_instance(instance_buffer,xf,Color.WHITE)
 				var bounds: AABB=xf*mm.mesh.get_aabb()
 				instance_bounds=bounds if i==0 else instance_bounds.merge(bounds)
 			mm.buffer=instance_buffer
 			mm.custom_aabb=instance_bounds.grow(.7)
-			assert(mm.buffer.size()==entries.size()*16,"Vegetation instance data lost")
+			assert(mm.buffer.size()==render_entries.size()*16,"Vegetation instance data lost")
 			var node := MultiMeshInstance3D.new()
-			node.name=key
+			node.name=key + "_%s_%d" % [str(asset[4]), int(asset[2])] if exemplar.kind in ["pine", "snag"] else key
+			if int(batch[2]) >= 0:
+				node.name += "_variant%d" % int(batch[2]) if str(asset[4]) != "Billboard" else "_view%d" % int(batch[2])
+			node.set_meta("vegetation_kind", str(exemplar.kind))
+			if exemplar.kind in ["pine", "snag"]:
+				node.set_meta("tree_archetype", form)
+				node.set_meta("tree_part", str(asset[4]))
+				node.set_meta("display_envelope_class", "transferred_or_photo_authored_unknown_local_error")
+				if float(asset[2]) == 0.0 and str(asset[4]) != "Bole":
+					node.set_meta("architecture_variant", int(batch[2]))
+				node.set_meta("lod_begin_m", float(asset[2]))
+				tree_bin_bounds = instance_bounds if tree_meshes.is_empty() else tree_bin_bounds.merge(instance_bounds)
+				tree_meshes.append(node)
 			node.multimesh=mm
 			node.position=center
 			node.visibility_range_end=150.0 if exemplar.kind=="grass" else 2800.0
 			if asset.size()>2:
 				node.visibility_range_begin=asset[2]
 				node.visibility_range_end=asset[3]
-				if float(asset[2])>=210.0:
+				if float(asset[2]) >= float(LodgepoleLibrary.LOD_RANGES[2][0]):
 					node.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			if exemplar.kind=="grass":
 				node.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			own(node,group)
+		for tree_mesh: MultiMeshInstance3D in tree_meshes:
+			tree_mesh.multimesh.custom_aabb = tree_bin_bounds.grow(.7)
 		# Trunk colliders at the same placement as meshes.
-		if exemplar.kind=="pine":
+		if exemplar.kind in ["pine", "snag"]:
 			for r: Dictionary in entries:
 				if absf(r.position[0])>750 or absf(r.position[2])>1250:
 					continue
+				var tree_transform: Transform3D = LodgepoleLibrary.local_transform(r, "Bole")
+				var tree_form: String = LodgepoleLibrary.archetype(r)
+				var tree_height: float = float(LodgepoleLibrary.metadata().archetypes[tree_form].height_m) * tree_transform.basis.y.length()
+				var collision_height: float = minf(3.0, tree_height)
 				var body := StaticBody3D.new()
-				body.position=Vector3(r.position[0],r.position[1]+1.5,r.position[2])
+				body.position=Vector3(r.position[0],r.position[1]+collision_height*.5,r.position[2])
+				body.set_meta("tree_height_m", tree_height)
 				own(body,group)
 				var col := CollisionShape3D.new()
 				var cylinder := CylinderShape3D.new()
-				cylinder.radius=.22*float(r.scale)
-				cylinder.height=3.0
+				cylinder.radius=float(LodgepoleLibrary.metadata().archetypes[tree_form].dbh_m) * tree_transform.basis.x.length() * 0.5
+				cylinder.height=collision_height
 				col.shape=cylinder
 				own(col,body)
+	if not CanopySurface.build(scene_root, "res://data/lidar_canopy/unresolved_render_canopy.json"):
+		return false
+	return ForestFloor.build(scene_root, "res://data/forest_floor.json")
+
+func bake_vegetation_only(start: int) -> void:
+	spec = JSON.parse_string(FileAccess.get_file_as_string("res://data/world.json"))
+	height_field = HeightField.new()
+	scene_root = load("res://scenes/authored_world.tscn").instantiate()
+	get_root().add_child(scene_root)
+	var previous: Node = scene_root.get_node_or_null("AuthoredVegetation")
+	if previous != null:
+		previous.free()
+	stone_mat = material(Color(0.65,0.63,0.55))
+	stone_mat.albedo_texture = load("res://assets/textures/rock_boulder_dry_diff_1k.jpg")
+	bark_mat = material(Color(0.64,0.60,0.48))
+	bark_mat.albedo_texture = load("res://assets/textures/pine_bark_diff_1k.jpg")
+	if not make_vegetation():
+		quit(1)
+		return
+	var packed := PackedScene.new()
+	var error: int = packed.pack(scene_root)
+	if error == OK:
+		error = ResourceSaver.save(packed,"res://scenes/authored_world.tscn")
+	print("VEGETATION_BAKE ",error," ",(Time.get_ticks_msec()-start)/1000.0," seconds")
+	quit(error)

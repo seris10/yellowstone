@@ -5,7 +5,7 @@ extends Node
 
 ## The consumer accepts the normalized nested snapshot or the flat endpoint shape and writes the normalized format to snapshot_path.
 
-const DEFAULT_PORT: int = 8001
+const DEFAULT_PORT: int = 8765
 const SCHEMA_VERSION: int = 2
 
 const REQUIRED_WEATHER_FIELDS: Array[String] = [
@@ -74,7 +74,7 @@ func bind(
 	_base_url = (
 		base_url
 		if base_url.strip_edges() != ""
-		else "http://127.0.0.1:%d" % DEFAULT_PORT
+		else str(ProjectSettings.get_setting("yellowstone/live_url", "http://127.0.0.1:%d" % DEFAULT_PORT))
 	)
 
 	if endpoint_url.strip_edges() == "":
@@ -561,17 +561,6 @@ func _write_snapshot_atomically(snapshot: Dictionary) -> bool:
 	file.store_string(JSON.stringify(snapshot, "\t"))
 	file.flush()
 	file.close()
-
-	# Remove the old target before rename on platforms where replacement renames are not atomic or are rejected when the target exists.
-	if FileAccess.file_exists(snapshot_path):
-		var remove_error := DirAccess.remove_absolute(snapshot_path)
-
-		if remove_error != OK:
-			push_warning(
-				"Could not replace existing weather snapshot '%s'."
-				% snapshot_path
-			)
-			return false
 
 	var rename_error := DirAccess.rename_absolute(
 		temporary_path,

@@ -1,17 +1,19 @@
-"""Mechanical standing-rules check over derived/ provenance labels (reports only).
-"""
+"""Mechanical standing-rules check over derived/ provenance labels (reports only)."""
 
 import argparse
 import json
 import os
 import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from yellowstone_python.common.io import write_json_atomic as _shared_json_write
 
 SCHEMA_AUDIT = "yellowstone.provenance_audit.v1"
 
 STATUS_VOCABULARY = (
+    "measured",
+    "derived_not_field_validated",
+    "transferred",
+    "unavailable",
     "measured_remote_not_calibrated",
     "fitted_not_validated_single_window",
     "illustrative_not_calibrated",
@@ -22,6 +24,24 @@ STATUS_VOCABULARY = (
     "parameter_notes",
     "Illustrative, dimensioned observational model. This is not calibrated "
     "hydrology, wildlife abundance or a biological forecast.",
+    "authored",
+    "authored_illustrative",
+    "authored_illustrative_from_dem_and_census",
+    "authored_illustrative_not_calibrated",
+    "authored_standing_rules_check",
+    "diagnostic",
+    "diagnostic_not_calibrated",
+    "fitted_not_validated",
+    "illustrative",
+    "illustrative_not_validated",
+    "transferred_structure_authored_rates",
+    "validation",
+)
+
+# Nested labels distinguish DEM-derived authored geometry from unmeasured boundary forcing.
+NESTED_STATUS_VOCABULARY = STATUS_VOCABULARY + (
+    "authored_estimate_from_usgs_3dep_dem",
+    "illustrative_river_entry_forcing_not_measured",
 )
 
 LEGACY_ALLOWLIST = ("usgs_06036805.json", "llm_snapshot.json")
@@ -76,7 +96,7 @@ def audit_file(path: Path, strict: bool = False) -> list:
         nested: list = []
         _nested_statuses({k: v for k, v in doc.items() if k != "status"}, nested)
         for s in nested:
-            if s not in STATUS_VOCABULARY:
+            if s not in NESTED_STATUS_VOCABULARY:
                 failures.append({"file": path.name,
                                  "rule": "unknown-nested-status",
                                  "found": s})
@@ -253,9 +273,7 @@ def main() -> int:
     if args.out is not None:
         try:
             args.out.parent.mkdir(parents=True, exist_ok=True)
-            tmp = args.out.with_name(args.out.name + ".tmp")
-            tmp.write_text(json.dumps(report, indent=2))
-            tmp.replace(args.out)
+            _shared_json_write(args.out, report)
         except OSError as exc:
             print(json.dumps(report, indent=2))
             print(f"report-unwritable: {args.out}: {exc}")

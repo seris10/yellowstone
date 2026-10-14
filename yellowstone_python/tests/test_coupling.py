@@ -1,21 +1,10 @@
 """Tests for the component coupling contract and pocket resolution."""
 import copy
 
-from yellowstone_python.aquatic_foodweb import (
-    TRIBUTARY_CANDIDATES,
-    append_tributary_cells,
-    build_tributary_cell,
-    thermal_landscape,
-)
-from yellowstone_python.coupling import (
-    EXCHANGES,
-    POCKET_CONSERVATION,
-    PRESCRIBED_INCREMENT,
-    check_coupling,
-    validate_contract,
-)
-from yellowstone_python.replay.hydraulics import thermal_inventory
-from yellowstone_python.replay.river_transport import make_replay
+from yellowstone_python.aquatic.aquatic_foodweb import TRIBUTARY_CANDIDATES, append_tributary_cells, build_tributary_cell, thermal_landscape
+from yellowstone_python.registry.coupling import EXCHANGES, POCKET_CONSERVATION, PRESCRIBED_INCREMENT, check_coupling, validate_contract
+from yellowstone_python.river.hydraulics import thermal_inventory
+from yellowstone_python.river.river_transport import make_replay
 
 
 def _doc():

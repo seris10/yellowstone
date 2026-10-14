@@ -96,7 +96,7 @@ def test_sha_mismatch_against_build_json(tmp_path):
     fit.write_text(json.dumps({"status": "fitted_not_validated_single_window",
                                "effective_geometry": {"volume_m3": 300000.0},
                                "champion": {}}))
-    # Record a sha that does not match the current contents.
+    # Record a sha that does not match the contents.
     wrong_sha = "0" * 64
     (t["build_dir"] / "BUILD.json").write_text(json.dumps(
         {"build_id": "deadbeef",

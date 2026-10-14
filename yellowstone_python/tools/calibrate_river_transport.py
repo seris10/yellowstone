@@ -1,6 +1,7 @@
-"""Staged reach-scale calibrator for the 1-D river-transport solver (fixes-15 stages A..D).
-"""
+"""Staged reach-scale calibrator for the 1-D river-transport solver (stages A..D)."""
 from __future__ import annotations
+
+from yellowstone_python.river.obs_model import UPSTREAM_GAUGE, DOWNSTREAM_GAUGE
 
 import argparse
 import json
@@ -10,38 +11,11 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Sequence
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from yellowstone_python.replay.calibrate import (  # noqa: E402
-    SCHEMA_FIT,
-    check_continuity,
-    estimate_lag,
-    interp_series,
-    least_squares_fit,
-    reach_heat_fit,
-    run_fit_forward,
-)
-from yellowstone_python.replay.river_transport import (  # noqa: E402
-    Cell,
-    River,
-    Series,
-    Source,
-)
-from yellowstone_python.replay.surface_flux import (  # noqa: E402
-    BUDGET_PARAM_KEYS,
-    BudgetParams,
-    describe_surface_model,
-)
-from yellowstone_python.replay.uncertainty import (  # noqa: E402
-    DEFAULT_BAND_LEVEL,
-    DEFAULT_N_BOOTSTRAP,
-    ENSEMBLE_SEED,
-    band_coverage,
-    ensemble_bands,
-)
-from yellowstone_python.replay.hydraulics import (  # noqa: E402
-    score_paired_series,
-)
+from yellowstone_python.river.calibrate import SCHEMA_FIT, check_continuity, estimate_lag, interp_series, least_squares_fit, reach_heat_fit, run_fit_forward
+from yellowstone_python.river.river_transport import Cell, River, Series, Source
+from yellowstone_python.river.surface_flux import BUDGET_PARAM_KEYS, BudgetParams, describe_surface_model
+from yellowstone_python.river.uncertainty import DEFAULT_BAND_LEVEL, DEFAULT_N_BOOTSTRAP, ENSEMBLE_SEED, band_coverage, ensemble_bands
+from yellowstone_python.river.hydraulics import score_paired_series
 
 SCHEMA_STAGED = "yellowstone.staged_calibration.v1"
 
@@ -90,8 +64,8 @@ STAGE_PLAN = (
 )
 
 SURFACE_IDENTIFIABILITY: dict[str, tuple[tuple[str, ...], ...]] = {
-    "shortwave_multiplier": (("surface_flux.longwave_down_w_m2",),
-                             ("meteorology.longwave_down_w_m2",)),
+    "shortwave_multiplier": (("surface_flux.net_radiometer_w_m2",),
+                             ("meteorology.station_shortwave_w_m2",)),
     "longwave_multiplier": (("surface_flux.longwave_down_w_m2",),
                             ("meteorology.longwave_down_w_m2",)),
     "longwave_bias_w_m2": (("surface_flux.longwave_down_w_m2",),
@@ -116,11 +90,7 @@ Q_LAT_BOUNDS = (0.0, 10.0)
 T_LAT_BOUNDS = (-5.0, 60.0)
 
 
-def _finite(value: Any, name: str) -> float:
-    result = float(value)
-    if not math.isfinite(result):
-        raise ValueError(f"{name} must be finite")
-    return result
+from yellowstone_python.common.checks import finite
 
 
 def _series_from(times_s: Sequence[float],
@@ -146,13 +116,15 @@ def _bundle_channels(bundle: dict[str, Any]) -> dict[str, bool]:
     present["meteorology.rh"] = columns >= 3
     present["meteorology.wind_mps"] = columns >= 4
     present["meteorology.shortwave_w_m2"] = columns >= 5
+    present["meteorology.station_shortwave_w_m2"] = (columns >= 5 and
+        met.get("shortwave_source") in ("station", "station_data", "measured_station"))
     present["meteorology.cloud_fraction"] = columns >= 6
     present["meteorology.longwave_down_w_m2"] = bool(
         optional.get("longwave_down_w_m2"))
     present["meteorology.dewpoint_c"] = bool(optional.get("dewpoint_c"))
     present["meteorology.pressure_kpa"] = bool(optional.get("pressure_kpa"))
-    up = sites.get("06036805", {}).get("series", {})
-    down = sites.get("06036905", {}).get("series", {})
+    up = sites.get(UPSTREAM_GAUGE, {}).get("series", {})
+    down = sites.get(DOWNSTREAM_GAUGE, {}).get("series", {})
     present["hydraulics.upstream_discharge_m3_s"] = bool(
         up.get("discharge_m3_s"))
     present["hydraulics.downstream_discharge_m3_s"] = bool(
@@ -168,7 +140,7 @@ def _bundle_channels(bundle: dict[str, Any]) -> dict[str, bool]:
     present["water_temperature.downstream_temperature_c"] = bool(
         down.get("temperature_c"))
     present["water_temperature.intermediate_temperature_c"] = any(
-        site_id not in ("06036805", "06036905")
+        site_id not in (UPSTREAM_GAUGE, DOWNSTREAM_GAUGE)
         and bool(payload.get("series", {}).get("temperature_c"))
         for site_id, payload in sites.items())
     present["surface_flux.net_radiometer_w_m2"] = bool(flux.get("net"))
@@ -225,10 +197,9 @@ class StageAResult:
 def stage_a_hydraulics(bundle: dict[str, Any], volume_m3: float,
                        area_m2: float, dt_s: float = 900.0,
                        volume_sigma_frac: float = 0.2) -> StageAResult:
-    """Stage A per fixes-15 sections 3 and 4A: effective volume_m3 and area_m2 with travel-time check.
-    """
-    volume_m3 = _finite(volume_m3, "volume_m3")
-    area_m2 = _finite(area_m2, "area_m2")
+    """Stage A per effective volume_m3 and area_m2 with travel-time check."""
+    volume_m3 = finite("volume_m3", volume_m3)
+    area_m2 = finite("area_m2", area_m2)
     if volume_m3 <= 0.0:
         raise ValueError("volume_m3 must be positive")
     if area_m2 <= 0.0:
@@ -236,8 +207,8 @@ def stage_a_hydraulics(bundle: dict[str, Any], volume_m3: float,
     if not 0.0 < volume_sigma_frac < 1.0:
         raise ValueError("volume_sigma_frac must be in (0, 1)")
     sites = bundle.get("sites", {})
-    up = sites.get("06036805", {}).get("series", {})
-    down = sites.get("06036905", {}).get("series", {})
+    up = sites.get(UPSTREAM_GAUGE, {}).get("series", {})
+    down = sites.get(DOWNSTREAM_GAUGE, {}).get("series", {})
     up_t_pairs = up.get("temperature_c")
     up_q_pairs = up.get("discharge_m3_s")
     down_t_pairs = down.get("temperature_c")
@@ -311,8 +282,7 @@ class StageBResult:
 
 def stage_b_dispersion(bundle: dict[str, Any],
                        stage_a: StageAResult) -> StageBResult:
-    """Stage B per fixes-15 section 4B: lumped single-cell; dispersion reported as not identified.
-    """
+    """Stage B per lumped single-cell; dispersion reported as not identified."""
     tracer = bundle.get("tracer_pulse")
     if tracer:
         return StageBResult(
@@ -357,7 +327,7 @@ def _stage_c_grid(q_lat_grid: Sequence[float] | None,
         if not g:
             raise ValueError(f"{name} must be nonempty")
         for v in g:
-            _finite(v, name)
+            finite(name, v)
     return q_grid, t_grid
 
 
@@ -376,8 +346,7 @@ def stage_c_sources(bundle: dict[str, Any], stage_a: StageAResult,
                     min_members: int = 5,
                     band_level: float = DEFAULT_BAND_LEVEL,
                     n_bootstrap: int = DEFAULT_N_BOOTSTRAP) -> StageCResult:
-    """Stage C per fixes-15 section 4C: fits (q_lat, t_lat) at surface identity defaults (c_mult=1.0).
-    """
+    """Stage C per fits (q_lat, t_lat) at surface identity defaults (c_mult=1.0)."""
     from scipy.optimize import differential_evolution
     q_grid, t_grid = _stage_c_grid(q_lat_grid, t_lat_grid)
     grid_doc = reach_heat_fit(
@@ -391,7 +360,7 @@ def stage_c_sources(bundle: dict[str, Any], stage_a: StageAResult,
     best_train = float(champ["train_rmse"])
     best_holdout = float(champ["holdout_rmse"])
     method = "grid"
-    down = bundle["sites"]["06036905"]["series"]
+    down = bundle["sites"][DOWNSTREAM_GAUGE]["series"]
     probe = run_fit_forward(
         bundle, stage_a.volume_m3, stage_a.area_m2,
         best_q, best_t, 1.0, dt_s)
@@ -458,9 +427,8 @@ def _stage_c_intervals(all_results: list[dict[str, Any]],
                        stage_a: StageAResult, dt_s: float,
                        spinup_s: float, train_frac: float
                        ) -> dict[str, Any]:
-    """Ridge ensemble intervals for Stage C per fixes-15 section 11."""
-    from yellowstone_python.replay.uncertainty import (
-        fit_masks, member_trajectories, ridge_members)
+    """Ridge ensemble intervals for Stage C per."""
+    from yellowstone_python.river.uncertainty import fit_masks, member_trajectories, ridge_members
     members = ridge_members(all_results, champion_train_rmse,
                             tol_frac=tol_frac, min_members=min_members)
     trajs = member_trajectories(
@@ -470,7 +438,7 @@ def _stage_c_intervals(all_results: list[dict[str, Any]],
                            quantiles=(tail, 0.5, 1.0 - tail),
                            seed=seed, n_bootstrap=n_bootstrap)
     _, holdout = fit_masks(trajs["grid"], spinup_s, train_frac)
-    down = bundle["sites"]["06036905"]["series"]
+    down = bundle["sites"][DOWNSTREAM_GAUGE]["series"]
     target = interp_series(down["temperature_c"], trajs["grid"])
     coverage = band_coverage(bands["lo"][holdout], bands["hi"][holdout],
                              target[holdout])
@@ -565,43 +533,7 @@ def _stage_d_forward(arrays: dict[str, Any], volume_m3: float,
     return [f["temperature_c"][0] for f in frames]
 
 
-def _forcing_arrays(bundle: dict[str, Any], dt_s: float) -> dict[str, Any]:
-    """Rebuild the forcing arrays run_fit_forward uses (mirrors replay.calibrate._fit_forcing_arrays).
-    """
-    up = bundle["sites"]["06036805"]["series"]
-    met_rows = bundle["met"]["hourly"]
-    check_continuity(up["temperature_c"], "upstream temperature", 3600.0)
-    check_continuity(up["discharge_m3_s"], "upstream discharge", 3600.0)
-    check_continuity([[r[0], r[1]] for r in met_rows], "met air", 14400.0)
-    t0 = max(up["temperature_c"][0][0], up["discharge_m3_s"][0][0],
-             met_rows[0][0])
-    tN = min(up["temperature_c"][-1][0], up["discharge_m3_s"][-1][0],
-             met_rows[-1][0])
-    if tN - t0 <= dt_s:
-        raise ValueError("forcing window shorter than one step")
-    n = int((tN - t0) // dt_s)
-    grid = [t0 + i * dt_s for i in range(n + 1)]
-    up_t = interp_series(up["temperature_c"], grid)
-    up_q = interp_series(up["discharge_m3_s"], grid)
-    mean_q = math.fsum(up_q) / len(up_q)
-    air = interp_series([[r[0], r[1]] for r in met_rows], grid)
-    rh = interp_series([[r[0], r[2]] for r in met_rows], grid)
-    wind = interp_series([[r[0], r[3]] for r in met_rows], grid)
-    sw = interp_series([[r[0], r[4]] for r in met_rows], grid)
-    cloud = interp_series([[r[0], r[5]] for r in met_rows], grid)
-    return {
-        "grid": grid, "t0": t0, "mean_q": mean_q,
-        "up_t": up_t, "up_q": up_q, "air": air, "rh": rh,
-        "wind": wind, "sw": sw, "cloud": cloud,
-        "up_t_series": _series_from(grid, up_t),
-        "met_series": {
-            "air_c": _series_from(grid, air),
-            "rh": _series_from(grid, rh),
-            "wind_mps": _series_from(grid, wind),
-            "sw": _series_from(grid, sw),
-            "cloud": _series_from(grid, cloud),
-        },
-    }
+from yellowstone_python.river.calibrate import fit_forcing_arrays
 
 
 def stage_d_surface(bundle: dict[str, Any], stage_a: StageAResult,
@@ -619,8 +551,7 @@ def stage_d_surface(bundle: dict[str, Any], stage_a: StageAResult,
                     tol_frac: float = 0.10,
                     min_members: int = 5,
                     skip_polish: bool = False) -> StageDResult:
-    """Stage D per fixes-15 sections 5, 6, 7 and 11: fits c_mult plus identifiable BudgetParams fields.
-    """
+    """Stage D per fits c_mult plus identifiable BudgetParams fields."""
     import numpy as np
     from scipy.optimize import least_squares
     report = observation_hierarchy_report(bundle)
@@ -628,9 +559,9 @@ def stage_d_surface(bundle: dict[str, Any], stage_a: StageAResult,
         report["surface_params_identifiable"])
     not_identifiable = dict(not_identifiable) if not_identifiable is not None \
         else dict(report["surface_params_not_identifiable"])
-    arrays = _forcing_arrays(bundle, dt_s)
+    arrays = fit_forcing_arrays(bundle, dt_s)
     grid = arrays["grid"]
-    down = bundle["sites"]["06036905"]["series"]
+    down = bundle["sites"][DOWNSTREAM_GAUGE]["series"]
     target = interp_series(down["temperature_c"], grid)
     start = next(i for i, g in enumerate(grid) if g - grid[0] >= spinup_s)
     split = start + int((len(grid) - start) * train_frac)
@@ -877,7 +808,7 @@ def run_staged(bundle: dict[str, Any],
 
 
 def _recommended_sequence() -> list[str]:
-    """fixes-15 section 14 sequence in prose form."""
+    """"""
     return [
         "Fit effective geometry against stage and discharge.",
         "Fit Manning roughness against velocity or travel time.",
@@ -893,13 +824,7 @@ def _recommended_sequence() -> list[str]:
     ]
 
 
-def _write_json(path: Path, document: dict[str, Any]) -> None:
-    """Atomic JSON write via a .tmp sibling then replace."""
-    text = json.dumps(document, indent=1, allow_nan=False) + "\n"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_name(path.name + ".tmp")
-    tmp.write_text(text, encoding="utf-8")
-    tmp.replace(path)
+from yellowstone_python.common.io import write_json_atomic as _write_json
 
 
 def write_stage_files(document: dict[str, Any],

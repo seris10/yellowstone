@@ -1,6 +1,6 @@
 extends Node3D
 
-## Lives in study.tscn, requires ecosystem_path to the Ecosystem child. Fixed color scale supports comparison between control and pulse runs.
+## Fixed temperature scale for the buffered river field.
 
 @export var ecosystem_path: NodePath
 @export var temperature_min_c: float = 17.0
@@ -8,6 +8,9 @@ extends Node3D
 
 var _ecosystem: Node
 var _markers: Array[MeshInstance3D] = []
+@export var ribbon_offset_m: float = 0.5
+var _ribbon: MeshInstance3D
+var _ribbon_material: StandardMaterial3D
 
 func _ready() -> void:
 	visible = false
@@ -18,11 +21,6 @@ func _ready() -> void:
 		set_process(false)
 		return
 	# Ecosystem node created at runtime by world.gd; resolve lazily in _process.
-
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if event.pressed and not event.echo and event.physical_keycode == KEY_H:
-			visible = not visible
 
 func _process(_delta: float) -> void:
 	if not visible:
@@ -38,6 +36,7 @@ func _process(_delta: float) -> void:
 			return
 
 	var records: Array = _ecosystem.call("thermal_probe_records")
+	_update_ribbon(records)
 	if _markers.size() != records.size():
 		for marker: MeshInstance3D in _markers:
 			marker.queue_free()
@@ -76,3 +75,43 @@ func _process(_delta: float) -> void:
 		)
 		_markers[i].set_meta("simulated_temperature_c", temperature)
 		_markers[i].set_meta("cell_id", records[i]["cell_id"])
+func _temperature_color(temperature: float) -> Color:
+	var fraction: float = clampf((temperature - temperature_min_c) / (temperature_max_c - temperature_min_c), 0.0, 1.0)
+	return Color(0.15, 0.45, 1.0).lerp(Color(1.0, 0.18, 0.08), fraction)
+
+func _update_ribbon(records: Array) -> void:
+	if records.size() < 2:
+		return
+	if _ribbon == null:
+		_ribbon = MeshInstance3D.new()
+		_ribbon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		var material: StandardMaterial3D = StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.vertex_color_use_as_albedo = true
+		material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		_ribbon_material = material
+		add_child(_ribbon)
+	var vertices: PackedVector3Array = PackedVector3Array()
+	var colors: PackedColorArray = PackedColorArray()
+	for i: int in range(records.size() - 1):
+		var pa: Array = records[i].position_xyz
+		var pb: Array = records[i + 1].position_xyz
+		var a: Vector3 = Vector3(float(pa[0]), float(pa[1]) + 0.2, float(pa[2]))
+		var b: Vector3 = Vector3(float(pb[0]), float(pb[1]) + 0.2, float(pb[2]))
+		var tangent: Vector3 = Vector3(b.x - a.x, 0.0, b.z - a.z).normalized()
+		var side: Vector3 = Vector3(-tangent.z, 0.0, tangent.x)
+		a += side * ribbon_offset_m
+		b += side * ribbon_offset_m
+		var width: Vector3 = side * 0.45
+		for index: int in [0, 1, 2, 0, 2, 3]:
+			var point: Vector3 = [a - width, a + width, b + width, b - width][index]
+			vertices.append(to_local(point))
+			colors.append(_temperature_color(float(records[i if index < 2 else i + 1].temperature_c)))
+	var arrays: Array = []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_COLOR] = colors
+	var mesh: ArrayMesh = ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	mesh.surface_set_material(0, _ribbon_material)
+	_ribbon.mesh = mesh

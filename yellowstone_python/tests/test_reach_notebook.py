@@ -1,13 +1,11 @@
-"""Notebook discipline + execution tests for reach_fit.ipynb.
-
-Stored cleared, executes offline on a synthetic bundle via tools.execute_notebook.
-"""
+"""Notebook discipline + execution tests for reach_fit.ipynb."""
 import json
 import math
+import sys
 import time
 from pathlib import Path
 
-from yellowstone_python.replay.calibrate import run_fit_forward
+from yellowstone_python.river.calibrate import run_fit_forward
 
 
 def _synthetic_bundle(path: Path) -> None:
@@ -40,8 +38,8 @@ def _cells(nb):
     return json.loads(nb.read_text(encoding="utf-8"))["cells"]
 
 
-def test_notebook_stored_cleared():
-    nb = Path("notebooks/reach_fit.ipynb")
+def test_notebook_stored_cleared(repo_root):
+    nb = (repo_root / "notebooks/reach_fit.ipynb")
     assert nb.exists()
     data = json.loads(nb.read_text(encoding="utf-8"))
     assert data.get("nbformat") == 4
@@ -52,22 +50,25 @@ def test_notebook_stored_cleared():
         assert cell.get("execution_count") is None
 
 
-def test_notebook_offline_only():
+def test_notebook_offline_only(repo_root):
     src = "\n".join("".join(c.get("source", []))
-                    for c in _cells(Path("notebooks/reach_fit.ipynb"))
+                    for c in _cells((repo_root / "notebooks/reach_fit.ipynb"))
                     if c.get("cell_type") == "code")
     for banned in ("urllib", "urlopen", "requests.get", "socket"):
         assert banned not in src
 
 
-def test_notebook_executes_on_synthetic_bundle(tmp_path, monkeypatch):
+def test_notebook_executes_on_synthetic_bundle(tmp_path, monkeypatch, repo_root):
     bundle = tmp_path / "obs.json"
     _synthetic_bundle(bundle)
     figdir = tmp_path / "figs"
     monkeypatch.setenv("OBS", str(bundle))
     monkeypatch.setenv("FIG_DIR", str(figdir))
+    monkeypatch.chdir(tmp_path)
     import tools.execute_notebook as ex
-    ex.execute(Path("notebooks/reach_fit.ipynb"))
+    import_path = list(sys.path)
+    ex.execute((repo_root / "notebooks/reach_fit.ipynb"))
+    assert sys.path == import_path
     for fig in ("fit_holdout.png", "bands.png", "ridge.png"):
         p = figdir / fig
         assert p.exists() and p.stat().st_size > 1000

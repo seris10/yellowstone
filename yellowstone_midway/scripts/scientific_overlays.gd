@@ -30,6 +30,23 @@ func bind(parent: Node3D, plume: Dictionary, geochem: Dictionary, overland: Dict
 	if not _groundwater_doc.is_empty():
 		_build_groundwater_overlay()
 
+func reload(parent: Node3D, plume: Dictionary, geochem: Dictionary, overland: Dictionary, groundwater: Dictionary) -> void:
+	var visible_before: Array[bool] = []
+	for node: Node3D in [_plume_overlay, _geochem_root, _overland_overlay, _groundwater_overlay]:
+		visible_before.append(node != null and node.visible)
+		if node != null:
+			remove_child(node)
+			node.queue_free()
+	_plume_overlay = null
+	_geochem_root = null
+	_overland_overlay = null
+	_groundwater_overlay = null
+	bind(parent, plume, geochem, overland, groundwater)
+	var nodes: Array = [_plume_overlay, _geochem_root, _overland_overlay, _groundwater_overlay]
+	for i: int in range(nodes.size()):
+		if nodes[i] != null:
+			nodes[i].visible = visible_before[i]
+
 func _build_plume_overlay() -> void:
 	# Build an ImageTexture from temperature_grid_c and lay it flat over the plume footprint. Hot-to-cool ramp lives in the shader so the data drives color directly.
 	var grid: Variant = _plume_doc.get("temperature_grid_c")
@@ -168,7 +185,7 @@ func _build_geochemistry_markers() -> void:
 		marker.mesh = cyl
 		var mat: StandardMaterial3D = StandardMaterial3D.new()
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		mat.flags_transparent = true
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		if si == null:
 			mat.albedo_color = Color(0.55, 0.55, 0.55, 0.80)
 		else:

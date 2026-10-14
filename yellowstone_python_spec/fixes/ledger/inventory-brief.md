@@ -2,7 +2,7 @@
 
 Purpose: produce structured data for a project dashboard that shows each simulated component and each coupling, with status. You change no code and write only your assigned output file.
 
-Project root: `/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone`. Python: `yellowstone_python/` (package `yellowstone_python/yellowstone_python/`, tools, configs, derived outputs). Godot world: `yellowstone_midway/` (scripts, scenes, data, shaders, tools). Atmosphere add-on: `yellowstone_atmosphere/`. Hydrology prototype: `hydrology/`. Spec and plans: `yellowstone_python_spec/` (00 to 03, improvements.md, addons.md, additional-research.md), `research/` (domain research incl. yellowstone-todo.md), `yellowstone_species_gen/00_RESEARCH_SPEC.md`.
+Project root: `../../roots-of-reason/5-original-games/yellowstone`. Python: `yellowstone_python/` (package `yellowstone_python/yellowstone_python/`, tools, configs, derived outputs). Godot world: `yellowstone_midway/` (scripts, scenes, data, shaders, tools). Atmosphere add-on: `yellowstone_atmosphere/`. Hydrology prototype: `hydrology/`. Spec and plans: `yellowstone_python_spec/` (00 to 03, improvements.md, addons.md, additional-research.md), `research/` (domain research incl. yellowstone-todo.md), `yellowstone_species_gen/00_RESEARCH_SPEC.md`.
 
 Status vocabulary (closed), applied per component:
 - `rendered`: implemented in Python (or Godot-native) AND visibly represented in the Godot world (mesh, material, shader, particles, actor, overlay) from that data.

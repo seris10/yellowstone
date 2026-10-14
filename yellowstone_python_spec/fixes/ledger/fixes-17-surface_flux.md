@@ -1,6 +1,6 @@
 # fixes-17 ledger
 Doc: fixes/fixes-17-surface_flux.md | read 2026-10-12, open rows re-verified 2026-10-13 | targets: yellowstone_python/replay/surface_flux.py sha256:35ef235d1861 ; yellowstone_python/replay/river_transport.py sha256:092c2a047750 ; yellowstone_python/replay/calibrate.py sha256:8945bfc98c34 ; yellowstone_python/microclimate.py sha256:0ebbb16da902 ; yellowstone_python/replay/tests/test_surface_flux.py sha256:(unread, deps only)
-Downloads: /Users/kreed/Downloads/ystone-fixed-scripts/surface_flux.py sha256:f99477eed7e8 ; /Users/kreed/Downloads/ystone-fixed-scripts/atmospheric_constants.py sha256:0d97b36a7b93
+Downloads: ../../ystone-fixed-scripts/surface_flux.py sha256:f99477eed7e8 ; ../../ystone-fixed-scripts/atmospheric_constants.py sha256:0d97b36a7b93
 Summary: 16 items: live 16 implemented, 0 shortcut, 0 partial, 0 missing, 0 superseded, 0 conflicts ; downloads 13 implemented, 0 shortcut, 2 partial, 0 missing, 0 superseded, 0 conflicts
 
 Items are the fifteen numbered sections in the doc (opening docstring item plus "1"-"15"). The verdict column is for the live project file; `downloads verdict` is for the matching Downloads replacement.

@@ -1,4 +1,5 @@
 """Tests for the snow-runoff discharge coupling and the overland null result."""
+import json
 import math
 
 import pytest
@@ -6,11 +7,9 @@ import yaml
 
 from yellowstone_python.build import (load_inputs, predicted_quantities,
                                        simulate_all, validate_config)
-from yellowstone_python.coupling import validate_contract
-from yellowstone_python.snow_season import catchment_runoff_m3_s
+from yellowstone_python.registry.coupling import validate_contract
+from yellowstone_python.land.snow_season import catchment_runoff_m3_s
 
-from paths import BASE_CONFIG as BASE
-from paths import MIDWAY as _MIDWAY
 # Measured: USGS 06036805 Firehole at Old Faithful, 39.5 sqmi.
 USGS_AREA_M2 = 39.5 * 2_589_988.110336
 
@@ -19,25 +18,34 @@ def _cfg():
     return yaml.safe_load(open(BASE).read())
 
 
-def _sim(**overrides):
-    cfg = _cfg()
-    cfg["hydro"].setdefault("catchment", {})["area_m2"] = overrides.pop(
-        "area_m2", None)
-    for key, value in overrides.items():
-        cfg[key] = value
-    baseline, world, deps, tfns = load_inputs(cfg)
-    return simulate_all(cfg, baseline, world, tfns)
+@pytest.fixture(scope="module")
+def simulate_case(repo_root, world_root):
+    """Reuse real simulations only for identical configs read by these assertions."""
+    cache = {}
+
+    def run(**overrides):
+        cfg = yaml.safe_load((repo_root / "configs/baseline.yaml").read_text())
+        cfg["world_root"] = str(world_root)
+        cfg["hydro"].setdefault("catchment", {})["area_m2"] = overrides.pop("area_m2", None)
+        cfg.update(overrides)
+        key = json.dumps(cfg, sort_keys=True)
+        if key not in cache:
+            baseline, world, deps, tfns = load_inputs(cfg)
+            cache[key] = simulate_all(cfg, baseline, world, tfns)
+        return cache[key]
+
+    return run
 
 
-def test_baseline_keeps_snow_hydrology_storage_only():
-    res = _sim()
+def test_baseline_keeps_snow_hydrology_storage_only(simulate_case):
+    res = simulate_case()
     assert res["catchment"]["enabled"] is False
     assert res["boundary_m3s"] == pytest.approx(res["baseflow_m3s"])
     assert "storage-only" in res["catchment"]["provenance"]
 
 
-def test_configured_catchment_adds_runoff_to_the_boundary():
-    res = _sim(area_m2=USGS_AREA_M2)
+def test_configured_catchment_adds_runoff_to_the_boundary(simulate_case):
+    res = simulate_case(area_m2=USGS_AREA_M2)
     catchment = res["catchment"]
     assert catchment["enabled"] is True
     assert catchment["runoff_m3_s"] > 0.0
@@ -45,11 +53,10 @@ def test_configured_catchment_adds_runoff_to_the_boundary():
         res["baseflow_m3s"] + catchment["runoff_m3_s"])
 
 
-def test_snow_melt_reaches_the_published_trout():
-    """Snowmelt discharge changes the trout's refuge inputs.
-    """
-    off = _sim()
-    on = _sim(area_m2=USGS_AREA_M2)
+def test_snow_melt_reaches_the_published_trout(simulate_case):
+    """Snowmelt discharge changes the trout's refuge inputs."""
+    off = simulate_case()
+    on = simulate_case(area_m2=USGS_AREA_M2)
     off_trout = [w for w in off["variant"]["wildlife"] if "trout" in w["id"]][0]
     on_trout = [w for w in on["variant"]["wildlife"] if "trout" in w["id"]][0]
     assert on["boundary_m3s"] != off["boundary_m3s"]
@@ -70,42 +77,45 @@ def test_snow_melt_reaches_the_published_trout():
         f"on_cell={on_trout.get('refuge_cell_id')}")
 
 
-def test_large_runoff_moves_the_published_trout():
-    """A large runoff increment shifts the refuge cell id (2x catchment area here).
-    """
-    off = _sim()
-    on = _sim(area_m2=USGS_AREA_M2 * 2.0)
+@pytest.mark.needs_science
+def test_large_runoff_reaches_the_published_trout(simulate_case):
+    """Higher runoff propagates through the refuge selection to the published trout."""
+    off = simulate_case()
+    on = simulate_case(area_m2=USGS_AREA_M2 * 2.0)
     off_trout = [w for w in off["variant"]["wildlife"] if "trout" in w["id"]][0]
     on_trout = [w for w in on["variant"]["wildlife"] if "trout" in w["id"]][0]
     assert on["boundary_m3s"] > off["boundary_m3s"]
-    # The model may hold the refuge at 2x area; on a hold, skip so the test does falsely pass.
-    if on_trout.get("refuge_cell_id") == off_trout.get("refuge_cell_id"):
-        pytest.skip("refuge cell did not reorder at 2x catchment area; "
-                    "coupling checked by test_snow_melt_reaches_the_"
-                    "published_trout")
-    assert on_trout["refuge_cell_id"] != off_trout["refuge_cell_id"]
+    for result, trout in ((off, off_trout), (on, on_trout)):
+        selection = result["aquatic_foodweb"]["trout"]
+        assert trout["refuge_cell_id"] == selection["cell_id"]
+        assert trout["reach_temp_c"] == round(selection["temperature_c"], 2)
+        assert trout["suitability_U"] == selection["U"]
+    assert on_trout["reach_temp_c"] != off_trout["reach_temp_c"]
 
 
-def test_snow_window_changes_the_discharge():
-    summer = _sim(area_m2=USGS_AREA_M2)
-    winter = _sim(area_m2=USGS_AREA_M2,
+
+def test_snow_window_changes_the_discharge(simulate_case):
+    summer = simulate_case(area_m2=USGS_AREA_M2)
+    winter = simulate_case(area_m2=USGS_AREA_M2,
                   snow={"season": "winter", "days": 120,
                         "precip_mm_d": 2.0, "air_c_by_day": [-5.0] * 120})
     assert winter["catchment"]["runoff_m3_s"] > summer["catchment"]["runoff_m3_s"]
     assert winter["boundary_m3s"] > summer["boundary_m3s"]
 
 
-def test_both_hydrology_models_see_the_same_discharge():
-    res = _sim(area_m2=USGS_AREA_M2)
+def test_runoff_boundary_and_budget_share_discharge(simulate_case):
+    res = simulate_case(area_m2=USGS_AREA_M2)
     forcing = res["replay_doc"]["forcing"]["boundary_m3_s"]
     assert forcing == pytest.approx(res["boundary_m3s"], rel=1e-9)
     assert res["river_state"][0]["flow_m3s"] == pytest.approx(
         res["boundary_m3s"], rel=1e-9)
-    # The mixing chain's integrated inflow scales with the same discharge.
-    off = _sim()
-    ratio = res["hydro_ledger"]["boundary_in"] / off["hydro_ledger"]["boundary_in"]
-    assert ratio == pytest.approx(res["boundary_m3s"] / off["boundary_m3s"],
-                                  rel=1e-6)
+    budget = res["replay_doc"]["final_budget"]
+    assert res["hydro_ledger"]["replay_budget"] == budget
+    duration_s = res["replay_doc"]["frames"][-1]["t_s"]
+    assert budget["boundary_input_m3"] == pytest.approx(
+        res["boundary_m3s"] * duration_s, rel=1e-6)
+    assert budget["water_relative_residual"] < 1e-12
+
 
 
 def test_runoff_quantity_is_recorded_as_predicted_not_prescribed():
@@ -147,16 +157,27 @@ def test_catchment_runoff_scales_the_ledger_depth():
 
 def test_coupling_contract_records_the_snow_exchange():
     assert validate_contract() == []
-    from yellowstone_python.coupling import EXCHANGES
+    from yellowstone_python.registry.coupling import EXCHANGES
     ids = {r["exchange_id"] for r in EXCHANGES}
     assert "snow_runoff_discharge" in ids
 
 
 def test_overland_field_carries_no_runoff_signal():
-    from yellowstone_python.overland_flow import run_overland
+    from yellowstone_python.land.overland_flow import run_overland
     result = run_overland(_MIDWAY, rain_mm_h=2.0, grid=64, cell_m=8.0,
                           sim_s=120.0)
     assert result["surface_runoff"]["carries_runoff_signal"] is False
     assert result["surface_runoff"]["outflow_m3"] == 0.0
     assert "no water left the domain" in result["surface_runoff"]["note"]
     assert math.isclose(result["balance"]["rel_error"], 0.0, abs_tol=1e-9)
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'BASE', resolved_paths['BASE_CONFIG'], raising=False)
+    monkeypatch.setattr(module, '_MIDWAY', resolved_paths['MIDWAY'], raising=False)

@@ -1,5 +1,4 @@
-"""Stdlib notebook smoke-executor: runs a .ipynb's code cells in order (fail-fast by default).
-"""
+"""Stdlib notebook smoke-executor: runs a .ipynb's code cells in order (fail-fast by default)."""
 from __future__ import annotations
 
 import argparse

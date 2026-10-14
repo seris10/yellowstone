@@ -12,12 +12,12 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/__init__.py`**
+**`../../yellowstone_python/yellowstone_python/__init__.py`**
 - L1: `"""Yellowstone Midway Python modeling package (illustrative, not calibrated)."""` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/analysis_store.py`**
+**`../../yellowstone_python/yellowstone_python/analysis_store.py`**
 - L1-41: Module docstring (41 lines) — extensive narrative about design decisions, "measured" problems, R-tree absence failing "LOUDLY", DuckDB "explicitly out of scope" | **AI TELL** (overly verbose AI self-explanation, meta-commentary about design process)
 - L56-58: `# Unit factors, stated once (see module docstring). SNOTEL bundle schema: # yellowstone.snotel_obs.v1 stores WTEQ/PRCP/SNWD in inches, TAVG/TMAX/TMIN # in degF (bundle provenance documents the same factors).` | **AI TELL** (meta-commentary about module organization)
 - L84: `"""Fail loudly if this SQLite lacks the R-tree module."""` | **CLEAN**
@@ -32,7 +32,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/aquatic_foodweb.py`**
+**`../../yellowstone_python/yellowstone_python/aquatic_foodweb.py`**
 - L1-23: Module docstring (23 lines) — "audit's Phase 2 vertical slice", "multirate doctrine", "documented separation, not a single instant" | **AI TELL** (meta-commentary about development process, references to audit phases)
 - L37: `COVER_DEFAULT = 0.6  # authored trout cover (same default as update_trout)` | **CLEAN**
 - L41: `"""Accept a bare replay, a river_replay.json sidecar, or {data:{...}}."""` | **CLEAN**
@@ -49,7 +49,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/build.py`**
+**`../../yellowstone_python/yellowstone_python/build.py`**
 - L1-17: Module docstring — "M11 build", "audit-split orchestration", "Scientific timeline (explicit, multirate)" | **AI TELL** (references to audit process)
 - L37: `# Authored topology: named lookups fail loudly (never silent wrong defaults).` | **CLEAN**
 - L67: `"""Reject nonphysical config before any simulation (explicit, early)."""` | **CLEAN**
@@ -74,7 +74,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/canopy_census.py`**
+**`../../yellowstone_python/yellowstone_python/canopy_census.py`**
 - L1-22: Module docstring — "documented limits included", "observation, not authoring", "REVIEWED against these records" | **AI TELL** (overly verbose, meta-commentary about design philosophy)
 - L35: `DETAIL_HALF = 640.0  # local metres covered: [-640, 640]` | **CLEAN**
 - L36: `PX_M = 1.25 / 2.0  # 0.625 m per pixel` | **CLEAN**
@@ -98,13 +98,13 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/census_validate.py`**
+**`../../yellowstone_python/yellowstone_python/census_validate.py`**
 - L1-14: Module docstring — "Blind validation", "plots must stay out of detector tuning" | **CLEAN**
 - L105: `print(f"sampled {len(sample)}/{len(frame)} plots -> {crops} (BLIND: no dots)")` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/common/coords.py`**
+**`../../yellowstone_python/yellowstone_python/common/coords.py`**
 - L1-12: Module docstring — "M00 coords: single EPSG:32612 frame authority" | **CLEAN**
 - L26: `# Saved anchors (references/geoanchors.json; local x,z metres)` | **CLEAN**
 - L34: `"""Local (x=east, y=up-from-2200, z=south) -> (E, N, H_NAVD88)."""` | **CLEAN**
@@ -114,44 +114,44 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/common/provenance.py`**
+**`../../yellowstone_python/yellowstone_python/common/provenance.py`**
 - L1: `"""M00 provenance: hashes, build ids, sidecars (SHARED_WORLD_CONTRACT §8.1)."""` | **CLEAN**
 - L15-16: `"""Portable world-root default: $YELLOWSTONE_WORLD wins, else the shipped checkout path. Callers must still verify it exists."""` | **CLEAN**
 - L44: `"""Inject contract header + provenance, write JSON, return full doc."""` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/common/units.py`**
+**`../../yellowstone_python/yellowstone_python/common/units.py`**
 - L1: `"""M00 units: explicit converters. Fail loudly on bare/mixed units."""` | **CLEAN**
 - L9: `M3S_PER_GPM = 0.0000630902  # 1 US gal/min in m3/s` | **CLEAN**
 - L48: `"""Wrap a dimensionless 0..1 index so it can never be mistaken for kg/counts."""` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/common/validate.py`**
+**`../../yellowstone_python/yellowstone_python/common/validate.py`**
 - L1: `"""M00 validate: NoData/NaN guards, topology, conservation, provenance checks."""` | **CLEAN**
 - L15: `"""Must be an upstream-first serial chain (ecosystem.gd supports one chain)."""` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/compare.py`**
+**`../../yellowstone_python/yellowstone_python/compare.py`**
 - L1-10: Module docstring — "A/B outcome comparison: quantify scenario response, not just config diff" | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/exporters/to_ecosystem.py`**
+**`../../yellowstone_python/yellowstone_python/exporters/to_ecosystem.py`**
 - L1: `"""M11 to_ecosystem: merge Python fragments into schema-v1 ecosystem.json."""` | **CLEAN**
 - L11-15: `"""Return a new ecosystem dict; baseline never mutated. river_state: list of {id, temperature_c} (or full reach dicts). weather: {night_air_c, day_warming_c, wind_xz_mps, gust_mps, ...}."""` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/exporters/to_map.py`**
+**`../../yellowstone_python/yellowstone_python/exporters/to_map.py`**
 - L1: `"""M11 to_map: reproject field PNGs into the midway_macro frame (stub)."""` | **CLEAN**
 - L6-9: `"""Phase 0: fields are already authored in macro extent; plain copy. A real reprojection (extent/origin aware) arrives with M03 aprons."""` | **AI TELL** (references to development phases)
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/fish.py`**
+**`../../yellowstone_python/yellowstone_python/fish.py`**
 - L1-21: Module docstring (21 lines) — "visibility modulator, NOT mortality", "an actual choice among alternatives, not a preserved route", "Both labeled where used" | **AI TELL** (overly verbose, meta-commentary)
 - L28: `ASSUMED_DEPTH_M = 1.1  # prepare_world carve_water_support default depth` | **CLEAN**
 - L29: `RIVER_WIDTH_M = 22.0   # Firehole authored width` | **CLEAN**
@@ -188,7 +188,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/gen_flora.py`**
+**`../../yellowstone_python/yellowstone_python/gen_flora.py`**
 - L1-15: Module docstring — "Flora density pass: generate + machine-review + stage grass and pine infill" | **CLEAN**
 - L41: `"note": "sparse edge colonization; threshold recorded, not tuned"` | **CLEAN**
 - L124-126: `"""Truly bare pale ground (bright AND greenless). Vegetated bright slopes fail this test and stay plantable — brightness alone excluded real dry meadow in the old mask gate."""` | **AI TELL** (em dash, "old mask gate" — narrative about past)
@@ -200,19 +200,19 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/gen_trail_mask.py`**
+**`../../yellowstone_python/yellowstone_python/gen_trail_mask.py`**
 - L1-11: Module docstring — "Paint foot trails into a terrain mask instead of ribbon meshes" | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/geochemistry.py`**
+**`../../yellowstone_python/yellowstone_python/geochemistry.py`**
 - L1-9: Module docstring — "sinter-vs-travertine guardrail", "never be built by 'whitening Grand Prismatic'" | **CLEAN**
 - L53: `"""Every Midway shell must be siliceous_sinter. Returns failure strings."""` | **CLEAN**
 - L63: `"""Raise if anyone applies a travertine palette to a Midway pool."""` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/grazers.py`**
+**`../../yellowstone_python/yellowstone_python/grazers.py`**
 - L1-17: Module docstring — "habitat-constrained bison/elk movement", "Deliberately NO universal `wolves→fewer elk→more willow` slider", "Competing hypotheses... carried as separate records with explicit unknowns" | **AI TELL** (overly verbose, meta-commentary about design decisions)
 - L41: `MAX_ROUTE_M = 200.0  # wildlife_actor.gd local-scope guard` | **CLEAN**
 - L50: `"""Waypoints alone miss crossings — sample the full segment."""` | **AI TELL** (em dash)
@@ -226,7 +226,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/hydro_thermal.py`**
+**`../../yellowstone_python/yellowstone_python/hydro_thermal.py`**
 - L1-16: Module docstring — "M01 hydro_thermal", "Paper equations", "Mirrors scripts/ecosystem.gd::_derive_flows/_advance_heat exactly" | **CLEAN**
 - L22: `RHO_CP = 4.186e6  # J/(m3·K), water; used ONLY in profile helper, not mixing step` | **CLEAN**
 - L26: `"""Attach q_in/flow/thermal/source_heat like ecosystem.gd::_derive_flows."""` | **CLEAN**
@@ -239,7 +239,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/insects_birds.py`**
+**`../../yellowstone_python/yellowstone_python/insects_birds.py`**
 - L1-18: Module docstring — "three-compartment prey + bird diets (no universal index)", "Legacy single-index helpers... remain for the existing wildlife-record interface and are marked as such" | **AI TELL** (meta-commentary about legacy code)
 - L24: `HOVER_THRESHOLD = 0.035  # wildlife_actor.gd::_update_insects (legacy interface)` | **AI TELL** (legacy reference — references to past versions)
 - L32: `"""Exposed insects suppress flight in wind; calm → 1."""` | **CLEAN**
@@ -260,7 +260,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/llm_backend.py`**
+**`../../yellowstone_python/yellowstone_python/llm_backend.py`**
 - L1-30: Module docstring (30 lines) — "LLM-friendly backend", extensive endpoint list, "NOT the generic DeepForest screenshot detector, which was cross-checked 2026-10-09" | **AI TELL** (references to past cross-checks, overly verbose)
 - L61-66: `ACCURACY_NOTES` list — "Cross-check 2026-10-09: pretrained DeepForest... found 2 crowns at score 0.25 and 53 at score 0.05, versus ~1,175 census crowns" | **AI TELL** (references to past work, narrative about validation)
 - L69-72: `# Hardening limits (adversarial review 2026-10-09). Density circles outside # [MIN_RADIUS_M, MAX_RADIUS_M] are sub-decimetre noise or larger than the # world, so they are rejected instead of returning inf/absurd densities. # Bounds are single-sourced from analysis_store (constants test pins them).` | **AI TELL** (references to "adversarial review 2026-10-09", meta-commentary about test pinning)
@@ -286,7 +286,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/microclimate.py`**
+**`../../yellowstone_python/yellowstone_python/microclimate.py`**
 - L1-17: Module docstring — "M02 microclimate: ONE wind/time authority", "Condensation, not 'steam'", "the legacy steam_visibility() index remains only for the old Godot uniform path" | **AI TELL** (em dashes, references to legacy code)
 - L26-33: `# --- Weather forcing provenance --- # night_air_c=7.0, day_warming_c=15.0, humidity=0.45, cloud=0.16, # wind_xz_mps=[1.8, 0.6], gust_mps=0.45 are AUTHORED defaults (illustrative # scenario, not measured). REAL DATA: fetch_met_forcing.py connects to # Open-Meteo (NWP blend) for measured remote forcing; integration hook # load_real_weather(site_lat, site_lon, days) below provides the path. # STATUS: authored defaults enabled; real Open-Meteo fetch available # via tools/fetch_met_forcing.py but not wired into baseline.yaml.` | **AI TELL** (extensive meta-commentary about data provenance, "STATUS:" narrative)
 - L51-56: `"""Integration point: load real Open-Meteo forcing for site. Returns a met bundle dict (same shape as fetch_met_forcing output) or None if fetch fails / not configured. Callers should handle None gracefully (fall back to authored defaults, document gap)."""` | **AI TELL** ("Integration point" — meta-commentary)
@@ -302,7 +302,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/pool_crust.py`**
+**`../../yellowstone_python/yellowstone_python/pool_crust.py`**
 - L1-17: Module docstring — "M03 pool_crust", "Replaces the flat terrain-cut visual floor", "Mapped water outlines are PRESERVED (never resized for composition)", "NO universal temperature→rainbow equation" | **CLEAN**
 - L22: `HALF = 2048.0  # world half-extent, metres (matches coords.py)` | **CLEAN**
 - L24-25: `# Authored shell recipe per named pool: multipliers/offsets on r_water. # Documented design decisions, not measurements.` | **CLEAN**
@@ -328,12 +328,12 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/publish.py`**
+**`../../yellowstone_python/yellowstone_python/publish.py`**
 - L1-11: Module docstring — "M11 publish: transactional release of a validated build" | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/review_proposals.py`**
+**`../../yellowstone_python/yellowstone_python/review_proposals.py`**
 - L1-16: Module docstring — "Machine review gate for planting proposals", "Still required by a human: NAIP eyeball check" | **CLEAN**
 - L47-48: `# NaN would make every `suit < threshold` comparison False and # silently accept everything below; fail closed instead.` | **AI TELL** (excess explanation — "fail closed instead" is redundant with the first clause)
 - L77: `note = "infills existing stand" if nearest < 6.0 else "new canopy gap"` | **CLEAN**
@@ -341,7 +341,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/snow_season.py`**
+**`../../yellowstone_python/yellowstone_python/snow_season.py`**
 - L1-20: Module docstring — "M08 snow_season", "Corrected process definitions (audit fixes)" | **AI TELL** ("audit fixes" — references to audit process)
 - L28: `SNOW_TEMP_C = 1.0  # precip below this is snow, above is rain` | **CLEAN**
 - L36-40: `"""Meteorological season for month/day, northern hemisphere. Authored convention (not measured): Dec-Feb winter, Mar-May spring, Jun-Aug summer, Sep-Nov autumn. Day is accepted for future astronomical use and validated, but does not change the month mapping."""` | **AI TELL** (excess information: "Day is accepted for future astronomical use and validated, but does not change the month mapping" is redundant)
@@ -356,7 +356,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/snow_validate.py`**
+**`../../yellowstone_python/yellowstone_python/snow_validate.py`**
 - L1-19: Module docstring — "M08 validation: snow + soil-water model vs NRCS SNOTEL observations", "Every coefficient carries provenance" | **CLEAN**
 - L29: `SPLIT_DATE = "2026-03-01"  # train: accumulation season; holdout: melt season` | **CLEAN**
 - L30: `MAX_FILL_DAYS = 3  # longest imputable forcing gap; longer refuses the run` | **CLEAN**
@@ -373,7 +373,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/study_mode.py`**
+**`../../yellowstone_python/yellowstone_python/study_mode.py`**
 - L1-13: Module docstring — "M10 study_mode: labeled A/B experiments" | **CLEAN**
 - L20-22: `# Overrides are expressed as dotted paths into the build config. Only these # EXACT keys may change — world geometry, routes, pools, placements are # unreachable by construction (no key addresses them).` | **AI TELL** (em dash, "unreachable by construction" is redundant with "no key addresses them")
 - L88: `"about": "Excelsior source ×2 within this model. Warmer mixing reach; trout relocate harder."` | **CLEAN**
@@ -385,7 +385,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/vegetation.py`**
+**`../../yellowstone_python/yellowstone_python/vegetation.py`**
 - L1-14: Module docstring — "M04 vegetation: suitability fields + patch biomass + planting proposals" | **CLEAN**
 - L27-29: `# Maximum candidate cells scanned per propose_plantings_reviewed call. Existing # pipeline grids peak at ~22k cells (meadow r=110); anything larger is # coarsened (see function docstring) instead of burning minutes.` | **AI TELL** (Pattern A: "instead of burning minutes" references alternative; "see function docstring" is meta-commentary)
 - L32-35: `# Per-guild coefficients: ARTIST/SCIENCE INPUTS, not inferred truth. # REAL DATA GAP: Actual vegetation surveys (species presence/absence, # biomass measurements, growth rate studies) would replace these authored # lambda0/min_sep/slope_max values. Integration point: load_vegetation_survey().` | **AI TELL** ("REAL DATA GAP:", "Integration point:" — meta-commentary about data provenance)
@@ -402,13 +402,13 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/validation/checks.py`**
+**`../../yellowstone_python/yellowstone_python/validation/checks.py`**
 - L1: `"""M11 checks: conservation, topology, provenance, determinism gates."""` | **CLEAN**
 - L15-19: `# Downstream monotone temperature is NOT required (hot lateral warms mid-chain); # instead assert no NaN and fish_activity in [0,1]. Monotone STAGE (water surface # never climbs downstream) is a baked-geometry invariant and lives where the # geometry lives: yellowstone_midway/tools/validate_world.py (Firehole # northward-order + climb check). Do not re-add a temperature version here.` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/calibrate.py`**
+**`../../yellowstone_python/yellowstone_python/replay/calibrate.py`**
 - L1-25: Module docstring — "Reach-scale calibration and dispersion experiments for the Firehole", "Two independent analyses, both labeled, both reproducible" | **CLEAN**
 - L56-63: `"""Bin-average irregular [epoch, value] pairs onto a uniform grid. Returns (values, coverage) where missing bins are None and coverage is the fraction of filled bins. Bin i covers [grid[0] + (i - 0.5) * dt, grid[0] + (i + 0.5) * dt). Callers must branch on None/coverage — averaging over Nones or treating them as zeros fabricates data."""` | **AI TELL** (em dash)
 - L86-90: `"""Piecewise-linear interpolation; endpoints clamp (no extrapolation). Deliberately dumb: gap detection is the caller's job (see check_continuity). Never use this to silently bridge instrument gaps."""` | **CLEAN**
@@ -428,7 +428,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/figures.py`**
+**`../../yellowstone_python/yellowstone_python/replay/figures.py`**
 - L1-11: Module docstring — "Publication-style diagnostic figures", "Backend discipline: pyplot is imported only inside _pyplot() after forcing Agg" | **CLEAN**
 - L44: `"""Observed vs modeled over train/holdout + persistence null."""` | **CLEAN**
 - L72: `"""Ensemble bands over the holdout window + empirical coverage."""` | **CLEAN**
@@ -439,7 +439,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/hydraulics.py`**
+**`../../yellowstone_python/yellowstone_python/replay/hydraulics.py`**
 - L1-36: Module docstring (36 lines) — "Trapezoidal channel hydraulics diagnostics", "Scientific scope", "Cross-section convention", explicit formulas, "Observation scoring compares paired modeled/observed series... never supplies observations" | **AI TELL** (overly verbose, meta-commentary)
 - L47-56: `# Illustrative defaults, explicitly authored — not measurements. # REAL DATA STATUS: USGS field measurements (current-meter surveys, # bathymetry) unavailable via NWIS web API since Oct 2026 format change. # Integration point: load_usgs_cross_section(site_no) (see below) # would connect to machine-readable surveys when available.` | **AI TELL** ("REAL DATA STATUS:", "Integration point:" — meta-commentary about data provenance)
 - L58-63: `# --- Real-data integration framework --- # Cross-section measurements (bank slope, Manning's n, depth profiles) # should come from USGS field surveys or in-situ bathymetry. Currently # unavailable via machine-readable NWIS (Oct 2026 format change); this # framework provides the hook for when surveys are restored or # directly ingested from survey files.` | **AI TELL** ("integration framework" — meta-commentary)
@@ -462,7 +462,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/obs_frame.py`**
+**`../../yellowstone_python/yellowstone_python/replay/obs_frame.py`**
 - L1-19: Module docstring — "Pandas obs-frame alignment for the fetch-then-fit path (B1)", "Replaces silent hand-rolled alignment with explicit state", "The incident behind this module: hand interpolation once bridged a multi-day outage and the fit treated it as data" | **AI TELL** (narrative about past incidents, "B1" reference)
 - L38-42: `"""Irregular [epoch, value] pairs -> nominal-step frame. Values sharing a bin are averaged (resample-mean, the explicit cousin of resample_bin_mean); empty bins are NaN, never zero."""` | **CLEAN**
 - L52-54: `# Anchor bins at the first observation, not the epoch: epoch- # anchored bins shift regular series by up to a step against the # observation times (measured failure, Oct 2026).` | **AI TELL** ("measured failure, Oct 2026" — references past failures)
@@ -478,7 +478,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/river_transport.py`**
+**`../../yellowstone_python/yellowstone_python/replay/river_transport.py`**
 - L1-38: Module docstring (38 lines) — "Conservative one-dimensional river-temperature transport", "Scientific scope", "Numerical method", "Boundary conditions", "Limitations" | **CLEAN**
 - L81-88: `"""Right-continuous, piecewise-constant forcing. Example: Series((0, 600, 1800), (62, 80, 62)) The first value applies from t=0. The final value remains active indefinitely. Integration steps are split at every change time."""` | **CLEAN**
 - L143-150: `"""A finite-volume cell in upstream-to-downstream order. volume_m3 / length_m gives mean wetted cross-sectional area. width_m * length_m gives exposed water-surface area. These quantities describe the numerical channel, not automatically surveyed channel geometry."""` | **CLEAN**
@@ -501,7 +501,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/river_world.py`**
+**`../../yellowstone_python/yellowstone_python/replay/river_world.py`**
 - L1-19: Module docstring — "Map the conservative thermal solver onto the saved Midway Firehole", "The pulse changes temperature at the river-entry boundary. It is not a simulation of the spring's underground plumbing or outflow cooling." | **CLEAN**
 - L46-48: `# Explicit association between the ecosystem's aggregate thermal boundary # and the representative authored channel used to locate its connection. # This does not assert that this one branch carries the actual aggregate.` | **CLEAN**
 - L57-63: `"""Validate per-feature mean-depth profiles (P0 cross-section input). Format: {feature_id: {"depth_m": positive float, "status": str}} with optional "source" str. "status" is required and explicit — a supplied profile is never silently labeled "assumed". Unknown feature ids are rejected by build_mapped_replay, which knows the mapped chain."""` | **AI TELL** (em dash)
@@ -518,7 +518,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/surface_flux.py`**
+**`../../yellowstone_python/yellowstone_python/replay/surface_flux.py`**
 - L1-30: Module docstring — "Explicit surface energy budget for the 1-D river-temperature solver", formulas, "Form choices (illustrative defaults, not fitted parameters)" | **CLEAN**
 - L46: `"""Saturation vapor pressure, Magnus form (kPa)."""` | **CLEAN**
 - L71: `"""Incoming longwave: Brutsaert emissivity + cloud factor."""` | **CLEAN**
@@ -533,7 +533,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/uncertainty.py`**
+**`../../yellowstone_python/yellowstone_python/replay/uncertainty.py`**
 - L1-27: Module docstring — "Uncertainty quantification for the lumped reach fit + authored-knob sensitivity", "A1 of the science-demo backlog" | **AI TELL** ("A1 of the science-demo backlog" — references to development process)
 - L43-53: `# --- Uncertainty quantification provenance --- # Every parameter below is AUTHORED (not derived from measurement error): #   ENSEMBLE_SEED=20261010 (reproducibility seed, arbitrary) #   tol_frac=0.10, min_members=5 (ensemble membership thresholds, chosen for visualization stability) #   n_bootstrap=1000 (Monte Carlo count, arbitrary) #   spinup_s=86400.0, train_frac=0.7 (fit split convention, arbitrary) #   band_level=0.90 (nominal coverage target, standard statistical convention) # REAL DATA NEEDED: replicate study results, instrument precision specs, # or Bayesian posterior samples from a calibrated model to replace the # authored sensitivity ranges and bootstrap counts. The module reports # fit ambiguity, not predictive calibration.` | **AI TELL** ("REAL DATA NEEDED:" — meta-commentary about data provenance)
 - L78-83: `"""Grid points within tol_frac of the champion train RMSE. Falls back to the top-min_members by train RMSE when the ridge rule admits fewer (a tight optimum is still an ensemble of one plus its nearest neighbors, and the fallback is recorded by the caller)."""` | **CLEAN**
@@ -550,57 +550,57 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/audit_provenance.py`**
+**`../../yellowstone_python/tools/audit_provenance.py`**
 - L1-5: Module docstring — "Mechanical standing-rules check over derived/ provenance labels" | **CLEAN**
 - L16: `# Exact vocabulary measured across derived/*.json (28 occurrences, 2026-10-10).` | **AI TELL** (date reference)
 - L30: `# Files with no schema/status contract (legacy, allowlisted not failed).` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/build_store.py`**
+**`../../yellowstone_python/tools/build_store.py`**
 - L1-16: Module docstring — "Build the LLM analysis store (SQLite) from one build dir + obs inputs", "Derived artifacts are history" | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/channel_geometry.py`**
+**`../../yellowstone_python/tools/channel_geometry.py`**
 - L1-17: Module docstring — "Derive channel cross-section profiles from USGS field measurements + USGS 3DEP DEM" | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/check_terrain.py`**
+**`../../yellowstone_python/tools/check_terrain.py`**
 - L1-6: Module docstring — "Guard terrain.f32 (hash/dims/range) against BUILD deps" | **CLEAN**
 - L24-26: `# Tripwires containing the measured envelope (min -10.89, max 238.13, # p1 -5.09, p99 221.28). Datum undocumented: bounds are tripwires, not # physical claims.` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/compare_bundles.py`**
+**`../../yellowstone_python/tools/compare_bundles.py`**
 - L1-6: Module docstring — "Old-vs-refetch drift detection over observation bundles" | **CLEAN**
 - L17-18: `# Defaults sit above the worst observed step-to-step noise in the frozen # bundles (upstream Q max step 2.9%, downstream 3.1%, temp max step 0.4 C).` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/execute_notebook.py`**
+**`../../yellowstone_python/tools/execute_notebook.py`**
 - L1-15: Module docstring — "Stdlib notebook smoke-executor" | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/fetch_firehole_obs.py`**
+**`../../yellowstone_python/tools/fetch_firehole_obs.py`**
 - L1-19: Module docstring — "Fetch a frozen Firehole observation bundle for reach-scale calibration", "Sources (all measured, all remote — nothing authored here)" | **AI TELL** (em dash)
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/fetch_met_forcing.py`**
+**`../../yellowstone_python/tools/fetch_met_forcing.py`**
 - L1-7: Module docstring — "Shared Open-Meteo forcing source (stdlib urllib only, no requests)" | **CLEAN**
 - L26-29: `# Row schema FROZEN at width 6 (consumer indices in # replay.calibrate._fit_forcing_arrays). New variables extend width only # under a v2 schema. # [epoch_s_UTC, air_C, rh_0-1, wind_mps, sw_Wm2, cloud_0-1]` | **CLEAN**
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/fetch_snotel_obs.py`**
+**`../../yellowstone_python/tools/fetch_snotel_obs.py`**
 - L1-29: Module docstring — "Fetch a frozen SNOTEL observation bundle", "Site selection, element periods-of-record, and the recommended WY2026 window were verified live by a parallel worker" | **AI TELL** (references to "parallel worker" — meta-commentary about development process)
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/fetch_yellowstone_tributaries.py`**
+**`../../yellowstone_python/tools/fetch_yellowstone_tributaries.py`**
 - L1-14: Module docstring — "Fetch real tributary data for Yellowstone cold-refuge implementation", "replacing the authored/temporary values in the current tributary refuge implementation", "TASK COMPLIANCE:" with checkmarks | **AI TELL** ("replacing the authored/temporary values" — narrative about past versions, "TASK COMPLIANCE" — meta-commentary)
 - L28: `# Set up comprehensive logging (avoid file write in read-only environment)` | **CLEAN**
 - L43: `"""Implement rate limiting for USGS API calls to prevent service disruption."""` | **CLEAN**
@@ -624,12 +624,12 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/plot_fit.py`**
+**`../../yellowstone_python/tools/plot_fit.py`**
 - L1-8: Module docstring — "Diagnostic PNGs from fit artifacts (Pillow only — no matplotlib)" | **AI TELL** (em dash)
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/run_hot_lowflow.py`**
+**`../../yellowstone_python/tools/run_hot_lowflow.py`**
 - L1-18: Module docstring — "Hot low-flow scenario: mapped replay + foodweb control-vs-hot comparison" | **CLEAN**
 - L33: `BOUNDARY_M3S = 2.5  # Burkhalter 1979 geothermal baseflow 2-3 m3/s (measured)` | **CLEAN**
 - L34: `BOUNDARY_C = 26.0  # authored scenario; below observed 29.5 C max` | **CLEAN**
@@ -637,7 +637,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/run_hot_lowflow_with_tributaries.py`**
+**`../../yellowstone_python/tools/run_hot_lowflow_with_tributaries.py`**
 - L1-20: Module docstring — "Add tributary refuge cells to hot low-flow scenario", "Task 1: Find cold lateral inflows...", "Task 2: Extend the foodweb landscape...", "Task 3: Re-run the hot-vs-control comparison at D1" | **AI TELL** (task list format — meta-commentary about development process)
 - L39-44: `# Assumptions for tributary refuge cells based on typical cold-water tributaries # In Yellowstone, cold tributaries are typically: # - High-elevation sources (e.g., snowmelt from glacial streams) # - Cold-water tributaries that maintain temperatures below 12-14°C year-round # - Small to medium discharge (0.5-2.0 m3/s range) # - Joined to main stem at specific chainage locations` | **CLEAN**
 - L53-59: `# Tributary refuge cell 1: Fairy Creek confluence # Based on literature: Fairy Creek enters the Firehole River upstream of # the main hot pool complex, with mean summer temperature ~8-12°C` | **CLEAN**
@@ -649,7 +649,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/run_hot_lowflow_with_tributaries_v2.py`**
+**`../../yellowstone_python/tools/run_hot_lowflow_with_tributaries_v2.py`**
 - L1-24: Module docstring — "Add tributary refuge cells to hot low-flow scenario using real USGS data", "replacing the authored/temporary values used in the previous implementation", task list | **AI TELL** ("replacing the authored/temporary values used in the previous implementation" — narrative about past versions)
 - L49-53: `"""Load real tributary data from USGS and other sources. Returns: Dictionary with real tributary data and analysis"""` | **CLEAN**
 - L62-67: `"""Fallback data using the previous authored approach. Returns: Dictionary with fallback tributary data"""` | **AI TELL** ("previous authored approach" — narrative about past)
@@ -659,7 +659,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/usgs_nwis.py`**
+**`../../yellowstone_python/tools/usgs_nwis.py`**
 - L1-18: Module docstring — "Fetch USGS field measurements and time-series data for Firehole River sites", "NOTE: earlier docstring versions advertised --measurements/--daily; those flags never existed in main() and are not supported. The RDB limb (_fetch_rdb) returns [] since waterdata.usgs.gov moved to JS/HTML (Oct 2026); IV via waterservices works." | **AI TELL** ("earlier docstring versions advertised" — narrative about past versions, date reference)
 - L31-33: `# Modern Water Services endpoint for instantaneous values. The legacy # /usa/nwis/iv/ JSON path stopped returning data (Oct 2026: HTML/error); # waterservices returns the same WaterML-JSON timeSeries schema.` | **AI TELL** ("legacy" reference, date reference)
 - L54-60: `# USGS parameter codes` followed by `PARAM_DISCHARGE = "000060"   # Actually 00060` etc. | **CLEAN**
@@ -670,7 +670,7 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 ---
 
-**`/Users/kreed/Downloads/yellowstone_python/tools/validate_obs_bundles.py`**
+**`../../yellowstone_python/tools/validate_obs_bundles.py`**
 - L1-6: Module docstring — "Gate an observation bundle before fitting (schema/continuity/coverage)" | **CLEAN**
 - L23-24: `# Gap tolerances from calibrate.py _fit_forcing_arrays (4x nominal step: # IV nominal 900 s, met nominal 3600 s).` | **CLEAN**
 
@@ -680,23 +680,23 @@ Given the massive volume of comments across 60+ files, I'll present this as a st
 
 Test files contain mostly CLEAN comments — brief assertions and docstrings explaining test logic. Notable exceptions:
 
-**`/Users/kreed/Downloads/yellowstone_python/tests/test_reach_notebook.py`**
+**`../../yellowstone_python/tests/test_reach_notebook.py`**
 - L34-35: `# NOTE: inverse crime — same forward model generates and fits. # Proves the notebook machinery runs, not model validity.` | **AI TELL** (em dash)
 
-**`/Users/kreed/Downloads/yellowstone_python/tests/test_snow_validate.py`**
+**`../../yellowstone_python/tests/test_snow_validate.py`**
 - L62-65: `# Inverse crime by construction: identical model generates and fits. # Proves the optimizer works; says nothing about the real snowpack. # Fit only over days where truth is positive: once the pack melts out # every param set agrees (melt-limited days carry no information).` | **CLEAN** (standard test caveat)
 
-**`/Users/kreed/Downloads/yellowstone_python/tests/test_llm_backend.py`**
+**`../../yellowstone_python/tests/test_llm_backend.py`**
 - L261: `"""Adversarial finding #1: a corrupt census.json must not silently return"""` | **AI TELL** ("Adversarial finding" — references to adversarial review process)
 
 ---
 
 ### CONFIG FILE COMMENTS
 
-**`/Users/kreed/Downloads/yellowstone_python/configs/baseline.yaml`**
+**`../../yellowstone_python/configs/baseline.yaml`**
 - All comments are CLEAN — brief labels for config values.
 
-**`/Users/kreed/Downloads/yellowstone_python/requirements.txt`**
+**`../../yellowstone_python/requirements.txt`**
 - L6: `# sympy is test-only (A4 Jacobian verification); the test skips where absent.` | **AI TELL** ("A4" reference to development process)
 - L8-9: `# pandas is the obs-alignment backend (B1); NOT installed on the project # interpreter (externally managed) — install it to flip the fit default.` | **AI TELL** ("B1" reference, em dash)
 
@@ -704,10 +704,10 @@ Test files contain mostly CLEAN comments — brief assertions and docstrings exp
 
 ### NOTEBOOK MARKDOWN CELLS
 
-**`/Users/kreed/Downloads/yellowstone_python/notebooks/census_explorer.ipynb`**
+**`../../yellowstone_python/notebooks/census_explorer.ipynb`**
 - Markdown cell: `# Census explorer (reads ONLY the SQLite analysis store)` + explanatory text | **CLEAN**
 
-**`/Users/kreed/Downloads/yellowstone_python/notebooks/reach_fit.ipynb`**
+**`../../yellowstone_python/notebooks/reach_fit.ipynb`**
 - Markdown cell 1: `# Reach heat-budget fit — executable paper trail` + extensive explanation including "Coarse-grid caveat, printed by the notebook itself: its fallback top-5 spans distant fits, so its wide bands cover easily (0.93) — the production tight ridge under-covers (A1)." | **AI TELL** (em dash, "A1" reference)
 - Markdown cell 2: `## Reading this trail` + "The fit must beat both nulls on holdout... Bands describe fit ambiguity. If holdout coverage misses nominal badly, the error is structural bias (check residual lag-1), not parametric spread — do not widen the ridge rule to hide it." | **AI TELL** (em dash, meta-commentary about methodology)
 
@@ -715,22 +715,22 @@ Test files contain mostly CLEAN comments — brief assertions and docstrings exp
 
 ### MARKDOWN FILE COMMENTS
 
-**`/Users/kreed/Downloads/yellowstone_python/README.md`**
+**`../../yellowstone_python/README.md`**
 - Entire file (184 lines) | **CLEAN** — technical documentation for developers
 
-**`/Users/kreed/Downloads/yellowstone_python/SECURITY_HARDENED_TRIBUTARY_IMPL.md`**
+**`../../yellowstone_python/SECURITY_HARDENED_TRIBUTARY_IMPL.md`**
 - Entire file (196 lines) | **AI TELL** — heavy use of emojis (✅, 🎯, 🛡️, 📊, 🔧, 📋, 🎉), "TASK COMPLIANCE" checkmarks, "SECURITY COMPLIANCE" section, "PROVENANCE DOCUMENTATION" — reads like AI-generated summary with emojis and checkmarks
 
-**`/Users/kreed/Downloads/yellowstone_python/TASK_1_TTRIBUTARY_COLD_REFUGE_SUMMARY.md`**
+**`../../yellowstone_python/TASK_1_TTRIBUTARY_COLD_REFUGE_SUMMARY.md`**
 - Entire file (115 lines) | **AI TELL** — "Key Achievements", "Success Metrics", "Critical Insights", heavy use of ✅ checkmarks, "production-ready" claims
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/replay/README.md`**
+**`../../yellowstone_python/yellowstone_python/replay/README.md`**
 - Entire file (254 lines) | **CLEAN** — detailed technical documentation
 
-**`/Users/kreed/Downloads/yellowstone_python/yellowstone_python/stubs/README.md`**
+**`../../yellowstone_python/yellowstone_python/stubs/README.md`**
 - Entire file (27 lines) | **CLEAN** — module index
 
-**`/Users/kreed/Downloads/yellowstone_python/worker_briefs/*.md`** | **CLEAN** — internal work documents
+**`../../yellowstone_python/worker_briefs/*.md`** | **CLEAN** — internal work documents
 
 ---
 

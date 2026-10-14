@@ -58,21 +58,17 @@ func _try_step_up(dir: Vector3) -> void:
 func _physics_process(delta: float) -> void:
 	if not enabled:
 		return
-	var raw := Vector2(float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)), float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W)))
-	var stick := Vector2(Input.get_joy_axis(0, JOY_AXIS_LEFT_X), Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
-	if stick.length() > 0.16:
-		raw += stick
-	raw = raw.limit_length()
+	var raw: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var look := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
 	if look.length() > 0.18:
 		rotate_y(-look.x * delta * 1.65)
 		pitch = clampf(pitch - look.y * delta * 1.4, -1.48, 1.48)
 		camera.rotation.x = pitch
 	var direction := global_basis * Vector3(raw.x, 0.0, raw.y)
-	var speed := brisk_speed if Input.is_physical_key_pressed(KEY_SHIFT) else walk_speed
+	var speed := brisk_speed if Input.is_action_pressed("brisk_walk") else walk_speed
 	if fly_mode:
 		direction = camera.global_basis * Vector3(raw.x, 0.0, raw.y)
-		direction.y += float(Input.is_physical_key_pressed(KEY_SPACE)) - float(Input.is_physical_key_pressed(KEY_CTRL))
+		direction.y += float(Input.is_action_pressed("jump")) - float(Input.is_action_pressed("fly_down"))
 		velocity = direction.limit_length() * (35.0 if speed == brisk_speed else 12.0)
 		global_position += velocity * delta
 	else:
@@ -81,7 +77,7 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			var gravity_mps2: float = float(ProjectSettings.get_setting("physics/3d/default_gravity", 9.81))
 			velocity.y -= gravity_mps2 * delta
-		elif Input.is_physical_key_pressed(KEY_SPACE):
+		elif Input.is_action_pressed("jump"):
 			velocity.y = jump_speed
 		move_and_slide()
 		# Step-up assist for boardwalk lips and deck edges.

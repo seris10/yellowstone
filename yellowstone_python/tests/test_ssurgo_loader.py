@@ -3,16 +3,7 @@ from __future__ import annotations
 
 import pytest
 
-from yellowstone_python.ssurgo_loader import (
-    CHORIZON_IDX,
-    COMPONENT_IDX,
-    MT628_SURVEY_AREA,
-    MAPUNIT_IDX,
-    SOIL_TUPLE_FIELDS,
-    SSURGOError,
-    load_ssurgo_soils,
-    to_hydrosim_soils_table,
-)
+from yellowstone_python.land.ssurgo_loader import CHORIZON_IDX, COMPONENT_IDX, MT628_SURVEY_AREA, MAPUNIT_IDX, SOIL_TUPLE_FIELDS, SSURGOError, load_ssurgo_soils, to_hydrosim_soils_table
 
 
 def _row(indices: dict, values: dict, width: int = 200) -> str:

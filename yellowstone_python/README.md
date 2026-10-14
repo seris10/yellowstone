@@ -1,272 +1,129 @@
-# Yellowstone Python — what it is and is not
+# Yellowstone Python
 
-Illustrative scientific modeling for `yellowstone_midway` (v0.1.0 package;
-model, data, and calibration versions are tracked separately in sidecars).
-Reads frozen inputs, writes `derived/<build-id>/`, validates, publishes a
-drop-in `ecosystem.json`. See `../yellowstone_python_spec/03_AUDIT_RESPONSE.md`
-for the external audit and what changed because of it.
+Illustrative scientific modeling for the Midway Geyser Basin Godot world. Python reads frozen inputs, writes `derived/<build-id>/`, checks the outputs, and publishes runtime sidecars. Package, model, data, and calibration versions are tracked separately.
 
-## What Python simulates (offline, `simulate_all`, no files)
-
-- River heat transport: 6-reach mixing chain with lateral sources, Newton
-  surface exchange, stable substeps, full budget history; analytical T*
-  regression + convergence tests.
-- Patch biomass (logistic + grazing), insect 3-compartment prey
-  (terrestrial/benthic/emergent, Holling-II depletion), trout refuge
-  selection along river chainage, grazer/bird timing from intake/biomass.
-- Degree-day snow + soil bucket (verified storage ledger), per-patch phenology.
-- Pool shells (mapped polygons preserved), suitability-gated planting
-  proposals, sinter/travertine guardrail, A/B experiment configs + outcomes.
-
-## What Godot simulates (live, every frame)
-
-- `ecosystem.gd`: 1 s-step heat/patch dynamics from the published JSON,
-  wind/steam/fish-activity queries; `wildlife_actor.gd` FSM movement;
-  `world.gd` sun/sky/fog/foliage/steam/river visuals. Godot owns rendering,
-  player movement, and visual interpolation — and its noon-peaking air curve
-  is a documented approximation of the Python 15:00-lagging analysis curve.
-
-## Precomputed vs live
-
-- Precomputed by Python: reach temps/flows, patch states, wildlife timing
-  parameters, shells, proposals, maps, season. Godot hot-loads them at F5.
-- Live in Godot: clock advance, sub-second stepping, actor FSM, gusts,
-  insect hover visibility, trout swim scaling. Godot never invents
-  placements, species, or terrain.
-
-## Measured / authored / unvalidated
-
-- Measured (source data): DEM, NAIP 2022-07-19, NPS roads/trails/hydro,
-  pool polygons, gauge-adjacent references. Never mutated.
-- Authored (explicit design): crater profiles, pigment bands, proposal
-  positions, exclusion masks, all coefficients — every one labeled with
-  provenance and none presented as observation.
-- Unvalidated: no calibrated hydrology, no bathymetry, no organism counts,
-  no forecast. Every output carries `status: illustrative`.
-
-## Snow validation vs SNOTEL (WY2026, single window)
-
-- Sites (verified live 2026-10-10, frozen in
-  `derived/snotel_obs.json`): 609:MT:SNTL Madison Plateau
-  (2350 m) + 924:MT:SNTL West Yellowstone (2036 m); daily WTEQ/PRCP/SNWD/
-  TAVG from NRCS AWDB REST; window 2025-10-01–2026-07-31, 304 days each.
-- Fit (train Oct–Feb, holdout Mar–Jul melt season; joint k_melt ×
-  site-effective wind_loss grid; game defaults untouched):
-  609 k=1.0/wind=0.0, holdout RMSE 112 mm vs 293 (persistence) / 472
-  (no-melt); 924 k=0.75/wind=0.0, holdout RMSE 45 mm vs 179 / 194.
-  Beats both nulls; status `fitted_not_validated_single_window`.
-- Second window WY2025 (2024-10-01–2025-07-31, fresh bundle
-  `derived/snotel_obs_prior_window.json`, 304 d each, full
-  coverage; FROZEN WY2026 params, no refit via `--fixed-params` +
-  `--split-date 2025-03-01`, artifact
-  `derived/snow_degree_day_fit_prior_window.json`): 609 holdout
-  RMSE 161 mm vs 284 / 482 (peak err 0 d, was +48 d late); 924
-  holdout 90 mm vs 179 / 246 (peak err 9 d, was 2 d). Beats both
-   nulls out-of-sample at both sites with ~1.4–2× RMSE degradation
-   and the same hold-too-long bias sign — holds directionally, delta
-   reported honestly. Status stays `fitted_not_validated_single_window`
-   (the status vocabulary has no two-window label; the evidence lives
-   in the artifact `beats_both_nulls` fields).
-- Energy-balance melt (B3, same bundles/splits, artifact
-  `derived/snow_energy_fit.json`): daily TOA insolation +
-  diurnal-range cloud + decaying albedo + fitted (s_rad, c_turb).
-  609 (0.54, 2.0): holdout RMSE 62 mm vs 112 degree-day / 293 / 472,
-  peak err +1 d (was +48 d late); 924 (0.0, 8.0): holdout 14 mm vs
-  45 / 179 / 194, peak err +2 d. Radiation drops out at 924
-  (turbulent-only wins the train fit). Frozen-param WY2025
-  (`derived/snow_energy_fit_prior_window.json`): 609 holdout
-  46 mm vs 284 / 482 (peak err −16 d); 924 holdout 55 mm vs 179 /
-  246 (peak err −1 d). Beats both nulls out-of-sample at both sites
-  and beats frozen degree-day (161 / 90) by ~2–3.5×. Status stays
-  `fitted_not_validated_single_window`. Runner
-  `yellowstone_python/snow_energy.py`, offline tests
-  `tests/test_snow_energy.py`.
-- Caveats (not hidden): 609 holds high snow too long (bias +67 mm, peak
-  +48 d late — degree-day on TAVG misses plateau melt energy); wind fits
-  the 0.0 boundary at both sites (no net seasonal loss at clearings);
-  depth factor 3.0 checks out (observed SNWD/WTEQ median 3.2–3.4);
-  soil moisture unvalidated (no observations). Method + offline tests:
-  `yellowstone_python/snow_validate.py`, `tools/fetch_snotel_obs.py`.
-
-## Game clock (season + time of day)
-
-- Default: the build reads your system clock — season from the local date
-  (meteorological, northern hemisphere), time from the local hour — and
-  records both plus sources in `season.json`.
-- Override in settings: `clock_hour` (0–24), `snow.season`
-  (winter/spring/summer/autumn), `snow.as_of_date` (YYYY-MM-DD; season
-  derived from your date, clock stays live). Explicit settings always win;
-  `study_mode` presets accept all three (`snow.as_of_date` validated).
-- `configs/baseline.yaml` pins season summer + 16.2 h deliberately, so
-  recorded numbers reproduce bit-for-bit; the live clock applies wherever
-  those keys are absent.
-
-## Hot low-flow scenario (backlog A, single run)
-
-- Scenario: Burkhalter 1979 baseflow boundary 2.5 m3/s (measured 2–3)
-  with authored 26 C boundary (below the observed 29.5 C max); control is
-  the pinned baseline replay (8.0 m3/s, 17.5 C). Chronic full-run means,
-  brown trout, 14 d. Runner: `tools/run_hot_lowflow.py`; artifacts
-  `derived/hot_lowflow_replay.json` +
-  `derived/aquatic_hot_lowflow.json`.
-- Result: in-chain water (per-cell time means) 25.05–28.50 C (overall mean
-  26.60), rounded in prose to 25.1–28.5 C (mean 26.6). No cell's time mean
-  falls below the Kaya mean threshold 24 C across 276 cells; the raw frame
-  minimum is 24.95 C, within 0.05 C of the mean threshold and below the Kaya
-  max threshold 25 C. Refuge drive fires (0.0 → 1.0),
-  feeding 0.66 → 0.0, U −0.03 → −1.23; trout holds cell_00263 (s=5230 m,
-  27.8 C, above the 26 C UILT flag) as least-bad food, shifting +2357 m
-  DOWNSTREAM into warmer water — the predicted upstream jump did not
-  happen; with no cold cell on the map the model cannot show one.
-- Diet (Kaeding & Kaya warm shift): emergent share 0.40 → 0.70.
-  Landscape emergence −221 (EPT collapses past its 22 C cutoff) while
-  dipper intake +1.85 on local refuge-cell stocks. Compare +2 C run:
-  +20 m shift, emergence +98, dipper +0.15, drive silent.
-- Limits: food is purely relative (starvation impossible, so a best cell
-  always exists); drift, molluscs, mortality unmodeled as before — a
-  real fish leaves or dies where this one holds. Cold-refuge pockets
-  now exist as of the 2026-10-11 follow-up section above (mainstem-only
-  in this section's frozen artifacts). Status illustrative, single
-  scenario.
-
-## Tributary cold-refuge pockets (hot low-flow follow-up, 2026-10-11)
-
-- Survey (map-measured, not invented): the baseline has NO active cold
-  lateral inflow — every reach has `lateral_sources == []` except
-  excelsior_mixing (62 C hot outflow); `DEFAULT_TRIBUTARIES` names
-  fairy/white/rabbit/mallard creeks at authored 11–12 C but all at zero
-  flow (omitted). Of the mapped creek polylines only two touch the
-  replay chain: Rabbit Creek (river_5877_0 end, 10 m off cell_00064 →
-  confluence s≈1260 m) and Mallard Creek (river_5938_0 end, 7 m off
-  cell_00002 → s≈35 m). Fairy fragments stay >1300 m off-chain; White
-  Creek's best fragment ends 85 m off-chain — mapped, not junctions.
-- Design (landscape-level, solver untouched): two off-channel
-   mouth-pocket cells appended to BOTH landscapes
-   (`aquatic_foodweb.append_tributary_cells`; pockets are holding water,
-   not transport volumes, so replay heat/water closure is intact).
-   Each pocket cell carries conservation `non_conservative` plus
-   `tributary_provenance`; the coupling contract (`coupling.json`,
-   gated in CHECKS) enforces the label.
-  Pocket food scales by authored area ratio 0.05 (22 m² pocket over a
-  ~440 m² mainstem cell); shear None → zero disturbance. Runner:
-  `tools/run_hot_lowflow_tributary_refuge.py`; artifacts
-  `derived/aquatic_hot_lowflow_tributary_refuge.json` +
-  `derived/aquatic_tributary_sweep.json`.
-- Result: YES, it flips — control holds cell_00145 (s=2873 @17.37 C,
-  U −0.025, unchanged) while the pulse takes trib_mallard_creek
-  (s=35 @11.0 C, U −0.065, feeding 0.9, drive 0.0): −2837.5 m
-  UPSTREAM. Rabbit-only variant flips to s=1260 (U −0.07, −1612.5 m).
-- Temperature sweep (7 values @ size 0.05): flips at trib 8–23 C;
-  at 26 C it stays mainstem (s=5230, U −1.227) — the flip threshold
-  sits inside the 22–24 C refuge-drive ramp. Coldest is not best:
-  8 C (U −0.22) scores worse than 14 C (U −0.02, two-sided optimum).
-- Size sweep (5 values @ 11 C): flips at EVERY scale including 0.0
-  (starved pocket U −0.08 still beats mainstem −1.23) — no size
-  un-flip exists while the mainstem sits at 25–28 C; thermal + refuge
-  terms dominate. U-math, not tuning.
-- Diet/emergence/dipper: pulse diet restores to benthic 0.80 /
-  emergent 0.20 (vs 0.30/0.70 hot mainstem); emergence −220.2 (vs
-  −221.0 pocket-free); dipper −6.50 (vs +1.85) — the
-  shared-foraging-ground assumption strands the dipper at a tiny
-  pocket, a stated limitation, not a field prediction. Status
-  illustrative throughout.
-
-## Shear-to-disturbance coupling (backlog B)
-
-- `run_foodweb` maps per-cell `bed_shear_pa` into `develop_benthic`
-  disturbance: 0 at/below an authored 20 Pa threshold, ramping to 1 at 2×;
-  shear-null (Manning-undefined) cells and threshold None both mean zero.
-- Null result, stated plainly: mapped shear is reach-averaged and uniform
-  (15.08 Pa, 273 cells + 3 null), below the default threshold — so default
-  runs are numerically identical to disturbance-free (refuge cell_00145
-  @17.37 C holds). The coupling is live infrastructure with no spatial
-  contrast until cell-scale hydraulics vary.
-- Sensitivity (baseline landscape): threshold 10 → uniform 0.51
-  disturbance, emergence −30% (1028 → 720), refuge jumps upstream to
-  cell_00024 (s=470); threshold 5 → disturbance 1.0, emergence −51%,
-  dipper −27%. Uniform tax still reshuffles refuge via nonlinear
-  regrowth, not via spatial contrast. Runner/tests:
-  `aquatic_foodweb.shear_to_disturbance`, `test_aquatic_foodweb.py`
-  `ShearDisturbanceTests` (offline synthetic).
-
-## Fischer-D replay (stretch C, sensitivity not calibration)
-
-- Solver dispersion 84.7 m2/s (mapped Fischer median; rests on authored
-  n=0.035/banks, no bathymetry — sensitivity case only). Runner flags on
-  `tools/run_hot_lowflow.py`; artifacts `derived/fischer_D85_replay_*`,
-  `derived/aquatic_dispersion_D85_*`, `derived/hot_lowflow_D85_replay_*`,
-  `derived/aquatic_hot_lowflow_D85_*` (all 2026-10-10).
-- Dispersion alone (D1 vs D85, baseline boundary): refuge moves 636 m
-  upstream (s=2873 → 2236, same 17.4 C water, drive silent), emergence
-  +1.5, dipper +0.01 — placement shifts, ecology nil.
-- Intervention repeated at D85 (control D85 baseline cell_00113 at
-  s=2236 m, 17.4 C; pulse D85 hot cell_00263 at s=5230 m, 27.7 C):
-  refuge shift +2993.8 m, drive 0.0 → 1.0, emergence −220, dipper +1.85.
-  For comparison the D1 run against the pinned D1 baseline (cell_00145 at
-  s=2873 m, 17.4 C) shifts +2357 m with the same qualitative outcome.
-  Conclusion robust: at 2.5 m3/s and 26 C boundary the mainstem offers no
-  sub-24 C water at either dispersion.
-
-## Run it
+## Install and run
 
 ```bash
-python3 -m pip install -r requirements.txt
-python3 -m pytest tests -q
-python3 -m yellowstone_python.build --config configs/baseline.yaml
-python3 -m yellowstone_python.publish --build derived/<id> --to ../yellowstone_midway
-python3 -m yellowstone_python.study_mode --list
-python3 -m yellowstone_python.compare derived/<A> derived/<B>
-python3 -m yellowstone_python.review_proposals --proposal derived/<id>/planting_proposal.json --apply
+python3 -m venv --system-site-packages .venv
+.venv/bin/python -m pip install -e '.[science,fetch,dev]'
+.venv/bin/python -m pytest
+.venv/bin/python -m yellowstone_python.build --config configs/baseline.yaml
+.venv/bin/python -m yellowstone_python.study_mode --list
+.venv/bin/python -m yellowstone_python.publish --help
+.venv/bin/python -m tools.hot_lowflow --help
 ```
 
-Godot 4.5.1: open `yellowstone_midway/project.godot`, F5. I = notes, M = map.
-Rebake (consumes `placement_overrides.json`) needs 4.5.1; installed 4.4.1 is
-for `--check-only` script validation only — bake deferred.
+`science` adds optional numerical and geospatial backends, `fetch` adds observation retrieval dependencies, and `dev` adds test and notebook tools. The editable install makes package and tool imports work from outside the project. Tools run as `python -m tools.<name>`.
 
-## Run modes and claims
+Open `../yellowstone_midway/project.godot` in Godot 4.5.1 to run the world. A validated build can be published with `python -m yellowstone_python.publish --build derived/<build-id> --to ../yellowstone_midway`. Source inputs and previous build directories are preserved.
 
-- Every config declares `run_mode`: `illustrative` (default), `scenario`,
-  `hindcast`, or `observed_replay`. `forecast` builds are refused until a
-  forecast evaluation exists. Boundary discharge and upstream temperature
-  are prescribed forcing; validation covers unprescribed outputs.
-- `study_mode` presets stamp `scenario` automatically.
-- Each build writes `claims.json` (two seed claims, both `not_yet_accepted`),
-  `param_registry.json` (class and evidence per knob; unknown stays unknown),
-  and `equations.json` (governing model and limits per component).
-  `BUILD.json` records mode, prescribed quantities, and claim ids.
+The live service starts at 1x real time. Run `.venv/bin/python -m yellowstone_python.service.live --build derived/<build-id>` to serve a published build locally. The in-game speed selector supports 1x, 60x, 600x and 3600x; the service reports the effective rate when solver capacity limits acceleration.
 
-## Peripheral tools (`tools/`, CLIs with `--help`)
+## Model components
 
-- `tools/channel_geometry.py` — sole producer of `configs/cross_sections.json`
-  (DEM transects; `--usgs-data` prefers current-meter depth when available).
-- Gates: `tools/validate_obs_bundles.py` (bundle schema/continuity/coverage),
-  `tools/audit_provenance.py` (status vocabulary over `derived/`),
-  `tools/check_terrain.py` (terrain.f32 hash/dims/range vs BUILD deps),
-  `tools/compare_bundles.py` (old-vs-refetch drift).
-- Fetchers: `tools/fetch_firehole_obs.py`, `tools/fetch_snotel_obs.py`
-  (frozen bundles), `tools/fetch_met_forcing.py` (shared Open-Meteo source).
-- `tools/plot_fit.py` — Pillow-only diagnostic PNGs from fit artifacts
-  (status footers on every figure).
+River heat transport uses a mapped finite-volume chain with advection, dispersion, lateral mixing, and surface-energy exchange. `river/river_transport.py` and `river/surface_flux.py` implement the transport and explicit flux components in `registry/equations.py`. Analytical profiles, manufactured solutions, convergence checks, and budget ledgers test the numerical behavior.
 
-## LLM backend (read-only accuracy API, stdlib only)
+Aquatic models in `aquatic/` combine relative insect stocks, periphyton, dissolved oxygen, thermal response curves, and trout refuge selection. Their equation components describe the foodweb, oxygen, and thermal suitability assumptions. Authored off-channel pockets carry a non-conservative landscape label and stay outside transport volumes.
 
-Tree observation authority is `derived/census.json` (game-native NAIP canopy
-detection, 33,764 crowns). A 2026-10-09 cross-check showed pretrained
-DeepForest finding 2–53 crowns where the census finds ~1,175 in the same
-knoll crop — generic weights are unfit here, so the backend serves census +
-game state, never DeepForest edits.
+Land models in `land/` cover logistic vegetation growth, grazing, degree-day or energy-balance snowmelt, soil storage, and evapotranspiration. Storage and flux ledgers accompany the snow and soil-bucket equation components. Hydrology providers identify their backend and boundary assumptions.
+
+Thermal-feature models in `thermal_features/` cover mapped outflow networks, temperature chains, solutes, microbial mats, pigment appearance, and ground heat. The equation registry records the governing approximations. Pool polygons and source imagery retain their original geometry and provenance.
+
+Atmosphere models in `atmosphere/` produce meteorological fields and steam effects. Shared weather snapshots use the simulation epoch. Godot reads the published fields, advances the live scene, and renders player movement, wildlife, foliage, water, steam, and atmosphere.
+
+Observation clients in `observations/` fetch and normalize USGS, Open-Meteo, and SNOTEL inputs. Bundles record timestamps, units, quality flags, and content hashes. An Open-Meteo field is model forcing; it carries its forcing class in the bundle.
+
+`service/` exposes the analysis store and live simulation engine. `authoring/` contains placement and trail-mask tooling. Registry entries preserve the distinction between measured, literature, fitted, and authored values.
+
+## Forest observations and placement
+
+The USGS QL1 point-cloud workflow uses the 12 delivered tiles intersecting the 1280 m window and the matched NAVD88 DEM. Cached source bytes, LAS headers, catalog responses, coordinate operations, and checksums accompany the 0.5 m surface-height raster. NoData cells remain missing. Mapped mineral, pool-apron, and river surfaces are excluded from canopy interpretation; the raw returns remain available.
 
 ```bash
-python3 -m yellowstone_python.llm_backend --serve --port 8765
-python3 -m yellowstone_python.llm_backend --snapshot-out derived/llm_snapshot.json
-python3 -m yellowstone_python.llm_backend --compare --x -252 --z 159 --r 120
+.venv/bin/python -m tools.fetch_lidar_canopy \
+  --dem ../yellowstone_midway/references/dem_1m_core.tif \
+  --cache data/lidar/raw --out-dir derived/lidar_canopy --workers 12
+.venv/bin/python -m tools.build_lidar_forest
+.venv/bin/python -m tools.gen_flora --measured-canopy --apply
+.venv/bin/python -m tools.lidar_review evaluate \
+  --validation-dir derived/lidar_canopy/blind_validation \
+  --out derived/lidar_canopy/blind_validation_unavailable.json
 ```
 
-`GET /api/snapshot /api/census/zones /api/density?x=&z=&r= /api/compare?x=&z=&r= /api/placements/summary /api/ecosystem/summary /api/build/latest`, `POST /api/propose` (dry-run planting review, no writes).
+`build_lidar_forest` emits the dominant-crown census, 10 m coverage cells, segmentation raster, and reversible override plan. Height-dependent peak suppression uses an authored numerical window. Crown cores retain pixels where watershed and nearest-peak ownership agree; their equivalent-area radii do not establish full crown width. The measured coverage field supplies canopy fraction to the scientific pipeline independently of overlapping render crowns. Height-conditioned TreeMap donor rows supplement DBH and crown ratio with transferred, locally unvalidated values. LiDAR does not identify species or establish total or subcanopy stem counts.
 
-Validation: density radii must be in [0.1, 5000] m; `propose` requires a known
-`guild`/`habitat_id`, `radius_m`/`count` in (0, 500], `suitability_threshold`
-and `canopy` in [0, 1] (all finite, no bools); bodies over 64 KB are rejected
-(413) and review logs over 1000 entries truncated. Corrupt data files degrade
-only their `/api/snapshot` section (HTTP 500 with file context), never the
-whole bundle.
+Plain review crops and frozen source hashes are in `derived/lidar_canopy/blind_validation`. Evaluation requires explicit hand-label submissions, including explicit zero-crown records. Empty submissions return unavailable metrics. The 2020 point cloud and 2022 review imagery have different acquisition epochs. Raw pool and river ground controls fail the requested criterion; sparse river returns cannot establish canopy absence. The local placement layer is derived and unvalidated, and scientific acceptance remains pending.
+
+## Tree architecture and wildlife motion
+
+`authoring/tree_architecture.py` generates connected, seeded branch graphs and paired-needle shoot records. It preserves dimensional inputs and records the stochastic parameters. The crown-envelope option uses the regional Bechtold lodgepole equation within its DBH range; image-based fallback proportions retain unknown scale, camera pose and local error. These reconstructed envelopes remain separate from LiDAR crown cores and TreeMap donor measurements.
+
+```bash
+.venv/bin/python -m tools.tree_architecture \
+  --height-m 14 --dbh-m 0.22 --crown-radius-m 2.0 \
+  --crown-ratio 0.72 --identity example-pine --variants 4 \
+  --out work/pine-architecture.json
+.venv/bin/python -m yellowstone_python.wildlife_motion profiles
+.venv/bin/python -m yellowstone_python.wildlife_motion validate \
+  ../yellowstone_midway/assets/imported/wildlife_motion/bobcat_animated_2k.glb \
+  --output work/bobcat-motion-validation.json
+```
+
+The imported motion library retains its MIT license. Project adapters use Apache-2.0. Asset manifests distinguish supplied meshes with unknown geometry rights, estimated rigs, synthetic fixtures and authored species shape proxies. Numerical skinning, contact and animation tests do not establish measured animal biomechanics.
+
+Supplied bison, badger, bobcat, grizzly, black bear and Canada lynx models have runtime bindings. Wolf, deer and elk retain explicit shape-proxy labels. Midway encounters include habitat-qualified black bear routes; Canada lynx remains gated to suitable cold-conifer or park-reference contexts rather than being forced into the current Midway habitat.
+
+`land/mammals.py` couples authored guild population proxies and display encounters to current vegetation, moisture, snow, soil heat, season and daylight. Forage allocation removes normalized biomass once and records its budget; baseline grazer ownership prevents duplicate demand. Both baked trajectories and live checkpoints use the same forcing helper and physical simulation time.
+
+The occurrence catalogue retains the primary NPSpecies rows and current NPS bat confirmations, including their conflicting counts and historical names. Unsupported local habitats and provisional taxa remain gated. Park occurrence supplies a roster; authored population equivalents and display encounter probabilities do not establish local abundance or measured sighting frequencies.
+
+## Findings
+
+These results describe frozen artifacts. Their recorded windows and parameter values establish the scope of each comparison.
+
+- Snow degree-day fits use Madison Plateau and West Yellowstone observations. In the first holdout window, RMSE is 112 mm and 45 mm, compared with persistence values of 293 mm and 179 mm. Frozen parameters in a second window give 161 mm and 90 mm. Run mode: hindcast analysis. Status: `fitted_not_validated_single_window`. Artifacts: `derived/snow_degree_day_fit.json` and `derived/snow_degree_day_fit_prior_window.json`.
+- Energy-balance snow fits reduce first-window RMSE to 62 mm and 14 mm. Frozen parameters give 46 mm and 55 mm in the second window. Radiation contributes at Madison Plateau; the West Yellowstone fit selects turbulent exchange alone. Run mode: hindcast analysis. Status: `fitted_not_validated_single_window`. Artifacts: `derived/snow_energy_fit.json` and `derived/snow_energy_fit_prior_window.json`.
+- A hot low-flow mainstem scenario uses 2.5 m3/s and an authored 26 C upstream boundary. Mean cell temperatures span 25.05 to 28.50 C; no mean falls below the 24 C refuge threshold. Trout refuge selection moves 2357 m downstream. Run mode: `scenario`. Status: illustrative. Artifacts: `derived/hot_lowflow_replay.json` and `derived/aquatic_hot_lowflow.json`.
+- Authored Rabbit Creek and Mallard Creek pockets at mapped confluences provide cold holding water. The pulse selects the Mallard pocket at 11 C and shifts 2837.5 m upstream. Temperature, size, and velocity-depth sweeps record sensitivity. Run mode: `scenario`. Status: illustrative. Artifacts: `derived/aquatic_hot_lowflow_tributary_refuge.json` and `derived/aquatic_tributary_sweep.json`.
+- Shear disturbance is zero at the default authored 20 Pa threshold because mapped reach-averaged shear is 15.08 Pa. Lower thresholds suppress emergence and can change refuge selection. Status: illustrative sensitivity, with synthetic checks in `tests/aquatic/test_aquatic_foodweb.py`.
+- A Fischer dispersion sensitivity of 84.7 m2/s gives the same qualitative hot-mainstem outcome: no sub-24 C mean cell temperature. Its refuge position differs from the 1 m2/s comparison. Run mode: `scenario`. Status: sensitivity analysis. Artifacts use `derived/aquatic_dispersion_D85_*` and `derived/aquatic_hot_lowflow_D85_*`.
+
+## Validation and test requirements
+
+Run `python -m pytest` for the single test tree. Registered markers make optional coverage visible:
+
+| Marker | Requirement |
+|---|---|
+| `needs_world` | Godot world files and frozen world inputs; override their root with `YELLOWSTONE_WORLD`. |
+| `needs_pvlib` | pvlib solar geometry backend. |
+| `needs_fipy` | FiPy independent transport reference. |
+| `needs_network_inputs` | Frozen downloaded observation, network, or imagery inputs. |
+| `needs_science` | Other optional scientific dependencies such as pandas, sympy, or NetCDF. |
+
+`pytest -m 'not needs_world'` selects checks that can run without the Godot checkout. Pytest reports skip reasons. The suite also checks the complete maintained source tree against the comment and documentation rules.
+
+Notebook outputs are cleared in the repository. From the repository root, enable the notebook hook with:
+
+```bash
+GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0= \
+  yellowstone_python/.venv/bin/python -m pre_commit install \
+  --config yellowstone_python/.pre-commit-config.yaml
+```
+
+This command installs the repository hook while preserving the configured global hook path. The local global hook delegates to the repository hook. The `nbstripout` pre-commit configuration preserves this state; `python -m nbstripout --verify notebooks/*.ipynb` checks it. Generate a diagnostic figure from a frozen comparison with:
+
+```bash
+.venv/bin/python -m tools.plot_fit --artifact derived/aquatic_hot_lowflow.json \
+  --out-dir work/figs --type aquatic_intervention
+```
+
+Historical figures are retained with internal working documents.
+
+## Limits and evidence status
+
+Boundary discharge and upstream temperature are prescribed forcing. Validation targets unprescribed outputs, and both seed claims remain `not_yet_accepted`. Unknown parameter uncertainty stays `unknown`. Forecast builds require a forecast evaluation.
+
+The models have no calibrated bathymetry, organism counts, absolute food availability, mortality, or movement cost. Mapped hydraulics depend on authored geometry and roughness. Soil moisture lacks observation validation. The shared trout and dipper foraging assumption can strand the dipper at a small pocket. These conditions bound the interpretation of the frozen results.
+
+Measured inputs are preserved; authored profiles, positions, coefficients, and exclusion masks carry provenance. A local test pass establishes the behavior asserted by those checks. Field validation is recorded separately in claim and fit artifacts.

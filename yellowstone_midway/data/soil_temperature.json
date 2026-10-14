@@ -1,0 +1,31 @@
+{
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "contract_version": "0.1.0",
+  "depth_m": 0.1,
+  "model": "steady_state_conductive_profile",
+  "parameter_provenance": {
+    "depth_m": 0.1
+  },
+  "provenance": {
+    "conductivity_w_m_k": 1.3,
+    "source": "ground_heat.soil_temperature_by_patch"
+  },
+  "schema": "yellowstone.soil_temperature.v1",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "authored",
+  "units": {
+    "depth_m": "m",
+    "values_c_by_patch": "degree_Celsius"
+  },
+  "values_c_by_patch": {
+    "bridge_riparian": 11.423076923076923,
+    "forest_edge": 11.423076923076923,
+    "north_meadow": 11.423076923076923
+  },
+  "world_id": "yellowstone_midway"
+}

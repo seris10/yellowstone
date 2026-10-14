@@ -1,0 +1,17 @@
+{
+  "schema": "yellowstone.provenance_sidecar.v1",
+  "status": "measured_remote_not_calibrated",
+  "path": "firehole_chem_obs.json",
+  "bytes": 3722,
+  "sha256": "1a84d994e3c11f51bbaafd9dab14409e0f5f63fb101f92601e1d694bd051249c",
+  "content_type": "application/json",
+  "urls": [
+    "https://waterservices.usgs.gov/nwis/iv/?sites=06036805&parameterCd=00095,00300,00400&period=P8D&format=json",
+    "https://waterservices.usgs.gov/nwis/iv/?sites=06036905&parameterCd=00095,00300,00400&period=P8D&format=json"
+  ],
+  "retrieved_utc": "2026-10-13T10:53:17Z",
+  "terms": "USGS Water Services IV, provisional and subject to revision. See https://waterdata.usgs.gov/nwis/help/?provisional",
+  "agency": "USGS",
+  "citation": "US Geological Survey, National Water Information System (NWIS), accessed 2026-10-13; sites 06036805 (Firehole River at Old Faithful) and 06036905 (Firehole River near West Yellowstone MT).",
+  "finding": "Specific conductance (00095), dissolved oxygen (00300) and pH (00400) are not published as instantaneous values at either gauge for the fetched 8 day window. Historical daily values for specific conductance exist at 06036905 for 2010-05-13 to 2017-10-30 and at 06036805 for 2010-2017; these windows do not overlap the firehole_obs or met.json windows. Discrete water-quality samples are available through the Water Quality Portal and are the only source of paired chloride and conductance samples for a site-specific McCleskey-style fit."
+}

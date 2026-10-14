@@ -14,7 +14,7 @@ The current code should remove this entire pattern:
 ```python
 spec = importlib.util.spec_from_file_location(
     "hydrosim",
-    "/Users/kreed/Downloads/hydrology/hydrosim.py"
+    "../../hydrology/hydrosim.py"
 )
 ```
 

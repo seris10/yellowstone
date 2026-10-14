@@ -2,9 +2,9 @@ Now I have a complete picture. Let me compile the comprehensive findings.
 
 ---
 
-## AI Tells Found in `/Users/kreed/Downloads/yellowstone_python_spec/`
+## AI Tells Found in `../../yellowstone_python_spec/`
 
-### FILE 1: `/Users/kreed/Downloads/yellowstone_python_spec/improvements.md`
+### FILE 1: `../../yellowstone_python_spec/improvements.md`
 
 This file is the most heavily AI-told. It reads as an AI assistant's response to a user request, with extensive first-person narrative, hedging, and meta-commentary.
 
@@ -45,7 +45,7 @@ This file is the most heavily AI-told. It reads as an AI assistant's response to
 
 ---
 
-### FILE 2: `/Users/kreed/Downloads/yellowstone_python_spec/addons.md`
+### FILE 2: `../../yellowstone_python_spec/addons.md`
 
 This file reads as an AI assistant's response to a user request about adding scientific methods to a tree inventory tool.
 
@@ -64,7 +64,7 @@ This file reads as an AI assistant's response to a user request about adding sci
 
 ---
 
-### FILE 3: `/Users/kreed/Downloads/yellowstone_python_spec/waterway-research.md`
+### FILE 3: `../../yellowstone_python_spec/waterway-research.md`
 
 This file reads as an AI assistant's research response, with extensive first-person narrative about what it did and didn't find.
 
@@ -89,7 +89,7 @@ This file reads as an AI assistant's research response, with extensive first-per
 
 ---
 
-### FILE 4: `/Users/kreed/Downloads/yellowstone_python_spec/python-audit.txt`
+### FILE 4: `../../yellowstone_python_spec/python-audit.txt`
 
 This file is an AI assistant's audit response.
 
@@ -133,7 +133,7 @@ This file is an AI assistant's audit response.
 
 ---
 
-### FILE 5: `/Users/kreed/Downloads/yellowstone_python_spec/00_OVERVIEW_AND_VERDICT.md`
+### FILE 5: `../../yellowstone_python_spec/00_OVERVIEW_AND_VERDICT.md`
 
 This file has some AI-ish narrative addressing the user directly.
 
@@ -148,7 +148,7 @@ This file has some AI-ish narrative addressing the user directly.
 
 ---
 
-### FILE 6: `/Users/kreed/Downloads/yellowstone_python_spec/03_AUDIT_RESPONSE.md`
+### FILE 6: `../../yellowstone_python_spec/03_AUDIT_RESPONSE.md`
 
 | Line | Exact Text | Tell Type |
 |------|-----------|-----------|
@@ -157,7 +157,7 @@ This file has some AI-ish narrative addressing the user directly.
 
 ---
 
-### FILE 7: `/Users/kreed/Downloads/yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md`
+### FILE 7: `../../yellowstone_python_spec/01_PYTHON_BUILD_SPEC.md`
 
 | Line | Exact Text | Tell Type |
 |------|-----------|-----------|
@@ -167,7 +167,7 @@ This file has some AI-ish narrative addressing the user directly.
 
 ---
 
-### FILE 8: `/Users/kreed/Downloads/yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md`
+### FILE 8: `../../yellowstone_python_spec/02_PREREQS_ASSETS_CHECKLIST.md`
 
 | Line | Exact Text | Tell Type |
 |------|-----------|-----------|
@@ -177,7 +177,7 @@ This file has some AI-ish narrative addressing the user directly.
 
 ---
 
-### FILE 9: `/Users/kreed/Downloads/yellowstone_python_spec/summary.txt`
+### FILE 9: `../../yellowstone_python_spec/summary.txt`
 
 | Line | Exact Text | Tell Type |
 |------|-----------|-----------|
@@ -216,13 +216,13 @@ These files are more spec-like but still contain AI-ish meta-commentary about th
 
 ---
 
-### FILE 19: `/Users/kreed/Downloads/yellowstone_python_spec/aveanna-elements.html`
+### FILE 19: `../../yellowstone_python_spec/aveanna-elements.html`
 
 This is a scraped HTML form from a care provider time-tracking system (Dashlane autofill data). **No AI tells found** -- it is raw HTML form markup with no narrative content.
 
 ---
 
-### PDF files in `/Users/kreed/Downloads/yellowstone_python_spec/papers/`
+### PDF files in `../../yellowstone_python_spec/papers/`
 
 These are downloaded academic research papers from USGS, Wiley, Springer, and other publishers. **No AI tells found** -- they are published scientific literature, not AI-generated content.
 

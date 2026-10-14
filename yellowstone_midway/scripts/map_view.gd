@@ -1,13 +1,13 @@
 extends Control
 var world: Node
-# Cached at ready: _draw runs on every map redraw and must not do I/O.
+# Texture and panel resources are cached before drawing.
 var _tex: Texture2D
 var _style: StyleBox
-# Census canopy overlay (fixes-39 item 10): true draws crown disks on the map from data/census.json.
 var census_visible: bool = false
-# Cached crown samples: Array of {x, z, radius_m, exg}; set by world.gd after reading data/census.json.
+# Census rows are supplied by the world reader.
 var _census_rows: Array = []
-# Quartile cutoffs on peak_exg for crown color mapping; computed when the census is first set.
+# Finite ExG values define the crown color quartiles.
+var _has_exg_quartiles: bool = false
 var _exg_quartiles: PackedFloat32Array = PackedFloat32Array([0.0, 0.0, 0.0])
 func _ready() -> void:
 	_tex = load("res://assets/textures/midway_macro.jpg") as Texture2D
@@ -17,15 +17,19 @@ func _ready() -> void:
 		_style = world.panel_style(.97)
 
 func set_census(rows: Array) -> void:
-	# Cache subset of census tree rows for the map overlay; 33k rows cap at a stride that keeps _draw cheap.
+	# Map drawing samples at most 4000 census rows.
 	_census_rows = rows
-	# Compute peak_exg quartiles from the full set so the color key matches the full-data distribution.
+	# Missing ExG measurements remain unmeasured.
 	var exg_values: Array = []
-	for row: Dictionary in rows:
-		if row.has("peak_exg"):
-			exg_values.append(float(row["peak_exg"]))
+	for row: Variant in rows:
+		if not row is Dictionary:
+			continue
+		var exg := _exg_value(row.get("peak_exg"))
+		if is_finite(exg):
+			exg_values.append(exg)
 	exg_values.sort()
-	if exg_values.size() >= 4:
+	_has_exg_quartiles = exg_values.size() >= 4
+	if _has_exg_quartiles:
 		_exg_quartiles = PackedFloat32Array([float(exg_values[exg_values.size() / 4]), float(exg_values[exg_values.size() / 2]), float(exg_values[3 * exg_values.size() / 4])])
 	queue_redraw()
 func _draw() -> void:
@@ -39,7 +43,7 @@ func _draw() -> void:
 	var font:=ThemeDB.fallback_font
 	draw_string(font,Vector2(25,38),"MIDWAY / FIELD MAP",HORIZONTAL_ALIGNMENT_LEFT,-1,20,Color(.93,.92,.80))
 	if census_visible and not _census_rows.is_empty():
-		# Draw crown disks on the map colored by peak_exg quartile; crowns under 0.3 m are omitted so canopies read as patches.
+		# Crown core circles below 0.3 m radius are omitted.
 		var stride: int = maxi(1, int(ceil(float(_census_rows.size()) / 4000.0)))
 		var scale: float = 540.0 / 4096.0
 		for i: int in range(0, _census_rows.size(), stride):
@@ -51,7 +55,7 @@ func _draw() -> void:
 			var r_m: float = float(row.get("crown_r_m", 0.0))
 			if r_m < 0.3:
 				continue
-			var exg: float = float(row.get("peak_exg", 0.0))
+			var exg: float = _exg_value(row.get("peak_exg"))
 			var color: Color = _crown_color(exg)
 			var center: Vector2 = rect.position + (Vector2(rx, rz) + Vector2.ONE * 2048.0) * scale
 			var radius_px: float = maxf(1.2, r_m * scale)
@@ -68,13 +72,20 @@ func _draw() -> void:
 	draw_line(pt,pt+Vector2(direction.x,direction.z)*18.0,Color.WHITE,2)
 	var legend: String = "N ↑    Gold: road    Ivory: trail    Dot: you"
 	if census_visible:
-		legend += "    U: canopy (peak_exg q1-q4)"
+		legend += "    U: core circles; ExG q1-q4 / neutral unmeasured" if _has_exg_quartiles else "    U: LiDAR core circles; ExG unmeasured"
 	draw_string(font,Vector2(25,632),legend,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color(.87,.89,.81))
 	draw_line(Vector2(380,649),Vector2(512,649),Color.WHITE,2)
 	draw_string(font,Vector2(406,671),"1 kilometre",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color.WHITE)
 
+func _exg_value(value: Variant) -> float:
+	if typeof(value) not in [TYPE_INT, TYPE_FLOAT]:
+		return NAN
+	return float(value) if is_finite(float(value)) else NAN
+
 func _crown_color(exg: float) -> Color:
-	# Four-step quartile color ramp on peak_exg: pale yellow, light green, mid green, dark green.
+	if not is_finite(exg) or not _has_exg_quartiles:
+		return Color(.46, .53, .37, .50)
+	# Finite ExG samples use four color classes.
 	if _exg_quartiles.size() < 3:
 		return Color(0.55, 0.72, 0.42, 0.68)
 	if exg < _exg_quartiles[0]:

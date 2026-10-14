@@ -9,12 +9,22 @@ from yellowstone_python.build import (_find, _grazers_input_from_consumed,
                                       check_cross_sections, load_inputs,
                                       simulate_all, validate_config)
 
-from paths import BASE_CONFIG as BASE
 
 
 def _cfg():
     return yaml.safe_load(open(BASE).read())
 
+
+
+@pytest.fixture(scope="module")
+def simulation_result(repo_root, world_root):
+    """Compute the pinned baseline once for read-only output assertions."""
+    for path in (world_root / "data/world.json", world_root / "data/terrain.f32"):
+        if not path.is_file():
+            pytest.skip(f"world input missing: {path}")
+    cfg = yaml.safe_load((repo_root / "configs/baseline.yaml").read_text())
+    baseline, world, _, tfns = load_inputs(cfg)
+    return simulate_all(cfg, baseline, world, tfns)
 
 def test_validate_config_accepts_baseline():
     validate_config(_cfg())
@@ -45,8 +55,10 @@ def test_find_names_available_ids():
     assert "have ['a']" in str(e.value)
 
 
-def test_simulate_all_is_pure_and_complete(tmp_path):
+def test_simulate_all_is_pure_and_complete(tmp_path, monkeypatch, world_root):
     cfg = _cfg()
+    cfg["world_root"] = str(world_root)
+    monkeypatch.chdir(tmp_path)
     baseline, world, deps, tfns = load_inputs(cfg)
     for key in ("world.json", "placements.json", "species_catalogue.json",
                 "terrain.f32", "config"):
@@ -58,14 +70,12 @@ def test_simulate_all_is_pure_and_complete(tmp_path):
                 "aquatic_foodweb", "fh_chainage", "fh_chainage_offset_m"):
         assert key in res, key
     assert res["timeline"]["fast_window_s"] == 600.0
-    # Pure: no files written into tmp cwd and derived untouched by simulate.
+    # Simulation leaves the working directory empty.
     assert list(tmp_path.iterdir()) == []
 
 
-def test_food_web_refuge_reaches_the_published_wildlife():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_food_web_refuge_reaches_the_published_wildlife(simulation_result):
+    res = simulation_result
     chosen = res["aquatic_foodweb"]["trout"]
     published = res["variant"]["wildlife"]
     trout = [w for w in published if "trout" in w["id"]]
@@ -79,10 +89,8 @@ def test_food_web_refuge_reaches_the_published_wildlife():
     assert abs(res["fh_chainage_offset_m"]) > 0.0
 
 
-def test_dipper_intake_comes_from_the_food_web():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_dipper_intake_comes_from_the_food_web(simulation_result):
+    res = simulation_result
     per_day = res["aquatic_foodweb"]["dipper"]["intake_per_day"]
     dipper = next(w for w in res["variant"]["wildlife"] if w["id"] == "dipper_01")
     assert dipper["intake_basis"] == "replay_foodweb"
@@ -92,10 +100,8 @@ def test_dipper_intake_comes_from_the_food_web():
     assert raven["intake_basis"] == "insect_compartments"
 
 
-def test_replay_and_chain_share_the_configured_air_forcing():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_replay_and_chain_share_the_configured_air_forcing(simulation_result):
+    res = simulation_result
     forced = res["replay_doc"]["forcing"]["air_c"]["values"][0]
     effective = res["weather_frag"]
     night = effective["night_air_c"]
@@ -113,10 +119,8 @@ def test_replay_and_chain_share_the_configured_air_forcing():
     assert forcing["values"] == pytest.approx(expected, abs=1e-6)
 
 
-def test_replay_solver_conserves_heat_and_water():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_replay_solver_conserves_heat_and_water(simulation_result):
+    res = simulation_result
     rd = res["replay_doc"]
     assert rd["numerical_checks"]["passed"] is True
     fb = rd["final_budget"]
@@ -127,10 +131,8 @@ def test_replay_solver_conserves_heat_and_water():
     assert rd["model"]["space"] == "1-D upstream-to-downstream chainage"
 
 
-def test_replay_uses_dem_cross_sections():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_replay_uses_dem_cross_sections(simulation_result):
+    res = simulation_result
     rd = res["replay_doc"]
     firehole_cells = [c for c in rd["cells"] if c.get("river_id") == "river_5856_0"]
     assert len(firehole_cells) > 0
@@ -226,10 +228,8 @@ def test_overland_runoff_divides_outflow_by_window():
     assert report["coupling"].startswith("partial")
 
 
-def test_build_result_reports_cross_sections_overland_and_shared_tolerances():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_build_result_reports_cross_sections_overland_and_shared_tolerances(simulation_result):
+    res = simulation_result
     assert "cross_sections_report" in res
     assert res["cross_sections_report"]["status"] in (
         "covers", "partial", "empty", "no_cross_sections")
@@ -241,10 +241,8 @@ def test_build_result_reports_cross_sections_overland_and_shared_tolerances():
     assert cs_report is not None
 
 
-def test_build_result_wires_per_cell_benthic_and_trout_hydraulics():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_build_result_wires_per_cell_benthic_and_trout_hydraulics(simulation_result):
+    res = simulation_result
     assert "benthic_grid" in res
     assert "trout_hydraulics_source" in res
     bg = res["benthic_grid"]
@@ -256,10 +254,18 @@ def test_build_result_wires_per_cell_benthic_and_trout_hydraulics():
         "reach_level_fallback_no_firehole_cells")
 
 
-def test_snow_cover_fraction_in_season_patches():
-    cfg = _cfg()
-    baseline, world, deps, tfns = load_inputs(cfg)
-    res = simulate_all(cfg, baseline, world, tfns)
+def test_snow_cover_fraction_in_season_patches(simulation_result):
+    res = simulation_result
     for patch in res["patches2"]:
         assert "snow_cover_fraction" in patch
         assert 0.0 <= float(patch["snow_cover_fraction"]) <= 1.0
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'BASE', resolved_paths['BASE_CONFIG'], raising=False)

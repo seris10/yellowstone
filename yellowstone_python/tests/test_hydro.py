@@ -1,11 +1,12 @@
+
+import pytest
 import copy
 import json
 
-from yellowstone_python.hydro_thermal import (derive_flows, mixing_check,
+from yellowstone_python.river.reach_reference import (derive_flows, mixing_check,
                                               run_simulation, stable_dt,
                                               steady_state, step_heat)
 
-from paths import ECO_LIVE as BASE
 
 
 def _reaches():
@@ -81,3 +82,13 @@ def test_invalid_inputs_rejected():
         run_simulation(r, 0.0, 17.5, air_c=18.0, seconds=10.0)
     with pytest.raises(ValueError):
         run_simulation(r, 8.0, 17.5, air_c=18.0, seconds=10.0, dt=0.0)
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'BASE', resolved_paths['ECO_LIVE'], raising=False)

@@ -1,4 +1,4 @@
-"""M00 coords: single frame authority for Yellowstone Midway."""
+"""coords: single frame authority for Yellowstone Midway."""
 from __future__ import annotations
 
 import math

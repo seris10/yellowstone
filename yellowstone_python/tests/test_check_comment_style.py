@@ -3,8 +3,6 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 from tools.check_comment_style import check_file, check_text, main
 
 VAPOR_UK = "vapo" + "ur"
@@ -76,3 +74,74 @@ def test_cli_exit_codes(tmp_path):
     assert main([str(dirty), "--root", str(tmp_path)]) == 1
     assert main([str(dirty), "--root", str(tmp_path), "--report-only"]) == 0
     assert main(["--root", str(tmp_path)]) == 2
+
+
+def test_extended_rules_true_and_false_positives():
+    cases = [
+        ("process_tag", "Stage C per fixes-15 section 4C.", "Fit lateral discharge and temperature."),
+        ("process_tag", "M01b transport and M05b food web", "Transport models Mg and Mn solutes."),
+        ("history", "kept for ecosystem parity", "Transport preserves ecosystem parity."),
+        ("session_narration", "original paper not opened in-session", "Davis (1975); literature values."),
+        ("vocabulary", "single source of truth", "The shared source defines the threshold."),
+        ("non_ascii", "delta " + chr(0x394), "delta temperature in C"),
+        ("citation_format", "Davis 1975 minimum oxygen", "Davis (1975) minimum oxygen"),
+        ("dated_prose", "verified live 2026-10-10", "Observation window starts 2026-10-10."),
+    ]
+    for rule, positive, negative in cases:
+        assert rule in rules(positive)
+        assert rule not in rules(negative)
+    assert "history" not in rules("datetime.now() returns a timestamp")
+
+
+def test_ast_scopes_provenance_help_exception_and_names(tmp_path):
+    source = tmp_path / "scopes.py"
+    source.write_text(
+        'payload = {"source": "verified via WebSearch"}\n'
+        'parser.add_argument("--x", help="fixes-15")\n'
+        'def test_fixes_15():\n'
+        '    raise ValueError("retained for parity")\n'
+        'fixture = "verified via WebSearch"\n',
+        encoding="utf-8",
+    )
+    found = {(f.rule, f.line) for f in check_file(source, tmp_path)}
+    assert ("session_narration", 1) in found
+    assert ("process_tag", 2) in found
+    assert ("process_tag", 3) in found
+    assert ("history", 4) in found
+    assert not any(line == 5 for _, line in found)
+
+
+def test_all_docstrings_have_shape_checked(tmp_path):
+    source = tmp_path / "shape.py"
+    source.write_text(
+        'def f():\n    """Return the field.\n    Units are C.\n    The third line exceeds the limit."""\n'
+        'class C:\n    """' + "x" * 101 + '"""\n',
+        encoding="utf-8",
+    )
+    found = {f.line for f in check_file(source, tmp_path) if f.rule == "docstring_shape"}
+    assert found == {2, 6}
+
+
+def test_markdown_fences_and_notebook_cells(tmp_path):
+    import json
+    prose = "# Model\n\nheat loss " + chr(0x2014) + " lumped\n```python\n# fixes-15\n```\n"
+    markdown = tmp_path / "README.md"
+    markdown.write_text(prose, encoding="utf-8")
+    notebook = tmp_path / "example.ipynb"
+    notebook.write_text(json.dumps({"cells": [{"cell_type": "markdown", "source": [prose]}]}))
+    for path in (markdown, notebook):
+        found = {f.rule for f in check_file(path, tmp_path)}
+        assert "dash" in found and "non_ascii" in found
+        assert "process_tag" not in found
+
+
+def test_review_vocabulary_is_warning(tmp_path):
+    source = tmp_path / "review.py"
+    source.write_text("# comprehensive\n")
+    assert check_file(source, tmp_path)[0].severity == "warning"
+    assert main([str(source), "--root", str(tmp_path)]) == 0
+
+
+def test_doi_acronyms_preserve_identifier_case():
+    assert "caps" not in rules("Stull (2011), doi:10.1175/JAMC-D-11-0143.1")
+    assert "caps" in rules("This value is REQUIRED")

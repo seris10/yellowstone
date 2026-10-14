@@ -2,10 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from yellowstone_python.param_registry import (PARAM_CLASSES, PARAMS,
-                                               registry_errors,
-                                               source_ref_errors,
-                                               validate_entry)
+from yellowstone_python.registry.param_registry import PARAM_CLASSES, PARAMS, registry_errors, source_ref_errors, validate_entry
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -60,7 +57,7 @@ def test_param_ids_are_dotted_words():
 
 
 def test_review_states_come_from_claim_vocabulary():
-    from yellowstone_python.claims import REVIEW_STATUSES
+    from yellowstone_python.registry.claims import REVIEW_STATUSES
     assert {e["review"] for e in PARAMS} <= set(REVIEW_STATUSES)
 
 
@@ -97,7 +94,7 @@ def test_validate_entry_rejects_bad_source_refs():
 
 
 def test_registry_errors_survives_entries_without_ids():
-    from yellowstone_python import param_registry as P
+    import yellowstone_python.registry.param_registry as P
     original = P.PARAMS
     try:
         P.PARAMS = [{"meaning": "no id"}, _entry(), _entry()]

@@ -8,3 +8,15 @@ derived/analysis_*.sqlite
 derived/*.png
 derived/hot_lowflow*.json
 derived/fischer_d85_replay.json
+
+.opencode/
+.venv/
+*.egg-info/
+build/
+dist/
+data/lidar/raw/
+data/treemap/raw/
+derived/lidar_canopy/
+derived/live/
+derived/mat_model_check*/
+work/

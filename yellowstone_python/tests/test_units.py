@@ -1,10 +1,8 @@
-import warnings
-
 import pytest
 
 from yellowstone_python.common.units import (M3S_PER_US_GPM, UnitError, c_to_k,
-                                             gpm_to_m3s, label_index,
-                                             m3s_to_gpm, m3s_to_us_gpm,
+                                             k_to_c, label_index,
+                                             m3s_to_us_gpm,
                                              require_fraction, us_gpm_to_m3s)
 
 
@@ -16,7 +14,7 @@ def test_excelsior_reference():
 def test_mismatch_raises():
     with pytest.raises(UnitError):
         us_gpm_to_m3s(-1)
-    with pytest.raises(UnitError):
+    with pytest.raises(ValueError):
         require_fraction("x", 1.5)
     idx = label_index("biomass", 0.8)
     assert idx["units"] == "dimensionless_index_0_1"
@@ -35,14 +33,18 @@ def test_c_below_absolute_zero_rejected():
         c_to_k(-500.0)
 
 
-def test_deprecated_aliases_warn_and_match():
-    with warnings.catch_warnings(record=True) as caught:
-        warnings.simplefilter("always")
-        v = gpm_to_m3s(1.0)
-        assert any(issubclass(w.category, DeprecationWarning) for w in caught)
-    assert abs(v - us_gpm_to_m3s(1.0)) < 1e-18
-    with warnings.catch_warnings(record=True) as caught:
-        warnings.simplefilter("always")
-        v = m3s_to_gpm(1.0)
-        assert any(issubclass(w.category, DeprecationWarning) for w in caught)
-    assert abs(v - m3s_to_us_gpm(1.0)) < 1e-12
+def test_flow_converters_round_trip():
+    assert m3s_to_us_gpm(us_gpm_to_m3s(1.0)) == pytest.approx(1.0)
+
+
+@pytest.mark.parametrize("converter", [c_to_k, k_to_c, us_gpm_to_m3s, m3s_to_us_gpm])
+@pytest.mark.parametrize("value", [True, False, "1.0", float("nan"), float("inf"), None])
+def test_converters_reject_coercible_and_nonfinite_inputs(converter, value):
+    with pytest.raises(UnitError):
+        converter(value)
+
+
+@pytest.mark.parametrize("converter", [c_to_k, k_to_c, us_gpm_to_m3s, m3s_to_us_gpm])
+def test_converters_accept_numpy_real_scalars(converter):
+    import numpy as np
+    assert converter(np.float64(1.0)) == pytest.approx(converter(1.0))

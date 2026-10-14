@@ -1,7 +1,7 @@
 # Yellowstone Python Build Spec — 11 Modules to Write
 
-Package root (new): `/Users/kreed/Downloads/yellowstone_python/`
-Build root: `yellowstone_midway/` = `/Users/kreed/Downloads/yellowstone_midway/`
+Package root (new): `../../yellowstone_python/`
+Build root: `yellowstone_midway/` = `../../yellowstone_midway/`
 Rule: Python reads immutable inputs, writes `derived/<build-id>/`, validates, then *publishes* (copies) into `yellowstone_midway/data/` or `assets/textures/`. Never mutate `references/` or bake in place. Never resample `data/placements.json` at runtime — proposals become stable sidecars with persistent IDs.
 
 Conventions for every module: inputs hashed (SHA256), outputs carry `{contract_version:"0.1.0", world_id:"yellowstone_midway", code_rev, deps, params, seed, units, status:"illustrative ...", parameter_provenance}` per `SHARED_WORLD_CONTRACT.md` §8.1. Clocks in physical seconds; `day_rate` only phases lighting. Conserve volume + heat; report boundary fluxes and state deltas separately.

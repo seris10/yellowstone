@@ -4,12 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from yellowstone_python.fish import (build_chainage, chainage_to_index,
-                                     place_trout_at_chainage, update_trout)
+from yellowstone_python.aquatic.fish import build_chainage, chainage_to_index, place_trout_at_chainage, update_trout
 from yellowstone_python.insects_birds import update_wildlife_from_intake
 
-from paths import ECO_FROZEN as ECO
-from paths import WORLD_JSON as WORLD
 
 
 def _data():
@@ -140,3 +137,14 @@ def test_intake_basis_is_absent_when_not_supplied():
                  "forage_seconds": 18.0}]
     out = update_wildlife_from_intake(wildlife, {"dipper": 0.04})
     assert "intake_basis" not in out[0]
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'ECO', resolved_paths['ECO_FROZEN'], raising=False)
+    monkeypatch.setattr(module, 'WORLD', resolved_paths['WORLD_JSON'], raising=False)

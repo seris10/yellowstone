@@ -1,6 +1,6 @@
 class_name MidwayWildlifeActor
 extends Node3D
-## Articulated shape proxies at approximate real dimensions; routes and counts authored in JSON. Actors never sample new habitat at runtime.
+## Wildlife presentation at authored body dimensions.
 var record: Dictionary = {}
 var state: String = "rest"
 var _terrain: RefCounted
@@ -30,8 +30,18 @@ var _moving: bool = false
 var _activity: float = 1.0
 var _perch_height: float = 0.0
 var _asset_backed: bool = false
+var chainage_m: float = NAN
+var target_s_m: float = NAN
+var swim_speed_mps: float = 0.0
+var tailbeat_hz: float = 0.0
+var _last_sim_time: float = 0.0
+var _animation_player: AnimationPlayer
+var _swim_clips: Dictionary = {}
+var _motion: MidwayWildlifeMotionController
+var _mammal_elapsed: float = 0.0
+var _mammal_behavior: String = "rest"
 
-## Licensed third-party fauna models (data/asset_manifest.json): shipped facing +Z, yaw PI turns them to Godot-forward (-Z), per-individual tint from record.individual.tint_rgb, mode ground places the bounding-box bottom at y=0 and center vertically centers fish.
+## Fauna dimensions and orientation from the asset manifest.
 const FAUNA: Dictionary = {
 	"bison": {"path": "res://assets/imported/fauna/bison/bison.glb", "mode": "ground", "yaw": PI, "tint": Vector3(1.0, 1.0, 1.0)},
 	"goose": {"path": "res://assets/imported/fauna/goose/goose_mallard_base.glb", "mode": "ground", "yaw": PI, "tint": Vector3(1.0, 1.0, 1.0), "material": "res://assets/imported/fauna/goose/canada_goose_material.tres"},
@@ -41,7 +51,7 @@ const FAUNA: Dictionary = {
 	"brown_trout": {"path": "res://assets/imported/fauna/trout/trout.glb", "mode": "center", "yaw": PI, "tint": Vector3(1.08, 0.92, 0.62)},
 }
 
-## Optional authored override: a wildlife_species_asset_map top-level block in data/asset_manifest.json with kind strings as keys and {path, mode, yaw, tint, material, length_axis} values; missing fields fall back to the hardcoded entry above. length_axis selects which bounding-box dimension carries the model's body length ("x", "y" or "z"; default "z"); yaw rotates the mesh so the chosen axis points to Godot forward (-Z).
+## Species geometry and per-asset orientation overrides.
 static var _manifest_fauna_cache: Dictionary = {}
 static var _manifest_fauna_loaded: bool = false
 
@@ -49,13 +59,14 @@ static func _manifest_fauna() -> Dictionary:
 	if _manifest_fauna_loaded:
 		return _manifest_fauna_cache
 	_manifest_fauna_loaded = true
-	if not FileAccess.file_exists("res://data/asset_manifest.json"):
-		return _manifest_fauna_cache
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/asset_manifest.json"))
-	if parsed is Dictionary and parsed.has("wildlife_species_asset_map"):
-		var mapping: Variant = parsed["wildlife_species_asset_map"]
-		if mapping is Dictionary:
-			_manifest_fauna_cache = mapping
+	for path: String in ["res://data/wildlife_motion_assets.json", "res://data/asset_manifest.json"]:
+		if not FileAccess.file_exists(path):
+			continue
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		if parsed is Dictionary:
+			var mapping: Variant = parsed.get("wildlife_species_asset_map", {})
+			if mapping is Dictionary:
+				_manifest_fauna_cache.merge(mapping, true)
 	return _manifest_fauna_cache
 
 func _resolve_fauna(kind: String) -> Dictionary:
@@ -94,6 +105,8 @@ func setup(data: Dictionary, terrain: RefCounted, ecosystem: Node) -> void:
 		return
 	position = _route[0]
 	_world_position = _route[0]
+	_last_sim_time = float(_ecosystem.elapsed)
+	_mammal_elapsed = float(_ecosystem.elapsed)
 	_target_index = 1 if _route.size() > 1 else 0
 	state = str(record.get("initial_state", "graze" if _kind == "bison" or _kind == "elk" else "perch"))
 
@@ -107,7 +120,7 @@ func _ready() -> void:
 	_body.scale = Vector3.ONE * float(record.get("scale", 1.0))
 	var resolved_fauna: Dictionary = _resolve_fauna(_kind)
 	if not resolved_fauna.is_empty() and _build_asset_visual(resolved_fauna):
-		pass  # Licensed model instantiated.
+		pass
 	else:
 		match _kind:
 			"bison", "elk":
@@ -131,7 +144,7 @@ func _ready() -> void:
 		_face(_route[1] - _route[0], 1.0)
 	_sync_feeding()
 
-## Instantiate the licensed model, normalize to the record's body length, apply individual tint. Returns false when asset or record length missing.
+## Normalize asset geometry to the authored body length.
 func _build_asset_visual(spec: Dictionary) -> bool:
 	var path: String = str(spec.get("path", ""))
 	if not ResourceLoader.exists(path):
@@ -139,23 +152,26 @@ func _build_asset_visual(spec: Dictionary) -> bool:
 		return false
 	var dims: Dictionary = record.get("approx_dimensions_m", {})
 	var target_len: float = float(dims.get("length", dims.get("body_length", 0.0)))
-	if target_len <= 0.0:
+	if not is_finite(target_len) or target_len <= 0.0:
 		push_warning("Fauna asset actor lacks authored body length, using shape proxy: " + _id)
 		return false
 	var packed: PackedScene = load(path)
 	if packed == null:
 		push_warning("Fauna asset failed to load, using shape proxy: " + path)
 		return false
-	var inst: Node3D = packed.instantiate()
+	var imported: Node3D = packed.instantiate()
+	var inst: Node3D = Node3D.new()
+	inst.name = "NormalizedAsset"
+	inst.add_child(imported)
 	var aabb: AABB = _combined_aabb(inst)
-	# length_axis names which bounding-box dimension carries body length; "z" is the project default for GLBs shipped facing +Z.
+	# Select the body-length axis in the imported coordinate frame.
 	var length_axis: String = str(spec.get("length_axis", "z")).to_lower()
 	var length_size: float = aabb.size.z
 	if length_axis == "x":
 		length_size = aabb.size.x
 	elif length_axis == "y":
 		length_size = aabb.size.y
-	if length_size <= 0.0:
+	if not is_finite(length_size) or length_size <= 0.0:
 		inst.free()
 		return false
 	var norm: float = target_len / length_size
@@ -165,10 +181,11 @@ func _build_asset_visual(spec: Dictionary) -> bool:
 		inst.position.y = -(aabb.position.y + aabb.size.y * 0.5) * norm
 	else:
 		inst.position.y = -aabb.position.y * norm
-	# Center the mesh horizontally so the body pivot sits over the actor origin regardless of which axis carries length.
-	inst.position.x = -(aabb.position.x + aabb.size.x * 0.5) * norm
-	inst.position.z = -(aabb.position.z + aabb.size.z * 0.5) * norm
-	# Manifest tint arrives as a JSON Array (three floats) or a Vector3 from the fauna table; normalize before use.
+	var center: Vector3 = aabb.position + aabb.size * 0.5
+	var rotated_center: Vector3 = Basis(Vector3.UP, inst.rotation.y) * Vector3(center.x, 0.0, center.z)
+	inst.position.x = -rotated_center.x * norm
+	inst.position.z = -rotated_center.z * norm
+	# Decode the manifest tint.
 	var raw_tint: Variant = spec.get("tint", Vector3.ONE)
 	var tint: Vector3 = Vector3.ONE
 	if raw_tint is Vector3:
@@ -185,28 +202,40 @@ func _build_asset_visual(spec: Dictionary) -> bool:
 	if spec.has("material") and ResourceLoader.exists(str(spec["material"])):
 		override_material = load(str(spec["material"]))
 	_apply_look(inst, tint, override_material)
-	var range_end: float = 270.0 if _kind == "bison" or _kind == "elk" else 135.0
+	var range_end: float = 270.0 if _is_mammal() else 135.0
 	_set_visibility_range(inst, range_end)
 	_body.add_child(inst)
 	_asset_backed = true
-	set_meta("art_status", "Licensed third-party model (asset_manifest.json); per-individual tint from python trait pipeline")
+	if _kind.contains("trout"):
+		_find_swim_animations(inst)
+	if _is_mammal() and spec.has("clip_manifest"):
+		var clip_path: String = str(spec.clip_manifest)
+		var manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string(clip_path)) if FileAccess.file_exists(clip_path) else null
+		if manifest is Dictionary:
+			_motion = MidwayWildlifeMotionController.new()
+			if not _motion.configure(inst, manifest, norm * _body.scale.x, _phase):
+				push_warning("Mammal clip contract unavailable: " + _id)
+				_motion = null
+	set_meta("art_status", spec.get("art_status", "third_party_asset"))
+	set_meta("geometry_rights", spec.get("geometry_rights", "asset_manifest"))
 	return true
 
 func _combined_aabb(node: Node) -> AABB:
 	var total: AABB = AABB()
 	var first: bool = true
-	var stack: Array = [node]
+	var stack: Array = [[node, Transform3D.IDENTITY]]
 	while not stack.is_empty():
-		var n: Node = stack.pop_back()
-		if n is MeshInstance3D:
-			var b: AABB = n.get_aabb()
-			if first:
-				total = b
-				first = false
-			else:
-				total = total.merge(b)
-		for c: Node in n.get_children():
-			stack.append(c)
+		var entry: Array = stack.pop_back()
+		var current: Node = entry[0]
+		var transform: Transform3D = entry[1]
+		if current is Node3D:
+			transform = transform * current.transform
+		if current is MeshInstance3D and current.mesh != null:
+			var bounds: AABB = transform * current.get_aabb()
+			total = bounds if first else total.merge(bounds)
+			first = false
+		for child: Node in current.get_children():
+			stack.append([child, transform])
 	return total
 
 func _apply_look(node: Node, tint: Vector3, override_material: Material) -> void:
@@ -215,6 +244,9 @@ func _apply_look(node: Node, tint: Vector3, override_material: Material) -> void
 		var n: Node = stack.pop_back()
 		if n is MeshInstance3D:
 			var mi: MeshInstance3D = n
+			if mi.mesh == null:
+				continue
+			mi.mesh = mi.mesh.duplicate()
 			for s: int in range(mi.mesh.get_surface_count()):
 				var base: Material = mi.get_active_material(s)
 				var mat: StandardMaterial3D
@@ -224,8 +256,11 @@ func _apply_look(node: Node, tint: Vector3, override_material: Material) -> void
 					mat = base.duplicate()
 				else:
 					mat = StandardMaterial3D.new()
+				if bool(record.get("ghost", false)):
+					mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+					mat.albedo_color.a = 0.3
 				mat.albedo_color = Color(mat.albedo_color.r * tint.x, mat.albedo_color.g * tint.y, mat.albedo_color.b * tint.z, mat.albedo_color.a)
-				mi.set_surface_override_material(s, mat)
+				mi.mesh.surface_set_material(s, mat)
 		for c: Node in n.get_children():
 			stack.append(c)
 
@@ -288,8 +323,12 @@ func _build_route(world: Dictionary) -> void:
 			_route.append(point)
 	var length_m: float = 0.0
 	for i: int in range(1, _route.size()):
+		if _medium == "land" and _crosses_thermal_pool(_route[i - 1], _route[i], world):
+			push_error("Rejected land route crossing a thermal pool: " + _id)
+			_route.clear()
+			return
 		length_m += _route[i - 1].distance_to(_route[i])
-	# Authored route length cap, in meters. Defaults to 200m scope.
+	# Bound the authored route length in meters.
 	var max_route_length_m: float = float(record.get("max_route_length_m", 200.0))
 	if length_m > max_route_length_m:
 		push_error("Local wildlife route exceeds authored %sm scope: %s" % [max_route_length_m, _id])
@@ -306,11 +345,32 @@ func _inside_thermal_pool(point: Vector2, world: Dictionary) -> bool:
 			return true
 	return false
 
+func _crosses_thermal_pool(a: Vector3, b: Vector3, world: Dictionary) -> bool:
+	var start: Vector2 = Vector2(a.x, a.z)
+	var end: Vector2 = Vector2(b.x, b.z)
+	for pool: Dictionary in world.get("pools", []):
+		if not bool(pool.get("thermal", false)):
+			continue
+		var polygon: Array = pool.get("ring", [])
+		for index: int in range(polygon.size()):
+			var p: Array = polygon[index]
+			var q: Array = polygon[(index + 1) % polygon.size()]
+			if Geometry2D.segment_intersects_segment(start, end, Vector2(float(p[0]), float(p[1])), Vector2(float(q[0]), float(q[1]))) != null:
+				return true
+	return false
+
 func _ground_height(x: float, z: float) -> float:
 	return float(_terrain.call("sample", x, z))
 
 func _process(delta: float) -> void:
+	if _ecosystem != null and (bool(_ecosystem.get("paused")) or bool(_ecosystem.get("clock_held"))):
+		if _animation_player != null:
+			_animation_player.speed_scale = 0.0
+		return
 	if not _valid or _body == null:
+		return
+	if _is_mammal():
+		_process_mammal()
 		return
 	var dt: float = maxf(0.0, minf(delta, 0.25))
 	_time += dt
@@ -329,6 +389,66 @@ func _process(delta: float) -> void:
 		_update_insects(habitat)
 	_body.position = _world_position - position
 	_animate(dt)
+	_sync_feeding()
+
+func _is_mammal() -> bool:
+	return record.has("mammal_guild") or _kind in ["bison", "elk", "bobcat", "grizzly", "badger", "wolf", "deer", "gray_wolf", "mule_deer", "american_badger", "black_bear", "canada_lynx", "canadian_lynx"]
+
+func _process_mammal() -> void:
+	var current_time: float = float(_ecosystem.elapsed)
+	if not is_finite(current_time):
+		push_error("Mammal simulation time is nonfinite: " + _id)
+		return
+	var dt: float = maxf(0.0, current_time - _mammal_elapsed)
+	_mammal_elapsed = current_time
+	var ecology: Dictionary = {}
+	if _ecosystem.has_method("mammal_state"):
+		ecology = _ecosystem.call("mammal_state", _id, _kind, _world_position)
+	visible = bool(ecology.get("active", true))
+	var activity: float = float(ecology.get("activity_index", 1.0))
+	var speed_multiplier: float = float(ecology.get("speed_multiplier", 1.0))
+	if not is_finite(activity) or not is_finite(speed_multiplier) or speed_multiplier < 0.0:
+		push_error("Mammal ecological controls are invalid: " + _id)
+		visible = false
+		state = "rest"
+		_sync_feeding()
+		return
+	_activity = clampf(activity, 0.0, 1.0)
+	if not visible:
+		state = "rest"
+		_sync_feeding()
+		return
+	var desired: String = str(ecology.get("behavior", ""))
+	var remaining: float = dt
+	while remaining > 0.0:
+		var step: float = minf(1.0, remaining)
+		remaining -= step
+		_time += step
+		_state_age += step
+		_moving = false
+		var previous: Vector3 = _world_position
+		if not desired.is_empty():
+			if state != desired:
+				_set_state(desired)
+			if desired in ["walk", "forage", "flee"]:
+				if _move_toward_target(step, float(record.get("walk_mps", 0.6)) * speed_multiplier):
+					_next_target()
+		elif _kind == "bison" or _kind == "elk":
+			_update_ungulate(step, _ecosystem.call("patch", _patch_id))
+		else:
+			if state in ["rest", "alert"] and _state_age >= float(record.get("rest_seconds", 18.0)):
+				_set_state("walk")
+			elif state == "walk" and _move_toward_target(step, float(record.get("walk_mps", 0.6)) * speed_multiplier):
+				_next_target()
+				_set_state("rest")
+		var travel: float = Vector2(_world_position.x - previous.x, _world_position.z - previous.z).length()
+		if _motion != null:
+			_motion.advance(state, step, travel, bool(record.get("ghost", false)))
+		_body.position = _world_position - position
+		if _motion == null:
+			_animate(step)
+	set_meta("mammal_activity", _activity)
+	set_meta("motion_clip", _motion.last_clip if _motion != null else "static_or_shape_proxy")
 	_sync_feeding()
 
 func _set_state(next_state: String) -> void:
@@ -381,25 +501,80 @@ func _update_bird(dt: float) -> void:
 				_set_state("perch")
 
 func _update_fish(dt: float) -> void:
-	var reach: Dictionary
-	if _ecosystem.has_method("river_state_at_position"):
-		reach = _ecosystem.call(
-			"river_state_at_position",
-			_world_position,
-			str(record.get("river_id", ""))
-		)
+	var river_id: String = str(record.get("river_id", ""))
+	var reach: Dictionary = _ecosystem.call("river_state_at_position", _world_position, river_id, _id) if _ecosystem.has_method("river_state_at_position") else _ecosystem.call("reach_at", _world_position.z)
+	_activity = float(reach.get("feeding_by_species", {}).get(_kind, reach.get("feeding", reach.get("fish_activity", 0.0))))
+	var trout: Dictionary = _ecosystem.call("trout_state", _id) if _ecosystem.has_method("trout_state") else {}
+	if not trout.is_empty():
+		if not reach.get("feeding_by_species", {}).has(_kind) and not reach.has("feeding"):
+			_activity = float(trout.get("feeding", _activity))
+		var next_target: float = float(trout.get("refuge_s_m", trout.get("s_m", NAN)))
+		if is_finite(next_target):
+			target_s_m = next_target
+	if not is_finite(chainage_m):
+		chainage_m = float(reach.get("projected_s_m", reach.get("s_m", NAN)))
+	var physical_dt: float = maxf(0.0, float(_ecosystem.elapsed) - _last_sim_time)
+	_last_sim_time = maxf(_last_sim_time, float(_ecosystem.elapsed))
+	if is_finite(target_s_m) and is_finite(chainage_m) and _ecosystem.has_method("position_at_s"):
+		var length: float = float(record.get("approx_dimensions_m", {}).get("body_length", 0.35))
+		var sustained: float = float(record.get("sustained_swim_bl_s", _ecosystem.params.get("fish_sustained_swim_bl_s", 1.5)))
+		var refuge_drive: float = float(reach.get("refuge_drive", trout.get("refuge_drive", 0.0)))
+		swim_speed_mps = length * sustained * maxf(0.08, maxf(_activity, refuge_drive))
+		var previous_s: float = chainage_m
+		chainage_m = move_toward(chainage_m, target_s_m, swim_speed_mps * physical_dt)
+		var next: Vector3 = _ecosystem.call("position_at_s", chainage_m, river_id)
+		next.y += float(record.get("water_offset_m", 0.0))
+		_face(next - _world_position, 1.0)
+		_world_position = next
+		_moving = chainage_m != previous_s
+		state = "hold" if is_equal_approx(chainage_m, target_s_m) else "swim"
+		if state == "hold":
+			swim_speed_mps = 0.0
 	else:
-		reach = _ecosystem.call("reach_at", _world_position.z)
-	_activity = float(reach.get("fish_activity", 0.0))
-	if state == "hold":
-		if _route.size() > 1:
-			_face(_route[0] - _route[_route.size() - 1], minf(1.0, dt * 2.0))
-		if _state_age > float(record.get("hold_seconds", 9.0)):
-			_set_state("swim")
-	elif state == "swim":
-		if _move_toward_target(dt, float(record.get("walk_mps", 0.2)) * maxf(0.08, _activity)):
+		swim_speed_mps = float(record.get("walk_mps", 0.2)) * maxf(0.08, _activity)
+		if state == "hold":
+			if _state_age > float(record.get("hold_seconds", 9.0)):
+				_set_state("swim")
+		elif state == "swim" and _move_toward_target(dt, swim_speed_mps):
 			_next_target()
 			_set_state("hold")
+	_update_swim_clip(swim_speed_mps + absf(float(reach.get("velocity_mps", 0.0))))
+	set_meta("feeding", _activity)
+	set_meta("chainage_m", chainage_m)
+	set_meta("target_s_m", target_s_m)
+
+static func required_tailbeat_hz(relative_speed_mps: float, length_m: float) -> float:
+	# Bainbridge (1958) relation transferred to trout; below 5 Hz is extrapolated.
+	return 4.0 / 3.0 * (maxf(0.0, relative_speed_mps) / maxf(length_m, 0.001) + 1.0)
+
+func _find_swim_animations(node: Node) -> void:
+	if node is AnimationPlayer:
+		_animation_player = node
+		for clip: StringName in _animation_player.get_animation_list():
+			for pair: Array in [["Hold_1Hz", 1.0], ["Cruise_2Hz", 2.0], ["Burst_3Hz", 3.0]]:
+				if str(clip).contains(pair[0]):
+					_swim_clips[str(clip)] = pair[1]
+					_animation_player.get_animation(clip).loop_mode = Animation.LOOP_LINEAR
+	for child: Node in node.get_children():
+		_find_swim_animations(child)
+
+func _update_swim_clip(relative_speed_mps: float) -> void:
+	var length: float = float(record.get("approx_dimensions_m", {}).get("body_length", 0.35))
+	tailbeat_hz = required_tailbeat_hz(relative_speed_mps, length)
+	if _animation_player == null or _swim_clips.is_empty():
+		return
+	var chosen: String = ""
+	var distance: float = INF
+	for clip: String in _swim_clips:
+		var d: float = absf(tailbeat_hz - float(_swim_clips[clip]))
+		if d < distance:
+			distance = d
+			chosen = clip
+	if _animation_player.current_animation != chosen:
+		_animation_player.play(chosen, 0.12)
+	_animation_player.speed_scale = tailbeat_hz / float(_swim_clips[chosen])
+	set_meta("tailbeat_hz", tailbeat_hz)
+	set_meta("tailbeat_basis", "Bainbridge 1958 transferred to trout; sub-5 Hz extrapolation")
 
 func _update_insects(habitat: Dictionary) -> void:
 	_activity = float(habitat.get("insect_activity", 0.0))
@@ -439,8 +614,8 @@ func _move_toward_target(dt: float, speed: float) -> bool:
 			var perch_distance: float = Vector2(next.x - _route[0].x, next.z - _route[0].z).length()
 			next.y += _perch_height * clampf(1.0 - perch_distance / 0.4, 0.0, 1.0)
 	elif (_medium == "river" or _medium == "river_bank") and _ecosystem != null and _ecosystem.has_method("river_state_at_position"):
-		# River routes resample water_surface_m per step so per-cell variation lifts aquatic actors with it.
-		var reach_state: Dictionary = _ecosystem.call("river_state_at_position", next, str(record.get("river_id", "")))
+		# Resample river surface elevation at each step.
+		var reach_state: Dictionary = _ecosystem.call("river_state_at_position", next, str(record.get("river_id", "")), _id)
 		var surface: float = float(reach_state.get("water_surface_m", NAN))
 		if is_finite(surface):
 			if _medium == "river":
@@ -453,7 +628,7 @@ func _move_toward_target(dt: float, speed: float) -> bool:
 	return step_distance >= distance - 0.001
 
 func _face(direction: Vector3, weight: float) -> void:
-	# Body yaw aligns the local -Z axis with the direction vector; the fauna spec yaw rotates the GLB first so its mesh forward also lines up.
+	# Align the local forward axis to travel.
 	if _body == null or Vector2(direction.x, direction.z).length_squared() < 0.000001:
 		return
 	var yaw: float = atan2(-direction.x, -direction.z)
@@ -481,8 +656,8 @@ func _animate(dt: float) -> void:
 	elif _kind == "rainbow_trout" or _kind == "brown_trout":
 		if _tail != null:
 			_tail.rotation.y = sin(_time * (8.0 if _moving else 3.0)) * (0.3 if _moving else 0.12)
-		else:
-			# Asset-backed model has no tail node; whole-body roll.
+		elif _animation_player == null:
+			# Unrigged asset roll.
 			_body.rotation.z = lerpf(_body.rotation.z, sin(_time * (3.5 if _moving else 1.6)) * 0.07, minf(1.0, dt * 3.0))
 		_body.position.y += sin(_time * 1.3) * 0.012
 
@@ -490,12 +665,16 @@ func _sync_feeding() -> void:
 	if _ecosystem == null or not is_instance_valid(_ecosystem):
 		return
 	if _kind == "bison" or _kind == "elk":
-		_ecosystem.call("set_grazer_activity", _id, _patch_id, state == "graze", float(record.get("grazing_index_per_second", 0.0000015)))
+		_ecosystem.call("set_grazer_activity", _id, _patch_id, visible and state == "graze", float(record.get("grazing_index_per_second", 0.0000015)))
 	elif _kind == "dipper" or _kind == "rainbow_trout" or _kind == "brown_trout":
-		var feeding: bool = (state == "forage" and not _moving) if _kind == "dipper" else (state == "hold" and _activity > 0.3)
+		var feeding: bool = (state == "forage" and not _moving) if _kind == "dipper" else (state == "hold" and _activity > 0.0)
 		_ecosystem.call("set_insect_forager_activity", _id, _patch_id, feeding, float(record.get("insect_index_per_second", 0.000003)))
 
 func _exit_tree() -> void:
+	if _motion != null:
+		_motion.stop()
+	if is_instance_valid(_animation_player):
+		_animation_player.stop()
 	if is_instance_valid(_ecosystem):
 		_ecosystem.call("unregister_actor", _id)
 
@@ -610,7 +789,7 @@ func _make_goose() -> void:
 	_ellipsoid(_body, Vector3(0, 0.15, 0.34), Vector3(0.23, 0.15, 0.23), black)
 
 func _make_small_bird(is_raven: bool) -> void:
-	# Mesh construction has a 0.31 m beak-to-tail envelope before scaling; species sizes 0.20 m dipper and 0.55 m raven.
+	# Scale the authored 0.31 m bird envelope.
 	var multiplier: float = 1.55 if is_raven else 0.65
 	_body.scale *= multiplier
 	var feather: StandardMaterial3D = _material(Color(0.06, 0.072, 0.065) if is_raven else Color(0.20, 0.23, 0.22))

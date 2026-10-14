@@ -1,7 +1,7 @@
 # Spec: tools/validate_obs_bundles.py — observation-bundle gate
 
 Status: spec (authored 2026-10-10, pycl-2). Transferred claims cite file:line verified 2026-10-10; authored claims are marked [AUTHORED].
-No code written; no deletions. Target: `tools/validate_obs_bundles.py` in `/Users/kreed/Downloads/yellowstone_python/`.
+No code written; no deletions. Target: `tools/validate_obs_bundles.py` in `../../yellowstone_python/`.
 
 ## 1. Purpose + non-goals
 

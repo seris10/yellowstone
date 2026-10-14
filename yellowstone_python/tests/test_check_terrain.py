@@ -1,4 +1,4 @@
-"""Tests for tools/check_terrain.py (synthetic/offline only)."""
+"""Synthetic terrain guard and CLI checks."""
 
 import subprocess
 import sys
@@ -6,9 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from tools.check_terrain import (DEFAULT_MAX_M, DEFAULT_MIN_M, N_BYTES,
+from yellowstone_python.validation.terrain import (DEFAULT_MAX_M, DEFAULT_MIN_M, N_BYTES,
                                  guard_terrain)
 
 TOOL = Path(__file__).resolve().parents[1] / "tools" / "check_terrain.py"

@@ -1,6 +1,4 @@
-from yellowstone_python.grazers import (check_routes, graze_timing,
-                                              plan_path, route_length,
-                                              update_grazers)
+from yellowstone_python.land.grazers import check_routes, graze_timing, plan_path, route_length, update_grazers
 
 
 def test_existing_bison_loops_valid():
@@ -45,14 +43,14 @@ def test_grazer_update_keeps_ids_and_hypotheses():
 
 
 def test_segment_sampling_catches_midpoint_crossing():
-    from yellowstone_python.grazers import segment_samples
+    from yellowstone_python.land.grazers import segment_samples
     pts = list(segment_samples((-10, 0), (10, 0)))
     assert any(abs(x) < 1e-9 for x, z in pts)
 
 
 def test_planner_rejects_blocked_endpoints_and_corner_cuts():
     import pytest
-    from yellowstone_python.grazers import plan_path, segment_samples
+    from yellowstone_python.land.grazers import plan_path, segment_samples
     with pytest.raises(ValueError):
         plan_path((0, 0), (5, 5), lambda x, z: True)
     # Wall with a gap: path must go through the gap, never cut corners.
@@ -70,7 +68,7 @@ def test_planner_rejects_blocked_endpoints_and_corner_cuts():
 
 
 def test_grazer_timing_uses_capacity_fraction():
-    from yellowstone_python.grazers import update_grazers
+    from yellowstone_python.land.grazers import update_grazers
     wl = [{"id": "b1", "kind": "bison", "patch_id": "m",
            "graze_seconds": 24, "rest_seconds": 18}]
     rich = update_grazers(wl, [{"id": "m", "biomass": 1.6, "capacity": 2.0}])[0]

@@ -1,7 +1,4 @@
-"""Tests for the staged river-transport calibrator (offline, synthetic).
-
-Recovers Q_lat, T_lat, c_mult within tolerances for the single-cell model on a two-day window.
-"""
+"""Tests for the staged river-transport calibrator (offline, synthetic)."""
 from __future__ import annotations
 
 import json
@@ -12,15 +9,13 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 from tools.calibrate_river_transport import (  # noqa: E402
     OBSERVATION_HIERARCHY,
     SCHEMA_STAGED,
     STAGE_PLAN,
     SURFACE_IDENTIFIABILITY,
     StagedConfig,
-    _forcing_arrays,
+    fit_forcing_arrays,
     main,
     observation_hierarchy_report,
     run_staged,
@@ -30,7 +25,7 @@ from tools.calibrate_river_transport import (  # noqa: E402
     stage_d_surface,
     write_stage_files,
 )
-from yellowstone_python.replay.calibrate import run_fit_forward  # noqa: E402
+from yellowstone_python.river.calibrate import run_fit_forward  # noqa: E402
 
 
 def _synthetic_bundle(truth=(2.0, 25.0, 1.0), days=2, dt_s=1800.0,
@@ -97,14 +92,25 @@ class TestObservationHierarchy:
         for field in SURFACE_IDENTIFIABILITY:
             assert field in report["surface_params_not_identifiable"]
 
-    def test_longwave_channel_unlocks_radiation_params(self):
+    def test_longwave_channel_identifies_longwave_parameters(self):
         bundle = _synthetic_bundle(
             optional_channels={"longwave_down_w_m2": [[0.0, 310.0]]})
         report = observation_hierarchy_report(bundle)
-        for field in ("shortwave_multiplier", "longwave_multiplier",
+        assert "shortwave_multiplier" in report["surface_params_not_identifiable"]
+        for field in ("longwave_multiplier",
                       "longwave_bias_w_m2", "cloud_longwave_factor"):
             assert field in report["surface_params_identifiable"]
         assert "a_RH" in report["surface_params_not_identifiable"]
+
+    def test_measured_shortwave_or_net_radiation_identifies_shortwave(self):
+        bundle = _synthetic_bundle()
+        bundle["met"]["shortwave_source"] = "measured_station"
+        report = observation_hierarchy_report(bundle)
+        assert "shortwave_multiplier" in report["surface_params_identifiable"]
+        bundle["met"].pop("shortwave_source")
+        bundle["flux_station"] = {"net": [[0.0, 200.0]]}
+        report = observation_hierarchy_report(bundle)
+        assert "shortwave_multiplier" in report["surface_params_identifiable"]
 
     def test_hierarchy_covers_four_categories(self):
         assert set(OBSERVATION_HIERARCHY) == {
@@ -328,7 +334,7 @@ class TestRunStagedEndToEnd:
 class TestForcingHelper:
     def test_forcing_arrays_match_grid_cardinality(self):
         bundle = _synthetic_bundle(dt_s=1800.0)
-        arrays = _forcing_arrays(bundle, dt_s=1800.0)
+        arrays = fit_forcing_arrays(bundle, dt_s=1800.0)
         n = len(arrays["grid"])
         for key in ("up_t", "up_q", "air", "rh", "wind", "sw", "cloud"):
             assert len(arrays[key]) == n

@@ -1,5 +1,5 @@
 # fixes-20 ledger
-Doc: fixes/fixes-20-usgs_nwis.md | read 2026-10-12 | targets: yellowstone_python/tools/usgs_nwis.py sha256:0360139e4f74 ; /Users/kreed/Downloads/ystone-fixed-scripts/usgs_nwis.py sha256:b4ac62c0efe9 (import-checked in scratchpad, never copied in)
+Doc: fixes/fixes-20-usgs_nwis.md | read 2026-10-12 | targets: yellowstone_python/tools/usgs_nwis.py sha256:0360139e4f74 ; ../../ystone-fixed-scripts/usgs_nwis.py sha256:b4ac62c0efe9 (import-checked in scratchpad, never copied in)
 Summary: 17 items: 17 implemented, 0 shortcut, 0 partial, 0 missing, 0 superseded, 0 conflicts (live project); Downloads verdicts counted separately below in `downloads verdict` column
 
 | item | requirement (one line) | verdict | evidence file:line | note (one line) | cost cheap/medium/refactor | downloads verdict |

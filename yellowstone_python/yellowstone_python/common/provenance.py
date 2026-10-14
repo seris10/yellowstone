@@ -1,5 +1,7 @@
-"""M00 provenance: hashes, build ids, sidecars (SHARED_WORLD_CONTRACT 8.1)."""
+"""provenance: hashes, build ids, sidecars (provenance contract)."""
 from __future__ import annotations
+
+from yellowstone_python.common.io import sha256_file, write_json_atomic
 
 import hashlib
 import json
@@ -42,12 +44,6 @@ def resolve_code_rev(repo_root: str | Path | None = None) -> tuple[str, str]:
     return (FALLBACK_CODE_REV, "fallback")
 
 
-def sha256_file(path: str | Path) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
 
 
 def sha256_json(obj) -> str:
@@ -80,21 +76,5 @@ def write_sidecar(path: str | Path, payload: dict, sources: list,
                                   **params},
         "sources": sources,
     }
-    p = Path(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    text = json.dumps(doc, indent=2, sort_keys=True)
-    tmp_name = None
-    try:
-        with tempfile.NamedTemporaryFile(
-                "w", delete=False, dir=p.parent,
-                prefix=p.name + ".", suffix=".tmp", encoding="utf-8") as handle:
-            handle.write(text)
-            handle.flush()
-            os.fsync(handle.fileno())
-            tmp_name = handle.name
-        os.replace(tmp_name, p)
-        tmp_name = None
-    finally:
-        if tmp_name is not None and os.path.exists(tmp_name):
-            os.unlink(tmp_name)
+    write_json_atomic(path, doc, indent=2)
     return doc

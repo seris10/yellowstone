@@ -1,7 +1,4 @@
-"""Pinning tests for tools/channel_geometry.py (synthetic/offline, no I/O).
-
-The transect callable `sample` lets stubs cover branch logic.
-"""
+"""Pinning tests for tools/channel_geometry.py (synthetic/offline, no I/O)."""
 
 import json
 import subprocess
@@ -9,8 +6,6 @@ import sys
 from pathlib import Path
 
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from tools.channel_geometry import (_cross_section_from_dem,
                                     _dem_mean_depth, _unit_perpendicular,

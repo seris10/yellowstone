@@ -1,0 +1,218 @@
+[
+ {
+  "file": "yellowstone_atmosphere/README.md",
+  "line": 25,
+  "rule": "non_ascii",
+  "detail": "non-ASCII text",
+  "text": "uses Godot's Preetham analytic daylight model. The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/README.md",
+  "line": 1,
+  "rule": "non_ascii",
+  "detail": "non-ASCII text",
+  "text": "# Yellowstone \u00b7 Midway",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/README.md",
+  "line": 27,
+  "rule": "non_ascii",
+  "detail": "non-ASCII text",
+  "text": "The domain is **4,096 \u00d7 4,096 metres**. One Godot unit is one metre. The origin is WGS84 / UTM zone 12N, EPSG:32612, E=512952.5950985841, N=",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/README.md",
+  "line": 29,
+  "rule": "non_ascii",
+  "detail": "non-ASCII text",
+  "text": "The 1,025 \u00d7 1,025 elevation grid is sampled at 4 m spacing from USGS 3DEP data. July 19, 2022 USDA NAIP aerial imagery supplies macro ground",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/calibration_panel.gd",
+  "line": 2,
+  "rule": "process_tag",
+  "detail": "internal process reference",
+  "text": "Calibration panel for fixes-39 item 12. Draws reach fit scalars and the USGS gauge trace from data/calibration_summary.json. The panel is a ",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 3,
+  "rule": "comment_block",
+  "detail": "4-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 15,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 59,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 85,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 106,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 275,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 290,
+  "rule": "process_tag",
+  "detail": "internal process reference",
+  "text": "NAIP macro is the universal fallback for albedo until Phase 2 publishes mat_pigment.png.",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/core_terrain.gd",
+  "line": 282,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/map_view.gd",
+  "line": 6,
+  "rule": "process_tag",
+  "detail": "internal process reference",
+  "text": "Census canopy overlay (fixes-39 item 10): true draws crown disks on the map from data/census.json.",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/pool_overlay.gd",
+  "line": 3,
+  "rule": "comment_block",
+  "detail": "7-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/pool_overlay.gd",
+  "line": 12,
+  "rule": "contrast",
+  "detail": "X, not Y contrast",
+  "text": "so an off-schema or mis-named ramp is skipped rather than silently applied.",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/pool_overlay.gd",
+  "line": 12,
+  "rule": "hypothetical",
+  "detail": "hypothetical-failure narrative",
+  "text": "so an off-schema or mis-named ramp is skipped rather than silently applied.",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/pool_overlay.gd",
+  "line": 11,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/scripts/pool_overlay.gd",
+  "line": 71,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/shaders/thermal_apron.gdshader",
+  "line": 14,
+  "rule": "history",
+  "detail": "history narration",
+  "text": "NAIP 0.6 m detail orthophoto over its own extent; replaces the 2 m macro inside it.",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/shaders/thermal_apron.gdshader",
+  "line": 4,
+  "rule": "comment_block",
+  "detail": "5-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/shaders/thermal_apron.gdshader",
+  "line": 43,
+  "rule": "comment_block",
+  "detail": "2-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/tools/check_mat_and_core.gd",
+  "line": 2,
+  "rule": "comment_block",
+  "detail": "5-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/tools/check_mat_and_core.gd",
+  "line": 43,
+  "rule": "comment_block",
+  "detail": "3-line comment block (inline comments are one line)",
+  "text": "",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/tools/convert_star_catalog.py",
+  "line": 1,
+  "rule": "docstring_shape",
+  "detail": "docstring exceeds line, width, or clause limit",
+  "text": "Convert the Yale Bright Star Catalog (CDS V/50) into data/stars.json for the sky renderer.",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/tools/measure_fauna.py",
+  "line": 138,
+  "rule": "docstring_shape",
+  "detail": "docstring exceeds line, width, or clause limit",
+  "text": "Runs of profile bins whose lowest point is within LEG_CONTACT_FRACTION of height of the ground, rear first.",
+  "severity": "error"
+ },
+ {
+  "file": "yellowstone_midway/tools/test_sun_direction.gd",
+  "line": 2,
+  "rule": "process_tag",
+  "detail": "internal process reference",
+  "text": "Headless assertion that `horizontal_to_world_direction(az, el)` and the atmosphere controller's `_apply_solar_position()` map the two cardin",
+  "severity": "error"
+ }
+]

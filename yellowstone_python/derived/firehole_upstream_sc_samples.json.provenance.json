@@ -1,0 +1,13 @@
+{
+  "schema": "yellowstone.provenance_sidecar.v1",
+  "status": "measured_remote_not_calibrated",
+  "path": "firehole_upstream_sc_samples.json",
+  "bytes": 4891,
+  "sha256": "9582e2651c090d04481eb52b73d1f3fcec45b54c06107e85246335e61a21a7ff",
+  "content_type": "application/json",
+  "url": "https://www.waterqualitydata.us/data/Result/search?siteid=USGS-06036805;USGS-06036905&characteristicName=Chloride&characteristicName=Specific%20conductance&characteristicName=Arsenic&characteristicName=Boron&characteristicName=pH&characteristicName=Dissolved%20oxygen%20%28DO%29&mimeType=csv&dataProfile=narrowResult",
+  "retrieved_utc": "2026-10-13",
+  "terms": "USGS Water Services and NWIS provisional terms; see https://waterdata.usgs.gov/nwis/help/?provisional",
+  "agency": "USGS",
+  "citation": "Water Quality Portal (National Water Quality Monitoring Council), discrete specific conductance samples at USGS 06036805 (Firehole River at Old Faithful)."
+}

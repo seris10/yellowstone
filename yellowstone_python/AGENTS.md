@@ -1,53 +1,43 @@
-# Yellowstone Python — agent init rules
+# Yellowstone Python - agent init rules
 
 Read this file at session start, before touching code. Run `/ystone` for a
 spoken orientation plus the roadmap to task-specific docs.
 
 ## 1. First reads (in order)
 
-1. `README.md` — what Python simulates vs Godot, measured/authored split.
+1. `README.md` - what Python simulates vs Godot, measured/authored split.
 2. `../yellowstone_python_spec/00_OVERVIEW_AND_VERDICT.md`
-   — why this world, fast-path strategy.
-3. Latest `derived/<build-id>/BUILD.json` — current `run_mode`,
+   - why this world, fast-path strategy.
+3. Latest `derived/<build-id>/BUILD.json` - current `run_mode`,
    `prescribed_quantities`, `claim_ids`, `checks_passed`.
 4. The registries before changing any knob:
-   `yellowstone_python/claims.py`, `param_registry.py`, `equations.py`.
+   `yellowstone_python/registry/claims.py`, `registry/param_registry.py`, `registry/equations.py`.
 
-## 2. Comment style (no AI tells)
+## 2. Comment and documentation style
 
-Every new or edited comment follows these. Full catalog:
-`../yellowstone_python_spec/ai-tells/`.
+Module docstrings use a noun phrase naming the module, with one optional scope line. Function and class docstrings use one imperative line under 100 characters, with one optional contract or unit line. Equations and extended sources live in the component registry.
 
-- No em dashes. Use periods or colons.
-- No first person (`I`, `we`, `my`) and no addressing the reader (`you`, `your`).
-- No `X, not Y` contrasts. State what the thing is.
-- No hypothetical-failure narratives (`never silently`, `instead of
-  guessing`, `rather than`, `cannot drift apart`).
-- No temporal references (`legacy`, `new work`, `audit fix`, `now`,
-  `used to`, date-stamped NOTEs).
-- No `Every` comprehensiveness claims, no ALL-CAPS emphasis.
-- Docstrings are one or two lines. Inline comments are one line.
-- American spelling (`meters`, `vapor`, `color`).
+Comments use one present-tense line describing the code. Banners use `# --- Label ---`. Text uses ASCII and American spelling. Citations use `Author (YYYY)` or `First et al. (YYYY), doi:10.xxxx/...`. Unit strings use `m3/s`, `m2`, `W/m2`, `W/m2/K`, `mg/L`, and `C`. Provenance identifies the source and value class: measured, literature, fitted, or authored within a cited range.
 
-Good and bad (from `ai-tells/edits-2.md`):
+Internal process labels, session narration, history narration, reader address, first person, emphasis, and hypothetical failure stories are excluded. Markdown prose and notebook markdown follow the ASCII, dash, vocabulary, process-label, and operational-date rules. Code examples illustrate the rules:
 
 ```python
-# BAD:  # Newton exchange is an illustrative lumped heat-loss term, not full surface physics.
-# GOOD: # Newton exchange is a lumped heat-loss term.
-
-# BAD:  # Retain elapsed-time debt after a slow frame; never silently lose physical time.
-# GOOD: # Retain elapsed-time debt after a slow frame.
-
-# BAD:  # Kept for interface compatibility; transport is always 1:1.
-# GOOD: # Transport is 1:1.
-
-# BAD:  """Per-cell quasi-steady thermal + hydraulic habitat from replay frames.
-#         t_min_s/t_max_s restrict to a window — REQUIRED for intervention
-#         comparison, where a whole-run mean would dilute a short pulse
-#         into invisibility. Window bounds are explicit so control and pulse
-#         landscapes cover the same clock interval."""
-# GOOD: """Per-cell quasi-steady thermal + hydraulic habitat from replay frames.
-#         t_min_s/t_max_s restrict to a window for intervention comparison."""
+# Bad module: "M01 hydro chain."
+# Good module: "River heat transport and mixing."
+# Bad function: "Temperature estimate; first clause; second clause; third clause."
+# Good function: "Return the river temperature in C."
+# Bad comment: "Kept for parity; never silently lose physical time."
+# Good comment: "Retain elapsed-time debt after a slow frame."
+# Bad banner: "# ---- River ----"
+# Good banner: "# --- River ---"
+# Bad citation: "Davis 1975, DOI:10.example/source."
+# Good citation: "Davis (1975), doi:10.example/source."
+# Bad units: "m^3 s^-1"
+# Good units: "m3/s"
+# Bad text: "Temperature delta: Unicode arrow."
+# Good text: "Temperature delta in C."
+# Bad source: "Existence verified via WebSearch."
+# Good source: "Davis (1975); authored_within_cited_range."
 ```
 
 ## 3. No dating in code paths
@@ -73,7 +63,7 @@ One store file per build. Stores are history: never overwrite, never mutate.
 Build (after `python3 -m yellowstone_python.build --config ...`):
 
 ```bash
-python3 tools/build_store.py --build derived/<build-id> \
+python3 -m tools.build_store --build derived/<build-id> \
   --firehole derived/firehole_obs.json \
   --snotel derived/snotel_obs.json \
   --reach-fit derived/reach_heat_fit_v300k.json \
@@ -81,12 +71,12 @@ python3 tools/build_store.py --build derived/<build-id> \
 ```
 
 `--out` defaults to `derived/analysis_<buildid>.sqlite`. Missing inputs
-fail loudly; repeat `--reach-fit` / `--snow-fit` for multiple artifacts.
+raise errors; repeat `--reach-fit` / `--snow-fit` for multiple artifacts.
 
 Query (read-only, allow-listed tables and columns, no raw SQL):
 
 ```python
-from yellowstone_python.analysis_store import query
+from yellowstone_python.service.analysis_store import query
 query("derived/analysis_<buildid>.sqlite", "meta")
 query("derived/analysis_<buildid>.sqlite", "replay_frames",
       columns=["t_s", "cell_id", "temperature_c"],
@@ -98,7 +88,7 @@ Tables: `census_trees`, `replay_cells`, `replay_frames`, `obs_usgs`,
 Filters per table are listed in `query()`; unknown tables, columns, or
 filters raise. Spatial and circle queries go through the same module
 (`circle_stats`); the HTTP equivalent is
-`python3 -m yellowstone_python.llm_backend --serve --port 8765`
+`python3 -m yellowstone_python.service.llm_backend --serve --port 8765`
 (`GET /api/snapshot`, `/api/density`, `/api/compare`, ...).
 
 Rebuild the store when: a new build dir exists, an obs bundle changed
@@ -112,7 +102,7 @@ handbook path at session start; follow it for event logging, file
 registration, and stable facts. Nothing in this section is required to
 build, test, or publish the project.
 
-## 6. Run modes and claims (Phase A/B state)
+## 6. Run modes and claims
 
 - Every config declares `run_mode`: `illustrative` (default), `scenario`,
   `hindcast`, or `observed_replay`. `forecast` builds are refused.
@@ -133,16 +123,16 @@ pvlib and metpy on top of the Homebrew Python, which refuses package
 installs.
 
 ```bash
-.venv/bin/python -m pytest tests yellowstone_python/replay/tests -q
+.venv/bin/python -m pytest -q
 .venv/bin/python -m yellowstone_python.build --config configs/baseline.yaml
-.venv/bin/python tools/audit_provenance.py --dir derived
-python3 tools/check_comment_style.py $(git diff --name-only HEAD | rg '\.(py|gd|gdshader)$') --root ..
+.venv/bin/python -m tools.audit_provenance --dir derived
+.venv/bin/python -m pytest tests/test_repository_style.py -q
 ```
 
-Suite covers `tests/` and the replay suite at `yellowstone_python/replay/tests/`.
-Approximate runtime 35 s; must stay green. New modules ship with tests.
-The comment-style gate runs over files touched in the session and fails
-on any finding reported against AGENTS.md section 2.
+Suite covers the single `tests/` tree.
+World and numerical reference tests can take several minutes. New modules ship with tests.
+The test suite runs the style gate across the maintained source tree and fails
+on hard-rule findings.
 New artifacts land in `derived/<new-build-id>/`, never by editing an
 old build dir. Godot publish is transactional via
 `python3 -m yellowstone_python.publish --build derived/<id> --to

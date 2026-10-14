@@ -3,11 +3,18 @@ extends Node3D
 const Walker = preload("res://scripts/player.gd")
 const HeightField = preload("res://scripts/height_field.gd")
 const Ecosystem = preload("res://scripts/ecosystem.gd")
+const PythonReplay = preload("res://scripts/python_river_replay.gd")
+const LiveClient = preload("res://scripts/live_python_client.gd")
+const DataWatcher = preload("res://scripts/data_watcher.gd")
+const InputHelp = preload("res://scripts/input_help.gd")
+const SimulationPanel = preload("res://scripts/simulation_panel.gd")
 const AtmosphereController = preload("res://scripts/yellowstone_atmosphere.gd")
+const ShadowQuality = preload("res://scripts/shadow_quality.gd")
+const TerrainMaterials = preload("res://scripts/terrain_materials.gd")
 const WeatherSnapshotReader = preload("res://scripts/weather_snapshot_reader.gd")
-## Study scenes set this to a Python replay JSON (see scenes/study.tscn); empty uses the live ecosystem.
+## Optional published Python replay path.
 @export_file("*.json") var replay_path: String = ""
-## Study scenes set this to the comparison replay; C toggles the live run and empty disables the toggle.
+## Optional baked comparison replay.
 @export_file("*.json") var replay_path_alt: String = ""
 var replay_run_name := ""
 var player: CharacterBody3D
@@ -19,6 +26,18 @@ var environment: Environment
 var sky_material: PhysicalSkyMaterial
 var atmosphere_controller: Node3D
 var weather_snapshot_reader: Node
+var live_client: YellowstoneLivePythonClient
+var data_watcher: YellowstoneDataWatcher
+var simulation_panel: YellowstoneSimulationPanel
+var input_help: YellowstoneInputHelp
+var _comparison_ecosystem: Node
+var _ghost_trout: Array[Node3D] = []
+var _comparison_origins: Dictionary = {}
+var _sidecar_data: Dictionary = {}
+var _outflow_enabled: bool = true
+var _live_revision: int = -1
+const STATE_INTERPOLATION_FIELDS: Array[String] = ["temperature_c", "flow_m3s", "depth_m", "oxygen_mg_l", "snow_cover_fraction", "refuge_s_m"]
+const SIDECAR_PATHS: Array[String] = ["outflow_foodweb.json", "periphyton.json", "piscivores.json", "river_oxygen.json", "river_shading.json", "solute_transport.json", "ground_heat.json", "evapotranspiration.json", "snow_cover.json", "soil_temperature.json", "steam_microclimate.json", "substrate_rules.json", "winter_grazing.json", "mammals.json", "mammal_catalogue.json", "outflow_to_replay_lateral.json", "species_catalogue.json", "param_registry.json", "equations.json", "claims.json", "pool_ramps.json"]
 var _simulation_start_epoch_unix: float = 0.0
 var _simulation_epoch_unix: float = 0.0
 var _has_simulation_epoch: bool = false
@@ -67,15 +86,25 @@ var _census_summary: Dictionary = {}
 var _pools_state_summary: Dictionary = {}
 # Per-step pools_state.json poll: track its mtime to re-read without I/O every frame.
 var _pools_state_mtime: int = 0
-# Deferred overlay stubs for groundwater and overland fields (fixes-39 item 13).
 var _groundwater_summary: Dictionary = {}
 var _overland_summary: Dictionary = {}
 # Guild diagnostics; the ecosystem.json wildlife list remains the actor roster and these sidecars are consulted only to annotate the field-notes block.
 var _grazer_summary: Dictionary = {}
 var _fish_summary: Dictionary = {}
-# World-space overlays wired to the published sidecars (fixes-39 items 7, 8, 13).
 var _overlays: Node3D
 var _calibration_panel: Control
+# Thermal core and mat surface state; populated by build_core_terrain and polled by _process.
+var _core_terrain: Node3D
+var _mat_surface: RefCounted
+var _mat_pigment_mtime: int = 0
+var _mat_pigment_blend: float = 1.0
+var _mat_pigment_blending: bool = false
+# Pigment cross-fade duration between builds; authored.
+const PIGMENT_BLEND_DURATION_S: float = 3.0
+# Interval between mat_pigment.png mtime stats; authored. The blend advance still runs every frame.
+const PIGMENT_MTIME_POLL_INTERVAL_S: float = 1.0
+# Accumulator for the mtime poll; carries unspent delta across frames.
+var _mat_pigment_poll_accum_s: float = 0.0
 
 func _ready() -> void:
 	# Frame cap honors project rendering/limits/fps/max_fps when set.
@@ -96,13 +125,10 @@ func _ready() -> void:
 		if not authored.has_node("AuthoredVegetation"):
 			push_error("authored_world.tscn has no AuthoredVegetation: re-run the offline bake.")
 			return
-		for item: Node in authored.get_node("AuthoredVegetation").get_children():
-			if not item is MultiMeshInstance3D:continue
-			if (item as MultiMeshInstance3D).multimesh == null or (item as MultiMeshInstance3D).multimesh.mesh == null:continue
-			for surface in item.multimesh.mesh.get_surface_count():
-				var mat: Material=item.multimesh.mesh.surface_get_material(surface)
-				if mat is ShaderMaterial and mat.shader.resource_path.ends_with("foliage.gdshader") and not mat in foliage_materials:
-					foliage_materials.append(mat)
+		for group_name: String in ["AuthoredVegetation", "AuthoredForestFloor"]:
+			var foliage_group := authored.get_node_or_null(NodePath(group_name))
+			if foliage_group != null:
+				collect_foliage_materials(foliage_group)
 		add_child(load("res://scenes/handcrafted_details.tscn").instantiate())
 		if ResourceLoader.exists("res://scenes/botanical_details.tscn"):
 			var botany: Node=load("res://scenes/botanical_details.tscn").instantiate()
@@ -123,7 +149,7 @@ func _ready() -> void:
 	add_child(atmosphere_controller)
 	atmosphere_controller.configure(sun, environment, player)
 	# The build's simulation_epoch_unix anchors the simulation clock once; _process adds ecosystem.elapsed seconds to that start.
-	if spec.has("simulation_epoch_unix"):
+	if spec.get("simulation_epoch_unix") != null:
 		_simulation_start_epoch_unix = float(spec["simulation_epoch_unix"])
 		_simulation_epoch_unix = _simulation_start_epoch_unix + float(ecosystem.elapsed)
 		_has_simulation_epoch = true
@@ -140,6 +166,7 @@ func _ready() -> void:
 	weather_snapshot_reader = WeatherSnapshotReader.new()
 	weather_snapshot_reader.name = "WeatherSnapshotReader"
 	add_child(weather_snapshot_reader)
+	weather_snapshot_reader.freshness_mode = "disabled"
 	weather_snapshot_reader.bind(atmosphere_controller)
 	if _has_simulation_epoch:
 		weather_snapshot_reader.set("freshness_mode", "simulation_clock")
@@ -147,6 +174,9 @@ func _ready() -> void:
 	make_audio()
 	make_wildlife()
 	collect_terrain_materials(self)
+	for material: ShaderMaterial in terrain_materials:
+		if not TerrainMaterials.bind_ground_material(material):
+			push_error("Terrain ground material binding failed.")
 	# Terrain tiles own the ground_wetness uniform the atmosphere controller writes.
 	for terrain_tile: Node in get_tree().get_nodes_in_group("terrain_tile"):
 		if terrain_tile is MeshInstance3D:
@@ -157,7 +187,6 @@ func _ready() -> void:
 	load_pool_shell_temperatures()
 	apply_pool_temperatures()
 	load_insect_bird_summary()
-	# Optional Python-published sidecars (fixes-39); each loader is a no-op when the file is absent and the HUD reports available sources.
 	_plume_field_summary = load_optional_sidecar("res://data/plume_field.json")
 	_geochemistry_summary = load_optional_sidecar("res://data/geochemistry.json")
 	_calibration_summary = load_optional_sidecar("res://data/calibration_summary.json")
@@ -171,9 +200,11 @@ func _ready() -> void:
 	apply_snow_patch_mask()
 	if ResourceLoader.exists("res://scripts/pool_overlay.gd"):
 		add_child(load("res://scripts/pool_overlay.gd").new())
+	build_core_terrain()
 	build_scientific_overlays()
 	atmosphere_controller.refresh_wetness_material_cache()
 	make_interface()
+	setup_python_runtime()
 	update_environment()
 	if "--smoke-test" in OS.get_cmdline_user_args():
 		run_smoke_test()
@@ -181,18 +212,251 @@ func _ready() -> void:
 		capture_preview()
 
 func make_ecosystem() -> Node:
-	# Study scenes play Python-owned thermal replays.
-	if not replay_path.is_empty() and ResourceLoader.exists("res://scripts/python_river_replay.gd"):
-		var replay: Node = load("res://scripts/python_river_replay.gd").new()
-		replay.set("replay_path", replay_path)
-		return replay
-	return Ecosystem.new()
+	var replay: Node = PythonReplay.new()
+	var path: String = replay_path if not replay_path.is_empty() else "res://data/river_replay.json"
+	if FileAccess.file_exists(path):
+		replay.replay_path = path
+	return replay
+
+func setup_python_runtime() -> void:
+	data_watcher = DataWatcher.new()
+	add_child(data_watcher)
+	for file: String in ["ecosystem.json", "world.json", "season.json", "pools_state.json", "pool_shells.json", "insect_bird.json", "plume_field.json", "geochemistry.json", "calibration_summary.json", "census.json", "grazer.json", "fish.json", "groundwater_field.json", "overland_field.json", "weather_snapshot.json", "river_replay.json"] + SIDECAR_PATHS:
+		var path: String = "res://data/" + file
+		data_watcher.watch(path, _published_changed)
+	for file: String in SIDECAR_PATHS:
+		_sidecar_data[file] = load_optional_sidecar("res://data/" + file)
+	apply_probe_sidecars()
+	var manifest: Dictionary = load_optional_sidecar("res://data/consumers.json")
+	for published: String in manifest.get("consumers", {}):
+		if not DirAccess.dir_exists_absolute("res://" + published):
+			data_watcher.watch("res://" + published, _published_changed)
+	data_watcher.watch("res://data/mat_pigment.png", func(_path: String):
+		_mat_pigment_mtime = -1
+		_poll_mat_pigment_change(0.0))
+	live_client = LiveClient.new()
+	live_client.mode_selected.connect(_python_mode_selected)
+	live_client.frames_received.connect(_python_frames)
+	live_client.control_received.connect(_python_control)
+	add_child(live_client)
+	simulation_panel = SimulationPanel.new()
+	overlay.add_child(simulation_panel)
+	simulation_panel.bind(self, live_client, ecosystem)
+	input_help = InputHelp.new()
+	overlay.add_child(input_help)
+	input_help.add_theme_stylebox_override("panel", panel_style(0.94))
+	if not has_node("ThermalProbes"):
+		var probes: Node3D = load("res://scripts/thermal_probe_overlay.gd").new()
+		probes.name = "ThermalProbes"
+		probes.ecosystem_path = NodePath("../Ecosystem")
+		add_child(probes)
+
+func _published_changed(path: String) -> void:
+	match path.get_file():
+		"snow_map.png":
+			var image: Image = Image.load_from_file(ProjectSettings.globalize_path(path))
+			if image != null:
+				var mask: ImageTexture = ImageTexture.create_from_image(image)
+				for material: ShaderMaterial in terrain_materials:
+					material.set_shader_parameter("snow_mask", mask)
+		"outflow_temperature.f32", "outflow_temperature.json", "mat_state.json", "mat_community.i16":
+			if _mat_surface != null and _core_terrain != null:
+				_mat_surface.load_outflow_temperature()
+				_mat_surface.load_pigment()
+				_mat_surface.apply(_core_terrain.get_mat_material())
+		"ecosystem.json":
+			ecosystem.configure(load_optional_sidecar(path))
+			apply_probe_sidecars()
+		"world.json":
+			spec = load_optional_sidecar(path)
+			ecosystem.world_data = spec
+		"season.json":
+			apply_season()
+		"pools_state.json":
+			_pools_state_mtime = 0
+			refresh_pools_state()
+		"pool_shells.json":
+			load_pool_shell_temperatures()
+			apply_pool_temperatures()
+		"weather_snapshot.json":
+			if not ecosystem.live_mode:
+				weather_snapshot_reader.poll_now()
+		"river_replay.json":
+			if not ecosystem.live_mode:
+				ecosystem.configure(ecosystem.params)
+				apply_probe_sidecars()
+		_:
+			if path.get_extension() != "json":
+				return
+			var file: String = path.get_file()
+			var doc: Dictionary = load_optional_sidecar(path)
+			_sidecar_data[file] = doc
+			var summaries: Dictionary = {"insect_bird.json": "_insect_bird_summary", "plume_field.json": "_plume_field_summary", "geochemistry.json": "_geochemistry_summary", "calibration_summary.json": "_calibration_summary", "census.json": "_census_summary", "grazer.json": "_grazer_summary", "fish.json": "_fish_summary", "groundwater_field.json": "_groundwater_summary", "overland_field.json": "_overland_summary"}
+			if summaries.has(file):
+				set(summaries[file], doc)
+			if file == "calibration_summary.json" and _calibration_panel != null:
+				_calibration_panel.call("set_doc", doc)
+			if file == "census.json" and map_view != null:
+				var census: Dictionary = doc.get("payload", doc)
+				map_view.call("set_census", census.get("trees", []))
+			if file in ["plume_field.json", "geochemistry.json", "groundwater_field.json", "overland_field.json"] and _overlays != null:
+				_overlays.call("reload", self, _plume_field_summary, _geochemistry_summary, _overland_summary, _groundwater_summary)
+			apply_probe_sidecars()
+
+func apply_probe_sidecars() -> void:
+	var oxygen: Dictionary = _sidecar_data.get("river_oxygen.json", {}).get("do_mg_l_by_cell", {})
+	var shading: Dictionary = _sidecar_data.get("river_shading.json", {}).get("multiplier_by_cell", {})
+	for row: Dictionary in ecosystem.get("_spatial_state"):
+		var id: String = str(row.get("id", row.get("cell_id", "")))
+		if oxygen.has(id):
+			row["oxygen_mg_l"] = oxygen[id]
+		if shading.has(id):
+			row["shading_factor"] = shading[id]
+
+func _python_mode_selected(live: bool) -> void:
+	if live:
+		ecosystem.begin_live(live_client.schema)
+		weather_snapshot_reader.set_process(false)
+		help_label.text = help_label.text.trim_suffix(" | baked Python build")
+	else:
+		ecosystem.live_mode = false
+		ecosystem.clock_held = false
+		if not help_label.text.ends_with(" | baked Python build"):
+			help_label.text += " | baked Python build"
+
+func _python_control(payload: Dictionary) -> void:
+	if payload.has("truncate_after_t_s"):
+		ecosystem.truncate_after(float(payload.truncate_after_t_s))
+	_live_revision = int(payload.get("revision", _live_revision))
+
+func _python_frames(payload: Dictionary) -> void:
+	if bool(payload.get("reset_required", false)):
+		ecosystem.reset_buffer(float(payload.get("retained_after_t_s", ecosystem.elapsed)))
+	var revision: int = int(payload.get("revision", _live_revision))
+	if _live_revision >= 0 and revision != _live_revision and payload.has("truncate_after_t_s"):
+		ecosystem.truncate_after(float(payload.truncate_after_t_s))
+	_live_revision = revision
+	if not ecosystem.append_frames(payload.get("frames", [])):
+		push_error("Python live frame failed validation.")
+	adopt_python_clock(payload.get("header", {}), float(payload.player_t_s) if payload.get("player_t_s") != null else NAN)
+	ecosystem.frame_header["revision"] = revision
+
+func adopt_python_clock(header: Dictionary, player_t_s: float = NAN) -> void:
+	if is_finite(player_t_s) and not ecosystem.get("_frames").is_empty():
+		ecosystem.elapsed = clampf(player_t_s, float(ecosystem.get("_frames")[0].t_s), float(ecosystem.get("_frames")[-1].t_s))
+		ecosystem.call("_apply_replay", ecosystem.elapsed)
+	if not header.is_empty():
+		ecosystem.set_clock_header(header)
+		live_client.time_scale = ecosystem.time_scale
+		var health: Dictionary = header.get("health", {})
+		if health.get("worker_error") != null:
+			ecosystem.paused = true
+			live_client.failed.emit("Python worker stopped: " + str(health.worker_error))
+
+func simulation_status_text() -> String:
+	var mode: String = "live Python" if ecosystem.live_mode else "baked build " + str(ecosystem.params.get("build_id", ecosystem.frame_header.get("build_id", "unrecorded")))
+	var date: String = Time.get_datetime_string_from_unix_time(ecosystem.epoch_unix + float(spec.get("utc_offset_hours", -6.0)) * 3600.0) if ecosystem.epoch_unix > 0.0 else "%02d:%02d" % [int(ecosystem.clock_hour), int(fmod(ecosystem.clock_hour, 1.0) * 60.0)]
+	return "%s | %s | %.0fx%s | %s | buffer %.0f s%s" % [mode, ecosystem.frame_header.get("run_mode", ecosystem.params.get("run_mode", "illustrative")), ecosystem.time_scale, " paused" if ecosystem.paused else "", date, ecosystem.buffer_headroom_s(), " computing" if ecosystem.computing else ""]
+
+func set_time_scale(rate: float) -> void:
+	var capacity: float = float(ecosystem.frame_header.get("max_supported_time_scale", live_client.schema.get("max_supported_time_scale", rate)))
+	ecosystem.time_scale = minf(rate, capacity) if ecosystem.live_mode else rate
+	live_client.time_scale = ecosystem.time_scale
+	live_client.command("clock", {"time_scale": rate, "paused": ecosystem.paused})
+
+func toggle_pause() -> void:
+	ecosystem.paused = not ecosystem.paused
+	live_client.command("clock", {"time_scale": ecosystem.time_scale, "paused": ecosystem.paused})
+
+func step_simulation() -> void:
+	ecosystem.paused = true
+	if not ecosystem.live_mode:
+		ecosystem.step_frame()
+	live_client.command("clock", {"step": true, "paused": true})
+
+func reset_comparison() -> void:
+	for ghost: Node3D in _ghost_trout:
+		remove_child(ghost)
+		ghost.queue_free()
+	_ghost_trout.clear()
+	var ribbon: Node = get_node_or_null("ComparisonRibbon")
+	if ribbon != null:
+		remove_child(ribbon)
+		ribbon.queue_free()
+	if _comparison_ecosystem != null:
+		remove_child(_comparison_ecosystem)
+		_comparison_ecosystem.queue_free()
+		_comparison_ecosystem = null
+
+func capture_comparison_origins() -> void:
+	_comparison_origins.clear()
+	for record: Dictionary in ecosystem.params.get("wildlife", []):
+		var actor: Node3D = get_node_or_null(NodePath(str(record.id)))
+		if actor != null and str(record.get("kind", "")).contains("trout"):
+			_comparison_origins[str(record.id)] = {"position": actor.get("_world_position"), "chainage_m": actor.chainage_m, "target_s_m": actor.target_s_m, "t_s": ecosystem.elapsed}
+
+func mark_comparison() -> void:
+	if not ecosystem.live_mode:
+		return
+	capture_comparison_origins()
+	live_client.player_t_s = ecosystem.elapsed
+	live_client.command("mark", {})
+
+func apply_comparison(payload: Dictionary) -> void:
+	var frames: Array = payload.get("a_frames", payload.get("A", {}).get("frames", []))
+	if frames.is_empty():
+		return
+	if _comparison_ecosystem == null:
+		_comparison_ecosystem = PythonReplay.new()
+		_comparison_ecosystem.name = "ComparisonEcosystem"
+		add_child(_comparison_ecosystem)
+		_comparison_ecosystem.world_data = ecosystem.world_data
+		_comparison_ecosystem.params = ecosystem.params.duplicate(true)
+		_comparison_ecosystem.begin_live({"cells": ecosystem.get("_cells"), "river_features": ecosystem.get("_features")})
+		_comparison_ecosystem.set_process(false)
+		_comparison_ecosystem.elapsed = ecosystem.elapsed
+		for record: Dictionary in ecosystem.params.get("wildlife", []):
+			if not str(record.get("kind", "")).contains("trout"):
+				continue
+			var ghost: Node3D = load("res://scripts/wildlife_actor.gd").new()
+			var ghost_record: Dictionary = record.duplicate(true)
+			ghost_record["ghost"] = true
+			ghost.setup(ghost_record, height_field, _comparison_ecosystem)
+			var origin: Dictionary = _comparison_origins.get(str(record.id), {})
+			if not origin.is_empty():
+				ghost.set("_world_position", origin.position)
+				ghost.chainage_m = origin.chainage_m
+				ghost.target_s_m = origin.target_s_m
+				ghost.set("_last_sim_time", origin.t_s)
+			add_child(ghost)
+			_ghost_trout.append(ghost)
+		var ribbon: Node3D = load("res://scripts/thermal_probe_overlay.gd").new()
+		ribbon.name = "ComparisonRibbon"
+		ribbon.ecosystem_path = NodePath("../ComparisonEcosystem")
+		add_child(ribbon)
+		ribbon.set("_ecosystem", _comparison_ecosystem)
+		ribbon.visible = true
+		ribbon.ribbon_offset_m = -0.5
+	_comparison_ecosystem.append_frames(frames)
+	_comparison_ecosystem.elapsed = minf(ecosystem.elapsed, float(frames[-1].t_s))
+	_comparison_ecosystem.call("_apply_replay", _comparison_ecosystem.elapsed)
+	for ghost: Node3D in _ghost_trout:
+		ghost.call("_update_fish", 0.0)
+	get_node("ThermalProbes").visible = true
 
 func collect_foliage_materials(node: Node) -> void:
+	var mesh: Mesh
 	if node is MeshInstance3D:
-		for surface in node.mesh.get_surface_count():
-			var mat: Material=node.mesh.surface_get_material(surface)
-			if mat is ShaderMaterial and mat.shader.resource_path.ends_with("foliage.gdshader") and not mat in foliage_materials:
+		mesh = node.mesh
+	elif node is MultiMeshInstance3D and node.multimesh != null:
+		mesh = node.multimesh.mesh
+	var geometry := node as GeometryInstance3D
+	if mesh != null and geometry != null:
+		for surface: int in mesh.get_surface_count():
+			var mat: Material = geometry.material_override
+			if mat == null:
+				mat = node.get_active_material(surface) if node is MeshInstance3D else mesh.surface_get_material(surface)
+			if mat is ShaderMaterial and mat.shader != null and mat.shader.resource_path.ends_with("foliage.gdshader") and not mat in foliage_materials:
 				foliage_materials.append(mat)
 	for child in node.get_children():collect_foliage_materials(child)
 
@@ -227,7 +491,6 @@ func apply_season() -> void:
 	var depth_mean: float = depth_sum / float(maxi(patch_rows.size(), 1))
 	_snow_swe_mm_mean = swe_sum / float(maxi(patch_rows.size(), 1))
 	_snow_amount_from_mean = clampf(depth_mean / 0.3, 0.0, 1.0)
-	# When season.json carries per-patch snow_cover_fraction (fixes-39 item 4 phase 2), its mean becomes the shader cover gate; absence falls back to 1.0 so the pre-pass look is preserved.
 	_snow_cover_fraction_mean = cover_sum / float(cover_count) if cover_count > 0 else 1.0
 	var mask_path := "res://assets/textures/snow_map.png"
 	for mat: ShaderMaterial in terrain_materials:
@@ -287,7 +550,6 @@ func load_insect_bird_summary() -> void:
 		_insect_bird_summary = parsed
 
 func load_optional_sidecar(path: String) -> Dictionary:
-	# Tolerant reader for Python-published sidecars (fixes-39); returns an empty dictionary when the file is missing, unreadable, or not a JSON object.
 	if not FileAccess.file_exists(path):
 		return {}
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
@@ -297,7 +559,6 @@ func load_optional_sidecar(path: String) -> Dictionary:
 	return {}
 
 func refresh_pools_state() -> void:
-	# Per-step pools_state.json (fixes-39 item 2 phase 2); re-read on mtime change so a running build keeps the HUD current without per-frame I/O.
 	var path := "res://data/pools_state.json"
 	if not FileAccess.file_exists(path):
 		return
@@ -318,8 +579,76 @@ func refresh_pools_state() -> void:
 			_pool_shell_temperatures[pool_name] = float(row.get("t_center_c", _pool_shell_temperatures.get(pool_name, 0.0)))
 	apply_pool_temperatures()
 
+func build_core_terrain() -> void:
+	if not ResourceLoader.exists("res://scripts/core_terrain.gd") or not ResourceLoader.exists("res://scripts/mat_surface.gd"):
+		return
+	var mat_surface_script: Script = load("res://scripts/mat_surface.gd")
+	_mat_surface = mat_surface_script.new()
+	_mat_surface.load_outflow()
+	_mat_surface.load_pigment()
+	_mat_surface.load_outflow_temperature()
+	var core_script: Script = load("res://scripts/core_terrain.gd")
+	var core: Node3D = core_script.new()
+	core.name = "CoreTerrain"
+	add_child(core)
+	var ok: bool = core.build(_mat_surface)
+	if not ok:
+		core.queue_free()
+		_mat_surface = null
+		return
+	var authored_scene: Node = get_node_or_null("AuthoredMidway")
+	if authored_scene == null:
+		push_warning("core_terrain: AuthoredMidway scene not found; master cut skipped.")
+	else:
+		core.cut_master_tiles(authored_scene)
+	if not bool(core.render_cut_status().get("collision_complete", false)):
+		push_error("core_terrain: collision cut incomplete; original master terrain retained.")
+		core.queue_free()
+		_mat_surface = null
+		return
+	_core_terrain = core
+	core.set_terrain_cut_uniform(terrain_materials)
+	var core_material: ShaderMaterial = core.get_mat_material()
+	if core_material != null and not core_material in terrain_materials:
+		terrain_materials.append(core_material)
+	apply_season()
+	apply_snow_patch_mask()
+	# Record the mat pigment path's current mtime so later _process runs can detect a republish.
+	if FileAccess.file_exists("res://data/mat_pigment.png"):
+		_mat_pigment_mtime = FileAccess.get_modified_time("res://data/mat_pigment.png")
+	print(_mat_surface.status_line())
+	print("core_terrain: tile built; extent=%s" % str(core.extent_rect()))
+
+func _poll_mat_pigment_change(delta: float) -> void:
+	# Watch res://data/mat_pigment.png for a republish, start the gradual cross-fade and advance it per frame.
+	if _core_terrain == null or _mat_surface == null:
+		return
+	var mat_material: ShaderMaterial = _core_terrain.get_mat_material() if _core_terrain.has_method("get_mat_material") else null
+	if mat_material == null:
+		return
+	var path: String = "res://data/mat_pigment.png"
+	if FileAccess.file_exists(path):
+		var mtime: int = FileAccess.get_modified_time(path)
+		if _mat_pigment_mtime != mtime:
+			# Reuse the loader on MidwayMatSurface so a republish is sampled bit for bit with the first load, including the Image.load bypass for pre-import pngs.
+			var reloader_image: Image = Image.new()
+			var err: int = reloader_image.load(ProjectSettings.globalize_path(path))
+			if err != OK:
+				err = reloader_image.load(path)
+			var new_pigment: Texture2D = ImageTexture.create_from_image(reloader_image) if err == OK else null
+			if new_pigment != null:
+				_mat_surface.start_blend(mat_material, new_pigment)
+				_mat_pigment_blend = 0.0
+				_mat_pigment_blending = true
+				_mat_pigment_mtime = mtime
+				print("mat_surface: pigment republish detected; blending over %.1f s." % PIGMENT_BLEND_DURATION_S)
+	if _mat_pigment_blending:
+		_mat_pigment_blend = clampf(_mat_pigment_blend + delta / PIGMENT_BLEND_DURATION_S, 0.0, 1.0)
+		mat_material.set_shader_parameter("mat_pigment_blend", _mat_pigment_blend)
+		if _mat_pigment_blend >= 1.0:
+			_mat_pigment_blending = false
+
 func build_scientific_overlays() -> void:
-	# Instantiate the shared overlay root (fixes-39 items 7, 8, 13) and hand it the published sidecars.
 	if not ResourceLoader.exists("res://scripts/scientific_overlays.gd"):
 		return
 	var overlays_script: Script = load("res://scripts/scientific_overlays.gd")
@@ -329,7 +658,6 @@ func build_scientific_overlays() -> void:
 	_overlays.call("bind", self, _plume_field_summary, _geochemistry_summary, _overland_summary, _groundwater_summary)
 
 func apply_snow_patch_mask() -> void:
-	# Optional per-patch snow mask (fixes-39 item 4 phase 2); the fallback is the scalar snow_amount already written by apply_season.
 	var mask_path := "res://data/snow_patch_mask.png"
 	if not ResourceLoader.exists(mask_path):
 		return
@@ -343,11 +671,7 @@ func make_environment() -> void:
 	sun.name = "AfternoonSun"
 	sun.light_color = Color(1.0,.975,.92)
 	sun.light_energy = .8
-	sun.shadow_enabled = true
-	sun.directional_shadow_max_distance = 280.0
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
-	sun.shadow_bias = .03
-	sun.shadow_normal_bias = 1.2
+	ShadowQuality.apply(sun)
 	add_child(sun)
 	environment = Environment.new()
 	environment.background_mode = Environment.BG_SKY
@@ -409,7 +733,7 @@ func make_audio() -> void:
 		voice.play()
 
 func make_wildlife() -> void:
-	# data/ecosystem.json params.wildlife is the authoritative actor roster. data/grazer.json and data/fish.json are per-guild diagnostics derived from the same roster plus planner and refuge rationales that the simulation records but the actor never acts on at runtime. Mirroring either sidecar into make_wildlife would double-spawn each actor and introduce a second ground truth to maintain, so the field notes block cites them from format_sidecar_block when published.
+	# ecosystem.json supplies the actor roster.
 	if not ResourceLoader.exists("res://scripts/wildlife_actor.gd"):
 		return
 	var script: Script = load("res://scripts/wildlife_actor.gd")
@@ -505,7 +829,7 @@ func make_interface() -> void:
 	info_label=RichTextLabel.new()
 	info_label.custom_minimum_size=Vector2(430,370)
 	info_label.bbcode_enabled=true
-	info_label.fit_content=true
+	info_label.fit_content=false
 	info_label.add_theme_font_size_override("normal_font_size",17)
 	info_panel.add_child(info_label)
 	var map_script: Script=load("res://scripts/map_view.gd")
@@ -516,14 +840,12 @@ func make_interface() -> void:
 	map_view.size=Vector2(590,680)
 	map_view.visible=false
 	ui.add_child(map_view)
-	# Hand the map view the census trees so the U toggle has data (fixes-39 item 10).
 	if not _census_summary.is_empty():
 		var census_doc: Variant = _census_summary.get("payload", _census_summary)
 		if census_doc is Dictionary:
 			var trees: Variant = census_doc.get("trees")
 			if trees is Array:
 				map_view.call("set_census", trees)
-	# Calibration panel for fixes-39 item 12; data/calibration_summary.json drives the content.
 	if ResourceLoader.exists("res://scripts/calibration_panel.gd"):
 		_calibration_panel = Control.new()
 		_calibration_panel.set_script(load("res://scripts/calibration_panel.gd"))
@@ -552,64 +874,95 @@ func resume() -> void:
 	Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		match event.physical_keycode:
-			KEY_ESCAPE:
-				menus_open=not menus_open
-				menu.visible=menus_open
-				player.enabled=not menus_open
-				Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if menus_open else Input.MOUSE_MODE_CAPTURED
-			KEY_I:
-				info_panel.visible=not info_panel.visible
-				map_view.visible=false
-			KEY_M:
-				map_view.visible=not map_view.visible
-				info_panel.visible=false
-			KEY_F:
-				hud_visible=not hud_visible
-				overlay.visible=hud_visible
-			KEY_F3:
-				player.fly_mode=not player.fly_mode
-			KEY_R:
-				go_to_anchor(camera_anchor)
-			KEY_T:
-				ecosystem.clock_hour=fposmod(ecosystem.clock_hour+2.0,24.0)
-				update_environment()
-			KEY_C:
-				toggle_replay()
-			KEY_S:
-				# Ctrl-S switches to the study scene when it exists.
-				if Input.is_physical_key_pressed(KEY_CTRL) and ResourceLoader.exists("res://scenes/study.tscn"):
-					get_tree().change_scene_to_file("res://scenes/study.tscn")
-			KEY_K:
-				# fixes-39 item 12: toggle the calibration page.
-				if _calibration_panel != null:
-					_calibration_panel.visible = not _calibration_panel.visible
-			KEY_P:
-				# fixes-39 item 7: toggle the plume field overlay.
-				if _overlays != null:
-					_overlays.call("toggle_plume")
-			KEY_G:
-				# fixes-39 item 8: toggle the geochemistry markers.
-				if _overlays != null:
-					_overlays.call("toggle_geochemistry")
-			KEY_U:
-				# fixes-39 item 10: toggle the census canopy overlay on the map (open the map if hidden).
-				if map_view != null:
-					map_view.census_visible = not map_view.census_visible
-					map_view.visible = true
-					info_panel.visible = false
-					map_view.queue_redraw()
-			KEY_J:
-				# fixes-39 item 13: toggle the overland field overlay.
-				if _overlays != null:
-					_overlays.call("toggle_overland")
-			KEY_L:
-				# fixes-39 item 13: toggle the groundwater field overlay.
-				if _overlays != null:
-					_overlays.call("toggle_groundwater")
+	if InputHelp.pressed(event, "menu"):
+		menus_open = not menus_open
+		menu.visible = menus_open
+		player.enabled = not menus_open
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if menus_open else Input.MOUSE_MODE_CAPTURED
+	elif InputHelp.pressed(event, "field_notes"):
+		info_panel.visible = not info_panel.visible
+		map_view.visible = false
+	elif InputHelp.pressed(event, "map"):
+		map_view.visible = not map_view.visible
+		info_panel.visible = false
+	elif InputHelp.pressed(event, "photo_mode"):
+		hud_visible = not hud_visible
+		overlay.visible = hud_visible
+	elif InputHelp.pressed(event, "authoring_flight"):
+		player.fly_mode = not player.fly_mode
+	elif InputHelp.pressed(event, "return_to_anchor"):
+		go_to_anchor(camera_anchor)
+	elif InputHelp.pressed(event, "jump_two_hours"):
+		if ecosystem.live_mode:
+			live_client.control({"clock_hour": fposmod(ecosystem.clock_hour + 2.0, 24.0)})
+		elif not ecosystem.get("_frames").is_empty():
+			ecosystem.elapsed = minf(ecosystem.elapsed + 7200.0, float(ecosystem.get("_frames")[-1].t_s))
+			ecosystem.call("_apply_replay", ecosystem.elapsed)
+			update_environment()
+	elif InputHelp.pressed(event, "compare_replay"):
+		toggle_replay()
+	elif InputHelp.pressed(event, "study_scene"):
+		get_tree().change_scene_to_file("res://scenes/study.tscn")
+	elif InputHelp.pressed(event, "calibration") and _calibration_panel != null:
+		_calibration_panel.visible = not _calibration_panel.visible
+	elif InputHelp.pressed(event, "plume") and _overlays != null:
+		_overlays.toggle_plume()
+	elif InputHelp.pressed(event, "geochemistry") and _overlays != null:
+		_overlays.toggle_geochemistry()
+	elif InputHelp.pressed(event, "census"):
+		map_view.census_visible = not map_view.census_visible
+		map_view.visible = true
+		info_panel.visible = false
+		map_view.queue_redraw()
+	elif InputHelp.pressed(event, "overland") and _overlays != null:
+		_overlays.toggle_overland()
+	elif InputHelp.pressed(event, "groundwater") and _overlays != null:
+		_overlays.toggle_groundwater()
+	elif InputHelp.pressed(event, "help"):
+		input_help.visible = not input_help.visible
+	elif InputHelp.pressed(event, "conditions"):
+		simulation_panel.visible = not simulation_panel.visible
+		player.enabled = not simulation_panel.visible
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if simulation_panel.visible else Input.MOUSE_MODE_CAPTURED
+	elif InputHelp.pressed(event, "probe"):
+		simulation_panel.toggle_probe()
+		get_node("ThermalProbes").visible = not get_node("ThermalProbes").visible
+	elif InputHelp.pressed(event, "pause"):
+		toggle_pause()
+	elif InputHelp.pressed(event, "step_frame"):
+		step_simulation()
+	else:
+		for rate: int in [1, 60, 600, 3600]:
+			if InputHelp.pressed(event, "scale_%d" % rate):
+				set_time_scale(float(rate))
+		for kind: String in ["shade", "outflow", "tributary", "grazing"]:
+			if InputHelp.pressed(event, "intervene_" + kind):
+				intervene(kind)
+
+func intervene(kind: String) -> void:
+	var state: Dictionary = ecosystem.reach_at(player.position.z)
+	var changes: Dictionary = {}
+	match kind:
+		"shade": changes = {"river.shade": {"cell_ids": [state.get("cell_id", state.get("id", ""))], "multiplier": 0.5}}
+		"outflow":
+			_outflow_enabled = not _outflow_enabled
+			changes = {"thermal.excelsior_enabled": _outflow_enabled}
+		"tributary": changes = {"aquatic.tributary_pockets": true, "aquatic.pocket_temperature_c": 11.0}
+		"grazing": changes = {"grazing.bison_count": {"patch_id": "bridge_riparian", "count": 2}}
+	live_client.control(changes, [player.position.x, player.position.y, player.position.z])
+	var marker: MeshInstance3D = MeshInstance3D.new()
+	var sphere: SphereMesh = SphereMesh.new()
+	sphere.radius = 0.3
+	sphere.height = 0.6
+	marker.mesh = sphere
+	marker.position = player.position - player.global_basis.z * 2.0
+	marker.set_meta("intervention", kind)
+	add_child(marker)
 
 func toggle_replay() -> void:
+	if ecosystem.live_mode:
+		mark_comparison()
+		return
 	if replay_path_alt.is_empty() or ecosystem == null:
 		return
 	if not ecosystem.has_method("thermal_probe_records"):
@@ -625,9 +978,16 @@ func toggle_replay() -> void:
 func _process(delta: float) -> void:
 	if ecosystem==null or status_label==null:
 		return
+	if live_client != null:
+		live_client.player_t_s = ecosystem.elapsed
+	if ecosystem.epoch_unix > 0.0:
+		_simulation_start_epoch_unix = ecosystem.epoch_unix - ecosystem.elapsed
+		_has_simulation_epoch = true
 	if _has_simulation_epoch and atmosphere_controller != null:
 		# Simulation seconds come from ecosystem.elapsed; the ecosystem advances in step() under the day_rate pace.
 		_simulation_epoch_unix = _simulation_start_epoch_unix + float(ecosystem.elapsed)
+		if not ecosystem.live_mode:
+			atmosphere_controller.clear_weather_solar_override()
 		atmosphere_controller.set_simulation_timestamp(
 			_simulation_epoch_unix, float(spec.get("utc_offset_hours", -6.0))
 		)
@@ -647,34 +1007,50 @@ func _process(delta: float) -> void:
 		location_label.text=nearest.title.to_upper() if best<180 else "FIREHOLE COUNTRY"
 		var hour:=int(ecosystem.clock_hour)
 		var minute:=int(fmod(ecosystem.clock_hour,1.0)*60)
-		status_label.text="%02d:%02d  ·  %d m elevation  ·  %.0f °C air%s%s" % [hour,minute,int(p.y+2200),ecosystem.air_c,"  ·  Authoring flight" if player.fly_mode else "","  ·  " + replay_run_name if not replay_run_name.is_empty() else ""]
+		status_label.text = simulation_status_text() + " | %.1f C air | %d m elevation" % [ecosystem.air_c, int(p.y + 2200)]
 		update_notes()
 		if map_view != null and map_view.visible:
 			map_view.queue_redraw()
 		update_environment()
 		refresh_env_caches()
-		refresh_pools_state()
+	# Pigment republish and cross-fade run every frame; the mtime check is cheap and the blend step is a scalar advance.
+	if _mat_pigment_blending:
+		_poll_mat_pigment_change(delta)
 
 func update_environment() -> void:
 	if atmosphere_controller == null or ecosystem == null:
 		return
-	# The simulation clock drives fallback solar geometry; a snapshot that supplies both solar angles keeps priority until the override is cleared.
-	atmosphere_controller.set_simulation_time(
-		ecosystem.clock_hour,
-		int(spec.get("day_of_year", 196))
-	)
-	# Ecosystem wind remains the local wind source until a snapshot updates it; partial state dictionaries merge, so cloud and precipitation values from the reader are preserved.
-	var local_weather: Dictionary = {
-		"air_temperature_c": ecosystem.air_c,
-		"wind_speed_mps": ecosystem.wind.length()
-	}
-	if ecosystem.wind.length_squared() > 0.0001:
-		# Convert the world-space flow vector to meteorological-source bearing (direction from which the wind originates).
-		local_weather["wind_direction_deg"] = fposmod(
-			rad_to_deg(atan2(-ecosystem.wind.x, -ecosystem.wind.y)),
-			360.0
-		)
-	atmosphere_controller.set_weather_state(local_weather)
+	atmosphere_controller.time_scale = ecosystem.time_scale
+	if _has_simulation_epoch:
+		atmosphere_controller.set_simulation_timestamp(_simulation_epoch_unix, float(spec.get("utc_offset_hours", -6.0)))
+	if ecosystem.live_mode:
+		var weather: Dictionary = ecosystem.current_frame.get("weather", {}).duplicate(true)
+		if weather.get("solar") is Dictionary:
+			weather.merge(weather.solar, true)
+		weather["air_temperature_c"] = ecosystem.air_c
+		weather["relative_humidity"] = ecosystem.humidity
+		weather["cloud_fraction"] = ecosystem.cloud
+		weather["wind_speed_mps"] = ecosystem.wind.length()
+		weather["wind_direction_deg"] = fposmod(rad_to_deg(atan2(-ecosystem.wind.x, -ecosystem.wind.y)), 360.0)
+		var ecology: Dictionary = ecosystem.current_frame.get("ecology", {})
+		var terrain: Dictionary = ecology.get("terrain", {}).duplicate(true)
+		if ecology.get("snow") is Dictionary and ecology.snow.get("swe_mm") != null:
+			terrain["snow_water_equivalent_mm"] = ecology.snow.swe_mm
+		if ecology.get("soil") is Dictionary and ecology.soil.get("temperature_c") != null:
+			terrain["soil_temperature_c"] = ecology.soil.temperature_c
+		var cover_sum: float = 0.0
+		var cover_count: int = 0
+		for patch: Dictionary in ecology.get("patches", []):
+			if patch.get("snow_cover_fraction") != null:
+				cover_sum += float(patch.snow_cover_fraction)
+				cover_count += 1
+		if cover_count > 0:
+			terrain["snow_cover_fraction"] = cover_sum / float(cover_count)
+		if not terrain.is_empty():
+			weather["terrain"] = terrain
+		if weather.get("precip_mm_h") != null:
+			weather["precipitation_rate_mm_h"] = weather.precip_mm_h
+		atmosphere_controller.set_weather_state(weather)
 	for mat: ShaderMaterial in foliage_materials:
 		mat.set_shader_parameter("wind_vector", ecosystem.wind)
 func refresh_env_caches() -> void:
@@ -690,9 +1066,14 @@ func refresh_env_caches() -> void:
 		if mat == null:continue
 		mat.set_shader_parameter("wind",ecosystem.wind)
 		# Condensation model (mirrors yellowstone_python.microclimate): humidity and wind drive the plume.
-		mat.set_shader_parameter("density",
-				ecosystem.condensation_visibility(
-					float(node.get_meta("surface_c",76.0))) * STEAM_DENSITY_SCALE)
+		var steam_report: Dictionary = _sidecar_data.get("steam_microclimate.json", {}).get("report", {})
+		var near_pool: float = 0.0
+		for pool: Dictionary in spec.get("pools", []):
+			var center: Array = pool.get("center", [0.0, 0.0, 0.0])
+			var distance: float = Vector2(node.position.x - float(center[0]), node.position.z - float(center[2])).length() if node is Node3D else INF
+			near_pool = maxf(near_pool, clampf(1.0 - distance / maxf(float(steam_report.get("fetch_length_m", 1.0)), 1.0), 0.0, 1.0))
+		var moisture: float = 1.0 + near_pool * maxf(0.0, float(steam_report.get("downwind_rh", ecosystem.humidity)) - ecosystem.humidity)
+		mat.set_shader_parameter("density", ecosystem.condensation_visibility(float(node.get_meta("surface_c", 76.0))) * STEAM_DENSITY_SCALE * moisture)
 	for node in _river_nodes:
 		if str(node.get_meta("river_name","")).to_upper()!="FIREHOLE RIVER":continue
 		var mi := node as MeshInstance3D
@@ -722,10 +1103,11 @@ func update_notes() -> void:
 	if not final.is_empty():
 		biological_block = "\n[b]Biological ledger[/b]\nInsect benthic: %.3f  emergent: %.3f  terrestrial: %.3f\nEmergence rate: %.3f  consumed by dipper %.2f, raven %.2f, trout %.2f" % [float(final.get("Nb", 0.0)), float(final.get("Ne", 0.0)), float(final.get("Nt", 0.0)), emergence, dipper, raven, trout]
 	var sidecar_block: String = format_sidecar_block()
-	info_label.text="[color=#d6c88f][b]OBSERVING MIDWAY[/b][/color]\n\nThe blue centers are deep hot water. Microbial mats occupy cooler edges and runoff. Follow the drainage fingers toward the Firehole.\n\n[b]Environmental model[/b]\nNearby river reach: %.1f °C\nFlow: %.2f m³/s\nWind: %.1f m/s\nRiverbank insects: %s (activity %.2f)\nSnow: %s%s%s\n\nThe temperature and activity values are illustrative simulation states. Geometry follows USGS elevation and NPS mapping; water depth, plants, and wildlife are authored approximations.\n\n[I] Close notes    [T] Advance lighting by 2 h" % [reach.temperature_c,reach.flow_m3s,ecosystem.wind.length(),("hover" if float(bank.get("insect_activity",0.0))>0.035 else "inactive"),float(bank.get("insect_activity",0.0)),("see season sidecar" if FileAccess.file_exists("res://data/season.json") else "summer baseline"),biological_block,sidecar_block]
+	if simulation_panel != null:
+		sidecar_block += simulation_panel.model_notes()
+	info_label.text="[color=#d6c88f][b]OBSERVING MIDWAY[/b][/color]\n\nThe blue centers are deep hot water. Microbial mats occupy cooler edges and runoff. Follow the drainage fingers toward the Firehole.\n\n[b]Environmental model[/b]\nNearby river reach: %.1f °C\nFlow: %.2f m³/s\nWind: %.1f m/s\nRiverbank insects: %s (activity %.2f)\nSnow: %s%s%s\n\nThe temperature and activity values are illustrative simulation states. Geometry follows USGS elevation and NPS mapping; water depth, plants, and wildlife are authored approximations.\n\n[I] Close notes    [T] Jump simulation by 2 h" % [reach.temperature_c,reach.flow_m3s,ecosystem.wind.length(),("hover" if float(bank.get("insect_activity",0.0))>0.035 else "inactive"),float(bank.get("insect_activity",0.0)),("see season sidecar" if FileAccess.file_exists("res://data/season.json") else "summer baseline"),biological_block,sidecar_block]
 
 func format_sidecar_block() -> String:
-	# Lists the optional Python-published sidecars (fixes-39) available in this run; an absent sidecar is omitted.
 	var lines: Array = []
 	if not _plume_field_summary.is_empty():
 		lines.append("Plume field: %dx%d grid, Excelsior reach %.1f °C, bridge reach %.1f °C" % [int(_plume_field_summary.get("nx", 0)), int(_plume_field_summary.get("nz", 0)), float(_plume_field_summary.get("hot_source_c", 0.0)), float(_plume_field_summary.get("river_c", 0.0))])
@@ -766,6 +1148,16 @@ func format_sidecar_block() -> String:
 		lines.append("Groundwater field: %s" % str(_groundwater_summary.get("status", "available")))
 	if not _overland_summary.is_empty():
 		lines.append("Overland field: %s" % str(_overland_summary.get("status", "available")))
+	for file: String in SIDECAR_PATHS:
+		var doc: Dictionary = _sidecar_data.get(file, {})
+		if not doc.is_empty():
+			var values: PackedStringArray = PackedStringArray()
+			for key: String in doc:
+				if key not in ["code_rev", "contract_version", "sources", "source_hashes", "parameter_provenance", "provenance", "schema", "world_id", "status", "build_id"]:
+					var value: Variant = doc[key]
+					var summary: String = "%d records" % value.size() if value is Array else JSON.stringify(value).left(95)
+					values.append("%s=%s" % [key, summary])
+			lines.append("%s: %s" % [file.get_basename().capitalize(), "; ".join(values).left(500)])
 	if lines.is_empty():
 		return ""
 	return "\n\n[b]Published sidecars[/b]\n" + "\n".join(lines)

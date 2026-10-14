@@ -3,16 +3,8 @@ import math
 
 import pytest
 
-from yellowstone_python.pool_crust import (build_all, buffered_ring,
-                                           depth_at, exclusion_violations,
-                                           in_apron, in_water,
-                                           make_ramp_stops,
-                                           r_water_from_area,
-                                           radial_temp, render_apron_tiles,
-                                           render_cross_section, render_ramp,
-                                           shell_for_pool, validate_ramp_stops)
+from yellowstone_python.thermal_features.pool_crust import build_all, buffered_ring, depth_at, exclusion_violations, in_apron, in_water, make_ramp_stops, r_water_from_area, radial_temp, render_apron_tiles, render_cross_section, render_ramp, shell_for_pool, validate_ramp_stops
 
-from paths import WORLD_JSON as WORLD
 
 
 def _pools():
@@ -22,7 +14,7 @@ def _pools():
 def test_mapped_outline_preserved():
     pools = _pools()
     gp = shell_for_pool(pools["pool_1034_0"])
-    # Effective radius from area 6723 m² ≈ 46 m; bounding per research ~94×102.
+    # Effective radius from area 6723 m2 about 46 m; bounding per research ~94x102.
     assert abs(gp["r_water_m"] - 46.3) < 1.0
     # Shell radii strictly grow; outline itself untouched (no world.json write).
     assert gp["r_water_m"] < gp["r_shelf_m"] < gp["r_rim_m"] < gp["r_apron_m"]
@@ -35,7 +27,7 @@ def test_center_hotter_than_edge():
     # Edge temperature is exactly attained at the water edge (no residual).
     assert radial_temp(gp["r_water_m"], gp["r_water_m"], 72.0, 42.0) == 42.0
     assert radial_temp(gp["r_water_m"] * 3, gp["r_water_m"], 72.0, 42.0) == 42.0
-    # Per-pool stops vary (no universal palette): deep Grand Prismatic ≠ shallow Opal.
+    # Per-pool stops vary (no universal palette): deep Grand Prismatic differs from shallow Opal.
     op = shell_for_pool(pools["pool_1029_0"])
     assert gp["color_stops"][0] != op["color_stops"][0]
 
@@ -62,6 +54,31 @@ def test_mapped_ring_carried_not_circular():
     assert in_water(ix, iz, gp)
     assert not in_water(cx + 2 * gp["max_radius_m"], cz, gp)
     assert not in_apron(cx + 2 * gp["max_radius_m"] + 50, cz, gp)
+
+
+def test_apron_reuses_geometry_and_tracks_mutations(monkeypatch):
+    from yellowstone_python.thermal_features import pool_crust
+    pool_crust._apron_ring.cache_clear()
+    original = pool_crust.buffered_ring
+    calls = []
+
+    def counted(*args):
+        calls.append(args)
+        return original(*args)
+
+    monkeypatch.setattr(pool_crust, "buffered_ring", counted)
+    shell = {"ring": [[-1, -1], [1, -1], [1, 1], [-1, 1]],
+             "center_xz": [0, 0], "apron_margin_m": 0}
+    assert in_apron(0, 0, shell)
+    assert not in_apron(2, 0, shell)
+    assert len(calls) == 1
+    shell["apron_margin_m"] = 2
+    assert in_apron(2, 0, shell)
+    assert len(calls) == 2
+    shell["ring"] = [[10, 10], [12, 10], [12, 12], [10, 12]]
+    assert not in_apron(2, 0, shell)
+    assert len(calls) == 3
+    pool_crust._apron_ring.cache_clear()
 
 
 def test_make_ramp_stops_is_pure():
@@ -196,3 +213,13 @@ def test_render_cross_section_writes_metadata_sidecar(tmp_path):
     assert meta["represents_mapped_outline"] is False
     assert meta["section_geometry"] == "radial"
     assert meta["pool_id"] == gp["id"]
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'WORLD', resolved_paths['WORLD_JSON'], raising=False)

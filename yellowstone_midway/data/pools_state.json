@@ -1,6 +1,6 @@
 {
   "contract_version": "0.1.0",
-  "generated_at_unix": 1791885644,
+  "generated_at_unix": 1791969698,
   "note": "pools_state.json carries authored pool temperatures sourced from pool_shells; replace with per-step dynamic state once a reservoir-coupled thermal model is wired.",
   "pools": [
     {

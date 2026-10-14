@@ -5,14 +5,8 @@ from datetime import datetime, timezone
 
 import pytest
 
-from yellowstone_python.microclimate import (
-    air_temp, boiling_point_c, bundle_weather, condensation_potential,
-    dewpoint_c, fetch_nws_station_data, load_real_weather,
-    load_weather_bundle, metpy_wet_bulb_temperature, prevailing_direction,
-    pvlib_solar_azimuth_elevation, steam_visibility, trace,
-    wind_from_direction, wind_series,
-)
-from yellowstone_python import microclimate as m
+from yellowstone_python.atmosphere.microclimate import air_temp, boiling_point_c, bundle_weather, condensation_potential, dewpoint_c, fetch_nws_station_data, load_real_weather, load_weather_bundle, metpy_wet_bulb_temperature, prevailing_direction, pvlib_solar_azimuth_elevation, steam_visibility, trace, wind_from_direction, wind_series
+import yellowstone_python.atmosphere.microclimate as m
 
 
 def test_peak_lags_solar_noon():
@@ -47,7 +41,7 @@ def test_condensation_physics_sane():
     assert cold["dewpoint_depression_c"] < dry["dewpoint_depression_c"]
 
 
-# Regression tests from fixes-16 audit spec.
+# Regression tests from audit spec.
 
 
 def test_wet_bulb_pressure_default():
@@ -210,6 +204,7 @@ def test_wind_from_direction_calm_raises():
         wind_from_direction((0.0, 0.0))
 
 
+@pytest.mark.needs_pvlib
 def test_solar_negative_at_night():
     try:
         import pvlib
@@ -223,6 +218,7 @@ def test_solar_negative_at_night():
     assert el < 0.0
 
 
+@pytest.mark.needs_science
 def test_metpy_wet_bulb_saturated_approx_equals_air():
     try:
         import metpy
@@ -235,12 +231,12 @@ def test_metpy_wet_bulb_saturated_approx_equals_air():
 
 def test_nws_null_values_distinguished():
     # The function returns None for missing observations under a synthetic properties dict.
-    from yellowstone_python.microclimate import _nws_quantity
+    from yellowstone_python.atmosphere.microclimate import _nws_quantity
     assert _nws_quantity({"temperature": {"value": None}}, "temperature", {"wmoUnit:degC": 1.0}) is None
 
 
 def test_nws_precip_unit_conversion():
-    from yellowstone_python.microclimate import _nws_quantity
+    from yellowstone_python.atmosphere.microclimate import _nws_quantity
     # Millimeters reports as 1.0 * 1.0 = value
     assert _nws_quantity({"precipitationLastHour": {"value": 10, "unitCode": "wmoUnit:mm"}}, "precipitationLastHour", {"wmoUnit:mm": 1.0, "wmoUnit:in": 25.4}) == 10.0
     # Inches reports as value * 25.4
@@ -359,7 +355,7 @@ def test_fetch_nws_station_data_requires_station_id():
 
 
 def test_herbie_requires_date_str():
-    from yellowstone_python.microclimate import herbie_retrieve_hrrr_rtma
+    from yellowstone_python.atmosphere.microclimate import herbie_retrieve_hrrr_rtma
     with pytest.raises(ValueError):
         herbie_retrieve_hrrr_rtma("")
 
@@ -379,7 +375,7 @@ def _write_bundle(path, epoch, air_c, rh):
 
 
 def _make_backend(tmp_path):
-    from yellowstone_python.llm_backend import Backend
+    from yellowstone_python.service.llm_backend import Backend
     world = tmp_path / "world"
     derived = tmp_path / "derived"
     world.mkdir(parents=True, exist_ok=True)
@@ -387,6 +383,7 @@ def _make_backend(tmp_path):
     return Backend(world=world, derived=derived)
 
 
+@pytest.mark.needs_science
 def test_wet_bulb_switch_uses_metpy_when_available(tmp_path):
     try:
         import metpy  # noqa: F401
@@ -402,7 +399,7 @@ def test_wet_bulb_switch_uses_metpy_when_available(tmp_path):
 
 
 def test_wet_bulb_switch_falls_back_to_stull(monkeypatch, tmp_path):
-    from yellowstone_python import microclimate as mc
+    import yellowstone_python.atmosphere.microclimate as mc
 
     def _fail(*_args, **_kwargs):
         raise ImportError("metpy forced off for test")
@@ -420,7 +417,7 @@ def test_wet_bulb_switch_falls_back_to_stull(monkeypatch, tmp_path):
 def test_wet_bulb_switch_reports_unavailable_outside_stull_range(
     monkeypatch, tmp_path,
 ):
-    from yellowstone_python import microclimate as mc
+    import yellowstone_python.atmosphere.microclimate as mc
 
     def _fail(*_args, **_kwargs):
         raise ImportError("metpy forced off for test")

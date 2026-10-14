@@ -168,10 +168,13 @@ def _build_dir_with_sources(tmp_path):
     })
     _write_json(build / "river_replay.json", {
         "replay": {
-            "cells": [{"id": "cell_a"}, {"id": "cell_b"}],
+            "simulation_start_epoch_unix": 1785600000.0,
+            "cells": [{"id": "cell_a", "center_s_m": 100.0}, {"id": "cell_b", "center_s_m": 200.0}],
+            "source_connections": [{"source_id": "excelsior", "s_m": 100.0}],
+            "legacy_queries": [{"reach_id": "bridge_downstream", "s_m": 200.0}],
             "frames": [
                 {"t_s": 0.0, "temperature_c": [17.5, 17.6]},
-                {"t_s": 60.0, "temperature_c": [18.1, 17.9]},
+                {"t_s": 60.0, "temperature_c": [25.0, 18.0]},
             ],
         }
     })
@@ -202,6 +205,7 @@ def _build_dir_with_sources(tmp_path):
     return build
 
 
+@pytest.mark.needs_science
 def test_plume_producer_writes_grid(tmp_path):
     pytest.importorskip("scipy")
     build = _build_dir_with_sources(tmp_path)
@@ -226,18 +230,18 @@ def test_plume_producer_raises_when_source_absent(tmp_path):
         write_plume_field_json(build)
 
 
-def test_plume_producer_accepts_list_river_state(tmp_path):
+@pytest.mark.needs_science
+def test_plume_producer_uses_mapped_replay_with_list_river_state(tmp_path):
     pytest.importorskip("scipy")
-    build = tmp_path / "derived" / "build_000"
-    build.mkdir(parents=True)
+    build = _build_dir_with_sources(tmp_path)
     _write_json(build / "river_state.json", [
         {"id": "excelsior_mixing", "temperature_c": 24.0},
         {"id": "bridge_downstream", "temperature_c": 17.9},
     ])
     out = write_plume_field_json(build)
     doc = json.loads(out.read_text())
-    assert doc["hot_source_c"] == pytest.approx(24.0)
-    assert doc["river_c"] == pytest.approx(17.9)
+    assert doc["hot_source_c"] == pytest.approx(25.0)
+    assert doc["river_c"] == pytest.approx(18.0)
 
 
 def test_geochemistry_producer_writes_per_cell(tmp_path):
@@ -322,6 +326,7 @@ def test_snow_cover_producer_writes_when_fraction_present(tmp_path):
     assert sidecar["source"].startswith("season.json::")
 
 
+@pytest.mark.needs_science
 def test_produce_all_reports_written_and_gaps(tmp_path):
     pytest.importorskip("scipy")
     build = _build_dir_with_sources(tmp_path)
@@ -407,6 +412,7 @@ def test_census_producer_prefers_local_copy(tmp_path):
 def _weather_json_payload(met_bundle: bool = False) -> dict:
     return {
         "weather": {
+            "valid_time_unix": 1785600000.0,
             "night_air_c": 8.5,
             "day_warming_c": 0.0,
             "wind_xz_mps": [4.0, 0.6],
@@ -435,6 +441,7 @@ def test_weather_snapshot_producer_writes_schema_v2(tmp_path):
     build = tmp_path / "derived" / "build_000"
     build.mkdir(parents=True)
     _write_json(build / "weather.json", _weather_json_payload(met_bundle=True))
+    _write_json(build / "season.json", {"simulation_epoch_unix": 1785600000.0})
     out = write_weather_snapshot_json(build)
     assert out == build / "weather_snapshot.json"
     doc = json.loads(out.read_text())

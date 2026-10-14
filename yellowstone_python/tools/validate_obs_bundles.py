@@ -1,22 +1,22 @@
-"""Gate an observation bundle before fitting (schema, continuity, coverage).
-"""
+"""Observation bundle schema, continuity, and coverage validation."""
+
+from yellowstone_python.river.obs_model import UPSTREAM_GAUGE, DOWNSTREAM_GAUGE
 
 import argparse
 import json
 import sys
 from pathlib import Path
+from yellowstone_python.common.io import write_json_atomic as _shared_json_write
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from yellowstone_python.replay.calibrate import check_continuity
-from yellowstone_python.snow_validate import (MAX_FILL_DAYS, SPLIT_DATE,
-                                              in_to_mm)
+from yellowstone_python.river.calibrate import check_continuity
+from yellowstone_python.land.snow_validate import MAX_FILL_DAYS, SPLIT_DATE, in_to_mm
 
 SCHEMA_FIREHOLE = "yellowstone.firehole_obs.v1"
+SCHEMA_FIREHOLE_CHEM = "yellowstone.firehole_chem_obs.v1"
 SCHEMA_SNOTEL = "yellowstone.snotel_obs.v1"
 SCHEMA_VERDICT = "yellowstone.obs_bundle_verdict.v1"
 
-# Gap tolerances from calibrate.py _fit_forcing_arrays: 4x nominal step (IV nominal 900 s, met nominal 3600 s).
+# Gap tolerances from calibrate.fit_forcing_arrays: 4x nominal step (IV nominal 900 s, met nominal 3600 s).
 GAP_USGS_S = 3600.0
 GAP_MET_S = 14400.0
 
@@ -52,7 +52,7 @@ def _gate_firehole(bundle: dict, checks: list, nominal_steps: dict) -> bool:
         return False
     _check("schema", True, SCHEMA_FIREHOLE, checks)
     sites = bundle.get("sites", {})
-    for site in ("06036805", "06036905"):
+    for site in (UPSTREAM_GAUGE, DOWNSTREAM_GAUGE):
         series = (sites.get(site) or {}).get("series", {})
         for key, label in (("temperature_c", f"{site} temperature"),
                            ("discharge_m3_s", f"{site} discharge")):
@@ -79,7 +79,7 @@ def _gate_firehole(bundle: dict, checks: list, nominal_steps: dict) -> bool:
         ok = _continuity([[r[0], r[1]] for r in met_rows], "met air",
                          GAP_MET_S, checks, nominal_steps) and ok
     if ok:
-        up = sites["06036805"]["series"]
+        up = sites[UPSTREAM_GAUGE]["series"]
         t0 = max(min(p[0] for p in up["temperature_c"]),
                  min(r[0] for r in met_rows))
         t1 = min(max(p[0] for p in up["temperature_c"]),
@@ -163,22 +163,55 @@ def _gate_snow(bundle: dict, checks: list, nominal_steps: dict) -> bool:
     return ok
 
 
+def _gate_firehole_chem(bundle: dict, checks: list) -> bool:
+    """Chemistry bundle gate; empty series are recorded as findings."""
+    if bundle.get("schema") != SCHEMA_FIREHOLE_CHEM:
+        _check("schema", False, f"expected {SCHEMA_FIREHOLE_CHEM}, found "
+               f"{bundle.get('schema')!r}", checks)
+        return False
+    _check("schema", True, SCHEMA_FIREHOLE_CHEM, checks)
+    sites = bundle.get("sites", {})
+    if not sites:
+        _check("presence:sites", False, "no sites", checks)
+        return False
+    _check("presence:sites", True, f"{sorted(sites)}", checks)
+    for site_id, site in sites.items():
+        series = site.get("series", {})
+        series_status = site.get("series_status", {})
+        for name in ("specific_conductance", "dissolved_oxygen", "ph"):
+            n = len(series.get(name, []))
+            status = series_status.get(name, "unknown")
+            _check(
+                f"series:{site_id}:{name}", True,
+                f"n={n} status={status}", checks,
+            )
+    return True
+
+
 def gate_bundle(bundle: dict, consumer: str) -> dict:
     """Read-only gate; returns the verdict dict (no I/O)."""
     checks: list = []
     nominal_steps: dict = {}
     schema = bundle.get("schema")
     if consumer == "auto":
-        consumer = ("firehole" if schema == SCHEMA_FIREHOLE
-                    else "snow" if schema == SCHEMA_SNOTEL else "unknown")
+        if schema == SCHEMA_FIREHOLE:
+            consumer = "firehole"
+        elif schema == SCHEMA_SNOTEL:
+            consumer = "snow"
+        elif schema == SCHEMA_FIREHOLE_CHEM:
+            consumer = "firehole_chem"
+        else:
+            consumer = "unknown"
     if consumer == "firehole":
         passed = _gate_firehole(bundle, checks, nominal_steps)
     elif consumer == "snow":
         passed = _gate_snow(bundle, checks, nominal_steps)
+    elif consumer == "firehole_chem":
+        passed = _gate_firehole_chem(bundle, checks)
     else:
         _check("unknown-schema", False,
-               f"schema {schema!r} is neither {SCHEMA_FIREHOLE!r} nor "
-               f"{SCHEMA_SNOTEL!r}", checks)
+               f"schema {schema!r} is not one of {SCHEMA_FIREHOLE!r}, "
+               f"{SCHEMA_SNOTEL!r} or {SCHEMA_FIREHOLE_CHEM!r}", checks)
         passed = False
     return {"schema": SCHEMA_VERDICT,
             "status": bundle.get("status", "measured_remote_not_calibrated"),
@@ -194,7 +227,8 @@ def main() -> int:
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--consumer", default="auto",
-                        choices=("firehole", "snow", "all", "auto"))
+                        choices=("firehole", "snow", "firehole_chem",
+                                 "all", "auto"))
     args = parser.parse_args()
     try:
         bundle = json.loads(args.bundle.read_text())
@@ -221,9 +255,7 @@ def main() -> int:
     if args.out is not None:
         try:
             args.out.parent.mkdir(parents=True, exist_ok=True)
-            tmp = args.out.with_name(args.out.name + ".tmp")
-            tmp.write_text(json.dumps(verdict, indent=2))
-            tmp.replace(args.out)
+            _shared_json_write(args.out, verdict)
         except OSError as exc:
             print(json.dumps(verdict, indent=2))
             print(f"verdict-unwritable: {args.out}: {exc}")

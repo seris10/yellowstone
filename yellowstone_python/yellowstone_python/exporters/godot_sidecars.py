@@ -1,13 +1,15 @@
-"""Producers for Godot-side sidecar files from a published build directory.
-Each producer writes JSON with schema id, units and status, or raises MissingSourceError on absent inputs."""
+"""Producers for Godot-side sidecar files from a published build directory."""
 from __future__ import annotations
+
+from yellowstone_python.common.site import SITE_LAT_DEG, SITE_LON_DEG
 
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
 
-from ..common.provenance import CONTRACT_VERSION, WORLD_ID
+from yellowstone_python.common.provenance import CONTRACT_VERSION, WORLD_ID
+from yellowstone_python.common.io import load_json, write_json_atomic
 
 
 PLUME_FIELD_SCHEMA = "yellowstone.plume_field.v1"
@@ -21,8 +23,6 @@ CENSUS_FIELD_SCHEMA = "yellowstone.census.v1"
 WEATHER_SNAPSHOT_SCHEMA_VERSION = 2
 
 # Firehole site centroid shared with llm_backend's solar snapshot.
-SITE_LATITUDE_DEG = 44.459333
-SITE_LONGITUDE_DEG = -110.822272
 
 # Reader-side gates mirrored from yellowstone_midway/scripts/weather_snapshot_reader.gd.
 WEATHER_SNAPSHOT_REQUIRED_FIELDS = (
@@ -74,17 +74,10 @@ class MissingSourceError(RuntimeError):
 
 
 def _load_json(path: Path, label: str) -> dict:
-    if not path.is_file():
-        raise MissingSourceError(f"{label} not found at {path}")
     try:
-        with path.open(encoding="utf-8") as handle:
-            value = json.load(handle)
-    except json.JSONDecodeError as exc:
-        raise MissingSourceError(
-            f"{label} at {path} is not valid JSON: {exc}") from exc
-    if not isinstance(value, dict):
-        raise MissingSourceError(f"{label} at {path} is not a JSON object")
-    return value
+        return load_json(path, label=label)
+    except ValueError as exc:
+        raise MissingSourceError(str(exc)) from exc
 
 
 def _reach_by_id(reaches: list, rid: str) -> dict | None:
@@ -95,49 +88,28 @@ def _reach_by_id(reaches: list, rid: str) -> dict | None:
 
 
 def _write_json(out_path: Path, doc: dict) -> Path:
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(
-        json.dumps(doc, indent=2, sort_keys=True, allow_nan=False) + "\n",
-        encoding="utf-8")
-    return out_path
+    return write_json_atomic(out_path, doc, indent=2)
 
 
 def write_plume_field_json(build_dir: Path,
                            out_path: Path | None = None) -> Path:
-    """Write a 2-D plume field sidecar from the mapped river state.
-    Grid matches hydro_thermal.plume_map.png; traces to Excelsior mouth and Firehole bridge temperatures."""
+    """Write a 2-D plume field sidecar from the mapped river state."""
     build_dir = Path(build_dir)
-    river_state_path = build_dir / "river_state.json"
-    if not river_state_path.is_file():
-        raise MissingSourceError(
-            f"river_state.json not found at {river_state_path}")
-    try:
-        with river_state_path.open(encoding="utf-8") as handle:
-            river_state_doc = json.load(handle)
-    except json.JSONDecodeError as exc:
-        raise MissingSourceError(
-            f"river_state.json at {river_state_path} is not valid JSON: "
-            f"{exc}") from exc
-    if isinstance(river_state_doc, list):
-        reaches = river_state_doc
-    elif isinstance(river_state_doc, dict):
-        reaches = river_state_doc.get("river_state") or []
-    else:
-        raise MissingSourceError(
-            "river_state.json must be a list or an object with river_state")
-    if not reaches:
-        raise MissingSourceError(
-            "river_state.json contains no reaches; cannot build plume field")
-    hot = _reach_by_id(reaches, EXCELSIOR_REACH_ID)
-    cool = _reach_by_id(reaches, BRIDGE_REACH_ID) or reaches[-1]
-    if hot is None or "temperature_c" not in hot:
-        raise MissingSourceError(
-            f"reach {EXCELSIOR_REACH_ID!r} with temperature_c missing from "
-            f"river_state.json")
-    if "temperature_c" not in cool:
-        raise MissingSourceError(
-            "bridge reach lacks temperature_c in river_state.json")
-    from ..replay.plume2d import solve_steady
+    document = _load_json(build_dir / "river_replay.json", "river_replay.json")
+    replay = document.get("replay", document)
+    cells = replay.get("cells", [])
+    frames = replay.get("frames", [])
+    connections = replay.get("source_connections", [])
+    source = next((row for row in connections if "excelsior" in row.get("source_id", "")), None)
+    bridge = next((row for row in replay.get("legacy_queries", []) if row.get("reach_id") == BRIDGE_REACH_ID), None)
+    if not cells or not frames or source is None or bridge is None:
+        raise MissingSourceError("plume requires replay cells, frames, Excelsior connection and bridge query")
+    def temperature_at(chainage):
+        index = min(range(len(cells)), key=lambda i: abs(float(cells[i]["center_s_m"]) - chainage))
+        return float(frames[-1]["temperature_c"][index])
+    hot = {"temperature_c": temperature_at(float(source["s_m"]))}
+    cool = {"temperature_c": temperature_at(float(bridge["s_m"])), "id": BRIDGE_REACH_ID}
+    from yellowstone_python.river.plume2d import solve_steady
     sol = solve_steady(nx=PLUME_FIELD_NX, nz=PLUME_FIELD_NZ,
                        extent_m=PLUME_FIELD_EXTENT_M,
                        ambient_c=float(cool["temperature_c"]),
@@ -181,7 +153,7 @@ def write_plume_field_json(build_dir: Path,
 def write_geochemistry_json(build_dir: Path,
                             out_path: Path | None = None) -> Path:
     """Per-cell silica saturation diagnostics from the last replay frame.
-    Quartz solubility per Fournier 1977 no-steam-loss; cells without SiO2 obs flag no_observation."""
+Quartz solubility per Fournier (1977) no-steam-loss; cells without SiO2 obs flag no_observation."""
     build_dir = Path(build_dir)
     replay_doc = _load_json(build_dir / "river_replay.json",
                             "river_replay.json")
@@ -196,7 +168,7 @@ def write_geochemistry_json(build_dir: Path,
     if len(temps) != len(cells):
         raise MissingSourceError(
             "temperature frame length does not match cell count")
-    from ..geochemistry import diagnose_replay_frame
+    from yellowstone_python.thermal_features.geochemistry import diagnose_replay_frame
     cell_inputs = [
         {"id": c.get("id"), "temperature_c": float(t)}
         for c, t in zip(cells, temps)
@@ -277,8 +249,7 @@ def write_calibration_summary_json(build_dir: Path,
                                    fit_path: Path | None = None,
                                    obs_path: Path | None = None,
                                    out_path: Path | None = None) -> Path:
-    """Reach heat fit scalars plus the observed USGS gauge trace.
-    Searches derived/ when fit_path or obs_path is absent; trace reduces to the first gauge site's series."""
+    """Reach heat fit scalars plus the observed USGS gauge trace."""
     build_dir = Path(build_dir)
     derived_root = build_dir.parent
     fit_candidates = []
@@ -344,7 +315,7 @@ def write_calibration_summary_json(build_dir: Path,
         "units": {"train_rmse_c": "degree_Celsius",
                   "holdout_rmse_c": "degree_Celsius",
                   "t_s": "seconds since Unix epoch",
-                  "discharge_m3_s": "m^3 s^-1",
+                  "discharge_m3_s": "m3/s",
                   "temperature_c": "degree_Celsius"},
         "reach_fit": reach_fit,
         "gauge_trace": {
@@ -359,8 +330,7 @@ def write_calibration_summary_json(build_dir: Path,
 
 def write_pools_state_json(build_dir: Path,
                            out_path: Path | None = None) -> Path:
-    """Per-pool thermal state exported for the Godot pool overlay.
-    Reads pool_shells.json and emits center and edge temperatures per pool; status labels authored-steady and names the dynamic coupling that will replace it."""
+    """Per-pool thermal state exported for the Godot pool overlay."""
     build_dir = Path(build_dir)
     shells_src = build_dir / "pool_shells.json"
     if not shells_src.is_file():
@@ -431,8 +401,7 @@ def _snow_cover_fraction_from_depth(depth_m: float) -> float:
 
 def write_snow_cover_sidecar(build_dir: Path,
                              out_path: Path | None = None) -> Path:
-    """Per-patch snow_cover_fraction sidecar (fixes-39 item 4 phase 2).
-    Prefers the explicit snow_cover_fraction field in season.json; otherwise derives it from snow_depth_m via SNOW_COVER_FULL_DEPTH_M."""
+    """Per-patch snow_cover_fraction sidecar ( )."""
     build_dir = Path(build_dir)
     season = build_dir / "season.json"
     if not season.is_file():
@@ -484,147 +453,33 @@ def _wind_direction_from_vector(vx: float, vz: float) -> float:
 
 def write_weather_snapshot_json(build_dir: Path,
                                 out_path: Path | None = None) -> Path:
-    """Schema version 2 weather snapshot for the Godot reader.
-    Pulls air, humidity, wind, and cloud from build/weather.json; snow fraction from the microclimate wet-bulb path; solar angles from microclimate.solar_snapshot."""
-    import math
+    """Write weather evaluated at the build's simulation epoch."""
+    from yellowstone_python.atmosphere.microclimate import weather_snapshot
     build_dir = Path(build_dir)
-    weather_src = build_dir / "weather.json"
-    if not weather_src.is_file():
-        raise MissingSourceError(
-            f"weather.json not found at {weather_src}; build did not run the "
-            f"weather module")
-    source_doc = _load_json(weather_src, "weather.json")
-    weather = source_doc.get("weather") or {}
-    air_c = float(weather.get("night_air_c", 7.0))
-    rh = float(weather.get("humidity", 0.45))
-    cloud = float(weather.get("cloud", 0.16))
-    wind_vector = weather.get("wind_xz_mps") or [1.8, 0.6]
-    try:
-        wx = float(wind_vector[0])
-        wz = float(wind_vector[1])
-    except (TypeError, ValueError, IndexError):
-        wx, wz = 1.8, 0.6
-    wind_speed_mps = math.hypot(wx, wz)
-    wind_direction_deg = _wind_direction_from_vector(wx, wz)
-    met_bundle_flag = bool(weather.get("met_bundle"))
-    forcing_mode = ("measured_absolute_temperature" if met_bundle_flag
-                    else "authored_defaults")
-
-    # Snow fraction via microclimate wet-bulb path when importable; else zero authored.
-    snow_fraction = 0.0
-    snow_partition_source = "authored_zero"
-    try:
-        from ..microclimate import metpy_wet_bulb_temperature
-        t_w = metpy_wet_bulb_temperature(air_c, rh)
-        snow_partition_source = "metpy_wet_bulb"
-    except (ImportError, ValueError):
-        t_w = None
-    if t_w is None:
-        rh_percent = max(0.0, min(100.0, rh * 100.0))
-        if (-20.0 <= air_c <= 50.0) and (5.0 <= rh_percent <= 99.0):
-            t_w = (
-                air_c * math.atan(0.151977
-                                  * math.sqrt(rh_percent + 8.313659))
-                + math.atan(air_c + rh_percent)
-                - math.atan(rh_percent - 1.676331)
-                + 0.00391838 * (rh_percent ** 1.5)
-                * math.atan(0.023101 * rh_percent)
-                - 4.686035)
-            snow_partition_source = "stull_2011_wet_bulb"
-        else:
-            snow_partition_source = (
-                "unavailable_outside_stull_2011_validity_range")
-    if t_w is not None:
-        if t_w <= -1.0:
-            snow_fraction = 1.0
-        elif t_w >= 3.0:
-            snow_fraction = 0.0
-        else:
-            snow_fraction = (3.0 - t_w) / 4.0
-
-    # Precipitation from the met bundle only; authored modes leave zero and label the status.
-    precipitation_rate_mm_h = 0.0
-    precipitation_status = "unavailable"
-    if met_bundle_flag:
-        precipitation_status = "measured_bundle_available_but_hour_not_resolved"
-
-    dewpoint_c = air_c - 20.0 * (1.0 - rh)
-
-    now_unix = int(datetime.now(timezone.utc).timestamp())
-    valid_time_unix = now_unix
-    simulation_time_unix = now_unix
-
-    solar_block = {
-        "source": "unavailable",
-        "latitude_deg": SITE_LATITUDE_DEG,
-        "longitude_deg": SITE_LONGITUDE_DEG,
-    }
-    try:
-        from ..microclimate import solar_snapshot
-        solar_block = solar_snapshot(now_unix,
-                                     latitude=SITE_LATITUDE_DEG,
-                                     longitude=SITE_LONGITUDE_DEG)
-    except (ImportError, ValueError):
-        pass
-
-    weather_block = {
-        "air_temperature_c": round(air_c, 2),
-        "relative_humidity": round(min(max(rh, 0.0), 1.0), 3),
-        "wind_speed_mps": round(min(max(wind_speed_mps, 0.0), 65.0), 3),
-        "wind_direction_deg": round(wind_direction_deg % 360.0, 1),
-        "cloud_fraction": round(min(max(cloud, 0.0), 1.0), 3),
-        "precipitation_rate_mm_h": round(precipitation_rate_mm_h, 3),
-        "snow_fraction": round(min(max(snow_fraction, 0.0), 1.0), 3),
-        "visibility_m": 24000.0,
-        "dewpoint_c": round(dewpoint_c, 2),
-        "cloud_base_agl_m": 1050.0,
-        "cloud_thickness_m": 600.0,
-    }
-    source_block = {
-        "analysis": ("RTMA_proxy_via_open_meteo_bundle" if met_bundle_flag
-                     else "authored_defaults"),
-        "forecast": None,
-        "station_correction": None,
-        "forcing_mode": forcing_mode,
-        "precipitation_status": precipitation_status,
-        "snow_partition_source": snow_partition_source,
-        "note": ("weather bundle sourced from build/weather.json. "
-                 "precipitation enters only through the met bundle; "
-                 "no cloud-to-rain substitution."),
-    }
-    outdoc = {
-        "schema_version": WEATHER_SNAPSHOT_SCHEMA_VERSION,
-        "generated_at_unix": now_unix,
-        "valid_time_unix": valid_time_unix,
-        "simulation_time_unix": simulation_time_unix,
-        "source": source_block,
-        "weather": weather_block,
-        "solar": solar_block,
-    }
-    # Terrain block emits only measured values and otherwise stays empty.
-    terrain_block: dict = {}
-    snow_cover_src = build_dir / "snow_cover.json"
-    if snow_cover_src.is_file():
-        try:
-            snow_doc = _load_json(snow_cover_src, "snow_cover.json")
-            fractions = [float(row.get("snow_cover_fraction", 0.0))
-                         for row in snow_doc.get("patches", [])
-                         if isinstance(row, dict)
-                         and row.get("snow_cover_fraction") is not None]
-            if fractions:
-                terrain_block["snow_cover_fraction"] = round(
-                    sum(fractions) / len(fractions), 4)
-        except (OSError, MissingSourceError):
-            pass
-    if terrain_block:
-        outdoc["terrain"] = terrain_block
-    out = Path(out_path) if out_path else build_dir / "weather_snapshot.json"
-    return _write_json(out, outdoc)
+    weather_doc = _load_json(build_dir / "weather.json", "weather.json")
+    weather = weather_doc.get("weather") or {}
+    replay_path = build_dir / "river_replay.json"
+    replay_doc = _load_json(replay_path, "river_replay.json") if replay_path.is_file() else {}
+    replay = replay_doc.get("replay", replay_doc)
+    epoch = replay.get("simulation_start_epoch_unix", replay.get("simulation_time", {}).get("start_epoch_unix"))
+    if epoch is None:
+        season_path = build_dir / "season.json"
+        season = _load_json(season_path, "season.json") if season_path.is_file() else {}
+        epoch = season.get("simulation_epoch_unix", season.get("start_epoch_unix"))
+    if epoch is None:
+        raise MissingSourceError("weather snapshot requires a simulation epoch")
+    doc = weather_snapshot(float(epoch), weather)
+    snow_path = build_dir / "snow_cover.json"
+    if snow_path.is_file():
+        snow = _load_json(snow_path, "snow_cover.json")
+        fractions = [float(row["snow_cover_fraction"]) for row in snow.get("patches", [])]
+        if fractions:
+            doc["terrain"] = {"snow_cover_fraction": sum(fractions) / len(fractions)}
+    return _write_json(Path(out_path) if out_path else build_dir / "weather_snapshot.json", doc)
 
 
 def validate_weather_snapshot_doc(doc: dict) -> list[str]:
-    """Return a list of validation errors; empty means the doc passes the Godot reader's gates.
-    Mirrors weather_snapshot_reader.gd checks for schema version, timestamps, required weather fields, and ranges."""
+    """Return a list of validation errors"""
     errors: list[str] = []
     if not isinstance(doc, dict):
         return ["root must be a JSON object"]
@@ -709,7 +564,7 @@ def validate_weather_snapshot_doc(doc: dict) -> list[str]:
 def write_overland_field_json(build_dir: Path,
                               out_path: Path | None = None) -> Path:
     """Republish overland_flow.json as overland_field.json for the Godot reader.
-    Carries synthetic_catchment_predicted_not_validated plus the overland module status."""
+Carries synthetic_catchment_predicted_not_validated plus the overland module status."""
     build_dir = Path(build_dir)
     src = build_dir / "overland_flow.json"
     if not src.is_file():
@@ -728,9 +583,9 @@ def write_overland_field_json(build_dir: Path,
         "overland_flow_role": source.get("overland_flow_role"),
         "rainfall_source": source.get("rainfall_source"),
         "units": {"max_depth_m": "m",
-                  "outflow_m3": "m^3",
+                  "outflow_m3": "m3",
                   "surface_runoff.max_depth_m": "m",
-                  "surface_runoff.outflow_m3": "m^3"},
+                  "surface_runoff.outflow_m3": "m3"},
         "provenance": source.get("provenance"),
     }
     out = Path(out_path) if out_path else build_dir / "overland_field.json"
@@ -739,8 +594,8 @@ def write_overland_field_json(build_dir: Path,
 
 def write_groundwater_field_json(build_dir: Path,
                                  out_path: Path | None = None) -> Path:
-    """Reserved groundwater field producer (fixes-33 item 2).
-    Writes when groundwater.json exists in the build; else raises MissingSourceError."""
+    """Reserved groundwater field producer ().
+Writes when groundwater.json exists in the build; else raises MissingSourceError."""
     del out_path
     build_dir = Path(build_dir)
     gw_src = build_dir / "groundwater.json"
@@ -764,7 +619,7 @@ def write_groundwater_field_json(build_dir: Path,
 def write_census_sidecar(build_dir: Path,
                          out_path: Path | None = None) -> Path:
     """Copy derived/census.json alongside the build so publish ships it.
-    Lands in build_dir to keep publish atomic for the Godot census overlay."""
+Lands in build_dir to keep publish atomic for the Godot census overlay."""
     build_dir = Path(build_dir)
     local = build_dir / "census.json"
     if local.is_file():
@@ -802,7 +657,7 @@ PRODUCERS: dict[str, Callable[..., Path]] = {
 
 def produce_all(build_dir: Path) -> tuple[dict[str, Path], list[str]]:
     """Run each producer against build_dir and return written paths and gaps.
-    Gaps are one-line strings describing why a sidecar was not written."""
+Gaps are one-line strings describing why a sidecar was not written."""
     written: dict[str, Path] = {}
     gaps: list[str] = []
     for name, func in PRODUCERS.items():

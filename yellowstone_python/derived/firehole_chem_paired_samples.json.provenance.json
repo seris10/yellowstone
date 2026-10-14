@@ -1,0 +1,13 @@
+{
+  "schema": "yellowstone.provenance_sidecar.v1",
+  "status": "measured_remote_not_calibrated",
+  "path": "firehole_chem_paired_samples.json",
+  "bytes": 3163,
+  "sha256": "47c34f53a52fc141e9f378f9f715c147860c4d8317bac1a393eb0e121e579e2d",
+  "content_type": "application/json",
+  "url": "https://www.waterqualitydata.us/data/Result/search?siteid=USGS-06036805;USGS-06036905&characteristicName=Chloride&characteristicName=Specific%20conductance&characteristicName=Arsenic&characteristicName=Boron&characteristicName=pH&characteristicName=Dissolved%20oxygen%20%28DO%29&mimeType=csv&dataProfile=narrowResult",
+  "retrieved_utc": "2026-10-13",
+  "terms": "USGS Water Services and NWIS provisional terms; see https://waterdata.usgs.gov/nwis/help/?provisional",
+  "agency": "USGS",
+  "citation": "Water Quality Portal (National Water Quality Monitoring Council), discrete chloride and specific conductance samples at USGS 06036805 and 06036905; paired by ActivityIdentifier at the downstream gauge."
+}

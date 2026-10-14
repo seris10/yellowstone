@@ -1,14 +1,13 @@
-"""M10 study_mode: labeled A/B experiments beside the walk.
-Sliders: air temperature, shade/cloud, upstream discharge, source strength."""
+"""Study-mode control schema and labeled scenario presets."""
 from __future__ import annotations
 
-import argparse
 import copy
 import datetime
 import math
 from pathlib import Path
 
-from .run_mode import normalize_run_mode
+from yellowstone_python.registry.run_mode import normalize_run_mode
+from yellowstone_python.common.units import TEMPERATURE_RANGE_C
 
 # The schema table below lists the dotted paths a preset may set.
 NUMBER = "number"
@@ -24,12 +23,15 @@ SCHEMA = {
     "weather.night_air_c": (NUMBER, -40.0, 40.0),
     "weather.day_warming_c": (NUMBER, 0.0, 30.0),
     "weather.wind_xz_mps": (WIND_VECTOR, None, None),
-    "weather.gust_mps": (NUMBER, 0.0, 5.0),
+    "weather.gust_mps": (NUMBER, 0.0, 30.0),
+    "weather.precip_mm_h": (NUMBER, 0.0, 20.0),
+    "weather.wind_speed_mps": (NUMBER, 0.0, 30.0),
+    "weather.wind_direction_deg": (NUMBER, 0.0, 360.0),
     "weather.humidity": (NUMBER, 0.0, 1.0),
     "weather.cloud": (NUMBER, 0.0, 1.0),
     "weather.lag_hours": (NUMBER, 0.0, 6.0),
-    "hydro.boundary_m3s": (NUMBER, 0.1, 60.0),
-    "hydro.boundary_c": (NUMBER, -5.0, 40.0),
+    "hydro.boundary_m3s": (NUMBER, 2.5, 8.0),
+    "hydro.boundary_c": (NUMBER, *TEMPERATURE_RANGE_C),
     "hydro.simulate_seconds": (NUMBER, 0.0, 86400.0),
     # hydro.attach and hydro.tributaries are populated by apply_preset via patch_laterals.
     "hydro.attach": (PATCH_LATERALS, None, None),
@@ -42,22 +44,63 @@ SCHEMA = {
     "snow.days": (INTEGER, 1, 365),
     "snow.precip_mm_d": (NUMBER, 0.0, 100.0),
     "snow.air_c_by_day": (DAYLIST, None, None),
+    "thermal.excelsior_enabled": ("boolean", None, None),
+    "thermal.excelsior_c": (NUMBER, 0.0, 93.0),
+    "aquatic.tributary_pockets": ("boolean", None, None),
+    "aquatic.pocket_temperature_c": (NUMBER, 0.0, 30.0),
+    "river.shade": ("shade", None, None),
+    "grazing.bison_count": (INTEGER, 0, 100),
 }
 ALLOWED_PREFIXES = ("weather.", "hydro.", "insects.", "fish.", "snow.", "clock_hour",
-                     "run_mode")
+                     "run_mode", "thermal.", "aquatic.", "river.", "grazing.")
 # Lateral source records carry their own fields; only these may be set.
 LATERAL_FIELDS = ("flow_m3s", "temperature_c")
 
 
+CONTROL_GROUPS = {"weather": "Sky", "hydro": "River", "thermal": "Thermal sources",
+                  "snow": "Time", "fish": "Ecology", "insects": "Ecology",
+                  "aquatic": "Ecology", "river": "Interventions", "grazing": "Interventions"}
+CONTROL_UNITS = {"clock_hour": "h", "weather.night_air_c": "C", "weather.day_warming_c": "C",
+                 "weather.lag_hours": "h", "weather.gust_mps": "m/s",
+                 "weather.wind_xz_mps": "m/s", "weather.wind_speed_mps": "m/s",
+                 "weather.wind_direction_deg": "deg", "weather.precip_mm_h": "mm/h",
+                 "hydro.boundary_m3s": "m3/s", "hydro.boundary_c": "C",
+                 "hydro.simulate_seconds": "s", "thermal.excelsior_c": "C",
+                 "aquatic.pocket_temperature_c": "C", "snow.precip_mm_d": "mm/day",
+                 "snow.days": "days"}
+for _key, _entry in tuple(SCHEMA.items()):
+    _type, _lo, _hi = _entry[:3]
+    _bound_source = "authored scenario envelope"
+    if _key == "hydro.boundary_m3s":
+        _bound_source = "fixed-depth geometry scenario envelope: baseline 8 and hot low flow 2.5 m3/s"
+    elif _key == "hydro.boundary_c":
+        _bound_source = "common.units.TEMPERATURE_RANGE_C ingestion envelope for ice-free river water"
+    SCHEMA[_key] = {"type": _type, "min": _lo, "max": _hi,
+                    "exclusive_max": len(_entry) == 4,
+                    "unit": CONTROL_UNITS.get(_key, "fraction" if _type == NUMBER else ""),
+                    "label": _key.split(".")[-1].replace("_", " "),
+                    "group": CONTROL_GROUPS.get(_key.split(".")[0], "Time"),
+                    "provenance": "authored", "bound_source": _bound_source}
+SCHEMA["weather.wind_xz_mps"].update(component_min=-30.0, component_max=30.0)
+for _key in ("weather.night_air_c", "weather.day_warming_c", "weather.lag_hours"):
+    SCHEMA[_key]["group"] = "Air"
+SCHEMA["weather.precip_mm_h"]["group"] = "Precipitation"
+
+
+def control_schema(config: dict) -> list[dict]:
+    """Return controls with bounds, provenance and the current config defaults."""
+    rows = []
+    for key, metadata in SCHEMA.items():
+        value = config
+        for part in key.split("."):
+            value = value.get(part) if isinstance(value, dict) else None
+        rows.append({"key": key, **metadata, "default": value})
+    return rows
+
+
 def _prefix_allowed(dotted: str) -> bool:
-    """True when the dotted key sits under an allowed override prefix."""
-    for p in ALLOWED_PREFIXES:
-        if p.endswith("."):
-            if dotted.startswith(p):
-                return True
-        elif dotted == p or dotted.startswith(p + "."):
-            return True
-    return False
+    """True only for the reviewed control keys in the schema."""
+    return dotted in SCHEMA
 
 
 def _validate(dotted: str, value) -> None:
@@ -68,11 +111,21 @@ def _validate(dotted: str, value) -> None:
         raise ValueError(f"preset key {dotted!r} is outside the allowed "
                          f"prefixes {list(ALLOWED_PREFIXES)}")
     entry = SCHEMA[dotted]
-    if isinstance(entry, tuple) and len(entry) == 4:
-        typ, lo, hi, flag = entry
-    else:
-        typ, lo, hi = entry
-        flag = None
+    typ, lo, hi = entry["type"], entry["min"], entry["max"]
+    flag = "exclusive" if entry["exclusive_max"] else None
+    if typ == "boolean":
+        if not isinstance(value, bool):
+            raise ValueError(f"{dotted} must be boolean")
+        return
+    if typ == "shade":
+        if not isinstance(value, dict) or set(value) != {"cell_ids", "multiplier"}:
+            raise ValueError("river.shade requires cell_ids and multiplier")
+        if not isinstance(value["cell_ids"], list) or not value["cell_ids"] or not all(
+                isinstance(cell, str) and cell for cell in value["cell_ids"]):
+            raise ValueError("river.shade cell_ids must be a nonempty string list")
+        from yellowstone_python.common.checks import fraction
+        fraction("river.shade multiplier", value["multiplier"])
+        return
     if typ == PATCH_LATERALS:
         raise ValueError(
             f"preset key {dotted!r} is managed by apply_preset through "
@@ -96,7 +149,7 @@ def _validate(dotted: str, value) -> None:
         if (not isinstance(value, (list, tuple)) or len(value) != 2
                 or not all(isinstance(v, (int, float)) and not isinstance(v, bool)
                            for v in value)
-                or not all(math.isfinite(float(v)) for v in value)):
+                or not all(math.isfinite(float(v)) and -30 <= v <= 30 for v in value)):
             raise ValueError(f"{dotted!r} must be a 2-vector of finite numbers")
         return
     if typ == STRING:
@@ -191,7 +244,7 @@ def preset_errors() -> list:
 
 PRESETS = {
     "hot_surge": {
-        "about": "Excelsior source ×2 within this model. Warmer mixing reach; trout relocate harder.",
+        "about": "Excelsior flow doubles; watch the warm pulse travel downstream.",
         "units": "flow m3/s, temp C",
         "uncertainty": "illustrative multiplier, not a monitored event",
         "set": {},
@@ -200,7 +253,7 @@ PRESETS = {
              "temperature_c": 62.0, "status": "illustrative surge"}]},
     },
     "cold_snap": {
-        "about": "Night air −6 °C, overcast. Insects collapse, birds perch.",
+        "about": "Night air -6 C and overcast; insect activity falls.",
         "units": "air C, cloud fraction",
         "uncertainty": "single-day scenario, not a forecast",
         "set": {"weather.night_air_c": -6.0, "weather.day_warming_c": 6.0,
@@ -213,7 +266,7 @@ PRESETS = {
         "set": {"hydro.boundary_m3s": 4.0},
     },
     "warm_air_cold_water": {
-        "about": "COUNTEREXAMPLE (within this model): +6 °C air, same discharge. Trout barely move. "
+        "about": "Air warms by 6 C with steady discharge; compare the delayed river response. "
                  "Short-term river response follows residence time and forcing, not air alone.",
         "units": "air C vs water C",
         "uncertainty": "illustrates decoupled drivers within this model; over longer periods surface exchange matters strongly",
@@ -229,13 +282,28 @@ PRESETS = {
     },
 }
 
+PRESETS["hot_low_flow"] = {
+    "about": "Hot low flow: watch warm exposure suppress trout feeding.",
+    "set": {"hydro.boundary_m3s": 2.5, "hydro.boundary_c": 26.0},
+    "expected_response": "Mainstem cells warm above the chronic refuge threshold."}
+PRESETS["tributary_cold_refuge"] = {
+    "about": "Open authored Rabbit and Mallard Creek holding pockets.",
+    "set": {"hydro.boundary_m3s": 2.5, "hydro.boundary_c": 26.0,
+            "aquatic.tributary_pockets": True},
+    "expected_response": "Trout can move upstream to the Mallard Creek pocket."}
+PRESETS["measured_weather_day"] = {
+    "about": "Play a frozen measured boundary and weather forcing day.", "set": {},
+    "expected_response": "Compare modeled downstream temperature with the gauge."}
+
 
 def _set_path(cfg: dict, dotted: str, value) -> None:
     parts = dotted.split(".")
     node = cfg
     for p in parts[:-1]:
-        if p not in node or not isinstance(node[p], dict):
-            raise ValueError(f"config path {dotted!r} is missing or not a mapping")
+        if p not in node:
+            node[p] = {}
+        if not isinstance(node[p], dict):
+            raise ValueError(f"config path {dotted!r} is not a mapping")
         node = node[p]
     node[parts[-1]] = value
 
@@ -290,6 +358,10 @@ def diff_configs(a: dict, b: dict, prefix: str = "") -> list:
         vb = b.get(k, _MISSING)
         if isinstance(va, dict) and isinstance(vb, dict):
             out += diff_configs(va, vb, pa + ".")
+        elif isinstance(va, dict) and vb is _MISSING:
+            out += diff_configs(va, {}, pa + ".")
+        elif isinstance(vb, dict) and va is _MISSING:
+            out += diff_configs({}, vb, pa + ".")
         elif va != vb:
             out.append({"path": pa, "A": None if va is _MISSING else va,
                         "B": None if vb is _MISSING else vb,
@@ -299,41 +371,9 @@ def diff_configs(a: dict, b: dict, prefix: str = "") -> list:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--list", action="store_true")
-    ap.add_argument("--write", metavar="DIR")
-    ap.add_argument("--diff", nargs=2, metavar=("A", "B"))
-    args = ap.parse_args()
-    if args.list:
-        for name, p in PRESETS.items():
-            print(f"{name}: {p['about']}")
-        return 0
-    if args.write:
-        import yaml
-        import sys
-        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-        base = yaml.safe_load(
-            (Path(__file__).resolve().parents[1] / "configs" / "baseline.yaml"
-             ).read_text())
-        d = Path(args.write)
-        d.mkdir(parents=True, exist_ok=True)
-        for name in PRESETS:
-            (d / f"{name}.yaml").write_text(
-                yaml.safe_dump(apply_preset(base, name), sort_keys=True))
-            print("wrote", d / f"{name}.yaml")
-        return 0
-    if args.diff:
-        import yaml
-        a_raw = yaml.safe_load(Path(args.diff[0]).read_text())
-        b_raw = yaml.safe_load(Path(args.diff[1]).read_text())
-        if not isinstance(a_raw, dict) or not isinstance(b_raw, dict):
-            raise ValueError("YAML inputs must be mappings")
-        a, b = a_raw, b_raw
-        for row in diff_configs(a, b):
-            print(f"{row['path']}: {row['A']!r} → {row['B']!r}")
-        return 0
-    ap.print_help()
-    return 1
+    """Run the study-mode command-line interface."""
+    from yellowstone_python.cli.study_mode import main as cli_main
+    return cli_main()
 
 
 if __name__ == "__main__":

@@ -1,7 +1,4 @@
-"""Offline tests for the firehole_obs assembler.
-
-Composes normalized usgs_nwis artifacts and a fetch_met_forcing bundle into firehole_obs.v1.
-"""
+"""Offline tests for the firehole_obs assembler."""
 import json
 import sys
 from pathlib import Path
@@ -9,12 +6,9 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from tools import assemble_firehole_obs as AFO
-from tools import observation_io as OIO
-from tools import usgs_nwis as NWIS
+from yellowstone_python.observations import assembly as AFO
+from yellowstone_python.observations import bundles as OIO
+from yellowstone_python.observations import usgs as NWIS
 
 
 def _write_hashed(path: Path, document: dict) -> dict:

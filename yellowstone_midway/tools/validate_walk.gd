@@ -90,6 +90,12 @@ func run() -> void:
 	root.add_child(authored_world)
 	if ResourceLoader.exists("res://scenes/handcrafted_details.tscn"):
 		root.add_child(load("res://scenes/handcrafted_details.tscn").instantiate())
+	# Install the core and its matching master triangle collisions.
+	report["core_terrain"] = install_core_terrain()
+	if not bool(report.core_terrain.get("collision_complete", false)):
+		report.failures.append("Core collision cut incomplete; walking fixture cannot certify the live terrain.")
+		finish()
+		return
 	# Allow static collision shapes to register.
 	for tick: int in range(3):
 		await physics_frame
@@ -105,6 +111,8 @@ func run() -> void:
 	var joint: PackedVector3Array = route_points("trail_3228_0",boardwalk_a - 7,boardwalk_a)
 	joint.append_array(route_points("trail_3230_0",1,9))
 	cases.append({"id":"boardwalk_3228_to_3230_junction","points":joint,"width_m":2.1,"parts":[{"route_id":"trail_3228_0","selected_indices":[boardwalk_a - 7,boardwalk_a]},{"route_id":"trail_3230_0","selected_indices":[1,9]}]})
+	# Core-crossing boardwalk case: a boardwalk span whose points sit over the thermal-core tile.
+	cases.append(core_crossing_case())
 	# Negative controls: probe aimed where walking must fail.
 	cases.append({"id":"control_settle_outside_world","points":PackedVector3Array([Vector3(3000,0,3000),Vector3(3001,0,3000)]),"width_m":2.0,"parts":[{"control":"settle gate; spawn has no collision"}],"control_expect":"Could not settle on intended start surface."})
 	var hf: RefCounted = load("res://scripts/height_field.gd").new()
@@ -254,8 +262,71 @@ func nearest_centerline(position: Vector3, points: PackedVector3Array) -> Dictio
 func vector_array(vector: Vector3) -> Array[float]:
 	return [vector.x,vector.y,vector.z]
 
+func install_core_terrain() -> Dictionary:
+	# Mirror world.gd.build_core_terrain for the walk-collision context.
+	var info: Dictionary = {"built": false, "cut_tiles": 0}
+	if not ResourceLoader.exists("res://scripts/core_terrain.gd") or not ResourceLoader.exists("res://scripts/mat_surface.gd"):
+		info["reason"] = "scripts absent"
+		return info
+	var mat_surface_script: Script = load("res://scripts/mat_surface.gd")
+	var mat_surface: RefCounted = mat_surface_script.new()
+	mat_surface.load_outflow()
+	mat_surface.load_pigment()
+	var core_script: Script = load("res://scripts/core_terrain.gd")
+	var core: Node3D = core_script.new()
+	core.name = "CoreTerrain"
+	root.add_child(core)
+	var ok: bool = core.build(mat_surface)
+	if not ok:
+		info["reason"] = "core.build returned false"
+		return info
+	info["built"] = true
+	info["extent_rect"] = core.extent_rect()
+	info["heights_minmax"] = core.heights_minmax()
+	var authored_scene: Node = authored_world
+	if authored_scene != null:
+		info["cut_tiles"] = core.cut_master_tiles(authored_scene)
+	info["cut_report"] = core.render_cut_status()
+	info["collision_complete"] = bool(info.cut_report.get("collision_complete", false))
+	info["core_script_sha256"] = FileAccess.get_sha256("res://scripts/core_terrain.gd")
+	return info
+
+func core_crossing_case() -> Dictionary:
+	# A boardwalk span through the Grand Prismatic approach, selected because every point lies in the core tile.
+	var crossing_route_id: String = "trail_3321_0"
+	var found: Dictionary = route(crossing_route_id)
+	if found.is_empty() or not found.has("points"):
+		return {"id": "core_crossing_route_missing", "points": PackedVector3Array(), "width_m": 2.0, "parts": [{"route_id": crossing_route_id}]}
+	var all_points: Array = found["points"]
+	# Clip to a contiguous run whose xz is inside the core footprint.
+	var core_x_min: float = -340.0
+	var core_x_max: float = 260.0
+	var core_z_min: float = -380.0
+	var core_z_max: float = 220.0
+	var first: int = -1
+	var last: int = -1
+	for i: int in range(all_points.size()):
+		var p: Array = all_points[i]
+		var x: float = float(p[0])
+		var z: float = float(p[2])
+		var inside: bool = x >= core_x_min and x <= core_x_max and z >= core_z_min and z <= core_z_max
+		if inside and first == -1:
+			first = i
+		if inside:
+			last = i
+		if not inside and first != -1:
+			break
+	if first == -1 or last - first < 3:
+		return {"id": "core_crossing_route_outside_extent", "points": PackedVector3Array(), "width_m": 2.0, "parts": [{"route_id": crossing_route_id}]}
+	var pts: PackedVector3Array = PackedVector3Array()
+	for i: int in range(first, last + 1):
+		var p: Array = all_points[i]
+		pts.append(Vector3(float(p[0]), float(p[1]), float(p[2])))
+	return {"id": "core_crossing_boardwalk", "points": pts, "width_m": float(found.get("width", 2.1)), "parts": [{"route_id": crossing_route_id, "selected_indices": [first, last]}]}
+
 func finish() -> void:
-	report["pass"] = report.failures.is_empty() and report.cases.size() == 8
+	# Count: the fixed test cases plus the new core-crossing case.
+	report["pass"] = report.failures.is_empty() and report.cases.size() == 9
 	report["godot"] = Engine.get_version_info().string
 	report["native_scene_sha256"] = FileAccess.get_sha256("res://scenes/authored_world.tscn")
 	report["world_data_sha256"] = FileAccess.get_sha256("res://data/world.json")

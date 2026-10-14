@@ -1,7 +1,7 @@
 # Spec: tools/fetch_met_forcing.py — shared Open-Meteo source
 
 Status: spec (authored 2026-10-10, pycl-2). Transferred claims cite file:line verified 2026-10-10; authored claims marked [AUTHORED].
-No code written; no deletions. Target: `tools/fetch_met_forcing.py` in `/Users/kreed/Downloads/yellowstone_python/`.
+No code written; no deletions. Target: `tools/fetch_met_forcing.py` in `../../yellowstone_python/`.
 
 ## 1. Purpose + non-goals
 

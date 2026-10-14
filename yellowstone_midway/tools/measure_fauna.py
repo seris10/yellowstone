@@ -135,7 +135,7 @@ def tail_from_bones(armatures: list, units_per_meter: float) -> float | None:
 
 
 def leg_groups(sc: np.ndarray, bottom: np.ndarray, height: float, tail_base_s: float) -> list[tuple[float, float]]:
-    """Runs of profile bins whose lowest point is within LEG_CONTACT_FRACTION of height of the ground, rear first."""
+    """Rear-first profile bins within the ground-contact threshold."""
     contact = bottom < LEG_CONTACT_FRACTION * height
     groups, start = [], None
     for i, flag in enumerate(contact):

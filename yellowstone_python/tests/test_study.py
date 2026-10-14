@@ -1,4 +1,5 @@
 import copy
+import json
 
 import pytest
 import yaml
@@ -6,7 +7,6 @@ import yaml
 from yellowstone_python.common.provenance import sha256_json
 from yellowstone_python.study_mode import PRESETS, _validate, apply_preset, diff_configs
 
-from paths import BASE_CONFIG as BASE
 
 
 def _base():
@@ -27,21 +27,24 @@ def test_presets_only_touch_sliders():
         d = diff_configs(base, cfg)
         paths = [r["path"] for r in d]
         assert paths, name
-        assert all(p == "study" or p == "run_mode" or p.startswith(("weather.", "hydro.",
-                                                           "insects.", "fish.",
-                                                           "snow.", "clock_hour",
-                                                           "study.")) for p in paths), paths
+        from yellowstone_python.study_mode import SCHEMA
+        approved = set(SCHEMA) | {"study"}
+        assert all(any(p == key or p.startswith(key + ".") for key in approved)
+                   for p in paths), paths
         assert not any(p.startswith(("routes", "pools", "placements"))
                        for p in paths)
 
 
-def test_counterexample_present():
-    assert "warm_air_cold_water" in PRESETS
-    assert "COUNTEREXAMPLE" in PRESETS["warm_air_cold_water"]["about"]
+def test_warm_air_preset_keeps_river_forcing_constant():
+    baseline = _base()
+    changed = apply_preset(baseline, "warm_air_cold_water")
+    assert changed["weather"]["night_air_c"] == baseline["weather"]["night_air_c"] + 6.0
+    assert changed["weather"]["day_warming_c"] == baseline["weather"]["day_warming_c"]
+    assert changed["hydro"] == baseline["hydro"]
 
 
 def test_winter_preset_accumulates():
-    from yellowstone_python.snow_season import run_season
+    from yellowstone_python.land.snow_season import run_season
     base = _base()
     cfg = apply_preset(base, "winter_week")
     patches = [{"id": "m", "habitat": "dry_meadow", "center_xz": [500, 500],
@@ -84,17 +87,27 @@ def test_surge_merges_existing_attachments():
     assert "excelsior_surge" in cfg["hydro"]["attach"]["excelsior_mixing"]
 
 
-def test_compare_quantifies_ab(tmp_path):
+@pytest.mark.needs_network_inputs
+def test_compare_quantifies_ab(repo_root):
     from yellowstone_python.compare import compare_builds
-    from pathlib import Path
-    # Newest build directory that carries the sidecars compare_builds reads; a build in progress leaves a partial directory.
-    complete = [p for p in Path("derived").iterdir()
-                if p.is_dir() and (p / "fish.json").exists()
-                and (p / "river_state.json").exists()]
-    assert complete, "no complete build under derived/"
+    required = ("BUILD.json", "CHECKS.json", "fish.json", "river_state.json",
+                "insect_bird.json", "season.json")
+    complete = [p for p in (repo_root / "derived").iterdir()
+                if p.is_dir() and all((p / name).is_file() for name in required)
+                and json.loads((p / "CHECKS.json").read_text())["passed"] is True]
+    if not complete:
+        pytest.skip(f"complete comparison build missing: {repo_root / 'derived'}")
     a = max(complete, key=lambda p: p.stat().st_mtime)
     out = compare_builds(a, a)
+    assert out["compatibility"] == {"comparable": True, "differences": []}
+    assert not out.get("comparison_refused", False)
+    assert out["reach_deltas"]
     assert all(r["d_temp_c"] == 0.0 for r in out["reach_deltas"])
+    assert all(r["d_flow_m3s"] == 0.0 for r in out["reach_deltas"])
+    assert all(r["d_hold_s"] == 0.0 for r in out["trout"])
+    assert all(r["d_snow_mm"] == 0.0 for r in out["snow"])
+    assert out["insect"]["delta"] == 0.0
+    assert out["heat_budget"]["delta_residual_j"] == 0.0
     assert out["scope"]["comparison_type"] == "endpoint"
 
 
@@ -161,3 +174,11 @@ def test_nonfinite_values_refused_everywhere():
             with pytest.raises(ValueError):
                 _validate(dotted, bad if dotted != "clock_hour"
                           else bad)
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'BASE', resolved_paths['BASE_CONFIG'], raising=False)

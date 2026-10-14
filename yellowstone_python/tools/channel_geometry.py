@@ -1,6 +1,7 @@
-"""Derive channel cross-section profiles from USGS NWIS field measurements and the 3DEP DEM.
-"""
+"""Channel cross-section profiles from USGS measurements and the 3DEP DEM."""
 from __future__ import annotations
+
+from yellowstone_python.river.obs_model import UPSTREAM_GAUGE, DOWNSTREAM_GAUGE
 
 import argparse
 import json
@@ -8,21 +9,21 @@ import math
 import sys
 from pathlib import Path
 
+from yellowstone_python.common.io import write_json_atomic
+
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from yellowstone_python.vegetation import load_terrain, terrain_fns
+from yellowstone_python.land.vegetation import load_terrain, terrain_fns
 
 # Firehole chain features (from world.json topology)
 FIREHOLE_CHAIN = ["river_5856_0", "river_5872_0", "river_5913_0", "river_5933_0", "river_5998_0"]
 
 # USGS gage sites relevant to Firehole
 USGS_SITES = {
-    "06036805": {"name": "Firehole River at Old Faithful",
+    UPSTREAM_GAUGE: {"name": "Firehole River at Old Faithful",
                  "above_midway": True,
                  "feature_id": "river_5856_0"},
-    "06036905": {"name": "Firehole River near West Yellowstone",
+    DOWNSTREAM_GAUGE: {"name": "Firehole River near West Yellowstone",
                  "above_midway": False,
                  "feature_id": "river_5998_0"},
 }
@@ -193,8 +194,7 @@ def analyze(
     usgs_data: dict | None = None,
     usgs_feature_id: str | None = None,
 ) -> dict:
-    """Derive cross-section profiles for all Firehole chain features (USGS at usgs_feature_id, DEM elsewhere).
-    """
+    """Derive cross-section profiles for all Firehole chain features (USGS at usgs_feature_id, DEM."""
     sample, _ = terrain_fns(terrain)
     chain_features = {
         f["id"]: f for f in world["rivers"]
@@ -258,7 +258,7 @@ def main() -> int:
                        usgs_feature_id=usgs_feature_id)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(profiles, indent=2) + "\n")
+    write_json_atomic(args.out, profiles, indent=2)
     print(f"\nWrote {args.out}")
     return 0
 

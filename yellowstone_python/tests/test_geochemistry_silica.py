@@ -3,7 +3,7 @@ import math
 
 import pytest
 
-from yellowstone_python import geochemistry as gc
+import yellowstone_python.thermal_features.geochemistry as gc
 
 
 def test_quartz_92C_matches_verified_value():
@@ -84,6 +84,7 @@ def test_finite_input_validation():
         gc.diagnose_replay_frame([60.0], phase_rule="opal")
 
 
+@pytest.mark.needs_science
 def test_phreeqc_guard_without_install():
     if importlib.util.find_spec("phreeqpy") is not None:
         pytest.skip("phreeqpy installed")

@@ -1,5 +1,4 @@
-"""Convert the Yale Bright Star Catalog (CDS V/50) into data/stars.json for the sky renderer.
-Reads J2000.0 positions, V magnitude and B-V color; rows without a position or V magnitude are skipped."""
+"""Convert Yale Bright Star Catalog V/50 rows into the sky catalog."""
 
 from __future__ import annotations
 

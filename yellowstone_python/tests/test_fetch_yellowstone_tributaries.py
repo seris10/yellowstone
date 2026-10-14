@@ -1,45 +1,27 @@
-"""Offline unit tests for tools/fetch_yellowstone_tributaries.py.
-
-Covers fixes-19 items 10, 11, 12, 13, 14, 18 and 19 and tributary_evidence.v1.
-"""
+"""Offline unit tests for tools/fetch_yellowstone_tributaries.py. Covers _evidence.v1."""
 from __future__ import annotations
 
-import importlib.util
-import sys
 from datetime import datetime, timezone
 
 import pytest
-
-from tests.paths import REPO
-
-TOOL_PATH = REPO / "tools" / "fetch_yellowstone_tributaries.py"
+from yellowstone_python.observations import tributaries as FYT
 
 
-def _load_module():
-    spec = importlib.util.spec_from_file_location(
-        "fetch_yellowstone_tributaries", TOOL_PATH
-    )
-    assert spec is not None and spec.loader is not None
-    mod = importlib.util.module_from_spec(spec)
-    sys.modules["fetch_yellowstone_tributaries"] = mod
-    spec.loader.exec_module(mod)
-    return mod
-
-
-FYT = _load_module()
+@pytest.fixture(autouse=True)
+def fresh_registry(monkeypatch):
+    """Provide an isolated tributary registry for each test."""
+    monkeypatch.setattr(FYT, "VERIFIED_TRIBUTARY_REGISTRY", {})
 
 
 def test_lookup_identity_unverified_when_missing_from_registry():
-    """fixes-19 item 10: a site with no registry entry is unverified."""
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
+    """a site with no registry entry is unverified."""
     identity = FYT.lookup_verified_identity("0000", "Example Creek")
     assert identity["association_status"] == "unverified"
     assert "registry" in identity["association_reason"].lower()
 
 
 def test_lookup_identity_rejected_when_name_mismatch():
-    """fixes-19 item 10: a site_id reused on a different stream is rejected."""
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
+    """a site_id reused on a different stream is rejected."""
     FYT.VERIFIED_TRIBUTARY_REGISTRY["06036805"] = {
         "stream_name": "Firehole River",
         "target_river_id": "river_main",
@@ -47,12 +29,10 @@ def test_lookup_identity_rejected_when_name_mismatch():
     }
     identity = FYT.lookup_verified_identity("06036805", "Totally Other Creek")
     assert identity["association_status"] == "rejected"
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
 
 
 def test_lookup_identity_verified_when_name_matches():
-    """fixes-19 item 10: a matching registry entry becomes verified."""
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
+    """a matching registry entry becomes verified."""
     FYT.VERIFIED_TRIBUTARY_REGISTRY["12345678"] = {
         "stream_name": "Fictional Creek",
         "target_river_id": "river_firehole",
@@ -62,11 +42,10 @@ def test_lookup_identity_verified_when_name_matches():
     identity = FYT.lookup_verified_identity("12345678", "Fictional Creek")
     assert identity["association_status"] == "verified"
     assert identity["target_river_id"] == "river_firehole"
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
 
 
 def test_validate_series_pairs_flags_duplicates_and_non_monotonic():
-    """fixes-19 item 12: duplicate and backwards timestamps are reported."""
+    """duplicate and backwards timestamps are reported."""
     pairs = [[1.0, 10.0], [2.0, 11.0], [2.0, 11.1], [1.5, 10.5]]
     report = FYT.validate_series_pairs(pairs, "temperature_c")
     assert report["duplicate_timestamps"] == 1
@@ -79,7 +58,7 @@ def test_validate_series_pairs_flags_duplicates_and_non_monotonic():
 
 
 def test_compute_coverage_reports_span_and_gaps():
-    """fixes-19 item 12: coverage block captures span and max gap."""
+    """coverage block captures span and max gap."""
     pairs = [[0.0, 1.0], [900.0, 2.0], [1800.0, 3.0]]
     cov = FYT.compute_coverage(pairs, window_s=3600.0)
     assert cov["n_points"] == 3
@@ -91,7 +70,7 @@ def test_compute_coverage_reports_span_and_gaps():
 
 
 def test_compute_coverage_empty_series():
-    """fixes-19 item 12: empty series yields coverage_fraction=0 without crash."""
+    """empty series yields coverage_fraction=0 without crash."""
     cov = FYT.compute_coverage([], window_s=3600.0)
     assert cov["n_points"] == 0
     assert cov["coverage_fraction"] == 0.0
@@ -99,7 +78,7 @@ def test_compute_coverage_empty_series():
 
 
 def test_validate_confluence_chainages_outside_channel():
-    """fixes-19 item 14: a chainage outside [0, length] is flagged."""
+    """a chainage outside [0, length] is flagged."""
     records = [
         {"site_id": "a", "name": "A", "confluence_s_m": -5.0},
         {"site_id": "b", "name": "B", "confluence_s_m": 1200.0},
@@ -113,14 +92,14 @@ def test_validate_confluence_chainages_outside_channel():
 
 
 def test_validate_confluence_chainages_without_world():
-    """fixes-19 item 14: missing world yields unchecked_no_world."""
+    """missing world yields unchecked_no_world."""
     records = [{"site_id": "a", "name": "A", "confluence_s_m": 100.0}]
     report = FYT.validate_confluence_chainages(records, None)
     assert report[0]["confluence_status"] == "unchecked_no_world"
 
 
 def test_fetch_usgs_site_data_timestamp_offset_preserved(monkeypatch):
-    """fixes-19 item 11: an offset-aware ISO stamp preserves its tzinfo."""
+    """an offset-aware ISO stamp preserves its tzinfo."""
     sample = {
         "value": {
             "timeSeries": [
@@ -191,7 +170,7 @@ def test_fetch_usgs_site_data_timestamp_offset_preserved(monkeypatch):
 
 
 def test_analyze_usgs_data_conditioned_on_hot_lowflow():
-    """fixes-19 item 13: cold fraction counts tributary samples near hot/low-flow mainstem times."""
+    """cold fraction counts tributary samples near hot/low-flow mainstem times."""
     temp = [[0.0, 11.0], [3600.0, 11.5], [7200.0, 12.0], [10800.0, 11.8]]
     tributary = {
         "series": {"temperature_c": temp, "discharge_m3_s": [[0.0, 1.0]]},
@@ -227,7 +206,7 @@ def test_analyze_usgs_data_conditioned_on_hot_lowflow():
 
 
 def test_analyze_usgs_data_no_mainstem_marks_full_window():
-    """fixes-19 item 13: without a mainstem series, condition status reports that."""
+    """Report missing mainstem data in the condition status."""
     tributary = {
         "series": {"temperature_c": [[0.0, 11.0], [3600.0, 12.0]]},
         "quality": {},
@@ -244,8 +223,7 @@ def test_analyze_usgs_data_no_mainstem_marks_full_window():
 
 
 def test_generate_tributary_data_marks_unverified_and_schema(monkeypatch):
-    """fixes-19 items 10, 18, 19: unverified sites stay out of candidates; schema is v1."""
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
+    """unverified sites stay out of candidates; schema is v1."""
 
     def no_fetch(site_id, days, rate_limiter, error_handler):
         return None
@@ -263,8 +241,7 @@ def test_generate_tributary_data_marks_unverified_and_schema(monkeypatch):
 
 
 def test_generate_tributary_data_promotes_verified_measured_sites(monkeypatch):
-    """fixes-19 items 18, 19: verified + measured sites appear as solver_sources and pockets."""
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
+    """verified + measured sites appear as solver_sources and pockets."""
     FYT.VERIFIED_TRIBUTARY_REGISTRY["07057925"] = {
         "stream_name": "Little Firehole River at Grant Village",
         "target_river_id": "river_firehole",
@@ -306,7 +283,6 @@ def test_generate_tributary_data_promotes_verified_measured_sites(monkeypatch):
     assert "pocket_07057925" in pocket_ids
     candidate_ids = {c["id"] for c in data["cold_refuge_candidates"]}
     assert "07057925" in candidate_ids
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
 
 
 def test_candidate_catalog_is_renamed_and_provenance_recorded(monkeypatch):
@@ -314,7 +290,6 @@ def test_candidate_catalog_is_renamed_and_provenance_recorded(monkeypatch):
     assert hasattr(FYT, "load_unverified_tributary_candidates")
     assert "Lower Mississippi" in FYT.UNVERIFIED_CANDIDATE_PROVENANCE
 
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
 
     def no_fetch(site_id, days, rate_limiter, error_handler):
         return None
@@ -327,8 +302,7 @@ def test_candidate_catalog_is_renamed_and_provenance_recorded(monkeypatch):
 
 
 def test_consumer_shape_backward_compatibility(monkeypatch):
-    """fixes-19 item 19: verified records keep the top-level keys the consumer reads."""
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
+    """verified records keep the top-level keys the consumer reads."""
     FYT.VERIFIED_TRIBUTARY_REGISTRY["07057925"] = {
         "stream_name": "Little Firehole River at Grant Village",
         "target_river_id": "river_firehole",
@@ -360,4 +334,12 @@ def test_consumer_shape_backward_compatibility(monkeypatch):
     assert "confluence_s_m" in first
     assert "temperature_c" in first
     assert "discharge_m3s" in first
-    FYT.VERIFIED_TRIBUTARY_REGISTRY.clear()
+
+
+def test_world_source_path_is_project_relative(monkeypatch, tmp_path, repo_root):
+    monkeypatch.setattr(FYT, "fetch_usgs_site_data", lambda *args: None)
+    world = tmp_path / "missing_world.json"
+    data = FYT.generate_tributary_data(days=1, world_path=world)
+    recorded = data["world_path"]
+    assert not __import__("pathlib").Path(recorded).is_absolute()
+    assert (repo_root / recorded).resolve() == world.resolve()

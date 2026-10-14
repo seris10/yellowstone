@@ -4,7 +4,7 @@ import math
 
 import pytest
 
-from yellowstone_python import overland_provider as OP
+import yellowstone_python.land.overland_provider as OP
 
 needs_landlab = pytest.mark.skipif(
     importlib.util.find_spec("landlab") is None, reason="landlab not present"
@@ -50,7 +50,7 @@ def test_forcing_hash_distinguishes_inputs():
 
 
 def test_rejects_bad_inputs():
-    """Nonphysical inputs fail loudly."""
+    """Nonphysical inputs raise an error."""
     with pytest.raises(ValueError):
         OP.predict_discharge([], area_m2=1.0e6)
     with pytest.raises(ValueError):
@@ -69,6 +69,7 @@ def test_series_spec_matches_solver_clock():
     assert spec["values"] == out["discharge_m3_s"]
 
 
+@pytest.mark.needs_science
 @needs_landlab
 def test_landlab_path_routes_synthetic_catchment():
     """Landlab drainage area feeds the discharge interface."""
@@ -85,6 +86,7 @@ def test_landlab_path_routes_synthetic_catchment():
     assert out["drainage_area_m2"] > 0.0
 
 
+@pytest.mark.needs_science
 @needs_landlab
 def test_landlab_requires_explicit_outlet():
     """Omitting outlet coordinates is rejected to keep the drain explicit."""
@@ -93,6 +95,7 @@ def test_landlab_requires_explicit_outlet():
         OP.predict_discharge_landlab(elevation, 30.0, [10.0, 0.0])
 
 
+@pytest.mark.needs_science
 @needs_landlab
 def test_landlab_interior_outlet_records_warning():
     """An interior outlet is accepted but flagged as an interior sink."""
@@ -143,6 +146,7 @@ def test_boundary_role_round_trips_and_rejects_unknown():
                              boundary_role="interior_point")
 
 
+@pytest.mark.needs_science
 def test_boundary_schedule_matches_river_series_parse():
     """boundary_schedule produces a Series.parse-compatible dict at t=0."""
     out = OP.predict_discharge([3.0, 6.0, 0.0], area_m2=1.0e6,
@@ -153,7 +157,7 @@ def test_boundary_schedule_matches_river_series_parse():
     assert all(b > a for a, b in zip(schedule["times_s"],
                                      schedule["times_s"][1:]))
     try:
-        from yellowstone_python.replay.river_transport import Series
+        from yellowstone_python.river.river_transport import Series
     except ImportError:
         pytest.skip("replay.river_transport not importable")
     parsed = Series.parse(schedule)

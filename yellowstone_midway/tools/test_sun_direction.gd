@@ -1,5 +1,4 @@
 extends SceneTree
-## Headless assertion that `horizontal_to_world_direction(az, el)` and the atmosphere controller's `_apply_solar_position()` map the two cardinal-sun test cases from fixes-14 item 19 onto the expected shadow directions.
 ##
 ## Yellowstone world axes: +X east, +Y up, +Z south; DirectionalLight3D emits along local -Z, so a south-and-down sun casts a shadow pointing south.
 ##

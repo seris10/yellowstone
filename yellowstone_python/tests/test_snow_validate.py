@@ -1,8 +1,4 @@
-from yellowstone_python.snow_validate import (
-    daily_swe_series, evaluate_fixed_params, f_to_c, fit_snow_params,
-    in_to_mm, load_fixed_params, peak_timing_error_days, prepare_forcing,
-    train_holdout_split, validate_site,
-)
+from yellowstone_python.land.snow_validate import daily_swe_series, evaluate_fixed_params, f_to_c, fit_snow_params, in_to_mm, load_fixed_params, peak_timing_error_days, prepare_forcing, train_holdout_split, validate_site
 
 
 def _patch():
@@ -29,7 +25,7 @@ def test_prepare_forcing_refuses_long_gap():
         prepare_forcing(dates, [32.0] + [None] * 5, [0.0] * 6)
     except ValueError:
         return
-    raise AssertionError("long TAVG gap must refuse, not invent weather")
+    raise AssertionError('long TAVG gap must refuse. invent weather')
 
 
 def test_prepare_forcing_refuses_leading_null():
@@ -91,7 +87,7 @@ def test_fit_metadata_records_grid_and_tie_count():
 
 
 def test_wind_override_keeps_ledger_and_default_untouched():
-    from yellowstone_python.snow_season import run_season
+    from yellowstone_python.land.snow_season import run_season
     patches = [_patch()]
     _, led_over = run_season(patches, days=10,
                              air_c_by_day=[-2.0] * 10, precip_mm_d=5.0,
@@ -172,7 +168,7 @@ def test_fixed_params_refuses_unknown_triplet_and_off_grid(tmp_path):
     except ValueError:
         pass
     else:
-        raise AssertionError("missing triplet must refuse, not default")
+        raise AssertionError('missing triplet must refuse. default')
     bad = tmp_path / "bad.json"
     bad.write_text(json.dumps({"999:XX:SNTL":
                                {"k_melt_mm_per_deg_day": 99.0,
@@ -182,7 +178,7 @@ def test_fixed_params_refuses_unknown_triplet_and_off_grid(tmp_path):
     except ValueError:
         pass
     else:
-        raise AssertionError("off-grid k must refuse, not clip")
+        raise AssertionError('off-grid k must refuse. clip')
 
 
 def test_load_fixed_params_reads_fit_artifact_shape(tmp_path):
@@ -269,7 +265,7 @@ def test_load_fixed_params_requires_exact_grid_membership(tmp_path):
         load_fixed_params(str(path))
     except ValueError:
         return
-    raise AssertionError("k=3.4 is between grid points; must refuse, not clip")
+    raise AssertionError('k=3.4 is between grid points; must refuse. clip')
 
 
 def test_missing_obs_excluded_from_scoring_with_counts(tmp_path):

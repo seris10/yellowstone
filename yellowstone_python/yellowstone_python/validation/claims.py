@@ -1,5 +1,4 @@
-"""Skill gates for the seed thermal and snow claims: each evidence fit must beat its recorded null models.
-Thermal: champion holdout rmse in the reach fit artifact; snow: per-site holdout SWE rmse."""
+"""Skill gates for the seed thermal and snow claims: each evidence fit must beat its recorded null."""
 from __future__ import annotations
 
 import json
@@ -7,7 +6,7 @@ import math
 from pathlib import Path
 from typing import Any
 
-from ..claims import get_claim, resolve_artifact_id
+from yellowstone_python.registry.claims import get_claim, resolve_artifact_id
 
 
 def _load(path: Path) -> dict[str, Any] | None:
@@ -52,8 +51,7 @@ DISCHARGE_RELATIVE_RESIDUAL_TOL = 0.10
 
 
 def check_reach_rmse() -> dict[str, Any]:
-    """Reach gate for reach_water_temperature_ice_free: champion holdout rmse below every recorded null.
-    When boundary_discharge is measured_series the champion must also report a discharge_relative_residual below the tolerance."""
+    """Reach gate for reach_water_temperature_ice_free: champion holdout rmse below every recorded null."""
     for path in _resolve_evidence("reach_water_temperature_ice_free"):
         doc = _load(path)
         if not isinstance(doc, dict):
@@ -110,8 +108,7 @@ def check_reach_rmse() -> dict[str, Any]:
 
 
 def check_snotel_rmse() -> dict[str, Any]:
-    """Snow gate for snow_swe_clearings: each site's holdout SWE rmse below its persistence and no-melt nulls.
-    Evidence without per-site holdout rmse and both nulls fails."""
+    """Snow gate for snow_swe_clearings: each site's holdout SWE rmse below its persistence and."""
     for path in _resolve_evidence("snow_swe_clearings"):
         doc = _load(path)
         sites = doc.get("sites") if isinstance(doc, dict) else None

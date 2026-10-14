@@ -1,7 +1,8 @@
 """Offline tests for snow_energy (synthetic forcing only)."""
 import pytest
 
-se = pytest.importorskip("yellowstone_python.snow_energy")
+pytestmark = pytest.mark.needs_science
+se = pytest.importorskip("yellowstone_python.land.snow_energy")
 
 
 def test_toa_annual_cycle():
@@ -20,7 +21,7 @@ def test_cloud_factor_shape():
 
 
 def test_accumulation_matches_step_snow():
-    from yellowstone_python.snow_season import step_snow
+    from yellowstone_python.land.snow_season import step_snow
     eb = se.step_snow_eb(50.0, 0.7, -2.0, 0.0, -4.0, 10.0,
                          200.0, 0.3, 5.0)
     dd = step_snow(50.0, -2.0, 10.0, k_melt=0.0,

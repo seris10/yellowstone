@@ -19,6 +19,8 @@ const CLOUD_SHADER: Shader = preload("res://shaders/yellowstone_cloud_shell.gdsh
 ## Interpolate continuous weather fields toward the accepted snapshot.
 @export var smooth_weather_transitions: bool = true
 @export_range(0.0, 300.0, 1.0) var weather_transition_seconds: float = 20.0
+var time_scale: float = 1.0
+var _visual_weight: float = 1.0
 
 @export_group("Cloud shell")
 @export_range(1000.0, 12000.0, 100.0) var cloud_radius_m: float = 5600.0
@@ -114,21 +116,19 @@ const WEATHER_DEFAULTS: Dictionary = {
 	"solar_elevation_deg": -100.0,
 }
 
-## Continuous fields interpolate toward the accepted snapshot; wind direction follows the shorter angular path.
-const SMOOTHED_WEATHER_FIELDS: Array[String] = [
-	"air_temperature_c",
-	"dewpoint_c",
-	"relative_humidity",
-	"wind_speed_mps",
-	"wind_direction_deg",
-	"cloud_fraction",
-	"cloud_base_agl_m",
-	"cloud_thickness_m",
-	"precipitation_rate_mm_h",
-	"snow_fraction",
-	"visibility_m",
-	"ground_wetness_fraction",
+## Visual weather fields use the configured transition time constant.
+const EASED_VISUAL_PROPERTIES: Array = [
+	{"field": "cloud_fraction", "time_constant": "weather_transition_seconds"},
+	{"field": "cloud_base_agl_m", "time_constant": "weather_transition_seconds"},
+	{"field": "cloud_thickness_m", "time_constant": "weather_transition_seconds"},
+	{"field": "precipitation_rate_mm_h", "time_constant": "weather_transition_seconds"},
+	{"field": "visibility_m", "time_constant": "weather_transition_seconds"},
+	{"field": "fog_density", "time_constant": "weather_transition_seconds"},
+	{"field": "rain_amount_ratio", "time_constant": "weather_transition_seconds"},
+	{"field": "snow_amount_ratio", "time_constant": "weather_transition_seconds"},
+	{"field": "light_color", "time_constant": "weather_transition_seconds"},
 ]
+const SMOOTHED_WEATHER_FIELDS: Array[String] = ["cloud_fraction", "cloud_base_agl_m", "cloud_thickness_m", "precipitation_rate_mm_h", "visibility_m"]
 
 var _weather: Dictionary = {}
 
@@ -226,6 +226,9 @@ func set_weather_state(state: Dictionary) -> void:
 		return
 
 	_validate_and_clamp_weather(_weather_target)
+	for key: String in WEATHER_DEFAULTS:
+		if key not in SMOOTHED_WEATHER_FIELDS:
+			_weather[key] = _weather_target[key]
 	_update_solar_override(state)
 	if terrain_present:
 		_apply_terrain_state(terrain_variant as Dictionary)
@@ -567,6 +570,7 @@ func _validate_and_clamp_weather(values: Dictionary) -> void:
 
 func _apply_weather_state() -> void:
 	if not smooth_weather_transitions or weather_transition_seconds <= 0.0:
+		_visual_weight = 1.0
 		_weather = _weather_target.duplicate(true)
 		_apply_weather_state_immediate()
 	else:
@@ -578,7 +582,8 @@ func _update_weather_interpolation(delta: float) -> void:
 	if not _weather_initialized or not smooth_weather_transitions:
 		return
 
-	var factor: float = clampf(delta / maxf(weather_transition_seconds, 0.001), 0.0, 1.0)
+	var factor: float = 1.0 - exp(-maxf(0.0, delta) * maxf(time_scale, 0.0) / maxf(weather_transition_seconds, 0.001))
+	_visual_weight = factor
 
 	for key: String in SMOOTHED_WEATHER_FIELDS:
 		if not _weather_target.has(key):
@@ -775,8 +780,8 @@ func _update_precipitation_amounts() -> void:
 	intensity *= cover_gate
 	var rain_ratio: float = intensity * (1.0 - snow_fraction)
 	var snow_ratio: float = intensity * snow_fraction
-	_rain.amount_ratio = clampf(rain_ratio, 0.0, 1.0)
-	_snow.amount_ratio = clampf(snow_ratio, 0.0, 1.0)
+	_rain.amount_ratio = lerpf(_rain.amount_ratio, clampf(rain_ratio, 0.0, 1.0), _visual_weight)
+	_snow.amount_ratio = lerpf(_snow.amount_ratio, clampf(snow_ratio, 0.0, 1.0), _visual_weight)
 	_rain.emitting = _rain.amount_ratio > 0.005
 	_snow.emitting = _snow.amount_ratio > 0.005
 
@@ -795,7 +800,7 @@ func _update_environment_from_weather() -> void:
 	_environment.ambient_light_color = Color(0.53, 0.61, 0.70).lerp(Color(0.68, 0.70, 0.72), haze * 0.55)
 	_environment.ambient_light_energy = lerpf(0.045, 0.48, daylight) * (1.0 - cloud_dim * 0.62)
 	_environment.fog_light_color = Color(0.50, 0.59, 0.68).lerp(Color(0.70, 0.72, 0.72), haze * 0.6)
-	_environment.fog_density = lerpf(0.000035, 0.0011, pow(haze, 1.55))
+	_environment.fog_density = lerpf(_environment.fog_density, lerpf(0.000035, 0.0011, pow(haze, 1.55)), _visual_weight)
 	_environment.fog_aerial_perspective = lerpf(0.08, 0.30, haze)
 	_environment.fog_sky_affect = lerpf(0.55, 0.88, haze)
 
@@ -803,14 +808,13 @@ func _update_environment_from_weather() -> void:
 	var horizon_factor: float = 1.0 - smoothstep(4.0, 28.0, maxf(0.0, sun_angle))
 	var warm_horizon: Color = Color(1.0, 0.66, 0.43)
 	var daylight_tint: Color = warm_horizon.lerp(Color(1.0, 0.96, 0.87), 1.0 - horizon_factor)
-	_sun.light_color = daylight_tint.lerp(Color(0.62, 0.70, 0.82), cloud_fraction * 0.28)
+	_sun.light_color = _sun.light_color.lerp(daylight_tint.lerp(Color(0.62, 0.70, 0.82), cloud_fraction * 0.28), _visual_weight)
 	_sun.light_energy = 0.92 * daylight * (1.0 - cloud_fraction * 0.52)
 
 
 func _update_wetness() -> void:
 	var cloud_shadow: float = float(_terrain_state["cloud_shadow_fraction"])
 	if cloud_shadow < 0.0:
-		# Phase 1 cloud-shadow proxy: use the current cloud fraction when the snapshot has not supplied a mask.
 		cloud_shadow = clampf(float(_weather["cloud_fraction"]), 0.0, 1.0)
 	var wetness: float = float(_weather["ground_wetness_fraction"])
 	var snow_cover: float = float(_terrain_state["snow_cover_fraction"])
@@ -930,8 +934,6 @@ func _apply_solar_position() -> void:
 	# DirectionalLight3D emits along local -Z, so the target sits opposite the ground-to-sun vector.
 	var sun_from_ground: Vector3 = _sun_direction_vector()
 	_sun.look_at(_sun.global_position - sun_from_ground, Vector3.UP)
-	_sun.shadow_enabled = true
-	_sun.directional_shadow_max_distance = 280.0
 
 
 func refresh_wetness_material_cache() -> void:

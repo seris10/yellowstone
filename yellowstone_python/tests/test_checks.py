@@ -1,51 +1,27 @@
-"""Tests for yellowstone_python.validation.checks shape and gate behavior."""
-from __future__ import annotations
+"""Numeric input rejection and inclusive bounds."""
+import pytest
 
-from yellowstone_python.validation.checks import check_uq_document
-
-
-def _valid_uq_doc():
-    return {
-        "bands": {"level": 0.68, "seed": 12345},
-        "holdout_coverage": {"coverage": 0.73,
-                             "interpretation": "fraction of holdout"},
-        "effective_geometry": {"volume_m3": 1000.0, "area_m2": 500.0},
-        "members": [],
-    }
+from yellowstone_python.common.checks import finite, fraction, nonnegative, positive, positive_int
 
 
-def test_valid_uq_doc_passes():
-    assert check_uq_document(_valid_uq_doc()) == []
+@pytest.mark.parametrize("value", [True, False, None, "2", "", float("nan"), float("inf"), -float("inf")])
+def test_finite_rejects_non_numeric_and_nonfinite(value):
+    with pytest.raises(ValueError, match="sample must be"):
+        finite("sample", value)
 
 
-def test_missing_bands_seed_fails():
-    doc = _valid_uq_doc()
-    del doc["bands"]["seed"]
-    out = check_uq_document(doc)
-    assert any("bands.seed" in failure for failure in out)
+def test_inclusive_bounds():
+    assert finite("sample", 2, minimum=2, maximum=2) == 2.0
+    with pytest.raises(ValueError):
+        finite("sample", 3, maximum=2)
+    with pytest.raises(ValueError):
+        finite("sample", 1, minimum=2)
+    assert fraction("share", 0) == 0
+    assert nonnegative("amount", 0) == 0
+    assert positive("amount", 1) == 1
+    for validator in (positive, positive_int):
+        with pytest.raises(ValueError):
+            validator("amount", 0)
+    with pytest.raises(ValueError):
+        positive_int("count", 1.0)
 
-
-def test_missing_holdout_coverage_fails():
-    doc = _valid_uq_doc()
-    del doc["holdout_coverage"]["coverage"]
-    out = check_uq_document(doc)
-    assert any("holdout_coverage.coverage" in failure for failure in out)
-
-
-def test_missing_interpretation_fails():
-    doc = _valid_uq_doc()
-    del doc["holdout_coverage"]["interpretation"]
-    out = check_uq_document(doc)
-    assert any("interpretation" in failure for failure in out)
-
-
-def test_missing_effective_geometry_fails():
-    doc = _valid_uq_doc()
-    del doc["effective_geometry"]
-    out = check_uq_document(doc)
-    assert any("effective_geometry" in failure for failure in out)
-
-
-def test_non_dict_rejected():
-    out = check_uq_document([])
-    assert out and "dict" in out[0]

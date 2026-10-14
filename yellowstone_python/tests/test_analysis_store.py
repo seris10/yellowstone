@@ -1,7 +1,4 @@
-"""Tests for the LLM analysis store: builder, query validation, cross-checks.
-
-Synthetic and offline: small hand-built docs in tmp_path, no network.
-"""
+"""Tests for the LLM analysis store: builder, query validation, cross-checks."""
 import json
 import math
 import os
@@ -12,8 +9,8 @@ from pathlib import Path
 
 import pytest
 
-from yellowstone_python import analysis_store as A
-from yellowstone_python.llm_backend import Backend, _Handler
+import yellowstone_python.service.analysis_store as A
+from yellowstone_python.service.llm_backend import Backend, _Handler
 
 
 def _census_doc():
@@ -194,7 +191,7 @@ def test_rtree_bbox_includes_edge_coordinates():
     con.close()
 
 
-def test_rtree_absent_fails_loudly():
+def test_rtree_absent_raises_error():
     class _NoRtree:
         def execute(self, *a, **k):
             raise sqlite3.OperationalError("no such module: rtree")
@@ -244,7 +241,7 @@ def test_query_limit_offset_truncation():
 
 def test_cross_check_json_vs_store(tmp_path):
     store = _file_store(tmp_path)
-    b = Backend(derived=tmp_path)
+    b = Backend(derived=tmp_path, store=store)
     for (x, z, r) in [(5.0, 5.0, 8.0), (0.0, 0.0, 0.5),
                       (-500.0, 300.0, 120.0), (5.0, 5.0, 1000.0)]:
         from_json = Backend.circle_stats(b.census_points(), x, z, r)
@@ -260,8 +257,8 @@ def test_cross_check_json_vs_store(tmp_path):
 
 
 def test_query_http_and_503_without_store(tmp_path):
-    _file_store(tmp_path)
-    _Handler.backend = Backend(derived=tmp_path)
+    store = _file_store(tmp_path)
+    _Handler.backend = Backend(derived=tmp_path, store=store)
     server = ThreadingHTTPServer(("127.0.0.1", 0), _Handler)
     port = server.server_address[1]
     thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -310,13 +307,13 @@ def test_query_http_and_503_without_store(tmp_path):
         thread.join()
 
 
-def test_notebook_executes_on_synthetic_store(tmp_path, monkeypatch):
+def test_notebook_executes_on_synthetic_store(tmp_path, monkeypatch, repo_root):
     store = _file_store(tmp_path)
     monkeypatch.setenv("ANALYSIS_STORE", str(store))
     figdir = tmp_path / "figs"
     monkeypatch.setenv("FIG_DIR", str(figdir))
     import tools.execute_notebook as ex
-    nb = Path("notebooks/census_explorer.ipynb")
+    nb = repo_root / "notebooks/census_explorer.ipynb"
     assert nb.exists()
     # The notebook must read the store only, never the JSON interchange.
     for cell in json.loads(nb.read_text())["cells"]:
@@ -385,8 +382,121 @@ def test_duplicate_stable_id_leaves_no_stale_rtree():
     con.close()
 
 
+@pytest.mark.parametrize("exg", [None, 0.0, -0.25, 0.3])
+def test_census_exg_preserves_unmeasured_and_finite_values(exg):
+    con = A.create_empty()
+    tree = {**_census_doc()["trees"][0], "peak_exg": exg}
+    try:
+        assert A.ingest_census(con, {"trees": [tree]}) == 1
+        out = A.query(con, "census_trees", columns=["stable_id", "peak_exg"])
+        assert out["rows"] == [[tree["stable_id"], exg]]
+        assert json.loads(json.dumps(out))["rows"][0][1] == exg
+    finally:
+        con.close()
+
+
+def test_nullable_exg_persists_in_versioned_store(tmp_path):
+    doc = _census_doc()
+    doc["trees"][0]["peak_exg"] = None
+    con = A.build_con(build_id="nullable", census=doc, replay=_replay_doc(),
+                      firehole=_firehole_doc(), snotel=_snotel_doc())
+    out = tmp_path / "nullable.sqlite"
+    disk = sqlite3.connect(out)
+    try:
+        con.backup(disk)
+    finally:
+        disk.close()
+        con.close()
+    values = A.query(out, "census_trees", columns=["stable_id", "peak_exg"])
+    assert dict(values["rows"]) == {t["stable_id"]: t["peak_exg"] for t in doc["trees"]}
+    meta = A.query(out, "meta", columns=["schema_version"])
+    assert meta["rows"] == [["yellowstone.analysis_store.v2"]]
+
+
+@pytest.mark.parametrize("exg", [True, False, float("nan"), float("inf"),
+                                float("-inf"), "not numeric"])
+def test_census_exg_rejects_invalid_values_before_replacement(exg):
+    con = A.create_empty()
+    original = _census_doc()["trees"][0]
+    try:
+        A.ingest_census(con, {"trees": [original]})
+        bad = {**original, "x": 100.0, "peak_exg": exg}
+        with pytest.raises(ValueError, match="peak_exg"):
+            A.ingest_census(con, {"trees": [bad]})
+        row = A.query(con, "census_trees", columns=["x", "peak_exg"])
+        assert row["rows"] == [[original["x"], original["peak_exg"]]]
+        assert con.execute("SELECT COUNT(*) FROM census_rtree").fetchone()[0] == 1
+    finally:
+        con.close()
+
+
+@pytest.mark.parametrize("before,after", [(0.2, None), (None, 0.4)])
+def test_census_nullable_exg_replacement_preserves_rtree(before, after):
+    con = A.create_empty()
+    original = {**_census_doc()["trees"][0], "peak_exg": before}
+    replacement = {**original, "x": 100.0, "z": 100.0, "peak_exg": after}
+    try:
+        A.ingest_census(con, {"trees": [original, replacement]})
+        assert con.execute("SELECT COUNT(*) FROM census_trees").fetchone()[0] == 1
+        assert con.execute("SELECT COUNT(*) FROM census_rtree").fetchone()[0] == 1
+        assert A.query(con, "census_trees", x0=-5, x1=5, z0=-5, z1=5)["n"] == 0
+        out = A.query(con, "census_trees", x0=95, x1=105, z0=95, z1=105,
+                      columns=["stable_id", "peak_exg"])
+        assert out["rows"] == [[original["stable_id"], after]]
+    finally:
+        con.close()
+
+
+def test_legacy_store_rebuild_preserves_rgb_and_unrelated_data(tmp_path):
+    out = tmp_path / "legacy.sqlite"
+    con = sqlite3.connect(out)
+    con.executescript("""
+        CREATE TABLE census_trees(
+            stable_id TEXT PRIMARY KEY, x REAL NOT NULL, z REAL NOT NULL,
+            crown_r_m REAL NOT NULL, confidence TEXT NOT NULL,
+            peak_exg REAL NOT NULL, evidence_class TEXT NOT NULL);
+        CREATE VIRTUAL TABLE census_rtree USING rtree(tree_row, x0, x1, z0, z1);
+        CREATE TABLE unrelated(value TEXT NOT NULL);
+        INSERT INTO unrelated VALUES ('preserved observation');
+    """)
+    try:
+        A.ingest_census(con, _census_doc())
+        con.commit()
+        before = out.read_bytes()
+        assert A.query(out, "census_trees", columns=["peak_exg"])["n"] == 5
+        assert out.read_bytes() == before
+        tree = {**_census_doc()["trees"][0], "peak_exg": None, "x": 100.0}
+        with pytest.raises(ValueError, match="rebuild.*new output"):
+            A.ingest_census(con, {"trees": [tree]})
+        assert A.query(con, "census_trees", columns=["peak_exg"])["n"] == 5
+        assert con.execute("SELECT COUNT(*) FROM census_rtree").fetchone()[0] == 5
+        assert con.execute("SELECT value FROM unrelated").fetchone()[0] == \
+            "preserved observation"
+        assert out.read_bytes() == before
+    finally:
+        con.close()
+
+
+@pytest.mark.needs_world
+def test_active_lidar_census_ingests_with_unmeasured_exg(repo_root):
+    path = repo_root / "derived/census.json"
+    doc = json.loads(path.read_text())
+    assert len(doc["trees"]) == 34303
+    assert all(tree["peak_exg"] is None for tree in doc["trees"])
+    con = A.create_empty()
+    try:
+        assert A.ingest_census(con, doc) == len(doc["trees"])
+        assert con.execute("SELECT COUNT(*) FROM census_trees").fetchone()[0] == 34303
+        assert con.execute("SELECT COUNT(*) FROM census_rtree").fetchone()[0] == 34303
+        assert con.execute("SELECT COUNT(peak_exg) FROM census_trees").fetchone()[0] == 0
+        stored_ids = {row[0] for row in con.execute("SELECT stable_id FROM census_trees")}
+        assert stored_ids == {tree["stable_id"] for tree in doc["trees"]}
+    finally:
+        con.close()
+
+
 def test_radius_bounds_single_sourced():
-    from yellowstone_python import llm_backend as L
+    import yellowstone_python.service.llm_backend as L
     assert (A.RADIUS_MIN_M, A.RADIUS_MAX_M) == \
         (L.MIN_RADIUS_M, L.MAX_RADIUS_M) == (0.1, 5000.0)
 
@@ -438,7 +548,7 @@ def test_replay_garbage_raises_valueerror():
 
 
 def test_build_file_refuses_overwrite(tmp_path):
-    from yellowstone_python.analysis_store import build_file
+    from yellowstone_python.service.analysis_store import build_file
     out = tmp_path / "analysis_x.sqlite"
     kw = {"build_id": "x", "census": _census_doc(),
           "replay": _replay_doc(), "firehole": _firehole_doc(),
@@ -469,7 +579,7 @@ def _write_build_tree(tmp_path):
 
 
 def test_build_file_sources_record_shape_and_readonly(tmp_path):
-    from yellowstone_python.analysis_store import build_file
+    from yellowstone_python.service.analysis_store import build_file
     census, firehole, snotel = _write_build_tree(tmp_path)
     out = tmp_path / "analysis_build_rec.sqlite"
     build_file(build_dir=tmp_path, out=out,

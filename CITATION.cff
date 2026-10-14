@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Cite the software version and the build artifacts used in the analysis."
+title: "Yellowstone Midway illustrative scientific world"
+version: "0.1.0"
+authors:
+  - name: "KJR"
+repository-code: "https://github.com/seris10/yellowstone"
+license: "Apache-2.0"
+abstract: "Coupled illustrative river, land, thermal-feature, and atmosphere models with a Godot world. Scientific claims remain not_yet_accepted."

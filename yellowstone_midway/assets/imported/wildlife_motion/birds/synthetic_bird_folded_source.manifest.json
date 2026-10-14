@@ -1,0 +1,40 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "8be83e167e6d20c8739a2f8a173c23760efc826baacd788edaea16d57f8ec7e4",
+  "vertices": 3108,
+  "triangles": 6160,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "mesh_index": 0,
+    "source": "original_synthetic_bird_proxy",
+    "scale_status": "synthetic_fixture_meters",
+    "canonical_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "texture_resizing": [],
+  "clips": []
+}

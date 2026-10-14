@@ -1,6 +1,6 @@
 # fixes-18 ledger
 Doc: fixes/fixes-18-overland.md | read 2026-10-12, open rows re-verified 2026-10-13 | targets: yellowstone_python/overland_flow.py sha256:4143b33a8ffc ; yellowstone_python/overland_provider.py sha256:b7918ba80336 ; yellowstone_python/replay/river_transport.py sha256:092c2a047750 ; yellowstone_python/replay/river_world.py (parse_upstream_discharge) ; yellowstone_python/tests/test_overland.py ; yellowstone_python/tests/test_overland_provider.py ; yellowstone_python/tests/test_catchment_runoff.py
-Downloads: /Users/kreed/Downloads/ystone-fixed-scripts/overland_flow.py sha256:7b000e9d51a1 ; /Users/kreed/Downloads/ystone-fixed-scripts/overland_provider.py sha256:c493b007e315
+Downloads: ../../ystone-fixed-scripts/overland_flow.py sha256:7b000e9d51a1 ; ../../ystone-fixed-scripts/overland_provider.py sha256:c493b007e315
 Summary: 18 items: live 15 implemented, 0 shortcut, 1 partial, 0 missing, 0 superseded, 0 conflicts, 2 n/a ; downloads 11 implemented, 1 shortcut, 3 partial, 3 missing, 0 superseded, 0 conflicts
 
 Items are the eighteen numbered sections of the doc. Verdict column is the live project files; `downloads verdict` is the matching Downloads replacements.

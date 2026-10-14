@@ -1,11 +1,11 @@
-"""M11 checks: conservation, topology, provenance, determinism gates."""
+"""checks: conservation, topology, provenance, determinism gates."""
 from __future__ import annotations
 
+import math
 from typing import Any
 
-from ..common.validate import (check_heat_ledger, check_provenance,
-                               check_reach_chain)
-from ..run_mode import DEFAULT_RUN_MODE, RUN_MODES, check_split
+from yellowstone_python.validation.contracts import check_heat_ledger, check_provenance, check_reach_chain
+from yellowstone_python.registry.run_mode import DEFAULT_RUN_MODE, RUN_MODES, check_split
 
 # Shared tolerances for replay and ledger closure gates; one source for build and tests.
 REPLAY_HEAT_RELATIVE_TOLERANCE = 1e-9
@@ -58,9 +58,17 @@ def run_all(*, river_state, ledger, ecosystem_doc, build_id_a,
     """Return {passed, failures, metrics, run_mode, prescribed_quantities}."""
     failures: list[str] = []
     failures += check_reach_chain(river_state)
-    failures += check_heat_ledger(ledger,
-                                  heat_tol_j=HYDRO_HEAT_LEDGER_TOL_J,
-                                  water_tol_m3=HYDRO_WATER_LEDGER_TOL_M3)
+    if ledger.get("scope") == "replay_relative_conservation":
+        budget = (replay_doc or {}).get("final_budget", {})
+        for key, tolerance in (("heat_relative_residual", REPLAY_HEAT_RELATIVE_TOLERANCE),
+                               ("water_relative_residual", REPLAY_WATER_RELATIVE_TOLERANCE)):
+            value = budget.get(key)
+            if value is None or not math.isfinite(float(value)) or abs(float(value)) > tolerance:
+                failures.append(f"replay {key}: {value} exceeds {tolerance}")
+    else:
+        failures += check_heat_ledger(ledger,
+                                     heat_tol_j=HYDRO_HEAT_LEDGER_TOL_J,
+                                     water_tol_m3=HYDRO_WATER_LEDGER_TOL_M3)
     failures += ["provenance: " + e for e in check_provenance(ecosystem_doc)]
     if run_mode not in RUN_MODES:
         failures.append(f"run_mode {run_mode!r} unknown")
@@ -79,7 +87,7 @@ def run_all(*, river_state, ledger, ecosystem_doc, build_id_a,
                "water_budget_error_m3": ledger.get("water_budget_error_m3"),
                "n_reaches": len(river_state)}
     try:
-        from ..replay.benchmarks import run_all_benchmarks
+        from yellowstone_python.river.benchmarks import run_all_benchmarks
         numerics = run_all_benchmarks()
         metrics["numerics_passed"] = numerics["passed"]
         metrics["numerics_excluded"] = [e["benchmark"]
@@ -95,7 +103,7 @@ def run_all(*, river_state, ledger, ecosystem_doc, build_id_a,
             f"numerics: benchmark error ({type(exc).__name__}: {exc})")
     # FiPy convergence checks (analytic reference and MMS forcing); skip when fipy is absent.
     try:
-        from ..replay import fipy_reference as _fr
+        from yellowstone_python.river import fipy_reference as _fr
         if _fr.HAS_FIPY:
             fipy_doc = _fr.run_convergence()
             mms_doc = _fr.run_mms_convergence()
@@ -121,7 +129,7 @@ def run_all(*, river_state, ledger, ecosystem_doc, build_id_a,
         metrics["fipy_reference_skip_reason"] = (
             f"fipy_reference error ({type(exc).__name__}: {exc})")
     if replay_doc is not None and landscape is not None:
-        from ..coupling import check_coupling
+        from yellowstone_python.registry.coupling import check_coupling
         coupling = check_coupling(replay_doc, landscape)
         metrics["coupling_passed"] = coupling["passed"]
         metrics.update({f"coupling_{k}": v
@@ -133,7 +141,7 @@ def run_all(*, river_state, ledger, ecosystem_doc, build_id_a,
         if warn_rows:
             metrics["replay_numerical_warnings"] = [str(w) for w in warn_rows]
     if landscape is not None and membership is not None and chainage is not None:
-        from ..coupling import check_cross_family
+        from yellowstone_python.registry.coupling import check_cross_family
         cross = check_cross_family(landscape, river_state, membership,
                                    chainage,
                                    chainage_offset_m=chainage_offset_m)

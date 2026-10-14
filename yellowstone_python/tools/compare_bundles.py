@@ -1,12 +1,10 @@
-"""Old-vs-refetch drift detection over observation bundles (exact epoch/date alignment).
-"""
+"""Old-vs-refetch drift detection over observation bundles (exact epoch/date alignment)."""
 
 import argparse
 import json
 import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from yellowstone_python.common.io import write_json_atomic as _shared_json_write
 
 SCHEMA_DRIFT = "yellowstone.bundle_drift.v1"
 
@@ -217,9 +215,7 @@ def main() -> int:
     if args.out is not None:
         try:
             args.out.parent.mkdir(parents=True, exist_ok=True)
-            tmp = args.out.with_name(args.out.name + ".tmp")
-            tmp.write_text(json.dumps(report, indent=2))
-            tmp.replace(args.out)
+            _shared_json_write(args.out, report)
         except OSError as exc:
             print(json.dumps(report, indent=2))
             print(f"report-unwritable: {args.out}: {exc}")

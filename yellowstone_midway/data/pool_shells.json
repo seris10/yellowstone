@@ -1,5 +1,5 @@
 {
-  "code_rev": "858e4972204ee2a80469f9f4ade22d219fdcef8b",
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
   "contract_version": "0.1.0",
   "parameter_provenance": {
     "outline": "mapped water polygons preserved",
@@ -7,7 +7,7 @@
   },
   "pool_shells": [
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -112,7 +112,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -405,7 +405,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -494,7 +494,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -587,7 +587,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 10.65,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -744,7 +744,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -941,7 +941,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -1054,7 +1054,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.01,
       "center_xz": [
@@ -1135,7 +1135,7 @@
       "t_edge_c": 40.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.02,
       "center_xz": [
@@ -1212,7 +1212,7 @@
       "t_edge_c": 40.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 39.4,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -1317,7 +1317,7 @@
       "t_edge_c": 45.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 21.23,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -1438,7 +1438,7 @@
       "t_edge_c": 42.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -1643,7 +1643,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -1752,7 +1752,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -1873,7 +1873,7 @@
       "t_edge_c": 38.0
     },
     {
-      "apron_buffer_method": "radial_expansion_from_centroid_approximation_not_guaranteed",
+      "apron_buffer_method": "shapely_minkowski_buffer",
       "apron_margin_m": 9.0,
       "area_disagreement_pct": 0.0,
       "center_xz": [
@@ -1997,7 +1997,7 @@
   "sources": [
     {
       "file": "yellowstone_midway/data/world.json",
-      "sha256": "975a73ecdbd051b255cfd1fb7b599180e802a4b6c3f94c14f49469a64074a244"
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
     }
   ],
   "status": "illustrative, not calibrated",

@@ -1,4 +1,4 @@
-Fix AI tells in the GDScript, Python, and shader files under `/Users/kreed/Downloads/yellowstone_midway/`. For each file listed below, read the file, find the specific comment, and replace it with the proposed fix. Do NOT change any code logic — only comment text.
+Fix AI tells in the GDScript, Python, and shader files under `../../yellowstone_midway/`. For each file listed below, read the file, find the specific comment, and replace it with the proposed fix. Do NOT change any code logic — only comment text.
 
 **Rules:**
 - Only edit comments (lines starting with # or // or inside docstrings)

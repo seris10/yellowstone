@@ -1,0 +1,13 @@
+{
+  "schema": "yellowstone.provenance_sidecar.v1",
+  "status": "fitted_not_validated_single_window",
+  "path": "firehole_chloride_sc_fit.json",
+  "bytes": 642,
+  "sha256": "45c3ebdd2ac4e8cb01ebc71522788380f730c7f6dba483f39f5a55b3dfd0d339",
+  "content_type": "application/json",
+  "url": "derived_from:firehole_chem_paired_samples.json",
+  "retrieved_utc": "2026-10-13",
+  "terms": "Derived locally by ordinary-least-squares fit on the WQP paired samples at USGS 06036905.",
+  "agency": "USGS (source data); local fit",
+  "citation": "Local OLS fit of chloride on specific conductance using Water Quality Portal paired samples at USGS 06036905. See firehole_chem_paired_samples.json for inputs."
+}

@@ -11,15 +11,15 @@ Use the actual local paths to your Godot data:
 bash
 
 python river_world.py \
-  --world /Users/kreed/Downloads/yellowstone_midway/data/world.json \
-  --ecosystem /Users/kreed/Downloads/yellowstone_midway/data/ecosystem.json \
+  --world ../../yellowstone_midway/data/world.json \
+  --ecosystem ../../yellowstone_midway/data/ecosystem.json \
   --out derived/firehole_control.json
 Generate the warming intervention
 bash
 
 python river_world.py \
-  --world /Users/kreed/Downloads/yellowstone_midway/data/world.json \
-  --ecosystem /Users/kreed/Downloads/yellowstone_midway/data/ecosystem.json \
+  --world ../../yellowstone_midway/data/world.json \
+  --ecosystem ../../yellowstone_midway/data/ecosystem.json \
   --pulse-source excelsior_aggregate_outflow \
   --pulse-start 300 \
   --pulse-end 900 \

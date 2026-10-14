@@ -1,15 +1,12 @@
+
+import pytest
 import json
 from pathlib import Path
 
-from yellowstone_python.fish import (assign_reach, build_chainage,
-                                     check_trout_clear_of_pools, fish_activity,
-                                     reach_membership, select_refuge,
-                                     suitability, temp_penalty, update_trout)
-from yellowstone_python.pool_crust import build_all
+from yellowstone_python.aquatic.fish import assign_reach, build_chainage, check_trout_clear_of_pools, fish_activity, reach_membership, select_refuge, suitability, temp_penalty, update_trout
+from yellowstone_python.thermal_features.pool_crust import build_all
 
-from paths import ECO_FROZEN, ECO_LIVE, WORLD_JSON as WORLD
 # Tests derive from the frozen shipped baseline, as build.py does.
-ECO = ECO_FROZEN if Path(ECO_FROZEN).exists() else ECO_LIVE
 
 
 def _data():
@@ -75,7 +72,7 @@ def test_chainage_membership_is_auditable():
 
 
 def test_segment_check_covers_offsets():
-    from yellowstone_python.fish import _samples_along
+    from yellowstone_python.aquatic.fish import _samples_along
     a, b = [0.0, 0.0, 0.0], [10.0, 0.0, 0.0]
     pts = list(_samples_along(a, b, 3.0, every_m=2.0))
     assert any(abs(x) < 1e-9 and abs(z - 3.0) < 1e-9 for x, z in pts)
@@ -111,7 +108,7 @@ def test_update_trout_per_cell_rejects_length_mismatch():
 
 
 def test_reach_z_windows_chainage_mode_bounds_first_reach():
-    from yellowstone_python.fish import reach_z_windows
+    from yellowstone_python.aquatic.fish import reach_z_windows
     pts, reaches, _, _ = _data()
     windows = reach_z_windows(reaches, river_points=pts)
     for w in windows:
@@ -121,3 +118,16 @@ def test_reach_z_windows_chainage_mode_bounds_first_reach():
         assert w["z_lo"] <= w["z_hi"]
     legacy = reach_z_windows(reaches)
     assert any(w.get("z_hi", 0.0) > 1e8 for w in legacy)
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'ECO_FROZEN', resolved_paths['ECO_FROZEN'], raising=False)
+    monkeypatch.setattr(module, 'ECO_LIVE', resolved_paths['ECO_LIVE'], raising=False)
+    monkeypatch.setattr(module, 'WORLD', resolved_paths['WORLD_JSON'], raising=False)
+    monkeypatch.setattr(module, "ECO", ECO_FROZEN if ECO_FROZEN.exists() else ECO_LIVE, raising=False)

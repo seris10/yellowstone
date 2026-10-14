@@ -5,8 +5,8 @@
 
 [node name="MidwayStudy" type="Node3D"]
 script = ExtResource("1")
-replay_path = "res://data/firehole_pulse.json"
-replay_path_alt = "res://data/firehole_control.json"
+replay_path = "res://data/river_replay.json"
+replay_path_alt = ""
 
 [node name="ThermalProbes" parent="." type="Node3D"]
 script = ExtResource("2")

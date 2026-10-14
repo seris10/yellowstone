@@ -953,21 +953,21 @@ Rules per AGENTS.md section 2.
 
 The operator-local memory store carries 63 `file_references` rows whose
 paths contain `yellowstone`, of which 10 point under
-`/Users/kreed/Downloads/yellowstone_python/`. That directory does not
+`../../yellowstone_python/`. That directory does not
 exist on disk today (confirmed by filesystem check: no entry at
-`/Users/kreed/Downloads/yellowstone_python`). The 10 broken paths are:
+`../../yellowstone_python`). The 10 broken paths are:
 
 ```
-/Users/kreed/Downloads/yellowstone_python/worker_briefs/snotel_sites_2026-10-10.md
-/Users/kreed/Downloads/yellowstone_python/derived/snotel_obs_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/snow_snotel_fit_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/reach_lsfit_V300000_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/hot_lowflow_replay_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/aquatic_hot_lowflow_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/fischer_D85_replay_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/aquatic_dispersion_D85_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/hot_lowflow_D85_replay_2026-10-10.json
-/Users/kreed/Downloads/yellowstone_python/derived/aquatic_hot_lowflow_D85_2026-10-10.json
+../../yellowstone_python/worker_briefs/snotel_sites_2026-10-10.md
+../../yellowstone_python/derived/snotel_obs_2026-10-10.json
+../../yellowstone_python/derived/snow_snotel_fit_2026-10-10.json
+../../yellowstone_python/derived/reach_lsfit_V300000_2026-10-10.json
+../../yellowstone_python/derived/hot_lowflow_replay_2026-10-10.json
+../../yellowstone_python/derived/aquatic_hot_lowflow_2026-10-10.json
+../../yellowstone_python/derived/fischer_D85_replay_2026-10-10.json
+../../yellowstone_python/derived/aquatic_dispersion_D85_2026-10-10.json
+../../yellowstone_python/derived/hot_lowflow_D85_replay_2026-10-10.json
+../../yellowstone_python/derived/aquatic_hot_lowflow_D85_2026-10-10.json
 ```
 
 Four of those basenames match the four date-stamped source paths the
@@ -977,7 +977,7 @@ appear verbatim; `firehole_obs_2026-10-09.json` and
 `reach_fit_V300000_2026-10-09.json` do not appear in the operator-local
 memory, suggesting those were produced in a different workspace). The
 simplest explanation is that an earlier sibling session built the
-stores under `/Users/kreed/Downloads/yellowstone_python/` and later
+stores under `../../yellowstone_python/` and later
 work moved to the current `!claude/roots-of-reason/.../yellowstone_python/`
 tree, leaving operator-local memory pointing at the former location.
 The operator-local events log corroborates this: the row at
@@ -988,9 +988,9 @@ the move but does not record the subsequent cleanup.
 
 Action for the operator-local memory store (outside the scope of this
 project; recorded here as a finding): either re-resolve each
-`/Users/kreed/Downloads/yellowstone_python/...` row to its current
+`../../yellowstone_python/...` row to its current
 location under
-`/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/`,
+`./yellowstone_python/`,
 or delete the row. The project itself does not depend on these rows.
 
 # Priority order

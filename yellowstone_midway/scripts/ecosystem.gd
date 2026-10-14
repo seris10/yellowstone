@@ -1,6 +1,6 @@
 class_name MidwayEcosystem
 extends Node
-## Reduced observational model. Transport units: seconds, m3/s, m3, Celsius. Water geometry fixed. River internal heat flux paired. Unknown tributary flows omitted from ecosystem.json.
+## Published Python state with presentation interpolation.
 signal advanced
 const DT: float = 1.0
 const MAX_STEPS_PER_FRAME: int = 8
@@ -21,10 +21,20 @@ var params: Dictionary = {}
 var world_data: Dictionary = {}
 var transport_scale: float = 1.0 # Transport is 1:1.
 var configuration_valid: bool = false
+var time_scale: float = 1.0
+var paused: bool = false
+var clock_held: bool = false
+var live_mode: bool = false
+var epoch_unix: float = 0.0
+var current_frame: Dictionary = {}
+var frame_header: Dictionary = {}
+var _series: Array = []
+var _clock_hour0: float = 16.2
 var _reach_indices: Dictionary = {}
 var _patch_indices: Dictionary = {}
 var _grazers: Dictionary = {}
 var _insect_foragers: Dictionary = {}
+var _mammals: Dictionary = {}
 var _warned_patch_ids: Dictionary = {}
 
 func _ready() -> void:
@@ -43,14 +53,20 @@ func _ready() -> void:
 		world_data = authored
 
 func configure(data: Dictionary) -> bool:
+	var saved_elapsed: float = elapsed
+	var saved_frame: Dictionary = current_frame
 	params = data.duplicate(true)
+	if not live_mode:
+		frame_header = params.get("frame_header", frame_header).duplicate(true)
+	_series = params.get("python_series", []).duplicate(true)
 	river = params.get("river_reaches", []).duplicate(true)
 	patches = params.get("patches", []).duplicate(true)
-	clock_hour = float(params.get("clock_hour", 16.2))
+	_clock_hour0 = float(params.get("clock_hour", 16.2))
+	clock_hour = fposmod(_clock_hour0 + saved_elapsed / 3600.0, 24.0)
 	day_rate = float(params.get("day_rate", 1.0))
 	humidity = clampf(float(params.get("humidity", 0.45)), 0.0, 1.0)
 	cloud = clampf(float(params.get("cloud", 0.16)), 0.0, 1.0)
-	elapsed = 0.0
+	elapsed = saved_elapsed
 	accumulator = 0.0
 	heat_budget_error = 0.0
 	water_budget_error_m3 = 0.0
@@ -58,6 +74,7 @@ func configure(data: Dictionary) -> bool:
 	_patch_indices.clear()
 	_grazers.clear()
 	_insect_foragers.clear()
+	_mammals = params.get("mammal_initial_state", {}).get("actors", {}).duplicate(true)
 	_warned_patch_ids.clear()
 	configuration_valid = not river.is_empty() and not patches.is_empty()
 	for i: int in range(river.size()):
@@ -91,145 +108,108 @@ func configure(data: Dictionary) -> bool:
 	if float(params.get("boundary_m3s", 0.0)) <= 0.0:
 		configuration_valid = false
 		push_error("A positive, explicitly sourced or illustrative boundary flow is required.")
-	_update_weather()
-	if configuration_valid:
-		_derive_flows()
+	apply_python_frame(saved_frame if live_mode else _series[0] if not _series.is_empty() else {})
 	set_process(configuration_valid)
 	return configuration_valid
 
 func _process(delta: float) -> void:
-	# Retain elapsed-time debt after a slow frame.
-	accumulator += maxf(0.0, delta)
-	var steps: int = 0
-	while accumulator >= DT and steps < MAX_STEPS_PER_FRAME:
-		step(DT)
-		accumulator -= DT
-		steps += 1
-
-func _derive_flows() -> void:
-	var q: float = float(params.get("boundary_m3s", 8.0))
-	for r: Dictionary in river:
-		r["q_in_m3s"] = q
-		var source_q: float = 0.0
-		var source_qt: float = 0.0
-		for source: Dictionary in r.get("lateral_sources", []):
-			var added_q: float = maxf(0.0, float(source.get("flow_m3s", 0.0)))
-			source_q += added_q
-			source_qt += added_q * float(source.get("temperature_c", 0.0))
-		q += source_q
-		r["flow_m3s"] = q
-		r["thermal_m3s"] = source_q
-		r["source_heat_m3_c_per_s"] = source_qt
-		r["source_c"] = source_qt / source_q if source_q > 0.0 else 0.0
+	if not paused and not clock_held:
+		step(maxf(0.0, delta) * time_scale)
 
 func step(dt: float) -> void:
-	if not configuration_valid or dt <= 0.0:
+	if not configuration_valid or dt <= 0.0 or live_mode:
 		return
-	_derive_flows()
-	var stable_dt: float = DT
-	for r: Dictionary in river:
-		var rate: float = float(r.flow_m3s) / float(r.volume_m3)
-		var cooling_seconds: float = maxf(1.0, float(r.get("cooling_seconds", 18000.0)))
-		rate += 1.0 / cooling_seconds
-		stable_dt = minf(stable_dt, 0.45 / maxf(rate, 0.000001))
-	var remaining: float = dt
-	heat_budget_error = 0.0
-	water_budget_error_m3 = 0.0
-	while remaining > 0.0000001:
-		var h: float = minf(remaining, stable_dt)
-		elapsed += h
-		clock_hour = fposmod(clock_hour + h * day_rate / 3600.0, 24.0)
-		_update_weather()
-		_advance_heat(h)
-		_advance_patches(h)
-		remaining -= h
+	if _series.is_empty():
+		return
+	elapsed = minf(elapsed + dt, float(_series[-1].get("t_s", elapsed)))
+	var i: int = 0
+	while i + 1 < _series.size() and float(_series[i + 1].t_s) <= elapsed:
+		i += 1
+	var a: Dictionary = _series[i]
+	var b: Dictionary = _series[mini(i + 1, _series.size() - 1)]
+	var span: float = float(b.t_s) - float(a.t_s)
+	apply_python_frame(interpolate_frame(a, b, (elapsed - float(a.t_s)) / span if span > 0.0 else 0.0))
 	advanced.emit()
 
-func _update_weather() -> void:
-	var weather: Dictionary = params.get("weather", {})
-	var sunlight: float = maxf(0.0, sin((clock_hour - 6.0) * PI / 12.0))
-	air_c = float(weather.get("night_air_c", 7.0)) + float(weather.get("day_warming_c", 15.0)) * sunlight
-	var direction: Array = weather.get("wind_xz_mps", [1.8, 0.6])
-	var gust: float = float(weather.get("gust_mps", 0.45))
-	wind = Vector2(float(direction[0]), float(direction[1])) + Vector2(sin(elapsed / 61.0), cos(elapsed / 87.0)) * gust
+static func interpolate_frame(a: Dictionary, b: Dictionary, weight: float) -> Dictionary:
+	var result: Dictionary = a.duplicate(true)
+	for key: Variant in a:
+		if key in ["header", "health", "budget", "observations"]:
+			continue
+		if not b.has(key):
+			continue
+		if a[key] is Dictionary and b[key] is Dictionary:
+			result[key] = interpolate_frame(a[key], b[key], weight)
+		elif (a[key] is float or a[key] is int) and (b[key] is float or b[key] is int):
+			result[key] = lerpf(float(a[key]), float(b[key]), weight)
+		elif a[key] is Array and b[key] is Array and a[key].size() == b[key].size():
+			var rows: Array = []
+			for i: int in range(a[key].size()):
+				if a[key][i] is Dictionary and b[key][i] is Dictionary:
+					rows.append(interpolate_frame(a[key][i], b[key][i], weight))
+				elif (a[key][i] is float or a[key][i] is int) and (b[key][i] is float or b[key][i] is int):
+					rows.append(lerpf(float(a[key][i]), float(b[key][i]), weight))
+				else:
+					rows.append(a[key][i])
+			result[key] = rows
+	return result
 
-func _advance_heat(dt: float) -> void:
-	# Explicit Euler for a well-mixed cell. Stability holds under the stable_dt CFL loop.
-	var old: Array = river.duplicate(true)
-	var before: float = 0.0
-	var after: float = 0.0
-	var sources_heat: float = 0.0
-	var atmosphere_heat: float = 0.0
-	var source_flow: float = 0.0
-	for i: int in range(river.size()):
-		var r: Dictionary = river[i]
-		var old_c: float = float(old[i].temperature_c)
-		var volume: float = float(r.volume_m3)
-		var upstream_c: float = float(params.get("boundary_c", 17.5)) if i == 0 else float(old[i - 1].temperature_c)
-		var incoming: float = float(r.q_in_m3s) * upstream_c + float(r.source_heat_m3_c_per_s)
-		var outgoing: float = float(r.flow_m3s) * old_c
-		# Newton exchange is a lumped heat-loss term.
-		var atmosphere: float = (air_c - old_c) * volume / maxf(1.0, float(r.get("cooling_seconds", 18000.0)))
-		var d_heat: float = (incoming - outgoing + atmosphere) * dt
-		r["temperature_c"] = old_c + d_heat / volume
-		before += old_c * volume
-		after += float(r.temperature_c) * volume
-		sources_heat += float(r.source_heat_m3_c_per_s)
-		source_flow += float(r.thermal_m3s)
-		atmosphere_heat += atmosphere
-		water_budget_error_m3 = maxf(water_budget_error_m3, absf(float(r.q_in_m3s) + float(r.thermal_m3s) - float(r.flow_m3s)) * dt)
-		# Relative visual suitability only.
-		var temperature: float = float(r.temperature_c)
-		var thermal_preference: float = clampf((26.0 - temperature) / 8.0, 0.0, 1.0)
-		r["fish_activity"] = thermal_preference
-		var exposure: float = float(r.get("thermal_exposure_index", 0.0))
-		var stress: float = maxf(0.0, temperature - 20.0) / 10.0
-		var recovery: float = maxf(0.0, 20.0 - temperature) / 20.0
-		r["thermal_exposure_index"] = clampf(exposure + (stress - recovery) * dt / 3600.0, 0.0, 1.0)
-	var last: Dictionary = old[old.size() - 1]
-	var boundary_heat: float = float(params.boundary_m3s) * float(params.boundary_c)
-	var exit_heat: float = float(river[river.size() - 1].flow_m3s) * float(last.temperature_c)
-	var expected: float = (boundary_heat + sources_heat - exit_heat + atmosphere_heat) * dt
-	var residual: float = absf((after - before) - expected)
-	heat_budget_error = maxf(heat_budget_error, residual)
-	var domain_water_residual: float = absf(float(params.boundary_m3s) + source_flow - float(river[river.size() - 1].flow_m3s)) * dt
-	water_budget_error_m3 = maxf(water_budget_error_m3, domain_water_residual)
-	heat_ledger = {"units":"m3 * degC (constant rho*cp omitted)","before":before,"after":after,"boundary_input":boundary_heat * dt,"lateral_input":sources_heat * dt,"outlet_export":exit_heat * dt,"atmosphere_exchange":atmosphere_heat * dt,"residual":residual,"dt_seconds":dt}
+func apply_python_frame(frame: Dictionary) -> void:
+	current_frame = frame
+	frame_header = frame.get("header", frame_header)
+	if frame.get("epoch_unix") != null:
+		epoch_unix = float(frame.epoch_unix)
+		var local: Dictionary = Time.get_datetime_dict_from_unix_time(epoch_unix + float(world_data.get("utc_offset_hours", -6.0)) * 3600.0)
+		clock_hour = float(local.hour) + float(local.minute) / 60.0 + float(local.second) / 3600.0
+	else:
+		clock_hour = fposmod(_clock_hour0 + elapsed / 3600.0, 24.0)
+	var weather: Dictionary = frame.get("weather", {})
+	air_c = float(weather.get("air_c", weather.get("air_temperature_c", air_c)))
+	humidity = float(weather.get("humidity", weather.get("relative_humidity", humidity)))
+	cloud = float(weather.get("cloud", weather.get("cloud_fraction", cloud)))
+	var direction: Variant = weather.get("wind_xz_mps", params.get("weather", {}).get("wind_xz_mps", [1.8, 0.6]))
+	if direction is Array and direction.size() == 2:
+		wind = Vector2(float(direction[0]), float(direction[1]))
+	elif weather.has("wind_speed_mps"):
+		var angle: float = deg_to_rad(float(weather.get("wind_direction_deg", 270.0)) + 180.0)
+		wind = Vector2(sin(angle), cos(angle)) * float(weather.wind_speed_mps)
+	for reach: Dictionary in frame.get("reaches", []):
+		if _reach_indices.has(str(reach.get("id", ""))):
+			river[int(_reach_indices[str(reach.id)])].merge(reach, true)
+	var ecology: Dictionary = frame.get("ecology", {})
+	if ecology.get("mammals") is Dictionary and ecology.mammals.get("actors") is Dictionary:
+		_mammals = ecology.mammals.actors.duplicate(true)
+	var incoming: Array = ecology.get("patches", frame.get("patches", []))
+	for row: Dictionary in incoming:
+		var id: String = str(row.get("id", row.get("patch_id", "")))
+		if _patch_indices.has(id):
+			patches[int(_patch_indices[id])].merge(row, true)
 
-func _advance_patches(dt: float) -> void:
-	var sunlight: float = maxf(0.0, sin((clock_hour - 6.0) * PI / 12.0))
-	var hours: float = dt / 3600.0
-	for p: Dictionary in patches:
-		var id: String = str(p.id)
-		var before: float = float(p.biomass)
-		var capacity: float = maxf(0.0001, float(p.get("capacity", 1.0)))
-		var moisture: float = clampf(float(p.get("moisture", 0.5)), 0.0, 1.0)
-		var growth_rate: float = float(p.get("growth_per_hour", 0.012))
-		var growth: float = maxf(0.0, growth_rate * sunlight * moisture * before * (1.0 - before / capacity) * hours)
-		growth = minf(growth, maxf(0.0, capacity - before))
-		var demand: float = 0.0
-		var grazing_count: int = 0
-		for grazer: Dictionary in _grazers.values():
-			if str(grazer.patch_id) == id and bool(grazer.active):
-				demand += float(grazer.rate_per_second) * dt
-				grazing_count += 1
-		var consumed: float = minf(before + growth, demand)
-		p["biomass"] = before + growth - consumed
-		p["grazed"] = float(p.get("grazed", 0.0)) + consumed
-		p["grazer_pressure"] = float(grazing_count)
-		p["last_growth"] = growth
-		p["plant_budget_error"] = absf(float(p.biomass) - before - growth + consumed)
-		var insects_before: float = clampf(float(p.get("insect_resource", 0.8)), 0.0, 1.0)
-		var insect_gain: float = float(p.get("insect_recovery_per_hour", 0.04)) * sunlight * moisture * (1.0 - insects_before) * hours
-		var insect_demand: float = 0.0
-		for forager: Dictionary in _insect_foragers.values():
-			if str(forager.patch_id) == id and bool(forager.active):
-				insect_demand += float(forager.rate_per_second) * dt
-		var insects_available: float = minf(1.0, insects_before + insect_gain)
-		var insect_consumed: float = minf(insects_available, insect_demand)
-		p["insect_resource"] = insects_available - insect_consumed
-		p["insects_consumed"] = float(p.get("insects_consumed", 0.0)) + insect_consumed
-		p["insect_activity"] = sunlight * clampf((air_c - 8.0) / 14.0, 0.0, 1.0) * (1.0 - cloud) * moisture * float(p.insect_resource)
+func mammal_state(id: String, kind: String, world_position: Vector3) -> Dictionary:
+	var unavailable: Dictionary = {"active":false,"activity_index":0.0,"speed_multiplier":0.0,"behavior":"rest","availability":"unavailable"}
+	if not world_position.is_finite() or not _mammals.has(id):
+		return unavailable
+	var row: Variant = _mammals[id]
+	if not row is Dictionary:
+		push_error("Invalid published mammal actor state: " + id)
+		return unavailable
+	var aliases: Dictionary = {"gray_wolf":"wolf","mule_deer":"deer"}
+	var source_kind: String = str(row.get("kind", ""))
+	if str(aliases.get(source_kind, source_kind)) != str(aliases.get(kind, kind)):
+		return unavailable
+	var activity: Variant = row.get("activity_index")
+	var speed: Variant = row.get("speed_multiplier")
+	var behavior: String = str(row.get("behavior", ""))
+	if not row.get("active") is bool or not (activity is float or activity is int) or not (speed is float or speed is int):
+		push_error("Invalid published mammal state fields: " + id)
+		return unavailable
+	if not is_finite(float(activity)) or not is_finite(float(speed)) or float(activity) < 0.0 or float(activity) > 1.0 or float(speed) < 0.0:
+		push_error("Invalid published mammal activity or speed: " + id)
+		return unavailable
+	if behavior not in ["rest", "forage", "walk", "graze", "alert", "flee"]:
+		push_error("Invalid published mammal behavior: " + id)
+		return unavailable
+	return row.duplicate(true)
 
 func set_grazer_activity(id: String, patch_id: String, active: bool, rate_per_second: float) -> void:
 	if not _patch_indices.has(patch_id):
@@ -270,7 +250,7 @@ func steam_visibility(surface_c: float) -> float:
 	return clampf((surface_c - air_c) / 85.0 * (0.55 + humidity * 0.7), 0.0, 0.95)
 
 func _saturation_vapor_pressure_kpa(t_c: float) -> float:
-	# Magnus form (Alduchov and Eskridge 1996 coefficients, converted to kPa).
+	# Magnus form (Alduchov and Eskridge (1996) coefficients, converted to kPa).
 	return 0.61094 * exp(17.625 * t_c / (t_c + 243.04))
 
 func condensation_visibility(surface_c: float) -> float:

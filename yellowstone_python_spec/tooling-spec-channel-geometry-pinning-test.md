@@ -1,7 +1,7 @@
 # Spec: channel_geometry pinning test
 
 Status: spec (authored 2026-10-10, pycl-2). Transferred claims cite file:line verified 2026-10-10; authored claims marked [AUTHORED].
-No code written; no deletions. Target: new test file (e.g. `tests/test_channel_geometry.py`) in `/Users/kreed/Downloads/yellowstone_python/`.
+No code written; no deletions. Target: new test file (e.g. `tests/test_channel_geometry.py`) in `../../yellowstone_python/`.
 
 ## 1. Purpose + non-goals
 

@@ -1,0 +1,23 @@
+# fixes-46 ledger
+Doc: fixes/fixes-46-shared-helpers-and-site-constants.md | read2026-10-13 | targets: yellowstone_python/tools/calibrate_river_transport.py sha256:201c4b51512f; yellowstone_python/yellowstone_python/atmosphere/microclimate.py sha256:7d72a9ace691; yellowstone_python/yellowstone_python/cli/calibrate.py sha256:5b232f70e0d9; yellowstone_python/yellowstone_python/common/checks.py sha256:66059a7d79fb; yellowstone_python/yellowstone_python/common/coords.py sha256:f8aea03661d6; yellowstone_python/yellowstone_python/common/io.py sha256:05e3383a5481; yellowstone_python/yellowstone_python/common/site.py sha256:4b6c673bf1ac; yellowstone_python/yellowstone_python/common/units.py sha256:1a2b66a7805c; yellowstone_python/yellowstone_python/exporters/godot_sidecars.py sha256:172d66696a74; yellowstone_python/yellowstone_python/river/calibrate.py sha256:67ae4ca11d77; yellowstone_python/yellowstone_python/river/obs_model.py sha256:8c457f30adab; yellowstone_python/yellowstone_python/service/llm_backend.py sha256:c56b1a993bde
+Summary: 9 items: 9 implemented,0 shortcut,0 partial,0 missing,0 superseded,0 conflicts
+
+| item | requirement (one line) | verdict | evidence file:line | note (one line) | cost cheap/medium/refactor |
+|---|---|---|---|---|---|
+| 1 | Shared numeric validation | implemented | yellowstone_python/yellowstone_python/common/checks.py:8; yellowstone_python/yellowstone_python/common/units.py:6 | Name-first finite, positive, nonnegative, fraction and integer checks reject bool, strings and nonfinite values. Numeric adapters preserve API error types; no coercion before validation. | medium |
+| 2 | Shared hashing and atomic JSON I/O | implemented | yellowstone_python/yellowstone_python/common/io.py:33 | Shared file hashing, typed path-aware JSON loading and same-directory atomic writes; serialization rejects NaN and unsupported objects while preserving the old file. JSON producers and publishing use these helpers. | medium |
+| 3 | One Midway site point | implemented | yellowstone_python/yellowstone_python/common/site.py:7; yellowstone_python/yellowstone_python/common/coords.py:1 | WGS84 center44.525,-110.837 matches the EPSG32612 world origin to1e-5deg. Site meteorology, solar, exporters and live use it. Historical gauge coordinates retain their separate station meaning. | medium |
+| 4 | Shared gauge identifiers | implemented | yellowstone_python/yellowstone_python/river/obs_model.py:4 | Upstream/downstream station IDs are defined once and imported by models, observations, calibrators and provenance. Frozen artifact filenames retain their recorded names. | medium |
+| 5 | One forcing-grid constructor | implemented | yellowstone_python/yellowstone_python/river/calibrate.py:371; yellowstone_python/tools/calibrate_river_transport.py:536 | Public fit_forcing_arrays is called by the staged calibrator instead of a divergent inline grid. | medium |
+| 6 | One weather snapshot | implemented | yellowstone_python/yellowstone_python/atmosphere/microclimate.py:55; yellowstone_python/yellowstone_python/exporters/godot_sidecars.py:27; yellowstone_python/yellowstone_python/service/llm_backend.py:281 | Exporter and API call the same simulation-time air curve, Magnus dewpoint, wet-bulb and solar function. Visibility/cloud geometry is authored; Open-Meteo values remain model forcing. | medium |
+| 7 | Null-model parameter counts | implemented | yellowstone_python/yellowstone_python/river/calibrate.py:1021; yellowstone_python/yellowstone_python/cli/calibrate.py:108 | Information criteria use each null record k; removed obsolete name-based mapping. | medium |
+| 8 | Effective-sample information criteria | implemented | yellowstone_python/yellowstone_python/river/calibrate.py:1007; yellowstone_python/yellowstone_python/cli/calibrate.py:1 | Report lag1, n and n_eff with ordinary and adjusted AIC/BIC; selection sorts by effective AIC. | medium |
+| 9 | Shortwave identifiability | implemented | yellowstone_python/tools/calibrate_river_transport.py:154 | Require measured station shortwave or net radiation; longwave-only evidence cannot identify the shortwave multiplier. | medium |
+
+## Cross-project issues
+- Python runtime frames are the model authority. Godot interpolates published/live states and displays their provenance.
+- Current internal documents remain tracked by user decision. The future public export excludes generated prose.
+
+## Scientific validity flags
+- Scientific claims remain not_yet_accepted; authored/transferred values retain their classes and unknown uncertainty.
+- Fish-rig redistribution rights and human visual acceptance remain unverified.

@@ -4,9 +4,9 @@ import json
 import pytest
 
 from yellowstone_python.build import _prepare_replay_ecosystem
-from yellowstone_python.coupling import check_cross_family
-from yellowstone_python.microclimate import air_temp
-from yellowstone_python.replay.river_world import physical_weather
+from yellowstone_python.registry.coupling import check_cross_family
+from yellowstone_python.atmosphere.microclimate import air_temp
+from yellowstone_python.river.river_world import physical_weather
 
 BASELINE = {
     "clock_hour": 16.2,

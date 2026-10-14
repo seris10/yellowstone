@@ -20,3 +20,15 @@ yellowstone_species_gen/data/
 
 # Project Python environment (create with python3 -m venv --system-site-packages yellowstone_python/.venv)
 yellowstone_python/.venv/
+
+.opencode/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Raw third-party model downloads kept only as bake inputs
+yellowstone_midway/assets/imported/*/sources/
+
+# Per-publish receipts: machine-local paths and per-run hashes
+yellowstone_midway/.publish-*.receipt.json

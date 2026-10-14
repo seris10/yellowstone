@@ -1,10 +1,5 @@
-from yellowstone_python.claims import get_claim
-from yellowstone_python.replay.datasets import (
-    CLAIM_ID,
-    ROLES,
-    role_errors,
-    window_errors,
-)
+from yellowstone_python.registry.claims import get_claim
+from yellowstone_python.river.datasets import CLAIM_ID, ROLES, role_errors, window_errors
 
 
 def test_roles_pass_validation():

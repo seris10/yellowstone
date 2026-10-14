@@ -1,0 +1,18 @@
+# fixes-53 ledger
+
+Specification: `fixes/fixes-53-lidar-canopy-and-tree-count-sources.md`.
+
+Measured source products, dominant-crown interpretation, TreeMap references and corrected DEM provenance are implemented. The proposed total-density fit cannot be constructed from the cited dataset. Field and photographic acceptance remain `not_yet_accepted`; uncertainty without local evidence remains `unknown`.
+
+| Item | Implementation | Verification and remaining requirement |
+|---|---|---|
+| 1 | `observations/lidar.py` and `tools/fetch_lidar_canopy.py` fetch and verify the actual 12 intersecting tiles, then form a georeferenced 0.5 m first-return surface minus the matching NAVD88 DEM. | All 705,618,379 source bytes have receipts. Raw surface SHA is `c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9`; support is 96.1656494 percent. Raw mineral, pool and river masks fail the broad 99 percent below 0.5 m requirement. Independent clear-ground proxies are diagnostics, not a waiver. NoData and raw values are preserved. |
+| 2 | `census/canopy_census.py:461` implements Gaussian smoothing, local maxima and watershed interpretation; nearest-peak ownership consensus prevents distant territory from inflating crown radii. | The placed dominant layer has 34,303 crowns, including 1,274 at the overlook. Numerical search-window settings are authored because a compatible height-only lodgepole relation was not established. Sensitivity counts are reported. Blind precision and recall remain unavailable without submitted human labels. |
+| 3 | The actual Dryad workbooks were downloaded and inspected. The canopy field declares total and subcanopy density unavailable. | The 72 plots provide no canopy-cover, crown-width or crown-ratio covariates; understory cover is not canopy cover. No plot intersects the detail window or 4,096 m world; the nearest is 4.813 km away. A fitted cover/height-to-stem relation and its residuals cannot be supplied from these data. No stems or uncertainty values are invented. |
+| 4 | `observations/treemap.py` and `tools/fetch_treemap.py` extract the actual TreeMap raster and join its identifiers to the archived FIA table. Height-conditioned donor selection supplies species, DBH and crown-ratio references. | The crop contains 56 donor profiles and 1,952 records. RAT identifiers and joins pass; transfer distributions have tests. TreeMap does not control counts or positions. NoData and unknown local transfer error remain explicit. |
+| 5 | The Meta/WRI RGB-inferred height product is not added. The measured LiDAR window is the active canopy authority. | The previous outer-world placements retain authored provenance. Out-of-window canopy queries report unknown observed coverage and an explicit illustrative fallback. No RGB ExG estimate is relabeled as NDVI or LiDAR. |
+| 6 | `yellowstone_midway/references/dem_1m_core.tif.provenance.json` records QL1 and the tested project values. | Strict provenance audit passes. DEM NVA is 0.083 m at 95 percent and DEM VVA is 0.2039 m at the 95th percentile. The document's 0.0779 m value belongs to the point cloud. These are whole-project figures, not measured local canopy error. |
+
+## Evidence
+
+The forest follow-up report preserves primary-source links, byte hashes, strict provenance checks, source-mask conservation, exclusions, sensitivity results, blind-review prerequisites, final build binding and publication verification. The raw source maximum of 49.5901 m on mapped mineral ground remains in the source raster and is excluded only from the tree interpretation; its physical cause remains unknown.

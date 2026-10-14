@@ -1,4 +1,4 @@
-from yellowstone_python.equations import COMPONENTS, validate_inventory
+from yellowstone_python.registry.equations import COMPONENTS, validate_inventory
 
 
 def test_inventory_passes_validation():
@@ -7,8 +7,8 @@ def test_inventory_passes_validation():
 
 def test_inventory_covers_core_components():
     names = [c["component"] for c in COMPONENTS]
-    for want in ("M01 six-reach mixing chain",
-                 "M01b 1-D advection-dispersion replay",
+    for want in ("six-reach mixing chain",
+                 "1-D advection-dispersion replay",
                  "surface heat exchange",
                  "trout suitability and refuge",
                  "snow and soil water"):

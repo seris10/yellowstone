@@ -16,9 +16,9 @@
   },
   "units": {
     "max_depth_m": "m",
-    "outflow_m3": "m^3",
+    "outflow_m3": "m3",
     "surface_runoff.max_depth_m": "m",
-    "surface_runoff.outflow_m3": "m^3"
+    "surface_runoff.outflow_m3": "m3"
   },
   "world_id": "yellowstone_midway"
 }

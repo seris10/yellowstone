@@ -131,8 +131,7 @@ def test_sunlight_is_smooth_at_sunrise():
 
 
 def test_step_compartments_order_independent():
-    """Consumer insertion order has no effect on the compartment outcome.
-    """
+    """Consumer insertion order has no effect on the compartment outcome."""
     f = dict(sun=1.0, air_c=20.0, cloud=0.1, moisture=0.7, flowering=0.6,
              water_c=15.0, wind_mps=0.5)
     s0 = {"Nt": 0.8, "Nb": 0.8, "Ne": 0.8}

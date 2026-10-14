@@ -5,9 +5,7 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from tools.fetch_met_forcing import SCHEMA_MET, build_met_rows, fetch_met
+from yellowstone_python.observations.met import SCHEMA_MET, build_met_rows, fetch_met
 
 
 def _met_json():
@@ -41,16 +39,15 @@ def test_incomplete_table_raises():
 
 def test_days_range_rejected():
     import subprocess
-    r = subprocess.run([sys.executable, str(Path(__file__).resolve(
-        ).parents[1] / "tools" / "fetch_met_forcing.py"),
+    r = subprocess.run([sys.executable, "-m", "tools.fetch_met_forcing",
         "--lat", "44.4", "--lon", "-110.8", "--days", "17",
         "--out", "/tmp/x.json"], capture_output=True, text=True)
     assert r.returncode == 2
 
 
 def test_wrapper_backcompat(monkeypatch):
-    import tools.fetch_firehole_obs as f
-    import tools.fetch_met_forcing as mf
+    from yellowstone_python.observations import firehole as f
+    from yellowstone_python.observations import met as mf
     monkeypatch.setattr(mf, "_get_json", lambda url: _met_json())
     out = f.fetch_met(44.459333, -110.822272, 7)
     assert {"url", "elevation_m", "hourly"}.issubset(set(out))
@@ -60,8 +57,8 @@ def test_wrapper_backcompat(monkeypatch):
 
 def test_consumer_indices_unchanged(monkeypatch):
     import datetime
-    import tools.fetch_met_forcing as mf
-    from yellowstone_python.replay.calibrate import _fit_forcing_arrays
+    from yellowstone_python.observations import met as mf
+    from yellowstone_python.river.calibrate import fit_forcing_arrays
     t0 = 1790990100.0
     stamps = [(datetime.datetime.fromtimestamp(t0 + i * 3600.0,
                                                datetime.timezone.utc)
@@ -86,22 +83,24 @@ def test_consumer_indices_unchanged(monkeypatch):
                                     for i in range(20)],
                   "discharge_m3_s": [[t0 + i * 900.0, 1.07]
                                      for i in range(20)]}}}}
-    got = _fit_forcing_arrays(bundle)
+    got = fit_forcing_arrays(bundle)
     assert "met_series" in got
 
 
-def test_full_url_recorded():
-    assert SCHEMA_MET == "yellowstone.met_forcing.v1"
-    import inspect
-    import tools.fetch_met_forcing as mf
-    src = inspect.getsource(mf.main)
-    assert "request" in src and '"url": result["url"]' in src
+def test_full_url_recorded(monkeypatch, tmp_path):
+    from tools import fetch_met_forcing as cli
+    from yellowstone_python.observations import met
+    monkeypatch.setattr(cli, "fetch_met_forcing_with_meta", lambda *args:
+        ({"url": "https://example.test/met", **met.build_met_rows(_met_json())}, {}))
+    out = tmp_path / "met.json"
+    assert cli.main(["--lat", "44.4", "--lon", "-110.8", "--out", str(out)]) == 0
+    import json
+    assert json.loads(out.read_text())["request"]["url"] == "https://example.test/met"
 
 
 def test_vars_wrong_width_rejected():
     import subprocess
-    r = subprocess.run([sys.executable, str(Path(__file__).resolve(
-        ).parents[1] / "tools" / "fetch_met_forcing.py"),
+    r = subprocess.run([sys.executable, "-m", "tools.fetch_met_forcing",
         "--lat", "44.4", "--lon", "-110.8", "--days", "7",
         "--vars", "temperature_2m,cloud_cover",
         "--out", "/tmp/x.json"], capture_output=True, text=True)
@@ -115,7 +114,7 @@ def _met_json_with_precip():
 
 
 def test_build_met_rows_emits_hourly_origin_and_precipitation():
-    """fixes-33 item 7: hourly origin plus a precipitation sidecar series."""
+    """hourly origin plus a precipitation sidecar series."""
     out = build_met_rows(_met_json_with_precip())
     assert out["hourly"][0][0] == out["hourly_origin_epoch_s"]
     assert out["precipitation_mm"] == [0.0, 1.25]
@@ -138,7 +137,7 @@ def test_build_met_rows_precip_length_mismatch_raises():
 
 def test_fetch_met_forcing_adds_precipitation_to_query(monkeypatch):
     """The outgoing URL must include the precipitation variable."""
-    import tools.fetch_met_forcing as mf
+    from yellowstone_python.observations import met as mf
 
     captured_url = {}
 
@@ -151,3 +150,19 @@ def test_fetch_met_forcing_adds_precipitation_to_query(monkeypatch):
     assert "precipitation" in captured_url["url"]
     assert out["precipitation_mm"] == [0.0, 1.25]
     assert out["hourly_origin_epoch_s"] == out["hourly"][0][0]
+
+
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), True, "10"])
+def test_row_builder_rejects_invalid_numeric_forcing(value):
+    data = _met_json()
+    data["hourly"]["temperature_2m"][0] = value
+    with pytest.raises(RuntimeError, match="non-finite row"):
+        build_met_rows(data)
+
+
+@pytest.mark.parametrize("value", [float("nan"), -1.0, True])
+def test_row_builder_rejects_invalid_precipitation(value):
+    data = _met_json_with_precip()
+    data["hourly"]["precipitation"][0] = value
+    with pytest.raises(RuntimeError, match="non-finite precipitation"):
+        build_met_rows(data)

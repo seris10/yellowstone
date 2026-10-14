@@ -1,4 +1,4 @@
-"""Tests for yellowstone_python.common.validate heat ledger and assert_finite."""
+"""Tests for yellowstone_python.validation.contracts heat ledger and assert_finite."""
 from __future__ import annotations
 
 import decimal
@@ -7,7 +7,7 @@ import warnings
 
 import pytest
 
-from yellowstone_python.common.validate import (assert_finite,
+from yellowstone_python.validation.contracts import (assert_finite,
                                                 check_heat_ledger)
 
 
@@ -84,7 +84,14 @@ def test_assert_finite_returns_python_float():
     value = assert_finite("x", 1)
     assert isinstance(value, float)
     assert value == 1.0
-    value = assert_finite("x", "2.5")
+    import numpy as np
+    value = assert_finite("x", np.float64(2.5))
     assert isinstance(value, float)
     assert value == 2.5
     assert math.isfinite(value)
+
+
+@pytest.mark.parametrize("value", ["2.5", True, False])
+def test_assert_finite_rejects_strings_and_booleans(value):
+    with pytest.raises(ValueError, match="must be numeric"):
+        assert_finite("x", value)

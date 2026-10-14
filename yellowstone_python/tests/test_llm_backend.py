@@ -1,13 +1,14 @@
 """Tests for llm_backend: snapshot shape, zone math, compare, propose dry-run."""
+
+import pytest
 import json
 import threading
 import urllib.error
 import urllib.request
 from http.server import ThreadingHTTPServer
 
-from yellowstone_python.llm_backend import Backend, _Handler
+from yellowstone_python.service.llm_backend import Backend, _Handler
 
-from paths import CENSUS_JSON, DATA
 
 
 def _backend():
@@ -15,23 +16,25 @@ def _backend():
 
 
 def test_snapshot_shape():
-    snap = _backend().snapshot()
+    backend = _backend()
+    roster = json.loads((backend.world / "data/ecosystem.json").read_text())["wildlife"]
+    snap = backend.snapshot()
     assert snap["contract"] == "yellowstone.llm_snapshot.v1"
     assert snap["world_id"] == "yellowstone_midway"
     assert snap["census"]["n"] > 30000
     assert "overlook_knoll_r120" in snap["census"]["zones"]
     assert snap["placements"]["baked_trees"] > 30000
-    assert snap["ecosystem"]["wildlife_total"] == 12
-    assert any("DeepForest" in n or "deepforest" in n.lower()
-               for n in snap["accuracy_notes"])
+    assert snap["ecosystem"]["wildlife_total"] == len(roster)
+    assert any("LiDAR" in n for n in snap["accuracy_notes"])
+    assert any("unknown" in n for n in snap["accuracy_notes"])
 
 
 def test_zones_match_census_module():
-    from yellowstone_python.canopy_census import density_stats
+    from yellowstone_python.census.canopy_census import density_stats
     b = _backend()
     assert b.zones() == density_stats(b.census()["trees"],
                                       __import__(
-                                          "yellowstone_python.llm_backend",
+                                          "yellowstone_python.service.llm_backend",
                                           fromlist=["ZONES"]).ZONES)
 
 
@@ -77,6 +80,7 @@ def test_propose_dry_run_no_writes():
 
 def test_http_endpoints():
     _Handler.backend = _backend()
+    roster = json.loads((_Handler.backend.world / "data/ecosystem.json").read_text())["wildlife"]
     server = ThreadingHTTPServer(("127.0.0.1", 0), _Handler)
     port = server.server_address[1]
     thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -89,7 +93,7 @@ def test_http_endpoints():
         assert get("/api/census/zones")["overlook_knoll_r120"]["n"] >= 1000
         assert get("/api/compare?x=-252&z=159&r=120")["area_ha"] > 4.0
         assert get("/api/placements/summary")["baked_trees"] > 30000
-        assert get("/api/ecosystem/summary")["wildlife_total"] == 12
+        assert get("/api/ecosystem/summary")["wildlife_total"] == len(roster)
         # /api/weather returns schema_version 2 nested shape and flat aliases for older callers.
         w = get("/api/weather")
         assert w["schema_version"] == 2
@@ -172,26 +176,62 @@ def test_compare_returns_numeric_center():
 
 
 def test_zone_numbers_pinned():
-    # Independent recounts: knoll 1175, apron ring 63, full box holds the census. Catches unit swaps and zone drops that self-consistency assertions miss.
+    # Frozen USGS crown centers; total stem counts remain unknown.
     zones = _backend().zones()
     assert set(zones) == {"spring_0_50m", "apron_50_100m",
                           "transition_100_200m", "outwash_200_400m",
                           "overlook_knoll_r120", "detail_full"}
-    assert zones["overlook_knoll_r120"]["n"] == 1175
+    assert zones["overlook_knoll_r120"]["n"] == 1274
     assert zones["overlook_knoll_r120"]["area_ha"] == 4.52
-    assert zones["apron_50_100m"]["n"] == 63
-    assert zones["detail_full"]["n"] > 30000
+    assert zones["apron_50_100m"]["n"] == 0
+    assert zones["detail_full"]["n"] == 34303
     knoll = _backend().compare(-252.0, 159.0, 120.0)
-    assert knoll["observed_census"]["n"] == 1175
-    assert knoll["observed_census"]["n"] > knoll["placed_game"]["n"]
+    assert knoll["observed_census"]["n"] == 1274
+    assert knoll["placed_game"]["n"] == 1274
+    assert knoll["deficit_observed_minus_placed"] == 0
+    assert knoll["census_source"]["agency"] == "USGS 3DEP"
+
+
+def test_compare_matches_bake_override_semantics(tmp_path):
+    world = tmp_path / "world"
+    derived = tmp_path / "derived"
+    (world / "data").mkdir(parents=True)
+    derived.mkdir()
+    (derived / "census.json").write_text(json.dumps({
+        "trees": [{"x": 0, "z": 0}, {"x": 1, "z": 1}]}))
+    (world / "data/placements.json").write_text(json.dumps({"trees": [
+        {"id": "remove", "position": [0, 0, 0]},
+        {"id": "replace", "position": [50, 0, 50]},
+    ]}))
+    (world / "data/placement_overrides.json").write_text(json.dumps({
+        "remove": ["remove"],
+        "replace": {"replace": {"kind": "pine", "position": [1, 0, 1]}},
+        "add": [{"id": "grass", "kind": "grass", "position": [0, 0, 0]}],
+    }))
+    comparison = Backend(world=world, derived=derived).compare(0, 0, 10)
+    assert comparison["placed_game"]["n"] == 1
+    assert comparison["deficit_observed_minus_placed"] == 1
+    assert "2022 NAIP" not in comparison["interpretation"]
+
+
+def test_preserved_rgb_zone_counts():
+    from yellowstone_python.census.canopy_census import density_stats
+    from yellowstone_python.service.llm_backend import PKG_ROOT, ZONES
+    fixture = (PKG_ROOT.parent / "yellowstone_python_spec/internal/python/fixtures/census_rgb.json")
+    if not fixture.is_file():
+        pytest.skip("historical RGB fixture missing")
+    census = json.loads(fixture.read_text())
+    zones = density_stats(census["trees"], ZONES)
+    assert zones["overlook_knoll_r120"]["n"] == 1175
+    assert zones["apron_50_100m"]["n"] == 63
 
 
 def test_large_propose_is_bounded():
     import time
     b = _backend()
-    t0 = time.time()
+    t0 = time.monotonic()
     out = b.propose("meadow_grass", -360, 260, 500, 1, seed=7)
-    assert time.time() - t0 < 10
+    assert time.monotonic() - t0 < 10
     assert len(out["proposal_log"]) < 30000
     assert any("coarsened" in entry.get("reason", "")
                for entry in out["proposal_log"])
@@ -263,16 +303,16 @@ def test_snapshot_degrades_section_not_bundle(tmp_path):
     eco = json.loads(eco_path.read_text())
     eco["river_reaches"][0].pop("temperature_c")
     eco_path.write_text(json.dumps(eco))
-    from yellowstone_python.llm_backend import Backend as RealBackend
+    from yellowstone_python.service.llm_backend import Backend as RealBackend
     snap = RealBackend(world=world, derived=derived).snapshot()
     assert "error" in snap["ecosystem"]
     assert snap["census"]["n"] > 30000  # healthy sections still served
 
 
 def test_malformed_census_raises_data_error(tmp_path):
-    """Adversarial finding #1: a corrupt census.json raises DataError (an empty list reads as '0 trees observed')."""
+    """Adversarial finding #1: a corrupt census.json raises DataError (an empty list reads as '0 trees."""
     import pytest
-    from yellowstone_python.llm_backend import Backend, DataError
+    from yellowstone_python.service.llm_backend import Backend, DataError
     for label, doc in [
         ("non-numeric x", {"trees": [{"x": "not-a-number", "z": 0}]}),
         ("missing trees key", {"n": 5}),
@@ -307,7 +347,7 @@ def test_weather_never_derives_rain_from_cloud(tmp_path):
                    for epoch in range(0, 24 * 3600, 3600)],
     }
     (derived / "met.json").write_text(json.dumps(bundle))
-    from yellowstone_python.llm_backend import Backend
+    from yellowstone_python.service.llm_backend import Backend
     out = Backend(world=world, derived=derived).weather(hour=0.0)
     assert out["weather"]["cloud_fraction"] == 1.0
     # No seventh column means no measured precip and no cloud-to-rain substitution.
@@ -318,7 +358,7 @@ def test_weather_never_derives_rain_from_cloud(tmp_path):
 
 def test_concurrent_census_reads_share_cache():
     """Multiple threaded Backend.census() calls return the same cached object."""
-    from yellowstone_python.llm_backend import Backend
+    from yellowstone_python.service.llm_backend import Backend
     b = Backend()
     seen: list = []
     errors: list = []
@@ -339,10 +379,9 @@ def test_concurrent_census_reads_share_cache():
 
 
 def test_placed_points_strict_on_schema_violations(tmp_path):
-    """placements.json / placement_overrides.json records are validated the
-    same way as census records: wrong types are server data rot (500)."""
+    """placements.json / placement_overrides.json records are validated the same way as census records:."""
     import pytest
-    from yellowstone_python.llm_backend import Backend, DataError
+    from yellowstone_python.service.llm_backend import Backend, DataError
     for label, place_doc, ov_doc in [
         ("trees not a list", {"trees": 5}, {"add": []}),
         ("tree missing position", {"trees": [{"id": "x"}]}, {"add": []}),
@@ -356,3 +395,14 @@ def test_placed_points_strict_on_schema_violations(tmp_path):
         b = Backend(world=d)
         with pytest.raises(DataError):
             b.placed_points()
+
+pytestmark = pytest.mark.needs_world
+
+
+@pytest.fixture(autouse=True)
+def resolved_module_paths(monkeypatch, request, resolved_paths):
+    """Provide path aliases from shared fixtures and restore them after each test."""
+    import sys
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, 'CENSUS_JSON', resolved_paths['CENSUS_JSON'], raising=False)
+    monkeypatch.setattr(module, 'DATA', resolved_paths['DATA'], raising=False)

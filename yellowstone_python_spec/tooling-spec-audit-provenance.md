@@ -1,7 +1,7 @@
 # Spec: tools/audit_provenance.py — mechanical standing-rules check over derived/
 
 Status: spec (authored 2026-10-10, pycl-2). Transferred claims cite file:line verified 2026-10-10; authored claims marked [AUTHORED].
-No code written; no deletions. Target: `tools/audit_provenance.py` in `/Users/kreed/Downloads/yellowstone_python/`.
+No code written; no deletions. Target: `tools/audit_provenance.py` in `../../yellowstone_python/`.
 
 ## 1. Purpose + non-goals
 

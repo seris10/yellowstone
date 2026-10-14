@@ -1,8 +1,6 @@
-"""A/B outcome comparison between two build dirs: endpoint deltas plus a compatibility report.
-Trajectory mode reads replay frames for exposure and peak metrics; endpoint mode uses outcome records."""
+"""A/B outcome comparison between two build dirs: endpoint deltas plus a compatibility report."""
 from __future__ import annotations
 
-import argparse
 import json
 import math
 from pathlib import Path
@@ -68,7 +66,7 @@ def _load_build_manifest(directory: Path) -> dict:
 def _compatibility_report(a_manifest: dict,
                           b_manifest: dict) -> dict[str, Any]:
     """Named differences between two build manifests that invalidate a
-    straight A/B comparison. Each entry is (field, A value, B value)."""
+straight A/B comparison. Each entry is (field, A value, B value)."""
     checks: list[tuple[str, Any, Any]] = [
         ("world_id",
          a_manifest.get("world_id"),
@@ -138,8 +136,8 @@ def _finite_float_or_none(value: Any) -> float | None:
 
 def _calibration_rmse_c(build_dir: Path) -> tuple[float | None, str]:
     """Holdout rmse from the thermal calibration artifact, when present.
-    Returns (value, source); searches build dir then reach-claim evidence paths."""
-    from .claims import get_claim, resolve_artifact_id
+Returns (value, source); searches build dir then reach-claim evidence paths."""
+    from yellowstone_python.registry.claims import get_claim, resolve_artifact_id
     local = build_dir / "reach_heat_fit_v300k.json"
     try:
         if local.is_file():
@@ -187,7 +185,7 @@ def _common_cell_ids(replay_a: dict, replay_b: dict) -> list[str]:
 
 def _aligned_frame_times(replay_a: dict, replay_b: dict) -> list[float]:
     """Shared frame times from each replay rounded to the microsecond.
-    Returns the intersection of exact t_s values so both runs sample one clock."""
+Returns the intersection of exact t_s values so both runs sample one clock."""
     def _times(doc: dict) -> list[float]:
         out: list[float] = []
         for frame in doc.get("frames", []):
@@ -337,8 +335,7 @@ def _trajectory_report(replay_a: dict | None, replay_b: dict | None,
 def _interpretation(a_dir: Path, b_dir: Path, replay_a: dict | None,
                     replay_b: dict | None,
                     reaches: list[dict]) -> dict[str, Any]:
-    """Named uncertainty, calibration and significance context.
-    difference_significance ranks the largest reach delta against calibration rmse; absence yields not_assessed."""
+    """Named uncertainty, calibration and significance context."""
     rmse, rmse_source = _calibration_rmse_c(a_dir)
     rmse_b, _ = _calibration_rmse_c(b_dir)
     if rmse is None and rmse_b is not None:
@@ -522,45 +519,14 @@ def compare_builds(a_dir: str | Path, b_dir: str | Path,
     return out
 
 
+
+
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("A")
-    ap.add_argument("B")
-    ap.add_argument("-o", "--output", default=None)
-    ap.add_argument("--allow-incompatible", action="store_true",
-                    help=("run the comparison even when build manifests "
-                          "differ on load-bearing fields"))
-    ap.add_argument("--mode", default="endpoint", choices=list(VALID_MODES),
-                    help=("endpoint reads scalar outputs; trajectory reads "
-                          "river_replay.json frames and reports exposure, "
-                          "degree-hours above thresholds, peaks and signed "
-                          "mean delta on common cells"))
-    ap.add_argument("--exposure-thresholds-c", default=None,
-                    help=("comma-separated temperatures C for trajectory "
-                          "exposure and degree-hours (default "
-                          f"{','.join(str(t) for t in DEFAULT_EXPOSURE_THRESHOLDS_C)})"))
-    args = ap.parse_args()
-    thresholds: list[float] | None = None
-    if args.exposure_thresholds_c:
-        thresholds = []
-        for token in args.exposure_thresholds_c.split(","):
-            text = token.strip()
-            if not text:
-                continue
-            thresholds.append(float(text))
-    out = compare_builds(args.A, args.B,
-                         allow_incompatible=args.allow_incompatible,
-                         mode=args.mode,
-                         exposure_thresholds_c=thresholds)
-    text = json.dumps(out, indent=2, allow_nan=False)
-    if args.output:
-        output = Path(args.output)
-        output.parent.mkdir(parents=True, exist_ok=True)
-        tmp = output.with_name(output.name + ".tmp")
-        tmp.write_text(text + "\n", encoding="utf-8")
-        tmp.replace(output)
-    print(text)
-    return 0
+    """Run the command-line interface."""
+    from yellowstone_python.cli.compare import main as command
+    return command()
 
 
 if __name__ == "__main__":

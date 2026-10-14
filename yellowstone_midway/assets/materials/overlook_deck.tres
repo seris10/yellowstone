@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://shaders/boardwalk.gdshader" id="1_s5egs"]
+[ext_resource type="Texture2D" path="res://assets/textures/pine_bark_diff_1k.jpg" id="2_6r624"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_s5egs")
+shader_parameter/grain = ExtResource("2_6r624")
+shader_parameter/world_planks = 1.0
+shader_parameter/plank_width_m = null
+shader_parameter/wood_light = null
+shader_parameter/wood_dark = null
+shader_parameter/patina = null

@@ -508,4 +508,4 @@ One important semantic distinction remains: `generated_at_unix` should describe 
 
 ---
 
-/Users/kreed/Downloads/weather_snapshot_reader.gd
+../../weather_snapshot_reader.gd

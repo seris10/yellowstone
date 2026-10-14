@@ -1,6 +1,4 @@
-from yellowstone_python.snow_season import (date_to_season, game_clock_now,
-                                             resolve_game_clock, run_season,
-                                             step_snow)
+from yellowstone_python.land.snow_season import date_to_season, game_clock_now, resolve_game_clock, run_season, step_snow
 
 
 def test_thermal_ground_carries_flux_not_absolute_bare():
@@ -15,7 +13,7 @@ def test_thermal_ground_carries_flux_not_absolute_bare():
 def test_conservation_storage():
     snow, melt, accum, rain, blown, thermal = step_snow(50.0, 5.0, 0.0)
     assert abs((50.0 + accum - melt - blown) - snow) < 1e-9
-    assert melt == 15.0  # 3 mm/deg-day × 5 deg-days
+    assert melt == 15.0  # 3 mm/deg-day x 5 deg-days
     assert thermal == 0.0
 
 
@@ -65,7 +63,7 @@ def test_ledger_verifies_storage():
         days=20, air_c_by_day=[-3.0] * 10 + [6.0] * 10, precip_mm_d=4.0,
         thermal_test=lambda x, z: False)
     assert abs(led["storage_residual_mm"]) < 0.05
-    assert led["et_mm"] >= 0 and led["rain_mm"] == 80.0  # 2 patches × 10 d × 4 mm
+    assert led["et_mm"] >= 0 and led["rain_mm"] == 80.0  # 2 patches x 10 d x 4 mm
     assert led["accum_mm"] > 0
 
 
@@ -242,7 +240,7 @@ def test_run_mode_rejects_unknown_value():
 
 def test_daily_air_c_from_hourly_grouping():
     import datetime
-    from yellowstone_python.snow_season import daily_air_c_from_hourly
+    from yellowstone_python.land.snow_season import daily_air_c_from_hourly
     base = datetime.datetime(2026, 6, 1, 0, 0, 0,
                              tzinfo=datetime.timezone.utc).timestamp()
     rows = []

@@ -2,9 +2,9 @@ import math
 
 import numpy as np
 
-from yellowstone_python.canopy_census import calibrate_lone_trees, density_stats
-from yellowstone_python.canopy_census import detect, detect_v2, qa_census
-from yellowstone_python.canopy_census import exclude_pool_rims, to_world
+from yellowstone_python.census.canopy_census import calibrate_lone_trees, density_stats
+from yellowstone_python.census.canopy_census import detect, detect_v2, qa_census
+from yellowstone_python.census.canopy_census import exclude_pool_rims, to_world
 import pytest
 
 
@@ -56,6 +56,7 @@ def test_density_zones():
     assert abs(d["c"]["trees_per_ha"] - 2 / (math.pi * 400 / 1e4)) < 0.5
 
 
+@pytest.mark.needs_world
 def test_rim_artifacts_excluded():
     # Grand Prismatic center is mapped water: a detection there is a rim artifact. Far-field records survive.
     recs = [{"x": -94.7, "z": -10.6}, {"x": -500.0, "z": 400.0}]
@@ -119,11 +120,11 @@ def test_docstring_matches_parser():
     import sys
     from pathlib import Path
     help_text = subprocess.run(
-        [sys.executable, "-m", "yellowstone_python.canopy_census", "--help"],
+        [sys.executable, "-m", "yellowstone_python.census.canopy_census", "--help"],
         capture_output=True, text=True, cwd=Path(__file__).resolve().parents[1],
     ).stdout
     assert "--qa" in help_text
-    import yellowstone_python.canopy_census as cc
+    import yellowstone_python.census.canopy_census as cc
     assert "--qa" in (cc.__doc__ or "")
 
 

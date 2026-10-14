@@ -17,12 +17,12 @@ A small, modular atmosphere renderer designed for the existing Yellowstone scene
 - `simulation_utc_offset_hours`: Yellowstone civil offset for the simulated date, UTC-7 in winter and UTC-6 in summer. A supplied offset argument wins.
 - `clear_weather_solar_override()`: drop a weather solar override and return to simulated solar geometry.
 - `set_weather_state()`: partial states merge into the current weather. Non-finite fields are rejected with a warning, a half-solar state is ignored, and accepted values are clamped to documented ranges.
-- `smooth_weather_transitions` / `weather_transition_seconds`: interpolate continuous fields (air temperature, wind, cloud, precipitation, visibility, wetness) toward the accepted snapshot. Set `weather_transition_seconds = 0` for exact replay application.
+- `smooth_weather_transitions` / `weather_transition_seconds`: ease cloud geometry, visibility/fog, particle rates and light color with `weather_transition_seconds / time_scale`. Air, wind, wetness and snow-cover values come directly from accepted Python frames. Set `weather_transition_seconds = 0` for immediate visual application.
 - `get_render_state()` reports the timestamp, solar override state, and the render values it applied.
 
 ## Renderer and scientific scope
 
-`PhysicalSkyMaterial` uses Godot's Preetham analytic daylight model. The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation or radiative-transfer model. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0 °C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
+`PhysicalSkyMaterial` uses Godot's Preetham analytic daylight model. The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation or radiative-transfer model. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0  degrees C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
 
 The project currently uses Godot's Compatibility renderer. This package therefore does not enable built-in volumetric fog, which Godot documents as Forward+-only. Procedural clouds and GPU particles are the supported fallback. A true ray-marched volumetric cloud implementation should be a separate Forward+ quality tier, not silently enabled on this renderer.
 
@@ -80,7 +80,7 @@ The timestamp above is an example value only. Use the actual UTC time the normal
 - `wind_speed_mps`: speed at the selected model level/height represented by the feed.
 - `wind_direction_deg`: meteorological direction **from which** the wind blows, degrees clockwise from north.
 - `cloud_fraction`: 0 clear to 1 overcast, normalized from the forecast/analysis source.
-- `cloud_base_agl_m`, `cloud_thickness_m`: rendering geometry inputs in metres above local ground.
+- `cloud_base_agl_m`, `cloud_thickness_m`: rendering geometry inputs in meters above local ground.
 - `precipitation_rate_mm_h`: liquid-equivalent precipitation rate. The renderer maps this to particle density, not a precise drop count.
 - `snow_fraction`: fraction from 0 (all rain) to 1 (all snow); calculate outside the renderer.
 - `visibility_m`: approximate horizontal visibility used for atmospheric haze/fog.
@@ -94,7 +94,7 @@ The sample `source` metadata is for human provenance only. The reader does not c
 - Default particle counts are 1,800 rain and 1,200 snow particles. Reduce those exports on low-end machines.
 - A player-following cloud shell avoids loading a cloud mesh per map tile. The shader uses world-space noise so the cloud field does not slide when the shell recenters.
 - The current world has a 4 km authored extent. Tune `cloud_radius_m` and visibility values to the camera scale and terrain boundaries.
-- This code has not been run through the project's Godot editor in this environment, because a Godot executable/project directory was not available here. Treat the included integration patch as an implementation draft, then run the project's editor import and smoke test before merging to the working branch.
+- Godot 4.5.1 headless checks cover canonical script copies, frame-time interpolation, accelerated weather easing and the main/study scene startup. Visual acceptance remains a separate review.
 
 ## Reference documentation
 

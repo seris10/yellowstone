@@ -36,7 +36,7 @@ Inputs:
 
 Outputs:
 - Option A: `validation/validation_report.json` (schema already defined by `census_validate.py:342-426`: per-tolerance `tp/fp/fn/precision/recall/f1/matched_rmse_px` at default tolerances `[4.0,6.0,10.0]` (`census_validate.py:440`), main tolerance 6 px, `corrected_total` + `approx_95_interval`).
-- Option B: stdout counts + exit code; optional `--overlay` PNG (2048², cf. live `derived/census_overlay.png` 2048×2048, 8,475,544 bytes; source ortho `/Users/kreed/Downloads/yellowstone_midway/references/midway_orthophoto_detail.jpg` 2048×2048).
+- Option B: stdout counts + exit code; optional `--overlay` PNG (2048², cf. live `derived/census_overlay.png` 2048×2048, 8,475,544 bytes; source ortho `../../yellowstone_midway/references/midway_orthophoto_detail.jpg` 2048×2048).
 - v2 promotion artifact: `derived/census_v2.json` (same schema string + `splitting_basis` per tree, `calibration: {n_lone, median_area_px, p95_area_px, median_crown_r_m}` header) [AUTHORED].
 
 ## 4. Algorithm / rules in numbered steps

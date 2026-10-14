@@ -2,9 +2,7 @@ import math
 
 import pytest
 
-from yellowstone_python.replay.obs_model import (STATIONS, compare,
-                                                 interval_average,
-                                                 stage_to_elevation_ft_navd88)
+from yellowstone_python.river.obs_model import STATIONS, compare, interval_average, stage_to_elevation_ft_navd88
 
 
 def test_station_table_covers_both_gauges():

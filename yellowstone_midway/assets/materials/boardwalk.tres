@@ -7,3 +7,8 @@
 render_priority = 0
 shader = ExtResource("1_fb1oq")
 shader_parameter/grain = ExtResource("2_l1n6f")
+shader_parameter/world_planks = null
+shader_parameter/plank_width_m = null
+shader_parameter/wood_light = null
+shader_parameter/wood_dark = null
+shader_parameter/patina = null

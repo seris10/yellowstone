@@ -1,5 +1,4 @@
 extends Control
-## Calibration panel for fixes-39 item 12. Draws reach fit scalars and the USGS gauge trace from data/calibration_summary.json. The panel is a Control attached to the HUD layer; world.gd toggles visibility on key K.
 
 var doc: Dictionary = {}
 var _font: Font

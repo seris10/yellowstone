@@ -1,15 +1,11 @@
-"""Offline tests for M12 overland_flow (synthetic terrain, no network).
-
-When hydrosim is absent the module degrades to a not_available status.
-"""
+"""Offline tests for overland_flow (synthetic terrain, no network)."""
 import math
 
 import numpy as np
 import pytest
 
-from yellowstone_python import overland_flow as OF
-from yellowstone_python.overland_flow import (GRID, run_overland,
-                                              _downsample)
+import yellowstone_python.land.overland_flow as OF
+from yellowstone_python.land.overland_flow import GRID, run_overland, _downsample
 
 hs, _hs_prov = OF._import_hydrosim()
 needs_hydrosim = pytest.mark.skipif(hs is None, reason="hydrosim not present")
@@ -69,6 +65,7 @@ def test_input_validation(tmp_path):
             run_overland(root, **kwargs)
 
 
+@pytest.mark.needs_science
 @needs_hydrosim
 def test_soil_parameter_changes_effective_configuration(tmp_path):
     root = _write_terrain(tmp_path)
@@ -85,6 +82,7 @@ def test_soil_parameter_changes_effective_configuration(tmp_path):
     assert max(clay["field"]) > max(base["field"])
 
 
+@pytest.mark.needs_science
 @needs_hydrosim
 def test_partial_step_reports_actual_seconds(tmp_path):
     root = _write_terrain(tmp_path)
@@ -93,6 +91,7 @@ def test_partial_step_reports_actual_seconds(tmp_path):
     assert len(out["field"]) == 8 * 8
 
 
+@pytest.mark.needs_science
 @needs_hydrosim
 def test_zero_duration_runs_no_steps(tmp_path):
     root = _write_terrain(tmp_path)
@@ -101,6 +100,7 @@ def test_zero_duration_runs_no_steps(tmp_path):
     assert all(v == 0.0 for v in out["field"])
 
 
+@pytest.mark.needs_science
 @needs_hydrosim
 def test_balance_values_are_finite(tmp_path):
     root = _write_terrain(tmp_path)
@@ -110,6 +110,7 @@ def test_balance_values_are_finite(tmp_path):
         assert math.isfinite(v)
 
 
+@pytest.mark.needs_science
 @needs_hydrosim
 def test_configuration_records_effective_settings(tmp_path):
     root = _write_terrain(tmp_path)
@@ -154,6 +155,7 @@ def test_boundary_role_round_trips_in_configuration(tmp_path):
                      boundary_role="floating")
 
 
+@pytest.mark.needs_science
 @needs_hydrosim
 def test_rain_schedule_mapping_splits_at_breakpoints(tmp_path):
     root = _write_terrain(tmp_path)
