@@ -16,12 +16,17 @@ PRIVATE_PARTS = {".git", ".godot", ".venv", ".pytest_cache", "__pycache__", ".op
 DOCUMENT_SUFFIXES = {".md", ".rst", ".txt", ".cff", ".ipynb", ".pdf", ".docx", ".pptx", ".xlsx"}
 # Original third-party source documents retain their format specification and attribution.
 PUBLIC_SOURCE_DOCUMENTS = {"yellowstone_midway/references/bsc5_ReadMe.txt"}
-EXCLUDED_NAMES = {"AGENTS.md", "CLAUDE.md", "HANDOFF_TRACKER.json", "HANDOFF.md", ".DS_Store"}
+PUBLIC_ROOT_DOCUMENTS = {"LICENSE", "README.md", ".name-exceptions"}
+EXCLUDED_NAMES = {"HANDOFF_TRACKER.json", ".DS_Store"}
+# Raw point clouds, bake inputs, scene backups, and the oversize authored scene stay local.
+EXCLUDED_SUFFIXES = {".laz", ".las", ".pyc", ".tmp", ".bak", ".pre-density-bake", ".pre-flora-bake"}
+EXCLUDED_PATHS = {"yellowstone_midway/scenes/authored_world.tscn"}
+BAKE_INPUT_PARTS = ("yellowstone_midway", "assets", "imported")
 
 
 def public_path(relative: Path) -> bool:
     """Select distributable code and assets while excluding prose and local state."""
-    if relative.as_posix() == "LICENSE":
+    if relative.as_posix() in PUBLIC_ROOT_DOCUMENTS:
         return True
     if not relative.parts or relative.parts[0] not in PUBLIC_ROOTS:
         return False
@@ -29,7 +34,11 @@ def public_path(relative: Path) -> bool:
         return False
     if relative.name.startswith(".env"):
         return False
-    if relative.name in EXCLUDED_NAMES or relative.name.endswith((".pyc", ".tmp", ".bak")):
+    if relative.name in EXCLUDED_NAMES or relative.suffix.lower() in EXCLUDED_SUFFIXES:
+        return False
+    if relative.as_posix() in EXCLUDED_PATHS:
+        return False
+    if relative.parts[:3] == BAKE_INPUT_PARTS and "sources" in relative.parts[3:]:
         return False
     if relative.name.upper().split(".")[0] in {"LICENSE", "NOTICE", "COPYING", "COPYRIGHT"}:
         return True

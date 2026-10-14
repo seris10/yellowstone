@@ -32,7 +32,7 @@ METHOD_SOURCES = {
         "citation": ("Freeman, T. G. (1991). Calculating catchment area with "
                      "divergent flow based on a regular grid. Computers and "
                      "Geosciences 17, 413 to 422. doi:10.1016/0098-3004(91)90048-I."),
-        "citation_verified": "partial_session_2026_10_13",
+        "citation_verified": "partial",
     },
     "depression_fill": {
         "name": "priority_flood_epsilon",
@@ -40,7 +40,7 @@ METHOD_SOURCES = {
                      "an optimal depression-filling and watershed-labeling "
                      "algorithm for digital elevation models. Computers and "
                      "Geosciences 62, 117 to 127. doi:10.1016/j.cageo.2013.04.024."),
-        "citation_verified": "yes_session_2026_10_13",
+        "citation_verified": "yes",
     },
     "rim_injection": {
         "name": "broad_crested_weir_rim_overflow",
@@ -50,7 +50,7 @@ METHOD_SOURCES = {
         "citation": ("Chow, V. T. (1959). Open-Channel Hydraulics. McGraw-Hill, "
                      "section 3-7 broad-crested weir; Henderson, F. M. (1966). "
                      "Open Channel Flow. Macmillan, chapter 6."),
-        "citation_verified": "partial_session_2026_10_13",
+        "citation_verified": "partial",
         "rim_elevation_rmse_z_m": LIDAR_RIM_RMSE_Z_M,
         "rim_elevation_rmse_z_source": "USGS 3DEP QL2 1 m lidar RMSEz 0.10 m.",
     },

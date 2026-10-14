@@ -58,7 +58,7 @@ def main() -> None:
         path = args.out / (species + "_swim.glb")
         bpy.ops.export_scene.gltf(filepath=str(path), export_format="GLB", export_animations=True, export_animation_mode="ACTIONS", export_nla_strips=True, export_materials="EXPORT", export_image_format="AUTO")
         counts[species] = sum(len(obj.data.vertices) for obj in meshes)
-    (args.out / "asset_budget.json").write_text(json.dumps({"source_vertices": source_count, "vertices": counts, "texture_max_px": 1024, "texture_status": "authored illustrative species colors", "geometry_source": str(args.source)}, indent=2) + "\n")
+    (args.out / "asset_budget.json").write_text(json.dumps({"source_vertices": source_count, "vertices": counts, "texture_max_px": 1024, "texture_status": "authored illustrative species colors", "geometry_source": args.source.name}, indent=2) + "\n")
 
 
 if __name__ == "__main__":

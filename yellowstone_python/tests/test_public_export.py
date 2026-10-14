@@ -46,5 +46,17 @@ def test_export_refuses_overwrite_and_source_descendant(tmp_path):
 def test_export_excludes_internal_and_cache_paths():
     for value in ("archive/a.py", "dashboard/index.html", "yellowstone_python/.venv/a.py",
                   "yellowstone_python/yellowstone_python/HANDOFF_TRACKER.json", "yellowstone_python/.env", "yellowstone_python/work/bench.py", "yellowstone_python/outputs/report.json", "yellowstone_midway/references/README.txt", "yellowstone_python/build/lib/model.py",
-                  "yellowstone_python/dist/model.whl"):
+                  "yellowstone_python/dist/model.whl",
+                  "yellowstone_python/data/lidar/raw/tile.laz",
+                  "yellowstone_midway/assets/imported/wildlife_motion/sources/bear_source.glb",
+                  "yellowstone_midway/.publish-abc123.receipt.json",
+                  "yellowstone_midway/scenes/authored_world.tscn",
+                  "yellowstone_midway/scenes/authored_world.tscn.pre-density-bake",
+                  "yellowstone_python/yellowstone_python/AGENTS.md"):
         assert not public_path(__import__("pathlib").Path(value))
+
+
+def test_export_keeps_root_readme_and_baked_assets():
+    for value in ("README.md", "yellowstone_midway/assets/imported/wildlife_motion/bear.glb",
+                  "yellowstone_midway/assets/meshes/fauna/bison.glb"):
+        assert public_path(__import__("pathlib").Path(value))
