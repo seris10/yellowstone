@@ -1,0 +1,103 @@
+{
+  "schema": "yellowstone.atmosphere_review.v1",
+  "run_mode": "illustrative",
+  "source_sha256": {
+    "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+    "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+    "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+    "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+    "yellowstone_midway/scripts/world.gd": "5b2d04761422571ba1ef54bbffdacbc99e37cbad070779060592050f5febac8c",
+    "yellowstone_midway/scripts/ecosystem.gd": "82a757c9f48000e4fd80dcfea30c465aaae49145a42b10b6e130c8f0c863eca4",
+    "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+    "yellowstone_midway/tools/validate_atmosphere_integration.gd": "06e392becc8c942b7bee5ec90506aa7b7527b0d6899d9f30df7cb6e17d0b3097",
+    "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f",
+    "yellowstone_midway/tools/test_sun_direction.gd": "c3152938bc573b9bab9a51eba04192ed30d56d1a85f09df2e490070adb6b0d2f",
+    "yellowstone_midway/tools/validate_atmosphere_canonical.gd": "88a6c47c992b0e6a1c745a784719273d4490a355786bd1396074c0917461d9e4",
+    "yellowstone_midway/tools/validate_live_client.gd": "00470d44399e77b76986e6c66511cc9483853e2c007d6a253e933ae4132f8189"
+  },
+  "tests": {
+    "analytical_history_cloud_checks": 3236,
+    "clock_live_wind_checks": 33,
+    "solar_cardinal_checks": 16,
+    "canonical_pairs": 7,
+    "python_registry_equation_style_tests": 22,
+    "live_client_validation": "PASS",
+    "native_renderers": [
+      "mobile",
+      "gl_compatibility"
+    ],
+    "cloud_and_bow_foreground_channel_delta": 0.0,
+    "weather_only_post_rain_channel_delta": 0.117647,
+    "post_session_change_repository_style_tests": 2,
+    "post_session_change_live_client_validation": "PASS"
+  },
+  "production_cloud_capture": "work/atmosphere-production/clouds_fov72.png",
+  "production_scope": "Atmosphere isolation; these images predate a subsequent tree mip RGB revision and do not certify tree appearance.",
+  "hill_white_shapes": {
+    "cloud_toggle_max_channel_difference": 0,
+    "bright_pixels_each": 281,
+    "roi_xyxy": [
+      850,
+      295,
+      960,
+      330
+    ],
+    "conclusion": "White M shapes persist without the cloud node.",
+    "responsible_node": "CoreTerrain",
+    "responsible_material": "thermal_apron wet-mask-driven smooth-film specular",
+    "material_isolation_counts": {
+      "baseline": 282,
+      "flat_normal": 269,
+      "no_specular": 0,
+      "no_thermal_wetness": 0,
+      "normal_map_available": 282,
+      "rough": 0,
+      "spring_display_mix": 282
+    },
+    "source_fix_owner": "spring agent: positive flow/pool support drives film roughness/specular; wet mask retains moisture darkening",
+    "final_native_regression": {
+      "receipt": "work/atmosphere-film-regression/report.json",
+      "white_counts": {
+        "baseline": 0,
+        "legacy_wet_film": 282,
+        "no_specular": 0,
+        "supported_flow_mask": 0,
+        "synthetic_positive_flow": 282
+      },
+      "positive_flow_check": {
+        "supported_flow_mask_pixels": 78739,
+        "supported_flow_changed_pixels": 67507,
+        "supported_flow_specular_max_channel_delta": 0.9764705882352941,
+        "supported_flow_specular_mean_channel_delta": 0.05723685275428451,
+        "source_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+        "unoccluded_control": {
+          "unoccluded_control_roi_xyxy": [
+            360,
+            520,
+            490,
+            562
+          ],
+          "published_positive_flow_pixels": 4250,
+          "changed_pixels": 4249,
+          "mean_rgb_increase": 0.011886197616301424,
+          "max_channel_increase": 0.1607843137254902,
+          "negative_channel_fraction": 0.0
+        }
+      },
+      "ok": true,
+      "thermal_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599"
+    }
+  },
+  "limits": [
+    "Cloud shape, coverage transfer, optical depths and remote curtain position are authored display approximations.",
+    "A single advected rain curtain does not resolve repeated regional showers or calibrate local rainbow frequency.",
+    "Full Mie scattering, nonspherical drops, polarization and measured radiance are outside this display model.",
+    "Hardware entry-depth testing occludes foreground objects; interior path clipping depends on the renderer depth texture.",
+    "Per-layer draw counts are measured in synthetic fixtures; full-world frame-rate acceptance is separate."
+  ],
+  "cloud_horizontal_body_sample_fraction_at_016": 0.100625,
+  "cloud_quality_limit": "Four-sample shaded stratocumulus-like slab; vertical cumulus towers and multiple cloud layers are unresolved.",
+  "session_origin_reset": "Explicit begin_live resets transient rain/cloud history, pending intervals and consumed clock origin; both lower and higher origins advance immediately; small in-session backward corrections remain protected.",
+  "optics_visual_capture_scope": "Mobile and Compatibility optics captures predate only the explicit session-origin rebind; cloud and rainbow shader bytes are unchanged. The final headless optics/integration/canonical/live-client checks were repeated.",
+  "package_sha256": "e79d7cccfaa3783b553b2f620b69b771987519c3c398d0a081c78c20712061dd"
+}

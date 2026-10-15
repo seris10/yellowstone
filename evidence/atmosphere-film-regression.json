@@ -1,0 +1,188 @@
+{
+  "captures": [
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1823.0,
+      "file": "baseline.png",
+      "horizontal_fov_deg": 46.411438393988,
+      "id": "baseline",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        356.534545898438,
+        414.765930175781,
+        1080.82141113281,
+        504.905975341797
+      ],
+      "pool_screen_width_fraction": 0.502976989746094,
+      "primitives": 38462250.0,
+      "sha256": "2f9238221ad5ed423a1fe125bb5e4808075e63c11417b14c4e9a33afaafd72ea",
+      "vertical_fov_deg": 30.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1823.0,
+      "file": "no_specular.png",
+      "horizontal_fov_deg": 46.411438393988,
+      "id": "no_specular",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        356.534545898438,
+        414.765930175781,
+        1080.82141113281,
+        504.905975341797
+      ],
+      "pool_screen_width_fraction": 0.502976989746094,
+      "primitives": 38462250.0,
+      "sha256": "7530d6fd0317161f8cbf656106c85f53a3db5f313441f51fc32a48370da8d3a7",
+      "vertical_fov_deg": 30.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1823.0,
+      "file": "legacy_wet_film.png",
+      "horizontal_fov_deg": 46.411438393988,
+      "id": "legacy_wet_film",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        356.534545898438,
+        414.765930175781,
+        1080.82141113281,
+        504.905975341797
+      ],
+      "pool_screen_width_fraction": 0.502976989746094,
+      "primitives": 38462250.0,
+      "sha256": "16ab121236b65b176e1a08a43f1012ca27e98b10ec8a8b237d68429fd5899f87",
+      "vertical_fov_deg": 30.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1823.0,
+      "file": "supported_flow_mask.png",
+      "horizontal_fov_deg": 46.411438393988,
+      "id": "supported_flow_mask",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        356.534545898438,
+        414.765930175781,
+        1080.82141113281,
+        504.905975341797
+      ],
+      "pool_screen_width_fraction": 0.502976989746094,
+      "primitives": 38462250.0,
+      "sha256": "82ee72a6fda34ed5619f62c246800532f7366ddb7c3f26656893abb7744593bd",
+      "vertical_fov_deg": 30.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1823.0,
+      "file": "synthetic_positive_flow.png",
+      "horizontal_fov_deg": 46.411438393988,
+      "id": "synthetic_positive_flow",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        356.534545898438,
+        414.765930175781,
+        1080.82141113281,
+        504.905975341797
+      ],
+      "pool_screen_width_fraction": 0.502976989746094,
+      "primitives": 38462250.0,
+      "sha256": "ebb476e427d86c290560de4cc04b2df7a819eecf4a2dff267fa17ec258904e2f",
+      "vertical_fov_deg": 30.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    }
+  ],
+  "cpu": "Apple M4",
+  "display_ramp_sha256": "88f52d39b361c5d1387b50728ceca9de1eba6d5ffd4a5c29166648f81a5b2cab",
+  "failures": [],
+  "flow_control_scope": "supported_flow_mask uses published flow_fraction; synthetic_positive_flow is a temporary full-film control, not supplied environmental data",
+  "godot": "4.5.1-stable (official)",
+  "ok": true,
+  "renderer": "mobile",
+  "schema": "yellowstone.spring_display_capture.v1",
+  "scientific_ramp_sha256": "6463a689498df730d278d7b693d44bd097519cd3ceaee1294d145cbca930936a",
+  "scope": "Native spring bindings and projection; subjective appearance and unrelated scene assets require separate review",
+  "thermal_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+  "white_counts": {
+    "baseline": 0,
+    "legacy_wet_film": 282,
+    "no_specular": 0,
+    "supported_flow_mask": 0,
+    "synthetic_positive_flow": 282
+  },
+  "world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+  "positive_flow_check": {
+    "supported_flow_mask_pixels": 78739,
+    "supported_flow_changed_pixels": 67507,
+    "supported_flow_specular_max_channel_delta": 0.9764705882352941,
+    "supported_flow_specular_mean_channel_delta": 0.05723685275428451,
+    "source_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+    "unoccluded_control": {
+      "unoccluded_control_roi_xyxy": [
+        360,
+        520,
+        490,
+        562
+      ],
+      "published_positive_flow_pixels": 4250,
+      "changed_pixels": 4249,
+      "mean_rgb_increase": 0.011886197616301424,
+      "max_channel_increase": 0.1607843137254902,
+      "negative_channel_fraction": 0.0
+    }
+  }
+}

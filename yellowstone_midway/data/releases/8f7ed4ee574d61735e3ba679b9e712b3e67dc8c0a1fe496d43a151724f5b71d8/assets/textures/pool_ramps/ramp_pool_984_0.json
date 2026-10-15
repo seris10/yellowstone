@@ -1,0 +1,1709 @@
+{
+  "bottom_basis": "authored radial temperature classes and shell depth",
+  "color_space": "linear_rgb",
+  "local_color_uncertainty": "unknown; no site spectroradiometric calibration",
+  "method": "Nugent (2015) equations 1-3, three-band continuum approximation",
+  "name": "FEATHER LAKE",
+  "optical_depth_status": "authored display profile; submerged bathymetry unmeasured",
+  "palette_status": "authored sRGB colors decoded to linear-light reflectance proxies",
+  "parameters": {
+    "absorption_m_inv": {
+      "b_450nm": 0.00922,
+      "g_550nm": 0.0565,
+      "r_650nm": 0.34,
+      "source": "Pope and Fry (1997) Appl. Opt. 36(33) 8710 Table 2 Table 2 (380-700 nm)",
+      "status": "literature"
+    },
+    "ph": 8.0,
+    "scatter_tint_rgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "scattering_m_inv": {
+      "b_450nm": 0.0035,
+      "g_550nm": 0.0015,
+      "r_650nm": 0.0008,
+      "source": "authored three-band total scattering proxy; equal forward and backward hemispheres",
+      "status": "authored"
+    },
+    "sky_irradiance_ratio": 0.1,
+    "sky_ratio_source": "Nugent, Shaw, Vollmer (2015) Appl. Opt. 54(4) B128, Table 1 Section 2, approximate clear-sky ratio",
+    "surface_reflection": 0.02
+  },
+  "pool_id": "pool_984_0",
+  "samples": [
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 3.0,
+      "fraction": 0.0,
+      "r_m": 0.0,
+      "rgb01": [
+        0.0167,
+        0.11,
+        0.0475
+      ],
+      "t_c": 16.0
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.999851199702399,
+      "fraction": 0.007874015748031496,
+      "r_m": 0.3507247564267404,
+      "rgb01": [
+        0.0167,
+        0.11,
+        0.0475
+      ],
+      "t_c": 16.001364002728007
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9994047988095973,
+      "fraction": 0.015748031496062992,
+      "r_m": 0.7014495128534808,
+      "rgb01": [
+        0.0168,
+        0.1101,
+        0.0475
+      ],
+      "t_c": 16.005456010912024
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9986607973215946,
+      "fraction": 0.023622047244094488,
+      "r_m": 1.0521742692802212,
+      "rgb01": [
+        0.0168,
+        0.1101,
+        0.0475
+      ],
+      "t_c": 16.01227602455205
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9976191952383906,
+      "fraction": 0.031496062992125984,
+      "r_m": 1.4028990257069616,
+      "rgb01": [
+        0.0168,
+        0.1101,
+        0.0475
+      ],
+      "t_c": 16.02182404364809
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9962799925599852,
+      "fraction": 0.03937007874015748,
+      "r_m": 1.7536237821337017,
+      "rgb01": [
+        0.0168,
+        0.1101,
+        0.0475
+      ],
+      "t_c": 16.034100068200136
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9946431892863785,
+      "fraction": 0.047244094488188976,
+      "r_m": 2.1043485385604423,
+      "rgb01": [
+        0.0168,
+        0.1101,
+        0.0475
+      ],
+      "t_c": 16.049104098208197
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.992708785417571,
+      "fraction": 0.05511811023622047,
+      "r_m": 2.4550732949871827,
+      "rgb01": [
+        0.0168,
+        0.1101,
+        0.0475
+      ],
+      "t_c": 16.06683613367227
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.990476780953562,
+      "fraction": 0.06299212598425197,
+      "r_m": 2.805798051413923,
+      "rgb01": [
+        0.0168,
+        0.1102,
+        0.0475
+      ],
+      "t_c": 16.087296174592346
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9879471758943517,
+      "fraction": 0.07086614173228346,
+      "r_m": 3.156522807840663,
+      "rgb01": [
+        0.0169,
+        0.1102,
+        0.0475
+      ],
+      "t_c": 16.110484220968445
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9851199702399405,
+      "fraction": 0.07874015748031496,
+      "r_m": 3.5072475642674035,
+      "rgb01": [
+        0.0169,
+        0.1102,
+        0.0475
+      ],
+      "t_c": 16.136400272800543
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.981995163990328,
+      "fraction": 0.08661417322834646,
+      "r_m": 3.8579723206941443,
+      "rgb01": [
+        0.0169,
+        0.1103,
+        0.0475
+      ],
+      "t_c": 16.165044330088662
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9785727571455145,
+      "fraction": 0.09448818897637795,
+      "r_m": 4.208697077120885,
+      "rgb01": [
+        0.017,
+        0.1103,
+        0.0475
+      ],
+      "t_c": 16.196416392832784
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9748527497054993,
+      "fraction": 0.10236220472440945,
+      "r_m": 4.559421833547625,
+      "rgb01": [
+        0.017,
+        0.1103,
+        0.0475
+      ],
+      "t_c": 16.23051646103292
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.970835141670283,
+      "fraction": 0.11023622047244094,
+      "r_m": 4.9101465899743655,
+      "rgb01": [
+        0.017,
+        0.1104,
+        0.0475
+      ],
+      "t_c": 16.26734453468907
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.966519933039866,
+      "fraction": 0.11811023622047244,
+      "r_m": 5.260871346401106,
+      "rgb01": [
+        0.0171,
+        0.1104,
+        0.0475
+      ],
+      "t_c": 16.30690061380123
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9619071238142474,
+      "fraction": 0.12598425196850394,
+      "r_m": 5.611596102827846,
+      "rgb01": [
+        0.0171,
+        0.1105,
+        0.0475
+      ],
+      "t_c": 16.349184698369395
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.956996713993428,
+      "fraction": 0.13385826771653545,
+      "r_m": 5.962320859254586,
+      "rgb01": [
+        0.0172,
+        0.1105,
+        0.0475
+      ],
+      "t_c": 16.394196788393575
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#235d3e",
+      "depth_m": 2.9517887035774075,
+      "fraction": 0.14173228346456693,
+      "r_m": 6.313045615681326,
+      "rgb01": [
+        0.0172,
+        0.1106,
+        0.0475
+      ],
+      "t_c": 16.44193688387377
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245d3e",
+      "depth_m": 2.946283092566185,
+      "fraction": 0.14960629921259844,
+      "r_m": 6.6637703721080666,
+      "rgb01": [
+        0.0173,
+        0.1107,
+        0.0475
+      ],
+      "t_c": 16.49240498480997
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.940479880959762,
+      "fraction": 0.15748031496062992,
+      "r_m": 7.014495128534807,
+      "rgb01": [
+        0.0173,
+        0.1107,
+        0.0475
+      ],
+      "t_c": 16.545601091202183
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.9343790687581377,
+      "fraction": 0.16535433070866143,
+      "r_m": 7.365219884961548,
+      "rgb01": [
+        0.0174,
+        0.1108,
+        0.0475
+      ],
+      "t_c": 16.601525203050404
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.927980655961312,
+      "fraction": 0.1732283464566929,
+      "r_m": 7.715944641388289,
+      "rgb01": [
+        0.0175,
+        0.1109,
+        0.0475
+      ],
+      "t_c": 16.66017732035464
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.9212846425692853,
+      "fraction": 0.18110236220472442,
+      "r_m": 8.066669397815028,
+      "rgb01": [
+        0.0175,
+        0.111,
+        0.0475
+      ],
+      "t_c": 16.721557443114886
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.9142910285820567,
+      "fraction": 0.1889763779527559,
+      "r_m": 8.41739415424177,
+      "rgb01": [
+        0.0176,
+        0.111,
+        0.0475
+      ],
+      "t_c": 16.785665571331144
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.906999813999628,
+      "fraction": 0.1968503937007874,
+      "r_m": 8.76811891066851,
+      "rgb01": [
+        0.0177,
+        0.1111,
+        0.0474
+      ],
+      "t_c": 16.852501705003412
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.8994109988219976,
+      "fraction": 0.2047244094488189,
+      "r_m": 9.11884366709525,
+      "rgb01": [
+        0.0178,
+        0.1112,
+        0.0474
+      ],
+      "t_c": 16.922065844131687
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.891524583049166,
+      "fraction": 0.2125984251968504,
+      "r_m": 9.46956842352199,
+      "rgb01": [
+        0.0178,
+        0.1113,
+        0.0474
+      ],
+      "t_c": 16.99435798871598
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.8833405666811336,
+      "fraction": 0.2204724409448819,
+      "r_m": 9.820293179948731,
+      "rgb01": [
+        0.0179,
+        0.1114,
+        0.0474
+      ],
+      "t_c": 17.069378138756278
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#245e3e",
+      "depth_m": 2.8748589497179,
+      "fraction": 0.2283464566929134,
+      "r_m": 10.17101793637547,
+      "rgb01": [
+        0.018,
+        0.1115,
+        0.0474
+      ],
+      "t_c": 17.147126294252587
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3e",
+      "depth_m": 2.866079732159464,
+      "fraction": 0.23622047244094488,
+      "r_m": 10.521742692802212,
+      "rgb01": [
+        0.0181,
+        0.1116,
+        0.0474
+      ],
+      "t_c": 17.227602455204913
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3d",
+      "depth_m": 2.857002914005828,
+      "fraction": 0.2440944881889764,
+      "r_m": 10.872467449228951,
+      "rgb01": [
+        0.0182,
+        0.1117,
+        0.0474
+      ],
+      "t_c": 17.310806621613242
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3d",
+      "depth_m": 2.8476284952569904,
+      "fraction": 0.25196850393700787,
+      "r_m": 11.223192205655693,
+      "rgb01": [
+        0.0183,
+        0.1118,
+        0.0474
+      ],
+      "t_c": 17.39673879347759
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3d",
+      "depth_m": 2.837956475912952,
+      "fraction": 0.25984251968503935,
+      "r_m": 11.573916962082432,
+      "rgb01": [
+        0.0184,
+        0.112,
+        0.0474
+      ],
+      "t_c": 17.48539897079794
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3d",
+      "depth_m": 2.827986855973712,
+      "fraction": 0.2677165354330709,
+      "r_m": 11.924641718509172,
+      "rgb01": [
+        0.0185,
+        0.1121,
+        0.0474
+      ],
+      "t_c": 17.576787153574305
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3d",
+      "depth_m": 2.8177196354392704,
+      "fraction": 0.2755905511811024,
+      "r_m": 12.275366474935913,
+      "rgb01": [
+        0.0186,
+        0.1122,
+        0.0474
+      ],
+      "t_c": 17.670903341806685
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3d",
+      "depth_m": 2.8071548143096288,
+      "fraction": 0.28346456692913385,
+      "r_m": 12.626091231362652,
+      "rgb01": [
+        0.0187,
+        0.1123,
+        0.0474
+      ],
+      "t_c": 17.76774753549507
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#255e3d",
+      "depth_m": 2.796292392584785,
+      "fraction": 0.29133858267716534,
+      "r_m": 12.976815987789394,
+      "rgb01": [
+        0.0189,
+        0.1124,
+        0.0474
+      ],
+      "t_c": 17.86731973463947
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#265e3d",
+      "depth_m": 2.7851323702647406,
+      "fraction": 0.2992125984251969,
+      "r_m": 13.327540744216133,
+      "rgb01": [
+        0.019,
+        0.1126,
+        0.0474
+      ],
+      "t_c": 17.96961993923988
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#265e3d",
+      "depth_m": 2.773674747349495,
+      "fraction": 0.30708661417322836,
+      "r_m": 13.678265500642874,
+      "rgb01": [
+        0.0191,
+        0.1127,
+        0.0474
+      ],
+      "t_c": 18.074648149296298
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#265e3d",
+      "depth_m": 2.7619195238390475,
+      "fraction": 0.31496062992125984,
+      "r_m": 14.028990257069614,
+      "rgb01": [
+        0.0192,
+        0.1129,
+        0.0473
+      ],
+      "t_c": 18.18240436480873
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#265e3d",
+      "depth_m": 2.7498666997333996,
+      "fraction": 0.3228346456692913,
+      "r_m": 14.379715013496355,
+      "rgb01": [
+        0.0194,
+        0.113,
+        0.0473
+      ],
+      "t_c": 18.29288858577717
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#265e3d",
+      "depth_m": 2.73751627503255,
+      "fraction": 0.33070866141732286,
+      "r_m": 14.730439769923096,
+      "rgb01": [
+        0.0195,
+        0.1131,
+        0.0473
+      ],
+      "t_c": 18.406100812201625
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#265f3d",
+      "depth_m": 2.7248682497364998,
+      "fraction": 0.33858267716535434,
+      "r_m": 15.081164526349836,
+      "rgb01": [
+        0.0197,
+        0.1133,
+        0.0473
+      ],
+      "t_c": 18.522041044082087
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#265f3d",
+      "depth_m": 2.711922623845248,
+      "fraction": 0.3464566929133858,
+      "r_m": 15.431889282776577,
+      "rgb01": [
+        0.0198,
+        0.1135,
+        0.0473
+      ],
+      "t_c": 18.640709281418562
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#275f3d",
+      "depth_m": 2.6986793973587946,
+      "fraction": 0.3543307086614173,
+      "r_m": 15.782614039203317,
+      "rgb01": [
+        0.02,
+        0.1136,
+        0.0473
+      ],
+      "t_c": 18.762105524211048
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#275f3d",
+      "depth_m": 2.6851385702771404,
+      "fraction": 0.36220472440944884,
+      "r_m": 16.133338795630056,
+      "rgb01": [
+        0.0201,
+        0.1138,
+        0.0473
+      ],
+      "t_c": 18.886229772459544
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#275f3d",
+      "depth_m": 2.6713001426002854,
+      "fraction": 0.3700787401574803,
+      "r_m": 16.484063552056796,
+      "rgb01": [
+        0.0203,
+        0.1139,
+        0.0473
+      ],
+      "t_c": 19.013082026164053
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#275f3d",
+      "depth_m": 2.6571641143282285,
+      "fraction": 0.3779527559055118,
+      "r_m": 16.83478830848354,
+      "rgb01": [
+        0.0205,
+        0.1141,
+        0.0473
+      ],
+      "t_c": 19.14266228532457
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#275f3d",
+      "depth_m": 2.642730485460971,
+      "fraction": 0.3858267716535433,
+      "r_m": 17.18551306491028,
+      "rgb01": [
+        0.0207,
+        0.1143,
+        0.0473
+      ],
+      "t_c": 19.274970549941102
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#285f3d",
+      "depth_m": 2.6279992559985117,
+      "fraction": 0.3937007874015748,
+      "r_m": 17.53623782133702,
+      "rgb01": [
+        0.0208,
+        0.1145,
+        0.0473
+      ],
+      "t_c": 19.410006820013642
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#285f3d",
+      "depth_m": 2.6129704259408517,
+      "fraction": 0.4015748031496063,
+      "r_m": 17.88696257776376,
+      "rgb01": [
+        0.021,
+        0.1147,
+        0.0472
+      ],
+      "t_c": 19.547771095542192
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#285f3d",
+      "depth_m": 2.5976439952879904,
+      "fraction": 0.4094488188976378,
+      "r_m": 18.2376873341905,
+      "rgb01": [
+        0.0212,
+        0.1148,
+        0.0472
+      ],
+      "t_c": 19.688263376526756
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#285f3d",
+      "depth_m": 2.582019964039928,
+      "fraction": 0.41732283464566927,
+      "r_m": 18.58841209061724,
+      "rgb01": [
+        0.0214,
+        0.115,
+        0.0472
+      ],
+      "t_c": 19.831483662967326
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#285f3d",
+      "depth_m": 2.5660983321966646,
+      "fraction": 0.4251968503937008,
+      "r_m": 18.93913684704398,
+      "rgb01": [
+        0.0216,
+        0.1152,
+        0.0472
+      ],
+      "t_c": 19.97743195486391
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#295f3d",
+      "depth_m": 2.5498790997581997,
+      "fraction": 0.4330708661417323,
+      "r_m": 19.289861603470722,
+      "rgb01": [
+        0.0218,
+        0.1154,
+        0.0472
+      ],
+      "t_c": 20.126108252216504
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#295f3d",
+      "depth_m": 2.5333622667245335,
+      "fraction": 0.4409448818897638,
+      "r_m": 19.640586359897462,
+      "rgb01": [
+        0.0221,
+        0.1156,
+        0.0472
+      ],
+      "t_c": 20.277512555025112
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#29603d",
+      "depth_m": 2.5165478330956663,
+      "fraction": 0.44881889763779526,
+      "r_m": 19.9913111163242,
+      "rgb01": [
+        0.0223,
+        0.1158,
+        0.0472
+      ],
+      "t_c": 20.431644863289726
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#29603d",
+      "depth_m": 2.4994357988715974,
+      "fraction": 0.4566929133858268,
+      "r_m": 20.34203587275094,
+      "rgb01": [
+        0.0225,
+        0.116,
+        0.0472
+      ],
+      "t_c": 20.588505177010354
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2a603d",
+      "depth_m": 2.4820261640523276,
+      "fraction": 0.4645669291338583,
+      "r_m": 20.692760629177684,
+      "rgb01": [
+        0.0227,
+        0.1163,
+        0.0472
+      ],
+      "t_c": 20.748093496186993
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2a603d",
+      "depth_m": 2.4643189286378573,
+      "fraction": 0.47244094488188976,
+      "r_m": 21.043485385604423,
+      "rgb01": [
+        0.023,
+        0.1165,
+        0.0471
+      ],
+      "t_c": 20.910409820819645
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2a603d",
+      "depth_m": 2.446314092628185,
+      "fraction": 0.48031496062992124,
+      "r_m": 21.394210142031163,
+      "rgb01": [
+        0.0232,
+        0.1167,
+        0.0471
+      ],
+      "t_c": 21.075454150908303
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2a603d",
+      "depth_m": 2.428011656023312,
+      "fraction": 0.4881889763779528,
+      "r_m": 21.744934898457903,
+      "rgb01": [
+        0.0235,
+        0.1169,
+        0.0471
+      ],
+      "t_c": 21.243226486452972
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2b603d",
+      "depth_m": 2.4094116188232375,
+      "fraction": 0.49606299212598426,
+      "r_m": 22.095659654884642,
+      "rgb01": [
+        0.0238,
+        0.1172,
+        0.0471
+      ],
+      "t_c": 21.413726827453655
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2b603d",
+      "depth_m": 2.3905139810279623,
+      "fraction": 0.5039370078740157,
+      "r_m": 22.446384411311385,
+      "rgb01": [
+        0.024,
+        0.1174,
+        0.0471
+      ],
+      "t_c": 21.586955173910347
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2b603d",
+      "depth_m": 2.3713187426374853,
+      "fraction": 0.5118110236220472,
+      "r_m": 22.797109167738125,
+      "rgb01": [
+        0.0243,
+        0.1176,
+        0.0471
+      ],
+      "t_c": 21.76291152582305
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2b603d",
+      "depth_m": 2.3518259036518074,
+      "fraction": 0.5196850393700787,
+      "r_m": 23.147833924164864,
+      "rgb01": [
+        0.0246,
+        0.1179,
+        0.0471
+      ],
+      "t_c": 21.941595883191766
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2c603d",
+      "depth_m": 2.332035464070928,
+      "fraction": 0.5275590551181102,
+      "r_m": 23.498558680591604,
+      "rgb01": [
+        0.0249,
+        0.1181,
+        0.0471
+      ],
+      "t_c": 22.12300824601649
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2c613d",
+      "depth_m": 2.3119474238948476,
+      "fraction": 0.5354330708661418,
+      "r_m": 23.849283437018343,
+      "rgb01": [
+        0.0252,
+        0.1184,
+        0.047
+      ],
+      "t_c": 22.307148614297226
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2c613d",
+      "depth_m": 2.291561783123566,
+      "fraction": 0.5433070866141733,
+      "r_m": 24.200008193445086,
+      "rgb01": [
+        0.0255,
+        0.1186,
+        0.047
+      ],
+      "t_c": 22.494016988033977
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2d613d",
+      "depth_m": 2.270878541757084,
+      "fraction": 0.5511811023622047,
+      "r_m": 24.550732949871826,
+      "rgb01": [
+        0.0259,
+        0.1189,
+        0.047
+      ],
+      "t_c": 22.683613367226734
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2d613d",
+      "depth_m": 2.2498976997953997,
+      "fraction": 0.5590551181102362,
+      "r_m": 24.901457706298565,
+      "rgb01": [
+        0.0262,
+        0.1192,
+        0.047
+      ],
+      "t_c": 22.875937751875504
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2d613d",
+      "depth_m": 2.228619257238514,
+      "fraction": 0.5669291338582677,
+      "r_m": 25.252182462725305,
+      "rgb01": [
+        0.0265,
+        0.1194,
+        0.047
+      ],
+      "t_c": 23.070990141980282
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2e613d",
+      "depth_m": 2.2070432140864282,
+      "fraction": 0.5748031496062992,
+      "r_m": 25.602907219152048,
+      "rgb01": [
+        0.0269,
+        0.1197,
+        0.047
+      ],
+      "t_c": 23.268770537541073
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2e613d",
+      "depth_m": 2.185169570339141,
+      "fraction": 0.5826771653543307,
+      "r_m": 25.953631975578787,
+      "rgb01": [
+        0.0273,
+        0.12,
+        0.047
+      ],
+      "t_c": 23.469278938557878
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2e613d",
+      "depth_m": 2.162998325996652,
+      "fraction": 0.5905511811023622,
+      "r_m": 26.304356732005527,
+      "rgb01": [
+        0.0276,
+        0.1203,
+        0.0469
+      ],
+      "t_c": 23.67251534503069
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2f613d",
+      "depth_m": 2.1405294810589623,
+      "fraction": 0.5984251968503937,
+      "r_m": 26.655081488432266,
+      "rgb01": [
+        0.028,
+        0.1206,
+        0.0469
+      ],
+      "t_c": 23.878479756959514
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2f623d",
+      "depth_m": 2.117763035526071,
+      "fraction": 0.6062992125984252,
+      "r_m": 27.005806244859006,
+      "rgb01": [
+        0.0284,
+        0.1209,
+        0.0469
+      ],
+      "t_c": 24.087172174344346
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#2f623d",
+      "depth_m": 2.094698989397979,
+      "fraction": 0.6141732283464567,
+      "r_m": 27.35653100128575,
+      "rgb01": [
+        0.0288,
+        0.1212,
+        0.0469
+      ],
+      "t_c": 24.298592597185195
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#30623d",
+      "depth_m": 2.0713373426746853,
+      "fraction": 0.6220472440944882,
+      "r_m": 27.70725575771249,
+      "rgb01": [
+        0.0293,
+        0.1215,
+        0.0469
+      ],
+      "t_c": 24.51274102548205
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#30623d",
+      "depth_m": 2.047678095356191,
+      "fraction": 0.6299212598425197,
+      "r_m": 28.057980514139228,
+      "rgb01": [
+        0.0297,
+        0.1218,
+        0.0469
+      ],
+      "t_c": 24.729617459234916
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#31623d",
+      "depth_m": 2.023721247442495,
+      "fraction": 0.6377952755905512,
+      "r_m": 28.40870527056597,
+      "rgb01": [
+        0.0301,
+        0.1221,
+        0.0468
+      ],
+      "t_c": 24.949221898443795
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#31623d",
+      "depth_m": 1.999466798933598,
+      "fraction": 0.6456692913385826,
+      "r_m": 28.75943002699271,
+      "rgb01": [
+        0.0306,
+        0.1224,
+        0.0468
+      ],
+      "t_c": 25.171554343108685
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#31623d",
+      "depth_m": 1.9749147498294994,
+      "fraction": 0.6535433070866141,
+      "r_m": 29.110154783419453,
+      "rgb01": [
+        0.0311,
+        0.1227,
+        0.0468
+      ],
+      "t_c": 25.39661479322959
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#32623d",
+      "depth_m": 1.9500651001302,
+      "fraction": 0.6614173228346457,
+      "r_m": 29.460879539846193,
+      "rgb01": [
+        0.0316,
+        0.123,
+        0.0468
+      ],
+      "t_c": 25.624403248806498
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#32623d",
+      "depth_m": 1.9249178498356998,
+      "fraction": 0.6692913385826772,
+      "r_m": 29.811604296272932,
+      "rgb01": [
+        0.0321,
+        0.1234,
+        0.0468
+      ],
+      "t_c": 25.85491970983942
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#33633d",
+      "depth_m": 1.8994729989459977,
+      "fraction": 0.6771653543307087,
+      "r_m": 30.162329052699672,
+      "rgb01": [
+        0.0326,
+        0.1237,
+        0.0468
+      ],
+      "t_c": 26.088164176328355
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#33633d",
+      "depth_m": 1.8737305474610946,
+      "fraction": 0.6850393700787402,
+      "r_m": 30.513053809126415,
+      "rgb01": [
+        0.0331,
+        0.1241,
+        0.0467
+      ],
+      "t_c": 26.3241366482733
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#33633d",
+      "depth_m": 1.8476904953809907,
+      "fraction": 0.6929133858267716,
+      "r_m": 30.863778565553154,
+      "rgb01": [
+        0.0336,
+        0.1244,
+        0.0467
+      ],
+      "t_c": 26.56283712567425
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#34633d",
+      "depth_m": 1.8213528427056853,
+      "fraction": 0.7007874015748031,
+      "r_m": 31.214503321979894,
+      "rgb01": [
+        0.0342,
+        0.1247,
+        0.0467
+      ],
+      "t_c": 26.804265608531217
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#34633d",
+      "depth_m": 1.794717589435179,
+      "fraction": 0.7086614173228346,
+      "r_m": 31.565228078406633,
+      "rgb01": [
+        0.0348,
+        0.1251,
+        0.0467
+      ],
+      "t_c": 27.04842209684419
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#35633d",
+      "depth_m": 1.7677847355694714,
+      "fraction": 0.7165354330708661,
+      "r_m": 31.915952834833373,
+      "rgb01": [
+        0.0354,
+        0.1255,
+        0.0467
+      ],
+      "t_c": 27.29530659061318
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#35633d",
+      "depth_m": 1.7405542811085624,
+      "fraction": 0.7244094488188977,
+      "r_m": 32.26667759126011,
+      "rgb01": [
+        0.036,
+        0.1258,
+        0.0466
+      ],
+      "t_c": 27.544919089838178
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#36643d",
+      "depth_m": 1.713026226052452,
+      "fraction": 0.7322834645669292,
+      "r_m": 32.617402347686856,
+      "rgb01": [
+        0.0366,
+        0.1262,
+        0.0466
+      ],
+      "t_c": 27.79725959451919
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#36643d",
+      "depth_m": 1.685200570401141,
+      "fraction": 0.7401574803149606,
+      "r_m": 32.96812710411359,
+      "rgb01": [
+        0.0373,
+        0.1266,
+        0.0466
+      ],
+      "t_c": 28.052328104656205
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#37643d",
+      "depth_m": 1.6570773141546282,
+      "fraction": 0.7480314960629921,
+      "r_m": 33.318851860540335,
+      "rgb01": [
+        0.038,
+        0.127,
+        0.0466
+      ],
+      "t_c": 28.31012462024924
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#37643d",
+      "depth_m": 1.6286564573129143,
+      "fraction": 0.7559055118110236,
+      "r_m": 33.66957661696708,
+      "rgb01": [
+        0.0386,
+        0.1273,
+        0.0466
+      ],
+      "t_c": 28.570649141298286
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#38643d",
+      "depth_m": 1.599937999876,
+      "fraction": 0.7637795275590551,
+      "r_m": 34.02030137339381,
+      "rgb01": [
+        0.0394,
+        0.1277,
+        0.0465
+      ],
+      "t_c": 28.833901667803335
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#38643d",
+      "depth_m": 1.5709219418438838,
+      "fraction": 0.7716535433070866,
+      "r_m": 34.37102612982056,
+      "rgb01": [
+        0.0401,
+        0.1281,
+        0.0465
+      ],
+      "t_c": 29.0998821997644
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#39643d",
+      "depth_m": 1.5416082832165663,
+      "fraction": 0.7795275590551181,
+      "r_m": 34.7217508862473,
+      "rgb01": [
+        0.0408,
+        0.1285,
+        0.0465
+      ],
+      "t_c": 29.368590737181478
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3a653d",
+      "depth_m": 1.5119970239940475,
+      "fraction": 0.7874015748031497,
+      "r_m": 35.07247564267404,
+      "rgb01": [
+        0.0416,
+        0.1289,
+        0.0465
+      ],
+      "t_c": 29.640027280054568
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3a653d",
+      "depth_m": 1.4820881641763282,
+      "fraction": 0.7952755905511811,
+      "r_m": 35.42320039910078,
+      "rgb01": [
+        0.0424,
+        0.1294,
+        0.0465
+      ],
+      "t_c": 29.914191828383657
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3b653d",
+      "depth_m": 1.4518817037634073,
+      "fraction": 0.8031496062992126,
+      "r_m": 35.77392515552752,
+      "rgb01": [
+        0.0433,
+        0.1298,
+        0.0464
+      ],
+      "t_c": 30.191084382168768
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3b653d",
+      "depth_m": 1.4213776427552856,
+      "fraction": 0.8110236220472441,
+      "r_m": 36.12464991195426,
+      "rgb01": [
+        0.0441,
+        0.1302,
+        0.0464
+      ],
+      "t_c": 30.470704941409885
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3c653d",
+      "depth_m": 1.3905759811519618,
+      "fraction": 0.8188976377952756,
+      "r_m": 36.475374668381,
+      "rgb01": [
+        0.045,
+        0.1306,
+        0.0464
+      ],
+      "t_c": 30.753053506107015
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3c653d",
+      "depth_m": 1.359476718953438,
+      "fraction": 0.8267716535433071,
+      "r_m": 36.82609942480774,
+      "rgb01": [
+        0.0459,
+        0.1311,
+        0.0464
+      ],
+      "t_c": 31.038130076260153
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3d663d",
+      "depth_m": 1.3280798561597127,
+      "fraction": 0.8346456692913385,
+      "r_m": 37.17682418123448,
+      "rgb01": [
+        0.0468,
+        0.1315,
+        0.0464
+      ],
+      "t_c": 31.3259346518693
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3e663d",
+      "depth_m": 1.2963853927707858,
+      "fraction": 0.84251968503937,
+      "r_m": 37.527548937661216,
+      "rgb01": [
+        0.0478,
+        0.132,
+        0.0463
+      ],
+      "t_c": 31.61646723293446
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3e663d",
+      "depth_m": 1.2643933287866578,
+      "fraction": 0.8503937007874016,
+      "r_m": 37.87827369408796,
+      "rgb01": [
+        0.0488,
+        0.1324,
+        0.0463
+      ],
+      "t_c": 31.909727819455636
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3f663d",
+      "depth_m": 1.2321036642073282,
+      "fraction": 0.8582677165354331,
+      "r_m": 38.2289984505147,
+      "rgb01": [
+        0.0498,
+        0.1329,
+        0.0463
+      ],
+      "t_c": 32.205716411432824
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#40663d",
+      "depth_m": 1.1995163990327975,
+      "fraction": 0.8661417322834646,
+      "r_m": 38.579723206941445,
+      "rgb01": [
+        0.0509,
+        0.1333,
+        0.0463
+      ],
+      "t_c": 32.50443300886602
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#40663d",
+      "depth_m": 1.1666315332630666,
+      "fraction": 0.8740157480314961,
+      "r_m": 38.93044796336818,
+      "rgb01": [
+        0.052,
+        0.1338,
+        0.0462
+      ],
+      "t_c": 32.80587761175522
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#41673d",
+      "depth_m": 1.1334490668981334,
+      "fraction": 0.8818897637795275,
+      "r_m": 39.281172719794924,
+      "rgb01": [
+        0.0531,
+        0.1343,
+        0.0462
+      ],
+      "t_c": 33.11005022010044
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#42673d",
+      "depth_m": 1.099968999938,
+      "fraction": 0.889763779527559,
+      "r_m": 39.63189747622166,
+      "rgb01": [
+        0.0543,
+        0.1348,
+        0.0462
+      ],
+      "t_c": 33.416950833901666
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#43673d",
+      "depth_m": 1.066191332382665,
+      "fraction": 0.8976377952755905,
+      "r_m": 39.9826222326484,
+      "rgb01": [
+        0.0555,
+        0.1353,
+        0.0462
+      ],
+      "t_c": 33.726579453158905
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#43673d",
+      "depth_m": 1.0321160642321288,
+      "fraction": 0.905511811023622,
+      "r_m": 40.33334698907514,
+      "rgb01": [
+        0.0567,
+        0.1358,
+        0.0461
+      ],
+      "t_c": 34.03893607787215
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#44673d",
+      "depth_m": 0.9977431954863912,
+      "fraction": 0.9133858267716536,
+      "r_m": 40.68407174550188,
+      "rgb01": [
+        0.058,
+        0.1363,
+        0.0461
+      ],
+      "t_c": 34.35402070804141
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#45673d",
+      "depth_m": 0.9630727261454527,
+      "fraction": 0.9212598425196851,
+      "r_m": 41.03479650192862,
+      "rgb01": [
+        0.0593,
+        0.1368,
+        0.0461
+      ],
+      "t_c": 34.671833343666684
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#46683d",
+      "depth_m": 0.9281046562093119,
+      "fraction": 0.9291338582677166,
+      "r_m": 41.38552125835537,
+      "rgb01": [
+        0.0607,
+        0.1373,
+        0.0461
+      ],
+      "t_c": 34.99237398474797
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#46683d",
+      "depth_m": 0.8928389856779715,
+      "fraction": 0.937007874015748,
+      "r_m": 41.736246014782104,
+      "rgb01": [
+        0.0621,
+        0.1378,
+        0.046
+      ],
+      "t_c": 35.315642631285264
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#47683d",
+      "depth_m": 0.8572757145514287,
+      "fraction": 0.9448818897637795,
+      "r_m": 42.08697077120885,
+      "rgb01": [
+        0.0636,
+        0.1383,
+        0.046
+      ],
+      "t_c": 35.64163928327857
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#48683d",
+      "depth_m": 0.8214148428296857,
+      "fraction": 0.952755905511811,
+      "r_m": 42.43769552763558,
+      "rgb01": [
+        0.0651,
+        0.1389,
+        0.046
+      ],
+      "t_c": 35.97036394072788
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#49683d",
+      "depth_m": 0.7852563705127407,
+      "fraction": 0.9606299212598425,
+      "r_m": 42.788420284062326,
+      "rgb01": [
+        0.0666,
+        0.1394,
+        0.046
+      ],
+      "t_c": 36.30181660363321
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4a693d",
+      "depth_m": 0.7488002976005955,
+      "fraction": 0.968503937007874,
+      "r_m": 43.13914504048906,
+      "rgb01": [
+        0.0682,
+        0.14,
+        0.0459
+      ],
+      "t_c": 36.63599727199454
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4b693c",
+      "depth_m": 0.7120466240932485,
+      "fraction": 0.9763779527559056,
+      "r_m": 43.489869796915805,
+      "rgb01": [
+        0.0699,
+        0.1405,
+        0.0459
+      ],
+      "t_c": 36.97290594581189
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4c693c",
+      "depth_m": 0.6749953499907002,
+      "fraction": 0.984251968503937,
+      "r_m": 43.84059455334254,
+      "rgb01": [
+        0.0716,
+        0.1411,
+        0.0459
+      ],
+      "t_c": 37.31254262508525
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4d693c",
+      "depth_m": 0.637646475292951,
+      "fraction": 0.9921259842519685,
+      "r_m": 44.191319309769284,
+      "rgb01": [
+        0.0734,
+        0.1417,
+        0.0459
+      ],
+      "t_c": 37.65490730981462
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4e693c",
+      "depth_m": 0.6,
+      "fraction": 1.0,
+      "r_m": 44.54204406619603,
+      "rgb01": [
+        0.0752,
+        0.1422,
+        0.0458
+      ],
+      "t_c": 38.0
+    }
+  ],
+  "schema": "yellowstone.pool_radiative_ramp.v1",
+  "sources": [
+    "Pope and Fry (1997) Appl. Opt. 36(33) 8710 Table 2",
+    "Morel (1974) Optical properties of pure water and pure sea water",
+    "Nugent, Shaw, Vollmer (2015) Appl. Opt. 54(4) B128, Table 1"
+  ],
+  "status": "authored",
+  "texture_color_space": "srgb"
+}

@@ -1,0 +1,114 @@
+{
+	"checks": 5700,
+	"failures": [
+		"Compaction preserves native color and shadows: forest"
+	],
+	"native": [
+		{
+			"compacted_draw_calls": 2283.0,
+			"compacted_primitives": 21216983.0,
+			"compaction_difference": {
+				"absolute_byte_difference": 0,
+				"changed_channels": 0,
+				"maximum_byte_difference": 0,
+				"total_channels": 3888000
+			},
+			"id": "overlook",
+			"repeat_difference": {
+				"absolute_byte_difference": 0,
+				"changed_channels": 0,
+				"maximum_byte_difference": 0,
+				"total_channels": 3888000
+			},
+			"submission": {
+				"active_bins": 36,
+				"batches": 20943,
+				"bins": 541,
+				"changed_slots": 2942,
+				"scanned_instances": 16731,
+				"selected_instances": 9501,
+				"source_instances": 572085,
+				"update_us": 27244,
+				"updates": 2
+			},
+			"uncompacted_draw_calls": 2283.0,
+			"uncompacted_primitives": 51737487.0
+		},
+		{
+			"compacted_draw_calls": 2214.0,
+			"compacted_primitives": 20564447.0,
+			"compaction_difference": {
+				"absolute_byte_difference": 10,
+				"changed_channels": 10,
+				"maximum_byte_difference": 1,
+				"total_channels": 3888000
+			},
+			"id": "forest",
+			"repeat_difference": {
+				"absolute_byte_difference": 0,
+				"changed_channels": 0,
+				"maximum_byte_difference": 0,
+				"total_channels": 3888000
+			},
+			"submission": {
+				"active_bins": 35,
+				"batches": 20943,
+				"bins": 541,
+				"changed_slots": 2927,
+				"scanned_instances": 16227,
+				"selected_instances": 9309,
+				"source_instances": 572085,
+				"update_us": 16149,
+				"updates": 3
+			},
+			"uncompacted_draw_calls": 2214.0,
+			"uncompacted_primitives": 50086995.0
+		},
+		{
+			"compacted_draw_calls": 1317.0,
+			"compacted_primitives": 19062729.0,
+			"compaction_difference": {
+				"absolute_byte_difference": 0,
+				"changed_channels": 0,
+				"maximum_byte_difference": 0,
+				"total_channels": 3888000
+			},
+			"id": "boundary",
+			"repeat_difference": {
+				"absolute_byte_difference": 0,
+				"changed_channels": 0,
+				"maximum_byte_difference": 0,
+				"total_channels": 3888000
+			},
+			"submission": {
+				"active_bins": 33,
+				"batches": 20943,
+				"bins": 541,
+				"changed_slots": 4268,
+				"scanned_instances": 15656,
+				"selected_instances": 8721,
+				"source_instances": 572085,
+				"update_us": 45032,
+				"updates": 4
+			},
+			"uncompacted_draw_calls": 1317.0,
+			"uncompacted_primitives": 38621657.0
+		}
+	],
+	"ok": false,
+	"renderer": "mobile",
+	"scene_sha256": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+	"source_sha256": "f2aa9260aee6c0e2e6dc01516202b1b619860ba19ce11390c346cac38a887601",
+	"synthetic": {
+		"active_bins": 1,
+		"batches": 3,
+		"bins": 1,
+		"changed_slots": 42,
+		"scanned_instances": 768,
+		"selected_instances": 232,
+		"source_instances": 768,
+		"update_us": 52,
+		"updates": 19
+	},
+	"world_sha256": "2eef3446472d6220c850264ddfa1f1d9cc67d306151475dc4fd01a29f37db048"
+}

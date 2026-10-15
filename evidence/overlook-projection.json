@@ -1,0 +1,124 @@
+{
+  "schema": "yellowstone.overlook_projection.v1",
+  "world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+  "camera_eye_m": [
+    -252.0,
+    49.7421630859375,
+    159.0
+  ],
+  "pool_center_m": [
+    -94.7068,
+    16.802,
+    -10.6082
+  ],
+  "eye_to_center_m": 233.65176356622726,
+  "horizontal_eye_to_center_m": 231.3181624375397,
+  "pool_angular_width_deg": 24.337359603366863,
+  "pool_bounding_size_xz_m": [
+    93.92869999999999,
+    101.7399
+  ],
+  "pool_equivalent_area_diameter_m": 92.5250275705758,
+  "aspect_ratio": 1.6,
+  "fov_sweep": [
+    {
+      "vertical_fov_deg": 72,
+      "horizontal_fov_deg": 98.59321602443809,
+      "projected_pool_width_fraction": 0.18549813514160995,
+      "projected_pool_height_fraction": 0.03693745083323091,
+      "projected_pool_bounds_px_1440_900": [
+        585.9538023020107,
+        437.0056606361624,
+        853.071116905929,
+        470.2493663860702
+      ],
+      "width_multiplier_relative_72": 1.0
+    },
+    {
+      "vertical_fov_deg": 60,
+      "horizontal_fov_deg": 85.46105557679658,
+      "projected_pool_width_fraction": 0.23343244341988972,
+      "projected_pool_height_fraction": 0.046482404769841834,
+      "projected_pool_bounds_px_1440_900": [
+        551.315115723941,
+        433.6478119523292,
+        887.4578342485821,
+        475.48197624518684
+      ],
+      "width_multiplier_relative_72": 1.2584085723648193
+    },
+    {
+      "vertical_fov_deg": 50,
+      "horizontal_fov_deg": 73.45266864074328,
+      "projected_pool_width_fraction": 0.28902009582966715,
+      "projected_pool_height_fraction": 0.057551336413027454,
+      "projected_pool_bounds_px_1440_900": [
+        511.14590626639153,
+        429.7538384668261,
+        927.3348442611123,
+        481.5500412385508
+      ],
+      "width_multiplier_relative_72": 1.5580754793520062
+    },
+    {
+      "vertical_fov_deg": 45,
+      "horizontal_fov_deg": 67.06819283404867,
+      "projected_pool_width_fraction": 0.32536907597601006,
+      "projected_pool_height_fraction": 0.06478935347432374,
+      "projected_pool_bounds_px_1440_900": [
+        484.87910538940514,
+        427.2075541972274,
+        953.4105747948596,
+        485.5179723241188
+      ],
+      "width_multiplier_relative_72": 1.7540288247513764
+    },
+    {
+      "vertical_fov_deg": 40,
+      "horizontal_fov_deg": 60.428968169882076,
+      "projected_pool_width_fraction": 0.37028380718488907,
+      "projected_pool_height_fraction": 0.07373303193475267,
+      "projected_pool_bounds_px_1440_900": [
+        452.42245058486355,
+        424.06123006131,
+        985.6311329311038,
+        490.42095880258745
+      ],
+      "width_multiplier_relative_72": 1.9961591899682067
+    },
+    {
+      "vertical_fov_deg": 35,
+      "horizontal_fov_deg": 53.53988509492708,
+      "projected_pool_width_fraction": 0.42744307558311945,
+      "projected_pool_height_fraction": 0.08511491275264499,
+      "projected_pool_bounds_px_1440_900": [
+        411.1175469742023,
+        420.0571632237202,
+        1026.6355758138943,
+        496.6605847011007
+      ],
+      "width_multiplier_relative_72": 2.3042985055176315
+    },
+    {
+      "vertical_fov_deg": 30,
+      "horizontal_fov_deg": 46.411438393987964,
+      "projected_pool_width_fraction": 0.5029770115120205,
+      "projected_pool_height_fraction": 0.10015566258274045,
+      "projected_pool_bounds_px_1440_900": [
+        356.53458903393386,
+        414.76593161000494,
+        1080.8214856112431,
+        504.9060279344713
+      ],
+      "width_multiplier_relative_72": 2.711493628375541
+    }
+  ],
+  "equation": "horizontal_fov=2*atan(aspect*tan(vertical_fov/2)); normalized_x=.5+view_x/(2*view_depth*aspect*tan(vertical_fov/2))",
+  "geographic_mutation": "none",
+  "reference_camera_calibration": "unavailable; panorama zoom and crop unknown",
+  "interpretation": "The wide gameplay projection alone reduces screen occupancy by a factor of 2.71 relative to a 30-degree vertical reference view at the same geographic position. This supports a camera-framing explanation but does not calibrate the reference photograph or prove source geography exact.",
+  "sources": [
+    "https://docs.godotengine.org/en/4.5/classes/class_camera3d.html",
+    "https://www.nps.gov/places/000/grand-prismatic-spring.htm"
+  ]
+}

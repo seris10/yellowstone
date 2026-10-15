@@ -1,0 +1,120 @@
+{
+  "_instructions": "Template only. Replace every null receipt path/name with the explicit final frozen-runtime receipts. Historical receipts below must not be promoted after new runtime changes. Run finalize_forest_verification.py without --apply first; maintained docs require parent approval. Terrace evidence is a historical native image diagnostic, not a fabricated run_evidence receipt.",
+  "_historical_runtime_receipts_at_1536391": {
+    "tree_submission": {
+      "path": "evidence/receipts/95c3dbc60220c7d29ac1afa629bab7e142bc76efe1aba06928e2f9d584bed706.json",
+      "name": "forest-tree-submission"
+    },
+    "focused": {
+      "path": "evidence/receipts/9ce334b00463a487e1637e5078ccc0e0c7b42c9af3d396254e0ecd3a4611f289.json",
+      "name": "forest-runtime-focused"
+    },
+    "provenance": {
+      "path": "evidence/receipts/d2ed61f20b3b86672873039b30eb361c4751e672a929bcc7714349a85fbc110f.json",
+      "name": "forest-runtime-provenance"
+    }
+  },
+  "equivalence": "evidence/forest-runtime-equivalence.json",
+  "receipts": {
+    "provenance": {
+      "path": null,
+      "name": null
+    },
+    "focused": {
+      "path": null,
+      "name": null
+    },
+    "tree_submission": {
+      "path": null,
+      "name": null
+    },
+    "package_headless": {
+      "path": null,
+      "name": null
+    },
+    "package_native": {
+      "path": null,
+      "name": null
+    },
+    "canopy_attachment": {
+      "path": null,
+      "name": null
+    },
+    "canopy_geometry": {
+      "path": null,
+      "name": null
+    },
+    "saved_world_capture": {
+      "path": null,
+      "name": null
+    }
+  },
+  "performance": "evidence/forest-render-pairs.json",
+  "performance_receipts": {
+    "a1": {
+      "path": null,
+      "name": null
+    },
+    "b1": {
+      "path": null,
+      "name": null
+    },
+    "b2": {
+      "path": null,
+      "name": null
+    },
+    "a2": {
+      "path": null,
+      "name": null
+    }
+  },
+  "submission_report": "evidence/forest-tree-submission.json",
+  "terrace": {
+    "summary": "The apron retains its existing terrace normal relief while the albedo edge follows mapped contrast or current flow, capped at 7.5 percent darkening instead of 42 percent. Four native image pairs retain exactly the same draw calls and primitive counts.",
+    "scope": "The same texture fetches, geometry and seven checked physical/display inputs are preserved. Edge/luminance correlation changes from -0.537 to -0.058 in the diagnostic overhead annulus; this is not a visual-quality or scientific-accuracy score. The radial normal field, local terrace morphology and their uncertainty remain uncalibrated.",
+    "source_hashes": {
+      "yellowstone_midway/shaders/thermal_apron.gdshader": "a2a1d69d884f2d8f591d8647cbc1feaebc63556fad64ebfb3afbb69959f68472"
+    },
+    "review": "evidence/terrace-contrast/review.json",
+    "capture_report": "evidence/terrace-contrast/report.json",
+    "evidence": [
+      "evidence/terrace-contrast/report.json",
+      "evidence/terrace-contrast/review.json"
+    ]
+  },
+  "archive_receipt": null,
+  "publication": null,
+  "_publication_after_durable_verification": {
+    "tag": null,
+    "commit": null,
+    "downloaded_archive": "work/forest-release-download/Yellowstone-Forest-Spring-Update.zip",
+    "ci_status": "not_checked"
+  },
+  "report": {
+    "output_dir": "/Users/kreed/Documents/Codex/2026-10-14/a-claude-instance-did-work-on/outputs",
+    "release": null,
+    "commit": null,
+    "images": {
+      "overlook": "evidence/forest-render/overlook_fov72.png",
+      "floor": "evidence/forest-render/floor_log_walk.png",
+      "fov72": "evidence/forest-render/overlook_fov72.png",
+      "fov40": "evidence/forest-render/overlook_fov40.png",
+      "fov30": "evidence/forest-render/overlook_fov30.png",
+      "rainbow": "evidence/atmosphere-render/world-post-rain.png"
+    },
+    "overlook_caption": "Final saved-world native overlook capture at the unchanged 72-degree vertical gameplay field of view. Confirm final runtime capture receipt and filename before generating this report.",
+    "floor_caption": "Final saved-world native floor capture. Authored density and geometry add litter, wood and small plants; local species abundance and human visual acceptance remain unmeasured. Confirm final runtime capture receipt and filename before generating this report.",
+    "projection_caption": "Same saved camera position and terrain; only vertical field of view changes among 72, 40 and 30 degrees. These frames demonstrate framing rather than a terrain-scale correction. Confirm all three are final frozen-runtime captures.",
+    "rainbow_caption": "Controlled actual-world optics diagnostic: 120 simulated seconds of rain at 8 mm/h, then 20 clear seconds; solar override 14 degrees elevation and 222.8426 degrees azimuth, with 2 m/s wind. The production rain-history pathway creates the droplet curtain without direct curtain injection. This earlier optics capture predates the final canopy and terrace revisions; it demonstrates optics under specified forcing, not final graphics or calibrated occurrence frequency."
+  },
+  "canopy": {
+    "receipt_role": "canopy_attachment",
+    "report": "evidence/canopy-visible-attachments.json",
+    "summary": "Replace with reviewed final native outcome; no claim is emitted until the report, source hashes, captured image hashes and execution receipt pass.",
+    "geometry_receipt_role": "canopy_geometry"
+  },
+  "capture": {
+    "receipt_role": "saved_world_capture",
+    "report": "evidence/forest-render/report.json"
+  }
+}

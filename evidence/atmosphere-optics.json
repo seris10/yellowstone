@@ -1,0 +1,19 @@
+{
+  "checks": 3236,
+  "cloud_fraction_016_sampled_body_fraction": 0.100625,
+  "failures": [],
+  "overcast_blocked_fraction": 1.0,
+  "primary_angles_deg": [
+    42.3698456670289,
+    41.7881526063648,
+    40.6458717695718
+  ],
+  "schema": "yellowstone.atmosphere_optics.v1",
+  "scope": "native analytical and controller checks; authored spatial forcing; no measured rainbow frequency",
+  "secondary_angles_deg": [
+    50.3651114301895,
+    51.4136274300565,
+    53.4777788991261
+  ],
+  "secondary_radiance_ratio": 0.201305552914766
+}

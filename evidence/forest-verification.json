@@ -1,0 +1,833 @@
+{
+  "schema": "yellowstone.forest_verification.v1",
+  "source_commit": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "release_id": "8f7ed4ee574d61735e3ba679b9e712b3e67dc8c0a1fe496d43a151724f5b71d8",
+  "status": "local_runtime_verified_publication_pending",
+  "tests": {
+    "core_passed": 2034,
+    "world_passed": 121,
+    "total_passed": 2155,
+    "skipped": 14,
+    "skip_reasons": [
+      "fipy not installed",
+      "flopy not present",
+      "landlab not present",
+      "xarray/netCDF4 not installed"
+    ]
+  },
+  "builds": {
+    "baseline": "69969fc80f0e",
+    "portfolio": "f75347b772fd"
+  },
+  "receipts": {
+    "forest-publish-generation": "evidence/receipts/0c3f8f947de093606ccbacbf6764570b15b81faf426114bcd34c3439c0722b62.json",
+    "forest-publish-provenance": "evidence/receipts/139f8dd147ea7f7f580b05e88fcfbd3dd00bc96c21300f75ff608e401398566d.json",
+    "forest-publish-baseline": "evidence/receipts/fe909c101cc47feac0850a03d90629d6e7fd5d261f587d149511bb9834469028.json",
+    "forest-publish-world": "evidence/receipts/96b427a23964df561c3690ed8d1ecdfa56d07f040c3b01d2b9fe0e38e528fca3.json",
+    "forest-publish-core": "evidence/receipts/16eb3eff5d0fe0b02f1b51c67b73e6db8ba75a3fdd52d856f61f440ce25621b3.json",
+    "forest-publish-tree-bindings": "evidence/receipts/a179a546eb4cd00b8684e81d08b4bc1f01e0dcb814efe0755e7c4aa7b7b0a9fe.json",
+    "forest-publish-portfolio": "evidence/receipts/4a89eb0ad8e909b2b445683347df4329f39f59c3b91005048d69aaddecd923d7.json"
+  },
+  "scope": "Numerical and runtime implementation checks; not field or human visual acceptance.",
+  "remaining_limits": [
+    "62 of 96 tree LOD endpoint cases fail retained silhouette budgets",
+    "Far tree billboard lighting differs from dynamic near meshes",
+    "Display crown envelopes, local plant abundances, ring widths, terrace relief and rainbow occurrence frequency are authored or uncalibrated",
+    "Prior deer/badger deformation and textured mesh-reduction acceptance remain open",
+    "Optional reference-library tests remain skipped",
+    "Authored support dimensions and bough orientations have unknown uncertainty; residual cells are not inferred measured stems.",
+    "Visible support is inspected in native captures at eight azimuths and three world views; source contact checks alone do not establish perceptual grounding.",
+    "Residual supports and foliage preserve the existing no-shadow policy; field botanical acceptance and other renderer backends are not tested.",
+    "Some residual source cells retain long authored bare stems below narrow, shallow crowns; the source cells do not resolve measured local branch form or additional stem counts."
+  ],
+  "package_startup_receipts": {
+    "forest-package-headless": "evidence/receipts/4230d59bfbbb092b566cf5f58077164c690c2d74ec6ca92a0cac2714b9616f0a.json",
+    "forest-package-native": "evidence/receipts/c343f2296d8c15fb83b491b46f3da573e7ae0acca85a5698ff2a0d55200a32e3.json"
+  },
+  "package_manifest_correction": {
+    "receipt": "evidence/color-mip-release-inventory.json",
+    "change": "Authored metadata status enables existing Apache-2.0 release classification; color source and buffer bytes unchanged."
+  },
+  "historical_numerical_verification": {
+    "source_commit": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+    "tests": {
+      "core_passed": 2034,
+      "world_passed": 121,
+      "total_passed": 2155,
+      "skipped": 14,
+      "skip_reasons": [
+        "fipy not installed",
+        "flopy not present",
+        "landlab not present",
+        "xarray/netCDF4 not installed"
+      ]
+    },
+    "builds": {
+      "baseline": "69969fc80f0e",
+      "portfolio": "f75347b772fd"
+    },
+    "receipts": {
+      "forest-publish-generation": {
+        "path": "evidence/receipts/0c3f8f947de093606ccbacbf6764570b15b81faf426114bcd34c3439c0722b62.json",
+        "sha256": "4a1a81e1559e779153014a6c3a4a5671f6029cde2a3c334584d1e7d5d31eb49b",
+        "execution_status_at_recorded_source": "executed_passed",
+        "current_whole_source_status": "stale"
+      },
+      "forest-publish-provenance": {
+        "path": "evidence/receipts/139f8dd147ea7f7f580b05e88fcfbd3dd00bc96c21300f75ff608e401398566d.json",
+        "sha256": "d9c27c3fa34a551f652b6808d61e235fe9b3439c3ef519512174084bf183b1d7",
+        "execution_status_at_recorded_source": "executed_passed",
+        "current_whole_source_status": "stale"
+      },
+      "forest-publish-baseline": {
+        "path": "evidence/receipts/fe909c101cc47feac0850a03d90629d6e7fd5d261f587d149511bb9834469028.json",
+        "sha256": "9c03415da1df072e2a870edba4dd77721559db7863b1a0980e1ada904114a51b",
+        "execution_status_at_recorded_source": "executed_passed",
+        "current_whole_source_status": "stale"
+      },
+      "forest-publish-world": {
+        "path": "evidence/receipts/96b427a23964df561c3690ed8d1ecdfa56d07f040c3b01d2b9fe0e38e528fca3.json",
+        "sha256": "36fba1c7582ba057146ee66ac49e5c6e210870e5bb25d8a78c9d76646cae6d11",
+        "execution_status_at_recorded_source": "executed_passed",
+        "current_whole_source_status": "stale"
+      },
+      "forest-publish-core": {
+        "path": "evidence/receipts/16eb3eff5d0fe0b02f1b51c67b73e6db8ba75a3fdd52d856f61f440ce25621b3.json",
+        "sha256": "0066d68f6fa5441fb4150261f821fda12f50aa0e2b440fc3fe885cc2db239f7f",
+        "execution_status_at_recorded_source": "executed_passed",
+        "current_whole_source_status": "stale"
+      },
+      "forest-publish-tree-bindings": {
+        "path": "evidence/receipts/a179a546eb4cd00b8684e81d08b4bc1f01e0dcb814efe0755e7c4aa7b7b0a9fe.json",
+        "sha256": "6320d852897265d20bf80530c97606372d489580a58f33d13080e26ff5ce6c0e",
+        "execution_status_at_recorded_source": "executed_passed",
+        "current_whole_source_status": "stale"
+      },
+      "forest-publish-portfolio": {
+        "path": "evidence/receipts/4a89eb0ad8e909b2b445683347df4329f39f59c3b91005048d69aaddecd923d7.json",
+        "sha256": "f72549d0c1abc952b5ef3fcf5043c2ebffbe5630781f81229d462f800fc720a2",
+        "execution_status_at_recorded_source": "executed_passed",
+        "current_whole_source_status": "stale"
+      }
+    },
+    "scope": "Executed at the recorded original source snapshot. Runtime-only changes make the global receipt freshness check stale; the equivalence proof separately verifies unchanged numerical code, inputs and checked outputs."
+  },
+  "model_source_commit": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "runtime_source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+  "runtime_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+  "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+  "source_scope": {
+    "excluded_paths": [
+      "dashboard/build_data.py"
+    ],
+    "production_source_roots": [
+      "yellowstone_python/yellowstone_python",
+      "yellowstone_python/tools",
+      "yellowstone_midway/scripts",
+      "yellowstone_midway/shaders",
+      "yellowstone_midway/tools"
+    ],
+    "direct_reference_scan": [
+      {
+        "path": "yellowstone_python/tools/run_evidence.py",
+        "line": 20,
+        "role": "full-source receipt inventory only"
+      }
+    ],
+    "package_runtime_roots": [
+      "assets",
+      "data",
+      "docs",
+      "references",
+      "scenes",
+      "scripts",
+      "shaders",
+      "tools"
+    ],
+    "observed_package_check": null,
+    "audited_source_hashes": {
+      "yellowstone_python/yellowstone_python/pipeline/inputs.py": "0d6f16b4729aea90c52b7cbdea2a02d160eaa1fdcb34bbdfd77628913f274dcb",
+      "yellowstone_python/tools/package_demo.py": "781d8975e4644e0176b9aa3310fb8cc7cfcbb7678f9f72a5b9e6d118befdca1f",
+      "yellowstone_python/tools/run_evidence.py": "4e616f3dca7ea117fb973156e4caf6910af871644639ba2006abbe3facdd22f3"
+    },
+    "scope_helper_sha256": "4e46b31a806a82b6e9b70296bb3ca92b20b5898f736a4e766d8c4412c85cf743",
+    "scope": "Exact-path runtime scope only. Global receipts remain unchanged. A dashboard exclusion cannot excuse a changed fixture, output, included source, recorded failure or recorded stale execution."
+  },
+  "excluded_source_observation": {
+    "path": "dashboard/build_data.py",
+    "recorded_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+    "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+    "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+    "uncommitted_outside_runtime": true,
+    "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+  },
+  "test_scope": "Top-level 2,155-pass/14-skip totals describe the original numerical/source snapshot; fresh runtime receipt counts remain separate.",
+  "runtime_equivalence": {
+    "path": "evidence/forest-runtime-equivalence.json",
+    "sha256": "48b6af58348d93c57138ced4a133586234a7f7feaa197177dd44c515536ba49f"
+  },
+  "runtime_receipts": {
+    "provenance": {
+      "path": "evidence/receipts/badd9936ff267f06a9b2ac28059e649c6a11268def317dfdf6ed2c473688efe3.json",
+      "sha256": "b73f03b330b4a3766a68cc2862c6bca65a32565f2d5f7c163659c36dddcc3f53",
+      "name": "forest-runtime-provenance",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:39:07.101687+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {}
+    },
+    "focused": {
+      "path": "evidence/receipts/96b4c7fc6784f9453e67fb3c67bacaca0086f0360ec15850478715ed1df623f0.json",
+      "sha256": "cce900413cd8ff11ea78bac3d54be3ca2df68018b66a8562beb72c8906a7a394",
+      "name": "forest-runtime-focused",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:39:07.101692+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {}
+    },
+    "tree_submission": {
+      "path": "evidence/receipts/b42ced0261a130ef678626f846259e6b39c84f18f296809ab6376ff990fa3dce.json",
+      "sha256": "2e70a3d4702d2d5f4bafd2bb15a9235be52ad2e3792a415387d1fcd0813b858d",
+      "name": "forest-tree-submission",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:42:57.595690+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "yellowstone_midway/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7"
+      }
+    },
+    "package_headless": {
+      "path": "evidence/receipts/4230d59bfbbb092b566cf5f58077164c690c2d74ec6ca92a0cac2714b9616f0a.json",
+      "sha256": "6ac7eb6dabc78e1eae56c8f0d9c82ea00d519b02108213dfea294100992ae486",
+      "name": "forest-package-headless",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:43:34.747163+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/Yellowstone-Forest-Spring-Update/RUNTIME.json": "b49f9e6048d454575eb9f641a95c00da85867bc5e4eb01103bb1a33fd0e81148",
+        "work/Yellowstone-Forest-Spring-Update/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+        "work/Yellowstone-Forest-Spring-Update/project.godot": "ed59dd579b415538b3a96759b358cac6abd032a1391102904bf1c82ef6b49dd5",
+        "work/Yellowstone-Forest-Spring-Update/scenes/authored_world.tscn": "fefec00458d411f22e299fc1a00ab148cd4a2b6ef53fca23f3365d7d707de8f0"
+      }
+    },
+    "package_native": {
+      "path": "evidence/receipts/c343f2296d8c15fb83b491b46f3da573e7ae0acca85a5698ff2a0d55200a32e3.json",
+      "sha256": "da313b1b19b24cbcaea9db99da1bdc20e90e5364e5d9bda8ee17e730fcf059af",
+      "name": "forest-package-native",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:52:58.420767+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/Yellowstone-Forest-Spring-Update/RUNTIME.json": "b49f9e6048d454575eb9f641a95c00da85867bc5e4eb01103bb1a33fd0e81148",
+        "work/Yellowstone-Forest-Spring-Update/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+        "work/Yellowstone-Forest-Spring-Update/project.godot": "ed59dd579b415538b3a96759b358cac6abd032a1391102904bf1c82ef6b49dd5",
+        "work/Yellowstone-Forest-Spring-Update/scenes/authored_world.tscn": "fefec00458d411f22e299fc1a00ab148cd4a2b6ef53fca23f3365d7d707de8f0"
+      }
+    },
+    "canopy_attachment": {
+      "path": "evidence/receipts/36f39703d3924c865cbac7f3c526ba6afb05b1aec8934ed9fdeca49891d1d31f.json",
+      "sha256": "01e1dbda3fbe461a43cc7a0db60b14630587e8917a8fcc39c2a223644a2439dc",
+      "name": "canopy-visible-attachments",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:39:59.055637+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/run_canopy_attachment_evidence.py": "a110d5508af19615c20365ddfdf382e5e9b72c2742333bcd23be80fd3cbcc63c",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7"
+      }
+    },
+    "canopy_geometry": {
+      "path": "evidence/receipts/130eeb6b610e0ce899a7a2b29c61c04d6c8a2b3da411f60f2772939e3e2b3c7c.json",
+      "sha256": "31fef632e188fc919a45c95e723a19b7d2ed5f0d1bb4cbdd19e6a6bf4092261d",
+      "name": "canopy-tube-geometry",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:40:20.225086+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7"
+      }
+    },
+    "saved_world_capture": {
+      "path": "evidence/receipts/42548209f8890db9c5e57c9753f0090f9147317548a4bdeb47f4c9b9ab860983.json",
+      "sha256": "721a576970300902b8560e35169e20a8443fe6c07101e65b600c9c5161c42aa0",
+      "name": "forest-render-attachment",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:45:10.746219+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+        "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+        "yellowstone_midway/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/work/capture_floor_authoritative.gd": "d4463d36fd210fdfe12f1eacc33afaaf326e547aa4a4b6fe247536cfd59f9e9c"
+      }
+    }
+  },
+  "performance_receipts": {
+    "a1": {
+      "path": "evidence/receipts/f002efbc213fa3d72e2c822b9fbc46a31df4e21ee9ead873e63e2a83a3631823.json",
+      "sha256": "313718a6aa06c869043a59b8d33b5e0026192da720839ac660f6dad24f9408d0",
+      "name": "forest-render-pair-a1-attachment",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:47:38.856653+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/Yellowstone-Surface-Update/data/release.json": "b19c1fca199ca3b3cf7315da96f3ab41a7b800983f02b7cb421e26af377bee0a",
+        "work/Yellowstone-Surface-Update/project.godot": "ed59dd579b415538b3a96759b358cac6abd032a1391102904bf1c82ef6b49dd5",
+        "work/Yellowstone-Surface-Update/scenes/authored_world.tscn": "6f11bcac4cbaae7ac3ef568641e7be84c2d667e13f0910ebc631133f0cc21622",
+        "work/Yellowstone-Surface-Update/scripts/canopy_surface.gd": "9b693dd0b7588d1cd9481a5aed230c4819d6a1620e29e73358db75198cc0bff0",
+        "work/Yellowstone-Surface-Update/shaders/canopy_surface.gdshader": "d979cde816d0d223127a8c3dca76263e70ade8b5999011dbdf39469b3cd9f541",
+        "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+        "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a"
+      }
+    },
+    "b1": {
+      "path": "evidence/receipts/aeac864530ff68b36adfc89f5e4db8d96cd7c71fdca2360367a1eb09e01e2145.json",
+      "sha256": "4714617c94cff39f9e8a6043a6b3edd7395169e1e066606dfcb8c7b427b14e68",
+      "name": "forest-render-pair-b1-attachment",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:48:31.042437+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+        "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+        "yellowstone_midway/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+        "yellowstone_midway/project.godot": "ed59dd579b415538b3a96759b358cac6abd032a1391102904bf1c82ef6b49dd5",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/scripts/canopy_surface.gd": "18702ea7b025d296e04236b0ce70867a3fa6600dcfa5b6573e733f3e3a2e4adb",
+        "yellowstone_midway/scripts/tree_submission.gd": "f76b9d8cf37f4900e15f0730eeadf62c718f749c913dcfb9e4060ea0e1a4b964",
+        "yellowstone_midway/shaders/canopy_surface.gdshader": "46181bf9251bd8294b48b57dbc951326322c611f8dedd6ec51d6a7d0cd347c12"
+      }
+    },
+    "b2": {
+      "path": "evidence/receipts/ae9e38e17a01f83b6af6d2326d63279435fd414cae4dae882aa452b2a9efe0f7.json",
+      "sha256": "a0788c2047506c158b9339e06fb936d9e04dd6023534505ce863fbbf86b577b9",
+      "name": "forest-render-pair-b2-attachment",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:49:37.140550+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+        "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+        "yellowstone_midway/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+        "yellowstone_midway/project.godot": "ed59dd579b415538b3a96759b358cac6abd032a1391102904bf1c82ef6b49dd5",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/scripts/canopy_surface.gd": "18702ea7b025d296e04236b0ce70867a3fa6600dcfa5b6573e733f3e3a2e4adb",
+        "yellowstone_midway/scripts/tree_submission.gd": "f76b9d8cf37f4900e15f0730eeadf62c718f749c913dcfb9e4060ea0e1a4b964",
+        "yellowstone_midway/shaders/canopy_surface.gdshader": "46181bf9251bd8294b48b57dbc951326322c611f8dedd6ec51d6a7d0cd347c12"
+      }
+    },
+    "a2": {
+      "path": "evidence/receipts/c3cf27883821f89773d9d0655754376e5435e7badc80dc97f6f2235d08cc40a0.json",
+      "sha256": "09778d54a171a6c416884086f6f6fd9bb2138e908871a011ea02c1d18f1f62a6",
+      "name": "forest-render-pair-a2-attachment",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:50:46.056858+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/Yellowstone-Surface-Update/data/release.json": "b19c1fca199ca3b3cf7315da96f3ab41a7b800983f02b7cb421e26af377bee0a",
+        "work/Yellowstone-Surface-Update/project.godot": "ed59dd579b415538b3a96759b358cac6abd032a1391102904bf1c82ef6b49dd5",
+        "work/Yellowstone-Surface-Update/scenes/authored_world.tscn": "6f11bcac4cbaae7ac3ef568641e7be84c2d667e13f0910ebc631133f0cc21622",
+        "work/Yellowstone-Surface-Update/scripts/canopy_surface.gd": "9b693dd0b7588d1cd9481a5aed230c4819d6a1620e29e73358db75198cc0bff0",
+        "work/Yellowstone-Surface-Update/shaders/canopy_surface.gdshader": "d979cde816d0d223127a8c3dca76263e70ade8b5999011dbdf39469b3cd9f541",
+        "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+        "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a"
+      }
+    }
+  },
+  "performance": {
+    "path": "evidence/forest-render-pairs.json",
+    "sha256": "04907f6bfcf8c48a21ffcf245d2e718bc4062e0a0547b5e8374c0d7ce30c0623",
+    "updated_runs_pass_target": false,
+    "median_percent_change": -2.7350528474522795,
+    "draw_percent_change": 18.33344046624259,
+    "summary": "The mean of the two run medians changes by -2.7 percent versus the published surface package; mean draw calls change by +18.3 percent. The update does not meet the retained median <= 33.4 ms and p95 <= 50 ms target in both measured runs. These four short ABBA runs share authored weather, epoch and a normalized physical sun vector, with the baseline sun convention corrected only in memory. They include presentation, common forcing-verification overhead and uncontrolled desktop load; GPU execution time is unavailable. They do not establish other-hardware performance.",
+    "benchmark_verification": {
+      "ok": true,
+      "runs": {
+        "a1": {
+          "forcing_checks": 191,
+          "requested_forcing_validated": true,
+          "stable_first_last": true,
+          "report_sha256": "bc21eea204c90bd89deddc7231976b0e883bfc92507221d9fa89d1b84e890d5e",
+          "harness_sha256": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+          "canonical_payload_sha256": "3b1a6f41c5274ae554e4874de341fb45b79445593ae666caa77ea31e6c4fd4da"
+        },
+        "b1": {
+          "forcing_checks": 191,
+          "requested_forcing_validated": true,
+          "stable_first_last": true,
+          "report_sha256": "edcd2e6b1d1804cfd14583059f7fb74a2f166161a66f0d0d7f521db77a22863d",
+          "harness_sha256": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+          "canonical_payload_sha256": "3b1a6f41c5274ae554e4874de341fb45b79445593ae666caa77ea31e6c4fd4da"
+        },
+        "b2": {
+          "forcing_checks": 191,
+          "requested_forcing_validated": true,
+          "stable_first_last": true,
+          "report_sha256": "50db52cacfe6e786d46ef3163d9f1338edd65783b5431f546b652c820c74e877",
+          "harness_sha256": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+          "canonical_payload_sha256": "3b1a6f41c5274ae554e4874de341fb45b79445593ae666caa77ea31e6c4fd4da"
+        },
+        "a2": {
+          "forcing_checks": 191,
+          "requested_forcing_validated": true,
+          "stable_first_last": true,
+          "report_sha256": "daa488b6f1e32318c3f00e456efa641b35b4e59b59d800e43908ab6cf7e29d07",
+          "harness_sha256": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+          "canonical_payload_sha256": "3b1a6f41c5274ae554e4874de341fb45b79445593ae666caa77ea31e6c4fd4da"
+        }
+      },
+      "shared_physical_state_fields": [
+        "simulation_epoch_unix",
+        "world_epoch_unix",
+        "ecosystem_epoch_unix",
+        "elapsed_s",
+        "source_solar_degrees",
+        "sun_rotation_radians",
+        "sun_direction",
+        "cloud_sun_direction",
+        "cloud_offset",
+        "ecosystem_wind_xz_mps",
+        "resolution",
+        "msaa_3d",
+        "shadow_enabled",
+        "shadow_mode",
+        "shadow_splits",
+        "shadow_blend_splits",
+        "shadow_fade_start",
+        "shadow_atlas_size",
+        "shadow_filter_quality",
+        "shadow_range_m",
+        "shadow_bias",
+        "shadow_normal_bias"
+      ],
+      "harness_fixture_hashes": {
+        "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+        "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3"
+      },
+      "full_first_state_equal_across_runs": true,
+      "redundant_payload_comparison": "Only the duplicate parsed payload permits absolute numeric difference <= 1e-12 for Godot JSON decimal serialization. Original fixture text, fixture hash and canonical JSON hash remain exact authorities. Image and first/last/cross-run state checks remain exact.",
+      "normalization": "Benchmark only: normalize light and cloud ground-to-sun vector to X east, Y up, Z south with azimuth clockwise from north. This corrects baseline sign only in memory, without editing source or model data.",
+      "scope": "Common authored weather, epoch and physical sunlight; baseline sun convention normalized in memory. This is a controlled comparison, not an unchanged as-shipped-default lighting comparison. Wall intervals include common forcing-verification overhead. Shader TIME and particles remain animated; desktop load is uncontrolled and GPU execution time is unavailable."
+    }
+  },
+  "tree_submission": {
+    "path": "evidence/forest-tree-submission.json",
+    "sha256": "bbcd3afef8ae756daecd877a416ecbcf3a694cfc6409e420896cbbc5240f02ea",
+    "checks": 68531,
+    "control_scope": "Original-to-compacted images and all recorded repeated/rebound controls have zero changed channels in this run. This result is limited to the tested views and renderer state. Earlier whole-scene controls produced 8 or 10 one-byte channel differences. Their reports are retained. The final run explicitly freezes particle simulation and has exact equality in all tested comparisons; the earlier renderer-level cause remains unproven."
+  },
+  "terrace_revision": {
+    "summary": "The apron retains its existing terrace normal relief while the albedo edge follows mapped contrast or current flow, capped at 7.5 percent darkening instead of 42 percent. Four native image pairs retain exactly the same draw calls and primitive counts.",
+    "scope": "The same texture fetches, geometry and seven checked physical/display inputs are preserved. Edge/luminance correlation changes from -0.537 to -0.058 in the diagnostic overhead annulus; this is not a visual-quality or scientific-accuracy score. The radial normal field, local terrace morphology and their uncertainty remain uncalibrated.",
+    "source_hashes": {
+      "yellowstone_midway/shaders/thermal_apron.gdshader": "a2a1d69d884f2d8f591d8647cbc1feaebc63556fad64ebfb3afbb69959f68472"
+    },
+    "review": "evidence/terrace-contrast/review.json",
+    "capture_report": "evidence/terrace-contrast/report.json",
+    "evidence": [
+      "evidence/terrace-contrast/report.json",
+      "evidence/terrace-contrast/review.json"
+    ],
+    "verification_scope": "Stored native image diagnostics with authenticated shader/input/report hashes; not a new tools.run_evidence execution receipt. Other runtime changes after this diagnostic are covered only by separately recorded final native checks.",
+    "evidence_hashes": {
+      "evidence/terrace-contrast/report.json": "8a493464305b807480b73c8c84049b7b7c8f5a5012f3ee146f5f387d7e82ec76",
+      "evidence/terrace-contrast/review.json": "5d8aed6f46eca33d4217084210a24078821b8cfdec4f5b70011734d6f60cd30b"
+    }
+  },
+  "publication": {
+    "status": "not_published_or_not_verified",
+    "scope": "No durable GitHub publication evidence supplied."
+  },
+  "canopy_attachment": {
+    "report": "evidence/canopy-visible-attachments.json",
+    "sha256": "3d185f06fac8c7fb1d3e010b5b8fc43f4a3731688099ac79937914bc9c1b99d6",
+    "receipt": {
+      "path": "evidence/receipts/36f39703d3924c865cbac7f3c526ba6afb05b1aec8934ed9fdeca49891d1d31f.json",
+      "sha256": "01e1dbda3fbe461a43cc7a0db60b14630587e8917a8fcc39c2a223644a2439dc",
+      "name": "canopy-visible-attachments",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:39:59.055637+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/run_canopy_attachment_evidence.py": "a110d5508af19615c20365ddfdf382e5e9b72c2742333bcd23be80fd3cbcc63c",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7"
+      }
+    },
+    "checks": 1041655,
+    "summary": "Crossed bough planes and tapered woody connections replace edge-on strips. The final native check records 1,041,655 checks and 17 views, including eight azimuths and three world-view comparisons, while preserving all 477,471 canopy instance records. Long authored stems and shallow crowns in some residual cells remain a reconstruction limit.",
+    "preservation": {
+      "buffer_and_source_identity": "exact_all_records",
+      "geometry_revision": 2,
+      "maximum_terrain_contact_error_m": 4.80651855468833e-06,
+      "represented_area_m2": 329939.0,
+      "source_cells_per_lod": 159157,
+      "source_mask_sha256": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca",
+      "source_records": 477471,
+      "source_top_sha256": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b",
+      "terrain_contact_samples": 77273,
+      "upgrade": {
+        "geometry_revision": 2,
+        "lod_instance_records": 477471,
+        "upgraded_batches": 921
+      }
+    },
+    "geometry_receipt": {
+      "path": "evidence/receipts/130eeb6b610e0ce899a7a2b29c61c04d6c8a2b3da411f60f2772939e3e2b3c7c.json",
+      "sha256": "31fef632e188fc919a45c95e723a19b7d2ed5f0d1bb4cbdd19e6a6bf4092261d",
+      "name": "canopy-tube-geometry",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:40:20.225086+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7"
+      }
+    },
+    "geometry_checks": 15881760,
+    "raw_native_report": {
+      "path": "evidence/canopy-visible-attachments-renders/native-report.json",
+      "sha256": "f127fa2697160fad8a710d501aeb11cf08c33b3fad0aa748332ae81d7a59ce50"
+    },
+    "geometry_report": {
+      "path": "evidence/canopy-tube-geometry.json",
+      "sha256": "58ece22bb564ea19dde2479e808eca90466226cec9771aeab39816d78161d152"
+    },
+    "triangle_budget": {
+      "original_per_cell_by_lod": [
+        208,
+        88,
+        14
+      ],
+      "current_per_cell_by_lod": [
+        420,
+        180,
+        26
+      ],
+      "shared_meshes": 3,
+      "added_instance_buffer_capacity_bytes": 30558144,
+      "memory_scope": "Estimated extra renderer instance-buffer capacity for shallow cloned MultiMeshes; retained source resource buffers and renderer overhead are separate."
+    },
+    "limitations": [
+      "Authored support dimensions and bough orientations have unknown uncertainty; residual cells are not inferred measured stems.",
+      "Visible support is inspected in native captures at eight azimuths and three world views; source contact checks alone do not establish perceptual grounding.",
+      "Residual supports and foliage preserve the existing no-shadow policy; field botanical acceptance and other renderer backends are not tested.",
+      "Some residual source cells retain long authored bare stems below narrow, shallow crowns; the source cells do not resolve measured local branch form or additional stem counts."
+    ]
+  },
+  "saved_world_capture": {
+    "ok": true,
+    "image_hashes": {
+      "evidence/forest-render/overlook_fov72.png": "2b94b3279f229b7701d184b7ed25b89de14c6d75f2789f67dda4dc1741bf3999",
+      "evidence/forest-render/overlook_without_residual_fov72.png": "ca6b177e8802e8a3a9ffd793229dd61faf7f05c98af59d5addb7de19d494fca2",
+      "evidence/forest-render/overlook_fov40.png": "58e53aed93fedca7234c7f458f15e154fc232ddc8ca6c0a3ebc873f111828f12",
+      "evidence/forest-render/overlook_fov30.png": "962115d942579952f494457219ea117880a0d12e3638e0c30506b172be004d55",
+      "evidence/forest-render/floor_wood_walk.png": "9353bec14ad0e8f801b22110304c48fd7b5e9c8784fe8e61dce89b94e2308422",
+      "evidence/forest-render/floor_plant_walk.png": "93c0ae07cc747f32ee97a0ec0ca74d976e659f0ffd474747182f2fc068a0722b",
+      "evidence/forest-render/floor_litter_walk.png": "6bee34276cb7d6e5f6d4098ffd90508c3a7f3ff1d9db32eb79dcb2b805893084",
+      "evidence/forest-render/floor_log_walk.png": "47f765286da829c04fa7e7c86647608b80ebeb3d89740a5d31883870cfa26f98"
+    },
+    "raw_report": {
+      "path": "evidence/forest-render/native-report.json",
+      "sha256": "158694bf7127e7640c568b77285c50d73936233b75d0589dc8c50e30be4f13b1"
+    },
+    "fixture_hashes": {
+      "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+      "yellowstone_midway/work/capture_floor_authoritative.gd": "d4463d36fd210fdfe12f1eacc33afaaf326e547aa4a4b6fe247536cfd59f9e9c",
+      "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+      "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+      "yellowstone_midway/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224"
+    },
+    "forcing_checks": 9,
+    "exact_state_matches_benchmark": true,
+    "scope": "Eight final-runtime native images authenticated against raw report, execution fixtures, current source bytes and the exact ABBA forcing state. The separately captioned historical rainbow image is outside this final-graphics set. This does not establish visual acceptance or field calibration.",
+    "report": "evidence/forest-render/report.json",
+    "sha256": "a2f519967f00f99b0143b8f6f767fe90c7310991f1d68efc1a7a133d77182cd0",
+    "receipt": {
+      "path": "evidence/receipts/42548209f8890db9c5e57c9753f0090f9147317548a4bdeb47f4c9b9ab860983.json",
+      "sha256": "721a576970300902b8560e35169e20a8443fe6c07101e65b600c9c5161c42aa0",
+      "name": "forest-render-attachment",
+      "status": "executed_passed",
+      "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+      "source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+      "started_utc": "2026-10-15T21:45:10.746219+00:00",
+      "scope_verification": {
+        "status": "executed_passed",
+        "original_recorded_status": "executed_passed",
+        "global_status": "executed_passed",
+        "recorded_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+        "current_full_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+        "excluded_source": {
+          "path": "dashboard/build_data.py",
+          "recorded_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+          "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+          "uncommitted_outside_runtime": true,
+          "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+        }
+      },
+      "tests": null,
+      "fixture_hashes": {
+        "work/forest-benchmark-forcing.json": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+        "work/validate_forest_benchmark.gd": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+        "yellowstone_midway/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/work/capture_floor_authoritative.gd": "d4463d36fd210fdfe12f1eacc33afaaf326e547aa4a4b6fe247536cfd59f9e9c"
+      }
+    }
+  }
+}

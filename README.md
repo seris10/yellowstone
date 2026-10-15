@@ -2,7 +2,7 @@
 
 A georeferenced Yellowstone environment connecting Python ecosystem models to an interactive Godot world, with traceable data and explicit model limits.
 
-![Actual Godot view of Midway](docs/portfolio-overlook.png)
+![Actual Godot view of Midway](evidence/forest-render/overlook_fov72.png)
 
 [Recorded demonstration](docs/portfolio-demo.mp4) | [Three case studies and numerical experiment](docs/PORTFOLIO.md) | [Execution evidence](evidence/receipts/) | [Model authority](docs/MODEL_AUTHORITY.md) | [Toolchain contracts](docs/TOOLCHAIN.md)
 
@@ -12,13 +12,15 @@ The project is unfinished. Geographic inputs are measured or mapped; channel wid
 
 ## View the demo
 
-[Download the preview package](https://github.com/seris10/yellowstone/releases/download/midway-surface-b2b3d24fd7a0/Yellowstone-Surface-Update.zip). The prepared demo package contains the authored scene and one immutable runtime generation. Extract it, use Godot 4.5.1, and run:
+[Download the preview package](https://github.com/seris10/yellowstone/releases/download/midway-forest-8f7ed4ee574d/Yellowstone-Forest-Spring-Update.zip). The prepared demo package contains the authored scene and one immutable runtime generation. Extract it, use Godot 4.5.1, and run:
 
 ```sh
-cd Yellowstone-Midway
+cd Yellowstone-Forest-Spring-Update
 godot --headless --editor --path . --import --quit
 godot --path .
 ```
+
+[Visual update and camera-framing report](https://github.com/seris10/yellowstone/releases/download/midway-forest-8f7ed4ee574d/Yellowstone-Visual-Update.html) documents the forest, spring, cloud and rain-history changes with native captures and retained limits.
 
 Python is unnecessary for offline exploration. The local service may be unavailable. The interface shows execution mode, model time and release identity. Choose **Guided river temperature experiment** in the portfolio scenario, or begin walking. WASD walks, mouse looks, Esc opens starting places, H opens a river probe and Q pauses playback. [Controls and bake details](yellowstone_midway/README.md) describe the source checkout path.
 

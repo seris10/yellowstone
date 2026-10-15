@@ -1,0 +1,30 @@
+{
+	"actual_core": {
+		"added_boundary_vertices": 3263,
+		"area_error_m2": 0.000387680542189628,
+		"collision_scope": "unchanged source surface-elevation proxy; submerged bathymetry unavailable",
+		"elapsed_ms": 817,
+		"heightfield_sha256": "da2b9bb902bce0459c3a67aa3bff579165a4b2127fb517872110103dc7bdf856",
+		"independent_clipper_intersection_area_m2": 9962.35673141479,
+		"independent_mapped_perimeter_m": 616.949047088623,
+		"ok": true,
+		"policy": "subtract triangulated mapped water polygons with convex half-plane partitions and barycentric attributes",
+		"removed_triangles": 4638,
+		"removed_xz_area_m2": 9962.35634373425,
+		"retained_triangles": 176044,
+		"retained_xz_area_m2": 350037.643656266,
+		"roundoff_winding_corrections": 6,
+		"shoreline_closure_length_m": 616.948979697656,
+		"shoreline_closure_scope": "authored vertical render interface between interpolated source edge and mapped flat water elevation; no bathymetry or collision modification",
+		"shoreline_closure_segments": 711,
+		"shoreline_closure_triangles": 2844,
+		"source_vertices_preserved": true,
+		"source_xz_area_m2": 360000.0,
+		"split_boundary_triangles": 722,
+		"world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+	},
+	"cases": 1297,
+	"failures": [],
+	"ok": true,
+	"source_sha256": "7e576ffb5452ea20d974dd0ea509f3dec439d327594f16d42c6a6a3cecd17f43"
+}

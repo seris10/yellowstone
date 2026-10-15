@@ -1,0 +1,117 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+........................................................................ [ 24%]
+s.....ss.s.s..s......................................................... [ 28%]
+....................................ssss................................ [ 31%]
+........................................................................ [ 35%]
+........................................................................ [ 38%]
+........................................................................ [ 42%]
+........................................................................ [ 45%]
+........................................................................ [ 49%]
+........................................................................ [ 52%]
+........................................................................ [ 56%]
+........................................................................ [ 60%]
+........................................................................ [ 63%]
+........................................................................ [ 67%]
+........................................................................ [ 70%]
+......................................s.ss........................s..... [ 74%]
+........................................................................ [ 77%]
+........................................................................ [ 81%]
+........................................................................ [ 84%]
+........................................................................ [ 88%]
+........................................................................ [ 91%]
+........................................................................ [ 95%]
+........................................................................ [ 98%]
+........................                                                 [100%]
+=============================== warnings summary ===============================
+tests/test_microclimate.py::test_load_real_weather_validates
+  /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tests/test_microclimate.py:159: DeprecationWarning: load_real_weather is deprecated; call load_weather_bundle
+    result = load_real_weather(path)
+
+tests/test_microclimate.py::test_load_real_weather_rejects_bad_file
+  /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tests/test_microclimate.py:172: DeprecationWarning: load_real_weather is deprecated; call load_weather_bundle
+    assert load_real_weather(path) is None
+
+tests/test_calibrate_river_transport.py::TestRunStagedEndToEnd::test_full_pipeline_produces_expected_schema
+tests/test_calibrate_river_transport.py::TestRunStagedEndToEnd::test_cli_writes_both_output_and_stage_files
+tests/test_calibrate_river_transport.py::TestStageFilesWriter::test_write_stage_files_round_trips
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_stage_d_polish_recovers_c_mult
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_baseline_only_c_mult_identified
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0113008 exceeds the typical open-water range (<= 0.01)
+
+tests/test_calibrate_river_transport.py::TestRunStagedEndToEnd::test_full_pipeline_produces_expected_schema
+tests/test_calibrate_river_transport.py::TestRunStagedEndToEnd::test_cli_writes_both_output_and_stage_files
+tests/test_calibrate_river_transport.py::TestStageFilesWriter::test_write_stage_files_round_trips
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_stage_d_polish_recovers_c_mult
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_baseline_only_c_mult_identified
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0113008 exceeds the typical open-water range (<= 0.01)
+
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_lhs_bands_cover_truth_in_c_mult_space
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0119704 exceeds the typical open-water range (<= 0.01)
+
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_lhs_bands_cover_truth_in_c_mult_space
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0119704 exceeds the typical open-water range (<= 0.01)
+
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_lhs_bands_cover_truth_in_c_mult_space
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0107456 exceeds the typical open-water range (<= 0.01)
+
+tests/test_calibrate_river_transport.py::TestStageDIdentifiability::test_lhs_bands_cover_truth_in_c_mult_space
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0107456 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0105 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0105 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0109844 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0109844 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0111675 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0111675 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0111911 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0111911 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_h = 0.0106487 exceeds the typical open-water range (<= 0.01)
+
+tests/river/test_calibrate.py::test_least_squares_polish_stays_in_bounds
+  <string>:14: UserWarning: BudgetParams.c_e = 0.0106487 exceeds the typical open-water range (<= 0.01)
+
+tests/test_run_mode.py::test_run_all_forecast_single_failure
+tests/test_run_mode.py::test_run_all_rejects_validated_prescribed
+tests/test_run_mode.py::test_run_all_rejects_validated_prescribed
+  /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/validation/checks.py:69: DeprecationWarning: ledger uses deprecated heat key 'residual'; rename to heat_budget_error_j
+    failures += check_heat_ledger(ledger,
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/river/test_fipy_reference.py:27: fipy not installed
+SKIPPED [1] tests/river/test_fipy_reference.py:45: fipy not installed
+SKIPPED [1] tests/river/test_fipy_reference.py:116: fipy not installed
+SKIPPED [1] tests/river/test_fipy_reference.py:97: fipy not installed
+SKIPPED [1] tests/river/test_fipy_reference.py:37: fipy not installed
+SKIPPED [1] tests/river/test_fipy_reference.py:107: fipy not installed
+SKIPPED [1] tests/river/test_nc_export.py:59: xarray/netCDF4 not installed
+SKIPPED [1] tests/river/test_nc_export.py:39: xarray/netCDF4 not installed
+SKIPPED [1] tests/river/test_nc_export.py:76: xarray/netCDF4 not installed
+SKIPPED [1] tests/river/test_nc_export.py:21: xarray/netCDF4 not installed
+SKIPPED [1] tests/test_overland_provider.py:98: landlab not present
+SKIPPED [1] tests/test_overland_provider.py:72: landlab not present
+SKIPPED [1] tests/test_overland_provider.py:89: landlab not present
+SKIPPED [1] tests/test_groundwater_provider.py:119: flopy not present
+2026 passed, 14 skipped, 121 deselected, 29 warnings in 285.92s (0:04:45)

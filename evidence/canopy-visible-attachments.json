@@ -1,0 +1,236 @@
+{
+  "checks": 1041655,
+  "failures": [],
+  "limitations": [
+    "Authored support dimensions and bough orientations have unknown uncertainty; residual cells are not inferred measured stems.",
+    "Visible support is inspected in native captures at eight azimuths and three world views; source contact checks alone do not establish perceptual grounding.",
+    "Residual supports and foliage preserve the existing no-shadow policy; field botanical acceptance and other renderer backends are not tested.",
+    "Some residual source cells retain long authored bare stems below narrow, shallow crowns; the source cells do not resolve measured local branch form or additional stem counts."
+  ],
+  "mode": "native_source_geometry_and_visibility",
+  "native_mask_controls": {
+    "positive_to_zero_changed_channels": 73380,
+    "scope": "Stationary native shader fixture with all-white and all-zero masks",
+    "zero_coverage_to_zero_support_changed_channels": 0
+  },
+  "native_render_verified": true,
+  "native_views": [
+    {
+      "height": 900,
+      "label": "wood_walk-original",
+      "path": "evidence/canopy-visible-attachments-renders/wood_walk-original.png",
+      "primitives": 17905089.0,
+      "sha256": "9982593558a26f0fba4a0e3ab9dea06ed341cbc9123317ed1bb5e004e3eecd6c",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "wood_walk-tubes",
+      "path": "evidence/canopy-visible-attachments-renders/wood_walk-tubes.png",
+      "primitives": 19042433.0,
+      "sha256": "9513425d7cc94096c14e6414520a7cda84647e53c326454843c3d3a19949c38e",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "litter_walk-original",
+      "path": "evidence/canopy-visible-attachments-renders/litter_walk-original.png",
+      "primitives": 21779709.0,
+      "sha256": "6d49f4d8c69d24169cbf746351be84404a62ca490b4ae7211b13639c4c00709a",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "litter_walk-tubes",
+      "path": "evidence/canopy-visible-attachments-renders/litter_walk-tubes.png",
+      "primitives": 22610741.0,
+      "sha256": "99cb681f73488e298ca512ac3a4a6a961c3baaca4b30d6e7cc5a8d3378b2e5dc",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "overlook_foreground-original",
+      "path": "evidence/canopy-visible-attachments-renders/overlook_foreground-original.png",
+      "primitives": 21216983.0,
+      "sha256": "518fc6e284ccccdfcc919952ba9cfb365f7748e0dbd032259e717b452596e6f2",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "overlook_foreground-tubes",
+      "path": "evidence/canopy-visible-attachments-renders/overlook_foreground-tubes.png",
+      "primitives": 22254899.0,
+      "sha256": "d645848edc17a182c0c73ea9e9fdd4dca08c6807b8616100bdda4af83562eacf",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_000",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_000.png",
+      "primitives": 420.0,
+      "sha256": "8b4093e7440cb361123338ec996685c8c8e36c4ec8b15b5a5fb22f5565d22b28",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_045",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_045.png",
+      "primitives": 422.0,
+      "sha256": "935d662aef3b7cdf1f0835d1c6a6cf0592cfdd3ceef7afb942895d35cdd6b3c1",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_090",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_090.png",
+      "primitives": 420.0,
+      "sha256": "8f198b3213bc8c47640fb398e55b84d8c4fccbb1f76d085238d3f96903c9ce6d",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_135",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_135.png",
+      "primitives": 422.0,
+      "sha256": "2ebba0464333c4def9f090566c884b88caeaed9e8cbc4ddbc7fe4a205338a543",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_180",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_180.png",
+      "primitives": 420.0,
+      "sha256": "7108c75977037ba0c09dec222b4672a2085b097b1decb5deaedf7d967472df38",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_225",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_225.png",
+      "primitives": 422.0,
+      "sha256": "bde46d591757ff8585a1630be1c9a2a11ce5b698a75aa33ac6d04769df2a1e7e",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_270",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_270.png",
+      "primitives": 420.0,
+      "sha256": "4b5b9e666c4b049bf814423eeecc6fc198cb9790a4e42b202fca691d2d93def6",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "bough_azimuth_315",
+      "path": "evidence/canopy-visible-attachments-renders/bough_azimuth_315.png",
+      "primitives": 422.0,
+      "sha256": "9c7758ee3cb2b9bcae21ce412473f3cc5cfae345f56a3bada980f361d69ecaf4",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "mask_coverage_zero",
+      "path": "evidence/canopy-visible-attachments-renders/mask_coverage_zero.png",
+      "primitives": 422.0,
+      "sha256": "11cbedf176a7df4916c66eae5c4440aaca5688d6baa10c0d5df98f1d40022f6f",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "mask_support_zero",
+      "path": "evidence/canopy-visible-attachments-renders/mask_support_zero.png",
+      "primitives": 422.0,
+      "sha256": "11cbedf176a7df4916c66eae5c4440aaca5688d6baa10c0d5df98f1d40022f6f",
+      "width": 1440
+    },
+    {
+      "height": 900,
+      "label": "grounded_support_full_height",
+      "path": "evidence/canopy-visible-attachments-renders/grounded_support_full_height.png",
+      "primitives": 422.0,
+      "sha256": "915bc0869596c7203fea4a7f23dc2aea75336e622044f03ddbcb5d3fa87cb397",
+      "width": 1440
+    }
+  ],
+  "ok": true,
+  "preservation": {
+    "buffer_and_source_identity": "exact_all_records",
+    "geometry_revision": 2,
+    "maximum_terrain_contact_error_m": 4.80651855468833e-06,
+    "represented_area_m2": 329939.0,
+    "source_cells_per_lod": 159157,
+    "source_mask_sha256": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca",
+    "source_records": 477471,
+    "source_top_sha256": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b",
+    "terrain_contact_samples": 77273,
+    "upgrade": {
+      "geometry_revision": 2,
+      "lod_instance_records": 477471,
+      "upgraded_batches": 921
+    }
+  },
+  "renderer": "mobile",
+  "schema": "yellowstone.canopy_visible_attachments.v1",
+  "source_hashes": {
+    "yellowstone_midway/data/lidar_canopy/unresolved_render_canopy.json": "d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde",
+    "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+    "yellowstone_midway/scripts/canopy_surface.gd": "18702ea7b025d296e04236b0ce70867a3fa6600dcfa5b6573e733f3e3a2e4adb",
+    "yellowstone_midway/scripts/rendered_ground.gd": "d57b1794d1ec0a89474b4d9e05279bd0f6fe155f12c00f176e912aadee4bfd83",
+    "yellowstone_midway/scripts/world.gd": "770a19606acae292474f18b1142547809e2fab54df9a5cb5b3840e5cab47a1a7",
+    "yellowstone_midway/shaders/canopy_surface.gdshader": "46181bf9251bd8294b48b57dbc951326322c611f8dedd6ec51d6a7d0cd347c12",
+    "yellowstone_midway/tools/validate_canopy_attachments.gd": "8da564678c7942e709ad5786bf8eec0e910aa48feb1e1234382078ba5e83519b"
+  },
+  "raw_native_report": {
+    "path": "evidence/canopy-visible-attachments-renders/native-report.json",
+    "sha256": "f127fa2697160fad8a710d501aeb11cf08c33b3fad0aa748332ae81d7a59ce50"
+  },
+  "native_receipt": "evidence/receipts/36f39703d3924c865cbac7f3c526ba6afb05b1aec8934ed9fdeca49891d1d31f.json",
+  "geometry_receipt": "evidence/receipts/130eeb6b610e0ce899a7a2b29c61c04d6c8a2b3da411f60f2772939e3e2b3c7c.json",
+  "geometry_report": {
+    "path": "evidence/canopy-tube-geometry.json",
+    "sha256": "58ece22bb564ea19dde2479e808eca90466226cec9771aeab39816d78161d152"
+  },
+  "visual_review": {
+    "status": "inspected_native_captures",
+    "scope": "Eight azimuths, full-height support and the original/new actual-world views; no field botanical acceptance claim.",
+    "findings": [
+      "Three-dimensional stem and twig connections remain visible across the eight azimuths.",
+      "Photo boughs read as lateral branches instead of repeated upright miniature tree crowns.",
+      "Some residual cells retain long authored bare stems with a shallow crown; their terrain endpoints are numerically checked but lack residual shadows."
+    ],
+    "reviewed_labels": [
+      "wood_walk-original",
+      "wood_walk-tubes",
+      "litter_walk-original",
+      "litter_walk-tubes",
+      "overlook_foreground-original",
+      "overlook_foreground-tubes",
+      "bough_azimuth_000",
+      "bough_azimuth_045",
+      "bough_azimuth_090",
+      "bough_azimuth_135",
+      "bough_azimuth_180",
+      "bough_azimuth_225",
+      "bough_azimuth_270",
+      "bough_azimuth_315",
+      "mask_coverage_zero",
+      "mask_support_zero",
+      "grounded_support_full_height"
+    ]
+  },
+  "triangle_budget": {
+    "original_per_cell_by_lod": [
+      208,
+      88,
+      14
+    ],
+    "current_per_cell_by_lod": [
+      420,
+      180,
+      26
+    ],
+    "shared_meshes": 3,
+    "added_instance_buffer_capacity_bytes": 30558144,
+    "memory_scope": "Estimated extra renderer instance-buffer capacity for shallow cloned MultiMeshes; retained source resource buffers and renderer overhead are separate."
+  }
+}

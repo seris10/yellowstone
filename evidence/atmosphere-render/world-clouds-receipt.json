@@ -1,0 +1,135 @@
+{
+	"atmosphere_state": {
+		"ambient_light_energy": 0.286864012479782,
+		"cloud_fraction": 0.16,
+		"day_of_year": 172,
+		"daylight_factor": 1.0,
+		"direct_light_energy": 1.20959997177124,
+		"fog_sky_affect": 0.0,
+		"has_simulation_timestamp": true,
+		"precipitation_rate_mm_h": 0.0,
+		"rain_curtain_center": "(0.0, 0.0, 0.0)",
+		"rain_curtain_optical_depth": 0.0,
+		"rainbow_direct_transmission": 1.0,
+		"rainbow_secondary_ratio": 0.201305552914766,
+		"simulation_epoch_unix": 1782079920.71833,
+		"sky_turbidity": 2.2,
+		"snow_fraction": 0.0,
+		"solar_azimuth_deg": 252.502156346881,
+		"solar_elevation_deg": 49.7888729796894,
+		"solar_override_active": false,
+		"star_catalog_loaded": true,
+		"star_rebuild_epoch_unix": 1782079920.0,
+		"star_visibility": 0.0,
+		"terrain": {
+			"cloud_shadow_fraction": -1.0,
+			"ground_wetness_fraction": -1.0,
+			"insect_activity": -1.0,
+			"puddle_fraction": -1.0,
+			"snow_cover_fraction": 0.0,
+			"snow_water_equivalent_mm": -1.0,
+			"soil_temperature_c": -273.15,
+			"steam_intensity": -1.0
+		},
+		"visibility_m": 24000.0
+	},
+	"captures": [
+		{
+			"camera_m": [
+				-252.0,
+				49.7421646118164,
+				159.0
+			],
+			"draw_calls": 1944.0,
+			"file": "clouds_fov72.png",
+			"horizontal_fov_deg": 98.5932160244381,
+			"id": "clouds_fov72",
+			"image_pixels": [
+				1440,
+				900
+			],
+			"pool_screen_bounds_px": [
+				585.953735351562,
+				437.005676269531,
+				853.071105957031,
+				470.249328613281
+			],
+			"pool_screen_width_fraction": 0.185498174031576,
+			"primitives": 10393803.0,
+			"sha256": "05e5b73b421b4a09bb244c8ee4347dec3038cf6fc9a84d9a1715850c731fd74f",
+			"vertical_fov_deg": 72.0,
+			"viewport_coordinates": [
+				1600.0,
+				1000.0
+			]
+		},
+		{
+			"camera_m": [
+				-252.0,
+				49.7421646118164,
+				159.0
+			],
+			"draw_calls": 1557.0,
+			"file": "clouds_fov30.png",
+			"horizontal_fov_deg": 46.411438393988,
+			"id": "clouds_fov30",
+			"image_pixels": [
+				1440,
+				900
+			],
+			"pool_screen_bounds_px": [
+				356.534545898438,
+				414.765930175781,
+				1080.82141113281,
+				504.905975341797
+			],
+			"pool_screen_width_fraction": 0.502976989746094,
+			"primitives": 9620094.0,
+			"sha256": "027cfa9b5a09c6ce63e27a094b8dcf521dc6bdd9a3f04114c23302f00f5e2b69",
+			"vertical_fov_deg": 30.0,
+			"viewport_coordinates": [
+				1600.0,
+				1000.0
+			]
+		},
+		{
+			"camera_m": [
+				-252.0,
+				49.7421646118164,
+				159.0
+			],
+			"draw_calls": 1556.0,
+			"file": "clouds_hidden_fov30.png",
+			"horizontal_fov_deg": 46.411438393988,
+			"id": "clouds_hidden_fov30",
+			"image_pixels": [
+				1440,
+				900
+			],
+			"pool_screen_bounds_px": [
+				356.534545898438,
+				414.765930175781,
+				1080.82141113281,
+				504.905975341797
+			],
+			"pool_screen_width_fraction": 0.502976989746094,
+			"primitives": 9620092.0,
+			"sha256": "6a78291815c868eaee203166c3f761c106d18ecf2952b5599a8f66ee0ed529af",
+			"vertical_fov_deg": 30.0,
+			"viewport_coordinates": [
+				1600.0,
+				1000.0
+			]
+		}
+	],
+	"cpu": "Apple M4",
+	"display_ramp_sha256": "88f52d39b361c5d1387b50728ceca9de1eba6d5ffd4a5c29166648f81a5b2cab",
+	"failures": [],
+	"godot": "4.5.1-stable (official)",
+	"ok": true,
+	"renderer": "mobile",
+	"schema": "yellowstone.spring_display_capture.v1",
+	"scientific_ramp_sha256": "6463a689498df730d278d7b693d44bd097519cd3ceaee1294d145cbca930936a",
+	"scope": "Native spring bindings and projection; subjective appearance and unrelated scene assets require separate review",
+	"world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+}

@@ -1,0 +1,211 @@
+{
+	"captures": [
+		{
+			"basis": [
+				"(0.770022, 0.0, 0.638018)",
+				"(0.277962, 0.900109, -0.335471)",
+				"(-0.574286, 0.435665, 0.693103)"
+			],
+			"draw_calls": 2182.0,
+			"file": "wide-before.png",
+			"fov": 72.0,
+			"id": "wide-before",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"primitives": 18923401.0,
+			"projection": 0,
+			"sha256": "b57318551f05eae82bbf52bd9951ec81d83d3133f9f69898b465dab7835f3424"
+		},
+		{
+			"basis": [
+				"(0.770022, 0.0, 0.638018)",
+				"(0.277962, 0.900109, -0.335471)",
+				"(-0.574286, 0.435665, 0.693103)"
+			],
+			"draw_calls": 2182.0,
+			"file": "wide-after.png",
+			"fov": 72.0,
+			"id": "wide-after",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"primitives": 18923401.0,
+			"projection": 0,
+			"sha256": "eaf795410f1a488518f8405f61993fa1219a96548ab733859a8aa5d12ee9c38c"
+		},
+		{
+			"basis": [
+				"(0.733225, 0.0, 0.679986)",
+				"(0.095864, 0.990012, -0.10337)",
+				"(-0.673195, 0.14098, 0.725902)"
+			],
+			"draw_calls": 1912.0,
+			"file": "overlook40-before.png",
+			"fov": 40.0,
+			"id": "overlook40-before",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-252.0,
+				49.7421646118164,
+				159.0
+			],
+			"primitives": 18075158.0,
+			"projection": 0,
+			"sha256": "2d3384df8573367a0fad60e66d120d92b604ed3ea729f78ea26e5c55ed984a6b"
+		},
+		{
+			"basis": [
+				"(0.733225, 0.0, 0.679986)",
+				"(0.095864, 0.990012, -0.10337)",
+				"(-0.673195, 0.14098, 0.725902)"
+			],
+			"draw_calls": 1912.0,
+			"file": "overlook40-after.png",
+			"fov": 40.0,
+			"id": "overlook40-after",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-252.0,
+				49.7421646118164,
+				159.0
+			],
+			"primitives": 18075158.0,
+			"projection": 0,
+			"sha256": "82c44ef3761b2172b4a5afcf5151cc5d677695074a176a7519ac57f0d01dfd4c"
+		},
+		{
+			"basis": [
+				"(0.7282, 0.0, 0.685365)",
+				"(0.107285, 0.987672, -0.11399)",
+				"(-0.676916, 0.156537, 0.719223)"
+			],
+			"draw_calls": 1591.0,
+			"file": "apron-before.png",
+			"fov": 55.0,
+			"id": "apron-before",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-181.0,
+				28.0,
+				82.0
+			],
+			"primitives": 3502860.0,
+			"projection": 0,
+			"sha256": "3b721f37ce562ec3604e9b11633e78d41a437e924736a10b05074545d3208ca5"
+		},
+		{
+			"basis": [
+				"(0.7282, 0.0, 0.685365)",
+				"(0.107285, 0.987672, -0.11399)",
+				"(-0.676916, 0.156537, 0.719223)"
+			],
+			"draw_calls": 1591.0,
+			"file": "apron-after.png",
+			"fov": 55.0,
+			"id": "apron-after",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-181.0,
+				28.0,
+				82.0
+			],
+			"primitives": 3502860.0,
+			"projection": 0,
+			"sha256": "4993897f489b7f51caad3727101407cd5ddd67bf890e63a8ef82120feae26d94"
+		},
+		{
+			"basis": [
+				"(1.0, 0.0, 0.0)",
+				"(0.0, -0.0, -1.0)",
+				"(0.0, 1.0, -0.0)"
+			],
+			"draw_calls": 466.0,
+			"file": "overhead-before.png",
+			"fov": 55.0,
+			"id": "overhead-before",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-94.7068023681641,
+				450.0,
+				-10.6082000732422
+			],
+			"primitives": 3020138.0,
+			"projection": 1,
+			"sha256": "1ff717ad4b433bd31913ee7a2c810091cfee8c05b918f531e3e1f3d27b738f12"
+		},
+		{
+			"basis": [
+				"(1.0, 0.0, 0.0)",
+				"(0.0, -0.0, -1.0)",
+				"(0.0, 1.0, -0.0)"
+			],
+			"draw_calls": 466.0,
+			"file": "overhead-after.png",
+			"fov": 55.0,
+			"id": "overhead-after",
+			"image_size": [
+				1440,
+				900
+			],
+			"orthogonal_size": 360.0,
+			"position": [
+				-94.7068023681641,
+				450.0,
+				-10.6082000732422
+			],
+			"primitives": 3020138.0,
+			"projection": 1,
+			"sha256": "15914a75ef448b01d70acf57419e3e3df8f9b504706aaf2979b5e93d2c583153"
+		}
+	],
+	"godot": "4.5.1-stable (official)",
+	"inputs": {
+		"res://../work/thermal_apron_before.gdshader": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+		"res://assets/textures/mapped_surface_detail.png": "70d7b09e7fee322cbd141063a2ee1ed8077add98cc726a776dc847b7923fb01b",
+		"res://assets/textures/prismatic_apron_display.png": "774e71ca10cd1c85f6f6d6b06d617f7eda6949550e0c3083f4935e3b06ae1ac4",
+		"res://assets/textures/prismatic_terrace_detail.png": "ff34400b446042a51660592c90820b9afa7523ff7b913bbbcd1a32d3859a863d",
+		"res://data/display/prismatic.json": "edb851fc40df0cc38ef1b63a3ff1b5e6ffbc4a13b44e8f81247d44d7a010e60a",
+		"res://data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+		"res://scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+		"res://shaders/ground_surface.gdshaderinc": "f19a9c18cdd45a2fd46b4df661e19908ca2ba84fe115bc85c0dfbdd35ea0ce00",
+		"res://shaders/thermal_apron.gdshader": "a2a1d69d884f2d8f591d8647cbc1feaebc63556fad64ebfb3afbb69959f68472"
+	},
+	"ok": true,
+	"renderer": "mobile",
+	"scope": "Native frozen-world material comparison; authored display contrast, no measured terrace-height claim"
+}

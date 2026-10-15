@@ -1,0 +1,174 @@
+{
+  "after_clear": {
+    "ambient_light_energy": 0.25,
+    "cloud_fraction": 0.0,
+    "day_of_year": 172,
+    "daylight_factor": 1.0,
+    "direct_light_energy": 1.35000002384186,
+    "fog_sky_affect": 0.0,
+    "has_simulation_timestamp": true,
+    "precipitation_rate_mm_h": 0.0,
+    "rain_curtain_center": "(1468.973, 48.07216, -740.8076)",
+    "rain_curtain_optical_depth": 0.451139371457148,
+    "rainbow_direct_transmission": 1.0,
+    "rainbow_secondary_ratio": 0.201305552914766,
+    "simulation_epoch_unix": 1782079921.06667,
+    "sky_turbidity": 2.2,
+    "snow_fraction": 0.0,
+    "solar_azimuth_deg": 222.842577525387,
+    "solar_elevation_deg": 14.0,
+    "solar_override_active": true,
+    "star_catalog_loaded": true,
+    "star_rebuild_epoch_unix": 1782079920.0,
+    "star_visibility": 0.0,
+    "terrain": {
+      "cloud_shadow_fraction": -1.0,
+      "ground_wetness_fraction": -1.0,
+      "insect_activity": -1.0,
+      "puddle_fraction": -1.0,
+      "snow_cover_fraction": 0.0,
+      "snow_water_equivalent_mm": -1.0,
+      "soil_temperature_c": -273.15,
+      "steam_intensity": -1.0
+    },
+    "visibility_m": 26000.0
+  },
+  "after_rain": {
+    "ambient_light_energy": 0.434320002794266,
+    "cloud_fraction": 0.8,
+    "day_of_year": 172,
+    "daylight_factor": 1.0,
+    "direct_light_energy": 0.648000001907349,
+    "fog_sky_affect": 0.0,
+    "has_simulation_timestamp": true,
+    "precipitation_rate_mm_h": 8.0,
+    "rain_curtain_center": "(1441.773, 48.07216, -711.479)",
+    "rain_curtain_optical_depth": 0.541770608845992,
+    "rainbow_direct_transmission": 0.000886123947558568,
+    "rainbow_secondary_ratio": 0.201305552914766,
+    "simulation_epoch_unix": 1782079921.06667,
+    "sky_turbidity": 2.2,
+    "snow_fraction": 0.0,
+    "solar_azimuth_deg": 222.842577525387,
+    "solar_elevation_deg": 14.0,
+    "solar_override_active": true,
+    "star_catalog_loaded": true,
+    "star_rebuild_epoch_unix": 1782079920.0,
+    "star_visibility": 0.0,
+    "terrain": {
+      "cloud_shadow_fraction": -1.0,
+      "ground_wetness_fraction": -1.0,
+      "insect_activity": -1.0,
+      "puddle_fraction": -1.0,
+      "snow_cover_fraction": 0.0,
+      "snow_water_equivalent_mm": -1.0,
+      "soil_temperature_c": -273.15,
+      "steam_intensity": -1.0
+    },
+    "visibility_m": 26000.0
+  },
+  "captures": [
+    {
+      "camera_m": [
+        -252.0,
+        49.7421607971191,
+        159.0
+      ],
+      "draw_calls": 2332.0,
+      "label": "world-clear-startup",
+      "path": "res://../work/atmosphere-world-rain/world-clear-startup.png",
+      "primitives": 50829297.0,
+      "sha256": "bc66959400418ab4e1c921c91ca9ca98d9110344b29f3f4254fa7b4029eadc11",
+      "size_px": [
+        1440,
+        900
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421607971191,
+        159.0
+      ],
+      "draw_calls": 2333.0,
+      "label": "world-post-rain",
+      "path": "res://../work/atmosphere-world-rain/world-post-rain.png",
+      "primitives": 50829299.0,
+      "sha256": "e4ab6f33b0086f62b8a2a6918319cfe2170d9c5d1b04bc23fd545a624bd9de3c",
+      "size_px": [
+        1440,
+        900
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421607971191,
+        159.0
+      ],
+      "draw_calls": 2332.0,
+      "label": "world-post-rain-layer-hidden",
+      "path": "res://../work/atmosphere-world-rain/world-post-rain-layer-hidden.png",
+      "primitives": 50829297.0,
+      "sha256": "7bbe7f608372ddf8445be99fcbea15120b767b9a47b3fb6ffc5c9be9b0119506",
+      "size_px": [
+        1440,
+        900
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421607971191,
+        159.0
+      ],
+      "draw_calls": 2348.0,
+      "label": "world-post-rain-spring-view",
+      "path": "res://../work/atmosphere-world-rain/world-post-rain-spring-view.png",
+      "primitives": 50902403.0,
+      "sha256": "0fa945881ad80bf419de2e554cc745e5c38aeb1081bffa8945eae92919acef76",
+      "size_px": [
+        1440,
+        900
+      ]
+    }
+  ],
+  "conditions": {
+    "camera_elevation_deg": 8.0,
+    "clear_cloud_fraction": 0.0,
+    "clear_seconds": 20,
+    "clock": "Production world._sync_atmosphere_clock from explicitly accepted elapsed seconds",
+    "curtain_override": false,
+    "rain_cloud_fraction": 0.8,
+    "rain_rate_mm_h": 8,
+    "rain_seconds": 120,
+    "relative_humidity": 0.55,
+    "snow_fraction": 0.0,
+    "solar_override_azimuth_deg": 222.842577525387,
+    "solar_override_elevation_deg": 14.0,
+    "vertical_fov_deg": 72.0,
+    "weather_interpolation": false,
+    "wind_from_degrees": 222.842577525387,
+    "wind_speed_mps": 2.0
+  },
+  "failures": [],
+  "fixture_sha256": "aa96b6d3799072c9015866e550d0387922de6f74785fd400422da0d5cd610798",
+  "godot": "4.5.1-stable (official)",
+  "gpu": "Apple M4 (Apple9)",
+  "passed": true,
+  "renderer": "mobile",
+  "schema": "yellowstone.world_rain_history.v1",
+  "scope": "Controlled weather and solar-override fixture in the actual saved world; no measured occurrence-frequency claim",
+  "source_hashes": {
+    "assets/imported/lodgepole/lodgepole_metadata.json": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+    "assets/textures/color_mips/color_mips.json": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+    "data/release.json": "b19c1fca199ca3b3cf7315da96f3ab41a7b800983f02b7cb421e26af377bee0a",
+    "scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+    "scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+    "scripts/terrain_materials.gd": "5ded539c66914e4bab92f8d0506e8a7520766ca2a61ce3f187b9aadb38d25217",
+    "scripts/world.gd": "5b2d04761422571ba1ef54bbffdacbc99e37cbad070779060592050f5febac8c",
+    "scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+    "shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+    "shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6"
+  }
+}

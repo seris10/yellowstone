@@ -1,0 +1,569 @@
+{
+  "schema": "yellowstone.final_lod_failure_audit.v1",
+  "read_only": true,
+  "source_quality_sha256": "cfd7b01b7bf5016d3cb9b9dbfee7f551b6faf97918f53e26f39d88cafcbf4dae",
+  "actual_image_size_px": [
+    1200,
+    750
+  ],
+  "endpoint_passes": 34,
+  "endpoint_pairs": 96,
+  "groups": [
+    {
+      "form": "dense",
+      "distance_m": 18,
+      "passed": 0,
+      "pairs": 8,
+      "iou_range": [
+        0.6979463348823265,
+        0.7529303940957985
+      ],
+      "endpoint_area_ratio_range": [
+        1.0258668747909465,
+        1.0377188774286399
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.12620165437066846,
+        0.16238906212520987
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.15177698076296056,
+        0.19283444091303092
+      ],
+      "different_pixel_count_range": [
+        5122,
+        6045
+      ],
+      "foreground_pixel_count_range": [
+        16189,
+        18533
+      ],
+      "union_bbox_size_px_min": [
+        112,
+        489
+      ],
+      "union_bbox_size_px_max": [
+        122,
+        491
+      ]
+    },
+    {
+      "form": "dense",
+      "distance_m": 65,
+      "passed": 0,
+      "pairs": 8,
+      "iou_range": [
+        0.6348408710217756,
+        0.6967567567567567
+      ],
+      "endpoint_area_ratio_range": [
+        1.2106741573033708,
+        1.271384136858476
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.08369098712446352,
+        0.1186046511627907
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.25101685066821616,
+        0.3058608058608059
+      ],
+      "different_pixel_count_range": [
+        557,
+        654
+      ],
+      "foreground_pixel_count_range": [
+        1286,
+        1726
+      ],
+      "union_bbox_size_px_min": [
+        34,
+        134
+      ],
+      "union_bbox_size_px_max": [
+        36,
+        135
+      ]
+    },
+    {
+      "form": "dense",
+      "distance_m": 180,
+      "passed": 3,
+      "pairs": 8,
+      "iou_range": [
+        0.6277056277056277,
+        0.7219917012448133
+      ],
+      "endpoint_area_ratio_range": [
+        1.0098039215686274,
+        1.0888888888888888
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.1553398058252427,
+        0.19444444444444445
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.1674641148325359,
+        0.2602040816326531
+      ],
+      "different_pixel_count_range": [
+        67,
+        86
+      ],
+      "foreground_pixel_count_range": [
+        180,
+        209
+      ],
+      "union_bbox_size_px_min": [
+        12,
+        48
+      ],
+      "union_bbox_size_px_max": [
+        14,
+        48
+      ]
+    },
+    {
+      "form": "open",
+      "distance_m": 18,
+      "passed": 0,
+      "pairs": 8,
+      "iou_range": [
+        0.7339726845286961,
+        0.7627910510122687
+      ],
+      "endpoint_area_ratio_range": [
+        1.0361813426329556,
+        1.0532455481419292
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.11568100753005417,
+        0.13330427201394943
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.15265822784810126,
+        0.1748196006041282
+      ],
+      "different_pixel_count_range": [
+        6245,
+        7129
+      ],
+      "foreground_pixel_count_range": [
+        22629,
+        24313
+      ],
+      "union_bbox_size_px_min": [
+        145,
+        436
+      ],
+      "union_bbox_size_px_max": [
+        156,
+        437
+      ]
+    },
+    {
+      "form": "open",
+      "distance_m": 65,
+      "passed": 0,
+      "pairs": 8,
+      "iou_range": [
+        0.6821674080064699,
+        0.7284934955937893
+      ],
+      "endpoint_area_ratio_range": [
+        1.2252836304700163,
+        1.2932745314222713
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.057809894385769875,
+        0.07688083470620538
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.2345679012345679,
+        0.28090366581415177
+      ],
+      "different_pixel_count_range": [
+        647,
+        786
+      ],
+      "foreground_pixel_count_range": [
+        1792,
+        2346
+      ],
+      "union_bbox_size_px_min": [
+        41,
+        119
+      ],
+      "union_bbox_size_px_max": [
+        45,
+        120
+      ]
+    },
+    {
+      "form": "open",
+      "distance_m": 180,
+      "passed": 8,
+      "pairs": 8,
+      "iou_range": [
+        0.7272727272727273,
+        0.7987421383647799
+      ],
+      "endpoint_area_ratio_range": [
+        0.9324324324324325,
+        0.9750889679715302
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.1413427561837456,
+        0.16845878136200718
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.07971014492753623,
+        0.14705882352941177
+      ],
+      "different_pixel_count_range": [
+        64,
+        87
+      ],
+      "foreground_pixel_count_range": [
+        267,
+        296
+      ],
+      "union_bbox_size_px_min": [
+        15,
+        43
+      ],
+      "union_bbox_size_px_max": [
+        16,
+        43
+      ]
+    },
+    {
+      "form": "sapling",
+      "distance_m": 18,
+      "passed": 0,
+      "pairs": 8,
+      "iou_range": [
+        0.7786008230452675,
+        0.7992817238627294
+      ],
+      "endpoint_area_ratio_range": [
+        0.9597622313671696,
+        0.9925666812418015
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.11759656652360514,
+        0.1384335154826958
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.09855985598559856,
+        0.11365638766519824
+      ],
+      "different_pixel_count_range": [
+        500,
+        538
+      ],
+      "foreground_pixel_count_range": [
+        2099,
+        2330
+      ],
+      "union_bbox_size_px_min": [
+        35,
+        134
+      ],
+      "union_bbox_size_px_max": [
+        38,
+        134
+      ]
+    },
+    {
+      "form": "sapling",
+      "distance_m": 65,
+      "passed": 0,
+      "pairs": 8,
+      "iou_range": [
+        0.6017316017316018,
+        0.6488888888888888
+      ],
+      "endpoint_area_ratio_range": [
+        1.1542857142857144,
+        1.2839506172839505
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.1111111111111111,
+        0.17142857142857143
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.27941176470588236,
+        0.3317307692307692
+      ],
+      "different_pixel_count_range": [
+        79,
+        92
+      ],
+      "foreground_pixel_count_range": [
+        159,
+        208
+      ],
+      "union_bbox_size_px_min": [
+        12,
+        36
+      ],
+      "union_bbox_size_px_max": [
+        13,
+        37
+      ]
+    },
+    {
+      "form": "sapling",
+      "distance_m": 180,
+      "passed": 7,
+      "pairs": 8,
+      "iou_range": [
+        0.6774193548387096,
+        0.8214285714285714
+      ],
+      "endpoint_area_ratio_range": [
+        1.0,
+        1.1818181818181819
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.04,
+        0.125
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.11538461538461539,
+        0.25
+      ],
+      "different_pixel_count_range": [
+        5,
+        10
+      ],
+      "foreground_pixel_count_range": [
+        22,
+        29
+      ],
+      "union_bbox_size_px_min": [
+        4,
+        10
+      ],
+      "union_bbox_size_px_max": [
+        4,
+        11
+      ]
+    },
+    {
+      "form": "snag",
+      "distance_m": 18,
+      "passed": 8,
+      "pairs": 8,
+      "iou_range": [
+        0.9178921568627451,
+        0.9804964539007093
+      ],
+      "endpoint_area_ratio_range": [
+        0.9237861094038107,
+        0.9863663307646711
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.016597510373443983,
+        0.07928703134603565
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.0013236267372600927,
+        0.00576036866359447
+      ],
+      "different_pixel_count_range": [
+        33,
+        135
+      ],
+      "foreground_pixel_count_range": [
+        1503,
+        1766
+      ],
+      "union_bbox_size_px_min": [
+        26,
+        361
+      ],
+      "union_bbox_size_px_max": [
+        36,
+        366
+      ]
+    },
+    {
+      "form": "snag",
+      "distance_m": 65,
+      "passed": 8,
+      "pairs": 8,
+      "iou_range": [
+        0.9178082191780822,
+        0.9935064935064936
+      ],
+      "endpoint_area_ratio_range": [
+        1.0065359477124183,
+        1.0895522388059702
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.0,
+        0.0072992700729927005
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.006493506493506494,
+        0.0821917808219178
+      ],
+      "different_pixel_count_range": [
+        1,
+        12
+      ],
+      "foreground_pixel_count_range": [
+        134,
+        157
+      ],
+      "union_bbox_size_px_min": [
+        4,
+        89
+      ],
+      "union_bbox_size_px_max": [
+        8,
+        93
+      ]
+    },
+    {
+      "form": "snag",
+      "distance_m": 180,
+      "passed": 0,
+      "pairs": 8,
+      "iou_range": [
+        0.12,
+        0.21739130434782608
+      ],
+      "endpoint_area_ratio_range": [
+        2.4285714285714284,
+        3.6666666666666665
+      ],
+      "old_foreground_missing_from_new_fraction": [
+        0.16666666666666666,
+        0.625
+      ],
+      "new_foreground_absent_from_old_fraction": [
+        0.75,
+        0.85
+      ],
+      "different_pixel_count_range": [
+        16,
+        22
+      ],
+      "foreground_pixel_count_range": [
+        6,
+        22
+      ],
+      "union_bbox_size_px_min": [
+        2,
+        14
+      ],
+      "union_bbox_size_px_max": [
+        2,
+        29
+      ]
+    }
+  ],
+  "transition_intervals": [
+    {
+      "center_distance_m": 18,
+      "interval_m": [
+        16,
+        20
+      ],
+      "width_m": 4,
+      "duration_at_3_m_s_direct_radial_walk_s": 1.3333333333333333,
+      "duration_at_6_5_m_s_direct_radial_walk_s": 0.6153846153846154
+    },
+    {
+      "center_distance_m": 65,
+      "interval_m": [
+        58.5,
+        71.5
+      ],
+      "width_m": 13.0,
+      "duration_at_3_m_s_direct_radial_walk_s": 4.333333333333333,
+      "duration_at_6_5_m_s_direct_radial_walk_s": 2.0
+    },
+    {
+      "center_distance_m": 180,
+      "interval_m": [
+        162,
+        198
+      ],
+      "width_m": 36,
+      "duration_at_3_m_s_direct_radial_walk_s": 12.0,
+      "duration_at_6_5_m_s_direct_radial_walk_s": 5.538461538461538
+    }
+  ],
+  "interpretation": [
+    "For a shared pixel covered by both meshes, complementary thresholds choose exactly one LOD. The matching-geometry native fixture checks this property on Mobile and Compatibility.",
+    "Pixels present in only one endpoint appear/disappear gradually with the dither fraction. In expectation area is (1-t)*A+t*B; geometry differences and differing shading remain. This is a mathematical interpretation, not a measured motion acceptance test.",
+    "Near live crowns lose 11.6\u201316.2% of their old foreground positions while acquiring new ones; total area stays within about 5%, so most failure is pattern redistribution rather than a disappearing crown.",
+    "At 65 m, live crowns gain 15.4\u201329.3% endpoint foreground area. A gradual density change can remain visible while walking; complementary dither does not repair it.",
+    "At 180 m the snag pair may differ by 16\u201322 pixels, with only 6\u201322 foreground pixels per endpoint; this explains numerical sensitivity but does not waive the failing limit.",
+    "This audit is for fixed azimuths and wind-frozen transparent captures. It does not certify full-world motion, all camera angles, lighting equality or frame time.",
+    "Far impostors are visibly darker in the inspected fixed-lighting endpoint images: median pair luminance ratio 0.441, range 0.333\u20130.706. The 36 m blend interval spreads this change, but does not correct baked versus dynamic lighting differences. Actual-world lighting acceptance is separate."
+  ],
+  "release_wording": "Tree LOD changes now blend per tree instead of switching an entire batch at once. The final raw endpoint comparison still passes 34 of 96 cases: near live-crown area stays within about 5%, but branch-gap patterns change; middle LOD crowns become 15\u201329% fuller through the 58.5\u201371.5 m blend. Distant live trees pass 18 of 24 cases; the largest relative snag discrepancies involve only 6\u201322 visible pixels. The blend removes a hard boundary switch but does not certify identical silhouettes or invisible transitions. Far billboard brightness can also change through the transition; the fixed-lighting comparison does not establish a lighting match.",
+  "display_luminance_diagnostic": {
+    "method": "Median relative luminance of common alpha>=128 pixels after decoding PNG sRGB; comparison is image/display referred, not scene radiance. One fixed native fixture lighting setup.",
+    "groups": [
+      {
+        "distance_m": 18,
+        "live_pairs": 24,
+        "median_pair_ratio": 0.9827387042375508,
+        "pair_ratio_range": [
+          0.9056142457278341,
+          1.0752942615402028
+        ]
+      },
+      {
+        "distance_m": 65,
+        "live_pairs": 24,
+        "median_pair_ratio": 0.9891114425691752,
+        "pair_ratio_range": [
+          0.8182840140046416,
+          1.0585549822075773
+        ]
+      },
+      {
+        "distance_m": 180,
+        "live_pairs": 24,
+        "median_pair_ratio": 0.4408854388333916,
+        "pair_ratio_range": [
+          0.33285771825707483,
+          0.7057049176362791
+        ]
+      }
+    ]
+  },
+  "inspected_images": [
+    "dense_v0_a0_d18_lod0.png",
+    "dense_v0_a0_d18_lod1.png",
+    "open_v0_a0_d65_lod1.png",
+    "open_v0_a0_d65_lod2.png",
+    "dense_v0_a0_d180_lod2.png",
+    "dense_v0_a0_d180_lod3.png"
+  ],
+  "endpoint_metrics_source": "evidence/tree-lod-quality.json",
+  "captures_directory": "evidence/captures/tree-lod-forest",
+  "captures_manifest_sha256": "57253c159b3bc7171ad0a5a24fe432160c4780c13e6cdb3ce5a14a1fc931c26b",
+  "source_graph_library_sha256": "0082a46a33e134353ac27e5ec846736a98a42fbbdb07202cc48bed62df1464e2",
+  "source_metadata_sha256": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+  "current_transition_source_sha256": {
+    "yellowstone_midway/shaders/tree_lod.gdshaderinc": "e01fbdb68032a621d42ad544e84a0c42b20b2f92ff0dd818f3042041bc9c55bc",
+    "yellowstone_midway/shaders/foliage.gdshader": "6d3dab36a5597244aa8f59a6e152eb7cb9552e8ced107c2eafe0e651bd4a0dfe",
+    "yellowstone_midway/shaders/tree_impostor.gdshader": "ec9e14b12bbe08aa5ef7b503a9355ebd3a07e3374d8a7ac13137a3096a9c05d1",
+    "yellowstone_midway/shaders/tree_bark.gdshader": "e3b828914def0fe08f572f49902e72a34343500876ed435f62ad49fbaf5c4fcb",
+    "yellowstone_midway/scripts/lodgepole_library.gd": "f2587114287f5e74f3e7d42b3c6b4bba336fa705ff8b9aa10b74e534c4d4fe21",
+    "yellowstone_midway/tools/validate_tree_instance_lod.gd": "7bc26e1451e071b3a399dde725600cc679633073852e2fc64b7e965f9e63afc0"
+  },
+  "limitations": [
+    "Read-only appearance audit of final fixed native endpoint captures; no shader/asset retuning.",
+    "Dither behavior is inferred from current shader logic and separately checked matching-geometry fixtures, not a full-world subjective motion trial.",
+    "PNG luminance ratios are display-referred values under one fixed lighting setup and do not measure physical radiance."
+  ]
+}

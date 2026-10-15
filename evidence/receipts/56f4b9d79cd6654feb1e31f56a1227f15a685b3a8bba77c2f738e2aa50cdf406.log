@@ -1,0 +1,250 @@
+.............................................F....F..................... [ 59%]
+.................................................                        [100%]
+=================================== FAILURES ===================================
+____________ test_cold_season_retains_snow_and_exports_solid_water _____________
+
+simulate_case = <function simulate_case.<locals>.run at 0x114e7d2d0>
+
+    def test_cold_season_retains_snow_and_exports_solid_water(simulate_case):
+        summer = simulate_case(area_m2=USGS_AREA_M2)
+>       winter = simulate_case(area_m2=USGS_AREA_M2,
+                      snow={"season": "winter", "days": 120,
+                            "precip_mm_d": 2.0, "air_c_by_day": [-5.0] * 120})
+
+tests/test_catchment_runoff.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_catchment_runoff.py:26: in run
+    baseline, world, deps, tfns = load_inputs(cfg)
+                                  ^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cfg = {'run_mode': 'illustrative', 'wind_seed': 11, 'clock_hour': 16.2, 'simulation': {'start_utc': '2026-06-21T22:12:00+00:00', 'utc_offset_hours': -6.0}, ...}
+
+    def load_inputs(cfg: dict) -> tuple[dict, dict, dict, object]:
+        """(baseline, world, deps, terrain_sample_fns). Content-complete hashes."""
+        from yellowstone_python.land.vegetation import load_terrain, terrain_fns
+        world_root = Path(cfg.get("world_root") or default_world_root())
+        required = [
+            world_root / "data" / "ecosystem.json",
+            world_root / "data" / "world.json",
+            world_root / "data" / "placements.json",
+            world_root / "data" / "species_catalogue.json",
+            world_root / "data" / "terrain.f32",
+        ]
+        missing = [str(p) for p in required if not p.is_file()]
+        if missing:
+            raise FileNotFoundError(
+                "missing world inputs: " + ", ".join(missing))
+        eco_path = world_root / "data" / "ecosystem.json"
+        frozen = eco_path.with_suffix(".json.pre-python")
+        eco_role = "active_baseline"
+        if frozen.exists():
+            eco_path = frozen
+            eco_role = "frozen_pre_python_baseline"
+        try:
+            baseline = json.loads(eco_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid JSON in {eco_path}: {exc}") from exc
+        try:
+            world = json.loads(
+                (world_root / "data" / "world.json").read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid JSON in world.json: {exc}") from exc
+        code_hash, code_hash_source = _hash_package_sources()
+        code_rev, code_rev_source = resolve_code_rev()
+    
+        def _external_entry(path: Path) -> dict:
+            """Path, size, and content hash so an input change surfaces at a stable build-id."""
+            if not path.is_file():
+                return {"path": str(path), "exists": False, "sha256": None}
+            return {"path": str(path), "exists": True,
+                    "sha256": sha256_file(path),
+                    "size": path.stat().st_size}
+    
+        rcfg = cfg.get("replay", {}) or {}
+        cross_sections_cfg = rcfg.get("cross_sections_file")
+        if isinstance(cross_sections_cfg, str) and cross_sections_cfg:
+            cs_path = Path(cross_sections_cfg)
+            if not cs_path.is_absolute():
+                cs_path = PKG_ROOT / cs_path
+        else:
+            cs_path = None
+        wcfg_io = cfg.get("weather", {}) or {}
+        met_cfg = wcfg_io.get("met_bundle")
+        if isinstance(met_cfg, str) and met_cfg:
+            met_candidate = Path(met_cfg)
+            if not met_candidate.is_absolute():
+                met_candidate = PKG_ROOT / met_candidate
+        else:
+            met_candidate = PKG_ROOT / "derived" / "met.json"
+        external_inputs = {
+            "terrain": _external_entry(world_root / "data" / "terrain.f32"),
+            "cross_sections": (_external_entry(cs_path) if cs_path is not None
+                               else {"path": None, "exists": False,
+                                     "sha256": None}),
+            "met_bundle": (_external_entry(met_candidate) if wcfg_io.get("use_met_bundle", True)
+                           else {"path": None, "exists": False, "sha256": None}),
+            "requirements": _external_entry(PKG_ROOT / "requirements.txt"),
+            "package_metadata": _external_entry(PKG_ROOT / "pyproject.toml"),
+            "canopy_census": _external_entry(PKG_ROOT / "derived" / "census.json"),
+            "canopy_height": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "canopy_height.tif"),
+            "interpreted_canopy_height": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "interpreted_canopy_height.tif"),
+            "canopy_cover": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "canopy_coverage.json"),
+            "canopy_provenance": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "canopy_height.provenance.json"),
+            "treemap_sizes": _external_entry(PKG_ROOT / "derived" / "treemap_midway.json"),
+            "habitat_mask": _external_entry(world_root / "assets" / "textures" / "habitat_mask.png"),
+            "authored_scene": _external_entry(world_root / "scenes" / "authored_world.tscn"),
+            "lodgepole_metadata": _external_entry(world_root / "assets/imported/lodgepole/lodgepole_metadata.json"),
+            "asset_manifest": _external_entry(world_root / "data" / "asset_manifest.json"),
+            "wildlife_motion_assets": _external_entry(world_root / "data" / "wildlife_motion_assets.json"),
+            "mammal_catalogue": _external_entry(PKG_ROOT / "yellowstone_python" / "data" / "mammal_catalogue.json"),
+        }
+        from yellowstone_python.common.canopy_artifacts import CANOPY_RENDER_FILES, FOREST_FLOOR_FILE
+        external_inputs.update({f"canopy_render/{name}": _external_entry(
+            PKG_ROOT / "derived/lidar_canopy" / name) for name in CANOPY_RENDER_FILES})
+        external_inputs["forest_floor"] = _external_entry(PKG_ROOT / "derived" / FOREST_FLOOR_FILE)
+        for name in ("species.json", "sources.json"):
+            external_inputs[f"motion_profiles/{name}"] = _external_entry(
+                PKG_ROOT / "yellowstone_python/wildlife_motion/profiles" / name)
+        lodgepole_root = world_root / "assets/imported/lodgepole"
+        lodgepole_path = lodgepole_root / "lodgepole_metadata.json"
+        if lodgepole_path.is_file():
+            lodgepole = json.loads(lodgepole_path.read_text(encoding="utf-8"))
+            for source_name, mip in lodgepole.get("cutout_mips", {}).items():
+                for name, expected in ((mip["path"], mip["sha256"]),
+                                       (source_name, mip["source_sha256"])):
+                    target = lodgepole_root / name
+                    if not target.resolve().is_relative_to(lodgepole_root.resolve()):
+                        raise ValueError("lodgepole texture path must stay within its asset directory")
+                    entry = _external_entry(target)
+                    if not entry["exists"] or entry["sha256"] != expected:
+>                       raise ValueError(f"lodgepole texture differs from its metadata: {name}")
+E                       ValueError: lodgepole texture differs from its metadata: dense_billboard_0.png
+
+yellowstone_python/pipeline/inputs.py:178: ValueError
+________________ test_large_runoff_reaches_the_published_trout _________________
+
+simulate_case = <function simulate_case.<locals>.run at 0x114e7d2d0>
+
+    @pytest.mark.needs_science
+    def test_large_runoff_reaches_the_published_trout(simulate_case):
+        """Higher runoff propagates through the refuge selection to the published trout."""
+        off = simulate_case()
+>       on = simulate_case(area_m2=USGS_AREA_M2 * 2.0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_catchment_runoff.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_catchment_runoff.py:26: in run
+    baseline, world, deps, tfns = load_inputs(cfg)
+                                  ^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cfg = {'run_mode': 'illustrative', 'wind_seed': 11, 'clock_hour': 16.2, 'simulation': {'start_utc': '2026-06-21T22:12:00+00:00', 'utc_offset_hours': -6.0}, ...}
+
+    def load_inputs(cfg: dict) -> tuple[dict, dict, dict, object]:
+        """(baseline, world, deps, terrain_sample_fns). Content-complete hashes."""
+        from yellowstone_python.land.vegetation import load_terrain, terrain_fns
+        world_root = Path(cfg.get("world_root") or default_world_root())
+        required = [
+            world_root / "data" / "ecosystem.json",
+            world_root / "data" / "world.json",
+            world_root / "data" / "placements.json",
+            world_root / "data" / "species_catalogue.json",
+            world_root / "data" / "terrain.f32",
+        ]
+        missing = [str(p) for p in required if not p.is_file()]
+        if missing:
+            raise FileNotFoundError(
+                "missing world inputs: " + ", ".join(missing))
+        eco_path = world_root / "data" / "ecosystem.json"
+        frozen = eco_path.with_suffix(".json.pre-python")
+        eco_role = "active_baseline"
+        if frozen.exists():
+            eco_path = frozen
+            eco_role = "frozen_pre_python_baseline"
+        try:
+            baseline = json.loads(eco_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid JSON in {eco_path}: {exc}") from exc
+        try:
+            world = json.loads(
+                (world_root / "data" / "world.json").read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid JSON in world.json: {exc}") from exc
+        code_hash, code_hash_source = _hash_package_sources()
+        code_rev, code_rev_source = resolve_code_rev()
+    
+        def _external_entry(path: Path) -> dict:
+            """Path, size, and content hash so an input change surfaces at a stable build-id."""
+            if not path.is_file():
+                return {"path": str(path), "exists": False, "sha256": None}
+            return {"path": str(path), "exists": True,
+                    "sha256": sha256_file(path),
+                    "size": path.stat().st_size}
+    
+        rcfg = cfg.get("replay", {}) or {}
+        cross_sections_cfg = rcfg.get("cross_sections_file")
+        if isinstance(cross_sections_cfg, str) and cross_sections_cfg:
+            cs_path = Path(cross_sections_cfg)
+            if not cs_path.is_absolute():
+                cs_path = PKG_ROOT / cs_path
+        else:
+            cs_path = None
+        wcfg_io = cfg.get("weather", {}) or {}
+        met_cfg = wcfg_io.get("met_bundle")
+        if isinstance(met_cfg, str) and met_cfg:
+            met_candidate = Path(met_cfg)
+            if not met_candidate.is_absolute():
+                met_candidate = PKG_ROOT / met_candidate
+        else:
+            met_candidate = PKG_ROOT / "derived" / "met.json"
+        external_inputs = {
+            "terrain": _external_entry(world_root / "data" / "terrain.f32"),
+            "cross_sections": (_external_entry(cs_path) if cs_path is not None
+                               else {"path": None, "exists": False,
+                                     "sha256": None}),
+            "met_bundle": (_external_entry(met_candidate) if wcfg_io.get("use_met_bundle", True)
+                           else {"path": None, "exists": False, "sha256": None}),
+            "requirements": _external_entry(PKG_ROOT / "requirements.txt"),
+            "package_metadata": _external_entry(PKG_ROOT / "pyproject.toml"),
+            "canopy_census": _external_entry(PKG_ROOT / "derived" / "census.json"),
+            "canopy_height": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "canopy_height.tif"),
+            "interpreted_canopy_height": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "interpreted_canopy_height.tif"),
+            "canopy_cover": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "canopy_coverage.json"),
+            "canopy_provenance": _external_entry(PKG_ROOT / "derived" / "lidar_canopy" / "canopy_height.provenance.json"),
+            "treemap_sizes": _external_entry(PKG_ROOT / "derived" / "treemap_midway.json"),
+            "habitat_mask": _external_entry(world_root / "assets" / "textures" / "habitat_mask.png"),
+            "authored_scene": _external_entry(world_root / "scenes" / "authored_world.tscn"),
+            "lodgepole_metadata": _external_entry(world_root / "assets/imported/lodgepole/lodgepole_metadata.json"),
+            "asset_manifest": _external_entry(world_root / "data" / "asset_manifest.json"),
+            "wildlife_motion_assets": _external_entry(world_root / "data" / "wildlife_motion_assets.json"),
+            "mammal_catalogue": _external_entry(PKG_ROOT / "yellowstone_python" / "data" / "mammal_catalogue.json"),
+        }
+        from yellowstone_python.common.canopy_artifacts import CANOPY_RENDER_FILES, FOREST_FLOOR_FILE
+        external_inputs.update({f"canopy_render/{name}": _external_entry(
+            PKG_ROOT / "derived/lidar_canopy" / name) for name in CANOPY_RENDER_FILES})
+        external_inputs["forest_floor"] = _external_entry(PKG_ROOT / "derived" / FOREST_FLOOR_FILE)
+        for name in ("species.json", "sources.json"):
+            external_inputs[f"motion_profiles/{name}"] = _external_entry(
+                PKG_ROOT / "yellowstone_python/wildlife_motion/profiles" / name)
+        lodgepole_root = world_root / "assets/imported/lodgepole"
+        lodgepole_path = lodgepole_root / "lodgepole_metadata.json"
+        if lodgepole_path.is_file():
+            lodgepole = json.loads(lodgepole_path.read_text(encoding="utf-8"))
+            for source_name, mip in lodgepole.get("cutout_mips", {}).items():
+                for name, expected in ((mip["path"], mip["sha256"]),
+                                       (source_name, mip["source_sha256"])):
+                    target = lodgepole_root / name
+                    if not target.resolve().is_relative_to(lodgepole_root.resolve()):
+                        raise ValueError("lodgepole texture path must stay within its asset directory")
+                    entry = _external_entry(target)
+                    if not entry["exists"] or entry["sha256"] != expected:
+>                       raise ValueError(f"lodgepole texture differs from its metadata: {name}")
+E                       ValueError: lodgepole texture differs from its metadata: dense_billboard_0.png
+
+yellowstone_python/pipeline/inputs.py:178: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_catchment_runoff.py::test_cold_season_retains_snow_and_exports_solid_water
+FAILED tests/test_catchment_runoff.py::test_large_runoff_reaches_the_published_trout
+2 failed, 119 passed, 2038 deselected in 301.11s (0:05:01)

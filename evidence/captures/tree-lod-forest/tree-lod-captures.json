@@ -1,0 +1,1563 @@
+{
+  "biological_acceptance": "not_yet_accepted",
+  "human_visual_acceptance": "unassessed",
+  "pairs": [
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a0_d18_lod0.png",
+          "sha256": "8e023425b883a2b671bc0769a39536922aa506fa6165e543f8dd4949ab969cb8"
+        },
+        {
+          "path": "dense_v0_a0_d18_lod1.png",
+          "sha256": "e7b8e85b5175aa1d6b8108950ad5566bf89d20632761e4faf7d8abc83704c2e7"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a0_d65_lod1.png",
+          "sha256": "ad05571339232873b64199f25f71edeafb0bac111223047b03c962a75058fca7"
+        },
+        {
+          "path": "dense_v0_a0_d65_lod2.png",
+          "sha256": "764b84538ec9c5d48361a6f6fa5d4ffc3166c2865391c0f3073e0ddfbdc43817"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a0_d180_lod2.png",
+          "sha256": "5337ce0db3e2dc9755e9e42efed10842335c791b2cc4c7b4164432e05368c4a0"
+        },
+        {
+          "path": "dense_v0_a0_d180_lod3.png",
+          "sha256": "346704399f86243993cc70e1ea9594f0f40abb7646e03581faa7cd51ac79b0f8"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a1_d18_lod0.png",
+          "sha256": "767d08b2f388bb82b5bdf5467ceda41e630d64b6bd4e3a667bd4cec1f9644b80"
+        },
+        {
+          "path": "dense_v0_a1_d18_lod1.png",
+          "sha256": "3349d67ab68ea88ae9b5ec949572d8c53106b0761bcdc73c66e0a2c898f9e3ba"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a1_d65_lod1.png",
+          "sha256": "83be04e54eecae3bf77de6a59ca84a86f50d110877d17dca0ad4e13e39c08f27"
+        },
+        {
+          "path": "dense_v0_a1_d65_lod2.png",
+          "sha256": "9ca6badcb4c3a6a20c7e6974dac91b90c5c0bcca2853ee805032bb4e8b2dcdb8"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a1_d180_lod2.png",
+          "sha256": "dd5d06b1b46288d17b3c1478fd36f7fd1c71bfa66f7a1b63cf060a93cc08102d"
+        },
+        {
+          "path": "dense_v0_a1_d180_lod3.png",
+          "sha256": "7a0e6518d4588cb12c19dd55f53a65afa629d0d05521ec569343fa2b951911d7"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a2_d18_lod0.png",
+          "sha256": "bc6f0087f05c2262dcb7acbf089cd7eb48603019469aa2c504fed8eb9f17ebea"
+        },
+        {
+          "path": "dense_v0_a2_d18_lod1.png",
+          "sha256": "ded4528940218d45dd0d07250a33138e4b2fcabc9008384739ee82a575595481"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a2_d65_lod1.png",
+          "sha256": "51669cf2330bff919e508401af5d9b6b28b99236b6a9c2b178d8e8406db587ba"
+        },
+        {
+          "path": "dense_v0_a2_d65_lod2.png",
+          "sha256": "4f5e24caf26768b4443639a363f961ff870290584580acd884582cbe0956ceba"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a2_d180_lod2.png",
+          "sha256": "80b7e6cabd81ffa654193b118c9e438695946d1e0f4044acac514680d4da8d8f"
+        },
+        {
+          "path": "dense_v0_a2_d180_lod3.png",
+          "sha256": "eb042302d64a3c0c623c25d59f9b8dcf619e1939879827af740af072e34b6683"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a3_d18_lod0.png",
+          "sha256": "94ff5ce629435df499768c13fd6ae67414453aa4129b4fef401409c7e26f8ff4"
+        },
+        {
+          "path": "dense_v0_a3_d18_lod1.png",
+          "sha256": "e750a792be81446f18a25392056669dbe38a606f8b865922023d33eace05f3bd"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a3_d65_lod1.png",
+          "sha256": "a14ba47869af4ea3a7208ea5d6a6441b76b941e8eb5ed1d82afa0ba954451385"
+        },
+        {
+          "path": "dense_v0_a3_d65_lod2.png",
+          "sha256": "606b83e9c6b67d1871da102d5bf53ce73213caf522180737278f1d895e9fae81"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a3_d180_lod2.png",
+          "sha256": "e714d59e65c1677e718cf682ec0942d15951a4edeefcf6c7a6f6c81b139f4ff5"
+        },
+        {
+          "path": "dense_v0_a3_d180_lod3.png",
+          "sha256": "7cd9ea57733caccea7490ff674bf4e99ce8ba4d897497293659b39989e2ccaf1"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a0_d18_lod0.png",
+          "sha256": "8194e42fcabed575d6f5973fdb0c311d7bb5f3817e33198df06519308faacc8e"
+        },
+        {
+          "path": "dense_v3_a0_d18_lod1.png",
+          "sha256": "de733a09615ab35bd0393f9d3f62d29974b8ade696c21bda110a782177fd231b"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a0_d65_lod1.png",
+          "sha256": "cfe65cbe689c3e70074fe6af93c0e289605d906070a799c8413bb138ecde3fc1"
+        },
+        {
+          "path": "dense_v3_a0_d65_lod2.png",
+          "sha256": "e0354fb162a76b64e4deca136e9904dcda97b5a6a32c1737b1b54056350d6e18"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a0_d180_lod2.png",
+          "sha256": "40f8ee8d2da8472f71ed8637a6b23af5bf55003548c3728f5cb8f133539b4421"
+        },
+        {
+          "path": "dense_v3_a0_d180_lod3.png",
+          "sha256": "94c8dcacf260a64573aa018b90ecaf1e5767b44b3ed85efe37c765daaf64d4d1"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a1_d18_lod0.png",
+          "sha256": "251b589455e271df122c8e963c8e024fbe5baea817150f8025cf48146fa55909"
+        },
+        {
+          "path": "dense_v3_a1_d18_lod1.png",
+          "sha256": "7375ede8f38e8dd6c0787f253cb922f41eae5a8c080e1ac137468af7d8e72088"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a1_d65_lod1.png",
+          "sha256": "cbabec77eeb7bcc875a777952a3e08c53d3b63979cad6503a665b1efc8a99aa3"
+        },
+        {
+          "path": "dense_v3_a1_d65_lod2.png",
+          "sha256": "26e228e3122f795846009ef437ea714fce0ec829644a697d8656b13945b78755"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a1_d180_lod2.png",
+          "sha256": "d758920a335e03c8525fae7707999316cfaaf7bafa4f2ef583b9c84602db2a27"
+        },
+        {
+          "path": "dense_v3_a1_d180_lod3.png",
+          "sha256": "8c86ed5c5c6004a3f553b2f59033a7157c1cfb82601c3cc76db22fb88861e6b0"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a2_d18_lod0.png",
+          "sha256": "dd2124ba6bf5609bd0015174c7192b31be3180284de84a9ac72908ed942dff82"
+        },
+        {
+          "path": "dense_v3_a2_d18_lod1.png",
+          "sha256": "dd810f9d5b15936f5ac723bef9cce9fd55076990f6542a320ee28c59fd569923"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a2_d65_lod1.png",
+          "sha256": "e89903172f4ecdc6a4ffe42f0b8fd2fb43df42261686d61469fb52f632959d6d"
+        },
+        {
+          "path": "dense_v3_a2_d65_lod2.png",
+          "sha256": "13628c7d437dbdfe9c741901462796aa13dc02cebf1aefa2320a8430e8ddb62e"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a2_d180_lod2.png",
+          "sha256": "e501d92d82e37ace2165aac4489f876d22f0975a3cba816e2e55e57eb66e2021"
+        },
+        {
+          "path": "dense_v3_a2_d180_lod3.png",
+          "sha256": "20bfffaae5361154127ae4fc46748595c5ffe64a587afee6a0743e65062b0b07"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a3_d18_lod0.png",
+          "sha256": "6432529ff8e804c87bbb3369be97e407d45f8cb6032cb2bf5a9c6ccf0b0c43fe"
+        },
+        {
+          "path": "dense_v3_a3_d18_lod1.png",
+          "sha256": "45216292c822137b79e9c0b0fb90d2988512a10f367c78ebf57677531bc21929"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a3_d65_lod1.png",
+          "sha256": "ec5a3a7b4c7d69c051dd4a40bee2f7dc065393203bea721c481cd0ab501b67e3"
+        },
+        {
+          "path": "dense_v3_a3_d65_lod2.png",
+          "sha256": "a2caff3e6876e602b7448b111b1cc12da5a9925a42a8e0fb5d63c37bc48821c8"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a3_d180_lod2.png",
+          "sha256": "e2b3e7851c836c229949b5ed818573b6ac720bf8eec255ef5267376f7e10f87f"
+        },
+        {
+          "path": "dense_v3_a3_d180_lod3.png",
+          "sha256": "e4f069e0ce98d42398cfd5b058ade286e96b2c621d2971efa24efec2d3a28733"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a0_d18_lod0.png",
+          "sha256": "64a267e1dac7b245b71674b8630b9687d0ab2490fdbf1e91639f6ecf9c22c04a"
+        },
+        {
+          "path": "open_v0_a0_d18_lod1.png",
+          "sha256": "a0bb77d5e0720cb2fc554c04cebcac70cc090735bc09ed6e95ed246eb29339a5"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a0_d65_lod1.png",
+          "sha256": "4def442efe8fcb8c7b035eb597ab70e2bfc213df6c94ba54621fe03c1b42ff7a"
+        },
+        {
+          "path": "open_v0_a0_d65_lod2.png",
+          "sha256": "06746199b775a2a183265584d7a04a5f176baaa8b031cf5563f023c2b794c66b"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a0_d180_lod2.png",
+          "sha256": "a5d7d2453a8fc8d27356f1392f871d4bceb68aea5dd98c4617a6f21162605a69"
+        },
+        {
+          "path": "open_v0_a0_d180_lod3.png",
+          "sha256": "7db043cf90f57133e40f912ae2fb060f344660593c89a4ef51c31fc8c14551c5"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a1_d18_lod0.png",
+          "sha256": "b54ca334d9cba8da1a50461bc5e8fbebcc5c9f3199541ec3ff320b97b7ec15d4"
+        },
+        {
+          "path": "open_v0_a1_d18_lod1.png",
+          "sha256": "d1f5f39720527df69d42097e928c5752d45125d299b33127c7cfb58be7a2a108"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a1_d65_lod1.png",
+          "sha256": "6647eb0879def1556ddd276dbc9198d92609d6bfb7a325c9b914d0c29e92ac9a"
+        },
+        {
+          "path": "open_v0_a1_d65_lod2.png",
+          "sha256": "e303eeb0b1806983b6681df42396b01e08671c126204fa55fa86fbb270cc3b40"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a1_d180_lod2.png",
+          "sha256": "69c980d0608f88cc9c0a784f6a654fd856430a973b6c1d337f9ffe086b51cc6c"
+        },
+        {
+          "path": "open_v0_a1_d180_lod3.png",
+          "sha256": "58f313aa880c8136d80992dea99973afcde444808085ea269611ce50351deaea"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a2_d18_lod0.png",
+          "sha256": "9581fbe5ba9a95fc4e77d74b56aafc4091c6bfe06140141a72fd8b109f0e65ff"
+        },
+        {
+          "path": "open_v0_a2_d18_lod1.png",
+          "sha256": "18bfa95ac51b6f2de3fe1b7dd7e086fa0654bd49227fe64d9cbcc1688465808b"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a2_d65_lod1.png",
+          "sha256": "17dbd6e958b90ffd498c30c3cb11265a1e2ecd026e2d9ac2de80f960eeb2c8aa"
+        },
+        {
+          "path": "open_v0_a2_d65_lod2.png",
+          "sha256": "0f045078261cc25298cb67fa27dbe1963995ebadb895a902f5f2cbfdb0dac649"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a2_d180_lod2.png",
+          "sha256": "fcdef4622db591adb08a91c6c6b5420adee1755121fb6481e376dc8096e52e27"
+        },
+        {
+          "path": "open_v0_a2_d180_lod3.png",
+          "sha256": "c9f7357e3a925849bf0419059200f3371641fee6048e881b5a12ed464d53b686"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a3_d18_lod0.png",
+          "sha256": "5b75c2615f1693c38215c14ff8a92b3c34c0ce38b9c96cc92ae7f6a0589727ea"
+        },
+        {
+          "path": "open_v0_a3_d18_lod1.png",
+          "sha256": "4ebae6367ddd44d9a30de39ad53ed11ec44d55a322e5271411e95ec4c62a3901"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a3_d65_lod1.png",
+          "sha256": "90737d197ca9582d33ee95710804338498108efeab1f6717965da4272e75f978"
+        },
+        {
+          "path": "open_v0_a3_d65_lod2.png",
+          "sha256": "3b27c53432ea1c5965f4c93a19aab0e87d06ab86f775a8a2a8b9848045b7ec09"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a3_d180_lod2.png",
+          "sha256": "e7840b22430f4a238cd6f7797d05676f4e074e4402f3c74052dc1fb4d578af7e"
+        },
+        {
+          "path": "open_v0_a3_d180_lod3.png",
+          "sha256": "201e5f4974f66ba003dd9675479e2ff608085970c69cf825d0fcef9ddca169f7"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a0_d18_lod0.png",
+          "sha256": "a359f5361ac927c8b0b0dd9c7f8b815b34f6627276090c834a12a19b5200675a"
+        },
+        {
+          "path": "open_v3_a0_d18_lod1.png",
+          "sha256": "caf956b86c9931f9b270ba5037ad343881eb99b3a643f84b7ce670636333a76e"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a0_d65_lod1.png",
+          "sha256": "7bd3198b4113608b50a485c016f20ae14900fe2dc3442a02615bbfe4afa90632"
+        },
+        {
+          "path": "open_v3_a0_d65_lod2.png",
+          "sha256": "39a5a64ddb831f8512b63940489458ccf433b8b3b92f846d30c08f5ed98896b4"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a0_d180_lod2.png",
+          "sha256": "b2ccff6fc97043b9fb9c254b70629b2251b13585f416ebb000484d5d1cda658b"
+        },
+        {
+          "path": "open_v3_a0_d180_lod3.png",
+          "sha256": "cab57e05459b69d0992a3001eda096ef04a6359726225869da07f8a7aa363cbf"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a1_d18_lod0.png",
+          "sha256": "82a7093fc8b28629cd57c148531bcf6f2c2d7983dac2604d381c815f1f746c67"
+        },
+        {
+          "path": "open_v3_a1_d18_lod1.png",
+          "sha256": "a3c229aea92a38a7259917da06a61d7cab254dfb6b5fae737c85a640ec863936"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a1_d65_lod1.png",
+          "sha256": "416e92e211cd148cd4262c60158af89a52c4dfa11a3e969149b47bb1310bf1ba"
+        },
+        {
+          "path": "open_v3_a1_d65_lod2.png",
+          "sha256": "b860b604b253183e0fb25670ea6f537bc6afb279e1a11c5ef20770dae421f599"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a1_d180_lod2.png",
+          "sha256": "515f4022ebe697344272de4e4457968ef8473039258040695ddea8b30dd070f2"
+        },
+        {
+          "path": "open_v3_a1_d180_lod3.png",
+          "sha256": "29681ddeda9c9bfefe3a747413961660a6b7f0c99b727d3c3bbe7f89af414292"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a2_d18_lod0.png",
+          "sha256": "759e0e89f71ba0b2ae8fa79ef45ee48002c067f26e6aef6cc37c23828d6d2ab7"
+        },
+        {
+          "path": "open_v3_a2_d18_lod1.png",
+          "sha256": "7b9342e33c52eaf94d224c27139183cdbf111d18fe5920c1153e36a8850fdbf6"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a2_d65_lod1.png",
+          "sha256": "5c1be11f634c17c055864260776f69e987da93fae98f3e6e7b88ffa864feb357"
+        },
+        {
+          "path": "open_v3_a2_d65_lod2.png",
+          "sha256": "7a38f8de9b326892e8d3612c0fc9d0b622df8f02c267f6f3627ad9b447a60997"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a2_d180_lod2.png",
+          "sha256": "0d4dd8454e862ae37a4e52f6a2baf0a531bfcf9344d28a61de349ad1247d8b9f"
+        },
+        {
+          "path": "open_v3_a2_d180_lod3.png",
+          "sha256": "7763216ae6cb56765fe6d148fb0f6e5ed85b6ac42df6a2b7f6e6eaa0cdb523a4"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a3_d18_lod0.png",
+          "sha256": "efe7c632b2edaf9beb606fa1b458e5f4d95c41969f892da21464fc93504d5a70"
+        },
+        {
+          "path": "open_v3_a3_d18_lod1.png",
+          "sha256": "48d80a4d97063b27ea27c516b778eaadaf4f73f30c383405ec94ed93d87023ee"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a3_d65_lod1.png",
+          "sha256": "f3ca884cafb8e0eaae6f0ca1677b7daae2e5d6cd650ce33069321cce64328b97"
+        },
+        {
+          "path": "open_v3_a3_d65_lod2.png",
+          "sha256": "ba22da9e1ac4f18d776b245e139baf442fd1f0cc892d9de8e34c09c98eae7833"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a3_d180_lod2.png",
+          "sha256": "1ea621f5ceab42a683b570556be546b4d1e8e1a2c37d4db3d3d74547f23b4225"
+        },
+        {
+          "path": "open_v3_a3_d180_lod3.png",
+          "sha256": "b6115051caaab22513cedea8bdb45378ea12ad5e370168f76ba6eec82607ed1b"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a0_d18_lod0.png",
+          "sha256": "e5833293c716813fe8557b0eb5d2be1ef9c2d9c964efa6f9d1065fa93ee960ec"
+        },
+        {
+          "path": "sapling_v0_a0_d18_lod1.png",
+          "sha256": "3f4e56f672fd8dfd118e2bc4cc330b02837f5c5b8ab65dd37a103a6ed321095a"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a0_d65_lod1.png",
+          "sha256": "e6fdd542cef2343880de05fa16f5662f4cac7e92fb1ba9fe8bb6a673e946bcc3"
+        },
+        {
+          "path": "sapling_v0_a0_d65_lod2.png",
+          "sha256": "931dd3609b5fffe2c492e2202551cc90a44dbe6414e13a1dcefe0f3d7beaaefb"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a0_d180_lod2.png",
+          "sha256": "d833ed1031fa51866038bb4c8aa4685272d7f0ca5b11669a2dfb6df1de21ab0e"
+        },
+        {
+          "path": "sapling_v0_a0_d180_lod3.png",
+          "sha256": "9a5fb73003a5e239ea8967662f04cb660d8b1ca009d7a3d70efeca6e9bd26689"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a1_d18_lod0.png",
+          "sha256": "109307138ae20a894029771f7c3e97a041a123749e94ce1e62b821a83bb5745d"
+        },
+        {
+          "path": "sapling_v0_a1_d18_lod1.png",
+          "sha256": "96e463a4c832f7358fa941f52f31203bac2214bd4607870460cbe70a7a759822"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a1_d65_lod1.png",
+          "sha256": "a76264480f82a2cc7022b11c0b3e9cad08e203cf28d7d981007415d3406ebfa3"
+        },
+        {
+          "path": "sapling_v0_a1_d65_lod2.png",
+          "sha256": "772a30d6501da161015e5ec363ff847a9145e2b5dd934d7468a6e179da102039"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a1_d180_lod2.png",
+          "sha256": "1197bcc59e0f4c0b3af902bad4ce41969be5f6ec26ab5291948b7d6683a6ce74"
+        },
+        {
+          "path": "sapling_v0_a1_d180_lod3.png",
+          "sha256": "0ba820b119492a5e3aa26b6daab7ead2b2bb27403ba105dcfe20f5678d1896db"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a2_d18_lod0.png",
+          "sha256": "333952186d46c7bdbe796d3cd6bbdfb18661464e778a9c1237e021c5e48291c4"
+        },
+        {
+          "path": "sapling_v0_a2_d18_lod1.png",
+          "sha256": "f1d37401b5321e80402aac6271065891ca440773b3f226289436116971faa73e"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a2_d65_lod1.png",
+          "sha256": "b53187f4ce1efa69d6bddf6aad8cecc57e46b0cad761bde48254724b6f81bec8"
+        },
+        {
+          "path": "sapling_v0_a2_d65_lod2.png",
+          "sha256": "51dff468f7dba6de5793286878504b636e101fc6cb92986b86b044d9d721ac82"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a2_d180_lod2.png",
+          "sha256": "af4102ccfc87e323c9b7840b6211f9849feda13e3b64e3e5ae016cc7fa339f0e"
+        },
+        {
+          "path": "sapling_v0_a2_d180_lod3.png",
+          "sha256": "579382b89d007e9e9d59e6c53f0f741edc6ca4228fad9c3a7ce8ed2f570f6788"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a3_d18_lod0.png",
+          "sha256": "053d28ca051c88a890e15c1f052698d68b2968c33848c8c043c9a62a8d0a8077"
+        },
+        {
+          "path": "sapling_v0_a3_d18_lod1.png",
+          "sha256": "fc775292cc46a7c0e11660250b7d522c216e4cf6cb3be751762072b01eab3ae7"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a3_d65_lod1.png",
+          "sha256": "4f0aec384c4e67875ec747bec320a78c35cd0b320f8e4376e40ae3c1283ae4b3"
+        },
+        {
+          "path": "sapling_v0_a3_d65_lod2.png",
+          "sha256": "bc8c0f57ce47610f14b4bf6bb6d567977f96bbf6b065720a881ffda8e78aa559"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a3_d180_lod2.png",
+          "sha256": "e9cfabceec2ef065d8deff92abd7a09d1aa403df56023fa3e68a13bf21a56ef6"
+        },
+        {
+          "path": "sapling_v0_a3_d180_lod3.png",
+          "sha256": "493d167b39b0051a8a6e5e27de9f766d6f00d2e5fae900f23d4f5ba7d86bf35e"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a0_d18_lod0.png",
+          "sha256": "81095253619ce66d99487bebc1bef11736a52587e0bd9a3870dc61811862e62f"
+        },
+        {
+          "path": "sapling_v3_a0_d18_lod1.png",
+          "sha256": "1b9aba502c75a708560b88782907ba8fc64f81eef276e79eed45d8d1e6d94f7a"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a0_d65_lod1.png",
+          "sha256": "9c10fee250c14f1e01af0819bc1ececa316dc5a95b0aa3789b6b31d178b94ccd"
+        },
+        {
+          "path": "sapling_v3_a0_d65_lod2.png",
+          "sha256": "7a86feec5a5ef0d1125381f2073f9144e917625e4d8461f1ed9eda90588d2228"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a0_d180_lod2.png",
+          "sha256": "4c17f0b24b88891787c27603818885548ec695d711d996c98429d95f65d45c9a"
+        },
+        {
+          "path": "sapling_v3_a0_d180_lod3.png",
+          "sha256": "6d2bf65aada4f5a25b5f4ebe6894cbe28279ba6879f26d0847ae971771a0451b"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a1_d18_lod0.png",
+          "sha256": "13dd8e900bd295b97b1015ce694825955a6b349b15bfbec8c13e511da34dfe0c"
+        },
+        {
+          "path": "sapling_v3_a1_d18_lod1.png",
+          "sha256": "6829026ccc0a146eb8917f3f8d68eed8bd2fe9912b8a6b558081c416b220f1ca"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a1_d65_lod1.png",
+          "sha256": "d2d0189eb11b062f50ce79e8d7127782762742218f04468b2557ea952f2edfe8"
+        },
+        {
+          "path": "sapling_v3_a1_d65_lod2.png",
+          "sha256": "6be81eae038eaf4406c7d50301a3a8d8c641b856c5d4c926ab9d0d72b0e30f91"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a1_d180_lod2.png",
+          "sha256": "381f351896a6f4a93f1f6b3f491d1bfcd29318bc7b13bd0c24446f44bc6ae58f"
+        },
+        {
+          "path": "sapling_v3_a1_d180_lod3.png",
+          "sha256": "56267f1e3e9aa2d20ccf27c22e463e236ed95b22c6dd170d92d782eefdd75073"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a2_d18_lod0.png",
+          "sha256": "cfdecfb96411e12167bda5aff9b4d733c76504017088b91da575741b6d00c585"
+        },
+        {
+          "path": "sapling_v3_a2_d18_lod1.png",
+          "sha256": "84d4a639134e011e360872c1ba4cfb28b47403f5c405fa445adb8b3f0f5a994c"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a2_d65_lod1.png",
+          "sha256": "a0dfc16628bd1522165d8918df1303c0fdd7a40735df1fd28fab02276115e21c"
+        },
+        {
+          "path": "sapling_v3_a2_d65_lod2.png",
+          "sha256": "0c81484b77c9123f064e85f706385a2f6d2582e2a57d8870455a2670c97909de"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a2_d180_lod2.png",
+          "sha256": "437c96248e2caa6c758f223779f695ed98b5d54b0377beb77766f0a32d2cd6c4"
+        },
+        {
+          "path": "sapling_v3_a2_d180_lod3.png",
+          "sha256": "f52f36c5ecde87680e95b621edfe6f7f6ebc172951333c2d3c17a95568f285ef"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a3_d18_lod0.png",
+          "sha256": "cf47539b89299fa83824e35bd0c7c739e192969c4bd42e17e455eacecdd59a73"
+        },
+        {
+          "path": "sapling_v3_a3_d18_lod1.png",
+          "sha256": "3b08f33c872ade6f2421dcb08743d455e75b3f4bb4a40cfbccb56abcf1a07f95"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a3_d65_lod1.png",
+          "sha256": "42604fb673b8a6ebe6222362b93905f32f713ac665fa4d091dd6b2171fefde45"
+        },
+        {
+          "path": "sapling_v3_a3_d65_lod2.png",
+          "sha256": "c941a9d1d6afbb458e8c1788e9afae6119daeb642b3ae0c17e6f1794fa6d1230"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a3_d180_lod2.png",
+          "sha256": "aa9a6e458c6f820acff43783560db4f2e2439b81628ce3d4913f379a5ac59011"
+        },
+        {
+          "path": "sapling_v3_a3_d180_lod3.png",
+          "sha256": "4e50c5295420b1deb832000ea663d76b8b9a8562ec40ac84bca9cf23176861e9"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a0_d18_lod0.png",
+          "sha256": "77654d0607d9350379c1abc0f75517c85214c38e00ff4f7c67efaaa0d2f164cc"
+        },
+        {
+          "path": "snag_v0_a0_d18_lod1.png",
+          "sha256": "0365cafc72828e164d5ff93f0e54a789be61a76dc37e1bd04a5a831169f46f65"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a0_d65_lod1.png",
+          "sha256": "a0dd9e3923ae5f416d5bb2e4bd153731a1279b026c04616a009d948b307e3e38"
+        },
+        {
+          "path": "snag_v0_a0_d65_lod2.png",
+          "sha256": "71e05db5cc2714c48957168c78da5cb6eae66e6760aa2d39044aaa8054d7929f"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a0_d180_lod2.png",
+          "sha256": "0ddf65dedf68d5bbf3f7de65a31114e60e57f235940db742987e3c97caae8f75"
+        },
+        {
+          "path": "snag_v0_a0_d180_lod3.png",
+          "sha256": "a3c746a6e31daccb1dad3a5b996ecf18e588056db05788d023ce2ce049101fc8"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a1_d18_lod0.png",
+          "sha256": "616c381749f549ed93d6d1ac892808d185ac91108463420da6453f7a6421aae2"
+        },
+        {
+          "path": "snag_v0_a1_d18_lod1.png",
+          "sha256": "240707cb14647ad1b686f29ab240d5c2b142f6cf0d8725ebc39a537b22d2251c"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a1_d65_lod1.png",
+          "sha256": "a68cbb4eb215071b576efa315219cef2f75e1ec5ce25b81e52596daedb9253cf"
+        },
+        {
+          "path": "snag_v0_a1_d65_lod2.png",
+          "sha256": "67e3e447bdf1710fd4b06bc0ed5874d4e5c41600a9e05b27f0609765adfbf86b"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a1_d180_lod2.png",
+          "sha256": "00629c6de9866b26aa7c9fb1f9a5e0dc9ead1de41313c9ecd038ba1fd88eaf52"
+        },
+        {
+          "path": "snag_v0_a1_d180_lod3.png",
+          "sha256": "1d3ab50644361504519682e59cd6ec5079536a3a51e5aebe40d3da0696570bfe"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a2_d18_lod0.png",
+          "sha256": "98ded65490464992cba0f9124b333491a3c67ade5669639fb7971924700bb08d"
+        },
+        {
+          "path": "snag_v0_a2_d18_lod1.png",
+          "sha256": "2972ea4d5c2200c121c8e90bea592961065b11bb537179562b7b490ab3aeee75"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a2_d65_lod1.png",
+          "sha256": "9936d4ef587ba2cd1cc2c168018d0b387b1d858e278dce8ea9725e1e1e553ab9"
+        },
+        {
+          "path": "snag_v0_a2_d65_lod2.png",
+          "sha256": "06a142a4845a3054ed9db2e08f1de0c54a5d7782a82b90e943a7705e3b2fcdd3"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a2_d180_lod2.png",
+          "sha256": "232247ca3666ba3faa7029240fb77547877fd157a506a8d17b4708614955e4cf"
+        },
+        {
+          "path": "snag_v0_a2_d180_lod3.png",
+          "sha256": "21ce8f4918e66cf675edb7153445d44f4ee7450d944d7732883a01ff71222f19"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a3_d18_lod0.png",
+          "sha256": "e10d687318cf886df7cd84fa941110ea86cf2b545439478a25846c04e6e0d817"
+        },
+        {
+          "path": "snag_v0_a3_d18_lod1.png",
+          "sha256": "fa5d9f6783680abf6d39de4d61f31967709eb73f1603027a4c729ca648af499c"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a3_d65_lod1.png",
+          "sha256": "60a387ca0b36c6a7b33ba4213e5f04fe6684034cb56b92592c7260643ffd5c18"
+        },
+        {
+          "path": "snag_v0_a3_d65_lod2.png",
+          "sha256": "20b66ee2b1b89e312cfaab04e7e373af69a0a3ca5b2cccfb1141103a0b584e95"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a3_d180_lod2.png",
+          "sha256": "f32177e4f4c2a6605ab1b0f617968ab7a35d3b17753c8a61720300bb44479528"
+        },
+        {
+          "path": "snag_v0_a3_d180_lod3.png",
+          "sha256": "0aa6c9df5511f336e4033cad33e956ad48ba8b284f9176013b1d6a5f4dbcb87c"
+        }
+      ],
+      "variant": 0
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a0_d18_lod0.png",
+          "sha256": "e9fd28fe0b4d8a2dad1d854999884b8c6e9b9f2070d10089fabbc719d311ba69"
+        },
+        {
+          "path": "snag_v3_a0_d18_lod1.png",
+          "sha256": "beb219713eb30c9f71e333c11a2c7507e2f785b188c0b2e97685a24a5d42b7d2"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a0_d65_lod1.png",
+          "sha256": "2843e26784518cc0c553826c3917776602948ec44691685a914eb6c77aca08d6"
+        },
+        {
+          "path": "snag_v3_a0_d65_lod2.png",
+          "sha256": "cff97a9c19ebe675116f07c1ed08c0b6c26df4374eb851cdeecf77441a3038ad"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a0_d180_lod2.png",
+          "sha256": "b7f555fbe49825add4024ab94d62d88ff60605bf4a7750226d08946bfc9d2ead"
+        },
+        {
+          "path": "snag_v3_a0_d180_lod3.png",
+          "sha256": "3bc8ee64c3ac7d3f74ebe9d4ac4595852c3258f39c66ad6a51a52288664f0e5c"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a1_d18_lod0.png",
+          "sha256": "07bdaffa8fbda95b4419c3b82f4b65ffa182cf84c6ec0f7e2cbb56fd4a36bcdd"
+        },
+        {
+          "path": "snag_v3_a1_d18_lod1.png",
+          "sha256": "645ed42e06a6221432ce2a39c0b262a930187d1d00d64f0ba4b37beb82c15ecb"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a1_d65_lod1.png",
+          "sha256": "e98ca1e75be729ebffee622186681382e4ce98fc0675ac37cc4b1e0a16861480"
+        },
+        {
+          "path": "snag_v3_a1_d65_lod2.png",
+          "sha256": "f92030f71fa68f229b81225430c02e375ca2a5212564f2f26499ed813b7005c8"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a1_d180_lod2.png",
+          "sha256": "47a869bbc23fb8dd1da7f7f5fb397bc2598191770b499301e568b7180e6bdb49"
+        },
+        {
+          "path": "snag_v3_a1_d180_lod3.png",
+          "sha256": "f192859cae188b675a6e70f8232d080d181f882484ce71ed62c3a81086438316"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a2_d18_lod0.png",
+          "sha256": "5d14c88dbb984cbcd83a677fd71b927036e0177204950a09e76cd15544a96f0f"
+        },
+        {
+          "path": "snag_v3_a2_d18_lod1.png",
+          "sha256": "11d1ec541e0aae71731162f438c6cd30d7254545da0448dcc4378ab05aa5f03b"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a2_d65_lod1.png",
+          "sha256": "8f3a52e744595425ec9697aa4357823b96891585b5da649b68a7c43b46ddf264"
+        },
+        {
+          "path": "snag_v3_a2_d65_lod2.png",
+          "sha256": "ba6b96eb1e270b87136e973b299cefc1e8a52678235ecb03fa790af2824b723b"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a2_d180_lod2.png",
+          "sha256": "4ac86abb73f4b033eb7e0851a30d98b1285d0a3de3940d3763295001179ee6e3"
+        },
+        {
+          "path": "snag_v3_a2_d180_lod3.png",
+          "sha256": "2f86a9663c7f85694bec121da9352b1b9ed2fdf78fff7613c8cb90ce78b7a84f"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a3_d18_lod0.png",
+          "sha256": "ac3e8dcc70e89c41bccbd83a0831691ddd07aff4e6e0e80b78effba36f81ace1"
+        },
+        {
+          "path": "snag_v3_a3_d18_lod1.png",
+          "sha256": "2c157a39f70226d8be5c6f6c80bcd74b470040a66b35ac9a331d1426add782da"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a3_d65_lod1.png",
+          "sha256": "7817508ffe9ba20a0019a325281ba2861b96d5507b8fa3dcc954677576f890d2"
+        },
+        {
+          "path": "snag_v3_a3_d65_lod2.png",
+          "sha256": "2ff8fe7fe437fa006eed21b4bc4fb914065b36b159c4ef92b66bc9e8132add4a"
+        }
+      ],
+      "variant": 3
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a3_d180_lod2.png",
+          "sha256": "13398b8e5bc4888a2dacface832a3ea9841218f7b23b3433e57c645592bfece9"
+        },
+        {
+          "path": "snag_v3_a3_d180_lod3.png",
+          "sha256": "87bc02bf32aa8a4245447490962acdc0784a8df316391d976c305575d741fcd7"
+        }
+      ],
+      "variant": 3
+    }
+  ],
+  "predeclared_budgets": {
+    "18": {
+      "occupancy_ratio_max": 1.15,
+      "occupancy_ratio_min": 0.85,
+      "silhouette_iou_min": 0.8
+    },
+    "180": {
+      "occupancy_ratio_max": 1.2,
+      "occupancy_ratio_min": 0.8,
+      "silhouette_iou_min": 0.7
+    },
+    "65": {
+      "occupancy_ratio_max": 1.15,
+      "occupancy_ratio_min": 0.85,
+      "silhouette_iou_min": 0.75
+    }
+  },
+  "schema": "yellowstone.tree_lod_capture.v1",
+  "scope": "actual bake cutout materials and mip buffers; fixed poses; runtime wind frozen; equal camera distance per pair",
+  "source_graph_library_sha256": "0082a46a33e134353ac27e5ec846736a98a42fbbdb07202cc48bed62df1464e2",
+  "source_metadata_sha256": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0"
+}

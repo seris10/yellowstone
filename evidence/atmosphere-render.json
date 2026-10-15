@@ -1,0 +1,76 @@
+{
+  "bow_max_channel_delta": 0.192156851291656,
+  "camera_far_m": 2900.0,
+  "captures": [
+    {
+      "draw_calls": 3.0,
+      "name": "clear-clouds",
+      "path": "work/atmosphere-captures/clear-clouds.png",
+      "primitives": 16.0,
+      "sha256": "634fb15fd777b1475f9106f5b31617b3bdfbf69e9bdbbb8a4c47c61c6ce88f52"
+    },
+    {
+      "draw_calls": 2.0,
+      "name": "clouds-negative",
+      "path": "work/atmosphere-captures/clouds-negative.png",
+      "primitives": 14.0,
+      "sha256": "447ee33864ed9febdd0bed5cc10950622e9e312944a81e3a8d0fb23ff7b7eec3"
+    },
+    {
+      "draw_calls": 3.0,
+      "name": "broken-clouds",
+      "path": "work/atmosphere-captures/broken-clouds.png",
+      "primitives": 16.0,
+      "sha256": "ced05ba2da04f40fc49d52564439c88898f9721b833c38791d67a315c70a060c"
+    },
+    {
+      "draw_calls": 2.0,
+      "name": "rainbow-negative",
+      "path": "work/atmosphere-captures/rainbow-negative.png",
+      "primitives": 14.0,
+      "sha256": "e34a0208b5250c965136769dfd769c0bb84a6160b9e63a28ac5068b0fe64c10a"
+    },
+    {
+      "draw_calls": 3.0,
+      "name": "double-rainbow",
+      "path": "work/atmosphere-captures/double-rainbow.png",
+      "primitives": 16.0,
+      "sha256": "0c6f606112b7ba29f841551c7b6c5304b7c4ed5da4485d984a9817ec517443fb"
+    },
+    {
+      "draw_calls": 3.0,
+      "name": "weather-driven-post-rain",
+      "path": "work/atmosphere-captures/weather-driven-post-rain.png",
+      "primitives": 16.0,
+      "sha256": "f714526580b8a43bdd2501d9d2e5ef7afcc66b114ba5f80a2a46b2d8cf3a281a"
+    },
+    {
+      "draw_calls": 2.0,
+      "name": "night-no-rainbow",
+      "path": "work/atmosphere-captures/night-no-rainbow.png",
+      "primitives": 14.0,
+      "sha256": "798d48741900d60aac64684f9dcda0c932c823b1d80d202c1e4e64422b8334b1"
+    }
+  ],
+  "cloud_foreground_max_channel_delta": 0.0,
+  "device": "Apple M4 (Apple9)",
+  "foreground_max_channel_delta": 0.0,
+  "opaque_occlusion_passed": true,
+  "renderer": "mobile",
+  "resolution_px": [
+    1280,
+    800
+  ],
+  "run_mode": "illustrative",
+  "schema": "yellowstone.atmosphere_render.v1",
+  "scope": "controlled synthetic optical fixture; field frequency and human appearance acceptance unmeasured",
+  "weather_driven_bow_max_channel_delta": 0.117647051811218,
+  "source_sha256": {
+    "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "13cf815361103ad04c0d7764861e76cb3135521bc04b9afc901e3b6cb6a24dc2",
+    "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+    "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+    "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+    "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+    "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+  }
+}

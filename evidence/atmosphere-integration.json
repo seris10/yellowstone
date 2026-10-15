@@ -1,0 +1,6 @@
+{
+  "checks": 33,
+  "failures": [],
+  "schema": "yellowstone.atmosphere_integration.v1",
+  "scope": "native accepted-clock history and cardinal live-wind integration"
+}

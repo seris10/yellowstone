@@ -1,0 +1,352 @@
+{
+  "checks": 68531,
+  "control_diagnostics": [],
+  "exact_control_repeatability": true,
+  "failures": [],
+  "image_files": [
+    {
+      "bytes": 2071419,
+      "path": "evidence/forest-tree-submission-renders/boundary-compact.png",
+      "sha256": "f92068c343fea9724a58385aeb88a0987993e6c968dd63203f67568b77af874a"
+    },
+    {
+      "bytes": 2071419,
+      "path": "evidence/forest-tree-submission-renders/boundary-original.png",
+      "sha256": "f92068c343fea9724a58385aeb88a0987993e6c968dd63203f67568b77af874a"
+    },
+    {
+      "bytes": 2071419,
+      "path": "evidence/forest-tree-submission-renders/boundary-restored.png",
+      "sha256": "f92068c343fea9724a58385aeb88a0987993e6c968dd63203f67568b77af874a"
+    },
+    {
+      "bytes": 1830970,
+      "path": "evidence/forest-tree-submission-renders/forest-compact.png",
+      "sha256": "eba34d0a35b495d1f45ef82a45429f8ae20a141171360bc24d14e015c0c75062"
+    },
+    {
+      "bytes": 1830970,
+      "path": "evidence/forest-tree-submission-renders/forest-original.png",
+      "sha256": "eba34d0a35b495d1f45ef82a45429f8ae20a141171360bc24d14e015c0c75062"
+    },
+    {
+      "bytes": 1830970,
+      "path": "evidence/forest-tree-submission-renders/forest-restored.png",
+      "sha256": "eba34d0a35b495d1f45ef82a45429f8ae20a141171360bc24d14e015c0c75062"
+    },
+    {
+      "bytes": 1908584,
+      "path": "evidence/forest-tree-submission-renders/overlook-compact.png",
+      "sha256": "26008fe255d9cb3b1d5f9eb3fd3a3d5711d5e5ac96eabbe6db5aa1ca559c27d5"
+    },
+    {
+      "bytes": 1908584,
+      "path": "evidence/forest-tree-submission-renders/overlook-original.png",
+      "sha256": "26008fe255d9cb3b1d5f9eb3fd3a3d5711d5e5ac96eabbe6db5aa1ca559c27d5"
+    },
+    {
+      "bytes": 1908584,
+      "path": "evidence/forest-tree-submission-renders/overlook-restored.png",
+      "sha256": "26008fe255d9cb3b1d5f9eb3fd3a3d5711d5e5ac96eabbe6db5aa1ca559c27d5"
+    }
+  ],
+  "limitations": [
+    "Earlier whole-scene controls produced 8 or 10 one-byte channel differences. Their reports are retained. The final run explicitly freezes particle simulation and has exact equality in all tested comparisons; the earlier renderer-level cause remains unproven.",
+    "The native raster evidence covers three fixed Mobile/Metal views at 1440x900 with 4x MSAA and the unchanged directional shadows. It is not a general proof of equality across all hardware or camera poses.",
+    "Physics interpolation is disabled in the tested project. The helper selects using the single active gameplay viewport camera.",
+    "Additional instance buffer capacity is 45,766,800 bytes, cached source records are 45,766,800 bytes and cached centers are 6,865,020 bytes. These are calculated capacities, not measured total CPU/GPU memory.",
+    "Selection costs are measured only on updates after more than 1 m motion or a camera switch. The shared frame callback performs no instance scan while the camera remains within that movement bound.",
+    "This qualitative equivalence validator retains its original 12-frame startup freeze. Cross-release performance uses the separately recorded shared explicit-forcing ABBA harness; these comparison timings are not performance evidence."
+  ],
+  "movement": {
+    "changed_slots": [
+      652,
+      1051,
+      1088,
+      1138,
+      1163,
+      1098,
+      892,
+      1137,
+      1106,
+      662,
+      1084,
+      1297,
+      547,
+      1014,
+      640,
+      414,
+      662,
+      494,
+      556,
+      388,
+      965,
+      942,
+      1246,
+      1197,
+      948,
+      1142,
+      804
+    ],
+    "physics_interpolation_enabled": false,
+    "sample_frames": 120,
+    "scanned_instances": [
+      16219,
+      16275,
+      16229,
+      16209,
+      16455,
+      16490,
+      16570,
+      16801,
+      16773,
+      16793,
+      16934,
+      17017,
+      17203,
+      17306,
+      17295,
+      17413,
+      17375,
+      17445,
+      17392,
+      17562,
+      17583,
+      17701,
+      17701,
+      17588,
+      17530,
+      17040,
+      17159
+    ],
+    "update_count": 27,
+    "update_times_us": [
+      3226,
+      4070,
+      4542,
+      5816,
+      6255,
+      6592,
+      6993,
+      7092,
+      7287,
+      7332,
+      7334,
+      7493,
+      7634,
+      7761,
+      7860,
+      8181,
+      8348,
+      8425,
+      8596,
+      8616,
+      8705,
+      8886,
+      9167,
+      9361,
+      9394,
+      9595,
+      10190
+    ]
+  },
+  "native": [
+    {
+      "compacted_draw_calls": 2283.0,
+      "compacted_primitives": 22254899.0,
+      "compaction_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "id": "overlook",
+      "recompaction_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "repeat_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "restoration_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "restored_original_buffers_verified": 20943,
+      "submission": {
+        "active_bins": 36,
+        "additional_instance_buffer_capacity_bytes": 45766800,
+        "batches": 20943,
+        "bins": 541,
+        "cached_center_bytes": 6865020,
+        "cached_source_record_bytes": 45766800,
+        "changed_slots": 0,
+        "scanned_instances": 16731,
+        "selected_instances": 9501,
+        "source_instances": 572085,
+        "update_us": 2857,
+        "updates": 3
+      },
+      "uncompacted_draw_calls": 2283.0,
+      "uncompacted_primitives": 52775403.0
+    },
+    {
+      "compacted_draw_calls": 2214.0,
+      "compacted_primitives": 21362323.0,
+      "compaction_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "id": "forest",
+      "recompaction_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "repeat_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "restoration_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "restored_original_buffers_verified": 20943,
+      "submission": {
+        "active_bins": 35,
+        "additional_instance_buffer_capacity_bytes": 45766800,
+        "batches": 20943,
+        "bins": 541,
+        "cached_center_bytes": 6865020,
+        "cached_source_record_bytes": 45766800,
+        "changed_slots": 0,
+        "scanned_instances": 16227,
+        "selected_instances": 9309,
+        "source_instances": 572085,
+        "update_us": 5741,
+        "updates": 5
+      },
+      "uncompacted_draw_calls": 2214.0,
+      "uncompacted_primitives": 50884871.0
+    },
+    {
+      "compacted_draw_calls": 1317.0,
+      "compacted_primitives": 20199981.0,
+      "compaction_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "id": "boundary",
+      "recompaction_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "repeat_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "restoration_difference": {
+        "absolute_byte_difference": 0,
+        "changed_channels": 0,
+        "maximum_byte_difference": 0,
+        "total_channels": 3888000
+      },
+      "restored_original_buffers_verified": 20943,
+      "submission": {
+        "active_bins": 33,
+        "additional_instance_buffer_capacity_bytes": 45766800,
+        "batches": 20943,
+        "bins": 541,
+        "cached_center_bytes": 6865020,
+        "cached_source_record_bytes": 45766800,
+        "changed_slots": 0,
+        "scanned_instances": 15656,
+        "selected_instances": 8721,
+        "source_instances": 572085,
+        "update_us": 3315,
+        "updates": 7
+      },
+      "uncompacted_draw_calls": 1317.0,
+      "uncompacted_primitives": 39758909.0
+    }
+  ],
+  "ok": true,
+  "prior_failed_diagnostics": [
+    {
+      "failures": [
+        "Compaction preserves native color and shadows: forest"
+      ],
+      "path": "evidence/forest-tree-submission-renders/coarse-control.json",
+      "sha256": "a8fc48787f85b0b6a4f96b88cf47a40b466d84c89600bbe40907b50b4248510e"
+    },
+    {
+      "failures": [
+        "Restoration retains original raster: overlook"
+      ],
+      "path": "evidence/forest-tree-submission-renders/restored-control.json",
+      "sha256": "a0b9de25ce2a1f4409403199755217e4c071e685235e5b976d9e00c9d59300e8"
+    }
+  ],
+  "raw_report_path": "evidence/forest-tree-submission-renders/native-report.json",
+  "raw_report_sha256": "c9dc68a286d109305884cea79db13f778d3e618a20e215c358bda00aff9db81b",
+  "receipt_file": "evidence/receipts/b42ced0261a130ef678626f846259e6b39c84f18f296809ab6376ff990fa3dce.json",
+  "renderer": "mobile",
+  "review": {
+    "all_controls_exact": true,
+    "all_images_1440x900": true,
+    "class": "programmatic_native_equivalence",
+    "geometry_quality_scope": "This verifies compacted and original runtime submission equivalence; botanical and canopy appearance have separate evidence.",
+    "human_acceptance": "not_measured",
+    "images": 9,
+    "views": 3
+  },
+  "scene_sha256": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+  "scope": "Frozen forcing, particles and shader TIME=0; exact original-to-compact comparisons are gating; repeat and restored-original controls are reported independently",
+  "source_hashes": {
+    "yellowstone_midway/data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+    "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+    "yellowstone_midway/scripts/canopy_surface.gd": "18702ea7b025d296e04236b0ce70867a3fa6600dcfa5b6573e733f3e3a2e4adb",
+    "yellowstone_midway/scripts/tree_submission.gd": "f76b9d8cf37f4900e15f0730eeadf62c718f749c913dcfb9e4060ea0e1a4b964",
+    "yellowstone_midway/scripts/world.gd": "770a19606acae292474f18b1142547809e2fab54df9a5cb5b3840e5cab47a1a7",
+    "yellowstone_midway/shaders/canopy_surface.gdshader": "46181bf9251bd8294b48b57dbc951326322c611f8dedd6ec51d6a7d0cd347c12",
+    "yellowstone_midway/shaders/thermal_apron.gdshader": "a2a1d69d884f2d8f591d8647cbc1feaebc63556fad64ebfb3afbb69959f68472",
+    "yellowstone_midway/tools/validate_tree_submission.gd": "8fddeb89f7bc7b55c7310a2c7373714d414e254d3b869bbd928395fb1394c291"
+  },
+  "source_sha256": "f76b9d8cf37f4900e15f0730eeadf62c718f749c913dcfb9e4060ea0e1a4b964",
+  "synthetic": {
+    "active_bins": 1,
+    "additional_instance_buffer_capacity_bytes": 61440,
+    "batches": 3,
+    "bins": 1,
+    "cached_center_bytes": 9216,
+    "cached_source_record_bytes": 61440,
+    "changed_slots": 42,
+    "scanned_instances": 768,
+    "selected_instances": 232,
+    "source_instances": 768,
+    "update_us": 51,
+    "updates": 19
+  },
+  "validator_sha256": "8fddeb89f7bc7b55c7310a2c7373714d414e254d3b869bbd928395fb1394c291",
+  "world_sha256": "770a19606acae292474f18b1142547809e2fab54df9a5cb5b3840e5cab47a1a7"
+}

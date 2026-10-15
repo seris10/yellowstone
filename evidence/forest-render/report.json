@@ -1,0 +1,987 @@
+{
+  "authored_world_sha256": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+  "benchmark_fixture": {
+    "canonical_payload": {
+      "cloud_offset": [
+        0.0,
+        0.0
+      ],
+      "ecosystem_wind_xz_mps": [
+        1.8,
+        0.6
+      ],
+      "elapsed_s": 0.0,
+      "foliage_wind_xz_mps": [
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "baseline_weather_sha256": "58df167c3d338b425a62627c0b0389f0601899b8ba40e940670a31f78f2f0117",
+        "current_weather_sha256": "3bc3fc06c9385d84a66d0fb978e580501acb3ba1be1a4d5c59801adb5b09dab8",
+        "scope": "Authored clear-summer performance fixture; meteorology copied from both published weather payloads, which match except generated_at_unix. No date-specific observed weather claim. Terrain unavailable sentinels retain material defaults.",
+        "solar_convention": "Benchmark only: normalize light and cloud ground-to-sun vector to X east, Y up, Z south with azimuth clockwise from north. This corrects baseline sign only in memory, without editing source or model data.",
+        "solar_source": "pvlib"
+      },
+      "schema": "yellowstone.forest_benchmark_forcing.v1",
+      "simulation_epoch_unix": 1782079920.0,
+      "terrain": {
+        "cloud_shadow_fraction": -1.0,
+        "ground_wetness_fraction": -1.0,
+        "insect_activity": -1.0,
+        "puddle_fraction": -1.0,
+        "snow_cover_fraction": 0.0,
+        "snow_water_equivalent_mm": -1.0,
+        "soil_temperature_c": -273.15,
+        "steam_intensity": -1.0
+      },
+      "utc_offset_hours": -6.0,
+      "weather": {
+        "air_temperature_c": 21.2658477444132,
+        "cloud_base_agl_m": 1050.0,
+        "cloud_fraction": 0.16,
+        "cloud_thickness_m": 600.0,
+        "dewpoint_c": 8.85507910676552,
+        "ground_wetness_fraction": -1.0,
+        "precipitation_rate_mm_h": 0.0,
+        "relative_humidity": 0.45,
+        "snow_fraction": 0.0,
+        "solar_azimuth_deg": 252.11,
+        "solar_elevation_deg": 50.12,
+        "visibility_m": 24000.0,
+        "wind_direction_deg": 288.434948822922,
+        "wind_speed_mps": 1.89736659610103
+      }
+    },
+    "canonical_payload_json": "{\"cloud_offset\":[0.0,0.0],\"ecosystem_wind_xz_mps\":[1.8,0.6],\"elapsed_s\":0.0,\"foliage_wind_xz_mps\":[0.0,0.0],\"provenance\":{\"baseline_weather_sha256\":\"58df167c3d338b425a62627c0b0389f0601899b8ba40e940670a31f78f2f0117\",\"current_weather_sha256\":\"3bc3fc06c9385d84a66d0fb978e580501acb3ba1be1a4d5c59801adb5b09dab8\",\"scope\":\"Authored clear-summer performance fixture; meteorology copied from both published weather payloads, which match except generated_at_unix. No date-specific observed weather claim. Terrain unavailable sentinels retain material defaults.\",\"solar_convention\":\"Benchmark only: normalize light and cloud ground-to-sun vector to X east, Y up, Z south with azimuth clockwise from north. This corrects baseline sign only in memory, without editing source or model data.\",\"solar_source\":\"pvlib\"},\"schema\":\"yellowstone.forest_benchmark_forcing.v1\",\"simulation_epoch_unix\":1782079920,\"terrain\":{\"cloud_shadow_fraction\":-1.0,\"ground_wetness_fraction\":-1.0,\"insect_activity\":-1.0,\"puddle_fraction\":-1.0,\"snow_cover_fraction\":0.0,\"snow_water_equivalent_mm\":-1.0,\"soil_temperature_c\":-273.15,\"steam_intensity\":-1.0},\"utc_offset_hours\":-6.0,\"weather\":{\"air_temperature_c\":21.26584774441318,\"cloud_base_agl_m\":1050.0,\"cloud_fraction\":0.16,\"cloud_thickness_m\":600.0,\"dewpoint_c\":8.855079106765515,\"ground_wetness_fraction\":-1.0,\"precipitation_rate_mm_h\":0.0,\"relative_humidity\":0.45,\"snow_fraction\":0.0,\"solar_azimuth_deg\":252.11,\"solar_elevation_deg\":50.12,\"visibility_m\":24000.0,\"wind_direction_deg\":288.434948822922,\"wind_speed_mps\":1.8973665961010275}}",
+    "canonical_payload_sha256": "3b1a6f41c5274ae554e4874de341fb45b79445593ae666caa77ea31e6c4fd4da",
+    "external_readers_disabled": true,
+    "first_state": {
+      "atmosphere_process": false,
+      "cloud_offset": [
+        0.0,
+        0.0
+      ],
+      "cloud_sun_direction": [
+        -0.610179424285889,
+        0.767388999462128,
+        0.196964979171753
+      ],
+      "data_watcher_process": false,
+      "ecosystem_epoch_unix": 1782079920.0,
+      "ecosystem_process": false,
+      "ecosystem_wind_xz_mps": [
+        1.79999995231628,
+        0.600000023841858
+      ],
+      "elapsed_s": 0.0,
+      "gui_input_disabled": true,
+      "live_reader_process": false,
+      "msaa_3d": 2,
+      "resolution": [
+        1440,
+        900
+      ],
+      "shadow_atlas_size": 4096,
+      "shadow_bias": 0.0299999993294477,
+      "shadow_blend_splits": true,
+      "shadow_enabled": true,
+      "shadow_fade_start": 0.819999992847443,
+      "shadow_filter_quality": 3,
+      "shadow_mode": 2,
+      "shadow_normal_bias": 3.0,
+      "shadow_range_m": 140.0,
+      "shadow_splits": [
+        0.0399999991059303,
+        0.140000000596046,
+        0.400000005960464
+      ],
+      "simulation_epoch_unix": 1782079920.0,
+      "source_solar_degrees": [
+        252.11,
+        50.12
+      ],
+      "sun_color": [
+        0.982976019382477,
+        0.948351979255676,
+        0.867760002613068
+      ],
+      "sun_direction": [
+        -0.610179364681244,
+        0.767389059066772,
+        0.196964904665947
+      ],
+      "sun_energy": 1.20959997177124,
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ],
+      "terrain": {
+        "cloud_shadow_fraction": -1.0,
+        "ground_wetness_fraction": -1.0,
+        "insect_activity": -1.0,
+        "puddle_fraction": -1.0,
+        "snow_cover_fraction": 0.0,
+        "snow_water_equivalent_mm": -1.0,
+        "soil_temperature_c": -273.15,
+        "steam_intensity": -1.0
+      },
+      "weather": {
+        "air_temperature_c": 21.2658477444132,
+        "cloud_base_agl_m": 1050.0,
+        "cloud_fraction": 0.16,
+        "cloud_thickness_m": 600.0,
+        "dewpoint_c": 8.85507910676552,
+        "ground_wetness_fraction": -1.0,
+        "precipitation_rate_mm_h": 0.0,
+        "relative_humidity": 0.45,
+        "snow_fraction": 0.0,
+        "solar_azimuth_deg": 252.11,
+        "solar_elevation_deg": 50.12,
+        "visibility_m": 24000.0,
+        "wind_direction_deg": 288.434948822922,
+        "wind_speed_mps": 1.89736659610103
+      },
+      "weather_reader_process": false,
+      "weather_target": {
+        "air_temperature_c": 21.2658477444132,
+        "cloud_base_agl_m": 1050.0,
+        "cloud_fraction": 0.16,
+        "cloud_thickness_m": 600.0,
+        "dewpoint_c": 8.85507910676552,
+        "ground_wetness_fraction": -1.0,
+        "precipitation_rate_mm_h": 0.0,
+        "relative_humidity": 0.45,
+        "snow_fraction": 0.0,
+        "solar_azimuth_deg": 252.11,
+        "solar_elevation_deg": 50.12,
+        "visibility_m": 24000.0,
+        "wind_direction_deg": 288.434948822922,
+        "wind_speed_mps": 1.89736659610103
+      },
+      "world_epoch_unix": 1782079920.0,
+      "world_process": false,
+      "world_unhandled_input": false
+    },
+    "fixture_file_sha256": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+    "fixture_path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/forest-benchmark-forcing.json",
+    "forcing_checks": 9,
+    "forcing_unchanged": true,
+    "harness_path": "res://work/capture_floor_authoritative.gd",
+    "harness_sha256": "d4463d36fd210fdfe12f1eacc33afaaf326e547aa4a4b6fe247536cfd59f9e9c",
+    "input_nodes_disabled": 112073,
+    "last_state": {
+      "atmosphere_process": false,
+      "cloud_offset": [
+        0.0,
+        0.0
+      ],
+      "cloud_sun_direction": [
+        -0.610179424285889,
+        0.767388999462128,
+        0.196964979171753
+      ],
+      "data_watcher_process": false,
+      "ecosystem_epoch_unix": 1782079920.0,
+      "ecosystem_process": false,
+      "ecosystem_wind_xz_mps": [
+        1.79999995231628,
+        0.600000023841858
+      ],
+      "elapsed_s": 0.0,
+      "gui_input_disabled": true,
+      "live_reader_process": false,
+      "msaa_3d": 2,
+      "resolution": [
+        1440,
+        900
+      ],
+      "shadow_atlas_size": 4096,
+      "shadow_bias": 0.0299999993294477,
+      "shadow_blend_splits": true,
+      "shadow_enabled": true,
+      "shadow_fade_start": 0.819999992847443,
+      "shadow_filter_quality": 3,
+      "shadow_mode": 2,
+      "shadow_normal_bias": 3.0,
+      "shadow_range_m": 140.0,
+      "shadow_splits": [
+        0.0399999991059303,
+        0.140000000596046,
+        0.400000005960464
+      ],
+      "simulation_epoch_unix": 1782079920.0,
+      "source_solar_degrees": [
+        252.11,
+        50.12
+      ],
+      "sun_color": [
+        0.982976019382477,
+        0.948351979255676,
+        0.867760002613068
+      ],
+      "sun_direction": [
+        -0.610179364681244,
+        0.767389059066772,
+        0.196964904665947
+      ],
+      "sun_energy": 1.20959997177124,
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ],
+      "terrain": {
+        "cloud_shadow_fraction": -1.0,
+        "ground_wetness_fraction": -1.0,
+        "insect_activity": -1.0,
+        "puddle_fraction": -1.0,
+        "snow_cover_fraction": 0.0,
+        "snow_water_equivalent_mm": -1.0,
+        "soil_temperature_c": -273.15,
+        "steam_intensity": -1.0
+      },
+      "weather": {
+        "air_temperature_c": 21.2658477444132,
+        "cloud_base_agl_m": 1050.0,
+        "cloud_fraction": 0.16,
+        "cloud_thickness_m": 600.0,
+        "dewpoint_c": 8.85507910676552,
+        "ground_wetness_fraction": -1.0,
+        "precipitation_rate_mm_h": 0.0,
+        "relative_humidity": 0.45,
+        "snow_fraction": 0.0,
+        "solar_azimuth_deg": 252.11,
+        "solar_elevation_deg": 50.12,
+        "visibility_m": 24000.0,
+        "wind_direction_deg": 288.434948822922,
+        "wind_speed_mps": 1.89736659610103
+      },
+      "weather_reader_process": false,
+      "weather_target": {
+        "air_temperature_c": 21.2658477444132,
+        "cloud_base_agl_m": 1050.0,
+        "cloud_fraction": 0.16,
+        "cloud_thickness_m": 600.0,
+        "dewpoint_c": 8.85507910676552,
+        "ground_wetness_fraction": -1.0,
+        "precipitation_rate_mm_h": 0.0,
+        "relative_humidity": 0.45,
+        "snow_fraction": 0.0,
+        "solar_azimuth_deg": 252.11,
+        "solar_elevation_deg": 50.12,
+        "visibility_m": 24000.0,
+        "wind_direction_deg": 288.434948822922,
+        "wind_speed_mps": 1.89736659610103
+      },
+      "world_epoch_unix": 1782079920.0,
+      "world_process": false,
+      "world_unhandled_input": false
+    },
+    "normalization": "Benchmark only: normalize light and cloud ground-to-sun vector to X east, Y up, Z south with azimuth clockwise from north. This corrects baseline sign only in memory, without editing source or model data.",
+    "requested_forcing_validated": true,
+    "schema": "yellowstone.forest_benchmark_lock.v1",
+    "scope": "Identical authored meteorological forcing, frozen replay t=0, zero foliage wind, original render settings and geometry per version. Shader TIME/particles remain animated; renderer improvements remain active.",
+    "shared_lock_harness_path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/validate_forest_benchmark.gd",
+    "shared_lock_harness_sha256": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+    "source_hashes": {
+      "active:res://data/ecosystem.json": "c417f3774a46451249da857775d03b884087329dc6aa3c9abe030025a9d304de",
+      "active:res://data/river_replay.json": "9935dbab78e7dfb32b7e9a4ecd6f68611da37d0cfd70060b1f14868811ae07ec",
+      "active:res://data/weather_snapshot.json": "3bc3fc06c9385d84a66d0fb978e580501acb3ba1be1a4d5c59801adb5b09dab8",
+      "active:res://data/world.json": "a5e2a0cc5681463cbc990d2162724f7b5e3dd3b005b5d929fafebaaf7326dfc6",
+      "res://data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+      "res://project.godot": "ed59dd579b415538b3a96759b358cac6abd032a1391102904bf1c82ef6b49dd5",
+      "res://scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+      "res://scripts/shadow_quality.gd": "f606455dac12bef1821fb0b6663e2144b56673bd8a9f03fdb3194719f4a9f77c",
+      "res://scripts/weather_snapshot_reader.gd": "2054cd25daa56796ac632cabcb28f2ef15e3480d4d1eebeedbae2d4f8332e34c",
+      "res://scripts/world.gd": "770a19606acae292474f18b1142547809e2fab54df9a5cb5b3840e5cab47a1a7",
+      "res://scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+      "res://shaders/physical_daylight.gdshader": "4aecd36cd734411cefd485ee717d9c7b33e47e3087aa412ee36f157386dba4d0",
+      "res://shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+      "res://tools/validate_terrain_render.gd": "747fa904b5148f05337420f909e5636523f8785f48b1a0964e57a9bcd20eeac4"
+    },
+    "window_title": "Updated release visual validation"
+  },
+  "captures": [
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/overlook_fov72.png",
+      "fov_deg": 72.0,
+      "position_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "residual_canopy_visible": true,
+      "rotation_radians": [
+        -0.141450956463814,
+        -0.747744083404541,
+        0.0
+      ],
+      "sha256": "2b94b3279f229b7701d184b7ed25b89de14c6d75f2789f67dda4dc1741bf3999",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    },
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/overlook_without_residual_fov72.png",
+      "fov_deg": 72.0,
+      "position_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "residual_canopy_visible": false,
+      "rotation_radians": [
+        -0.141450956463814,
+        -0.747744083404541,
+        0.0
+      ],
+      "sha256": "ca6b177e8802e8a3a9ffd793229dd61faf7f05c98af59d5addb7de19d494fca2",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    },
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/overlook_fov40.png",
+      "fov_deg": 40.0,
+      "position_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "residual_canopy_visible": true,
+      "rotation_radians": [
+        -0.141450956463814,
+        -0.747744083404541,
+        0.0
+      ],
+      "sha256": "58e53aed93fedca7234c7f458f15e154fc232ddc8ca6c0a3ebc873f111828f12",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    },
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/overlook_fov30.png",
+      "fov_deg": 30.0,
+      "position_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "residual_canopy_visible": true,
+      "rotation_radians": [
+        -0.141450956463814,
+        -0.747744083404541,
+        0.0
+      ],
+      "sha256": "962115d942579952f494457219ea117880a0d12e3638e0c30506b172be004d55",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    },
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/floor_wood_walk.png",
+      "fov_deg": 64.0,
+      "position_m": [
+        -259.899993896484,
+        47.7913513183594,
+        160.0
+      ],
+      "residual_canopy_visible": true,
+      "rotation_radians": [
+        -0.636821746826172,
+        0.708627462387085,
+        0.0
+      ],
+      "sha256": "9353bec14ad0e8f801b22110304c48fd7b5e9c8784fe8e61dce89b94e2308422",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    },
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/floor_plant_walk.png",
+      "fov_deg": 64.0,
+      "position_m": [
+        -246.5,
+        45.6203155517578,
+        152.0
+      ],
+      "residual_canopy_visible": true,
+      "rotation_radians": [
+        -0.675098776817322,
+        0.608689427375793,
+        0.0
+      ],
+      "sha256": "93c0ae07cc747f32ee97a0ec0ca74d976e659f0ffd474747182f2fc068a0722b",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    },
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/floor_litter_walk.png",
+      "fov_deg": 64.0,
+      "position_m": [
+        -250.0,
+        36.0393829345703,
+        136.5
+      ],
+      "residual_canopy_visible": true,
+      "rotation_radians": [
+        -0.812706112861633,
+        0.576766729354858,
+        0.0
+      ],
+      "sha256": "6bee34276cb7d6e5f6d4098ffd90508c3a7f3ff1d9db32eb79dcb2b805893084",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    },
+    {
+      "error": 0,
+      "file": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/evidence/forest-render/floor_log_walk.png",
+      "fov_deg": 64.0,
+      "position_m": [
+        -265.200012207031,
+        43.8911170959473,
+        153.5
+      ],
+      "residual_canopy_visible": true,
+      "rotation_radians": [
+        -0.0982563495635986,
+        -2.53795313835144,
+        0.0
+      ],
+      "sha256": "47f765286da829c04fa7e7c86647608b80ebeb3d89740a5d31883870cfa26f98",
+      "sun_rotation_radians": [
+        -0.874759078025818,
+        -1.25855696201324,
+        0.0
+      ]
+    }
+  ],
+  "evidence_class": "Native Godot Mobile Metal saved-scene appearance; not frame-time evidence or field calibration",
+  "failures": [],
+  "inputs": {
+    "capture_wrapper": "d4463d36fd210fdfe12f1eacc33afaaf326e547aa4a4b6fe247536cfd59f9e9c",
+    "forcing_fixture": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+    "res://assets/textures/color_mips/color_mips.json": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+    "res://data/forest_floor.json": "6e534dc0e446f74c9e6347a30cfd8140ffce38160e6ae7ec7444c3a69b6d6ea3",
+    "res://data/release.json": "4f09366897c78546487d9f45d3b0cd5e6b38fc864829d51f9eabd0cf72243224",
+    "res://scripts/canopy_surface.gd": "18702ea7b025d296e04236b0ce70867a3fa6600dcfa5b6573e733f3e3a2e4adb",
+    "res://scripts/forest_floor.gd": "6ca9840315d353967100801b85e19892ffa5c2f2d974d2406a257b8eee384b64",
+    "res://scripts/rendered_ground.gd": "d57b1794d1ec0a89474b4d9e05279bd0f6fe155f12c00f176e912aadee4bfd83",
+    "res://scripts/terrain_materials.gd": "5ded539c66914e4bab92f8d0506e8a7520766ca2a61ce3f187b9aadb38d25217",
+    "res://scripts/tree_submission.gd": "f76b9d8cf37f4900e15f0730eeadf62c718f749c913dcfb9e4060ea0e1a4b964",
+    "res://scripts/world.gd": "770a19606acae292474f18b1142547809e2fab54df9a5cb5b3840e5cab47a1a7",
+    "res://shaders/canopy_surface.gdshader": "46181bf9251bd8294b48b57dbc951326322c611f8dedd6ec51d6a7d0cd347c12",
+    "res://shaders/ground_surface.gdshaderinc": "f19a9c18cdd45a2fd46b4df661e19908ca2ba84fe115bc85c0dfbdd35ea0ce00",
+    "res://shaders/thermal_apron.gdshader": "a2a1d69d884f2d8f591d8647cbc1feaebc63556fad64ebfb3afbb69959f68472",
+    "shared_forcing_lock_harness": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a"
+  },
+  "inventory": [
+    {
+      "children": 0,
+      "path": "/root/Midway/AfternoonSun",
+      "type": "DirectionalLight3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@WorldEnvironment@2",
+      "type": "WorldEnvironment"
+    },
+    {
+      "children": 7,
+      "path": "/root/Midway/AuthoredMidway",
+      "type": "Node3D"
+    },
+    {
+      "children": 256,
+      "path": "/root/Midway/AuthoredMidway/TerrainTiles",
+      "type": "Node3D"
+    },
+    {
+      "children": 2662,
+      "path": "/root/Midway/AuthoredMidway/RoadsAndTrails",
+      "type": "Node3D"
+    },
+    {
+      "children": 20,
+      "path": "/root/Midway/AuthoredMidway/OverlookDeck",
+      "type": "Node3D"
+    },
+    {
+      "children": 61553,
+      "path": "/root/Midway/AuthoredMidway/AuthoredVegetation",
+      "type": "Node3D"
+    },
+    {
+      "children": 1021,
+      "path": "/root/Midway/AuthoredMidway/AuthoredCanopySurface",
+      "type": "Node3D"
+    },
+    {
+      "children": 3209,
+      "path": "/root/Midway/AuthoredMidway/AuthoredForestFloor",
+      "type": "Node3D"
+    },
+    {
+      "children": 35,
+      "path": "/root/Midway/AuthoredMidway/ConnectedWater",
+      "type": "Node3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/HandcraftedDetails",
+      "type": "Node3D"
+    },
+    {
+      "children": 30,
+      "path": "/root/Midway/AuthoredBotanicalDetails",
+      "type": "Node3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/Ecosystem",
+      "type": "Node"
+    },
+    {
+      "children": 2,
+      "path": "/root/Midway/Walker",
+      "type": "CharacterBody3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/TreeSubmission",
+      "type": "Node"
+    },
+    {
+      "children": 4,
+      "path": "/root/Midway/YellowstoneAtmosphere",
+      "type": "Node3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/WeatherSnapshotReader",
+      "type": "Node"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@AudioStreamPlayer@4",
+      "type": "AudioStreamPlayer"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@AudioStreamPlayer3D@5",
+      "type": "AudioStreamPlayer3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@AudioStreamPlayer3D@6",
+      "type": "AudioStreamPlayer3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@AudioStreamPlayer3D@7",
+      "type": "AudioStreamPlayer3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/bison_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/bison_02",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/bison_03",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/goose_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/goose_02",
+      "type": "Node3D"
+    },
+    {
+      "children": 2,
+      "path": "/root/Midway/dipper_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 2,
+      "path": "/root/Midway/raven_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/trout_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/trout_02",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/trout_03",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/trout_04",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/river_insects_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_badger_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_bison_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_black_bear_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_bobcat_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_deer_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_elk_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_grizzly_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/mammal_encounter_wolf_01",
+      "type": "Node3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@Node@78",
+      "type": "Node"
+    },
+    {
+      "children": 2,
+      "path": "/root/Midway/CoreTerrain",
+      "type": "Node3D"
+    },
+    {
+      "children": 3,
+      "path": "/root/Midway/ScientificOverlays",
+      "type": "Node3D"
+    },
+    {
+      "children": 3,
+      "path": "/root/Midway/@CanvasLayer@172",
+      "type": "CanvasLayer"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@Node@199",
+      "type": "Node"
+    },
+    {
+      "children": 1,
+      "path": "/root/Midway/@Node@200",
+      "type": "Node"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/ThermalProbes",
+      "type": "Node3D"
+    },
+    {
+      "children": 0,
+      "path": "/root/Midway/@Camera3D@249",
+      "type": "Camera3D"
+    }
+  ],
+  "ok": true,
+  "raw_report_path": "evidence/forest-render/native-report.json",
+  "raw_report_sha256": "158694bf7127e7640c568b77285c50d73936233b75d0589dc8c50e30be4f13b1",
+  "receipt_file": "evidence/receipts/42548209f8890db9c5e57c9753f0090f9147317548a4bdeb47f4c9b9ab860983.json",
+  "source_metadata": {
+    "AuthoredCanopySurface": {
+      "active_cells": 159157,
+      "attached_support_diameter_rule": "clamp(horizontal_span*0.06,0.036m,0.13m)",
+      "cell_size_m": 2.0,
+      "closure": "continuous_layer_outer_extent",
+      "cluster_anchor_class": "authored_display_placement",
+      "cluster_anchor_height_rule": "unchanged_source_cell_top_and_ground",
+      "cluster_anchor_max_offset_m": 1.06066017177982,
+      "cluster_anchor_rule": "nearest_covered_native_pixel_center_within_original_source_cell",
+      "cluster_base_rule": "source_top_y-min(0.70*(source_top_y-source_ground_y),2m)",
+      "cluster_count_claim": "display_cells_only",
+      "cluster_depth_class": "authored_display_volume",
+      "cluster_depth_rule": "min(0.70*(source_top_y-source_ground_y),2m)",
+      "cluster_display_count": 159157,
+      "cluster_geometry_class": "authored_display_geometry",
+      "cluster_live_crown_ratio": 0.7,
+      "cluster_lods": [
+        [
+          0.0,
+          45.0,
+          40
+        ],
+        [
+          45.0,
+          120.0,
+          16
+        ],
+        [
+          120.0,
+          350.0,
+          0
+        ]
+      ],
+      "cluster_radius_m": 1.41421356237309,
+      "cluster_rendered_coverage": "unknown",
+      "cluster_representation": "connected_metric_shoots_on_grounded_display_scaffolds",
+      "cluster_tile_size_m": 64.0,
+      "cluster_top_class": "source_2m_cell_mean",
+      "cluster_top_width_ratio": 0.22,
+      "cluster_triangles": [
+        420,
+        180,
+        26
+      ],
+      "cluster_yaw_class": "seeded_authored_display_orientation",
+      "display_smoothing_radius_class": "authored_display_parameter",
+      "display_smoothing_radius_m": 5.0,
+      "evidence_class": "derived_not_field_validated",
+      "footprint_class": "measured_derived_native_mask",
+      "geometry_revision": 2,
+      "ground_elevation_class": "measured_derived",
+      "grounded_support_diameter_rule": "clamp(source_height/80,0.05m,0.28m)",
+      "guaranteed_origin_shoot": true,
+      "height_aggregation": "source_2m_cell_mean",
+      "height_aggregation_class": "authored_display_aggregation",
+      "local_support_stem_count_claim": "none_authored_geometry_only",
+      "masked_inactive_geometry": "ground_supported_skin_with_zero_coverage",
+      "near_fade_begin_m": 0.0,
+      "near_fade_class": "authored_display_lod",
+      "near_fade_end_m": 0.0,
+      "near_mask_rule": "whole_metric_shoot_center_sample",
+      "near_mask_support_radius_m": 0.2,
+      "patch_depth_cap_m": 2.0,
+      "patches_attached_to_rendered_boles": 81884,
+      "patches_with_grounded_display_support": 77273,
+      "representation": "observed_residual_coverage_continuous_skin",
+      "represented_area_m2": 329939.0,
+      "scientific_acceptance": "not_yet_accepted",
+      "shell_thickness_class": "authored_display_geometry",
+      "shell_thickness_m": 0.5,
+      "shoot_card_assembly": "five_natural_0.18_by_0.36m_shoots_on_authored_bough",
+      "shoot_card_dimensions_class": "authored_unknown_uncertainty",
+      "shoot_card_height_m": 0.64,
+      "shoot_card_size_m": 0.48,
+      "shoot_card_source": "human_made_cc0_polyhaven_pine_tree_01",
+      "shoot_inclination_degrees": [
+        65.0,
+        100.0
+      ],
+      "skin_fade_m": [
+        180.0,
+        260.0
+      ],
+      "source_artifacts": {
+        "canopy_top_scene_y": {
+          "bytes": 1638400.0,
+          "path": "canopy_top_scene_y.f32",
+          "sha256": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b"
+        },
+        "cover_fraction": {
+          "bytes": 1638400.0,
+          "path": "cover_fraction.f32",
+          "sha256": "281517e9acf007dae73fdf9ced6f34293f142dd22c733feeabc970fe91b49db4"
+        },
+        "ground_scene_y": {
+          "bytes": 1638400.0,
+          "path": "ground_scene_y.f32",
+          "sha256": "bb83028e13e51ca32bf999def952dbb70604c929c7436f18fa6d2607cf97e82f"
+        },
+        "unresolved_cells": {
+          "bytes": 409600.0,
+          "path": "unresolved_cells.u8",
+          "sha256": "c4acc86cc9bfff89bddd26cb051c95327736f3fe369940882e837fc2eefcc9e8"
+        },
+        "unresolved_render_mask": {
+          "bytes": 474017.0,
+          "path": "unresolved_render_mask.png",
+          "sha256": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca"
+        },
+        "valid_fraction": {
+          "bytes": 1638400.0,
+          "path": "valid_fraction.f32",
+          "sha256": "4d3a0623298531c185c9ae05b94ec9ad56386cc32c20a906262901ecd20db30d"
+        },
+        "valid_support": {
+          "bytes": 177063.0,
+          "path": "valid_support.png",
+          "sha256": "a1fcbf6a1d6b1a9f7175457f85a95bcca990f3c682948c187f5f187c596e0ed4"
+        }
+      },
+      "source_sha256": "d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde",
+      "stem_count_claim": "none",
+      "support_diameter_class": "authored_unknown_uncertainty",
+      "support_geometry_class": "authored_display_geometry",
+      "support_ground_sha256": {
+        "res://data/core_terrain/core_heightfield.f32": "da2b9bb902bce0459c3a67aa3bff579165a4b2127fb517872110103dc7bdf856",
+        "res://data/core_terrain/core_microrelief.f32": "e0acec0eb1d8935e33f3d9b8aa957ca97dd0e351e71e2dfd738068ff4db2a37a",
+        "res://data/core_terrain/core_terrain.json": "e6f03b2babdcd788cc618f09c6fa41d7222e2b4c38bce9f99b75df5c56a644e9",
+        "res://data/terrain.f32": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+      },
+      "support_horizontal_limit_m": 2.0,
+      "support_representation": "five_sided_tapered_tubes_with_three_sided_twigs",
+      "support_root_height_class": "authored_contact_with_rendered_terrain",
+      "support_root_rule": "rendered_bole_centerline_or_rendered_terrain_minus_0.04m",
+      "surface_smoothing": "coverage_weighted_radial_mean_of_observed_canopy_elevations",
+      "surface_smoothing_class": "authored_display_interpolation",
+      "surface_smoothing_uncertainty": "unknown",
+      "tile_size_m": 128.0,
+      "top_elevation_class": "measured_derived_display_smoothed",
+      "twig_diameter_m": [
+        0.028,
+        0.01
+      ],
+      "twig_mask_rule": "same_anchor_as_needle_shoot",
+      "uncertainty": "unknown"
+    },
+    "AuthoredForestFloor": {
+      "counts": {
+        "litter": 24000,
+        "log": 1600,
+        "snag": 24,
+        "understory_card": 18000
+      },
+      "dominant_crown_count_included": false,
+      "evidence_class": "authored",
+      "litter_bed_area_scope": "authored_summed_projected_footprints_before_overlap_edge_feather_and_occlusion",
+      "litter_bed_footprint_fraction": [
+        0.619016382843256,
+        0.605988703668118
+      ],
+      "litter_bed_nominal_horizontal_area_sum_m2": [
+        59423.766,
+        58173.145
+      ],
+      "litter_field_cover_fraction": "unknown",
+      "local_species_presence_claim": "none",
+      "log_ground_contact_scope": "sampled_profile_with_bounded_clearance",
+      "morphology": "illustrative_non_diagnostic",
+      "mortality_class": "authored_illustration",
+      "protected_input_sha256": {
+        "base_placements": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+        "census": "00a2787e57118209a2863263b280a3dabbc7ccf6ff2c786cb924d336b3b7afb2",
+        "overrides": "6db9906472d50b1b0cb959b502e2bb3ebc7baffe5bc6ef02d1127fbc210040dd"
+      },
+      "run_mode": "illustrative",
+      "scientific_acceptance": "not_yet_accepted",
+      "source_context": [
+        {
+          "file": "yellowstone_python/derived/lidar_canopy/canopy_coverage.json",
+          "id": "canopy_coverage",
+          "sha256": "3cb1dfdbfeea7ea9c078287a881d52ee5f8ca8beefe6b836923fa1f57c04b9a8"
+        },
+        {
+          "file": "yellowstone_python/derived/lidar_canopy/canopy_height.provenance.json",
+          "id": "canopy_provenance",
+          "sha256": "0adec7fd19106f5d872e350179c3a39e05a5d328e42b1d7012f4eb35f8399042"
+        },
+        {
+          "file": "yellowstone_python/derived/lidar_canopy/interpreted_canopy_height.tif",
+          "id": "interpreted_height",
+          "sha256": "0dedb3698d96ac176252d83f4c4db54ff4398ac4a63169fd0c136d466e22ea56"
+        },
+        {
+          "file": "yellowstone_midway/data/world.json",
+          "id": "world",
+          "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+        },
+        {
+          "file": "yellowstone_midway/assets/textures/habitat_mask.png",
+          "id": "habitat",
+          "sha256": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a"
+        },
+        {
+          "file": "yellowstone_midway/data/terrain.f32",
+          "id": "terrain",
+          "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+        },
+        {
+          "file": "yellowstone_midway/data/ground_heat.json",
+          "id": "ground_heat",
+          "sha256": "409d05133f4d22234dd2f87a38e1406219349b5e0ed0f6279491aa1e674d11b1"
+        },
+        {
+          "file": "yellowstone_midway/data/core_terrain/core_terrain.json",
+          "id": "core_terrain",
+          "sha256": "e6f03b2babdcd788cc618f09c6fa41d7222e2b4c38bce9f99b75df5c56a644e9"
+        },
+        {
+          "file": "yellowstone_midway/data/core_terrain/core_heightfield.f32",
+          "id": "core_heightfield",
+          "sha256": "da2b9bb902bce0459c3a67aa3bff579165a4b2127fb517872110103dc7bdf856"
+        },
+        {
+          "file": "yellowstone_midway/data/core_terrain/core_microrelief.f32",
+          "id": "core_microrelief",
+          "sha256": "e0acec0eb1d8935e33f3d9b8aa957ca97dd0e351e71e2dfd738068ff4db2a37a"
+        }
+      ],
+      "source_sha256": "6e534dc0e446f74c9e6347a30cfd8140ffce38160e6ae7ec7444c3a69b6d6ea3",
+      "uncertainty": "unknown"
+    },
+    "AuthoredVegetation": {}
+  }
+}

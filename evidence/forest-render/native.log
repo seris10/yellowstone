@@ -1,0 +1,39 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=4 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+ISOLATION_CAPTURE overlook_fov72
+ISOLATION_CAPTURE overlook_without_residual_fov72
+ISOLATION_CAPTURE overlook_fov40
+ISOLATION_CAPTURE overlook_fov30
+ISOLATION_CAPTURE floor_wood_walk
+ISOLATION_CAPTURE floor_plant_walk
+ISOLATION_CAPTURE floor_litter_walk
+ISOLATION_CAPTURE floor_log_walk
+INTEGRATION_ISOLATION 8 captures
+real 63.50
+user 36.78
+sys 4.30
+          3730440192  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              839181  page reclaims
+                  70  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   1  messages sent
+                   0  messages received
+                   0  signals received
+                 987  voluntary context switches
+              206424  involuntary context switches
+        779952109912  instructions retired
+        160670371005  cycles elapsed
+          7511282992  peak memory footprint
+receipt: evidence/receipts/42548209f8890db9c5e57c9753f0090f9147317548a4bdeb47f4c9b9ab860983.json

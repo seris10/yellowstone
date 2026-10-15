@@ -1,0 +1,14 @@
+{
+  "checks": 166603,
+  "core_anchors": 2197,
+  "core_mesh_decimation": 2,
+  "failures": [],
+  "log_profile_samples": 37355,
+  "maximum_contact_error_m": 0.00000761833429781174,
+  "maximum_plane_residual_m": 0.00799996421433846,
+  "ok": true,
+  "plane_samples": 1344000,
+  "runtime_height_loader": "MidwayCoreTerrain._load_heights",
+  "source_sha256": "6e534dc0e446f74c9e6347a30cfd8140ffce38160e6ae7ec7444c3a69b6d6ea3",
+  "tolerance_m": 0.00001
+}

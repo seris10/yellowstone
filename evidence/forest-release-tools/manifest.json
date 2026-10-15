@@ -1,0 +1,126 @@
+{
+  "schema": "yellowstone.release_tool_snapshots.v1",
+  "scope": "Release tooling snapshots only. Hashes authenticate helper bytes, not scientific or game execution. Prior unpublished helper revisions, when present, are retained in previous/.",
+  "files": [
+    {
+      "source_path": "work/forest_runtime_scope.py",
+      "snapshot_path": "evidence/forest-release-tools/forest_runtime_scope.py",
+      "sha256": "4e46b31a806a82b6e9b70296bb3ca92b20b5898f736a4e766d8c4412c85cf743",
+      "bytes": 4979
+    },
+    {
+      "source_path": "work/verify_forest_runtime_equivalence.py",
+      "snapshot_path": "evidence/forest-release-tools/verify_forest_runtime_equivalence.py",
+      "sha256": "ac9eaa25fb10d5451a1f6f28db52501634fee4481635ef8d60e49a588fcaf0de",
+      "bytes": 9054
+    },
+    {
+      "source_path": "work/forest_benchmark_evidence.py",
+      "snapshot_path": "evidence/forest-release-tools/forest_benchmark_evidence.py",
+      "sha256": "dbef5aa453adc97a9d1998ceac5fa8ae051d984eea0d15656fd57eee1d2adcac",
+      "bytes": 10892
+    },
+    {
+      "source_path": "work/check_forest_benchmark_evidence.py",
+      "snapshot_path": "evidence/forest-release-tools/check_forest_benchmark_evidence.py",
+      "sha256": "ec6485d5f9594480ba128396510e3c9798a0654bca02cb53295b608893c34335",
+      "bytes": 5473
+    },
+    {
+      "source_path": "work/finalize_forest_evidence.py",
+      "snapshot_path": "evidence/forest-release-tools/finalize_forest_evidence.py",
+      "sha256": "0e092171f691afbcedb81bcbe75340e466064c6c096b56e52165430a4733d743",
+      "bytes": 16138
+    },
+    {
+      "source_path": "work/finalize_forest_verification.py",
+      "snapshot_path": "evidence/forest-release-tools/finalize_forest_verification.py",
+      "sha256": "63f4c2c94b340584426d96dc70e5add4c5a024b0db65a8b494320675474e3c3a",
+      "bytes": 27332
+    },
+    {
+      "source_path": "work/finalize_forest_package.py",
+      "snapshot_path": "evidence/forest-release-tools/finalize_forest_package.py",
+      "sha256": "50af3376355bcf938a72528966f647d451692f6b7cae4329a52a32ed2745b90e",
+      "bytes": 13402
+    },
+    {
+      "source_path": "work/prepare_forest_report.py",
+      "snapshot_path": "evidence/forest-release-tools/prepare_forest_report.py",
+      "sha256": "86a5c898a6267b1fb4c7623cc97899228d3b18f9478684e6ecb814cd3de88f3d",
+      "bytes": 9304
+    },
+    {
+      "source_path": "work/stage_forest_release.py",
+      "snapshot_path": "evidence/forest-release-tools/stage_forest_release.py",
+      "sha256": "a0e4e8aa60fc9ac07c4d1b3005dc78f886b7f0fa9389766c115af1be234d76ab",
+      "bytes": 2700
+    },
+    {
+      "source_path": "work/prepare_runtime_inventory.py",
+      "snapshot_path": "evidence/forest-release-tools/prepare_runtime_inventory.py",
+      "sha256": "eda2249847d07e83f48586f9d411881e9d188ff8d691586622cbf84bb199bfb7",
+      "bytes": 1129
+    },
+    {
+      "source_path": "work/check_package_startup.py",
+      "snapshot_path": "evidence/forest-release-tools/check_package_startup.py",
+      "sha256": "fc228c80212bc7c256e9784a8cd1d2c37fbe50ac67be4a702db26252cf1bc938",
+      "bytes": 1066
+    },
+    {
+      "source_path": "work/check_package_native.py",
+      "snapshot_path": "evidence/forest-release-tools/check_package_native.py",
+      "sha256": "b82d7774ac475c9a20f4d4f22a4caa390bef38555e4a4363d5551cf5cacd0381",
+      "bytes": 1122
+    },
+    {
+      "source_path": "work/run_forest_attachment_pairs.py",
+      "snapshot_path": "evidence/forest-release-tools/run_forest_attachment_pairs.py",
+      "sha256": "863ae3a0fadcd584707e9ff2b4b7ae89c1d6a6e43f033f1b91d32f0a8ecbdeea",
+      "bytes": 4468
+    },
+    {
+      "source_path": "work/run_canopy_attachment_evidence.py",
+      "snapshot_path": "evidence/forest-release-tools/run_canopy_attachment_evidence.py",
+      "sha256": "a110d5508af19615c20365ddfdf382e5e9b72c2742333bcd23be80fd3cbcc63c",
+      "bytes": 1217
+    },
+    {
+      "source_path": "yellowstone_midway/work/capture_floor_authoritative.gd",
+      "snapshot_path": "evidence/forest-release-tools/capture_floor_authoritative.gd",
+      "sha256": "d4463d36fd210fdfe12f1eacc33afaaf326e547aa4a4b6fe247536cfd59f9e9c",
+      "bytes": 7325
+    },
+    {
+      "source_path": "work/validate_forest_benchmark.gd",
+      "snapshot_path": "evidence/forest-release-tools/validate_forest_benchmark.gd",
+      "sha256": "6db77c0879570039a6dc9c4c1b31a00de08318f1f536b8025027c2287df1820a",
+      "bytes": 31465
+    },
+    {
+      "source_path": "work/forest-benchmark-forcing.json",
+      "snapshot_path": "evidence/forest-release-tools/forest-benchmark-forcing.json",
+      "sha256": "55536ca84dc7dbb05e509b3f856cbde869a60b22c404a2aee3f6f6666662a9f3",
+      "bytes": 1554
+    },
+    {
+      "source_path": "work/forest-closeout-config.template.json",
+      "snapshot_path": "evidence/forest-release-tools/forest-closeout-config.template.json",
+      "sha256": "7d09396d47d17dcdc15d1e85ef32cc7843366a40419a86d7b2b293f9fcba74c9",
+      "bytes": 5529
+    },
+    {
+      "source_path": "work/forest-release-checklist.md",
+      "snapshot_path": "evidence/forest-release-tools/forest-release-checklist.md",
+      "sha256": "4e1179b1981de53991ab13bca3ee0feb4a268c75883ea04d94c131542497e4e5",
+      "bytes": 12232
+    },
+    {
+      "source_path": "work/freeze_forest_release_tools.py",
+      "snapshot_path": "evidence/forest-release-tools/freeze_forest_release_tools.py",
+      "sha256": "6d4354d74c8c79b21d332511a4d1bee63ee65530bcca04bb7feae94bf1087c33",
+      "bytes": 6158
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "checks": 139,
+  "failures": [],
+  "godot": "4.5.1-stable (official)",
+  "loader_sha256": "5ded539c66914e4bab92f8d0506e8a7520766ca2a61ce3f187b9aadb38d25217",
+  "manifest_sha256": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+  "schema": "yellowstone.color_mip_validation.v1",
+  "scope": "Native buffer layout, byte-preserving load and production material bindings; appearance and performance require native world review"
+}

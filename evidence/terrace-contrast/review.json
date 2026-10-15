@@ -1,0 +1,105 @@
+{
+  "scope": "Native raster comparison and independent source-preservation review; authored display correction, uncalibrated morphology. No frame-time or field-validation claim.",
+  "source_commit": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "cause": "A periodic radial terrace edge mask multiplied albedo by up to0.42 across the apron, producing dark continuous rings independent of illumination or mapped flow structure.",
+  "correction": "Retain complete terrace normal contribution. Weight albedo edge by the larger of a mapped linear-light color-ratio contrast gate or current flow fraction; bound edge darkening at0.075. No additional texture fetches.",
+  "authored_parameters": {
+    "mapped_contrast_smoothstep": [
+      0.06,
+      0.24
+    ],
+    "maximum_albedo_darkening": 0.075,
+    "previous_maximum_albedo_darkening": 0.42
+  },
+  "normal_term_unchanged": true,
+  "texture_call_count_unchanged": true,
+  "only_source_change_is_edge_contrast": true,
+  "preserved_inputs": {
+    "yellowstone_midway/assets/textures/prismatic_apron_display.png": {
+      "sha256": "774e71ca10cd1c85f6f6d6b06d617f7eda6949550e0c3083f4935e3b06ae1ac4",
+      "matches_source_commit": true
+    },
+    "yellowstone_midway/assets/textures/prismatic_terrace_detail.png": {
+      "sha256": "ff34400b446042a51660592c90820b9afa7523ff7b913bbbcd1a32d3859a863d",
+      "matches_source_commit": true
+    },
+    "yellowstone_midway/assets/textures/prismatic_water_display.png": {
+      "sha256": "88f52d39b361c5d1387b50728ceca9de1eba6d5ffd4a5c29166648f81a5b2cab",
+      "matches_source_commit": true
+    },
+    "yellowstone_midway/assets/textures/mapped_surface_detail.png": {
+      "sha256": "70d7b09e7fee322cbd141063a2ee1ed8077add98cc726a776dc847b7923fb01b",
+      "matches_source_commit": true
+    },
+    "yellowstone_midway/data/display/prismatic.json": {
+      "sha256": "edb851fc40df0cc38ef1b63a3ff1b5e6ffbc4a13b44e8f81247d44d7a010e60a",
+      "matches_source_commit": true
+    },
+    "yellowstone_midway/data/world.json": {
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "matches_source_commit": true
+    },
+    "yellowstone_midway/references/midway_orthophoto_detail.jpg": {
+      "sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+      "matches_source_commit": true
+    }
+  },
+  "views": [
+    {
+      "view": "wide",
+      "primitives_unchanged": 18923401.0,
+      "draw_calls_unchanged": 2182.0
+    },
+    {
+      "view": "overlook40",
+      "primitives_unchanged": 18075158.0,
+      "draw_calls_unchanged": 1912.0
+    },
+    {
+      "view": "apron",
+      "primitives_unchanged": 3502860.0,
+      "draw_calls_unchanged": 1591.0
+    },
+    {
+      "view": "overhead",
+      "primitives_unchanged": 3020138.0,
+      "draw_calls_unchanged": 466.0
+    }
+  ],
+  "overhead_alignment_diagnostic": {
+    "scope": "Association with the existing authored edge field; this is not a photographic-quality or scientific-accuracy score.",
+    "annulus_m": [
+      75,
+      150
+    ],
+    "pixel_m": 0.4,
+    "eligible_pixels": 203178,
+    "local_luminance_mean_sigma_m": 8,
+    "records": {
+      "before": {
+        "mapped_edge_correlation": -0.5371920776436186,
+        "linear_luminance_contrast_regression": -0.4260487306368262,
+        "contrast_std": 0.20897301763509923
+      },
+      "after": {
+        "mapped_edge_correlation": -0.05849428928803421,
+        "linear_luminance_contrast_regression": -0.03882402172874921,
+        "contrast_std": 0.1748829982448214
+      }
+    }
+  },
+  "capture_report_sha256": "8a493464305b807480b73c8c84049b7b7c8f5a5012f3ee146f5f387d7e82ec76",
+  "shader_sha256": "a2a1d69d884f2d8f591d8647cbc1feaebc63556fad64ebfb3afbb69959f68472",
+  "source_limits": [
+    "The terrace generator still carries an unmeasured radial display field; this correction changes its albedo presentation only.",
+    "Mapped contrast describes aerial image structure, not surveyed terrace geometry.",
+    "Full camera/light/weather and human visual acceptance remain separate from these captures."
+  ],
+  "ok": true,
+  "diagnostic_sources": {
+    "capture.gd": "ca9bdf48dff70e2d24f41f7bd6c46361feb73ca451aef832dcba48efc7026251",
+    "inspect.py": "2f85bfe1f2facf76569cd2fcf467c0d2e93e42c441f1c16bbbcefaca5988ffb4",
+    "thermal_apron_before.gdshader": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599"
+  },
+  "reproduction": "Restore capture.gd, inspect.py and thermal_apron_before.gdshader to the work directory paths recorded in their commands. Run native capture from repository root with godot --path yellowstone_midway --script ../work/capture_terrace_contrast.gd, then run inspect_terrace_contrast.py with the project Python interpreter."
+}

@@ -1,0 +1,211 @@
+{
+  "captures": [
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1945.0,
+      "file": "evidence/spring-display/radiometric_profile_fov72.png",
+      "horizontal_fov_deg": 98.5932160244381,
+      "id": "radiometric_profile_fov72",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        585.953735351562,
+        437.005676269531,
+        853.071105957031,
+        470.249328613281
+      ],
+      "pool_screen_width_fraction": 0.185498174031576,
+      "primitives": 10396647.0,
+      "sha256": "a377044411a955c996a82f967bebbcc3cc5c9e799d3148e79a663df1910ed151",
+      "vertical_fov_deg": 72.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1945.0,
+      "file": "evidence/spring-display/image_display_fov72.png",
+      "horizontal_fov_deg": 98.5932160244381,
+      "id": "image_display_fov72",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        585.953735351562,
+        437.005676269531,
+        853.071105957031,
+        470.249328613281
+      ],
+      "pool_screen_width_fraction": 0.185498174031576,
+      "primitives": 10396647.0,
+      "sha256": "3fc7cb8312411c22e09c7e396227e60db9611da1cd070fcc3b90ffe229a34acc",
+      "vertical_fov_deg": 72.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1667.0,
+      "file": "evidence/spring-display/image_display_fov40.png",
+      "horizontal_fov_deg": 60.4289681698821,
+      "id": "image_display_fov40",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        452.422393798828,
+        424.061248779297,
+        985.631164550781,
+        490.420928955078
+      ],
+      "pool_screen_width_fraction": 0.370283868577745,
+      "primitives": 9838228.0,
+      "sha256": "ab1d71ccc61ecd185bebd3b0fe596065287b8d8e4d555185dc688fa37253e03d",
+      "vertical_fov_deg": 40.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -252.0,
+        49.7421646118164,
+        159.0
+      ],
+      "draw_calls": 1558.0,
+      "file": "evidence/spring-display/image_display_fov30.png",
+      "horizontal_fov_deg": 46.411438393988,
+      "id": "image_display_fov30",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        356.534545898438,
+        414.765930175781,
+        1080.82141113281,
+        504.905975341797
+      ],
+      "pool_screen_width_fraction": 0.502976989746094,
+      "primitives": 9622938.0,
+      "sha256": "a3bf421c8548aca1b1345a7e5785447481051b419bdb191166f646788fc0db4e",
+      "vertical_fov_deg": 30.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    },
+    {
+      "camera_m": [
+        -181.0,
+        28.0,
+        82.0
+      ],
+      "draw_calls": 1626.0,
+      "file": "evidence/spring-display/apron_detail.png",
+      "horizontal_fov_deg": 79.5823231543873,
+      "id": "apron_detail",
+      "image_pixels": [
+        1440,
+        900
+      ],
+      "pool_screen_bounds_px": [
+        362.326049804688,
+        371.697326660156,
+        1092.50463867188,
+        430.638732910156
+      ],
+      "pool_screen_width_fraction": 0.507068464491102,
+      "primitives": 3477118.0,
+      "sha256": "b51ef0505ecfc24f5dc2dc19d3a070d08925a038811b029e69cafdd271fb92d6",
+      "vertical_fov_deg": 55.0,
+      "viewport_coordinates": [
+        1600.0,
+        1000.0
+      ]
+    }
+  ],
+  "cpu": "Apple M4",
+  "display_ramp_sha256": "88f52d39b361c5d1387b50728ceca9de1eba6d5ffd4a5c29166648f81a5b2cab",
+  "failures": [],
+  "godot": "4.5.1-stable (official)",
+  "ok": true,
+  "renderer": "mobile",
+  "schema": "yellowstone.spring_display_capture.v1",
+  "scientific_ramp_sha256": "6463a689498df730d278d7b693d44bd097519cd3ceaee1294d145cbca930936a",
+  "scope": "Native spring bindings and projection; subjective appearance and unrelated scene assets require separate review",
+  "world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+  "source_sha256": {
+    "yellowstone_midway/shaders/water.gdshader": "35770c4fb9dbde2b8b553adee5dfe884403e74cf1c2d1121e203f57c3fb01921",
+    "yellowstone_midway/shaders/thermal_apron.gdshader": "c2421d466c55585ce2d60e754eb18b90daa1c3bc5e7c053f138177a5ea8b18d7",
+    "yellowstone_midway/scripts/pool_overlay.gd": "5d525c569ae13c304c8c24228c74e59708be8e9c4ffc5a6dcd38e76f16a51f1e",
+    "yellowstone_midway/scripts/terrain_materials.gd": "173846ee8ad6223077abc56512a78737bf43abfcac3dc21e204121b9eed6ee99",
+    "yellowstone_midway/scripts/core_terrain.gd": "0a07e7140397b9916c55fe41652b804e35cdc9671d52d39d1c7851a827d741b2",
+    "yellowstone_midway/scripts/water_polygon_cut.gd": "7e576ffb5452ea20d974dd0ea509f3dec439d327594f16d42c6a6a3cecd17f43",
+    "yellowstone_midway/assets/textures/prismatic_apron_display.png": "774e71ca10cd1c85f6f6d6b06d617f7eda6949550e0c3083f4935e3b06ae1ac4",
+    "yellowstone_midway/assets/textures/prismatic_terrace_detail.png": "ff34400b446042a51660592c90820b9afa7523ff7b913bbbcd1a32d3859a863d",
+    "yellowstone_midway/data/display/prismatic.json": "edb851fc40df0cc38ef1b63a3ff1b5e6ffbc4a13b44e8f81247d44d7a010e60a",
+    "yellowstone_midway/tools/validate_spring_display.gd": "037e0f04a1f704c86c4d4805a380c8cf915046a9e59f53538c7e53ee33e39b37"
+  },
+  "projection_comparison": [
+    {
+      "vertical_fov_deg": 72.0,
+      "native_width_fraction": 0.185498174031576,
+      "independent_width_fraction": 0.18549813514160995,
+      "absolute_error": 3.888996605305728e-08
+    },
+    {
+      "vertical_fov_deg": 40.0,
+      "native_width_fraction": 0.370283868577745,
+      "independent_width_fraction": 0.37028380718488907,
+      "absolute_error": 6.139285591011401e-08
+    },
+    {
+      "vertical_fov_deg": 30.0,
+      "native_width_fraction": 0.502976989746094,
+      "independent_width_fraction": 0.5029770115120205,
+      "absolute_error": 2.1765926505601385e-08
+    }
+  ],
+  "visual_review": {
+    "reviewer": "Codex spring subagent visual inspection",
+    "views": [
+      "image_display_fov30",
+      "apron_detail"
+    ],
+    "findings": [
+      "The black shoreline wedges are absent after the vertical render interface closes the source terrain-to-water elevation gap.",
+      "Coherent outward terrace edges are visible on the front and left apron.",
+      "The displayed pool includes blue and cyan water, a narrower green transition, thin yellow edge, and orange apron support."
+    ],
+    "limitations": [
+      "Image-informed color and terrace parameters remain authored with unmeasured uncertainty.",
+      "These captures precede the final forest/canopy bake and are not forest acceptance.",
+      "White hillside marks remain a separate integration investigation.",
+      "No player FOV, source geography, collision, scientific water ramp or numerical pigment field is changed.",
+      "Draw-call and primitive counters are observations for these views; no CPU/GPU frame-time benchmark is claimed."
+    ]
+  },
+  "captured_texture_imports": "Regenerated terrace source was imported before this native run; the captured texture matches the source hash recorded here."
+}

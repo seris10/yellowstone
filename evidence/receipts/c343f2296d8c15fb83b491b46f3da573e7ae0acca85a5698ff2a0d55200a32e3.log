@@ -1,0 +1,17 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=4 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+SMOKE scene=ready terrain=256 routes=41 pools=15
+SMOKE anchor=overlook floor=true y=48.0149383544922
+SMOKE anchor=boardwalk floor=true y=16.7649726867676
+SMOKE anchor=river floor=true y=4.53882169723511
+SMOKE anchor=trailhead floor=true y=7.9974799156189
+SMOKE heat_budget_error=0.0
+SMOKE multimesh_validation=absent (run tools/validate_multimesh.gd to regenerate)
+PACKAGE_NATIVE_OFFLINE_STARTUP PASS; service unavailable; all anchors grounded; no script/resource errors

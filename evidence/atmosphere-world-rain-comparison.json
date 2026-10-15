@@ -1,0 +1,45 @@
+{
+  "schema": "yellowstone.world_rain_comparison.v1",
+  "receipt": "evidence/atmosphere-render/world-rain-history-receipt.json",
+  "receipt_sha256": "4f164d7d1c0192fe1ef4a3bf64539af72da77c2a40dcda0f1f0d013b74b498f7",
+  "fixture": "evidence/atmosphere-render/world-rain-history.gd",
+  "fixture_sha256": "aa96b6d3799072c9015866e550d0387922de6f74785fd400422da0d5cd610798",
+  "regions": {
+    "foreground_rail_trees": {
+      "xyxy_pixels": [
+        0,
+        650,
+        1440,
+        900
+      ],
+      "max_channel_byte_delta": 0,
+      "changed_pixels": 0,
+      "mean_channel_byte_delta": 0.0
+    },
+    "near_branch": {
+      "xyxy_pixels": [
+        0,
+        0,
+        330,
+        440
+      ],
+      "max_channel_byte_delta": 0,
+      "changed_pixels": 0,
+      "mean_channel_byte_delta": 0.0
+    },
+    "sky": {
+      "xyxy_pixels": [
+        500,
+        100,
+        1400,
+        500
+      ],
+      "max_channel_byte_delta": 32,
+      "changed_pixels": 81829,
+      "mean_channel_byte_delta": 0.4765861111111111
+    }
+  },
+  "whole_image_positive_max_byte_delta": 53,
+  "passed": true,
+  "scope": "Layer-on versus layer-hidden under identical frozen shader time; fixed near-foreground regions are unchanged and sky contains the optical arc. Selected regions do not prove all scene occlusion cases."
+}

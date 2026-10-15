@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/build.py", line 22, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/cli.py", line 40, in main
+    res = simulate_all(cfg, baseline, world, tfns)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/pipeline.py", line 29, in simulate_all
+    stage.run(state, cfg)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/stages/thermal.py", line 355, in run
+    ground_heat_field = heat_flux_mask_field(shells, size=320)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/ground_heat.py", line 106, in heat_flux_mask_field
+    row_vals.append(heat_flux_at(x, z, shells, bg, apron, pool))
+                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/ground_heat.py", line 78, in heat_flux_at
+    if in_water(x, z, s):
+       ~~~~~~~~^^^^^^^^^
+KeyboardInterrupt

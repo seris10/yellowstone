@@ -1,0 +1,47 @@
+{
+  "check": "lodgepole_assets",
+  "failures": [],
+  "lod_triangles": {
+    "dense": [
+      39188,
+      13756,
+      7700
+    ],
+    "edge": [
+      45394,
+      15814,
+      8650
+    ],
+    "open": [
+      45458,
+      15830,
+      8646
+    ],
+    "sapling": [
+      13904,
+      4788,
+      2568
+    ],
+    "snag": [
+      4120,
+      2352,
+      2268
+    ]
+  },
+  "negative": false,
+  "passed": true,
+  "triangles": 230436,
+  "vertices": 311533,
+  "source_sha256": {
+    "yellowstone_midway/tools/author_lodgepole.py": "e65e917b872dfd42c659fc3cf0acc602d24961ccb656b7f9a30f589febc1fdb0",
+    "yellowstone_python/yellowstone_python/authoring/tree_architecture.py": "a3aff77593720597dde3c1d9a8641555218c3a6d52fa21f6429374cf22f5eecb",
+    "yellowstone_midway/tools/validate_lodgepole.gd": "a979cd6898cbeb14654681770dda4c89a85658a16ca9ffdfdbb867535cc6c701",
+    "yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+    "yellowstone_midway/assets/imported/lodgepole/architecture_library.json": "0082a46a33e134353ac27e5ec846736a98a42fbbdb07202cc48bed62df1464e2"
+  },
+  "scope": "Final imported authored lodgepole assets; topology and dimension checks, not full-scene performance or botanical acceptance",
+  "python_asset_tests": {
+    "passed": 19,
+    "log": "work/crown-final-asset-tests.log"
+  }
+}

@@ -1,0 +1,55 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+SCRIPT ERROR: Parse Error: Could not find type "YellowstoneLivePythonClient" in the current scope.
+          at: GDScript::reload (res://scripts/world.gd:31)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tools/validate_terrain_render.gd:54)
+SCRIPT ERROR: Parse Error: Could not find type "YellowstoneDataWatcher" in the current scope.
+          at: GDScript::reload (res://scripts/world.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tools/validate_terrain_render.gd:54)
+SCRIPT ERROR: Parse Error: Could not find type "YellowstoneSimulationPanel" in the current scope.
+          at: GDScript::reload (res://scripts/world.gd:33)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tools/validate_terrain_render.gd:54)
+SCRIPT ERROR: Parse Error: Could not find type "YellowstoneInputHelp" in the current scope.
+          at: GDScript::reload (res://scripts/world.gd:34)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tools/validate_terrain_render.gd:54)
+SCRIPT ERROR: Parse Error: Could not find type "MidwayPoolOverlay" in the current scope.
+          at: GDScript::reload (res://scripts/world.gd:406)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tools/validate_terrain_render.gd:54)
+ERROR: Failed to load script "res://scripts/world.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tools/validate_terrain_render.gd:54)
+SCRIPT ERROR: Invalid access to property or key 'ecosystem' on a base object of type 'Node3D'.
+          at: run (res://tools/validate_terrain_render.gd:60)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tools/validate_terrain_render.gd:60)
+ERROR: Terrain capture timed out.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://tools/validate_terrain_render.gd:53)
+real 302.83
+user 14.10
+sys 10.45
+           236077056  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               15440  page reclaims
+                2328  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   1  messages sent
+                   0  messages received
+                   0  signals received
+                 648  voluntary context switches
+              425091  involuntary context switches
+         26246079759  instructions retired
+         38849329994  cycles elapsed
+           234570976  peak memory footprint

@@ -1,0 +1,10 @@
+{
+  "schema": "yellowstone.atmosphere_package_verification.v1",
+  "archive": "yellowstone_atmosphere/yellowstone_atmosphere_godot.zip",
+  "sha256": "e79d7cccfaa3783b553b2f620b69b771987519c3c398d0a081c78c20712061dd",
+  "bytes": 40666,
+  "verified_entries": 13,
+  "canonical_runtime_pairs": 7,
+  "archive_bytes_match_sources": true,
+  "canonical_runtime_match": true
+}

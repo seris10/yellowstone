@@ -1,0 +1,12 @@
+{
+	"bole_lod_variants": 12,
+	"checks": 164,
+	"failures": [],
+	"floor_parts": 24,
+	"floor_source_sha256": "f76671e064b17f11c44535863b38f92061d97cd6c6d8a961a088228875065653",
+	"library_source_sha256": "f2587114287f5e74f3e7d42b3c6b4bba336fa705ff8b9aa10b74e534c4d4fe21",
+	"ok": true,
+	"schema": "yellowstone.floor_lod_isolation_review.v1",
+	"scope": "Headless load-order and serialization isolation; no raster acceptance",
+	"serialized_nodes": 48
+}

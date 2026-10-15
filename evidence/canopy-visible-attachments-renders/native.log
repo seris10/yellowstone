@@ -1,0 +1,28 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=4 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+CANOPY_CAPTURE wood_walk-original
+CANOPY_CAPTURE wood_walk-tubes
+CANOPY_CAPTURE litter_walk-original
+CANOPY_CAPTURE litter_walk-tubes
+CANOPY_CAPTURE overlook_foreground-original
+CANOPY_CAPTURE overlook_foreground-tubes
+CANOPY_CAPTURE bough_azimuth_000
+CANOPY_CAPTURE bough_azimuth_045
+CANOPY_CAPTURE bough_azimuth_090
+CANOPY_CAPTURE bough_azimuth_135
+CANOPY_CAPTURE bough_azimuth_180
+CANOPY_CAPTURE bough_azimuth_225
+CANOPY_CAPTURE bough_azimuth_270
+CANOPY_CAPTURE bough_azimuth_315
+CANOPY_CAPTURE mask_coverage_zero
+CANOPY_CAPTURE mask_support_zero
+CANOPY_CAPTURE grounded_support_full_height
+CANOPY_ATTACHMENTS {"captures":17,"checks":1041655,"failures":[],"ok":true,"preservation":{"buffer_and_source_identity":"exact_all_records","geometry_revision":2,"maximum_terrain_contact_error_m":0.00000480651855468833,"represented_area_m2":329939.0,"source_cells_per_lod":159157,"source_mask_sha256":"2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca","source_records":477471,"source_top_sha256":"77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b","terrain_contact_samples":77273,"upgrade":{"geometry_revision":2,"lod_instance_records":477471,"upgraded_batches":921}}}
+CANOPY_EVIDENCE verified mode, 17 captures, error-free log and positive result

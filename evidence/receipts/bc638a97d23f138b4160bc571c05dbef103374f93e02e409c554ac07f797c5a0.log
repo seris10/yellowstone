@@ -1,0 +1,48 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=4 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+TERRAIN_CAPTURE_BEGIN overlook_current visible=true mode=0
+TERRAIN_CAPTURE overlook_current
+TERRAIN_CAPTURE_BEGIN overlook_low visible=true mode=0
+TERRAIN_CAPTURE overlook_low
+TERRAIN_CAPTURE_BEGIN overlook_high visible=true mode=0
+TERRAIN_CAPTURE overlook_high
+TERRAIN_CAPTURE_BEGIN trail_detail_current visible=true mode=0
+TERRAIN_CAPTURE trail_detail_current
+TERRAIN_CAPTURE_BEGIN trail_detail_low visible=true mode=0
+TERRAIN_CAPTURE trail_detail_low
+TERRAIN_CAPTURE_BEGIN trail_detail_high visible=true mode=0
+TERRAIN_CAPTURE trail_detail_high
+TERRAIN_CAPTURE_BEGIN core_boundary_current visible=true mode=0
+TERRAIN_CAPTURE core_boundary_current
+TERRAIN_CAPTURE_BEGIN core_boundary_low visible=true mode=0
+TERRAIN_CAPTURE core_boundary_low
+TERRAIN_CAPTURE_BEGIN core_boundary_high visible=true mode=0
+TERRAIN_CAPTURE core_boundary_high
+TERRAIN_RENDER PASS captures=9 moving_camera={ "sample_frames": 120, "median_wall_frame_ms": 133.058, "p95_wall_frame_ms": 165.242, "process_frame_mean_ms": 147.325883333333, "draw_calls_mean": 2301.00833333333, "fps_cap": 0, "configured_fps_cap": 60, "scope": "Frozen forcing and foliage with a moving camera; wall time includes display synchronization.", "primitives_mean": 50854487.9666667, "drawn_frame_steps": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] }
+real 82.72
+user 45.69
+sys 3.32
+          3696902144  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              604366  page reclaims
+                  53  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   1  messages sent
+                   0  messages received
+                   0  signals received
+                 940  voluntary context switches
+               36006  involuntary context switches
+        735251660632  instructions retired
+        146610690827  cycles elapsed
+          6986978128  peak memory footprint

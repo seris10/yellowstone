@@ -1,0 +1,51 @@
+{
+  "schema": "yellowstone.tree_instance_lod.v1",
+  "ok": true,
+  "reports": {
+    "mobile": {
+      "checks": 97,
+      "failures": [],
+      "material_checks": 47,
+      "ok": true,
+      "pixel_transition_cases": 27,
+      "renderer": "mobile"
+    },
+    "compatibility": {
+      "checks": 97,
+      "failures": [],
+      "material_checks": 47,
+      "ok": true,
+      "pixel_transition_cases": 27,
+      "renderer": "gl_compatibility"
+    },
+    "saved_scene": {
+      "batches": 22254,
+      "checks": 2758746,
+      "failure_count": 0,
+      "failures": [],
+      "instances": 635650,
+      "ok": true,
+      "source_trees": 63565
+    }
+  },
+  "source_hashes": {
+    "yellowstone_midway/scripts/lodgepole_library.gd": "f2587114287f5e74f3e7d42b3c6b4bba336fa705ff8b9aa10b74e534c4d4fe21",
+    "yellowstone_midway/shaders/foliage.gdshader": "6d3dab36a5597244aa8f59a6e152eb7cb9552e8ced107c2eafe0e651bd4a0dfe",
+    "yellowstone_midway/shaders/tree_lod.gdshaderinc": "e01fbdb68032a621d42ad544e84a0c42b20b2f92ff0dd818f3042041bc9c55bc",
+    "yellowstone_midway/shaders/tree_bark.gdshader": "e3b828914def0fe08f572f49902e72a34343500876ed435f62ad49fbaf5c4fcb",
+    "yellowstone_midway/shaders/tree_impostor.gdshader": "ec9e14b12bbe08aa5ef7b503a9355ebd3a07e3374d8a7ac13137a3096a9c05d1",
+    "yellowstone_midway/tools/bake_world.gd": "4bcf7ca8778f7234d40af7d32235c95ddae8bc234364f2c200f171ba5e9f81a6",
+    "yellowstone_midway/tools/validate_tree_instance_lod.gd": "7bc26e1451e071b3a399dde725600cc679633073852e2fc64b7e965f9e63afc0",
+    "yellowstone_midway/scenes/authored_world.tscn": "fce6bdb9241b942795c573c69bb62600b25b3903bec08018437835a1540368fe",
+    "yellowstone_midway/data/placements.json": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+    "yellowstone_midway/data/placement_overrides.json": "6db9906472d50b1b0cb959b502e2bb3ebc7baffe5bc6ef02d1127fbc210040dd",
+    "yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json": "ef7303bcbfe2ca58044da22388c40a435a0205bcc237253a528d66613befd8d5"
+  },
+  "scope": "Native raster selection and complementary transition coverage on identical geometry; source tree counts, common centers, saved ranges and conservative batch culling. Does not certify differing-mesh silhouette similarity.",
+  "independent_material_review": {
+    "assets": 215,
+    "failures": [],
+    "ok": true,
+    "unique_materials": 173
+  }
+}

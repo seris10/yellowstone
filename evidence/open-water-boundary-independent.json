@@ -1,0 +1,11 @@
+{
+  "cases": 160,
+  "flipped_examples": [],
+  "max_area_error_m2": 0.000391662120819092,
+  "max_flipped_area_m2": 0.0,
+  "max_retained_triangle_water_overlap_m2": 0.000142518430948257,
+  "ok": true,
+  "scope": "randomized independent Clipper intersections at local mapped coordinates",
+  "source_sha256": "7e576ffb5452ea20d974dd0ea509f3dec439d327594f16d42c6a6a3cecd17f43",
+  "winding_flips": 0
+}

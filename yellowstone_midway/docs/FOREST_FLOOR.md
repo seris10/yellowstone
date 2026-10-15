@@ -129,6 +129,18 @@ the 0.00001 m numeric tolerance. This checks agreement with rendered terrain,
 not ground-survey accuracy. The regenerated source SHA-256 is
 `6e534dc0e446f74c9e6347a30cfd8140ffce38160e6ae7ec7444c3a69b6d6ea3`.
 
+The final saved-scene Metal captures are in
+[`evidence/forest-render`](../../evidence/forest-render/report.json). They include
+walking views and the same overlook camera at 72, 40 and 30 degree vertical
+fields of view, with input hashes and a residual-canopy control. Fine needle
+content now continues across the ground between raised debris beds. The
+subsequent [canopy attachment revision](CANOPY_ATTACHMENTS.md) replaces
+edge-on support strips with tapered tubes and crossed bough planes. Some
+residual cells retain long authored stems and shallow crowns; log geometry
+remains a simplified straight solid. These appearance checks do not establish local
+botanical accuracy or frame-time performance. The Python producer tests passed
+27 cases; the numerical receipts remain separate from the visual review.
+
 Sources:
 
 - [NPS Yellowstone forests](https://www.nps.gov/yell/learn/nature/forests.htm).

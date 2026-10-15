@@ -1,0 +1,28 @@
+{
+  "checks": 33595,
+  "failures": [],
+  "ok": true,
+  "performance_scope": "geometry counts only; frame time requires native world benchmark",
+  "triangles_near_mid": {
+    "elk_sedge": [
+      192,
+      48
+    ],
+    "grouse_whortleberry": [
+      760,
+      288
+    ],
+    "kinnikinnick": [
+      760,
+      288
+    ],
+    "litter": [
+      640,
+      172
+    ],
+    "pinegrass": [
+      192,
+      48
+    ]
+  }
+}

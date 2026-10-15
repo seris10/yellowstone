@@ -1,0 +1,35 @@
+{
+  "active_cells": 159157,
+  "baked_runtime_upgrade": true,
+  "checks": 15881760,
+  "elapsed_seconds": 65.543,
+  "engine": "4.5.1-stable (official)",
+  "failures": [],
+  "fixture_geometry": {
+    "active_cells": 3,
+    "represented_area_m2": 8.25,
+    "tiles": 1,
+    "triangles": 32
+  },
+  "footprint_evidence_class": "derived_not_field_validated",
+  "geometry_class": "authored",
+  "height_evidence_class": "derived_not_field_validated",
+  "minimum_retained_shoots_by_lod": [
+    5,
+    3
+  ],
+  "negative_controls": false,
+  "ok": true,
+  "represented_area_m2": 329939.0,
+  "runtime_geometry_revision": 2,
+  "scientific_acceptance": "not_yet_accepted",
+  "shell_thickness_class": "authored_display_geometry",
+  "source_sha256": "d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde",
+  "stem_count_claim": "none",
+  "support_only_clusters_by_lod": [
+    0,
+    0
+  ],
+  "tiles": 100,
+  "triangles": 1643520
+}

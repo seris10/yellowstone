@@ -1,0 +1,68 @@
+{
+  "scope": "Authored bed footprint sums before overlap, edge feather, occlusion and culling; not measured cover",
+  "overlook_xz_m": [
+    -252,
+    159
+  ],
+  "wide_only": {
+    "counts": {
+      "litter": 16013,
+      "log": 1600,
+      "snag": 24,
+      "understory_card": 18000
+    },
+    "nearest_litter_to_overlook_m": 25.191562809234203,
+    "radius_m": {
+      "10": {
+        "count": 0,
+        "summed_near_horizontal_m2": 0
+      },
+      "20": {
+        "count": 0,
+        "summed_near_horizontal_m2": 0
+      },
+      "40": {
+        "count": 4,
+        "summed_near_horizontal_m2": 9.971923354156052
+      },
+      "65": {
+        "count": 15,
+        "summed_near_horizontal_m2": 43.77547435790217
+      }
+    },
+    "summed_near_horizontal_m2": 58422.44016549905,
+    "fallbacks": {}
+  },
+  "adaptive": {
+    "counts": {
+      "litter": 24000,
+      "log": 1600,
+      "snag": 24,
+      "understory_card": 18000
+    },
+    "nearest_litter_to_overlook_m": 8.385075684129713,
+    "radius_m": {
+      "10": {
+        "count": 1,
+        "summed_near_horizontal_m2": 1.122313593602195
+      },
+      "20": {
+        "count": 4,
+        "summed_near_horizontal_m2": 5.404706099273557
+      },
+      "40": {
+        "count": 49,
+        "summed_near_horizontal_m2": 58.24449606236059
+      },
+      "65": {
+        "count": 135,
+        "summed_near_horizontal_m2": 172.76099221217873
+      }
+    },
+    "summed_near_horizontal_m2": 59423.76736226666,
+    "fallbacks": {
+      "litter_compact_footprint": 12358
+    }
+  },
+  "adaptive_source_sha256": "6e534dc0e446f74c9e6347a30cfd8140ffce38160e6ae7ec7444c3a69b6d6ea3"
+}

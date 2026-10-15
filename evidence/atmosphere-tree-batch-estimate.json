@@ -1,0 +1,199 @@
+{
+  "schema": "yellowstone.tree_batch_source_estimate.v1",
+  "source_trees": 63565,
+  "scope": "CPU reconstruction of authored bounds, batch range and camera frustum; current source mesh triangles; no Godot automatic LOD, shadow-pass, occlusion, driver or timing model. Billboard physical frames read from final variant metadata. Main-pass source submission estimate only, not a measured rendering or frame-time result.",
+  "camera": "validate_terrain_render.gd frozen 72deg vertical, aspect1.6, moving frames60..179, near.08m, far2900m",
+  "cases": [
+    {
+      "tile_m_inside_canopy": 64,
+      "boundary_specific_padding": false,
+      "tree_bins_world": 1311,
+      "allocated_tree_draw_batches": 22254,
+      "moving_view_mean_main_pass_triangles_by_lod": [
+        11520397.8,
+        5386508.45,
+        3239604.15,
+        46370.816666666666
+      ],
+      "moving_view_mean_main_pass_draws_by_lod": [
+        62.40833333333333,
+        89.75,
+        106.75,
+        506.075
+      ],
+      "moving_view_mean_main_pass_triangles": 20192881.216666665,
+      "moving_view_mean_main_pass_draws": 764.9833333333333
+    },
+    {
+      "tile_m_inside_canopy": 64,
+      "boundary_specific_padding": true,
+      "tree_bins_world": 1311,
+      "allocated_tree_draw_batches": 22254,
+      "moving_view_mean_main_pass_triangles_by_lod": [
+        6769582.3,
+        5374560.4,
+        3239604.15,
+        46370.816666666666
+      ],
+      "moving_view_mean_main_pass_draws_by_lod": [
+        36.425,
+        86.59166666666667,
+        106.75,
+        506.075
+      ],
+      "moving_view_mean_main_pass_triangles": 15430117.666666666,
+      "moving_view_mean_main_pass_draws": 735.8416666666667
+    },
+    {
+      "tile_m_inside_canopy": 32,
+      "boundary_specific_padding": false,
+      "tree_bins_world": 3238,
+      "allocated_tree_draw_batches": 55930,
+      "moving_view_mean_main_pass_triangles_by_lod": [
+        7551739.316666666,
+        4021348.65,
+        2433978.9166666665,
+        46225.066666666666
+      ],
+      "moving_view_mean_main_pass_draws_by_lod": [
+        90.825,
+        171.875,
+        202.01666666666668,
+        1247.3583333333333
+      ],
+      "moving_view_mean_main_pass_triangles": 14053291.95,
+      "moving_view_mean_main_pass_draws": 1712.075
+    },
+    {
+      "tile_m_inside_canopy": 32,
+      "boundary_specific_padding": true,
+      "tree_bins_world": 3238,
+      "allocated_tree_draw_batches": 55930,
+      "moving_view_mean_main_pass_triangles_by_lod": [
+        4142534.0,
+        3598256.716666667,
+        2276981.1666666665,
+        46225.066666666666
+      ],
+      "moving_view_mean_main_pass_draws_by_lod": [
+        60.891666666666666,
+        152.44166666666666,
+        176.81666666666666,
+        1247.3583333333333
+      ],
+      "moving_view_mean_main_pass_triangles": 10063996.95,
+      "moving_view_mean_main_pass_draws": 1637.5083333333334
+    },
+    {
+      "tile_m_inside_canopy": 16,
+      "boundary_specific_padding": false,
+      "tree_bins_world": 8531,
+      "allocated_tree_draw_batches": 132176,
+      "moving_view_mean_main_pass_triangles_by_lod": [
+        3862855.5833333335,
+        2483349.0166666666,
+        1473246.35,
+        46152.51666666667
+      ],
+      "moving_view_mean_main_pass_draws_by_lod": [
+        143.175,
+        293.14166666666665,
+        297.71666666666664,
+        3209.2833333333333
+      ],
+      "moving_view_mean_main_pass_triangles": 7865603.466666667,
+      "moving_view_mean_main_pass_draws": 3943.3166666666666
+    },
+    {
+      "tile_m_inside_canopy": 16,
+      "boundary_specific_padding": true,
+      "tree_bins_world": 8531,
+      "allocated_tree_draw_batches": 132176,
+      "moving_view_mean_main_pass_triangles_by_lod": [
+        1150028.9,
+        2406528.75,
+        1146464.0,
+        46152.51666666667
+      ],
+      "moving_view_mean_main_pass_draws_by_lod": [
+        62.88333333333333,
+        276.95,
+        237.025,
+        3209.2833333333333
+      ],
+      "moving_view_mean_main_pass_triangles": 4749174.166666667,
+      "moving_view_mean_main_pass_draws": 3786.141666666667
+    }
+  ],
+  "source_sha256": {
+    "yellowstone_midway/data/placements.json": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+    "yellowstone_midway/data/placement_overrides.json": "6db9906472d50b1b0cb959b502e2bb3ebc7baffe5bc6ef02d1127fbc210040dd",
+    "yellowstone_midway/tools/bake_world.gd": "336afaa3807c4260d17e141ddfdc461e69fba1d7f2a761f0fb1c08ff36005f60",
+    "yellowstone_midway/scripts/lodgepole_library.gd": "f2587114287f5e74f3e7d42b3c6b4bba336fa705ff8b9aa10b74e534c4d4fe21",
+    "yellowstone_midway/tools/validate_terrain_render.gd": "747fa904b5148f05337420f909e5636523f8785f48b1a0964e57a9bcd20eeac4",
+    "yellowstone_midway/tools/render_lodgepole_impostors.py": "15f3666269f8e3df8e1beab9c9b8a4ff13a045ad50f7e1c329c2ea5114a94581",
+    "yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+    "yellowstone_midway/assets/imported/lodgepole/architecture_library.json": "0082a46a33e134353ac27e5ec846736a98a42fbbdb07202cc48bed62df1464e2",
+    "work/atmosphere-audit/tree-batch-cost.py": "a4e3e20560fd3d823e48bd294a12dd392dddd013eb9e104ef41d5a81da05ae04",
+    "yellowstone_midway/assets/imported/lodgepole/dense_lod0.gltf": "368af07d9fad4e736740a0644170ff7d6d427dcaf2f75ae8dff21060adc1247b",
+    "yellowstone_midway/assets/imported/lodgepole/dense_lod1.gltf": "a350c2c916135bb7191c98b2eb3c8ec1e6602cc3867b1dfbd97d8cdfe74f85f0",
+    "yellowstone_midway/assets/imported/lodgepole/dense_lod2.gltf": "c2df98c42058ddea7565cac3eb5f86f781b3dd5ed3fb1caf1e1ac0a302253b27",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant1_lod0.gltf": "54380e8d03b92b058c730174a3fca3f2f1aef66b32f8d0f5f4bc7a5e339552ce",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant1_lod1.gltf": "af2b8ed4cb55fb0d434942fa08cf90857490fa4b19861c1ce8797411e5947815",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant1_lod2.gltf": "ba5e6cccad9bcaf6b5c51fc1134408bfc8a3476c18c0f7cf6ce78c3568302daf",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant2_lod0.gltf": "39e2d427a12c66ce8caa987aff500a0940cffc31549b84c1d28d19a858f18f58",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant2_lod1.gltf": "7b4eb1f5846bbddba71a9039a2cd6948f669733182314411c1976e496ddc2281",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant2_lod2.gltf": "d743492c7928875f5f9dae3715084fad4f9714ffeef37ce23d46b020dc6dbd5c",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant3_lod0.gltf": "97c9224699324af9eb8f578085d375c35e8f94f6f1ab9683939d42f78439c4a0",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant3_lod1.gltf": "2a342137065428952a787b50b0eb587b327fd160130554c60b522578a9565459",
+    "yellowstone_midway/assets/imported/lodgepole/dense_variant3_lod2.gltf": "6d576bae6978d4fabd3e5ac1f6ba639f08b17fc832a7d22afaed6f8d6fd40966",
+    "yellowstone_midway/assets/imported/lodgepole/edge_lod0.gltf": "a375d0e7e96b143426af6c781856404bf7c1614669bbb214095700ee81734709",
+    "yellowstone_midway/assets/imported/lodgepole/edge_lod1.gltf": "4045dfed08734f7f4e342dcbe51b1ef2bc9e5e0f87ee2045c632aae51da93a0d",
+    "yellowstone_midway/assets/imported/lodgepole/edge_lod2.gltf": "45dadcf5d1a6fd6c484e1fc02397ba1adbc9ad480165e4211801a8a5d6770fee",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant1_lod0.gltf": "9e7e0dab4e600b72a5c242ec5207696bdbd4ee430107272e915e2cad05e99dcc",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant1_lod1.gltf": "b74a23a60d21fad4e538f15c76c1a028aa6dc06c6a6bf8a450e09b4a599b53a8",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant1_lod2.gltf": "5c235d3e837b44d270573f4d3b9e8230378c76de12085fec668dfec60282a288",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant2_lod0.gltf": "f6ab572fb25b3963bd8e5c23b140759ab88144bec710ddac6890e7101038b8d0",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant2_lod1.gltf": "b3904ccc7f5f706b32c2f7e08591294a212a05eac3bc2cf432ba2aa2210338f8",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant2_lod2.gltf": "5cbda8ca7190e0b744152384c6dd516c694a4b8d58528f181e0ffaff633d44f6",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant3_lod0.gltf": "6c2314bafdadeff1fd438639e8cc40668969cdd211b416c72026931ae3f81e3e",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant3_lod1.gltf": "a34e997b577105a3999147166fb8afe1c036484f4bc352d382b89cda28957fb4",
+    "yellowstone_midway/assets/imported/lodgepole/edge_variant3_lod2.gltf": "31b6fbc1bfbca0aa4101fcc817ea05bac06f1dc4ff288d48f43927f2089c96eb",
+    "yellowstone_midway/assets/imported/lodgepole/open_lod0.gltf": "35d2860e3873454c1f4fa611ad531ed5f8134453d83a10008dfce2395bd55f68",
+    "yellowstone_midway/assets/imported/lodgepole/open_lod1.gltf": "fa6b2e22f70c6ee210ef372ff95503bd0e0bb75eee5e8356e3a7f0f8281720e7",
+    "yellowstone_midway/assets/imported/lodgepole/open_lod2.gltf": "a21cdc52cf59f19ce2d2f140a166e0a980c90707fd6c6bd14dfcb2e12b57e89e",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant1_lod0.gltf": "bd8e78029c370a24cb4b57bd725ee50ce0f7be68fa154dd53932187f0982905a",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant1_lod1.gltf": "e1856466b987c11d9039b11380c5c6ba0df30087479541dfe8baac2acdb03f4c",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant1_lod2.gltf": "4814e83cd5071a6d5b8808af97e4129e5fa2cfb8e2ebd3a7eb16c7174f0a6478",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant2_lod0.gltf": "7d5398d862812be85c8c455dc16a9255ef74a187466821ec9b44e8f085535147",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant2_lod1.gltf": "e0418d85d3262a85d72a119f60d0554d79eac7987c889df8b4abc43848b36bd2",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant2_lod2.gltf": "a9c78b29964c267344fdef642b671cdaa9ae77b3420dcc6b149430be9ac9c1c0",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant3_lod0.gltf": "a8531aaff90ba3265f3171118fa04219ab451113a1b9986c43ad45eeeb08b669",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant3_lod1.gltf": "f305a86fa2c92f0e5e32b10892a419e90f2d296aaad03973ab1a0c38ce1dc6bb",
+    "yellowstone_midway/assets/imported/lodgepole/open_variant3_lod2.gltf": "40936650cf8a05716df2d9d488de7c75735de05e5a0f00bd640c5850b3a136eb",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_lod0.gltf": "586c52a00692b184eb7d764111f0c96b19080fde482213cf44b4b5913c9d2d01",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_lod1.gltf": "4e57f31cdd28055d9e844b856c431a94c7b58058a999f510c90f1a3a97710f71",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_lod2.gltf": "93799fbe4390250f47817d45f40d913cb28593a569964431b475c68c03b3e518",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant1_lod0.gltf": "2839771605953f96dcd5c84aa3b603424a8585ed749bf54c678b4b1dbd98e7d5",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant1_lod1.gltf": "8af08526ff1eeaa0bcf3456e98d55c0cff8160c28442af2b63606e64654b3011",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant1_lod2.gltf": "15ebb5c6f51e166efd765aec601b8fa6c29a11822f5e90d909861b700f8e4b37",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant2_lod0.gltf": "cc1064c450e5c92d004bf836ac5da51a3f395448c971e4f71677a95b0fdf59e4",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant2_lod1.gltf": "b73b841e00b403de5c27d6359e170340d1d6e577f449d8bc9c3cc6467800824b",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant2_lod2.gltf": "90f2d2098b7552914815aea91a7788d77e89580c2c754819bf926f8d5095c9e3",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant3_lod0.gltf": "c476cefbe65849d4d546c221460b6d3af58b8db663c9fd0d10252c82d315404c",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant3_lod1.gltf": "bec8583dd5485429996b11a5adf507e5aaa25b88cf1e326707290cb20b96b269",
+    "yellowstone_midway/assets/imported/lodgepole/sapling_variant3_lod2.gltf": "9e06fcde2d1f09080b88237dbbdfe4c88aba7ebe4ef74c4bb313a5f13c77bbcb",
+    "yellowstone_midway/assets/imported/lodgepole/snag_lod0.gltf": "f2c53cbca2c92cec8f2558041ce63de1ad68a0900480f84ab329b53c2563c39c",
+    "yellowstone_midway/assets/imported/lodgepole/snag_lod1.gltf": "e59d5116aed0ddf80869c4965130458fab070d80fc281c1e8a24d028f1c9f6cd",
+    "yellowstone_midway/assets/imported/lodgepole/snag_lod2.gltf": "a83ee65fcdca67535acadddce759e94e9b0a271f2cf963a3a8963cfa06612300",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant1_lod0.gltf": "1e1f4801793c92550133b762daf603816639f1c0af50153944e63413da5fae48",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant1_lod1.gltf": "9deeb3dcff304fa8e4918c58016b4ce89e27bc294595a0640dc3dcd5dca1087b",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant1_lod2.gltf": "cc8c95c60ceab276f86383f621747c41821797a1ca189a19237ce12eef21e78a",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant2_lod0.gltf": "abb7fa2546920c700fa2e9c064d7f054b42c7aef095f46fe254162e84b6cb54e",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant2_lod1.gltf": "71cbd12d67f02402d725326b20fcd5f19fe9bfb95f7a8a6b7058b3785cc10517",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant2_lod2.gltf": "c870c2868c14675da4415636145407b897fe43c7c22a42141c7fe2ff1d81f146",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant3_lod0.gltf": "7c1a8e3eb7bcb0375676ee61cb399bb9b724c25d23d89d84ed4802d286152fde",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant3_lod1.gltf": "ceb34d734aaa725e457db0ffcbc97a1071abc2a362f487906554ffddb5c448ad",
+    "yellowstone_midway/assets/imported/lodgepole/snag_variant3_lod2.gltf": "edb60da10835dbcf4b082ab686385f2a74d524b4720b80a7492e7e68a7fb5661"
+  }
+}

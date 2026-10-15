@@ -1,0 +1,514 @@
+{
+	"captures": [
+		{
+			"file": "overlook_current.png",
+			"id": "overlook_current",
+			"position_m": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"sha256": "6c04ed2da3f9d7c86f2b2ddcc7693a62e15d8f82c12d3ff1cf8dcad60580f643",
+			"sun_rotation_radians": [
+				-0.50024825334549,
+				-1.66894638538361,
+				0.0
+			],
+			"target_m": [
+				-213.0,
+				30.0,
+				125.0
+			]
+		},
+		{
+			"file": "overlook_low.png",
+			"id": "overlook_low",
+			"position_m": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"sha256": "efd5b80ad2d072e0639907bd99b5516de059b3fb3a7fc838def55d83c8556f5b",
+			"sun_rotation_radians": [
+				-0.314159274101257,
+				-0.610865235328674,
+				0.0
+			],
+			"target_m": [
+				-213.0,
+				30.0,
+				125.0
+			]
+		},
+		{
+			"file": "overlook_high.png",
+			"id": "overlook_high",
+			"position_m": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"sha256": "c66d225a180ec5a79996de091770cb958beccf30dc449f27b1a018bf52b356cf",
+			"sun_rotation_radians": [
+				-1.13446402549744,
+				0.436332315206528,
+				0.0
+			],
+			"target_m": [
+				-213.0,
+				30.0,
+				125.0
+			]
+		},
+		{
+			"file": "trail_detail_current.png",
+			"id": "trail_detail_current",
+			"position_m": [
+				-249.247192382812,
+				47.9387550354004,
+				168.131805419922
+			],
+			"sha256": "0d856daa9f0bee19758d3186c2c2a8519b9b8200ab530fac77a5325af6a47779",
+			"sun_rotation_radians": [
+				-0.50024825334549,
+				-1.66894638538361,
+				0.0
+			],
+			"target_m": [
+				-242.263793945312,
+				46.338752746582,
+				165.85969543457
+			]
+		},
+		{
+			"file": "trail_detail_low.png",
+			"id": "trail_detail_low",
+			"position_m": [
+				-249.247192382812,
+				47.9387550354004,
+				168.131805419922
+			],
+			"sha256": "243a5a07d049e9fe76c573175ebf33d2847f0f3257a30a03bb6e955f730aae5b",
+			"sun_rotation_radians": [
+				-0.314159274101257,
+				-0.610865235328674,
+				0.0
+			],
+			"target_m": [
+				-242.263793945312,
+				46.338752746582,
+				165.85969543457
+			]
+		},
+		{
+			"file": "trail_detail_high.png",
+			"id": "trail_detail_high",
+			"position_m": [
+				-249.247192382812,
+				47.9387550354004,
+				168.131805419922
+			],
+			"sha256": "153376ea2d7091bc86a6eea3cdc64ceeecc8151c3ed3c006bde344afc1e39755",
+			"sun_rotation_radians": [
+				-1.13446402549744,
+				0.436332315206528,
+				0.0
+			],
+			"target_m": [
+				-242.263793945312,
+				46.338752746582,
+				165.85969543457
+			]
+		},
+		{
+			"file": "core_boundary_current.png",
+			"id": "core_boundary_current",
+			"position_m": [
+				-346.0,
+				60.9096527099609,
+				166.0
+			],
+			"sha256": "e1171f0e35f888fdad0162804e61991a0273d92dc39291ef67e106a7ded273a5",
+			"sun_rotation_radians": [
+				-0.50024825334549,
+				-1.66894638538361,
+				0.0
+			],
+			"target_m": [
+				-329.0,
+				52.9406127929688,
+				155.0
+			]
+		},
+		{
+			"file": "core_boundary_low.png",
+			"id": "core_boundary_low",
+			"position_m": [
+				-346.0,
+				60.9096527099609,
+				166.0
+			],
+			"sha256": "61caa6a56bd1329c470b840c0c59ee9aec79bafc230ab1a8cb86267bf3467982",
+			"sun_rotation_radians": [
+				-0.314159274101257,
+				-0.610865235328674,
+				0.0
+			],
+			"target_m": [
+				-329.0,
+				52.9406127929688,
+				155.0
+			]
+		},
+		{
+			"file": "core_boundary_high.png",
+			"id": "core_boundary_high",
+			"position_m": [
+				-346.0,
+				60.9096527099609,
+				166.0
+			],
+			"sha256": "9f5b8af940d763c0390ecb9bc150c1a177f761fe3b9acf78de2429cfb38243d4",
+			"sun_rotation_radians": [
+				-1.13446402549744,
+				0.436332315206528,
+				0.0
+			],
+			"target_m": [
+				-329.0,
+				52.9406127929688,
+				155.0
+			]
+		}
+	],
+	"core_render_cut": {
+		"collision_complete": true,
+		"collision_geometry": "retained_render_triangles",
+		"collision_tiles": 12,
+		"complete": true,
+		"expected_removed_triangles": 45000,
+		"failures": [],
+		"fallback_exterior_collision_preserved": true,
+		"removed_triangles": 45000,
+		"tiles": [
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 6890
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 1302,
+				"retained_triangles": 6890,
+				"tile": "Terrain_06_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 4224
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 3968,
+				"retained_triangles": 4224,
+				"tile": "Terrain_07_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 4224
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 3968,
+				"retained_triangles": 4224,
+				"tile": "Terrain_08_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 8130
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 62,
+				"retained_triangles": 8130,
+				"tile": "Terrain_09_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 5504
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 2688,
+				"retained_triangles": 5504,
+				"tile": "Terrain_06_07"
+			},
+			{
+				"collision": {
+					"disabled": true,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 0
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 8192,
+				"retained_triangles": 0,
+				"tile": "Terrain_07_07"
+			},
+			{
+				"collision": {
+					"disabled": true,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 0
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 8192,
+				"retained_triangles": 0,
+				"tile": "Terrain_08_07"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 8064
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 128,
+				"retained_triangles": 8064,
+				"tile": "Terrain_09_07"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 5882
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 2310,
+				"retained_triangles": 5882,
+				"tile": "Terrain_06_08"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 1152
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 7040,
+				"retained_triangles": 1152,
+				"tile": "Terrain_07_08"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 1152
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 7040,
+				"retained_triangles": 1152,
+				"tile": "Terrain_08_08"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 8082
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 110,
+				"retained_triangles": 8082,
+				"tile": "Terrain_09_08"
+			}
+		]
+	},
+	"cpu": "Apple M4",
+	"failures": [],
+	"feature_state": {
+		"far_tree_lod_end_m": 3000.0,
+		"residual_canopy_visible": true,
+		"source_cells": 159157
+	},
+	"foreground_luminance_variance": 0.0024411708408405,
+	"godot": "4.5.1-stable (official)",
+	"memory_static_peak_bytes": 3445015972.0,
+	"mode": "offline baked; frozen forcing during timing",
+	"moving_camera": {
+		"configured_fps_cap": 60,
+		"draw_calls_mean": 2391.94166666667,
+		"drawn_frame_steps": [
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1
+		],
+		"fps_cap": 0,
+		"median_wall_frame_ms": 51.544,
+		"p95_wall_frame_ms": 67.483,
+		"primitives_mean": 19665899.3166667,
+		"process_frame_mean_ms": 65.2281500000001,
+		"sample_frames": 120,
+		"scope": "Frozen forcing and foliage with a moving camera; wall time includes display synchronization."
+	},
+	"ok": true,
+	"release_id": "8f7ed4ee574d61735e3ba679b9e712b3e67dc8c0a1fe496d43a151724f5b71d8",
+	"renderer": "mobile",
+	"resolution": [
+		1440,
+		900
+	],
+	"runtime_ground": {
+		"core_in_seasonal_list": true,
+		"material_count": 2,
+		"wetness_probe": 0.6
+	},
+	"shadow": {
+		"bias": 0.0299999993294477,
+		"normal_bias": 3.0,
+		"range_m": 140.0
+	},
+	"startup_s": 64.823312
+}

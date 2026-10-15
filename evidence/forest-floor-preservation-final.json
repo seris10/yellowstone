@@ -1,0 +1,82 @@
+{
+  "floor_sha256": "6e534dc0e446f74c9e6347a30cfd8140ffce38160e6ae7ec7444c3a69b6d6ea3",
+  "counts": {
+    "litter": 24000,
+    "log": 1600,
+    "snag": 24,
+    "understory_card": 18000
+  },
+  "source_checks": [
+    {
+      "file": "yellowstone_python/derived/lidar_canopy/canopy_coverage.json",
+      "sha256": "3cb1dfdbfeea7ea9c078287a881d52ee5f8ca8beefe6b836923fa1f57c04b9a8",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_python/derived/lidar_canopy/canopy_height.provenance.json",
+      "sha256": "0adec7fd19106f5d872e350179c3a39e05a5d328e42b1d7012f4eb35f8399042",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_python/derived/lidar_canopy/interpreted_canopy_height.tif",
+      "sha256": "0dedb3698d96ac176252d83f4c4db54ff4398ac4a63169fd0c136d466e22ea56",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_midway/assets/textures/habitat_mask.png",
+      "sha256": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_midway/data/terrain.f32",
+      "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_midway/data/ground_heat.json",
+      "sha256": "409d05133f4d22234dd2f87a38e1406219349b5e0ed0f6279491aa1e674d11b1",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_midway/data/core_terrain/core_terrain.json",
+      "sha256": "e6f03b2babdcd788cc618f09c6fa41d7222e2b4c38bce9f99b75df5c56a644e9",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_midway/data/core_terrain/core_heightfield.f32",
+      "sha256": "da2b9bb902bce0459c3a67aa3bff579165a4b2127fb517872110103dc7bdf856",
+      "matches": true
+    },
+    {
+      "file": "yellowstone_midway/data/core_terrain/core_microrelief.f32",
+      "sha256": "e0acec0eb1d8935e33f3d9b8aa957ca97dd0e351e71e2dfd738068ff4db2a37a",
+      "matches": true
+    }
+  ],
+  "protected_input_checks": {
+    "base_placements": {
+      "file": "yellowstone_midway/data/placements.json",
+      "sha256": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+      "matches": true
+    },
+    "census": {
+      "file": "yellowstone_python/derived/census.json",
+      "sha256": "00a2787e57118209a2863263b280a3dabbc7ccf6ff2c786cb924d336b3b7afb2",
+      "matches": true
+    },
+    "overrides": {
+      "file": "yellowstone_midway/data/placement_overrides.json",
+      "sha256": "6db9906472d50b1b0cb959b502e2bb3ebc7baffe5bc6ef02d1127fbc210040dd",
+      "matches": true
+    }
+  },
+  "producer_sha256": "cf7d07ea29e6d7492aa5f049010a08982a2000c83c74c73005792daa3546fb17",
+  "producer_matches": true,
+  "class": "source_preservation_not_field_acceptance",
+  "ok": true
+}

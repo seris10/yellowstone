@@ -1,0 +1,70 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+ERROR: Parse JSON failed. Error at line 0: Unknown error getting token
+   at: parse_string (core/io/json.cpp:604)
+   GDScript backtrace (most recent call first):
+       [0] _load_color_image (res://scripts/terrain_materials.gd:33)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:80)
+       [2] _ready (res://scripts/world.gd:193)
+ERROR: terrain_materials: missing linear-light color manifest
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_color_image (res://scripts/terrain_materials.gd:35)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:80)
+       [2] _ready (res://scripts/world.gd:193)
+ERROR: terrain_materials: missing PBR map res://assets/textures/midway_macro.jpg
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] bind_ground_material (res://scripts/terrain_materials.gd:88)
+       [1] _ready (res://scripts/world.gd:193)
+ERROR: Terrain ground material binding failed.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/world.gd:194)
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=4 secondary=0 skipped_schema_mismatch=0
+ERROR: Parse JSON failed. Error at line 0: Unknown error getting token
+   at: parse_string (core/io/json.cpp:604)
+   GDScript backtrace (most recent call first):
+       [0] _load_color_image (res://scripts/terrain_materials.gd:33)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:80)
+       [2] _make_mat_material (res://scripts/core_terrain.gd:438)
+       [3] build (res://scripts/core_terrain.gd:81)
+       [4] build_core_terrain (res://scripts/world.gd:735)
+       [5] _ready (res://scripts/world.gd:218)
+ERROR: terrain_materials: missing linear-light color manifest
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_color_image (res://scripts/terrain_materials.gd:35)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:80)
+       [2] _make_mat_material (res://scripts/core_terrain.gd:438)
+       [3] build (res://scripts/core_terrain.gd:81)
+       [4] build_core_terrain (res://scripts/world.gd:735)
+       [5] _ready (res://scripts/world.gd:218)
+ERROR: terrain_materials: missing PBR map res://assets/textures/midway_macro.jpg
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] bind_ground_material (res://scripts/terrain_materials.gd:88)
+       [1] _make_mat_material (res://scripts/core_terrain.gd:438)
+       [2] build (res://scripts/core_terrain.gd:81)
+       [3] build_core_terrain (res://scripts/world.gd:735)
+       [4] _ready (res://scripts/world.gd:218)
+ERROR: core_terrain: shared ground material binding failed.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _make_mat_material (res://scripts/core_terrain.gd:439)
+       [1] build (res://scripts/core_terrain.gd:81)
+       [2] build_core_terrain (res://scripts/world.gd:735)
+       [3] _ready (res://scripts/world.gd:218)
+SMOKE scene=ready terrain=256 routes=41 pools=15
+SMOKE anchor=overlook floor=true y=48.0149383544922
+SMOKE anchor=boardwalk floor=true y=16.7649726867676
+SMOKE anchor=river floor=true y=4.53882169723511
+SMOKE anchor=trailhead floor=true y=7.9974799156189
+SMOKE heat_budget_error=0.0
+SMOKE multimesh_validation=absent (run tools/validate_multimesh.gd to regenerate)
+Traceback (most recent call last):
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/../work/check_package_startup.py", line 17, in <module>
+    assert "ERROR:" not in result.stdout and "Parse Error" not in result.stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

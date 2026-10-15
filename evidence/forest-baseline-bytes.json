@@ -1,0 +1,8 @@
+{
+  "baseline_release": "b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee",
+  "checked_files": 2290,
+  "differences": [],
+  "scope": "Prepared published surface package bytes before ABBA; the shared render harness is checked separately.",
+  "post_import_sidecar_changes": [],
+  "post_import_other_differences": []
+}

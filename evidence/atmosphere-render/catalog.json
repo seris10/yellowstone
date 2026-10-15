@@ -1,0 +1,502 @@
+{
+  "schema": "yellowstone.atmosphere_image_catalog.v1",
+  "copy_policy": "Byte-exact copies of native Godot PNGs; no visual editing or image synthesis. Original receipts remain unchanged.",
+  "preferred_weather_history_image": "evidence/atmosphere-render/weather-driven-post-rain.png",
+  "preferred_startup_negative": "evidence/atmosphere-render/clear-clouds.png",
+  "forced_double_bow_control": "evidence/atmosphere-render/double-rainbow.png",
+  "native_fixture": {
+    "godot": "4.5.1",
+    "camera_position_m": [
+      0,
+      25,
+      0
+    ],
+    "vertical_fov_deg": 66,
+    "camera_direction_unnormalized": [
+      0,
+      0.3,
+      -1
+    ],
+    "resolution_px": [
+      1280,
+      800
+    ],
+    "scene": "Opaque ground plane and foreground box test occlusion; not the Yellowstone world."
+  },
+  "source_scope": "Optical fixture captures predate explicit live-session clock-origin rebind; optical module, cloud and rainbow shader bytes remain unchanged. World cloud image and film controls predate final forest revisions. No field frequency or photometric calibration is claimed.",
+  "current_optical_source_sha256": {
+    "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+    "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+    "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+    "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+    "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+    "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+  },
+  "current_optical_shaders_match_capture": true,
+  "images": [
+    {
+      "file": "evidence/atmosphere-render/clear-clouds.png",
+      "sha256": "634fb15fd777b1475f9106f5b31617b3bdfbf69e9bdbbb8a4c47c61c6ce88f52",
+      "bytes": 442297,
+      "source_file": "work/atmosphere-captures/clear-clouds.png",
+      "source_receipt": "evidence/atmosphere-render.json",
+      "source_receipt_sha256": "fcfc1de4d3bc8e3f70ac4e78bc4fdc6754605afd7e2149ddf91a02f8d8a8abd6",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "13cf815361103ad04c0d7764861e76cb3135521bc04b9afc901e3b6cb6a24dc2",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+        "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+      },
+      "conditions": {
+        "label": "Controlled clear startup; no rain history and no rainbow",
+        "cloud_fraction": 0.16,
+        "sun_azimuth_deg": 0,
+        "sun_elevation_deg": 24,
+        "rain_mm_h": 0,
+        "history_seconds": 0
+      }
+    },
+    {
+      "file": "evidence/atmosphere-render/rainbow-negative.png",
+      "sha256": "e34a0208b5250c965136769dfd769c0bb84a6160b9e63a28ac5068b0fe64c10a",
+      "bytes": 308609,
+      "source_file": "work/atmosphere-captures/rainbow-negative.png",
+      "source_receipt": "evidence/atmosphere-render.json",
+      "source_receipt_sha256": "fcfc1de4d3bc8e3f70ac4e78bc4fdc6754605afd7e2149ddf91a02f8d8a8abd6",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "13cf815361103ad04c0d7764861e76cb3135521bc04b9afc901e3b6cb6a24dc2",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+        "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+      },
+      "conditions": {
+        "label": "Controlled no-liquid-history negative; changing weather alone at zero elapsed time produces no rainbow",
+        "cloud_fraction": 0,
+        "sun_azimuth_deg": 180,
+        "sun_elevation_deg": 14,
+        "rain_mm_h": 8,
+        "history_seconds": 0
+      }
+    },
+    {
+      "file": "evidence/atmosphere-render/double-rainbow.png",
+      "sha256": "0c6f606112b7ba29f841551c7b6c5304b7c4ed5da4485d984a9817ec517443fb",
+      "bytes": 341219,
+      "source_file": "work/atmosphere-captures/double-rainbow.png",
+      "source_receipt": "evidence/atmosphere-render.json",
+      "source_receipt_sha256": "fcfc1de4d3bc8e3f70ac4e78bc4fdc6754605afd7e2149ddf91a02f8d8a8abd6",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "13cf815361103ad04c0d7764861e76cb3135521bc04b9afc901e3b6cb6a24dc2",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+        "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+      },
+      "conditions": {
+        "label": "Forced optical-depth double-bow control; synthetic curtain state, not a naturally occurring game event",
+        "cloud_fraction": 0,
+        "sun_azimuth_deg": 180,
+        "sun_elevation_deg": 14,
+        "forced_optical_depth": 1.5,
+        "forced_curtain_center_m": [
+          0,
+          0,
+          -1800
+        ],
+        "forced_curtain_base_m": 0,
+        "forced_curtain_top_m": 2200
+      }
+    },
+    {
+      "file": "evidence/atmosphere-render/weather-driven-post-rain.png",
+      "sha256": "f714526580b8a43bdd2501d9d2e5ef7afcc66b114ba5f80a2a46b2d8cf3a281a",
+      "bytes": 325717,
+      "source_file": "work/atmosphere-captures/weather-driven-post-rain.png",
+      "source_receipt": "evidence/atmosphere-render.json",
+      "source_receipt_sha256": "fcfc1de4d3bc8e3f70ac4e78bc4fdc6754605afd7e2149ddf91a02f8d8a8abd6",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "13cf815361103ad04c0d7764861e76cb3135521bc04b9afc901e3b6cb6a24dc2",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+        "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+      },
+      "conditions": {
+        "label": "Controlled weather-history post-rain fixture; curtain derived from weather, no direct optical-depth override",
+        "sun_azimuth_deg": 180,
+        "sun_elevation_deg": 14,
+        "relative_humidity": 0.55,
+        "snow_fraction": 0,
+        "cloud_base_agl_m": 1050,
+        "rain_phase": {
+          "duration_simulation_seconds": 120,
+          "rain_mm_h": 8,
+          "cloud_fraction": 0.8,
+          "wind_from_deg": 180,
+          "wind_speed_mps": 2
+        },
+        "clear_phase": {
+          "duration_simulation_seconds": 20,
+          "rain_mm_h": 0,
+          "cloud_fraction": 0,
+          "wind_from_deg": 180,
+          "wind_speed_mps": 2
+        },
+        "limitations": [
+          "Controlled synthetic scene, not Yellowstone field observation or typical gameplay frequency.",
+          "Weather smoothing disabled for deterministic fixture.",
+          "Finite curtain may show only part of the primary bow; secondary is physically weaker."
+        ]
+      }
+    },
+    {
+      "file": "evidence/atmosphere-render/night-no-rainbow.png",
+      "sha256": "798d48741900d60aac64684f9dcda0c932c823b1d80d202c1e4e64422b8334b1",
+      "bytes": 88764,
+      "source_file": "work/atmosphere-captures/night-no-rainbow.png",
+      "source_receipt": "evidence/atmosphere-render.json",
+      "source_receipt_sha256": "fcfc1de4d3bc8e3f70ac4e78bc4fdc6754605afd7e2149ddf91a02f8d8a8abd6",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "13cf815361103ad04c0d7764861e76cb3135521bc04b9afc901e3b6cb6a24dc2",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+        "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+      },
+      "conditions": {
+        "label": "Controlled night negative after liquid-rain history; no rainbow with sun below horizon",
+        "sun_azimuth_deg": 180,
+        "sun_elevation_deg": -4,
+        "additional_elapsed_seconds": 0
+      }
+    },
+    {
+      "file": "evidence/atmosphere-render/compatibility-weather-driven-post-rain.png",
+      "sha256": "de0b0fdd5f7e3a163b7b3d40ac73cff5f022a8eb447a2ef56de97e8a62055043",
+      "bytes": 359782,
+      "source_file": "work/atmosphere-compatibility/weather-driven-post-rain.png",
+      "source_receipt": "evidence/atmosphere-render-compatibility.json",
+      "source_receipt_sha256": "c4a3073ca36a5660001d25bc6f46c9e485479691ba89410a6ade0e8762998007",
+      "renderer": "gl_compatibility",
+      "captured_source_sha256": {
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "13cf815361103ad04c0d7764861e76cb3135521bc04b9afc901e3b6cb6a24dc2",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/tools/validate_atmosphere_optics.gd": "5941e971f7ce43b60a564aeed216005a069c74c56101e26b244dc52e70400b22",
+        "yellowstone_midway/tools/capture_atmosphere_optics.gd": "3886ee6a0d571fe522b927bbb6311a8e3c1cdcb0a62ce376b205cf5a9e23dd0f"
+      },
+      "conditions": {
+        "label": "Controlled weather-history post-rain fixture; curtain derived from weather, no direct optical-depth override",
+        "sun_azimuth_deg": 180,
+        "sun_elevation_deg": 14,
+        "relative_humidity": 0.55,
+        "snow_fraction": 0,
+        "cloud_base_agl_m": 1050,
+        "rain_phase": {
+          "duration_simulation_seconds": 120,
+          "rain_mm_h": 8,
+          "cloud_fraction": 0.8,
+          "wind_from_deg": 180,
+          "wind_speed_mps": 2
+        },
+        "clear_phase": {
+          "duration_simulation_seconds": 20,
+          "rain_mm_h": 0,
+          "cloud_fraction": 0,
+          "wind_from_deg": 180,
+          "wind_speed_mps": 2
+        },
+        "limitations": [
+          "Controlled synthetic scene, not Yellowstone field observation or typical gameplay frequency.",
+          "Weather smoothing disabled for deterministic fixture.",
+          "Finite curtain may show only part of the primary bow; secondary is physically weaker."
+        ]
+      }
+    },
+    {
+      "file": "evidence/atmosphere-render/world-clouds-fov72.png",
+      "sha256": "05e5b73b421b4a09bb244c8ee4347dec3038cf6fc9a84d9a1715850c731fd74f",
+      "bytes": 1769899,
+      "source_file": "work/atmosphere-production/clouds_fov72.png",
+      "source_receipt": "work/atmosphere-production/report.json",
+      "source_receipt_sha256": "ae733c856e5901aff0c1a5ec0d1f3d243d57d40e0c0fcffb31fc833d5f7100a6",
+      "captured_world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "conditions": {
+        "ambient_light_energy": 0.286864012479782,
+        "cloud_fraction": 0.16,
+        "day_of_year": 172,
+        "daylight_factor": 1.0,
+        "direct_light_energy": 1.20959997177124,
+        "fog_sky_affect": 0.0,
+        "has_simulation_timestamp": true,
+        "precipitation_rate_mm_h": 0.0,
+        "rain_curtain_center": "(0.0, 0.0, 0.0)",
+        "rain_curtain_optical_depth": 0.0,
+        "rainbow_direct_transmission": 1.0,
+        "rainbow_secondary_ratio": 0.201305552914766,
+        "simulation_epoch_unix": 1782079920.71833,
+        "sky_turbidity": 2.2,
+        "snow_fraction": 0.0,
+        "solar_azimuth_deg": 252.502156346881,
+        "solar_elevation_deg": 49.7888729796894,
+        "solar_override_active": false,
+        "star_catalog_loaded": true,
+        "star_rebuild_epoch_unix": 1782079920.0,
+        "star_visibility": 0.0,
+        "terrain": {
+          "cloud_shadow_fraction": -1.0,
+          "ground_wetness_fraction": -1.0,
+          "insect_activity": -1.0,
+          "puddle_fraction": -1.0,
+          "snow_cover_fraction": 0.0,
+          "snow_water_equivalent_mm": -1.0,
+          "soil_temperature_c": -273.15,
+          "steam_intensity": -1.0
+        },
+        "visibility_m": 24000.0
+      },
+      "scope": "Actual world cloud inspection at FOV72. Predates final tree, canopy and material revisions; does not certify their appearance. Cloud shape is an authored four-sample slab approximation."
+    },
+    {
+      "file": "evidence/atmosphere-render/film-baseline.png",
+      "sha256": "2f9238221ad5ed423a1fe125bb5e4808075e63c11417b14c4e9a33afaafd72ea",
+      "bytes": 1551259,
+      "source_file": "work/atmosphere-film-regression/baseline.png",
+      "source_receipt": "evidence/atmosphere-film-regression.json",
+      "source_receipt_sha256": "dd80f2342bf53a9a58e0e12fc96f216d6771143a370d06c28376cc47de6185f0",
+      "captured_thermal_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+      "captured_world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "control": "baseline",
+      "scope": "Native actual-world material isolation. baseline uses production film support; other views are temporary control overrides. Predates final tree/canopy revision. See receipt for white-artifact ROI and positive-flow measurements."
+    },
+    {
+      "file": "evidence/atmosphere-render/film-no_specular.png",
+      "sha256": "7530d6fd0317161f8cbf656106c85f53a3db5f313441f51fc32a48370da8d3a7",
+      "bytes": 1552456,
+      "source_file": "work/atmosphere-film-regression/no_specular.png",
+      "source_receipt": "evidence/atmosphere-film-regression.json",
+      "source_receipt_sha256": "dd80f2342bf53a9a58e0e12fc96f216d6771143a370d06c28376cc47de6185f0",
+      "captured_thermal_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+      "captured_world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "control": "no_specular",
+      "scope": "Native actual-world material isolation. baseline uses production film support; other views are temporary control overrides. Predates final tree/canopy revision. See receipt for white-artifact ROI and positive-flow measurements."
+    },
+    {
+      "file": "evidence/atmosphere-render/film-legacy_wet_film.png",
+      "sha256": "16ab121236b65b176e1a08a43f1012ca27e98b10ec8a8b237d68429fd5899f87",
+      "bytes": 1562850,
+      "source_file": "work/atmosphere-film-regression/legacy_wet_film.png",
+      "source_receipt": "evidence/atmosphere-film-regression.json",
+      "source_receipt_sha256": "dd80f2342bf53a9a58e0e12fc96f216d6771143a370d06c28376cc47de6185f0",
+      "captured_thermal_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+      "captured_world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "control": "legacy_wet_film",
+      "scope": "Native actual-world material isolation. baseline uses production film support; other views are temporary control overrides. Predates final tree/canopy revision. See receipt for white-artifact ROI and positive-flow measurements."
+    },
+    {
+      "file": "evidence/atmosphere-render/film-supported_flow_mask.png",
+      "sha256": "82ee72a6fda34ed5619f62c246800532f7366ddb7c3f26656893abb7744593bd",
+      "bytes": 1138228,
+      "source_file": "work/atmosphere-film-regression/supported_flow_mask.png",
+      "source_receipt": "evidence/atmosphere-film-regression.json",
+      "source_receipt_sha256": "dd80f2342bf53a9a58e0e12fc96f216d6771143a370d06c28376cc47de6185f0",
+      "captured_thermal_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+      "captured_world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "control": "supported_flow_mask",
+      "scope": "Native actual-world material isolation. baseline uses production film support; other views are temporary control overrides. Predates final tree/canopy revision. See receipt for white-artifact ROI and positive-flow measurements."
+    },
+    {
+      "file": "evidence/atmosphere-render/film-synthetic_positive_flow.png",
+      "sha256": "ebb476e427d86c290560de4cc04b2df7a819eecf4a2dff267fa17ec258904e2f",
+      "bytes": 1552039,
+      "source_file": "work/atmosphere-film-regression/synthetic_positive_flow.png",
+      "source_receipt": "evidence/atmosphere-film-regression.json",
+      "source_receipt_sha256": "dd80f2342bf53a9a58e0e12fc96f216d6771143a370d06c28376cc47de6185f0",
+      "captured_thermal_shader_sha256": "d65b73afe6d7c4e4e7c922ebaa4903d1a1b2cd1df5870ac479a8a9559a085599",
+      "captured_world_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f",
+      "control": "synthetic_positive_flow",
+      "scope": "Native actual-world material isolation. baseline uses production film support; other views are temporary control overrides. Predates final tree/canopy revision. See receipt for white-artifact ROI and positive-flow measurements."
+    },
+    {
+      "file": "evidence/atmosphere-render/world-clear-startup.png",
+      "sha256": "bc66959400418ab4e1c921c91ca9ca98d9110344b29f3f4254fa7b4029eadc11",
+      "bytes": 1198981,
+      "source_file": "work/atmosphere-world-rain/world-clear-startup.png",
+      "source_receipt": "evidence/atmosphere-render/world-rain-history-receipt.json",
+      "source_receipt_sha256": "4f164d7d1c0192fe1ef4a3bf64539af72da77c2a40dcda0f1f0d013b74b498f7",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+        "yellowstone_midway/assets/textures/color_mips/color_mips.json": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+        "yellowstone_midway/data/release.json": "b19c1fca199ca3b3cf7315da96f3ab41a7b800983f02b7cb421e26af377bee0a",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/scripts/terrain_materials.gd": "5ded539c66914e4bab92f8d0506e8a7520766ca2a61ce3f187b9aadb38d25217",
+        "yellowstone_midway/scripts/world.gd": "5b2d04761422571ba1ef54bbffdacbc99e37cbad070779060592050f5febac8c",
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6"
+      },
+      "conditions": {
+        "camera_elevation_deg": 8.0,
+        "clear_cloud_fraction": 0.0,
+        "clear_seconds": 20,
+        "clock": "Production world._sync_atmosphere_clock from explicitly accepted elapsed seconds",
+        "curtain_override": false,
+        "rain_cloud_fraction": 0.8,
+        "rain_rate_mm_h": 8,
+        "rain_seconds": 120,
+        "relative_humidity": 0.55,
+        "snow_fraction": 0.0,
+        "solar_override_azimuth_deg": 222.842577525387,
+        "solar_override_elevation_deg": 14.0,
+        "vertical_fov_deg": 72.0,
+        "weather_interpolation": false,
+        "wind_from_degrees": 222.842577525387,
+        "wind_speed_mps": 2.0
+      },
+      "scope": "Controlled weather and solar-override fixture in the actual saved world; no measured occurrence-frequency claim",
+      "visual_review": "Actual world PNG inspected; clear startup, partial primary post-rain bow and layer-hidden control."
+    },
+    {
+      "file": "evidence/atmosphere-render/world-post-rain.png",
+      "sha256": "e4ab6f33b0086f62b8a2a6918319cfe2170d9c5d1b04bc23fd545a624bd9de3c",
+      "bytes": 1223049,
+      "source_file": "work/atmosphere-world-rain/world-post-rain.png",
+      "source_receipt": "evidence/atmosphere-render/world-rain-history-receipt.json",
+      "source_receipt_sha256": "4f164d7d1c0192fe1ef4a3bf64539af72da77c2a40dcda0f1f0d013b74b498f7",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+        "yellowstone_midway/assets/textures/color_mips/color_mips.json": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+        "yellowstone_midway/data/release.json": "b19c1fca199ca3b3cf7315da96f3ab41a7b800983f02b7cb421e26af377bee0a",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/scripts/terrain_materials.gd": "5ded539c66914e4bab92f8d0506e8a7520766ca2a61ce3f187b9aadb38d25217",
+        "yellowstone_midway/scripts/world.gd": "5b2d04761422571ba1ef54bbffdacbc99e37cbad070779060592050f5febac8c",
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6"
+      },
+      "conditions": {
+        "camera_elevation_deg": 8.0,
+        "clear_cloud_fraction": 0.0,
+        "clear_seconds": 20,
+        "clock": "Production world._sync_atmosphere_clock from explicitly accepted elapsed seconds",
+        "curtain_override": false,
+        "rain_cloud_fraction": 0.8,
+        "rain_rate_mm_h": 8,
+        "rain_seconds": 120,
+        "relative_humidity": 0.55,
+        "snow_fraction": 0.0,
+        "solar_override_azimuth_deg": 222.842577525387,
+        "solar_override_elevation_deg": 14.0,
+        "vertical_fov_deg": 72.0,
+        "weather_interpolation": false,
+        "wind_from_degrees": 222.842577525387,
+        "wind_speed_mps": 2.0
+      },
+      "scope": "Controlled weather and solar-override fixture in the actual saved world; no measured occurrence-frequency claim",
+      "visual_review": "Actual world PNG inspected; clear startup, partial primary post-rain bow and layer-hidden control."
+    },
+    {
+      "file": "evidence/atmosphere-render/world-post-rain-layer-hidden.png",
+      "sha256": "7bbe7f608372ddf8445be99fcbea15120b767b9a47b3fb6ffc5c9be9b0119506",
+      "bytes": 1194535,
+      "source_file": "work/atmosphere-world-rain/world-post-rain-layer-hidden.png",
+      "source_receipt": "evidence/atmosphere-render/world-rain-history-receipt.json",
+      "source_receipt_sha256": "4f164d7d1c0192fe1ef4a3bf64539af72da77c2a40dcda0f1f0d013b74b498f7",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+        "yellowstone_midway/assets/textures/color_mips/color_mips.json": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+        "yellowstone_midway/data/release.json": "b19c1fca199ca3b3cf7315da96f3ab41a7b800983f02b7cb421e26af377bee0a",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/scripts/terrain_materials.gd": "5ded539c66914e4bab92f8d0506e8a7520766ca2a61ce3f187b9aadb38d25217",
+        "yellowstone_midway/scripts/world.gd": "5b2d04761422571ba1ef54bbffdacbc99e37cbad070779060592050f5febac8c",
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6"
+      },
+      "conditions": {
+        "camera_elevation_deg": 8.0,
+        "clear_cloud_fraction": 0.0,
+        "clear_seconds": 20,
+        "clock": "Production world._sync_atmosphere_clock from explicitly accepted elapsed seconds",
+        "curtain_override": false,
+        "rain_cloud_fraction": 0.8,
+        "rain_rate_mm_h": 8,
+        "rain_seconds": 120,
+        "relative_humidity": 0.55,
+        "snow_fraction": 0.0,
+        "solar_override_azimuth_deg": 222.842577525387,
+        "solar_override_elevation_deg": 14.0,
+        "vertical_fov_deg": 72.0,
+        "weather_interpolation": false,
+        "wind_from_degrees": 222.842577525387,
+        "wind_speed_mps": 2.0
+      },
+      "scope": "Controlled weather and solar-override fixture in the actual saved world; no measured occurrence-frequency claim",
+      "visual_review": "Actual world PNG inspected; clear startup, partial primary post-rain bow and layer-hidden control."
+    },
+    {
+      "file": "evidence/atmosphere-render/world-post-rain-spring-view.png",
+      "sha256": "0fa945881ad80bf419de2e554cc745e5c38aeb1081bffa8945eae92919acef76",
+      "bytes": 1394252,
+      "source_file": "work/atmosphere-world-rain/world-post-rain-spring-view.png",
+      "source_receipt": "evidence/atmosphere-render/world-rain-history-receipt.json",
+      "source_receipt_sha256": "4f164d7d1c0192fe1ef4a3bf64539af72da77c2a40dcda0f1f0d013b74b498f7",
+      "renderer": "mobile",
+      "captured_source_sha256": {
+        "yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json": "3b7fe188d91099a487d627c60e603972a57109930194034606b4a39c234d95d0",
+        "yellowstone_midway/assets/textures/color_mips/color_mips.json": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+        "yellowstone_midway/data/release.json": "b19c1fca199ca3b3cf7315da96f3ab41a7b800983f02b7cb421e26af377bee0a",
+        "yellowstone_midway/scenes/authored_world.tscn": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7",
+        "yellowstone_midway/scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+        "yellowstone_midway/scripts/terrain_materials.gd": "5ded539c66914e4bab92f8d0506e8a7520766ca2a61ce3f187b9aadb38d25217",
+        "yellowstone_midway/scripts/world.gd": "5b2d04761422571ba1ef54bbffdacbc99e37cbad070779060592050f5febac8c",
+        "yellowstone_midway/scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+        "yellowstone_midway/shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+        "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6"
+      },
+      "conditions": {
+        "camera_elevation_deg": 8.0,
+        "clear_cloud_fraction": 0.0,
+        "clear_seconds": 20,
+        "clock": "Production world._sync_atmosphere_clock from explicitly accepted elapsed seconds",
+        "curtain_override": false,
+        "rain_cloud_fraction": 0.8,
+        "rain_rate_mm_h": 8,
+        "rain_seconds": 120,
+        "relative_humidity": 0.55,
+        "snow_fraction": 0.0,
+        "solar_override_azimuth_deg": 222.842577525387,
+        "solar_override_elevation_deg": 14.0,
+        "vertical_fov_deg": 72.0,
+        "weather_interpolation": false,
+        "wind_from_degrees": 222.842577525387,
+        "wind_speed_mps": 2.0
+      },
+      "scope": "Controlled weather and solar-override fixture in the actual saved world; no measured occurrence-frequency claim",
+      "visual_review": "Actual world PNG inspected; clear startup, partial primary post-rain bow and layer-hidden control."
+    }
+  ],
+  "preferred_actual_world_weather_history_image": "evidence/atmosphere-render/world-post-rain.png",
+  "preferred_actual_world_startup_negative": "evidence/atmosphere-render/world-clear-startup.png",
+  "actual_world_receipt": "evidence/atmosphere-render/world-rain-history-receipt.json",
+  "actual_world_scope": "Final saved scene and color mip assets; controlled solar override and rain history, no curtain override. Separate from the earlier synthetic fixture."
+}

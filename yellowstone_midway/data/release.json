@@ -1,6 +1,6 @@
 {
-  "manifest": "data/releases/b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee/RELEASE.json",
-  "release_id": "b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee",
+  "manifest": "data/releases/8f7ed4ee574d61735e3ba679b9e712b3e67dc8c0a1fe496d43a151724f5b71d8/RELEASE.json",
+  "release_id": "8f7ed4ee574d61735e3ba679b9e712b3e67dc8c0a1fe496d43a151724f5b71d8",
   "schema": "yellowstone.release_pointer.v1",
-  "sha256": "608d0a335555968c7449e01ba6e7e17206a445b643d911d8ed6c86734eb4fa5f"
+  "sha256": "4d8d67968d5428868370c46cdb78da95a8d9e258980f59ff08be2db97899c7ef"
 }

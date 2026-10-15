@@ -1,0 +1,22 @@
+{
+  "checks": 625181,
+  "counts": {
+    "litter": 24000,
+    "log": 1600,
+    "snag": 24,
+    "understory_card": 18000
+  },
+  "dominant_crown_count_included": false,
+  "elapsed_seconds": 3.192,
+  "engine": "4.5.1-stable (official)",
+  "evidence_class": "authored",
+  "failures": [],
+  "fixture_instance_slots": 19,
+  "instance_slots": 87368,
+  "morphology": "illustrative_non_diagnostic",
+  "multimesh_resources": 3209,
+  "negative_controls": true,
+  "ok": true,
+  "scientific_acceptance": "not_yet_accepted",
+  "source_sha256": "6e534dc0e446f74c9e6347a30cfd8140ffce38160e6ae7ec7444c3a69b6d6ea3"
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "yellowstone.forest_archive.v1",
+  "release_id": "8f7ed4ee574d61735e3ba679b9e712b3e67dc8c0a1fe496d43a151724f5b71d8",
+  "build_id": "f75347b772fd",
+  "source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+  "model_source_commit": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "runtime_source_commit": "5872c121c5513798124e2bbbdf719ab28ec99592",
+  "runtime_source_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+  "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+  "source_identity_scope": {
+    "package_creation_full_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+    "equivalence_full_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+    "finalization_full_identity": "82bb7a14793240aaa8229934e50898283893e70761064ef6e0b97df498957de3",
+    "scoped_runtime_identity": "45bc774f04f77c35bb2ee6a935dd660772c3ec56598e373609ee49f6aeefed78",
+    "excluded_at_equivalence": {
+      "path": "dashboard/build_data.py",
+      "recorded_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+      "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+      "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+      "uncommitted_outside_runtime": true,
+      "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+    },
+    "excluded_at_finalization": {
+      "path": "dashboard/build_data.py",
+      "recorded_sha256": null,
+      "observed_sha256": "57c1f4c0f94ce324e6831b3e0837eceead33f2ff156bb9395aecc6447ac46e43",
+      "head_sha256": "7353e1ec77bf1b3e64923aa318a035321ed5522b8a50263405e04441ea95f61a",
+      "uncommitted_outside_runtime": true,
+      "reason": "Dashboard inventory generator; absent from the numerical source-hash roots, production dependencies and portable Godot runtime."
+    },
+    "note": "Original full inventory observations include dashboard/build_data.py and remain unchanged. The exact unbundled dashboard path is excluded only from runtime comparisons. Packaged script/shader/tool bytes, every runtime file, fixtures and included sources remain authenticated."
+  },
+  "archive": "Yellowstone-Forest-Spring-Update.zip",
+  "archive_bytes": 1199697086,
+  "archive_sha256": "85a00808c470914abe22a1950cf404b17e1464c277019fa20104c35b48c2997f",
+  "package_sha256": "296d435aa98d79f9a24888393cf22d48bd0b1ede8e9f971a075cbd741fb4c431",
+  "verified_file_hashes": 2989,
+  "startup_evidence": {
+    "forest-package-headless": "evidence/receipts/4230d59bfbbb092b566cf5f58077164c690c2d74ec6ca92a0cac2714b9616f0a.json",
+    "forest-package-native": "evidence/receipts/c343f2296d8c15fb83b491b46f3da573e7ae0acca85a5698ff2a0d55200a32e3.json"
+  },
+  "scope": "Every archived file matches the authenticated package; one selected generation; Godot 4.5.1 required."
+}

@@ -1,0 +1,192 @@
+{
+  "ok": true,
+  "files": 9,
+  "source_manifest_hashes": {
+    "asset_manifest.json": "4ce6ba74119c70411fc445eca44a71364a7863fe16cd8cb928cdadf15b32193a",
+    "wildlife_motion_assets.json": "08e11136a7e9d6e42faa9cc7f277ca74e77a2c75847605e76903215692acfb52"
+  },
+  "assets": [
+    {
+      "asset_id": "polyhaven_forest_ground_04",
+      "path": "assets/textures/color_mips/forest_ground_04_diff_1k.miprgba",
+      "source": "https://polyhaven.com/a/forest_ground_04",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "e52c2dd0a25fe25bd1f3fecca2be98d3da7c6452a4ed8ccaf43b13dc2b16a664",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "CC0-1.0",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Rob Tuytel photography/processing; Rico Cilliers minor adjustment.",
+        "Generic dry, rocky forest ground; not a complete native understory reconstruction."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": "https://polyhaven.com/license"
+    },
+    {
+      "asset_id": "polyhaven_rock_boulder_dry",
+      "path": "assets/textures/color_mips/rock_boulder_dry_diff_1k.miprgba",
+      "source": "https://polyhaven.com/a/rock_boulder_dry",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "7543ac946847ada4bf51a0a1ededa6083c2575b71473befcbe27b2cea71c071c",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "CC0-1.0",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Dimitrios Savva photography; Rico Cilliers processing.",
+        "Diffuse only in terrain texture folder.",
+        "Not a local silica-sinter survey."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": "https://polyhaven.com/license"
+    },
+    {
+      "asset_id": "usgs_usda_naip_midway_2022",
+      "path": "assets/textures/color_mips/midway_macro.miprgba",
+      "source": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "bf11e912179bc7364328810de7a7cb5dda21a8ae8808b7f99f2f10d09528b90e",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "LicenseRef-Public-Domain",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Service describes public-domain orthoimagery and enables Allow Copy.",
+        "Source tile resolution differs from exported image and derived texture resolution.",
+        "Photographic shadows and canopy colors are reference data, not measured ground material or bathymetry."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": null
+    },
+    {
+      "asset_id": "usgs_usda_naip_midway_2022",
+      "path": "assets/textures/color_mips/midway_orthophoto_detail.miprgba",
+      "source": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "3ed43bcf564c0b2d6e92291fa7d9b1851b34f24bda27df91abbc36b7a0b963f7",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "LicenseRef-Public-Domain",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Service describes public-domain orthoimagery and enables Allow Copy.",
+        "Source tile resolution differs from exported image and derived texture resolution.",
+        "Photographic shadows and canopy colors are reference data, not measured ground material or bathymetry."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": null
+    },
+    {
+      "asset_id": "polyhaven_rocky_trail",
+      "path": "assets/textures/color_mips/rocky_trail_diff_1k.miprgba",
+      "source": "https://polyhaven.com/a/rocky_trail",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "561d82a3eb947e730e0b3af147383d4f8cb59907bb46b22e1407696c61996bf9",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "CC0-1.0",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "2 m texture width; source creator documents photography at https://amalbubble.artstation.com/projects/LRZZ6k.",
+        "1K albedo, OpenGL normal and ARM supply mapped tread detail.",
+        "Shared texture arrays use generated mipmaps; metallic remains disabled.",
+        "Generic material imagery is authored visual detail."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": "https://polyhaven.com/license"
+    },
+    {
+      "asset_id": "grounded_canopy_surface_detail",
+      "path": "assets/textures/color_mips/mapped_surface_detail.miprgba",
+      "source": "docs/SURFACE_RENDERING.md",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "30fa678e1dc1093afe9ec7c44932bdb525f3a8eb2dd808d375b9eefaf5bbbfff",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "Apache-2.0",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Deterministic band-limited metric relief and derivative normals.",
+        "Mapped contrast derives only from the existing public-domain NAIP image.",
+        "Connected needle atlas and supports are authored display geometry; no measured stem counts."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": null
+    },
+    {
+      "asset_id": "yellowstone_prismatic_display",
+      "path": "assets/textures/color_mips/prismatic_apron_display.miprgba",
+      "source": null,
+      "present": true,
+      "hash_matches": true,
+      "sha256": "7448b1eb3716eec4069ffd7b2ce7e1920629c57697d5a8a172190133837c2a14",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "MIT",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Scientific radiative-transfer and microbial pigment outputs remain unchanged and independently available.",
+        "Colors are display targets under unknown photographic processing, not measured reflectance or ecological predictions.",
+        "Terrace spacing, relief and ring widths are authored assumptions with unknown local uncertainty.",
+        "Google Maps screenshot pixels are not bundled or used as copied texture content."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": null
+    },
+    {
+      "asset_id": "polyhaven_forrest_ground_03",
+      "path": "assets/textures/color_mips/forrest_ground_03_diff_1k.miprgba",
+      "source": "https://polyhaven.com/a/forrest_ground_03",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "d2af5d27f52f36b2b48c357ea0cb3a007010041d6b7001f9af845890ff120f05",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "CC0-1.0",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Human photographed generic pine-needle litter; local Yellowstone species and cover are not inferred.",
+        "Original 1k JPEG files retained unchanged. Forest terrain layer and shallow litter beds use the source 2 m width.",
+        "Old Forest Ground 04 remains available for meadow and mineral substrate. Metallic remains disabled."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": "https://polyhaven.com/license"
+    },
+    {
+      "asset_id": "terrain_color_filter_manifest",
+      "path": "assets/textures/color_mips/color_mips.json",
+      "source": "../yellowstone_python/tools/prepare_color_mips.py",
+      "present": true,
+      "hash_matches": true,
+      "sha256": "3ce09e709c2b2cb8b39d727c8608d1ec7d8be5a40a74440b214e6e9539ea6b0d",
+      "runtime_use": "included_candidate",
+      "geometry_permission": "Apache-2.0",
+      "redistribution_status_established": true,
+      "geometry_validation": "unavailable",
+      "modifications": [
+        "Eight original color inputs retain their own asset licenses and provenance; their derived buffers are listed in the corresponding source asset records.",
+        "Filtering occurs offline in premultiplied linear sRGB. Normal, ARM, mask and scientific pigment inputs are excluded.",
+        "Total derived buffer storage is 111848096 bytes; existing GPU RGBA8 mip allocations and sampler counts are retained."
+      ],
+      "scientific_status": "visual_art_or_source_data; local biological validation unavailable",
+      "public_release_decision": "include",
+      "permission_evidence": null
+    }
+  ],
+  "scope": "Release inventory inclusion and byte hashes only; package rebuild and startup remain separate"
+}

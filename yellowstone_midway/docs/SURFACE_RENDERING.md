@@ -2,9 +2,13 @@
 
 Residual LiDAR coverage describes canopy area and elevation, not individual
 stems. The display preserves the same residual mask, counts and source-cell
-heights. Forty near and sixteen middle bough cards use unchanged human-made
-CC0 pine-shoot photographs assembled on authored branch supports. Their
-budgets are 208 and 88 triangles; the far proxy contains 14 triangles.
+heights. Forty near and sixteen middle bough sites use unchanged human-made
+CC0 pine-shoot photographs. Each now has two crossed foliage planes and a
+three-sided tapered twig, joined to a five-sided tapered main support. The
+final near/middle/far budgets are 420/180/26 triangles per cell, increased
+from the prior 208/88/14. Three shared meshes replace the old display geometry
+at runtime; source instance records, material passes and draw-batch counts
+are retained. This adds primitive cost and does not establish a speedup.
 Per-instance shader distances preserve the 45, 120 and 350 m boundaries;
 coarse batch ranges include their bounding-sphere radius. The continuous
 coverage skin retains its 180-260 m transition.
@@ -15,7 +19,10 @@ a connection of at most 2 m horizontally. Other cells use explicitly authored
 local supports, anchored to the actual rendered core/master triangles while
 retaining measured source-ground values as provenance. The 0.48 by 0.64 m
 bough dimension, branching and support sizes are authored with unknown local
-uncertainty. See [canopy evidence and limits](CANOPY_DISPLAY.md).
+uncertainty. Tapered tubes keep a visible connection at multiple azimuths;
+long stems and crowns confined to source cells remain reconstruction limits.
+See [canopy evidence and limits](CANOPY_DISPLAY.md) and the
+[final attachment evidence](CANOPY_ATTACHMENTS.md).
 
 ## Ground and basin
 
@@ -49,6 +56,16 @@ White sinter, microbial pigments, and water are distinct causes of basin appeara
 The display does not infer mineral chemistry or measured microbial communities from
 RGB imagery. See the [USGS hydrothermal surface explanation](https://www.usgs.gov/observatories/yvo/news/better-understanding-whats-under-your-feet-hydrothermal-areas-neutral).
 The filtering principle follows [GPU Gems image reconstruction and sampling](https://developer.nvidia.com/gpugems/gpugems2/part-iii-high-quality-rendering/chapter-27-advanced-high-quality-filtering).
+
+Terrain color mipmaps are now prepared offline in premultiplied linear sRGB,
+then encoded once for source-color sampling. The previous manual RGBA8 mip
+generation averaged encoded colors: a half-black, half-white patch produced
+about 0.216 linear radiance instead of 0.5. The corrected filtering preserves
+level-zero pixels and uses the existing GPU RGBA8 mip allocations. Eight
+hash-bound buffers add 111,848,096 bytes of distributable data. Normal, ARM,
+mask and scientific pigment channels retain their raw-data filtering. See
+[`color_mips.json`](../assets/textures/color_mips/color_mips.json) for every
+source hash and level size.
 
 ## Outflow filtering and reloads
 
@@ -160,3 +177,30 @@ clamps grazing directions; multiple scattering, local aerosol calibration, and
 curved-horizon transport are absent. A native zenith check requires blue/red above
 1.3 and green/red above 1.05; it establishes a display contract, without field color
 calibration.
+
+## Spring terrace contrast
+
+The spring terrace texture stores an authored radial height derivative and a
+repeated edge mask. Applying that edge mask as a 42 percent albedo reduction
+created continuous dark circles around the spring. The material retains the
+complete normal contribution and limits the albedo accent to 7.5 percent.
+Its weight is the larger of the existing flow fraction or a smooth transition
+from 0.06 to 0.24 in the absolute mapped linear-light luminance ratio difference
+from one. The aerial ratio is already sampled by the ground material. These
+thresholds and the edge strength are authored display parameters with unknown
+local uncertainty. Aerial contrast is not a terrace survey.
+
+The correction adds no texture fetches, changes no generated texture, and
+retains terrain, collision, source rasters, mapped colors and scientific inputs.
+Eight native before/after captures in
+[`evidence/terrace-contrast`](../../evidence/terrace-contrast/report.json)
+cover the wide view, the 40 degree overlook, the apron and an orthographic
+control. Draw calls and submitted primitives are identical within each pair.
+The [`source review`](../../evidence/terrace-contrast/review.json) verifies
+seven input hashes against the source commit and retains the normal term.
+A diagnostic annulus shows the association between image luminance and the
+periodic edge mask decreasing from -0.537 to -0.058. That diagnostic describes
+the artificial ring pattern; it is not a photographic-quality or field-accuracy
+score. Native inspection shows irregular runoff dominating the apron while
+shallow normal-based relief remains. The authored radial relief field itself
+remains uncalibrated, and human acceptance is separate from these checks.

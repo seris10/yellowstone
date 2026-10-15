@@ -17,8 +17,9 @@ Both close foliage meshes place one complete needle shoot at the cluster
 origin. The remaining shoots retain their seeded distribution. A woody twig
 and its foliage share the same coverage sample. This prevents a sparse cell
 from retaining bare support geometry after all of its needle shoots were
-discarded. The change adds no vertices, triangles, material passes or texture
-lookups. Existing source-cell heights and vertical display-depth rules remain
+discarded. That earlier anchor-only correction added no geometry or material
+passes. The final attachment revision separately increases geometry as described
+below; its three shared meshes retain the existing draw-batch count. Source-cell heights and vertical display-depth rules remain
 in force; grounded or rendered-bole connections are recomputed at the new
 horizontal origin.
 
@@ -35,9 +36,13 @@ Five copies of that original 0.18 by 0.36 m shoot, including transparent
 padding, form an authored connected bough. The composite card is 0.48 by
 0.64 m. Its branch arrangement and dimensions are explicit authored choices,
 not botanical measurements or generated foliage imagery. Cards use
-20-70 degree inclinations. Their stem endpoint stays joined to the woody
-twig after vertical compression. The near and middle budgets remain 40 and
-16 bough cards per residual cell, so triangles and draw passes do not increase.
+65-100 degree inclinations from vertical in the final attachment revision.
+Each bough site has two crossed foliage planes, with its stem endpoint joined
+to a tapered three-sided twig after vertical compression. Forty near and
+sixteen middle bough sites remain per residual cell; the main connection uses
+five-sided tapered tubes. Near/middle/far budgets increase from 208/88/14 to
+420/180/26 triangles per cell. Only three shared meshes change, preserving
+instance buffers and material passes; the added primitives still incur a cost.
 The shader selects LOD using each source canopy top, with complementary
 8 m transitions at 45 and 120 m. Each batch extends its coarse range by half
 its bounds diagonal, ensuring a close patch at a 64 m bin edge keeps near
@@ -71,10 +76,12 @@ separate from this geometry validation. Foliage render coverage and local
 stem count remain unmeasured; this repair does not constitute a field-validated
 canopy reconstruction.
 
-The 2026-10-15 Godot 4.5.1 headless run passed 16,124,882 checks across all
+The earlier anchor/coverage Godot 4.5.1 headless run passed 16,124,882 checks across all
 159,157 active cells, retaining the original 329,939 square meters of mask
 coverage. Every cluster retained foliage at both close detail levels: the
 minimum retained shoot counts were 5 and 3, with zero support-only clusters.
 The input metadata SHA-256 was
 `d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde`.
 These counts describe mask-supported shoot anchors, not visible pixel area.
+
+The final attachment revision has separate [implementation and native evidence](CANOPY_ATTACHMENTS.md). Its native checks inspect visible connections from eight azimuths and three world views; they supplement source contact checks. Residual cells remain coverage units, so long authored stems and crowns confined to narrow cells can still look unlike measured individual trees. Geometry/contact success does not establish field or human visual acceptance.
