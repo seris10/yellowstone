@@ -1,0 +1,421 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "0e6cd6f34baf9b031f44117d0c61ed269a2508dc3c7c9ca2f6f4dd56b9255395",
+  "vertices": 18043,
+  "triangles": 14708,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "source": "grizzly-remesh.glb",
+    "mesh_index": 0,
+    "node_index": 0,
+    "scale_status": "unverified_asset_units",
+    "source_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "canonical_transform": [
+      [
+        0.9775437094446574,
+        0.0,
+        -0.2107327599714365,
+        0.13423184549096182
+      ],
+      [
+        0.0,
+        0.9999999999999999,
+        0.0,
+        0.6499649882316588
+      ],
+      [
+        0.2107327599714365,
+        0.0,
+        0.9775437094446574,
+        -0.08417079045580278
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "forward_input": "+z",
+    "up_input": "+y",
+    "heading_estimation": "paw-cluster midpoint",
+    "supplied_bbox_length_m": null,
+    "canonical_scale_factor": 1.0,
+    "variant": {
+      "size": 0.9723685516313769,
+      "body_width": 1.012228071047041,
+      "body_depth": 0.9997974314055522,
+      "head_size": 1.0081832497832324,
+      "leg_length": 0.9786714065151353,
+      "tail_length": 1.025521973891739,
+      "coat_tint": [
+        0.9501375996152427,
+        0.9412562589215774,
+        0.9669634984593313
+      ],
+      "seed": 41,
+      "status": "artistic_randomization_not_biological_population_sampling",
+      "demographic_metadata": null
+    }
+  },
+  "texture_resizing": [
+    {
+      "image": "texture_0",
+      "before": [
+        8192,
+        8192
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "image": "texture_0_metallic_roughness",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "duration_s": 10.0,
+      "frames": 301,
+      "loop": true,
+      "engine": "mammal",
+      "species": "grizzly",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "idle",
+        "frequency_hz": 0.2,
+        "duty_factor": 0.68,
+        "stance_length_height": 0,
+        "clearance_height": 0,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.0,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "idle",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Walk",
+      "duration_s": 2.6666666666666665,
+      "frames": 81,
+      "loop": true,
+      "engine": "mammal",
+      "species": "grizzly",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "walk",
+        "frequency_hz": 0.75,
+        "duty_factor": 0.7,
+        "stance_length_height": 0.24,
+        "clearance_height": 0.055,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.8,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.3223832283866375,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "walk",
+      "max_ik_reach_error_asset_units": 0.0
+    }
+  ],
+  "joint_count": 22,
+  "rig": {
+    "schema": "wildlife-motion.rig/1",
+    "names": [
+      "root",
+      "pelvis",
+      "lumbar",
+      "thorax",
+      "neck",
+      "head",
+      "FL_upper",
+      "FL_middle",
+      "FL_ankle",
+      "FL_foot",
+      "FR_upper",
+      "FR_middle",
+      "FR_ankle",
+      "FR_foot",
+      "HL_upper",
+      "HL_middle",
+      "HL_ankle",
+      "HL_foot",
+      "HR_upper",
+      "HR_middle",
+      "HR_ankle",
+      "HR_foot"
+    ],
+    "parents": [
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      3,
+      6,
+      7,
+      8,
+      3,
+      10,
+      11,
+      12,
+      1,
+      14,
+      15,
+      16,
+      1,
+      18,
+      19,
+      20
+    ],
+    "rest": [
+      [
+        -1.3292092946278833e-05,
+        -2.7206547385534564e-05,
+        -2.2423321146517594e-05
+      ],
+      [
+        -6.57566365034952e-06,
+        0.7959725043165076,
+        -0.44621563773244316
+      ],
+      [
+        -0.0006075907387039572,
+        0.8012052217036139,
+        -0.07672721278465403
+      ],
+      [
+        -0.002896621517340716,
+        0.8082996624176529,
+        0.4342888366851842
+      ],
+      [
+        -0.0031512737303468455,
+        0.9101389883863442,
+        0.6357137295308435
+      ],
+      [
+        0.42425621194651836,
+        0.8540414806494896,
+        0.7145583924080658
+      ],
+      [
+        0.2545458142651119,
+        0.6936352198746536,
+        0.43401829950388565
+      ],
+      [
+        0.24926559840390478,
+        0.3805738795685402,
+        0.3240943118098243
+      ],
+      [
+        0.24681327455438068,
+        0.16011010835807876,
+        0.39998037845998735
+      ],
+      [
+        0.2470064694351138,
+        0.04867244375658665,
+        0.4805094748729062
+      ],
+      [
+        -0.258268355465913,
+        0.6943163028723024,
+        0.43520937175793806
+      ],
+      [
+        -0.2510476894019046,
+        0.3824570420786929,
+        0.3256337100505022
+      ],
+      [
+        -0.24780244119906772,
+        0.16164136326945092,
+        0.6114958326970392
+      ],
+      [
+        -0.24752207155249467,
+        0.052391200086918395,
+        0.6916040068569365
+      ],
+      [
+        0.2558715415571243,
+        0.7580581959652256,
+        -0.44625324276668377
+      ],
+      [
+        0.16486094382192001,
+        0.481620187969112,
+        -0.47490432848450675
+      ],
+      [
+        0.05560123842126386,
+        0.18679643796495987,
+        -0.978181274640045
+      ],
+      [
+        0.055601238421263285,
+        0.05161130429322822,
+        -0.8681243294608499
+      ],
+      [
+        -0.25588055282897687,
+        0.7580626780467576,
+        -0.44619903713575115
+      ],
+      [
+        -0.16490035145212753,
+        0.48160880691188646,
+        -0.24944968436942572
+      ],
+      [
+        -0.055601368095557234,
+        0.18679625464976696,
+        -0.4144731085345625
+      ],
+      [
+        -0.05560140324917272,
+        0.04683634065098918,
+        -0.30441620832636745
+      ]
+    ],
+    "groups": {
+      "body": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "FL": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "FR": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "HL": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "HR": [
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    "metadata": {
+      "species": "grizzly",
+      "engine": "mammal",
+      "review_status": "estimated_unreviewed",
+      "source_sha256": "0e6cd6f34baf9b031f44117d0c61ed269a2508dc3c7c9ca2f6f4dd56b9255395",
+      "canonical_transform": [
+        [
+          0.9775437094446574,
+          0.0,
+          -0.2107327599714365,
+          0.13423184549096182
+        ],
+        [
+          0.0,
+          0.9999999999999999,
+          0.0,
+          0.6499649882316588
+        ],
+        [
+          0.2107327599714365,
+          0.0,
+          0.9775437094446574,
+          -0.08417079045580278
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scale_status": "unverified_asset_units",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "height": 1.2537125548369235,
+      "length": 2.0025227228175444,
+      "foot_posture": "plantigrade",
+      "warnings": [
+        "Joint centers inferred from surface geometry, not measured skeletons.",
+        "Posed AI meshes may require joint and weight correction, particularly shoulders, hips, and feet."
+      ],
+      "review_note": "Automatically estimated rig, reviewed visually for gross placement only. Hidden joint centers and motion remain unmeasured.",
+      "variant": {
+        "size": 0.9723685516313769,
+        "body_width": 1.012228071047041,
+        "body_depth": 0.9997974314055522,
+        "head_size": 1.0081832497832324,
+        "leg_length": 0.9786714065151353,
+        "tail_length": 1.025521973891739,
+        "coat_tint": [
+          0.9501375996152427,
+          0.9412562589215774,
+          0.9669634984593313
+        ],
+        "seed": 41,
+        "status": "artistic_randomization_not_biological_population_sampling",
+        "demographic_metadata": null
+      },
+      "sole_offsets": {
+        "FL": 0.04752058894393646,
+        "FR": 0.045281663047605815,
+        "HL": 0.04869413393574435,
+        "HR": 0.04683774429425367
+      }
+    }
+  }
+}

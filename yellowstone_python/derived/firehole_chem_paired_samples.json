@@ -1,0 +1,131 @@
+{
+ "schema": "yellowstone.firehole_chem_paired_samples.v1",
+ "status": "measured_remote_not_calibrated",
+ "assembled_at_utc": "2026-10-13T11:17:02.814563+00:00",
+ "site_id": "USGS-06036905",
+ "n_paired": 19,
+ "provenance": {
+  "source": "Water Quality Portal (waterqualitydata.us)",
+  "url": "https://www.waterqualitydata.us/data/Result/search?siteid=USGS-06036805;USGS-06036905&mimeType=csv&dataProfile=narrowResult&characteristicName=Chloride&characteristicName=Specific+conductance&characteristicName=Arsenic&characteristicName=Boron&characteristicName=pH&characteristicName=Dissolved+oxygen+(DO)",
+  "agency": "USGS",
+  "terms": "USGS Water Services and NWIS provisional terms."
+ },
+ "paired_samples": [
+  {
+   "activity_id": "nwismt.01.98400112",
+   "date": "1984-02-28",
+   "sc_us_cm": 510.0,
+   "chloride_mg_l": 74.0
+  },
+  {
+   "activity_id": "nwismt.01.98400114",
+   "date": "1984-04-18",
+   "sc_us_cm": 418.0,
+   "chloride_mg_l": 61.0
+  },
+  {
+   "activity_id": "nwismt.01.98400116",
+   "date": "1984-06-06",
+   "sc_us_cm": 308.0,
+   "chloride_mg_l": 39.0
+  },
+  {
+   "activity_id": "nwismt.01.98400117",
+   "date": "1984-07-12",
+   "sc_us_cm": 420.0,
+   "chloride_mg_l": 57.0
+  },
+  {
+   "activity_id": "nwismt.01.98400118",
+   "date": "1984-08-21",
+   "sc_us_cm": 442.0,
+   "chloride_mg_l": 57.0
+  },
+  {
+   "activity_id": "nwismt.01.98600805",
+   "date": "1986-02-05",
+   "sc_us_cm": 540.0,
+   "chloride_mg_l": 78.0
+  },
+  {
+   "activity_id": "nwismt.01.98600925",
+   "date": "1986-03-18",
+   "sc_us_cm": 536.0,
+   "chloride_mg_l": 70.0
+  },
+  {
+   "activity_id": "nwismt.01.98900001",
+   "date": "1988-10-06",
+   "sc_us_cm": 610.0,
+   "chloride_mg_l": 80.0
+  },
+  {
+   "activity_id": "nwismt.01.98900121",
+   "date": "1988-11-03",
+   "sc_us_cm": 575.0,
+   "chloride_mg_l": 81.0
+  },
+  {
+   "activity_id": "nwismt.01.98901202",
+   "date": "1989-05-03",
+   "sc_us_cm": 454.0,
+   "chloride_mg_l": 59.0
+  },
+  {
+   "activity_id": "nwismt.01.98901483",
+   "date": "1989-06-14",
+   "sc_us_cm": 313.0,
+   "chloride_mg_l": 39.0
+  },
+  {
+   "activity_id": "nwismt.01.98901728",
+   "date": "1989-07-26",
+   "sc_us_cm": 524.0,
+   "chloride_mg_l": 66.0
+  },
+  {
+   "activity_id": "nwismt.01.98902748",
+   "date": "1989-09-12",
+   "sc_us_cm": 522.0,
+   "chloride_mg_l": 70.0
+  },
+  {
+   "activity_id": "nwismt.01.01800224",
+   "date": "2018-07-19",
+   "sc_us_cm": 406.0,
+   "chloride_mg_l": 53.3
+  },
+  {
+   "activity_id": "nwismt.01.01800292",
+   "date": "2018-09-26",
+   "sc_us_cm": 429.0,
+   "chloride_mg_l": 56.5
+  },
+  {
+   "activity_id": "nwismt.01.01900036",
+   "date": "2018-11-07",
+   "sc_us_cm": 440.0,
+   "chloride_mg_l": 60.6
+  },
+  {
+   "activity_id": "nwismt.01.01900215",
+   "date": "2019-07-17",
+   "sc_us_cm": 457.0,
+   "chloride_mg_l": 61.0
+  },
+  {
+   "activity_id": "nwismt.01.01900263",
+   "date": "2019-08-27",
+   "sc_us_cm": 475.0,
+   "chloride_mg_l": 62.5
+  },
+  {
+   "activity_id": "nwismt.01.01900359",
+   "date": "2019-09-25",
+   "sc_us_cm": 474.0,
+   "chloride_mg_l": 64.3
+  }
+ ],
+ "artifact_sha256": "dc23bf182321d67102fea40938c8ff79ee47fd4388f4e3b96ec111db5c14d3af",
+ "artifact_sha256_scope": "canonical_json_without_hash_fields"
+}

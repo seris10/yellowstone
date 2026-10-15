@@ -1,0 +1,110 @@
+[
+ {
+  "plot_id": "P0004",
+  "x0": 1024,
+  "y0": 0,
+  "x1": 1280,
+  "y1": 256,
+  "model_count": 622,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0005",
+  "x0": 1280,
+  "y0": 0,
+  "x1": 1536,
+  "y1": 256,
+  "model_count": 754,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0104",
+  "x0": 1024,
+  "y0": 256,
+  "x1": 1280,
+  "y1": 512,
+  "model_count": 384,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0300",
+  "x0": 0,
+  "y0": 768,
+  "x1": 256,
+  "y1": 1024,
+  "model_count": 857,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0401",
+  "x0": 256,
+  "y0": 1024,
+  "x1": 512,
+  "y1": 1280,
+  "model_count": 838,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0404",
+  "x0": 1024,
+  "y0": 1024,
+  "x1": 1280,
+  "y1": 1280,
+  "model_count": 0,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0501",
+  "x0": 256,
+  "y0": 1280,
+  "x1": 512,
+  "y1": 1536,
+  "model_count": 763,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0601",
+  "x0": 256,
+  "y0": 1536,
+  "x1": 512,
+  "y1": 1792,
+  "model_count": 745,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0700",
+  "x0": 0,
+  "y0": 1792,
+  "x1": 256,
+  "y1": 2048,
+  "model_count": 721,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0703",
+  "x0": 768,
+  "y0": 1792,
+  "x1": 1024,
+  "y1": 2048,
+  "model_count": 830,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0705",
+  "x0": 1280,
+  "y0": 1792,
+  "x1": 1536,
+  "y1": 2048,
+  "model_count": 584,
+  "reference_count": ""
+ },
+ {
+  "plot_id": "P0706",
+  "x0": 1536,
+  "y0": 1792,
+  "x1": 1792,
+  "y1": 2048,
+  "model_count": 396,
+  "reference_count": ""
+ }
+]

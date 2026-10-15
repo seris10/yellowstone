@@ -1,0 +1,32 @@
+{
+  "boundary_contribution": {
+    "coupling": "partial: contributing area not delineated; wire outlet runoff only when open_edges deliver outflow",
+    "mean_rate_m3_s": 0.0,
+    "outflow_m3": 0.0,
+    "status": "no_outflow"
+  },
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "enabled": false,
+  "overland_flow_role": "diagnostic_not_wired_to_river",
+  "parameter_provenance": {
+    "method": "hydrosim local-inertial shallow water, block-mean of terrain.f32"
+  },
+  "provenance": "overland disabled; set overland.enabled true to compute it",
+  "schema": "yellowstone.overland_flow.v1",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/terrain.f32",
+      "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+    }
+  ],
+  "status": "illustrative_not_calibrated",
+  "surface_runoff": {
+    "carries_runoff_signal": false,
+    "max_depth_m": 0.0,
+    "nonzero_cells": 0,
+    "note": "module disabled; no field computed",
+    "outflow_m3": 0.0
+  },
+  "world_id": "yellowstone_midway"
+}

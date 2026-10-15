@@ -1,0 +1,27 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "failures": [],
+  "metrics": {
+    "n_landscape_cells": 276,
+    "n_pockets": 0,
+    "n_solver_cells": 276,
+    "n_sources": 1,
+    "snow_runoff_check": "ok",
+    "surface_method": "newton_lumped"
+  },
+  "parameter_provenance": {
+    "build_id": "f75347b772fd",
+    "run_mode": "scenario"
+  },
+  "passed": true,
+  "schema": "yellowstone.coupling_check.v1",
+  "sources": [
+    {
+      "id": "code",
+      "sha256": "0c6d2466e94b851c"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

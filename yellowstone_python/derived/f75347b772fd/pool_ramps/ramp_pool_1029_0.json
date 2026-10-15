@@ -1,0 +1,1709 @@
+{
+  "bottom_basis": "authored radial temperature classes and shell depth",
+  "color_space": "linear_rgb",
+  "local_color_uncertainty": "unknown; no site spectroradiometric calibration",
+  "method": "Nugent (2015) equations 1-3, three-band continuum approximation",
+  "name": "Opal Pool",
+  "optical_depth_status": "authored display profile; submerged bathymetry unmeasured",
+  "palette_status": "authored sRGB colors decoded to linear-light reflectance proxies",
+  "parameters": {
+    "absorption_m_inv": {
+      "b_450nm": 0.00922,
+      "g_550nm": 0.0565,
+      "r_650nm": 0.34,
+      "source": "Pope and Fry (1997) Appl. Opt. 36(33) 8710 Table 2 Table 2 (380-700 nm)",
+      "status": "literature"
+    },
+    "ph": 8.0,
+    "scatter_tint_rgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "scattering_m_inv": {
+      "b_450nm": 0.0035,
+      "g_550nm": 0.0015,
+      "r_650nm": 0.0008,
+      "source": "authored three-band total scattering proxy; equal forward and backward hemispheres",
+      "status": "authored"
+    },
+    "sky_irradiance_ratio": 0.1,
+    "sky_ratio_source": "Nugent, Shaw, Vollmer (2015) Appl. Opt. 54(4) B128, Table 1 Section 2, approximate clear-sky ratio",
+    "surface_reflection": 0.02
+  },
+  "pool_id": "pool_1029_0",
+  "samples": [
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#369147",
+      "depth_m": 4.0,
+      "fraction": 0.0,
+      "r_m": 0.0,
+      "rgb01": [
+        0.0373,
+        0.2816,
+        0.0623
+      ],
+      "t_c": 63.0
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#369147",
+      "depth_m": 3.999782999565999,
+      "fraction": 0.007874015748031496,
+      "r_m": 0.04486642114340952,
+      "rgb01": [
+        0.0373,
+        0.2816,
+        0.0623
+      ],
+      "t_c": 62.99857399714799
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#369147",
+      "depth_m": 3.999131998263996,
+      "fraction": 0.015748031496062992,
+      "r_m": 0.08973284228681903,
+      "rgb01": [
+        0.0374,
+        0.2816,
+        0.0623
+      ],
+      "t_c": 62.99429598859197
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#369147",
+      "depth_m": 3.998046996093992,
+      "fraction": 0.023622047244094488,
+      "r_m": 0.13459926343022854,
+      "rgb01": [
+        0.0374,
+        0.2816,
+        0.0623
+      ],
+      "t_c": 62.987165974331944
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#369147",
+      "depth_m": 3.9965279930559863,
+      "fraction": 0.031496062992125984,
+      "r_m": 0.17946568457363807,
+      "rgb01": [
+        0.0374,
+        0.2817,
+        0.0623
+      ],
+      "t_c": 62.97718395436791
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#369147",
+      "depth_m": 3.9945749891499784,
+      "fraction": 0.03937007874015748,
+      "r_m": 0.22433210571704756,
+      "rgb01": [
+        0.0375,
+        0.2818,
+        0.0623
+      ],
+      "t_c": 62.96434992869986
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#369147",
+      "depth_m": 3.9921879843759687,
+      "fraction": 0.047244094488188976,
+      "r_m": 0.2691985268604571,
+      "rgb01": [
+        0.0375,
+        0.2818,
+        0.0623
+      ],
+      "t_c": 62.94866389732779
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9893669787339574,
+      "fraction": 0.05511811023622047,
+      "r_m": 0.3140649480038666,
+      "rgb01": [
+        0.0376,
+        0.2819,
+        0.0623
+      ],
+      "t_c": 62.93012586025172
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9861119722239446,
+      "fraction": 0.06299212598425197,
+      "r_m": 0.35893136914727614,
+      "rgb01": [
+        0.0377,
+        0.282,
+        0.0623
+      ],
+      "t_c": 62.90873581747164
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9824229648459295,
+      "fraction": 0.07086614173228346,
+      "r_m": 0.4037977902906857,
+      "rgb01": [
+        0.0378,
+        0.2821,
+        0.0623
+      ],
+      "t_c": 62.88449376898754
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9782999565999133,
+      "fraction": 0.07874015748031496,
+      "r_m": 0.44866421143409513,
+      "rgb01": [
+        0.0379,
+        0.2823,
+        0.0623
+      ],
+      "t_c": 62.85739971479943
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9737429474858947,
+      "fraction": 0.08661417322834646,
+      "r_m": 0.4935306325775046,
+      "rgb01": [
+        0.038,
+        0.2824,
+        0.0623
+      ],
+      "t_c": 62.82745365490731
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.968751937503875,
+      "fraction": 0.09448818897637795,
+      "r_m": 0.5383970537209142,
+      "rgb01": [
+        0.0381,
+        0.2826,
+        0.0623
+      ],
+      "t_c": 62.794655589311176
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9633269266538536,
+      "fraction": 0.10236220472440945,
+      "r_m": 0.5832634748643237,
+      "rgb01": [
+        0.0382,
+        0.2827,
+        0.0623
+      ],
+      "t_c": 62.75900551801104
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.95746791493583,
+      "fraction": 0.11023622047244094,
+      "r_m": 0.6281298960077332,
+      "rgb01": [
+        0.0384,
+        0.2829,
+        0.0623
+      ],
+      "t_c": 62.72050344100688
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9511749023498046,
+      "fraction": 0.11811023622047244,
+      "r_m": 0.6729963171511427,
+      "rgb01": [
+        0.0385,
+        0.2831,
+        0.0623
+      ],
+      "t_c": 62.679149358298716
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9444478888957777,
+      "fraction": 0.12598425196850394,
+      "r_m": 0.7178627382945523,
+      "rgb01": [
+        0.0387,
+        0.2833,
+        0.0623
+      ],
+      "t_c": 62.63494326988654
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#379147",
+      "depth_m": 3.9372868745737493,
+      "fraction": 0.13385826771653545,
+      "r_m": 0.7627291594379618,
+      "rgb01": [
+        0.0389,
+        0.2836,
+        0.0623
+      ],
+      "t_c": 62.58788517577035
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#389147",
+      "depth_m": 3.929691859383719,
+      "fraction": 0.14173228346456693,
+      "r_m": 0.8075955805813714,
+      "rgb01": [
+        0.039,
+        0.2838,
+        0.0623
+      ],
+      "t_c": 62.53797507595015
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#389147",
+      "depth_m": 3.9216628433256866,
+      "fraction": 0.14960629921259844,
+      "r_m": 0.8524620017247807,
+      "rgb01": [
+        0.0392,
+        0.284,
+        0.0623
+      ],
+      "t_c": 62.48521297042594
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#389147",
+      "depth_m": 3.913199826399653,
+      "fraction": 0.15748031496062992,
+      "r_m": 0.8973284228681903,
+      "rgb01": [
+        0.0395,
+        0.2843,
+        0.0623
+      ],
+      "t_c": 62.42959885919772
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#389147",
+      "depth_m": 3.9043028086056175,
+      "fraction": 0.16535433070866143,
+      "r_m": 0.9421948440115998,
+      "rgb01": [
+        0.0397,
+        0.2846,
+        0.0623
+      ],
+      "t_c": 62.37113274226549
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#389147",
+      "depth_m": 3.89497178994358,
+      "fraction": 0.1732283464566929,
+      "r_m": 0.9870612651550092,
+      "rgb01": [
+        0.0399,
+        0.2849,
+        0.0623
+      ],
+      "t_c": 62.309814619629236
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#389147",
+      "depth_m": 3.8852067704135407,
+      "fraction": 0.18110236220472442,
+      "r_m": 1.0319276862984188,
+      "rgb01": [
+        0.0402,
+        0.2852,
+        0.0623
+      ],
+      "t_c": 62.245644491288985
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#399247",
+      "depth_m": 3.8750077500155005,
+      "fraction": 0.1889763779527559,
+      "r_m": 1.0767941074418284,
+      "rgb01": [
+        0.0404,
+        0.2855,
+        0.0623
+      ],
+      "t_c": 62.17862235724472
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#399247",
+      "depth_m": 3.8643747287494574,
+      "fraction": 0.1968503937007874,
+      "r_m": 1.121660528585238,
+      "rgb01": [
+        0.0407,
+        0.2859,
+        0.0623
+      ],
+      "t_c": 62.108748217496434
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "color": "#399247",
+      "depth_m": 3.8533077066154133,
+      "fraction": 0.2047244094488189,
+      "r_m": 1.1665269497286475,
+      "rgb01": [
+        0.041,
+        0.2862,
+        0.0623
+      ],
+      "t_c": 62.03602207204415
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3b5d32",
+      "depth_m": 3.841806683613367,
+      "fraction": 0.2125984251968504,
+      "r_m": 1.211393370872057,
+      "rgb01": [
+        0.0435,
+        0.1103,
+        0.0323
+      ],
+      "t_c": 61.96044392088784
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3b5d32",
+      "depth_m": 3.82987165974332,
+      "fraction": 0.2204724409448819,
+      "r_m": 1.2562597920154663,
+      "rgb01": [
+        0.0439,
+        0.1104,
+        0.0323
+      ],
+      "t_c": 61.88201376402753
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3b5d32",
+      "depth_m": 3.8175026350052703,
+      "fraction": 0.2283464566929134,
+      "r_m": 1.3011262131588759,
+      "rgb01": [
+        0.0442,
+        0.1106,
+        0.0323
+      ],
+      "t_c": 61.800731601463205
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3c5e32",
+      "depth_m": 3.8046996093992185,
+      "fraction": 0.23622047244094488,
+      "r_m": 1.3459926343022854,
+      "rgb01": [
+        0.0446,
+        0.1107,
+        0.0323
+      ],
+      "t_c": 61.71659743319486
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3c5e32",
+      "depth_m": 3.791462582925166,
+      "fraction": 0.2440944881889764,
+      "r_m": 1.390859055445695,
+      "rgb01": [
+        0.045,
+        0.1109,
+        0.0323
+      ],
+      "t_c": 61.62961125922252
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3c5e32",
+      "depth_m": 3.777791555583111,
+      "fraction": 0.25196850393700787,
+      "r_m": 1.4357254765891045,
+      "rgb01": [
+        0.0454,
+        0.111,
+        0.0322
+      ],
+      "t_c": 61.53977307954616
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3c5e32",
+      "depth_m": 3.7636865273730544,
+      "fraction": 0.25984251968503935,
+      "r_m": 1.480591897732514,
+      "rgb01": [
+        0.0458,
+        0.1112,
+        0.0322
+      ],
+      "t_c": 61.44708289416579
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3d5e32",
+      "depth_m": 3.7491474982949966,
+      "fraction": 0.2677165354330709,
+      "r_m": 1.5254583188759236,
+      "rgb01": [
+        0.0462,
+        0.1114,
+        0.0322
+      ],
+      "t_c": 61.351540703081405
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3d5e32",
+      "depth_m": 3.7341744683489364,
+      "fraction": 0.2755905511811024,
+      "r_m": 1.5703247400193332,
+      "rgb01": [
+        0.0467,
+        0.1116,
+        0.0322
+      ],
+      "t_c": 61.25314650629301
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3d5e32",
+      "depth_m": 3.718767437534875,
+      "fraction": 0.28346456692913385,
+      "r_m": 1.6151911611627428,
+      "rgb01": [
+        0.0471,
+        0.1117,
+        0.0322
+      ],
+      "t_c": 61.15190030380061
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3e5e32",
+      "depth_m": 3.7029264058528115,
+      "fraction": 0.29133858267716534,
+      "r_m": 1.660057582306152,
+      "rgb01": [
+        0.0476,
+        0.1119,
+        0.0322
+      ],
+      "t_c": 61.04780209560419
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3e5e32",
+      "depth_m": 3.6866513733027464,
+      "fraction": 0.2992125984251969,
+      "r_m": 1.7049240034495614,
+      "rgb01": [
+        0.0481,
+        0.1121,
+        0.0322
+      ],
+      "t_c": 60.940851881703765
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3e5e32",
+      "depth_m": 3.6699423398846798,
+      "fraction": 0.30708661417322836,
+      "r_m": 1.749790424592971,
+      "rgb01": [
+        0.0486,
+        0.1123,
+        0.0321
+      ],
+      "t_c": 60.831049662099325
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3f5e32",
+      "depth_m": 3.652799305598611,
+      "fraction": 0.31496062992125984,
+      "r_m": 1.7946568457363805,
+      "rgb01": [
+        0.0492,
+        0.1125,
+        0.0321
+      ],
+      "t_c": 60.71839543679087
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3f5e32",
+      "depth_m": 3.635222270444541,
+      "fraction": 0.3228346456692913,
+      "r_m": 1.83952326687979,
+      "rgb01": [
+        0.0497,
+        0.1127,
+        0.0321
+      ],
+      "t_c": 60.60288920577841
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#3f5e32",
+      "depth_m": 3.6172112344224687,
+      "fraction": 0.33070866141732286,
+      "r_m": 1.8843896880231996,
+      "rgb01": [
+        0.0503,
+        0.1129,
+        0.0321
+      ],
+      "t_c": 60.484530969061936
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#405e32",
+      "depth_m": 3.5987661975323952,
+      "fraction": 0.33858267716535434,
+      "r_m": 1.9292561091666092,
+      "rgb01": [
+        0.0509,
+        0.1132,
+        0.0321
+      ],
+      "t_c": 60.363320726641454
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#405f32",
+      "depth_m": 3.57988715977432,
+      "fraction": 0.3464566929133858,
+      "r_m": 1.9741225303100185,
+      "rgb01": [
+        0.0515,
+        0.1134,
+        0.032
+      ],
+      "t_c": 60.23925847851696
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#415f32",
+      "depth_m": 3.5605741211482425,
+      "fraction": 0.3543307086614173,
+      "r_m": 2.0189889514534283,
+      "rgb01": [
+        0.0522,
+        0.1136,
+        0.032
+      ],
+      "t_c": 60.11234422468845
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#415f32",
+      "depth_m": 3.5408270816541636,
+      "fraction": 0.36220472440944884,
+      "r_m": 2.0638553725968376,
+      "rgb01": [
+        0.0529,
+        0.1139,
+        0.032
+      ],
+      "t_c": 59.982577965155926
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#415f32",
+      "depth_m": 3.520646041292083,
+      "fraction": 0.3700787401574803,
+      "r_m": 2.1087217937402474,
+      "rgb01": [
+        0.0536,
+        0.1141,
+        0.032
+      ],
+      "t_c": 59.849959699919395
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#425f32",
+      "depth_m": 3.500031000062,
+      "fraction": 0.3779527559055118,
+      "r_m": 2.1535882148836567,
+      "rgb01": [
+        0.0543,
+        0.1144,
+        0.032
+      ],
+      "t_c": 59.71448942897886
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#425f32",
+      "depth_m": 3.478981957963916,
+      "fraction": 0.3858267716535433,
+      "r_m": 2.198454636027066,
+      "rgb01": [
+        0.055,
+        0.1146,
+        0.0319
+      ],
+      "t_c": 59.57616715233431
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#435f32",
+      "depth_m": 3.45749891499783,
+      "fraction": 0.3937007874015748,
+      "r_m": 2.243321057170476,
+      "rgb01": [
+        0.0558,
+        0.1149,
+        0.0319
+      ],
+      "t_c": 59.43499286998574
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#435f32",
+      "depth_m": 3.4355818711637425,
+      "fraction": 0.4015748031496063,
+      "r_m": 2.288187478313885,
+      "rgb01": [
+        0.0566,
+        0.1151,
+        0.0319
+      ],
+      "t_c": 59.29096658193316
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#445f32",
+      "depth_m": 3.4132308264616524,
+      "fraction": 0.4094488188976378,
+      "r_m": 2.333053899457295,
+      "rgb01": [
+        0.0574,
+        0.1154,
+        0.0319
+      ],
+      "t_c": 59.144088288176576
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#446032",
+      "depth_m": 3.390445780891562,
+      "fraction": 0.41732283464566927,
+      "r_m": 2.3779203206007042,
+      "rgb01": [
+        0.0583,
+        0.1157,
+        0.0318
+      ],
+      "t_c": 58.994357988715976
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#456032",
+      "depth_m": 3.3672267344534688,
+      "fraction": 0.4251968503937008,
+      "r_m": 2.422786741744114,
+      "rgb01": [
+        0.0592,
+        0.116,
+        0.0318
+      ],
+      "t_c": 58.84177568355136
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#456032",
+      "depth_m": 3.3435736871473742,
+      "fraction": 0.4330708661417323,
+      "r_m": 2.4676531628875233,
+      "rgb01": [
+        0.0601,
+        0.1163,
+        0.0318
+      ],
+      "t_c": 58.68634137268275
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#466032",
+      "depth_m": 3.319486638973278,
+      "fraction": 0.4409448818897638,
+      "r_m": 2.5125195840309327,
+      "rgb01": [
+        0.061,
+        0.1166,
+        0.0318
+      ],
+      "t_c": 58.52805505611011
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#466032",
+      "depth_m": 3.29496558993118,
+      "fraction": 0.44881889763779526,
+      "r_m": 2.5573860051743424,
+      "rgb01": [
+        0.062,
+        0.1169,
+        0.0318
+      ],
+      "t_c": 58.36691673383346
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#476032",
+      "depth_m": 3.27001054002108,
+      "fraction": 0.4566929133858268,
+      "r_m": 2.6022524263177518,
+      "rgb01": [
+        0.063,
+        0.1172,
+        0.0317
+      ],
+      "t_c": 58.20292640585281
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#486032",
+      "depth_m": 3.2446214892429786,
+      "fraction": 0.4645669291338583,
+      "r_m": 2.6471188474611616,
+      "rgb01": [
+        0.0641,
+        0.1175,
+        0.0317
+      ],
+      "t_c": 58.036084072168144
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#486032",
+      "depth_m": 3.2187984375968752,
+      "fraction": 0.47244094488188976,
+      "r_m": 2.691985268604571,
+      "rgb01": [
+        0.0652,
+        0.1178,
+        0.0317
+      ],
+      "t_c": 57.86638973277947
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#496032",
+      "depth_m": 3.19254138508277,
+      "fraction": 0.48031496062992124,
+      "r_m": 2.7368516897479807,
+      "rgb01": [
+        0.0663,
+        0.1182,
+        0.0316
+      ],
+      "t_c": 57.69384338768677
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#496132",
+      "depth_m": 3.165850331700663,
+      "fraction": 0.4881889763779528,
+      "r_m": 2.78171811089139,
+      "rgb01": [
+        0.0675,
+        0.1185,
+        0.0316
+      ],
+      "t_c": 57.51844503689007
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4a6132",
+      "depth_m": 3.1387252774505545,
+      "fraction": 0.49606299212598426,
+      "r_m": 2.8265845320347998,
+      "rgb01": [
+        0.0687,
+        0.1188,
+        0.0316
+      ],
+      "t_c": 57.34019468038936
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4b6132",
+      "depth_m": 3.1111662223324448,
+      "fraction": 0.5039370078740157,
+      "r_m": 2.871450953178209,
+      "rgb01": [
+        0.07,
+        0.1192,
+        0.0316
+      ],
+      "t_c": 57.15909231818463
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4b6132",
+      "depth_m": 3.0831731663463326,
+      "fraction": 0.5118110236220472,
+      "r_m": 2.9163173743216184,
+      "rgb01": [
+        0.0713,
+        0.1195,
+        0.0315
+      ],
+      "t_c": 56.9751379502759
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4c6132",
+      "depth_m": 3.054746109492219,
+      "fraction": 0.5196850393700787,
+      "r_m": 2.961183795465028,
+      "rgb01": [
+        0.0726,
+        0.1199,
+        0.0315
+      ],
+      "t_c": 56.788331576663154
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4d6132",
+      "depth_m": 3.0258850517701035,
+      "fraction": 0.5275590551181102,
+      "r_m": 3.0060502166084375,
+      "rgb01": [
+        0.074,
+        0.1203,
+        0.0315
+      ],
+      "t_c": 56.5986731973464
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4e6132",
+      "depth_m": 2.996589993179986,
+      "fraction": 0.5354330708661418,
+      "r_m": 3.0509166377518473,
+      "rgb01": [
+        0.0754,
+        0.1207,
+        0.0314
+      ],
+      "t_c": 56.40616281232562
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4e6232",
+      "depth_m": 2.966860933721867,
+      "fraction": 0.5433070866141733,
+      "r_m": 3.0957830588952566,
+      "rgb01": [
+        0.0769,
+        0.121,
+        0.0314
+      ],
+      "t_c": 56.21080042160084
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#4f6232",
+      "depth_m": 2.936697873395747,
+      "fraction": 0.5511811023622047,
+      "r_m": 3.1406494800386664,
+      "rgb01": [
+        0.0785,
+        0.1214,
+        0.0314
+      ],
+      "t_c": 56.012586025172055
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#506232",
+      "depth_m": 2.9061008122016245,
+      "fraction": 0.5590551181102362,
+      "r_m": 3.1855159011820757,
+      "rgb01": [
+        0.0801,
+        0.1218,
+        0.0314
+      ],
+      "t_c": 55.811519623039246
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#516232",
+      "depth_m": 2.8750697501394997,
+      "fraction": 0.5669291338582677,
+      "r_m": 3.2303823223254855,
+      "rgb01": [
+        0.0817,
+        0.1222,
+        0.0313
+      ],
+      "t_c": 55.60760121520243
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#526231",
+      "depth_m": 2.843604687209374,
+      "fraction": 0.5748031496062992,
+      "r_m": 3.275248743468895,
+      "rgb01": [
+        0.0834,
+        0.1226,
+        0.0313
+      ],
+      "t_c": 55.4008308016616
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#526231",
+      "depth_m": 2.811705623411247,
+      "fraction": 0.5826771653543307,
+      "r_m": 3.320115164612304,
+      "rgb01": [
+        0.0852,
+        0.1231,
+        0.0313
+      ],
+      "t_c": 55.19120838241677
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#536331",
+      "depth_m": 2.7793725587451177,
+      "fraction": 0.5905511811023622,
+      "r_m": 3.3649815857557135,
+      "rgb01": [
+        0.087,
+        0.1235,
+        0.0312
+      ],
+      "t_c": 54.97873395746792
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#546331",
+      "depth_m": 2.7466054932109865,
+      "fraction": 0.5984251968503937,
+      "r_m": 3.409848006899123,
+      "rgb01": [
+        0.0889,
+        0.1239,
+        0.0312
+      ],
+      "t_c": 54.76340752681506
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#556331",
+      "depth_m": 2.7134044268088533,
+      "fraction": 0.6062992125984252,
+      "r_m": 3.4547144280425326,
+      "rgb01": [
+        0.0909,
+        0.1244,
+        0.0311
+      ],
+      "t_c": 54.54522909045818
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#566331",
+      "depth_m": 2.6797693595387195,
+      "fraction": 0.6141732283464567,
+      "r_m": 3.499580849185942,
+      "rgb01": [
+        0.093,
+        0.1248,
+        0.0311
+      ],
+      "t_c": 54.3241986483973
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#576331",
+      "depth_m": 2.645700291400583,
+      "fraction": 0.6220472440944882,
+      "r_m": 3.5444472703293517,
+      "rgb01": [
+        0.0951,
+        0.1253,
+        0.0311
+      ],
+      "t_c": 54.1003162006324
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#586331",
+      "depth_m": 2.611197222394445,
+      "fraction": 0.6299212598425197,
+      "r_m": 3.589313691472761,
+      "rgb01": [
+        0.0973,
+        0.1257,
+        0.031
+      ],
+      "t_c": 53.8735817471635
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#596431",
+      "depth_m": 2.5762601525203053,
+      "fraction": 0.6377952755905512,
+      "r_m": 3.6341801126161704,
+      "rgb01": [
+        0.0996,
+        0.1262,
+        0.031
+      ],
+      "t_c": 53.64399528799058
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#5a6431",
+      "depth_m": 2.5408890817781637,
+      "fraction": 0.6456692913385826,
+      "r_m": 3.67904653375958,
+      "rgb01": [
+        0.1019,
+        0.1267,
+        0.031
+      ],
+      "t_c": 53.41155682311365
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#5b6431",
+      "depth_m": 2.5050840101680203,
+      "fraction": 0.6535433070866141,
+      "r_m": 3.7239129549029895,
+      "rgb01": [
+        0.1044,
+        0.1272,
+        0.0309
+      ],
+      "t_c": 53.17626635253271
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#5c6431",
+      "depth_m": 2.4688449376898753,
+      "fraction": 0.6614173228346457,
+      "r_m": 3.7687793760463992,
+      "rgb01": [
+        0.1069,
+        0.1277,
+        0.0309
+      ],
+      "t_c": 52.93812387624775
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#5d6431",
+      "depth_m": 2.432171864343729,
+      "fraction": 0.6692913385826772,
+      "r_m": 3.8136457971898086,
+      "rgb01": [
+        0.1096,
+        0.1282,
+        0.0309
+      ],
+      "t_c": 52.697129394258795
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#5e6431",
+      "depth_m": 2.39506479012958,
+      "fraction": 0.6771653543307087,
+      "r_m": 3.8585122183332183,
+      "rgb01": [
+        0.1123,
+        0.1287,
+        0.0308
+      ],
+      "t_c": 52.45328290656581
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#5f6531",
+      "depth_m": 2.35752371504743,
+      "fraction": 0.6850393700787402,
+      "r_m": 3.9033786394766277,
+      "rgb01": [
+        0.1151,
+        0.1292,
+        0.0308
+      ],
+      "t_c": 52.20658441316883
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#606531",
+      "depth_m": 2.3195486390972784,
+      "fraction": 0.6929133858267716,
+      "r_m": 3.948245060620037,
+      "rgb01": [
+        0.1181,
+        0.1297,
+        0.0307
+      ],
+      "t_c": 51.95703391406783
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#626531",
+      "depth_m": 2.2811395622791246,
+      "fraction": 0.7007874015748031,
+      "r_m": 3.9931114817634468,
+      "rgb01": [
+        0.1211,
+        0.1303,
+        0.0307
+      ],
+      "t_c": 51.70463140926282
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#636531",
+      "depth_m": 2.242296484592969,
+      "fraction": 0.7086614173228346,
+      "r_m": 4.0379779029068565,
+      "rgb01": [
+        0.1243,
+        0.1308,
+        0.0307
+      ],
+      "t_c": 51.4493768987538
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#646531",
+      "depth_m": 2.2030194060388126,
+      "fraction": 0.7165354330708661,
+      "r_m": 4.082844324050265,
+      "rgb01": [
+        0.1276,
+        0.1313,
+        0.0306
+      ],
+      "t_c": 51.191270382540765
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#656631",
+      "depth_m": 2.1633083266166535,
+      "fraction": 0.7244094488188977,
+      "r_m": 4.127710745193675,
+      "rgb01": [
+        0.1311,
+        0.1319,
+        0.0306
+      ],
+      "t_c": 50.930311860623725
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#676631",
+      "depth_m": 2.1231632463264924,
+      "fraction": 0.7322834645669292,
+      "r_m": 4.172577166337085,
+      "rgb01": [
+        0.1346,
+        0.1325,
+        0.0305
+      ],
+      "t_c": 50.666501333002664
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#686631",
+      "depth_m": 2.0825841651683303,
+      "fraction": 0.7401574803149606,
+      "r_m": 4.217443587480495,
+      "rgb01": [
+        0.1383,
+        0.1331,
+        0.0305
+      ],
+      "t_c": 50.399838799677596
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "color": "#696631",
+      "depth_m": 2.0415710831421663,
+      "fraction": 0.7480314960629921,
+      "r_m": 4.262310008623904,
+      "rgb01": [
+        0.1422,
+        0.1336,
+        0.0304
+      ],
+      "t_c": 50.13032426064852
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#31623d",
+      "depth_m": 2.0001240002480007,
+      "fraction": 0.7559055118110236,
+      "r_m": 4.307176429767313,
+      "rgb01": [
+        0.0306,
+        0.1224,
+        0.0468
+      ],
+      "t_c": 49.85795771591543
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#32623d",
+      "depth_m": 1.9582429164858326,
+      "fraction": 0.7637795275590551,
+      "r_m": 4.352042850910723,
+      "rgb01": [
+        0.0314,
+        0.1229,
+        0.0468
+      ],
+      "t_c": 49.58273916547833
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#32633d",
+      "depth_m": 1.9159278318556638,
+      "fraction": 0.7716535433070866,
+      "r_m": 4.396909272054132,
+      "rgb01": [
+        0.0322,
+        0.1235,
+        0.0468
+      ],
+      "t_c": 49.30466860933722
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#33633d",
+      "depth_m": 1.8731787463574932,
+      "fraction": 0.7795275590551181,
+      "r_m": 4.441775693197542,
+      "rgb01": [
+        0.0331,
+        0.1241,
+        0.0467
+      ],
+      "t_c": 49.0237460474921
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#34633d",
+      "depth_m": 1.8299956599913199,
+      "fraction": 0.7874015748031497,
+      "r_m": 4.486642114340952,
+      "rgb01": [
+        0.034,
+        0.1246,
+        0.0467
+      ],
+      "t_c": 48.73997147994296
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#35633d",
+      "depth_m": 1.7863785727571453,
+      "fraction": 0.7952755905511811,
+      "r_m": 4.531508535484361,
+      "rgb01": [
+        0.035,
+        0.1252,
+        0.0467
+      ],
+      "t_c": 48.45334490668981
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#35633d",
+      "depth_m": 1.74232748465497,
+      "fraction": 0.8031496062992126,
+      "r_m": 4.57637495662777,
+      "rgb01": [
+        0.036,
+        0.1258,
+        0.0466
+      ],
+      "t_c": 48.16386632773266
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#36643d",
+      "depth_m": 1.6978423956847912,
+      "fraction": 0.8110236220472441,
+      "r_m": 4.62124137777118,
+      "rgb01": [
+        0.037,
+        0.1264,
+        0.0466
+      ],
+      "t_c": 47.87153574307148
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#37643d",
+      "depth_m": 1.652923305846611,
+      "fraction": 0.8188976377952756,
+      "r_m": 4.66610779891459,
+      "rgb01": [
+        0.0381,
+        0.127,
+        0.0466
+      ],
+      "t_c": 47.576353152706304
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#38643d",
+      "depth_m": 1.6075702151404305,
+      "fraction": 0.8267716535433071,
+      "r_m": 4.710974220057999,
+      "rgb01": [
+        0.0392,
+        0.1276,
+        0.0465
+      ],
+      "t_c": 47.27831855663712
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#39643d",
+      "depth_m": 1.5617831235662476,
+      "fraction": 0.8346456692913385,
+      "r_m": 4.7558406412014085,
+      "rgb01": [
+        0.0403,
+        0.1283,
+        0.0465
+      ],
+      "t_c": 46.97743195486391
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#39653d",
+      "depth_m": 1.5155620311240618,
+      "fraction": 0.84251968503937,
+      "r_m": 4.800707062344818,
+      "rgb01": [
+        0.0415,
+        0.1289,
+        0.0465
+      ],
+      "t_c": 46.673693347386696
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3a653d",
+      "depth_m": 1.4689069378138753,
+      "fraction": 0.8503937007874016,
+      "r_m": 4.845573483488228,
+      "rgb01": [
+        0.0428,
+        0.1295,
+        0.0464
+      ],
+      "t_c": 46.36710273420547
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3b653d",
+      "depth_m": 1.4218178436356879,
+      "fraction": 0.8582677165354331,
+      "r_m": 4.890439904631637,
+      "rgb01": [
+        0.0441,
+        0.1302,
+        0.0464
+      ],
+      "t_c": 46.05766011532023
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3c653d",
+      "depth_m": 1.3742947485894972,
+      "fraction": 0.8661417322834646,
+      "r_m": 4.935306325775047,
+      "rgb01": [
+        0.0455,
+        0.1309,
+        0.0464
+      ],
+      "t_c": 45.74536549073098
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3d663d",
+      "depth_m": 1.3263376526753055,
+      "fraction": 0.8740157480314961,
+      "r_m": 4.9801727469184565,
+      "rgb01": [
+        0.0469,
+        0.1315,
+        0.0463
+      ],
+      "t_c": 45.43021886043772
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3e663d",
+      "depth_m": 1.2779465558931118,
+      "fraction": 0.8818897637795275,
+      "r_m": 5.025039168061865,
+      "rgb01": [
+        0.0484,
+        0.1322,
+        0.0463
+      ],
+      "t_c": 45.11222022444045
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#3f663d",
+      "depth_m": 1.2291214582429166,
+      "fraction": 0.889763779527559,
+      "r_m": 5.069905589205275,
+      "rgb01": [
+        0.0499,
+        0.1329,
+        0.0463
+      ],
+      "t_c": 44.791369582739165
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#40663d",
+      "depth_m": 1.179862359724719,
+      "fraction": 0.8976377952755905,
+      "r_m": 5.114772010348685,
+      "rgb01": [
+        0.0515,
+        0.1336,
+        0.0462
+      ],
+      "t_c": 44.46766693533387
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#41673d",
+      "depth_m": 1.1301692603385203,
+      "fraction": 0.905511811023622,
+      "r_m": 5.159638431492095,
+      "rgb01": [
+        0.0532,
+        0.1343,
+        0.0462
+      ],
+      "t_c": 44.14111228222456
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#42673d",
+      "depth_m": 1.0800421600843206,
+      "fraction": 0.9133858267716536,
+      "r_m": 5.2045048526355036,
+      "rgb01": [
+        0.055,
+        0.1351,
+        0.0462
+      ],
+      "t_c": 43.81170562341125
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#43673d",
+      "depth_m": 1.029481058962118,
+      "fraction": 0.9212598425196851,
+      "r_m": 5.249371273778913,
+      "rgb01": [
+        0.0568,
+        0.1358,
+        0.0461
+      ],
+      "t_c": 43.47944695889392
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#45673d",
+      "depth_m": 0.978485956971914,
+      "fraction": 0.9291338582677166,
+      "r_m": 5.294237694922323,
+      "rgb01": [
+        0.0587,
+        0.1365,
+        0.0461
+      ],
+      "t_c": 43.14433628867258
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#46683d",
+      "depth_m": 0.9270568541137076,
+      "fraction": 0.937007874015748,
+      "r_m": 5.339104116065733,
+      "rgb01": [
+        0.0607,
+        0.1373,
+        0.0461
+      ],
+      "t_c": 42.80637361274722
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#47683d",
+      "depth_m": 0.8751937503875009,
+      "fraction": 0.9448818897637795,
+      "r_m": 5.383970537209142,
+      "rgb01": [
+        0.0628,
+        0.1381,
+        0.046
+      ],
+      "t_c": 42.46555893111786
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#48683d",
+      "depth_m": 0.8228966457932909,
+      "fraction": 0.952755905511811,
+      "r_m": 5.4288369583525515,
+      "rgb01": [
+        0.065,
+        0.1389,
+        0.046
+      ],
+      "t_c": 42.12189224378449
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#49683d",
+      "depth_m": 0.7701655403310802,
+      "fraction": 0.9606299212598425,
+      "r_m": 5.473703379495961,
+      "rgb01": [
+        0.0673,
+        0.1396,
+        0.046
+      ],
+      "t_c": 41.7753735507471
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4b693c",
+      "depth_m": 0.7170004340008684,
+      "fraction": 0.968503937007874,
+      "r_m": 5.51856980063937,
+      "rgb01": [
+        0.0697,
+        0.1404,
+        0.0459
+      ],
+      "t_c": 41.42600285200571
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4c693c",
+      "depth_m": 0.6634013268026533,
+      "fraction": 0.9763779527559056,
+      "r_m": 5.56343622178278,
+      "rgb01": [
+        0.0722,
+        0.1413,
+        0.0459
+      ],
+      "t_c": 41.07378014756029
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4d693c",
+      "depth_m": 0.6093682187364371,
+      "fraction": 0.984251968503937,
+      "r_m": 5.60830264292619,
+      "rgb01": [
+        0.0748,
+        0.1421,
+        0.0458
+      ],
+      "t_c": 40.718705437410875
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#4f6a3c",
+      "depth_m": 0.5549011098022187,
+      "fraction": 0.9921259842519685,
+      "r_m": 5.6531690640695995,
+      "rgb01": [
+        0.0775,
+        0.1429,
+        0.0458
+      ],
+      "t_c": 40.36077872155744
+    },
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "color": "#506a3c",
+      "depth_m": 0.5,
+      "fraction": 1.0,
+      "r_m": 5.698035485213008,
+      "rgb01": [
+        0.0804,
+        0.1438,
+        0.0458
+      ],
+      "t_c": 40.0
+    }
+  ],
+  "schema": "yellowstone.pool_radiative_ramp.v1",
+  "sources": [
+    "Pope and Fry (1997) Appl. Opt. 36(33) 8710 Table 2",
+    "Morel (1974) Optical properties of pure water and pure sea water",
+    "Nugent, Shaw, Vollmer (2015) Appl. Opt. 54(4) B128, Table 1"
+  ],
+  "status": "authored",
+  "texture_color_space": "srgb"
+}

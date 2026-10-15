@@ -1,0 +1,80 @@
+{
+ "schema": "yellowstone.snow_snotel_fit.v1",
+ "status": "fitted_not_validated_single_window",
+ "bundle": "derived/snotel_obs.json",
+ "bundle_fetched_at_utc": "2026-10-10T06:31:26.679106+00:00",
+ "window": {
+  "begin": "2025-10-01",
+  "end": "2026-07-31"
+ },
+ "provenance": {
+  "forcing_swe_depth": "measured_NRCS_AWDB_daily",
+  "k_melt_wind_loss": "fitted_single_window_WY2026_joint_grid",
+  "wind_loss_meaning": "site_effective_seasonal_loss_redistribution_plus_undercatch_plus_sublimation_game_default_retained",
+  "snow_temp_threshold_phase_split_canopy_aspect_depth_factor": "authored_stated_in_snow_season",
+  "soil_moisture": "not_validated_no_observations",
+  "patch_choice": "authored_dry_meadow_SNOTEL_sites_are_clearings_not_forest"
+ },
+ "sites": {
+  "609:MT:SNTL": {
+   "triplet": "609:MT:SNTL",
+   "n_days": 304,
+   "train_n": 151,
+   "holdout_n": 153,
+   "forcing_gaps": {
+    "tavg_filled": 0,
+    "prcp_zeroed": 1
+   },
+   "fitted": {
+    "k_melt_mm_per_deg_day": 1.0,
+    "wind_loss_effective": 0.0,
+    "provenance": "fitted_single_window_WY2026_joint_grid",
+    "game_default_untouched": true,
+    "train_rmse_mm": 10.52
+   },
+   "holdout_swe_mm": {
+    "n": 153.0,
+    "rmse": 112.02,
+    "bias": 67.04,
+    "mae": 68.17,
+    "max_abs": 305.19
+   },
+   "null_persistence_rmse_mm": 293.29,
+   "null_nomelt_rmse_mm": 471.58,
+   "peak_timing_error_days": 48,
+   "depth_check_rmse_mm": 293.29,
+   "ledger_residual_mm": -0.001852,
+   "status": "fitted_not_validated_single_window"
+  },
+  "924:MT:SNTL": {
+   "triplet": "924:MT:SNTL",
+   "n_days": 304,
+   "train_n": 151,
+   "holdout_n": 153,
+   "forcing_gaps": {
+    "tavg_filled": 1,
+    "prcp_zeroed": 0
+   },
+   "fitted": {
+    "k_melt_mm_per_deg_day": 0.75,
+    "wind_loss_effective": 0.0,
+    "provenance": "fitted_single_window_WY2026_joint_grid",
+    "game_default_untouched": true,
+    "train_rmse_mm": 7.88
+   },
+   "holdout_swe_mm": {
+    "n": 153.0,
+    "rmse": 45.04,
+    "bias": 21.49,
+    "mae": 26.54,
+    "max_abs": 120.87
+   },
+   "null_persistence_rmse_mm": 179.04,
+   "null_nomelt_rmse_mm": 194.36,
+   "peak_timing_error_days": 2,
+   "depth_check_rmse_mm": 118.05,
+   "ledger_residual_mm": -0.000963,
+   "status": "fitted_not_validated_single_window"
+  }
+ }
+}

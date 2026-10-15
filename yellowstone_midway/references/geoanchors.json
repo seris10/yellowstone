@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "prepared_utc": "2026-10-07",
+  "origin": {
+    "longitude": -110.837,
+    "latitude": 44.525,
+    "utm_easting_m": 512952.5950985841,
+    "utm_northing_m": 4930199.044097667,
+    "vertical_origin_m_NAVD88": 2200.0
+  },
+  "horizontal_crs": "EPSG:32612",
+  "local_axis_convention": "x=east; y=up; z=south",
+  "world_extent_m": 4096,
+  "source_accuracy_note": "Coordinate precision is retained for reproducibility; decimal places do not imply better field accuracy. Source water names were blank and are explicitly attributed here.",
+  "anchors": [
+    {
+      "id": "turquoise_pool",
+      "name": "Turquoise Pool",
+      "anchor_type": "centroid_of_mapped_water_polygon",
+      "source": "yell_hydro_lakes_utm12.json",
+      "source_objectid": 1028,
+      "source_name_field": "blank; spatially attributed to named feature from NPS descriptions and 2022 NAIP",
+      "horizontal_accuracy": ">=5m and <14m",
+      "water_polygon_area_m2": 219.673,
+      "water_polygon_axis_aligned_span_m": [
+        25.76,
+        17.68
+      ],
+      "position": {
+        "utm_easting_m": 512892.723,
+        "utm_northing_m": 4930385.4064,
+        "longitude": -110.83774879,
+        "latitude": 44.52667883,
+        "local_x_m": -59.8721,
+        "local_z_m": -186.3623,
+        "dem_elevation_m_NAVD88": 2212.7788,
+        "local_dem_y_m": 12.7788
+      },
+      "note": "DEM elevation is terrain/water-surface interpolation. It is not surveyed spring water level or bathymetry."
+    },
+    {
+      "id": "opal_pool",
+      "name": "Opal Pool",
+      "anchor_type": "centroid_of_mapped_water_polygon",
+      "source": "yell_hydro_lakes_utm12.json",
+      "source_objectid": 1029,
+      "source_name_field": "blank; spatially attributed to named feature from NPS descriptions and 2022 NAIP",
+      "horizontal_accuracy": ">=5m and <14m",
+      "water_polygon_area_m2": 101.984,
+      "water_polygon_axis_aligned_span_m": [
+        15.22,
+        16.47
+      ],
+      "position": {
+        "utm_easting_m": 512817.7886,
+        "utm_northing_m": 4930384.9105,
+        "longitude": -110.83869183,
+        "latitude": 44.5266757,
+        "local_x_m": -134.8065,
+        "local_z_m": -185.8664,
+        "dem_elevation_m_NAVD88": 2213.0154,
+        "local_dem_y_m": 13.0154
+      },
+      "note": "DEM elevation is terrain/water-surface interpolation. It is not surveyed spring water level or bathymetry."
+    },
+    {
+      "id": "excelsior_geyser_crater",
+      "name": "Excelsior Geyser Crater",
+      "anchor_type": "centroid_of_mapped_water_polygon",
+      "source": "yell_hydro_lakes_utm12.json",
+      "source_objectid": 1030,
+      "source_name_field": "blank; spatially attributed to named feature from NPS descriptions and 2022 NAIP",
+      "horizontal_accuracy": ">=5m and <14m",
+      "water_polygon_area_m2": 2917.028,
+      "water_polygon_axis_aligned_span_m": [
+        70.119,
+        65.241
+      ],
+      "position": {
+        "utm_easting_m": 512968.4067,
+        "utm_northing_m": 4930344.3465,
+        "longitude": -110.83679737,
+        "latitude": 44.52630782,
+        "local_x_m": 15.8116,
+        "local_z_m": -145.3024,
+        "dem_elevation_m_NAVD88": 2210.01,
+        "local_dem_y_m": 10.01
+      },
+      "note": "DEM elevation is terrain/water-surface interpolation. It is not surveyed spring water level or bathymetry."
+    },
+    {
+      "id": "grand_prismatic_spring",
+      "name": "Grand Prismatic Spring",
+      "anchor_type": "centroid_of_mapped_water_polygon",
+      "source": "yell_hydro_lakes_utm12.json",
+      "source_objectid": 1034,
+      "source_name_field": "blank; spatially attributed to named feature from NPS descriptions and 2022 NAIP",
+      "horizontal_accuracy": ">=5m and <14m",
+      "water_polygon_area_m2": 6723.673,
+      "water_polygon_axis_aligned_span_m": [
+        93.929,
+        101.74
+      ],
+      "position": {
+        "utm_easting_m": 512857.8883,
+        "utm_northing_m": 4930209.6523,
+        "longitude": -110.83819155,
+        "latitude": 44.5250972,
+        "local_x_m": -94.7068,
+        "local_z_m": -10.6082,
+        "dem_elevation_m_NAVD88": 2216.8401,
+        "local_dem_y_m": 16.8401
+      },
+      "note": "DEM elevation is terrain/water-surface interpolation. It is not surveyed spring water level or bathymetry."
+    },
+    {
+      "id": "nps_poi_343",
+      "name": "Firehole River Bridge Midway Geyser Basin",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 343,
+      "horizontal_accuracy": "Unknown",
+      "position": {
+        "utm_easting_m": 513292.7859,
+        "utm_northing_m": 4929207.7175,
+        "longitude": -110.83274447,
+        "latitude": 44.51606925,
+        "local_x_m": 340.1908,
+        "local_z_m": 991.3266,
+        "dem_elevation_m_NAVD88": 2205.8865,
+        "local_dem_y_m": 5.8865
+      }
+    },
+    {
+      "id": "nps_poi_427",
+      "name": "Fairy Falls Trailhead",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 427,
+      "horizontal_accuracy": ">=5m and <14m",
+      "position": {
+        "utm_easting_m": 513373.1213,
+        "utm_northing_m": 4928996.6997,
+        "longitude": -110.83173913,
+        "latitude": 44.51416804,
+        "local_x_m": 420.5262,
+        "local_z_m": 1202.3444,
+        "dem_elevation_m_NAVD88": 2213.4658,
+        "local_dem_y_m": 13.4658
+      }
+    },
+    {
+      "id": "nps_poi_456",
+      "name": "Mallard Creek Trailhead",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 456,
+      "horizontal_accuracy": ">=5m and <14m",
+      "position": {
+        "utm_easting_m": 513262.8485,
+        "utm_northing_m": 4928197.7174,
+        "longitude": -110.8331471,
+        "latitude": 44.50697711,
+        "local_x_m": 310.2534,
+        "local_z_m": 2001.3267,
+        "dem_elevation_m_NAVD88": 2215.7253,
+        "local_dem_y_m": 15.7253
+      }
+    },
+    {
+      "id": "nps_poi_486",
+      "name": "Midway Geyser Basin Trailhead",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 486,
+      "horizontal_accuracy": ">=5m and <14m",
+      "position": {
+        "utm_easting_m": 513042.8051,
+        "utm_northing_m": 4930515.4199,
+        "longitude": -110.83585677,
+        "latitude": 44.52784659,
+        "local_x_m": 90.21,
+        "local_z_m": -316.3758,
+        "dem_elevation_m_NAVD88": 2204.1345,
+        "local_dem_y_m": 4.1345
+      }
+    },
+    {
+      "id": "nps_poi_3645",
+      "name": "Buried Alive Exhibit",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 3645,
+      "horizontal_accuracy": "Unknown",
+      "position": {
+        "utm_easting_m": 512957.082,
+        "utm_northing_m": 4930308.6102,
+        "longitude": -110.83694078,
+        "latitude": 44.5259863,
+        "local_x_m": 4.4869,
+        "local_z_m": -109.5661,
+        "dem_elevation_m_NAVD88": 2214.9617,
+        "local_dem_y_m": 14.9617
+      }
+    },
+    {
+      "id": "nps_poi_3646",
+      "name": "Dangerous Ground - Midway Geyser Basin Exhibit",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 3646,
+      "horizontal_accuracy": "Unknown",
+      "position": {
+        "utm_easting_m": 513046.2549,
+        "utm_northing_m": 4930520.0289,
+        "longitude": -110.83581324,
+        "latitude": 44.52788802,
+        "local_x_m": 93.6598,
+        "local_z_m": -320.9848,
+        "dem_elevation_m_NAVD88": 2204.3,
+        "local_dem_y_m": 4.3
+      }
+    },
+    {
+      "id": "nps_poi_3647",
+      "name": "Excelsior Geyser Exhibit",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 3647,
+      "horizontal_accuracy": "Unknown",
+      "position": {
+        "utm_easting_m": 512922.747,
+        "utm_northing_m": 4930343.7825,
+        "longitude": -110.83737199,
+        "latitude": 44.52630356,
+        "local_x_m": -29.8481,
+        "local_z_m": -144.7384,
+        "dem_elevation_m_NAVD88": 2214.3252,
+        "local_dem_y_m": 14.3252
+      }
+    },
+    {
+      "id": "nps_poi_3648",
+      "name": "Grand Prismatic Spring Exhibit",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 3648,
+      "horizontal_accuracy": "Unknown",
+      "position": {
+        "utm_easting_m": 512849.9528,
+        "utm_northing_m": 4930282.6829,
+        "longitude": -110.8382896,
+        "latitude": 44.52575481,
+        "local_x_m": -102.6423,
+        "local_z_m": -83.6388,
+        "dem_elevation_m_NAVD88": 2217.3782,
+        "local_dem_y_m": 17.3782
+      }
+    },
+    {
+      "id": "nps_poi_3649",
+      "name": "Life on the Edge Exhibit",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 3649,
+      "horizontal_accuracy": "Unknown",
+      "position": {
+        "utm_easting_m": 512850.8955,
+        "utm_northing_m": 4930282.2357,
+        "longitude": -110.83827775,
+        "latitude": 44.52575076,
+        "local_x_m": -101.6996,
+        "local_z_m": -83.1916,
+        "dem_elevation_m_NAVD88": 2217.45,
+        "local_dem_y_m": 17.45
+      }
+    },
+    {
+      "id": "nps_poi_3650",
+      "name": "Midway Geyser Basin Exhibit",
+      "anchor_type": "NPS_point_of_interest",
+      "source": "yell_points_of_interest_utm12.json",
+      "source_objectid": 3650,
+      "horizontal_accuracy": "Unknown",
+      "position": {
+        "utm_easting_m": 513046.8059,
+        "utm_northing_m": 4930520.3169,
+        "longitude": -110.8358063,
+        "latitude": 44.5278906,
+        "local_x_m": 94.2108,
+        "local_z_m": -321.2728,
+        "dem_elevation_m_NAVD88": 2204.3242,
+        "local_dem_y_m": 4.3242
+      }
+    },
+    {
+      "id": "grand_prismatic_overlook_deck",
+      "name": "Grand Prismatic Overlook deck approach",
+      "anchor_type": "endpoint_of_observation_spur",
+      "source": "yell_trails_utm12.json",
+      "source_objectid": 3455,
+      "horizontal_accuracy": ">=5cm and <50cm",
+      "position": {
+        "utm_easting_m": 512700.6492,
+        "utm_northing_m": 4930039.6054,
+        "longitude": -110.84017449,
+        "latitude": 44.52356911,
+        "local_x_m": -251.9459,
+        "local_z_m": 159.4387,
+        "dem_elevation_m_NAVD88": 2247.8123,
+        "local_dem_y_m": 47.8123
+      },
+      "note": "Author an observation deck and boardwalk thickness separately from bare-earth elevation. Endpoint is a cartographic anchor, not a construction survey."
+    }
+  ]
+}

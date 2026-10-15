@@ -1,0 +1,151 @@
+{
+  "contract_version": "0.1.0",
+  "generated_at_unix": 1792066751,
+  "note": "pools_state.json carries authored pool temperatures sourced from pool_shells; replace with per-step dynamic state once a reservoir-coupled thermal model is wired.",
+  "pools": [
+    {
+      "id": "pool_984_0",
+      "name": "FEATHER LAKE",
+      "r_apron_m": 118.70775673893802,
+      "r_water_m": 44.54204406619603,
+      "source_id": 984,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_988_0",
+      "name": "GOOSE LAKE",
+      "r_apron_m": 326.702807746123,
+      "r_water_m": 177.50214876508173,
+      "source_id": 988,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_995_0",
+      "name": " ",
+      "r_apron_m": 37.109471003204504,
+      "r_water_m": 20.95035804130395,
+      "source_id": 995,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_996_0",
+      "name": " ",
+      "r_apron_m": 36.363168463648385,
+      "r_water_m": 18.832442092994196,
+      "source_id": 996,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_1001_0",
+      "name": "UNNAMED LAKE",
+      "r_apron_m": 109.60909612066757,
+      "r_water_m": 85.50758010055631,
+      "source_id": 1001,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_1007_0",
+      "name": "LOWER BASIN LAKE",
+      "r_apron_m": 152.0992678075259,
+      "r_water_m": 105.42452657192045,
+      "source_id": 1007,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_1018_0",
+      "name": " ",
+      "r_apron_m": 82.53191785673764,
+      "r_water_m": 41.830767460441535,
+      "source_id": 1018,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_1028_0",
+      "name": "Turquoise Pool",
+      "r_apron_m": 23.483981091536954,
+      "r_water_m": 8.362576277354894,
+      "source_id": 1028,
+      "t_center_c": 63.0,
+      "t_edge_c": 40.0
+    },
+    {
+      "id": "pool_1029_0",
+      "name": "Opal Pool",
+      "r_apron_m": 19.823331695924317,
+      "r_water_m": 5.698035485213008,
+      "source_id": 1029,
+      "t_center_c": 63.0,
+      "t_edge_c": 40.0
+    },
+    {
+      "id": "pool_1030_0",
+      "name": "Excelsior Geyser Crater",
+      "r_apron_m": 75.47146104140919,
+      "r_water_m": 30.471461041409178,
+      "source_id": 1030,
+      "t_center_c": 82.0,
+      "t_edge_c": 45.0
+    },
+    {
+      "id": "pool_1034_0",
+      "name": "Grand Prismatic Spring",
+      "r_apron_m": 76.2625137852879,
+      "r_water_m": 46.2625137852879,
+      "source_id": 1034,
+      "t_center_c": 72.0,
+      "t_edge_c": 42.0
+    },
+    {
+      "id": "pool_1048_0",
+      "name": "GOOSENECK LAKE",
+      "r_apron_m": 216.08922448212988,
+      "r_water_m": 84.79320854970408,
+      "source_id": 1048,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_1056_0",
+      "name": " ",
+      "r_apron_m": 59.13357906972135,
+      "r_water_m": 26.331399394744153,
+      "source_id": 1056,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_1066_0",
+      "name": "UNNAMED LAKE",
+      "r_apron_m": 86.07341839428173,
+      "r_water_m": 40.96420459356813,
+      "source_id": 1066,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "id": "pool_1071_0",
+      "name": " ",
+      "r_apron_m": 68.99091849555234,
+      "r_water_m": 42.931083179689104,
+      "source_id": 1071,
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    }
+  ],
+  "schema": "yellowstone.pools_state.v1",
+  "status": "authored_steady_pending_dynamic_coupling",
+  "units": {
+    "r_apron_m": "m",
+    "r_water_m": "m",
+    "t_center_c": "degree_Celsius",
+    "t_edge_c": "degree_Celsius"
+  },
+  "world_id": "yellowstone_midway"
+}

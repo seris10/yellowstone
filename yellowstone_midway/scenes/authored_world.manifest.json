@@ -1,0 +1,13 @@
+{
+  "schema": "yellowstone.scene_archive.v1",
+  "archive": {
+    "file": "authored_world.tscn.gz",
+    "bytes": 102868305,
+    "sha256": "2b202f86f78facd271a33465bdb0793a42f8e5982467967a34b58a576364ae30"
+  },
+  "scene": {
+    "file": "authored_world.tscn",
+    "bytes": 393571442,
+    "sha256": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7"
+  }
+}

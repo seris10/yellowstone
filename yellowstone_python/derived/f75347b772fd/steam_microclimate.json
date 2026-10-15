@@ -1,0 +1,54 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "note": "outflow_surface_c is None pending WP-B outflow raster; pool plume only",
+    "outflow_wired": false
+  },
+  "provenance": {
+    "source": "steam_microclimate.plume_microclimate_adjustment"
+  },
+  "report": {
+    "components": {
+      "latent_flux_outflow_source": "bulk_aerodynamic",
+      "outflow_area_m2": 70997.0,
+      "outflow_latent_w_m2": 252.40707152939197,
+      "outflow_sensible_w_m2": 38.186809399169114,
+      "pool_area_m2": 6723.699999999998,
+      "pool_latent_w_m2": 379.83157108370887,
+      "pool_sensible_w_m2": 54.31026622031904
+    },
+    "delta_air_c": 0.6956381114157008,
+    "delta_specific_humidity": 0.001899134191522906,
+    "downwind_air_c": 21.961485855843005,
+    "downwind_rh": 0.5199337256515977,
+    "fetch_length_m": 278.78432524085713,
+    "internal_boundary_layer_m": 9.083948695009228,
+    "latent_flux_w_m2": 263.4306998247285,
+    "pressure_kpa": 77.39589294081692,
+    "residence_s": 146.93224061904635,
+    "roughness_length_m": 0.001,
+    "schema": "yellowstone.steam_microclimate.v1",
+    "sensible_flux_w_m2": 39.58166671039207,
+    "sources": [
+      "Stull 1988 An Introduction to Boundary Layer Meteorology, chapter 10 (internal boundary layer growth with fetch over a surface change)",
+      "Garratt 1990 Boundary-Layer Meteorology 50:171 (power-law internal boundary layer growth h_i = 0.4 * z0 * (fetch/z0)**0.8 over a surface change) doi:10.1007/BF00120524"
+    ],
+    "status": "transferred_structure_authored_rates",
+    "upwind_air_c": 21.265847744427305,
+    "upwind_rh": 0.45
+  },
+  "schema": "yellowstone.steam_microclimate.v1",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "transferred_structure_authored_rates",
+  "units": {
+    "downwind_air_c": "degree_Celsius",
+    "downwind_rh": "dimensionless"
+  },
+  "world_id": "yellowstone_midway"
+}

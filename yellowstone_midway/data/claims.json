@@ -1,0 +1,221 @@
+{
+  "claims": [
+    {
+      "acceptance_criteria": "frozen calibration/dev/locked-final split; holdout rmse below persistence, mixing-only, and climatology nulls; budget residuals within 1e-9",
+      "calibration_dataset_ids": [
+        "derived/firehole_obs.json:train"
+      ],
+      "claim_id": "reach_water_temperature_ice_free",
+      "evaluation_dataset_ids": [
+        "derived/firehole_obs.json:holdout",
+        "derived/usgs_06036805.json",
+        "derived/firehole_obs_locked_final.json"
+      ],
+      "evidence_artifact_ids": [
+        "derived/reach_heat_fit_v300k.json",
+        "derived/reach_polished_fit_v300k.json",
+        "derived/reach_ensemble_uq_v300k.json"
+      ],
+      "evidence_status": "evidence_artifacts_present",
+      "implementation_status": "implemented",
+      "intended_use": "thermal habitat input for trout refuge selection",
+      "known_exclusions": [
+        "winter ice cover",
+        "other reaches",
+        "sub-cell thermal refuges",
+        "boiling conditions"
+      ],
+      "metrics": [
+        "replay_heat_budget_error",
+        "heat_relative_residual",
+        "train_rmse",
+        "train_bias",
+        "holdout_rmse",
+        "holdout_bias"
+      ],
+      "model_version": "0.2.0",
+      "predicted_quantity": "reach-mean water temperature, hourly",
+      "required_observations": [
+        "upstream discharge series",
+        "upstream temperature series",
+        "downstream temperature series",
+        "air temperature series"
+      ],
+      "required_processes": [
+        "advection-dispersion transport",
+        "tributary mixing",
+        "surface heat exchange"
+      ],
+      "review_status": "not_yet_accepted",
+      "spatial_domain": "Firehole chainage cells, river_5856_0 and tributary junctions",
+      "supported_conditions": "upstream discharge and temperature prescribed, met forcing given",
+      "temporal_domain": "ice-free season, 2-hour replay windows"
+    },
+    {
+      "acceptance_criteria": "frozen params beat persistence and no-melt nulls on a locked final window; bias sign reported",
+      "calibration_dataset_ids": [
+        "derived/snotel_obs.json:train"
+      ],
+      "claim_id": "snow_swe_clearings",
+      "evaluation_dataset_ids": [
+        "derived/snotel_obs.json:holdout",
+        "derived/snotel_obs_prior_window.json"
+      ],
+      "evidence_artifact_ids": [
+        "derived/snow_degree_day_fit.json",
+        "derived/snow_degree_day_fit_prior_window.json",
+        "derived/snow_energy_fit.json"
+      ],
+      "evidence_status": "evidence_artifacts_present",
+      "implementation_status": "implemented",
+      "intended_use": "season state for soil moisture and phenology",
+      "known_exclusions": [
+        "forested interception sites",
+        "wind-scoured ridges",
+        "rain-on-snow events"
+      ],
+      "metrics": [
+        "holdout_rmse_mm",
+        "peak_timing_error_d",
+        "null_beats"
+      ],
+      "model_version": "0.1.0",
+      "predicted_quantity": "daily snow water equivalent, mm",
+      "required_observations": [
+        "daily WTEQ",
+        "daily PRCP",
+        "daily TAVG"
+      ],
+      "required_processes": [
+        "degree-day melt",
+        "wind redistribution",
+        "soil bucket drainage"
+      ],
+      "review_status": "not_yet_accepted",
+      "spatial_domain": "SNOTEL sites 609 Madison Plateau and 924 West Yellowstone",
+      "supported_conditions": "daily air temperature and precipitation forcing given",
+      "temporal_domain": "accumulation season train, melt season holdout"
+    },
+    {
+      "acceptance_criteria": "holdout discharge within 90 percent bounds; bias sign reported",
+      "calibration_dataset_ids": [],
+      "claim_id": "upstream_discharge_predicted",
+      "evaluation_dataset_ids": [],
+      "evidence_artifact_ids": [],
+      "evidence_status": "no_evidence_artifacts",
+      "implementation_status": "planned_not_implemented",
+      "intended_use": "predictive inflow for the replay boundary cell",
+      "known_exclusions": [
+        "snowmelt routing",
+        "regulated releases",
+        "ungauged tributaries"
+      ],
+      "metrics": [
+        "bias_m3_s",
+        "mae_m3_s",
+        "coverage_90"
+      ],
+      "model_version": "0.1.0",
+      "predicted_quantity": "upstream discharge, hourly",
+      "required_observations": [
+        "precipitation series",
+        "catchment area survey",
+        "gauge discharge series"
+      ],
+      "required_processes": [
+        "upstream discharge prediction",
+        "runoff generation",
+        "flow accumulation routing"
+      ],
+      "review_status": "not_yet_accepted",
+      "spatial_domain": "synthetic catchment above the chain head cell",
+      "supported_conditions": "precipitation forcing and catchment area given",
+      "temporal_domain": "single storm and interstorm windows, hourly steps"
+    },
+    {
+      "acceptance_criteria": "heads within observation error; lateral temperatures validated against logs",
+      "calibration_dataset_ids": [],
+      "claim_id": "groundwater_lateral_heat",
+      "evaluation_dataset_ids": [],
+      "evidence_artifact_ids": [],
+      "evidence_status": "no_evidence_artifacts",
+      "implementation_status": "planned_not_implemented",
+      "intended_use": "subsurface heat input for receiving river cells",
+      "known_exclusions": [
+        "unsaturated flow",
+        "fracture networks",
+        "reactive transport"
+      ],
+      "metrics": [
+        "head_rmse_m",
+        "lateral_temp_bias_C"
+      ],
+      "model_version": "yellowstone_python-0.1.0",
+      "predicted_quantity": "lateral groundwater inflow and temperature",
+      "required_observations": [
+        "piezometer head series",
+        "groundwater temperature logs",
+        "river stage series"
+      ],
+      "required_processes": [
+        "groundwater heat transport",
+        "river-aquifer exchange",
+        "subsurface advection"
+      ],
+      "review_status": "not_yet_accepted",
+      "spatial_domain": "synthetic one-layer footprint under the Firehole reach",
+      "supported_conditions": "river stage and aquifer properties prescribed",
+      "temporal_domain": "per stress period, steady heads"
+    },
+    {
+      "acceptance_criteria": "velocity within transect error; extent overlap above agreed threshold",
+      "calibration_dataset_ids": [],
+      "claim_id": "channel_velocity_inundation_2d",
+      "evaluation_dataset_ids": [],
+      "evidence_artifact_ids": [],
+      "evidence_status": "no_evidence_artifacts",
+      "implementation_status": "planned_not_implemented",
+      "intended_use": "floodplain exchange and habitat velocity input",
+      "known_exclusions": [
+        "ice jams",
+        "debris blockages",
+        "morphodynamic change"
+      ],
+      "metrics": [
+        "velocity_rmse_m_s",
+        "extent_f1"
+      ],
+      "model_version": "yellowstone_python-0.1.0",
+      "predicted_quantity": "depth-averaged velocity and inundation extent",
+      "required_observations": [
+        "surveyed bathymetry",
+        "velocity transects",
+        "mapped inundation extent"
+      ],
+      "required_processes": [
+        "2-D hydraulics velocity",
+        "inundation mapping",
+        "shallow-water momentum"
+      ],
+      "review_status": "not_yet_accepted",
+      "spatial_domain": "synthetic Firehole reach planform",
+      "supported_conditions": "bathymetry surveyed, inflow hydrograph given",
+      "temporal_domain": "single high-flow event window"
+    }
+  ],
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "build_id": "a74b90e71448",
+    "run_mode": "illustrative"
+  },
+  "schema": "yellowstone.claims.v1",
+  "sources": [
+    {
+      "id": "code",
+      "sha256": "a83515b74dd76129"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

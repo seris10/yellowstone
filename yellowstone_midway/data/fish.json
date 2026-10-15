@@ -1,0 +1,128 @@
+{
+  "code_rev": "yellowstone_python-0.1.0",
+  "contract_version": "0.1.0",
+  "hydraulics": "V=Q/(w\u00b7d), d=1.1 m assumption until P0 cross-sections",
+  "parameter_provenance": {
+    "activity": "clamp((26-T)/8) visibility only",
+    "refuge": "chainage-window argmax suitability",
+    "weights": null
+  },
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "975a73ecdbd051b255cfd1fb7b599180e802a4b6c3f94c14f49469a64074a244"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "wildlife": [
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.38
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 357,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 12.75,
+      "id": "trout_01",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "rainbow_trout",
+      "lateral_offset_m": -1.8,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 1.2,
+      "reach_id": "bridge_downstream",
+      "reach_temp_c": 19.15,
+      "refuge_reason": "holding index 355 (U 0.39 at 19.1\u00b0C) beats index 403 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage",
+      "river_id": "river_5856_0",
+      "scale": 0.8,
+      "species_id": "rainbow_trout",
+      "start_point_index": 354,
+      "suitability_U": 0.388,
+      "walk_mps": 0.179,
+      "water_offset_m": -0.29
+    },
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.4275
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 362,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 15.62,
+      "id": "trout_02",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "brown_trout",
+      "lateral_offset_m": 2.0,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 3.5,
+      "reach_id": "bridge_downstream",
+      "reach_temp_c": 19.15,
+      "refuge_reason": "holding index 360 (U 0.39 at 19.1\u00b0C) beats index 408 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage",
+      "river_id": "river_5856_0",
+      "scale": 0.9,
+      "species_id": "brown_trout",
+      "start_point_index": 359,
+      "suitability_U": 0.388,
+      "walk_mps": 0.179,
+      "water_offset_m": -0.29
+    },
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.3562
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 464,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 17.5,
+      "id": "trout_03",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "rainbow_trout",
+      "lateral_offset_m": 0.6,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 5.0,
+      "reach_id": "north_boundary",
+      "reach_temp_c": 18.96,
+      "refuge_reason": "holding index 462 (U 0.40 at 19.0\u00b0C) beats index 418 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage",
+      "river_id": "river_5856_0",
+      "scale": 0.75,
+      "species_id": "rainbow_trout",
+      "start_point_index": 461,
+      "suitability_U": 0.396,
+      "walk_mps": 0.181,
+      "water_offset_m": -0.29
+    },
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.4512
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 464,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 11.5,
+      "id": "trout_04",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "brown_trout",
+      "lateral_offset_m": -2.4,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 0.2,
+      "reach_id": "north_boundary",
+      "reach_temp_c": 18.96,
+      "refuge_reason": "holding index 462 (U 0.40 at 19.0\u00b0C) beats index 422 (U 0.39 at 19.1\u00b0C) within \u00b1150 m chainage",
+      "river_id": "river_5856_0",
+      "scale": 0.95,
+      "species_id": "brown_trout",
+      "start_point_index": 461,
+      "suitability_U": 0.396,
+      "walk_mps": 0.181,
+      "water_offset_m": -0.29
+    }
+  ],
+  "world_id": "yellowstone_midway"
+}

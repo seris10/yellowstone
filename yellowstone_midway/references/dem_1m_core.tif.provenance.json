@@ -1,0 +1,64 @@
+{
+  "path": "dem_1m_core.tif",
+  "bytes": 6555521,
+  "sha256": "5b4f01e57cdbbfe593e17d3475536d99adda604bfef6bc8b56f5378f93c3582f",
+  "content_type": "image/tiff",
+  "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?bbox=512312.5950985841%2C4929559.044097667%2C513592.5950985841%2C4930839.044097667&bboxSR=32612&imageSR=32612&size=1280%2C1280&format=tiff&pixelType=F32&f=image&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A%22None%22%2C%22rasterFunctionArguments%22%3A%7B%22Raster%22%3A%7B%22itemID%22%3A91228%7D%7D%7D",
+  "retrieved_utc": "2026-10-13",
+  "agency": "USGS",
+  "dataset": "USGS 3DEP 1 m delivery of WY_YellowstoneNP_2020_D20, QL1 work unit WY_YellowstoneNP_3_2020; tile x51y494, ObjectID 91228 in the 3DEPElevation ImageServer catalog.",
+  "coordinate_system": "EPSG:32612",
+  "bbox_utm_m": [
+    512312.5950985841,
+    4929559.044097667,
+    513592.5950985841,
+    4930839.044097667
+  ],
+  "local_extent_xz_m": [
+    -640,
+    -640,
+    640,
+    640
+  ],
+  "pixel_spacing_m": 1.0,
+  "size_px": [
+    1280,
+    1280
+  ],
+  "dtype": "float32",
+  "elevation_units": "meters",
+  "vertical_datum": "NAVD88",
+  "stated_vertical_accuracy_m": 0.1,
+  "stated_vertical_accuracy_source": "USGS 3DEP QL1 specification: RMSEz <= 0.10 m.",
+  "stated_vertical_accuracy_citation": "USGS Topographic Data Quality Levels (https://www.usgs.gov/3d-elevation-program/topographic-data-quality-levels-qls)",
+  "stated_vertical_accuracy_verified": true,
+  "elevation_min_m": 2196.35009765625,
+  "elevation_max_m": 2323.859130859375,
+  "elevation_mean_m": 2229.81201171875,
+  "center_elevation_m_cross_check": {
+    "value_m": 2216.9482421875,
+    "cross_check_source": "yellowstone_midway/references/dem_pixel_comparison.json locked_1m sample (2216.94677734375 m)"
+  },
+  "terms": "USGS 3DEP products are released as US Government works in the public domain. Cite the dataset as USGS 3DEP 1 m DEM, WY_YellowstoneNP_2020_D20. Download approved by KJR 2026-10-13.",
+  "citation": "US Geological Survey. 3D Elevation Program 1 m Digital Elevation Model. Delivered through the National Map 3DEPElevation ImageServer, 2026-10-13.",
+  "quality_level": "QL1",
+  "work_unit": "WY_YellowstoneNP_3_2020",
+  "work_unit_id": 218558,
+  "source_acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+  ],
+  "native_ground_sample_distance_m": 0.5,
+  "tested_vertical_accuracy": {
+    "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+    "report_date": "2022-12-13",
+    "scope": "whole WY_YellowstoneNP_2020_D20 project; not site-specific",
+    "lidar_nva_95pct_m": 0.0779,
+    "lidar_vva_95th_percentile_m": 0.213,
+    "dem_nva_95pct_m": 0.083,
+    "dem_vva_95th_percentile_m": 0.2039,
+    "report_sha256": "69363bdfbb6d8035b616e5548bfaf93ecd04528f7729491a435248eb21e71e27"
+  },
+  "schema": "yellowstone.dem_source.v1",
+  "status": "measured"
+}

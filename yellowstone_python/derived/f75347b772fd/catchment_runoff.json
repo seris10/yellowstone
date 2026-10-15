@@ -1,0 +1,28 @@
+{
+  "area_m2": null,
+  "boundary_application": {
+    "mode": "constant_scalar_increment",
+    "not_a_hydrograph": true,
+    "scientific_status": "illustrative"
+  },
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "enabled": false,
+  "parameter_provenance": {
+    "baseflow_m3s": 8.0,
+    "effective_boundary_m3s": 8.0,
+    "method": "snow ledger runoff depth scaled to the configured catchment area"
+  },
+  "provenance": "no catchment area configured; snow hydrology is storage-only and the river boundary stays at its prescribed baseflow",
+  "runoff_state_source": "patches1_post_season_pre_final_output",
+  "schema": "yellowstone.catchment_runoff.v1",
+  "snow_runoff_m3_s": 0.0,
+  "sources": [
+    {
+      "file": "configs/baseline.yaml",
+      "sha256": "9c4fd4f945a91f705cf9f34a2d0b6bb1c9057d6219486611a2eb0c2ecb99c2fe"
+    }
+  ],
+  "status": "illustrative_not_calibrated",
+  "world_id": "yellowstone_midway"
+}

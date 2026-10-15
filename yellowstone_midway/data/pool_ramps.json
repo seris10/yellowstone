@@ -1,0 +1,95 @@
+{
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "contract_version": "0.1.0",
+  "note": "radiative transfer per-pool color ramps",
+  "parameter_provenance": {
+    "n_pools": 15,
+    "ph": 8.0
+  },
+  "ramps": [
+    {
+      "json": "ramp_pool_984_0.json",
+      "png": "ramp_pool_984_0.png",
+      "pool_id": "pool_984_0"
+    },
+    {
+      "json": "ramp_pool_988_0.json",
+      "png": "ramp_pool_988_0.png",
+      "pool_id": "pool_988_0"
+    },
+    {
+      "json": "ramp_pool_995_0.json",
+      "png": "ramp_pool_995_0.png",
+      "pool_id": "pool_995_0"
+    },
+    {
+      "json": "ramp_pool_996_0.json",
+      "png": "ramp_pool_996_0.png",
+      "pool_id": "pool_996_0"
+    },
+    {
+      "json": "ramp_pool_1001_0.json",
+      "png": "ramp_pool_1001_0.png",
+      "pool_id": "pool_1001_0"
+    },
+    {
+      "json": "ramp_pool_1007_0.json",
+      "png": "ramp_pool_1007_0.png",
+      "pool_id": "pool_1007_0"
+    },
+    {
+      "json": "ramp_pool_1018_0.json",
+      "png": "ramp_pool_1018_0.png",
+      "pool_id": "pool_1018_0"
+    },
+    {
+      "json": "ramp_pool_1028_0.json",
+      "png": "ramp_pool_1028_0.png",
+      "pool_id": "pool_1028_0"
+    },
+    {
+      "json": "ramp_pool_1029_0.json",
+      "png": "ramp_pool_1029_0.png",
+      "pool_id": "pool_1029_0"
+    },
+    {
+      "json": "ramp_pool_1030_0.json",
+      "png": "ramp_pool_1030_0.png",
+      "pool_id": "pool_1030_0"
+    },
+    {
+      "json": "ramp_pool_1034_0.json",
+      "png": "ramp_pool_1034_0.png",
+      "pool_id": "pool_1034_0"
+    },
+    {
+      "json": "ramp_pool_1048_0.json",
+      "png": "ramp_pool_1048_0.png",
+      "pool_id": "pool_1048_0"
+    },
+    {
+      "json": "ramp_pool_1056_0.json",
+      "png": "ramp_pool_1056_0.png",
+      "pool_id": "pool_1056_0"
+    },
+    {
+      "json": "ramp_pool_1066_0.json",
+      "png": "ramp_pool_1066_0.png",
+      "pool_id": "pool_1066_0"
+    },
+    {
+      "json": "ramp_pool_1071_0.json",
+      "png": "ramp_pool_1071_0.png",
+      "pool_id": "pool_1071_0"
+    }
+  ],
+  "schema": "yellowstone.pool_ramps_index.v1",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "authored",
+  "world_id": "yellowstone_midway"
+}

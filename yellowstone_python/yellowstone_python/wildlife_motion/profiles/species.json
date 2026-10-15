@@ -1,0 +1,828 @@
+{
+  "schema": "wildlife-motion.species/1",
+  "species": {
+    "grizzly": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Ursus arctos horribilis",
+      "common_name": "Grizzly bear",
+      "engine": "mammal",
+      "family": "ursid",
+      "foot_posture": "plantigrade",
+      "sources": [
+        "shine2015",
+        "nps_bears"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 0.75,
+          "duty_factor": 0.7,
+          "stance_length_height": 0.24,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.8,
+          "head_yaw_deg": 1.5
+        },
+        "RunningWalk": {
+          "pattern": "running_walk",
+          "frequency_hz": 1.2,
+          "duty_factor": 0.47,
+          "stance_length_height": 0.25,
+          "clearance_height": 0.07,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 2,
+          "head_yaw_deg": 1.5
+        }
+      },
+      "notes": "Do not substitute a default diagonal trot. Gait categories follow grizzly evidence; exact timing and joint locations are not calibrated. Preserve the supplied shoulder hump."
+    },
+    "black_bear": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Ursus americanus",
+      "common_name": "American black bear",
+      "engine": "mammal",
+      "family": "ursid",
+      "foot_posture": "plantigrade",
+      "sources": [
+        "nps_bears",
+        "shine2015"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 0.9,
+          "duty_factor": 0.7,
+          "stance_length_height": 0.24,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.7,
+          "head_yaw_deg": 1.5
+        }
+      },
+      "notes": "Grizzly-derived controls are an explicitly unvalidated ursid transfer, not black-bear measurements. Requires a black-bear base mesh; color alone cannot distinguish the species."
+    },
+    "bobcat": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Lynx rufus",
+      "common_name": "Bobcat",
+      "engine": "mammal",
+      "family": "felid",
+      "foot_posture": "digitigrade",
+      "sources": [
+        "brown2018",
+        "nps_lynx",
+        "usherwood2017"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.05,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.27,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5,
+          "body_lowering_height": 0.03
+        },
+        "Stalk": {
+          "pattern": "walk",
+          "frequency_hz": 0.65,
+          "duty_factor": 0.79,
+          "stance_length_height": 0.17,
+          "clearance_height": 0.04,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5,
+          "body_lowering_height": 0.03
+        },
+        "Trot": {
+          "pattern": "trot",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.46,
+          "stance_length_height": 0.26,
+          "clearance_height": 0.085,
+          "body_bob_height": 0.01,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5,
+          "body_lowering_height": 0.03
+        }
+      },
+      "notes": "Domestic-cat methods are proxies, not wild-felid calibration. Lynx needs its own larger paws, longer hindlimbs, ears and short-tail geometry; never merely recolor a bobcat."
+    },
+    "canada_lynx": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Lynx canadensis",
+      "common_name": "Canada lynx",
+      "engine": "mammal",
+      "family": "felid",
+      "foot_posture": "digitigrade",
+      "sources": [
+        "brown2018",
+        "nps_lynx",
+        "usherwood2017"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.05,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.27,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5,
+          "body_lowering_height": 0.03
+        },
+        "Stalk": {
+          "pattern": "walk",
+          "frequency_hz": 0.65,
+          "duty_factor": 0.79,
+          "stance_length_height": 0.17,
+          "clearance_height": 0.04,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5,
+          "body_lowering_height": 0.03
+        },
+        "Trot": {
+          "pattern": "trot",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.46,
+          "stance_length_height": 0.26,
+          "clearance_height": 0.085,
+          "body_bob_height": 0.01,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5,
+          "body_lowering_height": 0.03
+        }
+      },
+      "notes": "Domestic-cat methods are proxies, not wild-felid calibration. Lynx needs its own larger paws, longer hindlimbs, ears and short-tail geometry; never merely recolor a bobcat."
+    },
+    "american_badger": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Taxidea taxus",
+      "common_name": "American badger",
+      "engine": "mammal",
+      "family": "mustelid",
+      "foot_posture": "plantigrade",
+      "sources": [
+        "gong2022",
+        "nps_badger"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.25,
+          "duty_factor": 0.74,
+          "stance_length_height": 0.18,
+          "clearance_height": 0.035,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Dig": {
+          "pattern": "dig",
+          "frequency_hz": 1.0,
+          "duty_factor": 0.55,
+          "stance_length_height": 0.14,
+          "clearance_height": 0.08,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        }
+      },
+      "notes": "Low wide body and short limbs require careful annotation. Dig is a kinematic display action, not the discrete-element soil simulation described by Gong et al."
+    },
+    "american_bison": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Bison bison",
+      "common_name": "American bison",
+      "engine": "mammal",
+      "family": "bovid",
+      "foot_posture": "unguligrade",
+      "sources": [
+        "usherwood2017",
+        "biancardi2012",
+        "lee2018"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 0.8,
+          "duty_factor": 0.7,
+          "stance_length_height": 0.24,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 0.8,
+          "head_yaw_deg": 1.5
+        },
+        "Lope": {
+          "pattern": "canter",
+          "frequency_hz": 1.2,
+          "duty_factor": 0.48,
+          "stance_length_height": 0.25,
+          "clearance_height": 0.075,
+          "body_bob_height": 0.012,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        }
+      },
+      "notes": "Preserve heavy forequarters and shoulder hump. Hoof contacts differ from plantigrade paws. Lope is only a phase-controlled kinematic approximation, without force balance or aerial dynamics."
+    },
+    "gray_wolf": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Canis lupus",
+      "common_name": "Gray wolf",
+      "engine": "mammal",
+      "family": "canid",
+      "foot_posture": "digitigrade",
+      "sources": [
+        "usherwood2017",
+        "biancardi2012",
+        "canid2017"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.0,
+          "duty_factor": 0.65,
+          "stance_length_height": 0.3,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Trot": {
+          "pattern": "trot",
+          "frequency_hz": 1.55,
+          "duty_factor": 0.47,
+          "stance_length_height": 0.28,
+          "clearance_height": 0.07,
+          "body_bob_height": 0.008,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        }
+      },
+      "notes": "Canid evidence does not establish Yellowstone wolf joint trajectories. Long tails may need manual endpoints and additional tail joints."
+    },
+    "mallard": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Anas platyrhynchos",
+      "common_name": "Mallard",
+      "engine": "bird",
+      "family": "waterfowl",
+      "foot_posture": "webbed",
+      "sources": [
+        "fish1995",
+        "han2023",
+        "csillag2025",
+        "gltf2"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.22,
+          "clearance_height": 0.06,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Flight": {
+          "pattern": "flight",
+          "frequency_hz": 5.0,
+          "flap_deg": 32,
+          "sweep_deg": 8,
+          "fold_deg": 18
+        },
+        "Glide": {
+          "pattern": "glide",
+          "frequency_hz": 0.5,
+          "flap_deg": 2,
+          "sweep_deg": 0,
+          "fold_deg": 0
+        },
+        "Float": {
+          "pattern": "float",
+          "frequency_hz": 0.4
+        },
+        "Paddle": {
+          "pattern": "paddle",
+          "frequency_hz": 1.4,
+          "power_fraction": 0.48,
+          "sweep_height": 0.24,
+          "recovery_lift_height": 0.1,
+          "left_right_phase": 0.5
+        }
+      },
+      "notes": "Flight/Glide require reviewed, separately represented spread wings. Water modes only for webbed-foot presets. No flight-feather, sex-plumage, or juvenile reconstruction is inferred. Every numeric preset is authored, not an empirical species constant."
+    },
+    "trumpeter_swan": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Cygnus buccinator",
+      "common_name": "Trumpeter swan",
+      "engine": "bird",
+      "family": "longneck_waterfowl",
+      "foot_posture": "webbed",
+      "sources": [
+        "fish1995",
+        "birdflight2020",
+        "gltf2"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.22,
+          "clearance_height": 0.06,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Flight": {
+          "pattern": "flight",
+          "frequency_hz": 3.0,
+          "flap_deg": 32,
+          "sweep_deg": 8,
+          "fold_deg": 18
+        },
+        "Glide": {
+          "pattern": "glide",
+          "frequency_hz": 0.5,
+          "flap_deg": 2,
+          "sweep_deg": 0,
+          "fold_deg": 0
+        },
+        "Float": {
+          "pattern": "float",
+          "frequency_hz": 0.4
+        },
+        "Paddle": {
+          "pattern": "paddle",
+          "frequency_hz": 1.4,
+          "power_fraction": 0.48,
+          "sweep_height": 0.24,
+          "recovery_lift_height": 0.1,
+          "left_right_phase": 0.5
+        }
+      },
+      "notes": "Flight/Glide require reviewed, separately represented spread wings. Water modes only for webbed-foot presets. No flight-feather, sex-plumage, or juvenile reconstruction is inferred. Every numeric preset is authored, not an empirical species constant."
+    },
+    "sandhill_crane": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Antigone canadensis",
+      "common_name": "Sandhill crane",
+      "engine": "bird",
+      "family": "wader",
+      "foot_posture": "anisodactyl",
+      "sources": [
+        "birdflight2020",
+        "gltf2"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.22,
+          "clearance_height": 0.06,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Flight": {
+          "pattern": "flight",
+          "frequency_hz": 3.0,
+          "flap_deg": 32,
+          "sweep_deg": 8,
+          "fold_deg": 18
+        },
+        "Glide": {
+          "pattern": "glide",
+          "frequency_hz": 0.5,
+          "flap_deg": 2,
+          "sweep_deg": 0,
+          "fold_deg": 0
+        }
+      },
+      "notes": "Flight/Glide require reviewed, separately represented spread wings. Water modes only for webbed-foot presets. No flight-feather, sex-plumage, or juvenile reconstruction is inferred. Every numeric preset is authored, not an empirical species constant."
+    },
+    "common_raven": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Corvus corax",
+      "common_name": "Common raven",
+      "engine": "bird",
+      "family": "passerine",
+      "foot_posture": "anisodactyl",
+      "sources": [
+        "birdflight2020",
+        "gltf2"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.22,
+          "clearance_height": 0.06,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Flight": {
+          "pattern": "flight",
+          "frequency_hz": 4.0,
+          "flap_deg": 32,
+          "sweep_deg": 8,
+          "fold_deg": 18
+        },
+        "Glide": {
+          "pattern": "glide",
+          "frequency_hz": 0.5,
+          "flap_deg": 2,
+          "sweep_deg": 0,
+          "fold_deg": 0
+        }
+      },
+      "notes": "Flight/Glide require reviewed, separately represented spread wings. Water modes only for webbed-foot presets. No flight-feather, sex-plumage, or juvenile reconstruction is inferred. Every numeric preset is authored, not an empirical species constant."
+    },
+    "bald_eagle": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Haliaeetus leucocephalus",
+      "common_name": "Bald eagle",
+      "engine": "bird",
+      "family": "raptor",
+      "foot_posture": "taloned",
+      "sources": [
+        "birdflight2020",
+        "gltf2"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.22,
+          "clearance_height": 0.06,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Flight": {
+          "pattern": "flight",
+          "frequency_hz": 2.5,
+          "flap_deg": 32,
+          "sweep_deg": 8,
+          "fold_deg": 18
+        },
+        "Glide": {
+          "pattern": "glide",
+          "frequency_hz": 0.5,
+          "flap_deg": 2,
+          "sweep_deg": 0,
+          "fold_deg": 0
+        }
+      },
+      "notes": "Flight/Glide require reviewed, separately represented spread wings. Water modes only for webbed-foot presets. No flight-feather, sex-plumage, or juvenile reconstruction is inferred. Every numeric preset is authored, not an empirical species constant."
+    },
+    "american_dipper": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Cinclus mexicanus",
+      "common_name": "American dipper",
+      "engine": "bird",
+      "family": "passerine",
+      "foot_posture": "anisodactyl",
+      "sources": [
+        "birdflight2020",
+        "gltf2"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 1.6,
+          "duty_factor": 0.67,
+          "stance_length_height": 0.22,
+          "clearance_height": 0.06,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Flight": {
+          "pattern": "flight",
+          "frequency_hz": 6.0,
+          "flap_deg": 32,
+          "sweep_deg": 8,
+          "fold_deg": 18
+        },
+        "Glide": {
+          "pattern": "glide",
+          "frequency_hz": 0.5,
+          "flap_deg": 2,
+          "sweep_deg": 0,
+          "fold_deg": 0
+        }
+      },
+      "notes": "Flight/Glide require reviewed, separately represented spread wings. Water modes only for webbed-foot presets. No flight-feather, sex-plumage, or juvenile reconstruction is inferred. Every numeric preset is authored, not an empirical species constant."
+    },
+    "mule_deer": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Odocoileus hemionus",
+      "common_name": "Mule deer",
+      "engine": "mammal",
+      "family": "cervid",
+      "foot_posture": "unguligrade",
+      "sources": [
+        "usherwood2017",
+        "biancardi2012",
+        "lee2018"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 0.8,
+          "duty_factor": 0.7,
+          "stance_length_height": 0.24,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 0.8,
+          "head_yaw_deg": 1.5
+        },
+        "Lope": {
+          "pattern": "canter",
+          "frequency_hz": 1.2,
+          "duty_factor": 0.48,
+          "stance_length_height": 0.25,
+          "clearance_height": 0.075,
+          "body_bob_height": 0.012,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        }
+      },
+      "notes": "Authored cervid kinematic controls with unmeasured local biomechanics."
+    },
+    "elk": {
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "demography": {
+        "sex": "unknown",
+        "life_stage": "unspecified"
+      },
+      "empirical_population_distribution": null,
+      "taxon": "Cervus canadensis",
+      "common_name": "Elk",
+      "engine": "mammal",
+      "family": "cervid",
+      "foot_posture": "unguligrade",
+      "sources": [
+        "usherwood2017",
+        "biancardi2012",
+        "lee2018"
+      ],
+      "gaits": {
+        "Idle": {
+          "pattern": "idle",
+          "frequency_hz": 0.2,
+          "duty_factor": 0.68,
+          "stance_length_height": 0,
+          "clearance_height": 0,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        },
+        "Walk": {
+          "pattern": "walk",
+          "frequency_hz": 0.8,
+          "duty_factor": 0.7,
+          "stance_length_height": 0.24,
+          "clearance_height": 0.055,
+          "body_bob_height": 0.005,
+          "body_roll_deg": 0.8,
+          "head_yaw_deg": 1.5
+        },
+        "Lope": {
+          "pattern": "canter",
+          "frequency_hz": 1.2,
+          "duty_factor": 0.48,
+          "stance_length_height": 0.25,
+          "clearance_height": 0.075,
+          "body_bob_height": 0.012,
+          "body_roll_deg": 1.0,
+          "head_yaw_deg": 1.5
+        }
+      },
+      "notes": "Authored cervid kinematic controls with unmeasured local biomechanics."
+    }
+  }
+}

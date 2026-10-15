@@ -1,0 +1,1 @@
+"""Thermal features model components."""

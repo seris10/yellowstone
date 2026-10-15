@@ -1,0 +1,705 @@
+{
+ "accuracy_scope": "project-level tested accuracy; site-specific canopy error unknown",
+ "acquisition_window": [
+  "2020-09-29",
+  "2020-10-09"
+ ],
+ "artifacts": {
+  "canopy_height": {
+   "path": "canopy_height.tif",
+   "sha256": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9"
+  },
+  "crown_labels": {
+   "path": "crown_labels.tif",
+   "sha256": "0823d8156ec2a3333137e8580d97af401d0b22b0a9fc8ee75072311940fed85a"
+  },
+  "first_return_support": {
+   "path": "first_return_support.tif",
+   "sha256": "e1acc75b3080ef790cea2b2366b580db890ecce606283978e684aad2d9e8c4a1"
+  },
+  "interpreted_canopy_height": {
+   "path": "interpreted_canopy_height.tif",
+   "sha256": "0dedb3698d96ac176252d83f4c4db54ff4398ac4a63169fd0c136d466e22ea56"
+  }
+ },
+ "block": "WY_YellowstoneNP_3_2020",
+ "bounds_utm_m": [
+  512312.5950985841,
+  4929559.044097667,
+  513592.5950985841,
+  4930839.044097667
+ ],
+ "crs": "EPSG:32612",
+ "dem_sha256": "5b4f01e57cdbbfe593e17d3475536d99adda604bfef6bc8b56f5378f93c3582f",
+ "dem_source": {
+  "agency": "USGS",
+  "bbox_utm_m": [
+   512312.5950985841,
+   4929559.044097667,
+   513592.5950985841,
+   4930839.044097667
+  ],
+  "bytes": 6555521,
+  "center_elevation_m_cross_check": {
+   "cross_check_source": "yellowstone_midway/references/dem_pixel_comparison.json locked_1m sample (2216.94677734375 m)",
+   "value_m": 2216.9482421875
+  },
+  "citation": "US Geological Survey. 3D Elevation Program 1 m Digital Elevation Model. Delivered through the National Map 3DEPElevation ImageServer, 2026-10-13.",
+  "content_type": "image/tiff",
+  "coordinate_system": "EPSG:32612",
+  "dataset": "USGS 3DEP 1 m delivery of WY_YellowstoneNP_2020_D20, QL1 work unit WY_YellowstoneNP_3_2020; tile x51y494, ObjectID 91228 in the 3DEPElevation ImageServer catalog.",
+  "dtype": "float32",
+  "elevation_max_m": 2323.859130859375,
+  "elevation_mean_m": 2229.81201171875,
+  "elevation_min_m": 2196.35009765625,
+  "elevation_units": "meters",
+  "local_extent_xz_m": [
+   -640,
+   -640,
+   640,
+   640
+  ],
+  "native_ground_sample_distance_m": 0.5,
+  "path": "dem_1m_core.tif",
+  "pixel_spacing_m": 1.0,
+  "quality_level": "QL1",
+  "retrieved_utc": "2026-10-13",
+  "schema": "yellowstone.dem_source.v1",
+  "sha256": "5b4f01e57cdbbfe593e17d3475536d99adda604bfef6bc8b56f5378f93c3582f",
+  "size_px": [
+   1280,
+   1280
+  ],
+  "source_acquisition_window": [
+   "2020-09-29",
+   "2020-10-09"
+  ],
+  "stated_vertical_accuracy_citation": "USGS Topographic Data Quality Levels (https://www.usgs.gov/3d-elevation-program/topographic-data-quality-levels-qls)",
+  "stated_vertical_accuracy_m": 0.1,
+  "stated_vertical_accuracy_source": "USGS 3DEP QL1 specification: RMSEz <= 0.10 m.",
+  "stated_vertical_accuracy_verified": true,
+  "status": "measured",
+  "terms": "USGS 3DEP products are released as US Government works in the public domain. Cite the dataset as USGS 3DEP 1 m DEM, WY_YellowstoneNP_2020_D20. Download approved by KJR 2026-10-13.",
+  "tested_vertical_accuracy": {
+   "dem_nva_95pct_m": 0.083,
+   "dem_vva_95th_percentile_m": 0.2039,
+   "lidar_nva_95pct_m": 0.0779,
+   "lidar_vva_95th_percentile_m": 0.213,
+   "report_date": "2022-12-13",
+   "report_sha256": "69363bdfbb6d8035b616e5548bfaf93ecd04528f7729491a435248eb21e71e27",
+   "scope": "whole WY_YellowstoneNP_2020_D20 project; not site-specific",
+   "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf"
+  },
+  "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?bbox=512312.5950985841%2C4929559.044097667%2C513592.5950985841%2C4930839.044097667&bboxSR=32612&imageSR=32612&size=1280%2C1280&format=tiff&pixelType=F32&f=image&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A%22None%22%2C%22rasterFunctionArguments%22%3A%7B%22Raster%22%3A%7B%22itemID%22%3A91228%7D%7D%7D",
+  "vertical_datum": "NAVD88",
+  "work_unit": "WY_YellowstoneNP_3_2020",
+  "work_unit_id": 218558
+ },
+ "extent_m": [
+  -640,
+  -640,
+  640,
+  640
+ ],
+ "height_range_m": [
+  -1.177734375,
+  49.590087890625
+ ],
+ "height_units": "m",
+ "interpretation": {
+  "excluded_raw_returns_preserved": true,
+  "input_sha256": {
+   "detector": "91c87fec0daf76763e69563ec79043b67b54d5d93f2084e37504ad72420eb5bf",
+   "habitat_mask": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a",
+   "raw_canopy_height": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9",
+   "world": "ee15ef84b106a8291e6c0f6984bfc21c990b95edefd26b808974cb3d917231f0"
+  },
+  "mapped_nonvegetation_exclusions": [
+   "mineral channel >=0.35",
+   "pool apron",
+   "river channel"
+  ],
+  "status": "derived_not_field_validated"
+ },
+ "method": "highest class1/2 first return minus bilinear matched DEM; 3x3 canopy pit closing",
+ "missing_fraction": 0.038343505859375,
+ "point_density_all_returns_per_m2": 39.690335,
+ "point_density_first_returns_per_m2": 27.023470666666668,
+ "producer_sha256": "38165bdea0cca8ed507cf89bee334e53a71c12ee4845d203c350ba0d8992f31b",
+ "project": "WY_YellowstoneNP_2020_D20",
+ "quality_level": "QL1",
+ "resolution_m": 0.5,
+ "schema": "yellowstone.canopy_height.v1",
+ "shape": [
+  2560,
+  2560
+ ],
+ "software_versions": {
+  "laspy": "2.7.0",
+  "numpy": "2.4.4",
+  "rasterio": "1.5.2"
+ },
+ "status": "measured",
+ "tile_count": 12,
+ "tile_point_statistics": [
+  {
+   "all_first_returns": 3993542,
+   "all_returns": 5473901,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 3890014,
+   "first_returns_inside": 1514561,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120295.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 7359131,
+   "all_returns": 12037465,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 7171457,
+   "first_returns_inside": 2871340,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120300.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 9025459,
+   "all_returns": 12679830,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 8890731,
+   "first_returns_inside": 2398895,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120305.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 4477890,
+   "all_returns": 6793720,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 4415515,
+   "first_returns_inside": 3934918,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125295.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 7150249,
+   "all_returns": 8268421,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 7052305,
+   "first_returns_inside": 7052305,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125300.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 8180660,
+   "all_returns": 10061223,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 8076987,
+   "first_returns_inside": 5332954,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125305.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 5018610,
+   "all_returns": 5826059,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 4987172,
+   "first_returns_inside": 4481382,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130295.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 7124222,
+   "all_returns": 9289403,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 7027257,
+   "first_returns_inside": 7027257,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130300.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 8862692,
+   "all_returns": 16281090,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 8674080,
+   "first_returns_inside": 5691568,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130305.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 4189802,
+   "all_returns": 5213859,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 4159371,
+   "first_returns_inside": 649065,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135295.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 7222661,
+   "all_returns": 12201994,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 7156941,
+   "first_returns_inside": 1463805,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135300.laz",
+   "vertical_shift_m": 0.0
+  },
+  {
+   "all_first_returns": 8465494,
+   "all_returns": 14944040,
+   "ballpark_allowed": false,
+   "eligible_first_returns": 8327197,
+   "first_returns_inside": 1138308,
+   "horizontal_accuracy_m": 2.0,
+   "horizontal_operation": "Inverse of UTM zone 12N + NAD83(2011) to WGS 84 (1) + UTM zone 12N",
+   "source_crs_wkt": "COMPOUNDCRS[\"NAD83(2011) / UTM zone 12N + NAVD88 height - Geoid18 (metre)\",PROJCRS[\"NAD83(2011) / UTM zone 12N\",BASEGEOGCRS[\"NAD83(2011)\",DATUM[\"NAD83 (National Spatial Reference System 2011)\",ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],ID[\"EPSG\",6318]],CONVERSION[\"UTM zone 12N\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-111,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting\",east,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"northing\",north,ORDER[2],LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6341]],VERTCRS[\"NAVD88 height\",VDATUM[\"North American Vertical Datum 1988\"],CS[vertical,1],AXIS[\"gravity-related height\",up,LENGTHUNIT[\"metre\",1]],GEOIDMODEL[\"GEOID18\"],ID[\"EPSG\",5703]]]",
+   "tile": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135305.laz",
+   "vertical_shift_m": 0.0
+  }
+ ],
+ "tiles": [
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    512000.0,
+    4929500.0,
+    512499.99,
+    4929999.99
+   ],
+   "bytes": 33098345,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1983.8500000000001,
+    3716.7000000000003
+   ],
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 02:18:01 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120295.laz",
+   "point_count": 5473901,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:12:25.511438+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "307aaf7e1a823f502a7a5242ef2471a94bc60e4e4436d1ad3a5c400bb15f8f11",
+   "status": "measured",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120295.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    512000.0,
+    4930000.0,
+    512499.99,
+    4930499.99
+   ],
+   "bytes": 73810135,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1898.3,
+    3699.87
+   ],
+   "etag": "\"61945e1a-46640d7\"",
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 01:42:50 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120300.laz",
+   "point_count": 12037465,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:14:32.290096+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "f6f9513d78f26711e34f5a3f292c99cdb14d263d089f5064ce4b82fb95c7b430",
+   "status": "measured",
+   "transfer_client": "curl IPv4; TLS verified",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120300.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    512000.0,
+    4930500.0,
+    512499.99,
+    4930999.99
+   ],
+   "bytes": 74186628,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1850.26,
+    3679.4700000000003
+   ],
+   "etag": "\"61948332-46bff84\"",
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 04:21:06 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120305.laz",
+   "point_count": 12679830,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:14:37.762785+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "0bac8a9826beb96299bfa62077e4913f7bd94b4055f142432b76caab6d05afbf",
+   "status": "measured",
+   "transfer_client": "curl IPv4; TLS verified",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ120305.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    512500.0,
+    4929500.0,
+    512999.99,
+    4929999.99
+   ],
+   "bytes": 41882075,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1869.72,
+    3553.4500000000003
+   ],
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 04:39:49 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125295.laz",
+   "point_count": 6793720,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:12:24.171007+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "a64effe052fcc3af02b78aae50c4fe6b71d0c0a424474310cf4c96f06b487fb9",
+   "status": "measured",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125295.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    512500.0,
+    4930000.0,
+    512999.99,
+    4930499.99
+   ],
+   "bytes": 43958891,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1882.69,
+    3558.11
+   ],
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 04:15:02 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125300.laz",
+   "point_count": 8268421,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:13:45.227044+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "b8b6397b71905227a6649db0e006e17f1697c87afb5374f4b0b7e2b4448560dc",
+   "status": "measured",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125300.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    512500.0,
+    4930500.0,
+    512999.99,
+    4930999.99
+   ],
+   "bytes": 56189227,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1820.57,
+    3689.1
+   ],
+   "etag": "\"619468a7-359612b\"",
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 02:27:51 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125305.laz",
+   "point_count": 10061223,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:14:29.258037+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "af32fdb2c38499b9848d5ebfec46f8d557bfd4fa443e8c52b437a36a9a726219",
+   "status": "measured",
+   "transfer_client": "curl IPv4; TLS verified",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ125305.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    513000.0,
+    4929500.0,
+    513499.99,
+    4929999.99
+   ],
+   "bytes": 31543876,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1872.4,
+    3685.71
+   ],
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 05:12:31 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130295.laz",
+   "point_count": 5826059,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:12:47.918343+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "290f3ea9993edcc0ce787d1a00596683d0d9550626f03bb9f69e359b45c0fd3e",
+   "status": "measured",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130295.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    513000.0,
+    4930000.0,
+    513499.99,
+    4930499.99
+   ],
+   "bytes": 52761995,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    2039.6100000000001,
+    3623.51
+   ],
+   "etag": "\"619477be-325158b\"",
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 03:32:14 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130300.laz",
+   "point_count": 9289403,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:14:20.330120+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "67bd4e804074b6f02ae2de0b651367ad3712b7e33fed7d2c5c06d331836bf80b",
+   "status": "measured",
+   "transfer_client": "curl IPv4; TLS verified",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130300.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    513000.0,
+    4930500.0,
+    513499.99,
+    4930999.99
+   ],
+   "bytes": 101791534,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1886.3500000000001,
+    3640.59
+   ],
+   "etag": "\"619464d4-611372e\"",
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 02:11:32 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130305.laz",
+   "point_count": 16281090,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:17:28.873777+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "d8a6ddb6a6bbc3bf17b981d3240e8116d79c0a4a3e3b90ee320e560c9f717276",
+   "status": "measured",
+   "transfer_client": "curl IPv4; TLS verified",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ130305.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    513500.0,
+    4929500.0,
+    513999.99,
+    4929999.99
+   ],
+   "bytes": 29594839,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1676.95,
+    3685.4
+   ],
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 04:23:22 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135295.laz",
+   "point_count": 5213859,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:12:48.673798+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "0cd85f61087abbab42db1489c34cd2a2d689b2c2fa2465beb551774945312951",
+   "status": "measured",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135295.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    513500.0,
+    4930000.0,
+    513999.99,
+    4930499.99
+   ],
+   "bytes": 74047690,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1852.17,
+    3641.9900000000002
+   ],
+   "etag": "\"619472eb-469e0ca\"",
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 03:11:39 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135300.laz",
+   "point_count": 12201994,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:16:01.401940+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "267677528fa8b1d487755e2e7fcaac5259acb154897454a6182b7b2ea4ea5c1a",
+   "status": "measured",
+   "transfer_client": "curl IPv4; TLS verified",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135300.laz"
+  },
+  {
+   "acquisition_window": [
+    "2020-09-29",
+    "2020-10-09"
+   ],
+   "block": "WY_YellowstoneNP_3_2020",
+   "bounds_utm_m": [
+    513500.0,
+    4930500.0,
+    513999.99,
+    4930999.99
+   ],
+   "bytes": 92753144,
+   "content_type": "application/octet-stream",
+   "elevation_range_m": [
+    1689.78,
+    3648.87
+   ],
+   "etag": "\"61948274-5874cf8\"",
+   "las_version": "1.4",
+   "last_modified": "Wed, 17 Nov 2021 04:17:56 GMT",
+   "path": "USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135305.laz",
+   "point_count": 14944040,
+   "point_format": 6,
+   "pointcloud_qc_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/reports/USGS_WY_YellowstoneNP_3_2020_FINAL_LPC_Report.txt",
+   "project": "WY_YellowstoneNP_2020_D20",
+   "project_report_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/WY_YellowstoneNP_2020_D20/USGS_WY_YellowstoneNP_2020_D20_Project_Report.pdf",
+   "quality_level": "QL1",
+   "retrieved_utc": "2026-10-14T02:16:49.103082+00:00",
+   "schema": "yellowstone.lidar_tile.v1",
+   "sha256": "31594fad8a4becab952a7f25a7e31a2c3fccda34297758fdb4e5bd998abd0090",
+   "status": "measured",
+   "transfer_client": "curl IPv4; TLS verified",
+   "url": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/WY_YellowstoneNP_2020_D20/WY_YellowstoneNP_3_2020/LAZ/USGS_LPC_WY_YellowstoneNP_2020_D20_12TWQ135305.laz"
+  }
+ ],
+ "unsupported_cells": "NoData preserved; no zero fill or extrapolation",
+ "valid_fraction": 0.961656494140625,
+ "value_class": "first-return surface height above matched ground; vegetation unclassified"
+}

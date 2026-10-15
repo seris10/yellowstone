@@ -1,0 +1,6 @@
+{
+  "manifest": "data/releases/581f6936636e83f65e1aff21dfded45a2aef24c0f07f1b96d6bd388b35185f45/RELEASE.json",
+  "release_id": "581f6936636e83f65e1aff21dfded45a2aef24c0f07f1b96d6bd388b35185f45",
+  "schema": "yellowstone.release_pointer.v1",
+  "sha256": "e42ed4d2f6e391e49d58dbeeee603823e94ad5715cdcd9633d309401344416a2"
+}
