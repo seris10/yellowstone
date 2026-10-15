@@ -96,3 +96,22 @@ circular bands and retain irregular, directional sheet-edge and normal detail.
 Keep authored procedural structure distinct from surveyed microtopography.
 Check the actual saved world from the overlook and close to the apron, preserve
 source hashes, and include the final shader in runtime and performance checks.
+
+## Residual crown attachment audit
+
+The overlook foreground still shows floating miniature-tree silhouettes. Each
+residual source cell places an upright, shallow foliage bundle at canopy-top
+elevation. Its crossed support strips are 4-18 mm wide, and twig connectors
+are single thin triangles. Contact tests pass while these connections disappear
+edge-on or at normal viewing distance. The geometry therefore communicates an
+unattached miniature crown despite a numerical connection.
+
+Replace the display scaffolds with tapered volumetric branch connections and
+lateral bough geometry. Preserve source cell anchors, top elevations, coverage
+masks, observed census, terrain and scientific artifacts. Diameter and branch
+orientation remain authored with unknown local uncertainty. Retain the complete
+source coverage and record any added geometry and submission cost. Shared-mesh
+replacement may update an existing saved scene without rebuilding geography.
+Verify finite geometry, visible connectivity across viewing angles, source
+retention and native overlook/ground-level appearance. Root-contact assertions
+alone do not establish visible attachment.

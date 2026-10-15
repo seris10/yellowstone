@@ -18,6 +18,9 @@ const SHOOT_CARD_SIZE_M := 0.48
 const SHOOT_CARD_HEIGHT_M := 0.64
 const SHOOT_ENVELOPE_M := 0.80
 const PATCH_DEPTH_CAP_M := 2.0
+const GEOMETRY_REVISION := 2
+const SHOOT_VERTICES := 14
+const SUPPORT_SIDES := 5
 const CLUSTER_LODS := [[0.0, 45.0, 40], [45.0, 120.0, 16], [120.0, 350.0, 0]]
 const CLUSTER_TILE_M := 64.0
 const ARTIFACTS := ["canopy_top_scene_y", "ground_scene_y", "unresolved_cells", "cover_fraction", "valid_fraction", "unresolved_render_mask", "valid_support"]
@@ -93,13 +96,13 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 	group.set_meta("patch_depth_cap_m", PATCH_DEPTH_CAP_M)
 	group.set_meta("cluster_lods", CLUSTER_LODS)
 	group.set_meta("shoot_card_size_m", SHOOT_CARD_SIZE_M)
-	group.set_meta("cluster_triangles", [208, 88, 14])
+	_geometry_metadata(group)
 	group.set_meta("twig_mask_rule", "same_anchor_as_needle_shoot")
 	group.set_meta("shoot_card_height_m", SHOOT_CARD_HEIGHT_M)
 	group.set_meta("shoot_card_source", "human_made_cc0_polyhaven_pine_tree_01")
 	group.set_meta("shoot_card_dimensions_class", "authored_unknown_uncertainty")
 	group.set_meta("shoot_card_assembly", "five_natural_0.18_by_0.36m_shoots_on_authored_bough")
-	group.set_meta("shoot_inclination_degrees", [20.0, 70.0])
+	group.set_meta("shoot_inclination_degrees", [65.0, 100.0])
 	group.set_meta("support_horizontal_limit_m", Support.SEARCH_M)
 	group.set_meta("local_support_stem_count_claim", "none_authored_geometry_only")
 	group.set_meta("cluster_top_class", "source_2m_cell_mean")
@@ -154,6 +157,7 @@ static func _shoot_texture() -> Texture2D:
 static func _build_clusters(group: Node3D, source: Dictionary, skin_material: ShaderMaterial, hosts: Dictionary, ground: RefCounted = null) -> void:
 	var material: ShaderMaterial = skin_material.duplicate()
 	material.set_shader_parameter("cluster_mode", true)
+	material.set_shader_parameter("geometry_revision", GEOMETRY_REVISION)
 	var meshes: Array = []
 	for lod_index: int in CLUSTER_LODS.size():
 		var lod: Array = CLUSTER_LODS[lod_index]
@@ -264,7 +268,7 @@ static func _shoot_mesh(radius: float, count: int, material: Material) -> ArrayM
 		var angle := float(shoot) * 2.3999632297
 		var reach: float = 0.0 if shoot == 0 else radius * (0.28 + 0.72 * fraction) * sqrt(fmod(float(shoot) * 0.61803398875 + 0.37, 1.0))
 		var center := Vector3(cos(angle) * reach, -fraction, sin(angle) * reach)
-		var inclination := deg_to_rad(20.0 + 50.0 * fmod(float(shoot) * 0.754877666, 1.0))
+		var inclination := deg_to_rad(65.0 + 35.0 * fmod(float(shoot) * 0.754877666, 1.0))
 		var axis := Vector3(cos(angle) * sin(inclination), cos(inclination), sin(angle) * sin(inclination))
 		var transverse := Vector3(-sin(angle), 0.0, cos(angle))
 		for plane: int in range(2):
@@ -280,16 +284,12 @@ static func _shoot_mesh(radius: float, count: int, material: Material) -> ArrayM
 				anchors.append(Vector2(center.x, center.z))
 			colors.append_array(PackedColorArray([Color(encoded, 0, 0, 1), Color(encoded, 0, 0, 1), Color(encoded, 0, 0, 1), Color(encoded, 0, 0, 1)]))
 			indices.append_array(PackedInt32Array([offset, offset + 2, offset + 1, offset, offset + 3, offset + 2]))
-		var across := transverse * 0.003
 		var start := Vector3(0.0, -fraction - 0.04, 0.0)
+		var tip := center - axis * SHOOT_CARD_HEIGHT_M * 0.5
 		var offset := vertices.size()
-		vertices.append_array(PackedVector3Array([start - across, start + across, center - axis * SHOOT_CARD_HEIGHT_M * 0.5]))
-		var normal := (vertices[offset + 1] - vertices[offset]).cross(vertices[offset + 2] - vertices[offset]).normalized()
-		normals.append_array(PackedVector3Array([normal, normal, normal]))
-		uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]))
-		anchors.append_array(PackedVector2Array([Vector2(center.x, center.z), Vector2(center.x, center.z), Vector2(center.x, center.z)]))
-		colors.append_array(PackedColorArray([Color(encoded, 1, 0, 1), Color(encoded, 1, 0, 1), Color(encoded, 1, 0, 1)]))
-		indices.append_array(PackedInt32Array([offset, offset + 2, offset + 1]))
+		_add_tube(vertices, normals, uvs, colors, indices, start, tip, 0.014, 0.005, 3, Color(encoded, 1, 0, 1))
+		for vertex: int in range(offset, vertices.size()):
+			anchors.append(Vector2(center.x, center.z))
 	_add_support_stem(vertices, normals, uvs, colors, indices)
 	var arrays: Array = []
 	arrays.resize(Mesh.ARRAY_MAX)
@@ -305,25 +305,62 @@ static func _shoot_mesh(radius: float, count: int, material: Material) -> ArrayM
 	mesh.surface_set_material(0, material)
 	return mesh
 
+static func _add_tube(vertices: PackedVector3Array, normals: PackedVector3Array, uvs: PackedVector2Array, colors: PackedColorArray, indices: PackedInt32Array, start: Vector3, end: Vector3, start_radius: float, end_radius: float, sides: int, color: Color) -> void:
+	var axis := (end - start).normalized()
+	var across := axis.cross(Vector3.UP if absf(axis.y) < 0.9 else Vector3.RIGHT).normalized()
+	var other := axis.cross(across)
+	var slope := (start_radius - end_radius) / start.distance_to(end)
+	var offset := vertices.size()
+	for side: int in sides:
+		var angle := TAU * float(side) / sides
+		var radial := across * cos(angle) + other * sin(angle)
+		var normal := (radial + axis * slope).normalized()
+		vertices.append_array(PackedVector3Array([start + radial * start_radius, end + radial * end_radius]))
+		normals.append_array(PackedVector3Array([normal, normal]))
+		uvs.append_array(PackedVector2Array([Vector2(0, angle), Vector2(1, angle)]))
+		colors.append_array(PackedColorArray([color, color]))
+		var a := offset + side * 2
+		var b := offset + ((side + 1) % sides) * 2
+		indices.append_array(PackedInt32Array([a, a + 1, b + 1, a, b + 1, b]))
+
 static func _add_support_stem(vertices: PackedVector3Array, normals: PackedVector3Array, uvs: PackedVector2Array, colors: PackedColorArray, indices: PackedInt32Array) -> void:
-	for plane: int in 2:
-		var across := Vector3.RIGHT if plane == 0 else Vector3.FORWARD
-		var normal := Vector3.UP.cross(across)
-		var offset := vertices.size()
-		vertices.append_array(PackedVector3Array([-across * 0.002, across * 0.002, across * 0.009 - Vector3.UP * 1.05, -across * 0.009 - Vector3.UP * 1.05]))
-		normals.append_array(PackedVector3Array([normal, normal, normal, normal]))
-		uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]))
-		colors.append_array(PackedColorArray([Color(0, 1, 0.5, 1), Color(0, 1, 0.5, 1), Color(0, 1, 0.5, 1), Color(0, 1, 0.5, 1)]))
-		indices.append_array(PackedInt32Array([offset, offset + 2, offset + 1, offset, offset + 3, offset + 2]))
-	for plane: int in 2:
-		var across := Vector3.RIGHT if plane == 0 else Vector3.FORWARD
-		var normal := Vector3.UP.cross(across)
-		var offset := vertices.size()
-		vertices.append_array(PackedVector3Array([-across * 0.003, across * 0.003, across * 0.012 - Vector3.UP / CLUSTER_LIVE_CROWN_RATIO, -across * 0.012 - Vector3.UP / CLUSTER_LIVE_CROWN_RATIO]))
-		normals.append_array(PackedVector3Array([normal, normal, normal, normal]))
-		uvs.append_array(PackedVector2Array([Vector2(0, plane), Vector2(0, plane), Vector2(1, plane), Vector2(1, plane)]))
-		colors.append_array(PackedColorArray([Color(0, 1, 1, 1), Color(0, 1, 1, 1), Color(0, 1, 1, 1), Color(0, 1, 1, 1)]))
-		indices.append_array(PackedInt32Array([offset, offset + 2, offset + 1, offset, offset + 3, offset + 2]))
+	# Shader radii follow authored metric taper, independent of screen distance.
+	_add_tube(vertices, normals, uvs, colors, indices, Vector3.ZERO, Vector3(0, -1.05, 0), 0.006, 0.04, SUPPORT_SIDES, Color(0, 1, 0.5, 1))
+	_add_tube(vertices, normals, uvs, colors, indices, Vector3(0, -1.05, 0), Vector3(0, -1.0 / CLUSTER_LIVE_CROWN_RATIO, 0), 0.04, 0.08, SUPPORT_SIDES, Color(0, 1, 1, 1))
+
+static func _geometry_metadata(group: Node3D) -> void:
+	group.set_meta("geometry_revision", GEOMETRY_REVISION)
+	group.set_meta("cluster_triangles", [420, 180, 26])
+	group.set_meta("shoot_inclination_degrees", [65.0, 100.0])
+	group.set_meta("support_representation", "five_sided_tapered_tubes_with_three_sided_twigs")
+	group.set_meta("support_diameter_class", "authored_unknown_uncertainty")
+	group.set_meta("grounded_support_diameter_rule", "clamp(source_height/80,0.05m,0.28m)")
+	group.set_meta("attached_support_diameter_rule", "clamp(horizontal_span*0.06,0.036m,0.13m)")
+	group.set_meta("twig_diameter_m", [0.028, 0.010])
+
+static func refresh_geometry(group: Node3D) -> Dictionary:
+	# Replace only shared display geometry; immutable instance buffers retain source evidence.
+	if group == null or int(group.get_meta("geometry_revision", 0)) >= GEOMETRY_REVISION:
+		return {"upgraded_batches": 0, "geometry_revision": GEOMETRY_REVISION}
+	var meshes: Dictionary = {}
+	var batches := 0
+	var instances := 0
+	for node: Node in group.get_children():
+		if not node is MultiMeshInstance3D or not node.has_meta("cluster_lod"):
+			continue
+		var lod: int = node.get_meta("cluster_lod")
+		if not meshes.has(lod):
+			var material: ShaderMaterial = node.multimesh.mesh.surface_get_material(0).duplicate()
+			material.set_shader_parameter("geometry_revision", GEOMETRY_REVISION)
+			var radius: float = group.get_meta("cluster_radius_m")
+			meshes[lod] = _shoot_mesh(radius, int(CLUSTER_LODS[lod][2]), material) if lod < 2 else _cluster_mesh(radius, material)
+		var replacement: MultiMesh = node.multimesh.duplicate()
+		replacement.mesh = meshes[lod]
+		node.multimesh = replacement
+		batches += 1
+		instances += replacement.instance_count
+	_geometry_metadata(group)
+	return {"upgraded_batches": batches, "lod_instance_records": instances, "geometry_revision": GEOMETRY_REVISION}
 
 static func _cluster_mesh(radius: float, material: Material) -> ArrayMesh:
 	var vertices := PackedVector3Array()

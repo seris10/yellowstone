@@ -16,6 +16,7 @@ uniform vec3 base_color : source_color = vec3(0.12, 0.17, 0.08);
 uniform float texture_color_detail = 0.12;
 uniform bool cluster_mode = false;
 uniform bool near_shoot_mode = false;
+uniform int geometry_revision = 1;
 uniform float skin_fade_begin_m = 180.0;
 uniform float skin_fade_end_m = 260.0;
 varying vec3 world;
@@ -31,7 +32,22 @@ void vertex() {
 	float depth = length(MODEL_MATRIX[1].xyz);
 	float crown_depth = min(depth, 2.0);
 	lod_distance = distance(MODEL_MATRIX[3].xyz, CAMERA_POSITION_WORLD);
-	if (wood > 0.5 && COLOR.b > 0.75) {
+	if (geometry_revision >= 2 && wood > 0.5 && COLOR.b > 0.25) {
+		vec3 root = INSTANCE_CUSTOM.xyz * vec3(1.0, depth, 1.0);
+		float root_radius = INSTANCE_CUSTOM.w > 0.5 ? clamp(length(root.xz) * 0.03, 0.018, 0.065) : clamp(depth / 112.0, 0.025, 0.14);
+		float joint_radius = min(root_radius, 0.045);
+		vec3 start = COLOR.b > 0.75 ? vec3(0.0, -crown_depth * 1.05, 0.0) : vec3(0.0);
+		vec3 end = COLOR.b > 0.75 ? root : vec3(0.0, -crown_depth * 1.05, 0.0);
+		float start_radius = COLOR.b > 0.75 ? joint_radius : 0.006;
+		float end_radius = COLOR.b > 0.75 ? root_radius : joint_radius;
+		vec3 delta = end - start;
+		float axis_length = max(length(delta), 0.00001);
+		vec3 axis = length(delta) > 0.00001 ? delta / axis_length : vec3(0.0, -1.0, 0.0);
+		vec3 across = normalize(cross(axis, abs(axis.y) < 0.9 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0)));
+		vec3 radial = across * cos(UV.y) + cross(axis, across) * sin(UV.y);
+		VERTEX = (mix(start, end, UV.x) + radial * mix(start_radius, end_radius, UV.x)) / vec3(1.0, depth, 1.0);
+		NORMAL = normalize((radial + axis * (start_radius - end_radius) / axis_length) * vec3(1.0, depth, 1.0));
+	} else if (wood > 0.5 && COLOR.b > 0.75) {
 		vec3 axis = vec3(INSTANCE_CUSTOM.x, INSTANCE_CUSTOM.y * depth + crown_depth * 1.05, INSTANCE_CUSTOM.z);
 		vec3 across = normalize(cross(axis, abs(axis.y) < 0.9 * length(axis) ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0)));
 		if (UV.y > 0.5) across = normalize(cross(axis, across));

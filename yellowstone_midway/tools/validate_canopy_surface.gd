@@ -71,9 +71,10 @@ func verify() -> void:
 				check(Canopy.build(observed, data_path), "Observed canopy build fails")
 			var observed_group := observed.get_node_or_null("AuthoredCanopySurface")
 			if observed_group != null:
+				Canopy.refresh_geometry(observed_group)
 				validate_group(observed_group, source)
 			observed.free()
-	var report := {"ok": failures.is_empty(), "engine": Engine.get_version_info().string, "checks": checks, "active_cells": cells, "triangles": triangles, "tiles": tiles, "represented_area_m2": represented_area, "fixture_geometry": fixture_geometry, "minimum_retained_shoots_by_lod": minimum_retained_shoots, "support_only_clusters_by_lod": support_only_clusters, "source_sha256": FileAccess.get_sha256(data_path) if not data_path.is_empty() else "fixture", "negative_controls": negative, "geometry_class": "authored", "height_evidence_class": "derived_not_field_validated", "footprint_evidence_class": "derived_not_field_validated", "shell_thickness_class": "authored_display_geometry", "stem_count_claim": "none", "scientific_acceptance": "not_yet_accepted", "elapsed_seconds": (Time.get_ticks_msec() - started) / 1000.0, "failures": failures}
+	var report := {"ok": failures.is_empty(), "engine": Engine.get_version_info().string, "checks": checks, "active_cells": cells, "triangles": triangles, "tiles": tiles, "represented_area_m2": represented_area, "fixture_geometry": fixture_geometry, "runtime_geometry_revision": Canopy.GEOMETRY_REVISION, "baked_runtime_upgrade": baked, "minimum_retained_shoots_by_lod": minimum_retained_shoots, "support_only_clusters_by_lod": support_only_clusters, "source_sha256": FileAccess.get_sha256(data_path) if not data_path.is_empty() else "fixture", "negative_controls": negative, "geometry_class": "authored", "height_evidence_class": "derived_not_field_validated", "footprint_evidence_class": "derived_not_field_validated", "shell_thickness_class": "authored_display_geometry", "stem_count_claim": "none", "scientific_acceptance": "not_yet_accepted", "elapsed_seconds": (Time.get_ticks_msec() - started) / 1000.0, "failures": failures}
 	var output := FileAccess.open(output_path, FileAccess.WRITE)
 	if output == null:
 		push_error("Cannot write canopy validation report: %s" % output_path)
@@ -254,7 +255,7 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 		if near_shoots:
 			var retained := 0
 			for shoot: int in int(Canopy.CLUSTER_LODS[lod][2]):
-				var anchor := mesh_anchors[shoot * 11]
+				var anchor := mesh_anchors[shoot * Canopy.SHOOT_VERTICES]
 				var at_world := world * Vector3(anchor.x, 0.0, anchor.y)
 				retained += 1 if covered(at_world, source) else 0
 			minimum_retained_shoots[lod] = mini(minimum_retained_shoots[lod], retained)
@@ -276,8 +277,8 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
 	var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
 	var count: int = Canopy.CLUSTER_LODS[lod][2]
-	var quads: int = count * 2 + 4 if near_shoots else 7
-	check(vertices.size() == (count * 11 + 16 if near_shoots else 28) and indices.size() == (count * 15 + 24 if near_shoots else 42), "Connected foliage geometry differs from its LOD budget")
+	var quads: int = count * 2 if near_shoots else 3
+	check(vertices.size() == (count * Canopy.SHOOT_VERTICES + 20 if near_shoots else 32) and indices.size() == (count * 30 + 60 if near_shoots else 78), "Connected foliage geometry differs from its LOD budget")
 	var colors: PackedColorArray = arrays[Mesh.ARRAY_COLOR]
 	var uvs: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
 	check(colors.size() == vertices.size(), "Foliage and support vertices require material attributes")
@@ -292,10 +293,10 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 		check(anchors.size() == vertices.size(), "Whole-shoot mask anchors are missing")
 		check(anchors[0].length() < 0.000001, "Near and middle LOD require a guaranteed origin shoot")
 		for shoot: int in count:
-			var base := shoot * 11
+			var base := shoot * Canopy.SHOOT_VERTICES
 			var center_point := (vertices[base] + vertices[base + 2]) * 0.5
 			var center_xz := Vector2(center_point.x, center_point.z)
-			for corner: int in 11:
+			for corner: int in Canopy.SHOOT_VERTICES:
 				check(anchors[base + corner].distance_to(center_xz) < 0.000001, "Canopy mask clips a shoot independently of its attachment center")
 			check(colors[base + 10].g > 0.5 and colors[base].g < 0.5, "Twig and needle material classes disagree")
 			for depth: float in [0.07, 0.7, 7.0, 21.0, 70.0]:
@@ -304,12 +305,13 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 				var center := (vertices[base + 2] + vertices[base + 3]) * 0.5
 				var fraction := colors[base].r
 				center.y = -lerpf(Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, crown_depth - Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, fraction) + (center.y + fraction) * scale
-				var tip := vertices[base + 10]
+				var tip := (vertices[base + 9] + vertices[base + 11] + vertices[base + 13]) / 3.0
 				tip.y = -lerpf(Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, crown_depth - Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, fraction) + (tip.y + fraction) * scale
 				check(center.distance_to(tip) < 0.00001, "Needle base and woody twig disconnect after nonuniform height scaling")
-			var left := vertices[base + 8]
-			var right := vertices[base + 9]
-			check(Vector2((left.x + right.x) * 0.5, (left.z + right.z) * 0.5).length() < 0.000001 and left.y >= -1.05 and left.y <= 0.0, "Twig root misses central support")
+			var twig_root := (vertices[base + 8] + vertices[base + 10] + vertices[base + 12]) / 3.0
+			check(Vector2(twig_root.x, twig_root.z).length() < 0.000001 and twig_root.y >= -1.05 and twig_root.y <= 0.0, "Twig root misses central support")
+			var shoot_axis := ((vertices[base] + vertices[base + 1]) * 0.5 - (vertices[base + 2] + vertices[base + 3]) * 0.5).normalized()
+			check(shoot_axis.y >= cos(deg_to_rad(100.0)) - 0.00001 and shoot_axis.y <= cos(deg_to_rad(65.0)) + 0.00001, "Bough orientation is outside its lateral authored range")
 	var edges: Dictionary = {}
 	for triangle: int in range(0, indices.size(), 3):
 		var a := vertices[indices[triangle]]
@@ -322,7 +324,7 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 			edges[key] = int(edges.get(key, 0)) + 1
 	for multiplicity: int in edges.values():
 		check(multiplicity in [1, 2], "Needle card edge is nonmanifold")
-	check(edges.values().count(1) == quads * 4 + count * 3 and edges.values().count(2) == quads, "Needle, twig and support edge counts differ")
+	check(edges.values().count(1) == quads * 4 + count * 6 + 20 and edges.values().count(2) == quads + count * 6 + 20, "Needle, twig and support edge counts differ")
 
 func covered(position: Vector3, source: Dictionary) -> bool:
 	var origin: Vector2 = Vector2(source.first_cell_x_m, source.first_cell_z_m) - Vector2.ONE * source.cell_size_m * 0.5

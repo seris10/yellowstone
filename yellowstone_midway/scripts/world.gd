@@ -14,6 +14,7 @@ const ShadowQuality = preload("res://scripts/shadow_quality.gd")
 const TerrainMaterials = preload("res://scripts/terrain_materials.gd")
 const LodgepoleLibrary = preload("res://scripts/lodgepole_library.gd")
 const TreeSubmission = preload("res://scripts/tree_submission.gd")
+const CanopySurface = preload("res://scripts/canopy_surface.gd")
 const WeatherSnapshotReader = preload("res://scripts/weather_snapshot_reader.gd")
 ## Optional published Python replay path.
 @export_file("*.json") var replay_path: String = ""
@@ -133,6 +134,7 @@ func _ready() -> void:
 	if ResourceLoader.exists("res://scenes/authored_world.tscn"):
 		var authored: Node = load("res://scenes/authored_world.tscn").instantiate()
 		add_child(authored)
+		CanopySurface.refresh_geometry(authored.get_node_or_null("AuthoredCanopySurface"))
 		if not authored.has_node("AuthoredVegetation"):
 			push_error("authored_world.tscn has no AuthoredVegetation: re-run the offline bake.")
 			return
