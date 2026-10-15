@@ -10,7 +10,7 @@ ENTRY_FIELDS = ("component", "module", "model_level", "equations",
 COMPONENTS = [
     {
         "component": "daylight sky display",
-        "module": "yellowstone_midway/shaders/physical_daylight.gdshader",
+        "module": "../../yellowstone_midway/shaders/physical_daylight.gdshader",
         "model_level": "three-band plane-parallel single scattering with Rayleigh, aerosol, and ozone optical depths",
         "equations": "I=(exp(-tau/mu_s)-exp(-tau/mu))/(1-mu/mu_s); limit at mu=mu_s is tau/mu*exp(-tau/mu); phase_R=3*(1+cos(theta)^2)/(16*pi); Henyey-Greenstein aerosol phase",
         "variables": "mu: viewing elevation sine; mu_s: solar elevation sine; tau: total vertical optical depth; tau_R: molecular scattering; tau_M: aerosol scattering; tau_O: ozone absorption",
