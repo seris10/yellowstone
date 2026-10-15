@@ -57,6 +57,6 @@ void fragment(){
  NORMAL_MAP_DEPTH=pool>0.5?0.035:0.16;
  ROUGHNESS=roughness;
  METALLIC=0.0;
- ALPHA=mix(mix(0.82,0.97,pool),0.72+foam*0.22,cascade);
+ ALPHA=pool>0.5&&ramp_mix>0.5?1.0:mix(mix(0.82,0.97,pool),0.72+foam*0.22,cascade);
  SPECULAR=0.25;
 }

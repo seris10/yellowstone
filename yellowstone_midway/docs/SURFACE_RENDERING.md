@@ -66,6 +66,17 @@ directory. Schema and pool identity accompany the actual texture binding and has
 The saved water mesh spans the complete center-to-rim range, including its shallow
 yellow and orange edge. It uses the same vertices and water boundaries.
 
+The core elevation surface includes elevations over mapped water. Those values
+are not submerged bathymetry. Ground rendering excludes a triangle only when its
+complete horizontal footprint is inside a rendered thermal-water polygon. Polygon
+difference must be empty, including for concave boundaries. Boundary-crossing and
+dry triangles remain. Source vertices, height files, and collision data stay intact;
+the collision grid remains a surface-elevation proxy. The ramp contains the complete
+upwelling optical color, so ramp-driven pool fragments are opaque. Native visibility
+checks use an unlit water probe, a depth-disabled reference, and restoration of the
+uncut terrain as a negative control. Steam is hidden only during that isolated
+probe; the production captures retain it.
+
 The optical display follows the three terms in
 [Nugent et al. (2015)](https://www.montana.edu/jshaw/documents/YNP%20pool%20colors%20-%20Nugent%20et%20al%20-%20AO2015.pdf):
 surface-reflected sky, bottom-reflected sunlight, and backward-scattered sunlight.

@@ -399,6 +399,7 @@ func _reload_generation(pointer_path: String = "res://data/release.json") -> boo
 		_mat_surface.load_outflow_temperature()
 		_mat_surface.apply(_core_terrain.get_mat_material())
 		_core_terrain.refresh_outflow(_mat_surface)
+		_core_terrain.cut_open_water(spec.pools)
 		_mat_pigment_mtime = ReleaseData.get_modified_time("res://data/mat_pigment.png")
 		_mat_pigment_blending = false
 	for child: Node in get_children():
@@ -744,6 +745,7 @@ func build_core_terrain() -> void:
 		_mat_surface = null
 		return
 	_core_terrain = core
+	core.cut_open_water(spec.pools)
 	core.set_terrain_cut_uniform(terrain_materials)
 	var core_material: ShaderMaterial = core.get_mat_material()
 	if core_material != null and not core_material in terrain_materials:
