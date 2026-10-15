@@ -421,6 +421,7 @@ Samples center-to-rim radii and runs the radiative-transfer model."""
     depth_center = float(shell["depth_center_m"])
     shelf_depth = float(shell["shelf_depth_m"])
     shelf_ratio = float(shell.get("r_shelf_m", r_water * 1.18)) / r_water
+    yellow_bottom = shell.get("name") == "Grand Prismatic Spring"
     samples = []
     for i in range(n_samples):
         r = r_water * i / (n_samples - 1)
@@ -428,6 +429,9 @@ Samples center-to-rim radii and runs the radiative-transfer model."""
         d_here = pool_crust.depth_at(r, r_water, depth_center, shelf_depth,
                                      shelf_mult=max(1.001, shelf_ratio))
         class_name = classify_cell(t_here, ph=ph)
+        if yellow_bottom:
+            class_name = CLASS_YELLOW
+            d_here = depth_center * (1.0 - i / (n_samples - 1))
         base_rgb = _mat_rgb_for_class(class_name)
         rgb = radiative_transfer_color(
             d_here, base_rgb,
@@ -451,6 +455,9 @@ Samples center-to-rim radii and runs the radiative-transfer model."""
         "palette_status": "authored sRGB colors decoded to linear-light reflectance proxies",
         "method": "Nugent (2015) equations 1-3, three-band continuum approximation",
         "local_color_uncertainty": "unknown; no site spectroradiometric calibration",
+        "bottom_basis": (NUGENT_2015_CITATION + " Section 3A: uniform yellow mat and conical optical depth"
+                         if yellow_bottom else "authored radial temperature classes and shell depth"),
+        "optical_depth_status": "authored display profile; submerged bathymetry unmeasured",
         "pool_id": shell.get("id"),
         "name": shell.get("name"),
         "samples": samples,

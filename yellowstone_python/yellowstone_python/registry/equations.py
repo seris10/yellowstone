@@ -15,7 +15,7 @@ COMPONENTS = [
         "equations": "k=2a+b; T=exp(-k*z); E/Esun=Rw*Esky/Esun+(1-Rw)^2*(Rmat*T+(b/2)*(1-T)/k)",
         "variables": "a: absorption; b: total scattering; z: equal down/up depth; Rw: surface reflectance; Rmat: linear-light bottom reflectance proxy",
         "units": "a and b 1/m; z m; reflectance and normalized irradiance dimensionless",
-        "assumptions": "equal forward/backward scattering; Lambertian bottom; no direct sun glint; authored sRGB palette decoded before transport; one sRGB encoding for texture storage",
+        "assumptions": "equal forward/backward scattering; Lambertian bottom; no direct sun glint; Grand Prismatic yellow bottom and conical optical depth per Nugent Section 3A; authored sRGB palette decoded before transport; one sRGB encoding for texture storage",
         "limits": "three representative wavelengths; authored scattering and palette; no local spectral or viewing-angle calibration",
         "validation_status": "analytical_limits_and_independent_quadrature_tested_not_field_validated",
     },

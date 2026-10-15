@@ -64,6 +64,16 @@ def test_pool_ramp_carries_sources():
     assert "Nugent" in joined
 
 
+def test_grand_prismatic_optics_separates_bottom_from_surface_temperature():
+    shell = _test_shell()
+    ramp = pool_ramp(shell)
+    assert {sample["class"] for sample in ramp["samples"]} == {mm.CLASS_YELLOW}
+    assert ramp["samples"][0]["depth_m"] == shell["depth_center_m"]
+    assert ramp["samples"][-1]["depth_m"] == 0.0
+    assert "uniform yellow mat" in ramp["bottom_basis"]
+    assert pool_ramp(_test_shell("Other pool"))["samples"][-1]["depth_m"] > 0.0
+
+
 def test_write_pool_ramp_png_writes_image():
     shell = _test_shell()
     ramp = pool_ramp(shell, n_samples=16)

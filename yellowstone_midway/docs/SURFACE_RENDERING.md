@@ -77,6 +77,11 @@ encoding and the shader's source-color sampler performs its inverse.
 Absorption values come from Pope and Fry (1997). Scattering, palette colors,
 depth profiles, and surface reflectance remain authored approximations with unknown
 local uncertainty. This display has no site spectroradiometric calibration.
+Grand Prismatic uses the paper's uniform yellow bottom and conical optical-depth
+assumptions. Its depth reaches zero at the mapped water boundary. The optical
+display profile is distinct from the authored submerged shell geometry. Radial
+surface temperature does not prescribe the underwater mat. Orange and brown
+outflows remain separate model pigment and mapped basin features.
 
 Clear visibility maps to zero additional sky fog; the physical sky already models
 atmospheric scattering. Reduced visibility restores sky fog and greater turbidity.
