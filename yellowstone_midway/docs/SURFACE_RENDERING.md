@@ -74,6 +74,7 @@ For each representative wavelength, k=2a+b and the column contribution is
 zero when b is zero. The authored class palette is decoded from sRGB before
 transport. Ramp RGB samples contain linear light; PNG textures receive one sRGB
 encoding and the shader's source-color sampler performs its inverse.
+The transfer curve follows the [sRGB conversion equations](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 Absorption values come from Pope and Fry (1997). Scattering, palette colors,
 depth profiles, and surface reflectance remain authored approximations with unknown
 local uncertainty. This display has no site spectroradiometric calibration.
@@ -83,7 +84,7 @@ display profile is distinct from the authored submerged shell geometry. Radial
 surface temperature does not prescribe the underwater mat. Orange and brown
 outflows remain separate model pigment and mapped basin features.
 
-Clear visibility maps to zero additional sky fog; the physical sky already models
+Clear visibility maps to zero additional sky fog; the sky model already accounts for
 atmospheric scattering. Reduced visibility restores sky fog and greater turbidity.
 Clear daylight uses an authored direct-light energy of 1.35 and diffuse energy of
 0.25. Cloud cover reduces the direct term and increases the diffuse term. Night
@@ -132,3 +133,17 @@ timing, source-data accuracy, and ecological validation have separate scopes.
 The production default is the Mobile renderer. Godot selects Metal on Apple Silicon
 through its [platform driver setting](https://docs.godotengine.org/en/4.5/classes/class_projectsettings.html#class-projectsettings-property-rendering-rendering-device-driver-macos).
 The Compatibility renderer remains selectable with its command-line override.
+
+The daylight sky evaluates an analytic single-scattering integral in linear light.
+Its molecular spectrum and ozone absorption use three representative wavelength
+bands from the [Bruneton atmospheric reference](https://github.com/ebruneton/precomputed_atmospheric_scattering/blob/master/atmosphere/demo/demo.cc).
+Rayleigh density uses an 8000 meter scale height and 2200 meter site elevation.
+The upper ozone column attenuates the incident sunlight before lower-atmosphere scattering.
+The display uses an authored aerosol column, phase asymmetry 0.76, and radiance
+scale 32 followed by luminance compression. RGB ratios remain unchanged by that
+compression. Stars fade out in daylight and remain available at night. The sun
+disk and weather-driven clouds remain present. This plane-parallel approximation
+clamps grazing directions; multiple scattering, local aerosol calibration, and
+curved-horizon transport are absent. A native zenith check requires blue/red above
+1.3 and green/red above 1.05; it establishes a display contract, without field color
+calibration.

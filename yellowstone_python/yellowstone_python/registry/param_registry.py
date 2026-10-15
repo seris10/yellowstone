@@ -17,6 +17,28 @@ UNKNOWN = "unknown"
 
 PARAMS = [
     {
+        "param_id": "sky.optical_columns",
+        "meaning": "Rayleigh spectrum at 680, 550, 440 nm; 8000 m scale height; 2200 m elevation; ozone effective column 15000 m",
+        "units": "optical depth dimensionless; scattering 1/m",
+        "param_class": "literature",
+        "source": "Bruneton atmospheric reference constants, https://github.com/ebruneton/precomputed_atmospheric_scattering/blob/master/atmosphere/demo/demo.cc",
+        "applicability": "three-band single-scattering sky display",
+        "uncertainty": UNKNOWN,
+        "missingness": "local aerosol, ozone, and spectral sky measurements unavailable",
+        "review": "not_yet_accepted",
+    },
+    {
+        "param_id": "sky.display_and_aerosol",
+        "meaning": "Aerosol optical depth 0.0024 at clear reference, asymmetry 0.76, display radiance scale 32, luminance compression",
+        "units": "dimensionless",
+        "param_class": "illustrative",
+        "source": "authored display mapping in physical_daylight.gdshader",
+        "applicability": "weather-controlled sky, reflected radiance, sun disk, and night stars",
+        "uncertainty": UNKNOWN,
+        "missingness": "no site photometric calibration",
+        "review": "not_yet_accepted",
+    },
+    {
         "param_id": "pool_optics.absorption_rgb_m_inv",
         "meaning": "Pure-water absorption at 650, 550, and 450 nm: 0.340, 0.0565, 0.00922",
         "units": "1/m",

@@ -2,6 +2,7 @@ extends SceneTree
 ## Verifies the published atmosphere bundle in yellowstone_atmosphere/ matches the canonical runtime copies in yellowstone_midway/scripts/ and yellowstone_midway/shaders/. Run: godot --headless --path yellowstone_midway --script tools/validate_atmosphere_canonical.gd
 
 const PAIRS: Array = [
+	["res://shaders/physical_daylight.gdshader", "../yellowstone_atmosphere/shaders/physical_daylight.gdshader"],
 	["res://scripts/yellowstone_atmosphere.gd", "../yellowstone_atmosphere/scripts/yellowstone_atmosphere.gd"],
 	["res://scripts/weather_snapshot_reader.gd", "../yellowstone_atmosphere/scripts/weather_snapshot_reader.gd"],
 	["res://scripts/weather_http_consumer.gd", "../yellowstone_atmosphere/scripts/weather_http_consumer.gd"],

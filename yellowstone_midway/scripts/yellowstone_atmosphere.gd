@@ -1,7 +1,7 @@
 class_name YellowstoneAtmosphereController
 extends Node3D
 
-## Yellowstone-facing atmosphere renderer for Godot 4.x: Preetham physical sky with sun animated from a simulation timestamp or clock hour and day of year, procedural cloud shell for Compatibility, GPU rain and snow particles scaled by supplied weather, visibility-driven fog, and optional externally computed wetness.
+## Yellowstone-facing atmosphere renderer for Godot 4.x: three-band single-scattering sky with sun animated from a simulation timestamp or clock hour and day of year, procedural cloud shell for Compatibility, GPU rain and snow particles scaled by supplied weather, visibility-driven fog, and optional externally computed wetness.
 
 ## This script renders meteorology; the forecast is supplied through set_weather_state(). Snow fraction comes from the weather model, ideally from wet-bulb temperature.
 
@@ -62,7 +62,7 @@ var _visual_weight: float = 1.0
 var _sun: DirectionalLight3D
 var _environment: Environment
 var _target: Node3D
-var _physical_sky: PhysicalSkyMaterial
+var _physical_sky: ShaderMaterial
 var _cloud_shell: MeshInstance3D
 var _cloud_material: ShaderMaterial
 var _rain: GPUParticles3D
@@ -257,20 +257,9 @@ func _process(delta: float) -> void:
 
 
 func _install_physical_sky() -> void:
-	if _environment.sky != null and _environment.sky.sky_material is PhysicalSkyMaterial:
-		_physical_sky = _environment.sky.sky_material as PhysicalSkyMaterial
-	else:
-		_physical_sky = PhysicalSkyMaterial.new()
-	_physical_sky.rayleigh_coefficient = 2.0
-	_physical_sky.rayleigh_color = Color(0.30, 0.405, 0.60)
-	_physical_sky.mie_coefficient = 0.0035
-	_physical_sky.mie_color = Color(0.69, 0.73, 0.81)
-	_physical_sky.mie_eccentricity = 0.80
-	_physical_sky.turbidity = 2.6
-	_physical_sky.sun_disk_scale = 1.0
-	_physical_sky.use_debanding = true
-	_physical_sky.ground_color = Color(0.12, 0.115, 0.085)
-	_physical_sky.night_sky = _build_star_texture()
+	_physical_sky = ShaderMaterial.new()
+	_physical_sky.shader = load("res://shaders/physical_daylight.gdshader")
+	_physical_sky.set_shader_parameter("night_sky", _build_star_texture())
 	var sky: Sky = Sky.new()
 	sky.sky_material = _physical_sky
 	_environment.background_mode = Environment.BG_SKY
@@ -301,7 +290,7 @@ func _build_star_texture() -> Texture2D:
 func rebuild_star_sky() -> void:
 	if _physical_sky == null:
 		return
-	_physical_sky.night_sky = _build_star_texture()
+	_physical_sky.set_shader_parameter("night_sky", _build_star_texture())
 	_star_rebuild_epoch_unix = _simulation_epoch_unix
 
 
@@ -481,7 +470,7 @@ func _paint_milky_way_flux(image: Image, band_flux: PackedFloat32Array, band_wid
 
 
 func _horizontal_to_panorama_uv(azimuth_deg: float, elevation_deg: float) -> Vector2:
-	# Godot's PhysicalSkyMaterial samples night_sky as an equirectangular panorama; u advances with the compass direction and v is 0 at the zenith and 1 at the nadir.
+	# The sky shader samples night_sky as an equirectangular panorama; u advances with the compass direction and v is 0 at the zenith and 1 at the nadir.
 	var u: float = fposmod(azimuth_deg, 360.0) / 360.0
 	var v: float = clampf(0.5 - elevation_deg / 180.0, 0.0, 1.0)
 	return Vector2(u, v)
@@ -791,9 +780,9 @@ func _update_environment_from_weather() -> void:
 	var visibility: float = float(_weather["visibility_m"])
 	var cloud_fraction: float = float(_weather["cloud_fraction"])
 	var haze: float = clampf(1.0 - visibility / maxf(clear_visibility_m, 100.0), 0.0, 1.0)
-	_physical_sky.turbidity = clampf(2.2 + haze * 5.5 + maxf(0.0, humidity - 0.7) * 1.6, 2.0, 10.0)
-	_physical_sky.mie_coefficient = lerpf(0.0025, 0.012, haze)
-	_physical_sky.energy_multiplier = lerpf(0.78, 1.0, _daylight_factor())
+	_physical_sky.set_shader_parameter("turbidity", clampf(2.2 + haze * 5.5 + maxf(0.0, humidity - 0.7) * 1.6, 2.0, 10.0))
+	_physical_sky.set_shader_parameter("exposure", lerpf(0.78, 1.0, _daylight_factor()))
+	_physical_sky.set_shader_parameter("daylight", _daylight_factor())
 
 	var daylight: float = _daylight_factor()
 	_environment.ambient_light_color = Color(0.53, 0.61, 0.70).lerp(Color(0.68, 0.70, 0.72), haze * 0.55)
@@ -954,7 +943,8 @@ func get_render_state() -> Dictionary:
 		"precipitation_rate_mm_h": float(_weather["precipitation_rate_mm_h"]),
 		"snow_fraction": float(_weather["snow_fraction"]),
 		"visibility_m": float(_weather["visibility_m"]),
-		"sky_turbidity": _physical_sky.turbidity,
+		"sky_turbidity": _physical_sky.get_shader_parameter("turbidity"),
+		"star_visibility": 1.0 - _daylight_factor(),
 		"fog_sky_affect": _environment.fog_sky_affect,
 		"direct_light_energy": _sun.light_energy,
 		"ambient_light_energy": _environment.ambient_light_energy,

@@ -6,6 +6,28 @@ const PoolOverlay = preload("res://scripts/pool_overlay.gd")
 var failures: Array[String] = []
 var checks := 0
 
+func reference_sky(direction: Vector3, sun: DirectionalLight3D) -> Color:
+	var mu := maxf(direction.y, 0.02)
+	var toward_sun := sun.global_basis.z.normalized()
+	var mu_sun := maxf(toward_sun.y, 0.03)
+	var cosine := clampf(direction.dot(toward_sun), -1.0, 1.0)
+	var phase_r := 3.0 / (16.0 * PI) * (1.0 + cosine * cosine)
+	var g := 0.76
+	var phase_m := (1.0 - g * g) / (4.0 * PI * pow(1.0 + g * g - 2.0 * g * cosine, 1.5))
+	var molecular := Vector3(5.802e-6, 13.558e-6, 33.1e-6) * 8000.0 * 0.759572
+	var ozone := Vector3(0.650e-6, 1.881e-6, 0.085e-6) * 15000.0
+	var radiance := Vector3.ZERO
+	for channel: int in 3:
+		var tau := molecular[channel] + 0.0024
+		var integral := 0.0
+		for slice: int in 4096:
+			var fraction := (slice + 0.5) / 4096.0
+			integral += exp(-tau * (fraction / mu + (1.0 - fraction) / mu_sun)) / (mu * 4096.0)
+		radiance[channel] = (molecular[channel] * phase_r + 0.0024 * phase_m) * integral * exp(-ozone[channel] / mu_sun)
+	radiance *= 32.0 * sun.light_energy
+	radiance /= 1.0 + radiance.dot(Vector3(0.2126, 0.7152, 0.0722))
+	return Color(radiance.x, radiance.y, radiance.z).linear_to_srgb()
+
 func _initialize() -> void:
 	call_deferred("run")
 
@@ -77,12 +99,34 @@ func run() -> void:
 		case["solar_azimuth_deg"] = 180.0
 		atmosphere.set_weather_state(case)
 		states[case.id] = atmosphere.get_render_state()
+		if case.id == "clear" and DisplayServer.get_name() != "headless":
+			var camera := Camera3D.new()
+			world.add_child(camera)
+			camera.position = Vector3(-242, 52, 160)
+			camera.look_at(camera.position + Vector3(0, 1, -0.01))
+			camera.make_current()
+			for frame: int in 12:
+				await process_frame
+			await RenderingServer.frame_post_draw
+			var image := root.get_texture().get_image()
+			var color := image.get_pixel(image.get_width() / 2, image.get_height() / 2)
+			check(color.b > color.r * 1.3 and color.g > color.r * 1.05 and color.b > 0.4, "Clear zenith fails the declared blue-sky display check")
+			states[case.id]["zenith_rgb"] = [color.r, color.g, color.b]
+			var pixel_uv := Vector2(image.get_width() / 2 + 0.5, image.get_height() / 2 + 0.5) / Vector2(image.get_size())
+			var expected := reference_sky(camera.project_ray_normal(pixel_uv * root.get_visible_rect().size), world.sun)
+			var error := maxf(absf(color.r - expected.r), maxf(absf(color.g - expected.g), absf(color.b - expected.b)))
+			check(error <= 2.0 / 255.0, "Native linear-light sky disagrees with independent optical-depth quadrature")
+			states[case.id]["quadrature_maximum_channel_error"] = error
+			states[case.id]["quadrature_expected_rgb"] = [expected.r, expected.g, expected.b]
+			image.save_png("res://work/clear_sky_zenith.png")
+			camera.free()
 	check(float(states.clear.fog_sky_affect) == 0.0, "Clear physical sky receives a gray fog overlay")
 	check(float(states.clear.direct_light_energy) > float(states.clear.ambient_light_energy), "Clear day lacks direct-light contrast")
 	check(float(states.overcast.direct_light_energy) < float(states.clear.direct_light_energy), "Clouds fail to dim direct sunlight")
 	check(float(states.overcast.ambient_light_energy) > float(states.clear.ambient_light_energy), "Clouds fail to increase diffuse lighting")
 	check(float(states.hazy.fog_sky_affect) > 0.0 and float(states.hazy.sky_turbidity) > float(states.clear.sky_turbidity), "Reduced visibility fails to restore haze")
 	check(float(states.night.direct_light_energy) == 0.0 and float(states.night.ambient_light_energy) > 0.0, "Night lighting response fails")
+	check(float(states.clear.star_visibility) == 0.0 and float(states.night.star_visibility) == 1.0, "Stars remain visible in daylight")
 	var report := {"ok": failures.is_empty(), "checks": checks, "release_id": ReleaseData.active.get("manifest", {}).get("release_id", ""), "pools": pools, "far_batches": far_batches, "far_instances": far_instances, "weather_cases": states, "failures": failures}
 	var output := "res://work/display_color_report.json"
 	for arg: String in OS.get_cmdline_user_args():

@@ -9,6 +9,17 @@ ENTRY_FIELDS = ("component", "module", "model_level", "equations",
 
 COMPONENTS = [
     {
+        "component": "daylight sky display",
+        "module": "yellowstone_midway/shaders/physical_daylight.gdshader",
+        "model_level": "three-band plane-parallel single scattering with Rayleigh, aerosol, and ozone optical depths",
+        "equations": "I=(exp(-tau/mu_s)-exp(-tau/mu))/(1-mu/mu_s); limit at mu=mu_s is tau/mu*exp(-tau/mu); phase_R=3*(1+cos(theta)^2)/(16*pi); Henyey-Greenstein aerosol phase",
+        "variables": "mu: viewing elevation sine; mu_s: solar elevation sine; tau: total vertical optical depth; tau_R: molecular scattering; tau_M: aerosol scattering; tau_O: ozone absorption",
+        "units": "dimensionless optical depth; scattering 1/m; representative wavelengths 680, 550, 440 nm",
+        "assumptions": "Rayleigh reference spectrum from Bruneton atmospheric reference; 8000 m molecular scale height; 2200 m elevation; effective lower scattering slab with incident sunlight attenuated by the upper ozone column; authored aerosol column and display exposure",
+        "limits": "multiple scattering, curved horizon, and measured local aerosol spectrum absent; grazing angle clamped; display radiance normalized by luminance; no photometric calibration",
+        "validation_status": "native_blue_zenith_weather_and_day_night_checks_not_field_validated",
+    },
+    {
         "component": "pool optical display",
         "module": "thermal_features/microbial_mats.py",
         "model_level": "three-band continuum approximation of Nugent et al. (2015), doi:10.1364/AO.54.00B128",
