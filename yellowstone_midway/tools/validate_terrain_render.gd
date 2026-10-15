@@ -4,6 +4,34 @@ var world: Node3D
 var camera: Camera3D
 var report: Dictionary = {"captures": [], "moving_camera": {}, "failures": []}
 var output_dir: String = "res://tests/terrain_render"
+var started_us: int = 0
+
+class ComparisonPlot extends Control:
+	var frames: Array = []
+	var time_s: float = 0.0
+	func _draw() -> void:
+		draw_rect(Rect2(Vector2.ZERO, size), Color(0.035, 0.06, 0.055, 0.92))
+		if frames.is_empty():
+			return
+		var low: float = INF
+		var high: float = -INF
+		for frame: Dictionary in frames:
+			low = minf(low, minf(float(frame.control_c), float(frame.intervention_c)))
+			high = maxf(high, maxf(float(frame.control_c), float(frame.intervention_c)))
+		var duration: float = float(frames[-1].t_s)
+		for key: String in ["control_c", "intervention_c"]:
+			var points: PackedVector2Array = PackedVector2Array()
+			for frame: Dictionary in frames:
+				if float(frame.t_s) > time_s:
+					break
+				points.append(Vector2(20 + float(frame.t_s) / duration * (size.x - 40),
+					size.y - 24 - (float(frame[key]) - low) / maxf(high-low, 0.01) * (size.y - 48)))
+			if points.size() > 1:
+				draw_polyline(points, Color(0.65, 0.81, 0.77) if key == "control_c" else Color(1.0, 0.69, 0.34), 3.0, true)
+		draw_line(Vector2(20, size.y - 18), Vector2(size.x - 20, size.y - 18), Color(0.6, 0.65, 0.6), 1.0)
+		var font: Font = ThemeDB.fallback_font
+		draw_string(font, Vector2(20, 18), "Downstream C: control / intervention    %.2f to %.2f" % [low, high], HORIZONTAL_ALIGNMENT_LEFT, -1, 14)
+		draw_string(font, Vector2(20, size.y - 2), "0                      model seconds                       %.0f" % duration, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
 
 func _initialize() -> void:
 	for arg: String in OS.get_cmdline_user_args():
@@ -12,6 +40,7 @@ func _initialize() -> void:
 	call_deferred("run")
 
 func run() -> void:
+	started_us = Time.get_ticks_usec()
 	if DisplayServer.get_name() == "headless":
 		push_error("Terrain captures require a visible rendering backend.")
 		quit(1)
@@ -21,7 +50,7 @@ func run() -> void:
 	root.mode = Window.MODE_WINDOWED
 	root.show()
 	root.grab_focus()
-	create_timer(120.0).timeout.connect(func(): push_error("Terrain capture timed out."); quit(1))
+	create_timer(900.0 if "--portfolio" in OS.get_cmdline_user_args() else 120.0).timeout.connect(func(): push_error("Terrain capture timed out."); quit(1))
 	world = load("res://scenes/main.tscn").instantiate()
 	root.add_child(world)
 	current_scene = world
@@ -58,6 +87,9 @@ func run() -> void:
 	world.add_child(camera)
 	camera.make_current()
 	DirAccess.make_dir_recursive_absolute(output_dir)
+	if "--portfolio" in OS.get_cmdline_user_args():
+		await record_portfolio()
+		return
 	var routes: Dictionary = {}
 	for route: Dictionary in world.spec.routes:
 		routes[str(route.id)] = route
@@ -84,6 +116,7 @@ func run() -> void:
 	world.sun.rotation = original_rotation
 	camera.position = cases[0].position
 	camera.look_at(cases[0].target)
+	report["startup_s"] = float(Time.get_ticks_usec() - started_us) / 1000000.0
 	var frame_times: Array[float] = []
 	var draw_calls: Array[float] = []
 	var process_times: Array[float] = []
@@ -100,6 +133,11 @@ func run() -> void:
 			process_times.append(Performance.get_monitor(Performance.TIME_PROCESS) * 1000.0)
 	frame_times.sort()
 	report.moving_camera = {"sample_frames": frame_times.size(), "median_wall_frame_ms": frame_times[int(frame_times.size() / 2)], "p95_wall_frame_ms": frame_times[int(frame_times.size() * 0.95)], "process_frame_mean_ms": mean(process_times), "draw_calls_mean": mean(draw_calls), "fps_cap": Engine.max_fps, "configured_fps_cap": configured_cap, "scope": "Frozen forcing and foliage with a moving camera; wall time includes display synchronization."}
+	report["resolution"] = [root.size.x, root.size.y]
+	report["cpu"] = OS.get_processor_name()
+	report["memory_static_peak_bytes"] = Performance.get_monitor(Performance.MEMORY_STATIC_MAX)
+	report["mode"] = "offline baked; frozen forcing during timing"
+	report["release_id"] = world.ecosystem.frame_header.get("release_id", "legacy")
 	report["renderer"] = RenderingServer.get_current_rendering_method()
 	report["godot"] = Engine.get_version_info().string
 	report["shadow"] = {"range_m": world.sun.directional_shadow_max_distance, "normal_bias": world.sun.shadow_normal_bias, "bias": world.sun.shadow_bias}
@@ -187,3 +225,93 @@ func mean(values: Array[float]) -> float:
 	for v: float in values:
 		total += v
 	return total / float(maxi(values.size(), 1))
+
+func record_portfolio() -> void:
+	var source: String = world.ReleaseData.resolve_path("res://data/portfolio_comparison.json")
+	var comparison: Variant = JSON.parse_string(FileAccess.get_file_as_string(source))
+	if not comparison is Dictionary or comparison.get("schema") != "yellowstone.portfolio_comparison.v1":
+		push_error("The portfolio build and its comparison artifact are required.")
+		quit(1)
+		return
+	world.ecosystem.paused = true
+	var layer := CanvasLayer.new()
+	layer.layer = 100
+	root.add_child(layer)
+	var header := Label.new()
+	header.position = Vector2(28, 24)
+	header.add_theme_font_size_override("font_size", 24)
+	header.add_theme_color_override("font_shadow_color", Color.BLACK)
+	header.add_theme_constant_override("shadow_outline_size", 5)
+	layer.add_child(header)
+	var note := Label.new()
+	note.position = Vector2(28, 74)
+	note.add_theme_font_size_override("font_size", 17)
+	note.add_theme_color_override("font_shadow_color", Color.BLACK)
+	note.add_theme_constant_override("shadow_outline_size", 4)
+	layer.add_child(note)
+	var plot := ComparisonPlot.new()
+	plot.position = Vector2(880, 620)
+	plot.size = Vector2(530, 250)
+	plot.frames = comparison.frames
+	layer.add_child(plot)
+	var probe: Dictionary = comparison.probe_cell
+	var position: Array = probe.position_xyz
+	var river_target := Vector3(float(position[0]), float(position[1]), float(position[2]))
+	var route: Array[Dictionary] = [
+		{"name": "thermal boardwalk", "position": Vector3(-115, 19, -110), "target": Vector3(-99, 11, -9)},
+		{"name": "mapped river probe", "position": river_target + Vector3(28, 8, 14), "target": river_target},
+		{"name": "overlook", "position": Vector3(-242, 52, 160), "target": Vector3(-213, 30, 125)}]
+	var frame_times: Array[float] = []
+	var fps: int = 30
+	var seconds: float = 72.0
+	var frame_count: int = int(seconds * fps)
+	for frame: int in range(frame_count):
+		var begun: int = Time.get_ticks_usec()
+		var elapsed: float = float(frame) / fps
+		var model_s: float = clampf((elapsed - 20.0) / 42.0, 0.0, 1.0) * float(comparison.frames[-1].t_s)
+		world.ecosystem.elapsed = model_s
+		world.ecosystem.call("_apply_replay", model_s)
+		world.update_environment()
+		var route_index: int = 0 if elapsed < 20 else 1 if elapsed < 62 else 2
+		var view: Dictionary = route[route_index]
+		camera.position = view.position + Vector3(sin(elapsed * 0.15) * 2.0, 0, cos(elapsed * 0.15) * 2.0)
+		camera.look_at(view.target)
+		plot.visible = elapsed >= 20 and elapsed < 62
+		plot.time_s = model_s
+		plot.queue_redraw()
+		world.overlay.visible = elapsed >= 12 and elapsed < 20
+		world.menu.visible = false
+		world.map_view.visible = world.overlay.visible
+		header.text = "YELLOWSTONE | actual Godot render | " + str(world.ReleaseData.active.manifest.release_id).left(12)
+		var row: Dictionary = comparison.frames[mini(int(model_s / 10.0), comparison.frames.size()-1)]
+		if elapsed < 12:
+			note.text = "Midway thermal boardwalk | fixed June 21 scenario | measured geography, illustrative ecology"
+		elif elapsed < 20:
+			note.text = "USGS 2020 elevation / canopy | USDA NAIP July 19, 2022 | EPSG:32612; 1 unit = 1 m"
+		elif elapsed < 62:
+			note.text = "Baked Newton model | time %.0f s | input %.2f C
+Probe %s: control %.3f C / intervention %.3f C
+One authored intervention: Excelsior river-entry temperature +18 C, 600-3600 s" % [model_s, float(row.input_c), str(probe.id), float(row.control_c), float(row.intervention_c)]
+		else:
+			note.text = "Measured geography | simulated river heat | authored widths, depths and ecological rates
+Numerical closure and execution parity checked; ecological forecast validation unavailable."
+		await RenderingServer.frame_post_draw
+		frame_times.append(float(Time.get_ticks_usec() - begun) / 1000.0)
+		if frame in [150, 450, 1050, 1950]:
+			root.get_texture().get_image().save_png(output_dir.path_join("portfolio_%04d.png" % frame))
+	frame_times.sort()
+	var receipt := {"schema": "yellowstone.portfolio_capture.v1", "status": "actual_engine_recording",
+		"duration_s": seconds, "frames": frame_count, "fps": fps, "resolution": [root.size.x, root.size.y],
+		"release_id": world.ReleaseData.active.manifest.release_id, "build_id": comparison.build_id,
+		"comparison_sha256": FileAccess.get_sha256(source), "model_variant_id": comparison.model_variant_id,
+		"date_utc": world.ecosystem._replay.simulation_time.start_utc,
+		"wind_seed": 11, "route": route, "mode": "offline baked with fixed sampled model time",
+		"renderer": RenderingServer.get_current_rendering_method(), "godot": Engine.get_version_info().string,
+		"cpu": OS.get_processor_name(), "median_capture_wall_frame_ms": frame_times[int(frame_times.size()/2)],
+		"p95_capture_wall_frame_ms": frame_times[int(frame_times.size()*0.95)],
+		"performance_scope": "Movie capture overhead; normal exploration performance is measured separately"}
+	var file := FileAccess.open(output_dir.path_join("portfolio-capture.json"), FileAccess.WRITE)
+	file.store_string(JSON.stringify(receipt, "\t") + "\n")
+	file.close()
+	print("PORTFOLIO_CAPTURE PASS frames=", frame_count)
+	quit(0)

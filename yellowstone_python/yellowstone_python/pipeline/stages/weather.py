@@ -91,10 +91,17 @@ def run(state: dict, cfg: dict) -> dict:
     run_mode_norm = normalize_run_mode(cfg.get("run_mode"))
     wcfg = dict(cfg.get("weather", {}))
     scfg_early = cfg.get("snow", {})
+    clock_date = scfg_early.get("as_of_date")
+    simulation = cfg.get("simulation", {})
+    if clock_date is None and ("start_epoch_unix" in simulation or "start_utc" in simulation):
+        import datetime
+        epoch, _ = resolve_replay_start_epoch(cfg, cfg.get("clock_hour", baseline.get("clock_hour")))
+        zone = datetime.timezone(datetime.timedelta(hours=simulation.get("utc_offset_hours", -6.0)))
+        clock_date = datetime.datetime.fromtimestamp(epoch, zone).date().isoformat()
     clock_info = resolve_game_clock(
         season_cfg=scfg_early.get("season"),
         clock_cfg=cfg.get("clock_hour", baseline.get("clock_hour")),
-        date_cfg=scfg_early.get("as_of_date"))
+        date_cfg=clock_date)
     hour0 = clock_info["clock_hour"]
 
     # Model-reanalysis bundle output wins over authored defaults when present; absent bundle keeps scenario values.
@@ -108,7 +115,9 @@ def run(state: dict, cfg: dict) -> dict:
     else:
         met_path = PKG_ROOT / "derived" / "met.json"
         met_bundle_source = "default:derived/met.json"
-    met_bundle = load_weather_bundle(str(met_path))
+    met_bundle = load_weather_bundle(str(met_path)) if wcfg.get("use_met_bundle", True) else None
+    if not wcfg.get("use_met_bundle", True):
+        met_bundle_source = "disabled_explicit_scenario_weather"
     bundle_select_epoch_s: float | None = None
     bundle_select_mode = "unused"
     bundle_window_check = {"status": "no_bundle"}

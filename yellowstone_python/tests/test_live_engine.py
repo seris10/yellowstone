@@ -292,7 +292,7 @@ def test_refining_aquatic_interval_has_small_oxygen_and_biomass_error():
     ({'weather.night_air_c': 9.}, ['weather', 'river', 'insects', 'snow', 'soil', 'oxygen', 'periphyton', 'foodweb']),
     ({'weather.cloud': .7}, ['weather', 'river', 'insects', 'snow']),
     ({'weather.precip_mm_h': 2.}, ['weather', 'snow', 'soil', 'runoff', 'river']),
-    ({'clock_hour': 13.}, ['weather', 'solar', 'river', 'snow']),
+    ({'clock_hour': 13.}, ['display']),
     ({'hydro.boundary_m3s': 4.}, ['river', 'hydraulics', 'oxygen', 'foodweb']),
     ({'hydro.boundary_c': 20.}, ['river', 'oxygen', 'periphyton', 'foodweb']),
     ({'thermal.excelsior_enabled': False}, ['river', 'solutes', 'foodweb']),
@@ -379,7 +379,7 @@ def test_default_scale_can_upgrade_using_measured_maximum_step_capacity():
     result = model.command('clock', {'time_scale': 600.})
     assert result['time_scale'] == 600.
     assert result['max_supported_time_scale'] == 600.
-    assert model._header()['dt_s'] == 2.
+    assert model._header()['dt_s'] == .1
 
 
 def test_geometry_excludes_baked_frames_before_copying():

@@ -241,7 +241,10 @@
       "source_sha256": "283bed33be652445430b7eb05ca93498342af4c8aa7295e1ad2cb208f149841a",
       "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59",
       "binary_views_preserved": true,
-      "change": "skinned_surface_scene_root"
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "synthetic_bird_folded_source",
@@ -272,7 +275,10 @@
       "source_sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
       "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
       "binary_views_preserved": true,
-      "change": "container_normalization"
+      "change": "container_normalization",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "synthetic_bird_spread_animated",
@@ -353,7 +359,10 @@
       "source_sha256": "5540f0b1b270aed511c44679fd519186bf714002c3dc10a857fac952547807cb",
       "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc",
       "binary_views_preserved": true,
-      "change": "skinned_surface_scene_root"
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "synthetic_bird_spread_source",
@@ -384,7 +393,10 @@
       "source_sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
       "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
       "binary_views_preserved": true,
-      "change": "container_normalization"
+      "change": "container_normalization",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "synthetic_surface_swim",
@@ -443,13 +455,16 @@
       "source_sha256": "7f3e8abacaa0ce26242f5e27ea77c384c1abfdabf435077c1da0c22e0267e7d2",
       "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab",
       "binary_views_preserved": true,
-      "change": "skinned_surface_scene_root"
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "bobcat_animated_2k",
       "path": "assets/imported/wildlife_motion/bobcat_animated_2k.glb",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "rig_status": "estimated_unreviewed",
       "physical_dimensions": "unverified_asset_units",
       "scientific_acceptance": "not_yet_accepted",
@@ -585,13 +600,16 @@
       "source_sha256": "8dc5972398e5180ef86d85b765d5fa045a668f882b44d263094261e1a23f835e",
       "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26",
       "binary_views_preserved": true,
-      "change": "skinned_surface_scene_root"
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "bobcat_artistic_variant_2k",
       "path": "assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "rig_status": "estimated_unreviewed",
       "physical_dimensions": "unverified_asset_units",
       "scientific_acceptance": "not_yet_accepted",
@@ -683,13 +701,16 @@
       "source_sha256": "3331dae8c802953322299684efff0c41c5d7164a32791774ab2ac8dc0a47b012",
       "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265",
       "binary_views_preserved": true,
-      "change": "skinned_surface_scene_root"
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "grizzly_animated_2k",
       "path": "assets/imported/wildlife_motion/grizzly_animated_2k.glb",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "rig_status": "estimated_unreviewed",
       "physical_dimensions": "unverified_asset_units",
       "scientific_acceptance": "not_yet_accepted",
@@ -803,13 +824,16 @@
       "source_sha256": "a7b27113d138c934994aa38ce349b4978f1c7ce20a0fb8ff2a0043d363ccc778",
       "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434",
       "binary_views_preserved": true,
-      "change": "skinned_surface_scene_root"
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "grizzly_artistic_variant_2k",
       "path": "assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "rig_status": "estimated_unreviewed",
       "physical_dimensions": "unverified_asset_units",
       "scientific_acceptance": "not_yet_accepted",
@@ -901,7 +925,10 @@
       "source_sha256": "34c40c6705def9f432aecac19397cdb713321ce3ef8565ecde1bb70e3197f860",
       "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9",
       "binary_views_preserved": true,
-      "change": "skinned_surface_scene_root"
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "wolf_authored",
@@ -995,7 +1022,10 @@
         "max_weight_sum_error": 1.1920928955078125e-07,
         "smoothed_iterations": 10,
         "seam_weld_tolerance": 2.2099999999999998e-07
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "deer_authored",
@@ -1088,7 +1118,10 @@
         "max_weight_sum_error": 1.1920928955078125e-07,
         "smoothed_iterations": 10,
         "seam_weld_tolerance": 1.98e-07
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "badger",
@@ -1097,7 +1130,7 @@
       "runtime_source_sha256": "3e1da3e33155edbe2113b904dcf8390fe6d861edc9781f784ab18fa38b203c5b",
       "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "textures": "source_PBR_documented_resolution_reduction",
       "source_texture_sha256": {
         "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62": "2e1aa312248e8f85f0cb546da003d10a28cc3113560669b789f96f2d0de629cd",
@@ -1252,7 +1285,10 @@
         "max_weight_sum_error": 1.1920928955078125e-07,
         "smoothed_iterations": 10,
         "seam_weld_tolerance": 9.187756165896076e-08
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "bison_animated",
@@ -1260,7 +1296,7 @@
       "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58",
       "source_sha256": "bbbeb371431d0871285ba1478f68c9fe59383be1a50cbcb5be5d87e16c237587",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "rig_status": "estimated_unreviewed",
       "scientific_acceptance": "not_yet_accepted",
       "audit": {
@@ -1420,7 +1456,10 @@
         "distance_metric": "nearest_vertex_distances; triangle_surface_Hausdorff_unavailable",
         "status": "derived_not_field_validated",
         "scientific_acceptance": "not_yet_accepted"
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "black_bear",
@@ -1430,7 +1469,7 @@
       "runtime_source_sha256": "88f32cda3d886816b4f8861120dc2bf79026aaef11b4814c5ff5ac968f2c74d2",
       "source_file": "black-bear.glb",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "source_texture_sha256": {
         "material_0.baseColorTexture": "1a510dbca482ab57d3608b4bc5233a2ba9e0b965681cd5b78c71a457b47d73fb",
         "material_0.metallicRoughnessTexture": "7a0081608e84225919781062cb83f7f7760d79c8c0a79e913a45d5d48f564c17",
@@ -1630,7 +1669,10 @@
         "distance_metric": "nearest_vertex_distances; triangle_surface_Hausdorff_unavailable",
         "status": "derived_not_field_validated",
         "scientific_acceptance": "not_yet_accepted"
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     {
       "id": "canada_lynx",
@@ -1640,7 +1682,7 @@
       "runtime_source_sha256": "856941fa949c8be774660dd3067598588482bddd9767bee899e568f29844c254",
       "source_file": "canadian-lynx.glb",
       "status": "operator_supplied",
-      "geometry_rights": "unknown",
+      "geometry_rights": "owner_confirmed",
       "source_texture_sha256": {
         "material_0.baseColorTexture": "f0dc6b011b72f4bac7006d568f4ba682e3d357177cb72434e3efe87c5826bf30",
         "material_0.metallicRoughnessTexture": "c6bf95de9ff2ef1c22348fcf5be09586cb00fc1647e2b80db2a18bdb02717b28",
@@ -1845,7 +1887,10 @@
         "distance_metric": "nearest_vertex_distances; triangle_surface_Hausdorff_unavailable",
         "status": "derived_not_field_validated",
         "scientific_acceptance": "not_yet_accepted"
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     }
   ],
   "wildlife_species_asset_map": {
@@ -1856,7 +1901,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/bobcat_animated_2k.manifest.json",
       "art_status": "operator_supplied_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "grizzly": {
       "path": "res://assets/imported/wildlife_motion/grizzly_animated_2k.glb",
@@ -1865,7 +1913,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/grizzly_animated_2k.manifest.json",
       "art_status": "operator_supplied_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "wolf": {
       "path": "res://assets/imported/wildlife_motion/wolf_authored.glb",
@@ -1874,7 +1925,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/wolf_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "deer": {
       "path": "res://assets/imported/wildlife_motion/deer_authored.glb",
@@ -1883,7 +1937,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/deer_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "badger": {
       "path": "res://assets/imported/wildlife_motion/badger_animated.glb",
@@ -1892,7 +1949,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/badger_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "gray_wolf": {
       "path": "res://assets/imported/wildlife_motion/wolf_authored.glb",
@@ -1901,7 +1961,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/wolf_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "mule_deer": {
       "path": "res://assets/imported/wildlife_motion/deer_authored.glb",
@@ -1910,7 +1973,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/deer_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "american_badger": {
       "path": "res://assets/imported/wildlife_motion/badger_animated.glb",
@@ -1919,7 +1985,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/badger_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "bison": {
       "path": "res://assets/imported/wildlife_motion/bison_animated.glb",
@@ -1928,7 +1997,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/bison_animated.manifest.json",
       "art_status": "operator_supplied_reduced_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "black_bear": {
       "path": "res://assets/imported/wildlife_motion/black_bear_animated.glb",
@@ -1937,7 +2009,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/black_bear_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "canada_lynx": {
       "path": "res://assets/imported/wildlife_motion/canada_lynx_animated.glb",
@@ -1946,7 +2021,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/canada_lynx_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "canadian_lynx": {
       "path": "res://assets/imported/wildlife_motion/canada_lynx_animated.glb",
@@ -1955,7 +2033,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/canada_lynx_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     }
   },
   "limitations": [
@@ -1963,5 +2044,12 @@
     "Operator-supplied mesh and texture redistribution rights remain unknown.",
     "Bird fixtures demonstrate motion and are excluded from wildlife species mapping.",
     "Scene body dimensions are authored display values."
-  ]
+  ],
+  "animal_geometry_ownership": {
+    "owner": "KJR",
+    "evidence": "Direct owner declaration",
+    "release_inclusion": "authorized_for_project_release",
+    "scientific_acceptance": "not_yet_accepted",
+    "scope": "All animal meshes; source method and scientific status remain per-asset records"
+  }
 }

@@ -5,10 +5,12 @@ import argparse
 from dataclasses import asdict
 import hashlib
 import json
+import math
 from pathlib import Path
 
 from yellowstone_python.authoring.tree_architecture import ArchitectureParameters, generate_architecture, display_dimensions
 from yellowstone_python.common.io import write_json_atomic
+from yellowstone_python.authoring.tree_library import write_library
 
 FALLBACKS = {
     "dense": dict(height_m=18., dbh_m=.26, crown_radius_m=2.5, crown_ratio=.70),
@@ -43,6 +45,67 @@ def input_records(value):
     return value
 
 
+def record_archetype(record: dict) -> str:
+    """Resolve the same source dimensions and stable variant used by the renderer."""
+    if record.get("archetype") in FALLBACKS:
+        return record["archetype"]
+    if record.get("kind") == "snag":
+        return "snag"
+    if isinstance(record.get("height_m"), (int, float)) and record["height_m"] <= 8:
+        return "sapling"
+    variant = record.get("variant")
+    if isinstance(variant, (int, float)) and math.isfinite(variant) and variant == int(variant):
+        variant = int(variant) % 4
+    elif isinstance(variant, str) and variant.lstrip("-").isdigit():
+        variant = int(variant) % 4
+    else:
+        identity = str(record.get("variation_key", record.get("stable_id", record.get("id", "0"))))
+        variant = int(hashlib.sha256(identity.encode()).hexdigest()[:8], 16) % 4
+    return "edge" if variant == 0 else "dense"
+
+
+def display_distribution_report(records, archetype="dense"):
+    """Compare provided traits and explicit display mappings without inventing observations."""
+    source = {key: [] for key in ("height_m", "dbh_m", "crown_ratio", "clear_bole_fraction", "core_diameter_m")}
+    display = {key: [] for key in ("height_m", "dbh_m", "crown_ratio", "clear_bole_fraction", "crown_diameter_m")}
+    policies = {}
+    forms = {}
+    for record in records:
+        form = record_archetype(record) if archetype == "runtime" else "snag" if record.get("kind") == "snag" else archetype
+        forms[form] = forms.get(form, 0)+1
+        shown = display_dimensions(record, FALLBACKS[form])
+        for key in ("height_m", "dbh_m", "crown_ratio"):
+            value = record.get(key)
+            if isinstance(value, (float, int)) and not isinstance(value, bool) and math.isfinite(value):
+                source[key].append(float(value))
+                if key == "crown_ratio":
+                    source["clear_bole_fraction"].append(1-float(value))
+            display[key].append(float(shown[key]))
+        core = record.get("crown_radius_m", record.get("crown_r_m"))
+        if isinstance(core, (float, int)) and not isinstance(core, bool) and math.isfinite(core):
+            source["core_diameter_m"].append(2*float(core))
+        display["crown_diameter_m"].append(2*shown["crown_radius_m"])
+        display["clear_bole_fraction"].append(1-shown["crown_ratio"])
+        policy = shown.get("crown_ratio_policy", "snag")
+        policies[policy] = policies.get(policy, 0)+1
+    def describe(values):
+        values = sorted(values)
+        def quantile(fraction):
+            at = fraction*(len(values)-1)
+            low = int(at)
+            return values[low]+(values[min(low+1,len(values)-1)]-values[low])*(at-low)
+        return {"count": len(values), "status": "available" if values else "unavailable",
+                "p05": quantile(.05) if values else None, "median": quantile(.5) if values else None,
+                "p95": quantile(.95) if values else None}
+    return {"schema": "yellowstone.tree_display_distribution.v1", "record_count": len(records),
+        "source": {key: describe(values) for key, values in source.items()},
+        "display": {key: describe(values) for key, values in display.items()}, "crown_policy_counts": policies,
+        "archetype_counts": forms, "archetype_policy": archetype,
+        "source_class": "provided_record_traits; measured_derived_transferred_and_authored_classes_remain_in_source",
+        "width_scope": "source_crown_core_diameter_and_display_full_crown_diameter_are_distinct_quantities",
+        "local_biological_acceptance": "not_yet_accepted"}
+
+
 def main(argv=None):
     """Export bounded reproducible tree graphs with retained input provenance."""
     parser = argparse.ArgumentParser()
@@ -51,12 +114,21 @@ def main(argv=None):
     parser.add_argument("--input", type=Path)
     parser.add_argument("--record", type=Path)
     parser.add_argument("--parameters", type=Path)
-    parser.add_argument("--archetype", choices=tuple(FALLBACKS), default="dense")
+    parser.add_argument("--archetype", choices=tuple(FALLBACKS)+("runtime",), default="dense")
     parser.add_argument("--identity")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--variants", type=int, default=4)
+    parser.add_argument("--distribution-only", action="store_true", help="Compare source and display traits without generating graphs")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args(argv)
+    if args.distribution_only:
+        source = args.input or args.record
+        if source is None:
+            parser.error("Distribution review requires source records")
+        report = display_distribution_report(input_records(read_json(source)), args.archetype)
+        report["source_sha256"] = hashlib.sha256(source.read_bytes()).hexdigest()
+        write_json_atomic(args.out, report, indent=1)
+        return
     if not 1 <= args.variants <= 8:
         parser.error("variants must lie in [1,8]")
     if args.input and args.record:
@@ -99,7 +171,9 @@ def main(argv=None):
             identity = str(record.get("stable_id", record.get("id", ""))) if record else (args.identity or "lodgepole")
             if not identity:
                 raise ValueError("source tree requires an existing stable_id or id")
-            form = "snag" if record and record.get("kind") == "snag" else args.archetype
+            form = record_archetype(record) if record and args.archetype == "runtime" else "snag" if record and record.get("kind") == "snag" else args.archetype
+            if form == "runtime":
+                raise ValueError("Runtime archetype selection requires source records")
             display = display_dimensions(record, FALLBACKS[form]) if record else None
             dimensions = {key: display[key] for key in manual} if display else manual
             variants = []
@@ -126,7 +200,9 @@ def main(argv=None):
     if len(exported) == 1:
         artifact.update(variants=exported[0]["variants"], input_record=exported[0]["input_record"],
                         display_dimensions=exported[0]["display_envelope"])
-    write_json_atomic(args.out, artifact, indent=2)
+    if source and args.out.resolve() == source.resolve():
+        parser.error("Output must differ from the original source record")
+    write_library(args.out, artifact)
 
 
 if __name__ == "__main__":

@@ -580,6 +580,8 @@ func collect_meshes(node: Node, transform := Transform3D.IDENTITY) -> Array:
 	return meshes
 
 func bind_foliage_materials(assets: Array, kind: String) -> bool:
+	if kind in ["pine", "snag"]:
+		return LodgepoleLibrary.bind_cutout_materials(assets)
 	for asset: Array in assets:
 		var mesh: Mesh=asset[0]
 		if not mesh is ArrayMesh:
@@ -685,7 +687,8 @@ func make_vegetation() -> bool:
 			mesh_library[asset_key]=assets
 		var asset_batches: Array = []
 		for source_asset: Array in mesh_library[asset_key]:
-			if exemplar.kind in ["pine", "snag"] and float(source_asset[2]) == 0.0 and str(source_asset[4]) in ["Branches", "NeedleCards"]:
+			if exemplar.kind in ["pine", "snag"] and str(source_asset[4]) in ["Branches", "NeedleCards"]:
+				var architecture_lod: int = 0 if float(source_asset[2]) == 0.0 else (1 if float(source_asset[2]) == 18.0 else 2)
 				for architecture_variant: int in range(4):
 					var variant_entries: Array = []
 					for record: Dictionary in entries:
@@ -693,7 +696,7 @@ func make_vegetation() -> bool:
 							variant_entries.append(record)
 					if variant_entries.is_empty():
 						continue
-					var architecture_assets := LodgepoleLibrary.load_architecture(form, architecture_variant)
+					var architecture_assets := LodgepoleLibrary.load_architecture(form, architecture_variant, architecture_lod)
 					if not bind_foliage_materials(architecture_assets, str(exemplar.kind)):
 						return false
 					if architecture_assets.is_empty():
@@ -708,11 +711,11 @@ func make_vegetation() -> bool:
 						if int(LodgepoleLibrary.variation_key(record)) == view:
 							view_entries.append(record)
 					if not view_entries.is_empty():
-						var view_assets: Array = LodgepoleLibrary.load_assets(form, view)
-						if view_assets.is_empty():
+						var view_asset: Array = LodgepoleLibrary.load_billboard(form, view)
+						if view_asset.is_empty():
 							push_error("Required lodgepole billboard is unavailable: " + form)
 							return false
-						asset_batches.append([view_assets.back(), view_entries, view])
+						asset_batches.append([view_asset, view_entries, view])
 			else:
 				asset_batches.append([source_asset, entries, -1])
 		var tree_meshes: Array[MultiMeshInstance3D] = []

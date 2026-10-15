@@ -71,19 +71,26 @@ def _overland_runoff_to_boundary(overland_field, hcfg, sim_s) -> tuple:
     surface = overland_field.get("surface_runoff", {})
     outflow_m3 = float(surface.get("outflow_m3", 0.0) or 0.0)
     carries = bool(surface.get("carries_runoff_signal", False))
-    if sim_s <= 0.0 or not math.isfinite(outflow_m3) or outflow_m3 <= 0.0:
+    if not math.isfinite(outflow_m3) or outflow_m3 <= 0.0:
         return (0.0, {"status": "no_outflow",
                       "outflow_m3": outflow_m3,
                       "mean_rate_m3_s": 0.0,
                       "coupling": ("partial: contributing area not "
                                    "delineated; wire outlet runoff only "
                                    "when open_edges deliver outflow")})
-    # Mean rate over the sim window as a conservative scalar increment.
-    rate = outflow_m3 / float(sim_s)
+    window_s = float(overland_field.get("seconds", overland_field.get("window_s", sim_s)))
+    if not math.isfinite(window_s) or window_s <= 0.0:
+        raise ValueError("overland outlet volume requires a positive source window")
+    if not carries:
+        raise ValueError("positive overland outflow requires a declared runoff signal")
+    rate = outflow_m3 / window_s
     status = "wired_mean_rate" if carries else "wired_zero_signal"
     return (rate, {"status": status,
                    "outflow_m3": outflow_m3,
-                   "window_s": float(sim_s),
+                   "window_s": window_s,
+                   "river_window_s": float(sim_s),
+                   "phase": "liquid",
+                   "boundary_application": "uniform_mean_rate_on_source_window_only",
                    "mean_rate_m3_s": rate,
                    "contributing_area_m2": (hcfg.get("catchment", {}) or {})
                                              .get("area_m2"),
@@ -92,7 +99,14 @@ def _overland_runoff_to_boundary(overland_field, hcfg, sim_s) -> tuple:
                                 "from terrain")})
 
 
-from yellowstone_python.pipeline.stages.land import _compute_overland_field, _overland_runoff_to_boundary
+def _overland_boundary_series(baseflow_m3_s, overland_field):
+    """Route the source volume once over its declared integration support."""
+    rate, report = _overland_runoff_to_boundary(overland_field, {}, 0.0)
+    if rate == 0.0:
+        return None
+    return {"times_s": [0.0, report["window_s"]],
+            "values": [float(baseflow_m3_s) + rate, float(baseflow_m3_s)]}
+
 
 READS = ('_excluded', 'air0', 'clock_info', 'hcfg', 'met_bundle', 'patches1', 'run_mode_norm', 'shells', 'sim_s', 'wcfg', 'wind_mag', 'world_root')
 WRITES = ('catchment', 'et_ledger', 'overland_field', 'overland_rain_source', 'overland_runoff_m3_s', 'patches2', 'runoff_m3_s', 'scfg', 'season', 'snow_days', 'snow_ledger', 'soil_t_by_patch', 'thermal_by_patch')
@@ -111,45 +125,9 @@ def run(state: dict, cfg: dict) -> dict:
     wcfg = state['wcfg']
     wind_mag = state['wind_mag']
     world_root = state['world_root']
-    from yellowstone_python.aquatic.fish import check_trout_clear_of_pools, update_trout
-    from yellowstone_python.thermal_features.geochemistry import check_midway_shells
-    from yellowstone_python.land.grazers import check_routes as check_grazer_routes, consumed_by_patch_from_grazers, plan_path, route_length as _rlen, update_grazers
-    from yellowstone_python.insects_birds import (diets_with_aerial_insectivores, foraging_state,
-                                insect_activity, step_compartments,
-                                step_resource, update_wildlife,
-                                update_wildlife_from_intake)
-    from yellowstone_python.thermal_features.pool_crust import build_all as build_shells
-    from yellowstone_python.thermal_features.pool_crust import exclusion_violations as apron_violations
-    from yellowstone_python.thermal_features.pool_crust import in_apron as _in_apron
-    from yellowstone_python.land.snow_season import resolve_game_clock, run_season
-    from yellowstone_python.land.vegetation import patch_step, propose_plantings_reviewed
-    from yellowstone_python.thermal_features.ground_heat import heat_flux_mask_field, soil_temperature_by_patch, thermal_flux_mm_d_by_patch, tree_thermal_suitability, LODGEPOLE_SOIL_DIEOFF_C
-    from yellowstone_python.land.evapotranspiration import reference_et0_mm_d, step_patches_et, CROP_COEFFICIENTS
-    from yellowstone_python.aquatic.piscivores import predation_over_refuge, TROUT_DENSITY_DEFAULT_PER_M2_WETTED, RIVER_WETTED_WIDTH_DEFAULT_M
-    from yellowstone_python.atmosphere.steam_microclimate import plume_microclimate_adjustment, fog_present, rime_present
-    from yellowstone_python.aquatic.river_oxygen import saturation_mg_l as do_saturation_mg_l, fish_suitability as do_fish_suitability
-
-    from yellowstone_python.atmosphere.microclimate import load_weather_bundle, bundle_weather
-
-    from yellowstone_python.atmosphere.microclimate import condensation_potential
-
-    from yellowstone_python.land.snow_season import catchment_runoff_m3_s
-
-    from yellowstone_python.exporters.runtime_series import reach_summaries
-
-    from yellowstone_python.aquatic.aquatic_foodweb import run_foodweb as run_aquatic_foodweb
-
-    from yellowstone_python.aquatic.aquatic_foodweb import thermal_landscape
-
-    from yellowstone_python.aquatic.aquatic_foodweb import shear_to_disturbance
-
-    from yellowstone_python.insects_birds import develop_benthic_grid
-
-    from yellowstone_python.aquatic.fish import build_chainage, place_trout_at_chainage, reach_membership, reach_z_windows
-
-    from yellowstone_python.land.grazers import route_length as _rlen
-
-    from yellowstone_python.exporters.runtime_series import python_series
+    from yellowstone_python.land.snow_season import run_season, catchment_runoff_m3_s
+    from yellowstone_python.thermal_features.ground_heat import soil_temperature_by_patch, thermal_flux_mm_d_by_patch
+    from yellowstone_python.land.evapotranspiration import reference_et0_mm_d, CROP_COEFFICIENTS
 
     # --- season (before the river so its ledger reaches the boundary) ---
     scfg = cfg.get("snow", {})
@@ -167,7 +145,7 @@ def run(state: dict, cfg: dict) -> dict:
         air_hourly_c=(met_bundle.get("hourly") if met_bundle else None))
     season = clock_info["season"]  # explicit snow.season wins, else clock
 
-    # Evapotranspiration draws patch soil water after the season state is written.
+    # Reference ET reports atmospheric demand; the soil bucket owns water loss.
     et_params = cfg.get("evapotranspiration", {}) or {}
     et_elev = float(et_params.get("site_elevation_m", 2200.0))
     et_rh_pct = float(wcfg.get("humidity", 0.45)) * 100.0
@@ -180,15 +158,15 @@ def run(state: dict, cfg: dict) -> dict:
         rn_mj_m2_d=et_rn, g_mj_m2_d=0.0,
         u2_m_s=et_wind_u2, elevation_m=et_elev,
         rh_mean_pct=et_rh_pct)
-    patches2, et_ledger = step_patches_et(
-        patches2, et0_mm_d,
-        dt_days=max(1.0 / 24.0, sim_s / 86400.0),
-        soil_cap_mm=120.0)
+    et_ledger = {"schema": "yellowstone.evapotranspiration.v1", "et0_mm_d": et0_mm_d,
+                 "dt_days": 0.0, "total_et_mm": 0.0, "et_by_patch_mm": {},
+                 "role": "diagnostic", "stock_owner": "snow_soil_bucket",
+                 "interval_start_s": 0.0, "interval_end_s": 0.0,
+                 "status": "authored_reference_diagnostic"}
     et_ledger["source_elevation_m"] = et_elev
     et_ledger.setdefault("coefficients_source", str(CROP_COEFFICIENTS))
 
     # --- snow runoff as a discharge increment over the basin ---
-    from yellowstone_python.land.snow_season import catchment_runoff_m3_s
     catchment_area = hcfg.get("catchment", {}).get("area_m2")
     catchment = {"schema": "yellowstone.catchment_runoff.v1",
                  "enabled": catchment_area is not None,

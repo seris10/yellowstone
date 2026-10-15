@@ -2,7 +2,7 @@
 
 A fixed, georeferenced Godot landscape centered on Grand Prismatic Spring, with walking, the Grand Loop Road, the Midway boardwalk, the overlook approach, connected waterways, and a small observational ecosystem.
 
-**Built and tested with Godot 4.5.1. Open `project.godot` and press F5, or F6 on `scenes/main.tscn`.** The complete package contains baked world assets. Python supplies published simulation trajectories. At startup the renderer probes the local live service at `yellowstone/live_url` (default `http://127.0.0.1:8765`) and selects live Python or the baked build. Baked mode retries the local service every five seconds. Published data files reload within two seconds through `DataWatcher`. Godot is available from its [official archive](https://godotengine.org/download/archive/4.5.1-stable/).
+**Built and tested with Godot 4.5.1. Open `project.godot` and press F5, or F6 on `scenes/main.tscn`.** The complete package contains baked world assets. Python supplies published simulation trajectories. At startup the renderer probes the local live service at `yellowstone/live_url` (default `http://127.0.0.1:8765`) and selects live Python or the baked build. Baked mode retries the local service every five seconds. A matching service must identify the selected build and model variant. `DataWatcher` observes one release pointer; complete hashed generations are validated before activation. A failed activation retains the current generation. Godot is available from its [official archive](https://godotengine.org/download/archive/4.5.1-stable/).
 
 ## Explore
 
@@ -34,16 +34,27 @@ The domain is **4,096 x 4,096 meters**. One Godot unit is one meter. The origin 
 
 The 1,025 x 1,025 elevation grid is sampled at 4 m spacing from USGS 3DEP data. July 19, 2022 USDA NAIP aerial imagery supplies macro ground color. Roads, trails and hydrography come from saved NPS GIS layers. See [the geographic research and provenance](docs/geography-research.md) for exact source dates, accuracy classes and acquisition details.
 
-This is an executable landscape foundation with genuine geographic inputs. It is **not a finished photorealistic replica**. Specific plant transforms are a fixed authoring draft; the compact pine is a human-created generic pine visual, not a botanically authenticated lodgepole specimen. Animal meshes are simple articulated development stand-ins. Thirty fixed original botanical clumps add willow, sedge and lupine genus/guild stand-ins; their exact taxon and positions remain unverified. Road widths, road engineering, bridge structure, underwater depth, small drainage detail and material microstructure remain authored approximations. The core distinctions and the work to finish them are documented rather than hidden.
+This is an executable landscape foundation with genuine geographic inputs. It is **not a finished photorealistic replica**. Dominant crown cores and canopy coverage are derived from 2020 USGS LiDAR; their local validation metrics remain unavailable without submitted labels. Specific render dimensions and species transfers remain unvalidated; the compact pine is a human-created generic pine visual, not a botanically authenticated lodgepole specimen. KJR-owned animated animal meshes have runtime bindings. Wolf, deer and elk retain shape-proxy labels; motion and rig checks do not establish measured biomechanics. Thirty fixed original botanical clumps add willow, sedge and lupine genus/guild stand-ins; their exact taxon and positions remain unverified. Road widths, road engineering, bridge structure, underwater depth, small drainage detail and material microstructure remain authored approximations. The core distinctions and the work to finish them are documented rather than hidden.
 
 ## Reading order
 
-1. [Development specification and future directions](docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md)
+1. [Current case studies, recording and experiment](../docs/PORTFOLIO.md)
 2. [Geography: data, registration, routes and terrain](docs/geography-research.md)
 3. [Ecology: habitats, evidence, models and interaction design](docs/ecology-research.md)
 4. [Assets: included work, licenses and stronger replacements](docs/asset-research.md)
 5. [Authoring and architecture](docs/AUTHORING.md)
 6. [Validation record](docs/VALIDATION.md)
+7. [Development specification and future directions](docs/DEVELOPMENT_AND_FUTURE_DIRECTIONS.md)
+
+## Offline release and scientific controls
+
+The complete demo package includes `scenes/authored_world.tscn`, a release pointer and one data generation. Import with Godot 4.5.1 and launch `godot --path .`; a Python service is optional. Source checkouts require the offline bake described below.
+
+Mode, model time and release identity remain visible. Field notes distinguish frozen published diagnostics from unavailable data. In the portfolio scenario, **Guided river temperature experiment** selects the Firehole starting point and restarts the fixed baked trajectory at 120x. H opens the probe and Q pauses. The source pulse and comparison are in the selected generation's `portfolio_comparison.json`.
+
+A display-hour change controls lighting only. T advances physical model time by two hours in live mode. Date controls reset from the identified initial state. The service and baked replay preserve the same heat-exchange strategy and physical timestep for a shared scenario.
+
+On the tested macOS machine, use `godot --path . --rendering-method mobile --rendering-driver metal` for visible exploration and captures. The default compatibility renderer movie attempt timed out. [Measured render scope](../docs/PERFORMANCE.md) records platform and limits.
 
 ## Edit the world
 
@@ -87,8 +98,15 @@ godot --headless --path . --script tools/validate_core_collision.gd
 godot --path . --render-thread safe --audio-driver Dummy --script tools/validate_terrain_render.gd
 ```
 
-The visible render fixture records nine view/sun-angle images, seasonal/wetness bindings and moving-camera timing in `tests/terrain_render/`. It rejects a missing core foreground and fragment-cut fallback. Headless checks cover bindings and numerics; visual review uses actual GPU captures.
+The visible render fixture records nine view/sun-angle images, seasonal/wetness bindings and moving-camera timing in `tests/terrain_render/`. It rejects a missing core foreground and fragment-cut fallback. Headless checks cover bindings and numerics; visual review uses actual GPU captures. Record the fixed 72-second portfolio sequence with the same harness after selecting the portfolio generation:
+
+```sh
+godot --path . --rendering-method mobile --rendering-driver metal --audio-driver Dummy --fixed-fps 30 --write-movie ../work/portfolio.avi --script tools/validate_terrain_render.gd -- --portfolio --out=../work/portfolio-capture
+ffmpeg -i ../work/portfolio.avi -c:v libx264 -crf 20 -pix_fmt yuv420p -an ../work/portfolio-demo.mp4
+```
+
+The comparison plot reads the checked model artifact. Movie frame timing includes recording overhead; the separate nine-view run measures normal frozen-scene camera timing.
 
 ## Credits and code license
 
-Original code and authored project structure: MIT license; see `LICENSE`. Creator assets, government data and recordings retain their own provenance. See `THIRD_PARTY.md` and `data/asset_manifest.json`. Poly Haven sources are CC0; NPS recordings and the included federal geographic sources are public domain. The swimming trout geometry is operator-supplied AI geometry with an unspecified upstream license. Its rig and species color textures are illustrative; the manifest records the source and local asset budget.
+Original code and authored project structure: MIT license; see `LICENSE`. Creator assets, government data and recordings retain their own provenance. See `THIRD_PARTY.md` and `data/asset_manifest.json`. Poly Haven sources are CC0; NPS recordings and the included federal geographic sources are public domain. All animal meshes are owned by KJR and their inclusion in the project release is authorized. Source-generation methods remain in the metadata. Rigs and species color textures are illustrative; geometry ownership does not establish local biological validation. The release package includes a per-file asset decision inventory.

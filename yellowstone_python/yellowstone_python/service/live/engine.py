@@ -35,7 +35,7 @@ import yellowstone_python.thermal_features.ground_heat as ground_heat
 from yellowstone_python.pipeline import stage_contracts
 from yellowstone_python.pipeline.dependencies import CONTROL_DEPENDENCIES as DEPENDENCIES
 
-DOMAIN_OUTPUTS = {"weather": "weather_frag", "solar": "weather_frag", "river": "replay_doc",
+DOMAIN_OUTPUTS = {"display": "weather_frag", "weather": "weather_frag", "solar": "weather_frag", "river": "replay_doc",
                   "hydraulics": "replay_doc", "insects": "act0", "snow": "snow_ledger",
                   "soil": "soil_t_by_patch", "runoff": "catchment", "oxygen": "oxygen_doc",
                   "periphyton": "periphyton_doc", "foodweb": "aquatic_foodweb",
@@ -96,6 +96,8 @@ def _set_config(config: dict, key: str, value) -> None:
 
 def replay_config(document: dict) -> dict:
     """Recover the solver config from a published mapped replay."""
+    if "solver_config" in document:
+        return copy.deepcopy(document["solver_config"])
     fields = ("id", "length_m", "width_m", "volume_m3", "initial_c", "dispersion_m2_s",
               "exchange_w_m2_k", "geometry_status")
     forcing = document["forcing"]
@@ -105,6 +107,15 @@ def replay_config(document: dict) -> dict:
               "air_c": forcing["air_c"], "sources": forcing.get("sources", []),
               "net_heat_flux_w_m2": forcing.get("additional_heat_flux_w_m2", 0.0),
               "cell_heat_w": forcing.get("cell_heat_w", {}), "initialize_steady": False}
+    model = document.get("model", {})
+    settings = model.get("surface_solver", {})
+    for published, solver in (("max_iterations", "max_surface_iterations"),
+                              ("temperature_tolerance_c", "surface_tolerance_c"),
+                              ("relaxation", "surface_relaxation")):
+        if published in settings:
+            config[solver] = settings[published]
+    if "rho_cp_j_m3_k" in model:
+        config["rho_cp_j_m3_k"] = model["rho_cp_j_m3_k"]
     if forcing.get("surface_budget") is not None:
         config["surface_budget"] = forcing["surface_budget"]
     return config
@@ -122,7 +133,6 @@ class LiveEngine:
                  start_worker: bool = False):
         self.river = river
         self._cell_index = {cell.id: i for i, cell in enumerate(river.cells)}
-        self.river.surface_relaxation = 1.0
         self.config = copy.deepcopy({key: value for key, value in (config or {}).items()
                                      if key != "python_series"})
         self.config["run_mode"] = normalize_run_mode(self.config.get("run_mode", "scenario"))
@@ -195,11 +205,13 @@ class LiveEngine:
         self._last_wall = time.monotonic()
         self._clock_started = False
         self._clock_debt_s = 0.
+        self.display_hour = None
         self._weather_cache = {}
         self._source_base_flows = {source.id: source.flow_m3_s.at(river.time_s) for source in river.sources}
         self.food_settings = {"delta_u_switch": .1, "movement_cost_per_m": .00001,
                               "thermal_curve_form": self.config.get("fish", {}).get("thermal_curve_form", "piecewise_linear")}
         live_settings = self.config.setdefault("live", {})
+        live_settings.setdefault("weather_policy", "scenario_weather" if (config or {}).get("weather") else "preserve_published")
         live_settings.setdefault("solute_dt_s", 10.)
         live_settings.setdefault("aquatic_interval_s", 60.)
         self._periphyton_params = periphyton.PeriphytonParams()
@@ -247,6 +259,10 @@ class LiveEngine:
             self._update_mammals(0.0)
         self._frames = [self._frame()]
         self._checkpoints = {river.time_s: self._checkpoint()}
+        self._initial_checkpoint = self._checkpoint()
+        from yellowstone_python.common.provenance import sha256_json
+        self.initial_state_id = sha256_json({"river": self.solver_config(),
+                                             "patches": self.ecology["patches"]})
         self._log("session_start", {"config": self.config, "solver_config": self.solver_config(),
                                     "epoch_unix": self.epoch_origin, "build_id": build_id,
                                     "max_dt_s": self.max_dt_s, "frame_interval_s": self.frame_interval_s})
@@ -256,7 +272,7 @@ class LiveEngine:
 
     @classmethod
     def from_build(cls, path: Path, **kwargs):
-        """Load immutable build inputs and construct a live explicit-budget engine."""
+        """Resume the published river strategy, initial state and forcing."""
         path = Path(path)
         manifest = load_json(path / "BUILD.json")
         replay_doc = load_json(path / "river_replay.json")
@@ -278,8 +294,14 @@ class LiveEngine:
         solver = replay_config(document)
         epoch = document["simulation_time"]["start_epoch_unix"]
         cfg["simulation_start_epoch_unix"] = epoch
-        if solver.get("surface_budget") is None:
-            solver["surface_budget"] = energy_met_series(cfg, kwargs.get("horizon_s", 600.0))
+        cfg["replay"] = copy.deepcopy(manifest.get("config", {}).get("replay", {}))
+        cfg["live"] = {**manifest.get("live", {}), "weather_policy": "preserve_published"}
+        cfg["start_operation"] = "resume_published"
+        cfg["published_weather"] = {key: copy.deepcopy(document[key]) for key in
+            ("forcing", "weather_trace", "clock_hour0") if key in document}
+        cfg["land_thermal_flux_mm_d_by_patch"] = manifest.get("land_thermal_flux_mm_d_by_patch", {})
+        cfg["model_variant_id"] = manifest.get("model_variant_id")
+        cfg["scenario_id"] = manifest.get("scenario_id", manifest["build_id"])
         obs_path = path.parent / "firehole_obs.json"
         obs = load_json(obs_path) if obs_path.exists() else None
         live_cfg = manifest.get("live", {})
@@ -294,6 +316,7 @@ class LiveEngine:
                    build_id=manifest["build_id"], claim_ids=manifest.get("claim_ids", []),
                    epoch_unix=epoch, log_dir=path.parent / "live", observation_bundle=obs,
                    calibration_params=params,
+                   frame_interval_s=kwargs.pop("frame_interval_s", cfg["replay"].get("sample_s", 60.)),
                    max_dt_s=kwargs.pop("max_dt_s", live_cfg.get("max_dt_s", 2.0)), **kwargs)
 
     def _forcing_config(self, start_s=None, end_s=None):
@@ -353,6 +376,8 @@ class LiveEngine:
     def _checkpoint(self):
         return {"river": self.river.checkpoint(), "ecology": copy.deepcopy(self.ecology),
                 "config": copy.deepcopy(self.config), "epoch_origin": self.epoch_origin,
+                "display_hour": self.display_hour,
+                "start_operation": self.config.get("start_operation", "new_scenario"),
                 "measured_reference": copy.deepcopy(self.measured_reference),
                 "observation_samples": copy.deepcopy(self.observation_samples),
                 "baseline": self._baseline._checkpoint() if self._baseline is not None else None,
@@ -368,6 +393,7 @@ class LiveEngine:
         self.ecology = copy.deepcopy(checkpoint["ecology"])
         self.config = copy.deepcopy(checkpoint["config"])
         self.epoch_origin = checkpoint["epoch_origin"]
+        self.display_hour = checkpoint.get("display_hour")
         self.measured_reference = copy.deepcopy(checkpoint["measured_reference"])
         self._integration_segments = self._integration_segments[:checkpoint.get("integration_segment_count", 0)]
         self.observation_samples = copy.deepcopy(checkpoint.get("observation_samples", []))
@@ -402,13 +428,19 @@ class LiveEngine:
         air = microclimate.air_temp(hour, cfg.get("night_air_c", 7.),
                                    cfg.get("day_warming_c", 15.), cfg.get("lag_hours", 3.))
         wind = microclimate.wind_at(t_s, cfg.get("wind_xz_mps", [1.8, .6]), cfg.get("gust_mps", .45))
-        if self.config.get("run_mode") == "observed_replay":
+        if self.config.get("live", {}).get("weather_policy", "preserve_published") == "preserve_published":
             air = self.river.air_c.at(t_s)
+        if self.river.surface_budget is not None and self.config.get("live", {}).get("weather_policy", "preserve_published") == "preserve_published":
             met = self.river.surface_budget.met_at(t_s, air)
             humidity, cloud = met.rh, met.cloud
             wind = [met.wind_mps, 0.]
         else:
             humidity, cloud = cfg.get("humidity", .45), cfg.get("cloud", .16)
+        if self.config.get("published_weather") and self.config.get("live", {}).get("weather_policy") == "preserve_published":
+            from yellowstone_python.exporters.runtime_series import replay_weather
+            prescribed = replay_weather(self.config["published_weather"], cfg, t_s)
+            air, wind = prescribed["air_c"], prescribed["wind_xz_mps"]
+            humidity, cloud = prescribed["relative_humidity"], prescribed["cloud_fraction"]
         snapshot_cfg = {**cfg, "night_air_c": air, "day_warming_c": 0., "humidity": humidity,
                         "cloud": cloud, "wind_xz_mps": list(wind)}
         snapshot = microclimate.weather_snapshot(epoch, snapshot_cfg)
@@ -422,7 +454,8 @@ class LiveEngine:
         return value
 
     def _prepare_weather(self, end_s):
-        if self.config.get("run_mode") == "observed_replay":
+        if (self.config.get("run_mode") == "observed_replay"
+                or self.config.get("live", {}).get("weather_policy", "preserve_published") == "preserve_published"):
             return
         times = [self.river.time_s + i * 60.0 for i in range(int((end_s - self.river.time_s) / 60) + 2)]
         from pvlib.location import Location
@@ -440,9 +473,9 @@ class LiveEngine:
                                 ("wind_mps", weather["wind_speed_mps"]), ("cloud", weather["cloud"]),
                                 ("shortwave_w_m2", weather["shortwave_w_m2"])):
                 schedules[name].append(value)
-        if self.river.surface_budget is None:
-            self.river.surface_budget = SurfaceBudget(Series.parse(.45), Series.parse(2.), Series.parse(0.), Series.parse(.16))
         for name, values in schedules.items():
+            if name != "air_c" and self.river.surface_budget is None:
+                continue
             original = self.river.air_c if name == "air_c" else getattr(self.river.surface_budget, name)
             kept = [(t, v) for t, v in zip(original.times_s, original.values) if t < self.river.time_s]
             kept.extend(zip(times, values))
@@ -454,12 +487,17 @@ class LiveEngine:
                 self.river.surface_budget = replace(self.river.surface_budget, **{name: schedule})
         self.river._rebuild_forcing()
 
+    def _solver_dt_s(self):
+        """Resolve a physical solver step independent of playback speed."""
+        step = self.config.get("live", {}).get("dt_s", self.config.get("replay", {}).get("dt_s", .1))
+        return min(self.max_dt_s, positive("solver dt_s", step))
+
     def _advance(self, end_s):
         if end_s <= self.river.time_s:
             return
         before = time.perf_counter()
         start = self.river.time_s
-        dt_s = min(self.max_dt_s, max(.1, self.time_scale / 150.0))
+        dt_s = self._solver_dt_s()
         forcing = self._forcing_config(start, end_s)
         import hashlib
         forcing_key = hashlib.sha256(json.dumps(forcing, sort_keys=True).encode()).hexdigest()
@@ -531,39 +569,29 @@ class LiveEngine:
             patches = self.ecology["patches"]
             working_patches = patches or [{"id": "background", "center_xz": [0., 0.],
                 "snow_mm": self.ecology["snow_mm"], "soil_mm": self.ecology["soil_mm"]}]
-            ledger = {key: 0. for key in ("rain_mm", "melt_mm", "accum_mm", "et_mm", "runoff_mm",
-                      "subsurface_drain_mm", "water_residual_mm")}
-            for patch in working_patches:
-                modifiers = snow_season.patch_modifiers(patch)
-                heat_flux = self._patch_heat_flux.get(patch["id"], ground_heat.GHF_BACKGROUND_W_M2)
-                snow, melt, accum, rain, blown, _ = snow_season.step_snow(
-                    patch.get("snow_mm", 0.), weather["air_c"], weather["precip_mm_h"] * 24. * days,
-                    k_melt=3. * days, aspect_retention=modifiers["aspect"], canopy_keep=modifiers["canopy_keep"],
-                    wind_loss=modifiers["wind_loss"] * min(2., .5 + weather["wind_speed_mps"] / 4.) * days,
-                    thermal_flux_mm_d=ground_heat.thermal_melt_mm_d_from_ghf(heat_flux) * days)
-                bucket = snow_season.step_soil_bucket(patch.get("soil_mm", patch.get("moisture", .5) * 120.),
-                    melt + rain, weather["air_c"], weather["wind_speed_mps"], elapsed_days=days)
-                patch.update(snow_mm=snow, soil_mm=bucket["soil_mm"], moisture=bucket["soil_mm"] / 120.,
-                             snow_depth_m=snow / 1000. * 3.,
-                             snow_cover_fraction=min(1., snow / 1000. * 3. / snow_season.SNOW_COVER_FULL_DEPTH_M))
-                for key, value in (("rain_mm", rain), ("melt_mm", melt), ("accum_mm", accum),
-                    ("et_mm", bucket["et_mm"]), ("runoff_mm", bucket["surface_drain_mm"] + blown),
-                    ("subsurface_drain_mm", bucket["subsurface_drain_mm"]),
-                    ("water_residual_mm", bucket["water_residual_mm"])):
-                    ledger[key] += value / len(working_patches)
+            working_patches, totals = snow_season.step_land(working_patches, days * 86400.,
+                weather["air_c"], weather["precip_mm_h"] * 24., weather["wind_speed_mps"],
+                interval_start_s=self.ecology["last_land_t_s"],
+                thermal_flux_mm_d_by_patch={p["id"]: ground_heat.thermal_melt_mm_d_from_ghf(
+                    self._patch_heat_flux.get(p["id"], ground_heat.GHF_BACKGROUND_W_M2)) for p in working_patches} if not self.config.get("land_thermal_flux_mm_d_by_patch") else self.config["land_thermal_flux_mm_d_by_patch"])
+            ledger = {key: value / len(working_patches) if key.endswith("_mm") and isinstance(value, (int, float))
+                      else value for key, value in totals.items()}
+            self.ecology["patches"] = working_patches if patches else []
+            patches = self.ecology["patches"]
             self.ecology["snow_mm"] = sum(p["snow_mm"] for p in working_patches) / len(working_patches)
             self.ecology["soil_mm"] = sum(p["soil_mm"] for p in working_patches) / len(working_patches)
             self.ecology["land_ledger"] = ledger
             self._update_land_temperature(weather["air_c"])
-            grazers = {"bison": {"active": True, "patch_id": self.config["grazing"].get("patch_id", patches[0]["id"]),
-                                "rate_per_second": self.config["grazing"].get("bison_count", 0) * .00001}} if patches else None
-            self.ecology["patches"], _ = vegetation.patch_step(patches, weather["clock_hour"], days * 86400., grazers=grazers)
             runoff = ledger["runoff_mm"]
             catchment_area = self.config.get("live", {}).get("catchment_area_m2", 0.)
             runoff_q = runoff / 1000. * catchment_area / (days * 86400.)
             if catchment_area > 0. and self.config.get("run_mode") != "observed_replay":
                 self.river.set_forcing("boundary_m3_s", end_s, self.config["hydro"]["boundary_m3s"] + runoff_q)
             self.ecology["last_land_t_s"] = end_s
+        patches = self.ecology["patches"]
+        grazers = {"bison": {"active": True, "patch_id": self.config["grazing"].get("patch_id", patches[0]["id"]),
+                            "rate_per_second": self.config["grazing"].get("bison_count", 0) * .00001}} if patches else None
+        self.ecology["patches"], _ = vegetation.patch_step(patches, weather["clock_hour"], span, grazers=grazers)
         if end_s - self.ecology["last_mammal_t_s"] >= self.frame_interval_s:
             before = time.perf_counter()
             self._update_mammals(end_s - self.ecology["last_mammal_t_s"])
@@ -696,7 +724,13 @@ class LiveEngine:
                 "model_components": MODEL_COMPONENTS, "stage_contracts": self._stage_contracts, "solute_boundary_provenance": self.solute_boundary_provenance,
                 "static_from_build": {name: self.build_id for name in STATIC_COMPONENTS},
                 "timings": copy.deepcopy(self.timings), "dirty_stages": list(self.dirty_stages),
-                "dt_s": min(self.max_dt_s, max(.1, self.time_scale / 150.)),
+                "dt_s": self._solver_dt_s(),
+                "exchange_strategy": "explicit_surface_budget" if self.river.surface_budget else "newton_exchange",
+                "model_variant_id": self.config.get("model_variant_id") or ("mapped_fv_explicit" if self.river.surface_budget else "mapped_fv_newton"),
+                "scenario_id": self.config.get("scenario_id", self.build_id),
+                "start_operation": self.config.get("start_operation", "new_live_run"),
+                "display_hour": self.display_hour,
+                "initial_state_id": getattr(self, "initial_state_id", None),
                 "max_dt_s": self.max_dt_s, "paused": self.paused,
                 "compute_rate_sps": self._compute_rate_sps,
                 "max_dt_capacity_sps": self._max_dt_capacity_sps,
@@ -781,7 +815,7 @@ class LiveEngine:
                 self._compute_samples.append((span, elapsed))
                 self._compute_samples = self._compute_samples[-256:]
                 self._compute_rate_sps = sum(row[0] for row in self._compute_samples) / sum(row[1] for row in self._compute_samples)
-                if min(self.max_dt_s, max(.1, self.time_scale / 150.)) == self.max_dt_s:
+                if self._solver_dt_s() == self.max_dt_s:
                     self._record_max_dt_capacity(span, elapsed)
             self._publish_snapshot()
 
@@ -905,6 +939,15 @@ class LiveEngine:
         if any(key.startswith("thermal.excelsior") for key in changes) and not any(
                 "excelsior" in source.id for source in self.river.sources):
             raise ValueError("base build contains no Excelsior source")
+        if "snow.as_of_date" in changes or any(key in changes for key in
+                ("snow.days", "snow.air_c_by_day", "snow.season")):
+            return self._reset({"changes": changes})
+        if set(changes) == {"clock_hour"}:
+            self.display_hour = float(changes["clock_hour"])
+            self.dirty_stages = ["display"]
+            self._log("display_clock", {"display_hour": self.display_hour})
+            return {"ok": True, "operation": "display", "display_hour": self.display_hour,
+                    "dirty_stages": ["display"], "controls": changes, "revision": self.revision}
         at_s = self._at_time(payload.get("at_s", payload.get("t_s", self.player_t_s)))
         self.revision += 1
         self.truncate_after_t_s = at_s
@@ -912,7 +955,12 @@ class LiveEngine:
             self.config["grazing"]["patch_id"] = grazing_patch_id
         self.dirty_stages = list(dict.fromkeys(stage for key in changes for stage in DEPENDENCIES[key]
             if stage != "mammals" or "mammal_model" in self.ecology))
+        if any(key.startswith("weather.") for key in changes):
+            self.config["live"]["weather_policy"] = "scenario_weather"
         for key, value in changes.items():
+            if key == "clock_hour":
+                self.display_hour = float(value)
+                continue
             _set_config(self.config, key, value)
             if key in ("hydro.boundary_c", "hydro.boundary_m3s"):
                 self.river.set_forcing("boundary_c" if key.endswith("boundary_c") else "boundary_m3_s", at_s, value)
@@ -939,27 +987,6 @@ class LiveEngine:
                 wind = self.config["weather"]
                 wind["wind_speed_mps"] = math.hypot(*value)
                 wind["wind_direction_deg"] = microclimate.wind_from_direction(value)
-            elif key in ("clock_hour", "snow.as_of_date"):
-                current = dt.datetime.fromtimestamp(self.epoch_origin + at_s, dt.timezone(dt.timedelta(hours=-6)))
-                date = dt.date.fromisoformat(value) if key == "snow.as_of_date" else current.date()
-                hour = value if key == "clock_hour" else current.hour + current.minute / 60.
-                midnight = dt.datetime.combine(date, dt.time(), tzinfo=current.tzinfo)
-                self.epoch_origin = midnight.timestamp() + hour * 3600. - at_s
-                spinup_days = (date - dt.date(date.year if date.month >= 10 else date.year - 1, 10, 1)).days
-                patched, ledger = snow_season.run_season(self.ecology["patches"], spinup_days,
-                    [self.config["weather"].get("night_air_c", 7.)] * spinup_days,
-                    precip_mm_d=self.config.get("snow", {}).get("precip_mm_d", 0.))
-                self.ecology["patches"] = patched
-                self.ecology["snow_spinup"] = {"days": spinup_days, "ledger": ledger, "provenance": "authored seasonal forcing"}
-        if any(key.startswith("snow.") and key not in ("snow.as_of_date",) for key in changes):
-            snow_config = self.config.get("snow", {})
-            days = snow_config.get("days", 7)
-            air = snow_config.get("air_c_by_day", [self._weather(at_s)["air_c"]] * days)
-            patched, ledger = snow_season.run_season(self.ecology["patches"], days, air,
-                precip_mm_d=snow_config.get("precip_mm_d", 0.))
-            self.ecology["patches"] = patched
-            self.ecology["snow_scenario"] = {"days": days, "ledger": ledger}
-            self.ecology["snow_mm"] = sum(patch.get("snow_mm", 0.) for patch in patched) / max(1, len(patched))
         self._weather_cache.clear()
         self._update_land_temperature(self._weather(at_s)["air_c"])
         self.ecology["soil_mm"] = self._patch_mean("soil_mm", self.ecology["soil_mm"])
@@ -970,6 +997,11 @@ class LiveEngine:
             self.ecology["species_selection_t_s"] = {}
         self._prepare_weather(at_s + self.horizon_s)
         self._update_mammals(0.0)
+        from yellowstone_python.common.provenance import sha256_json
+        parent_scenario = self.config.get("scenario_id", self.build_id)
+        self.config["scenario_id"] = sha256_json({"parent": parent_scenario, "at_s": at_s,
+            "initial_state_id": self.initial_state_id, "changes": changes, "solver": self.solver_config()})
+        self.config["start_operation"] = "controlled_branch"
         self._frames = [frame for frame in self._frames if frame["t_s"] < at_s]
         self._frames.append(self._frame())
         self._checkpoints[at_s] = self._checkpoint()
@@ -977,7 +1009,81 @@ class LiveEngine:
                               "solver_config": self.solver_config(),
                               "location_xyz_m": payload.get("location_xyz_m"), "grazing_patch_id": grazing_patch_id})
         return {"ok": True, "revision": self.revision, "truncate_after_t_s": at_s,
-                "dirty_stages": self.dirty_stages, "controls": changes}
+                "dirty_stages": self.dirty_stages, "controls": changes,
+                "scenario_id": self.config["scenario_id"], "parent_scenario_id": parent_scenario}
+
+    def _reset(self, payload):
+        """Restore the identified initial state and apply one scenario spin-up."""
+        changes = copy.deepcopy(payload.get("changes", {}))
+        if not isinstance(changes, dict):
+            raise ValueError("reset changes must be an object")
+        for key, value in changes.items():
+            _validate(key, value)
+            if key not in DEPENDENCIES:
+                raise ValueError("reset control lacks a live dependency")
+        shade = changes.get("river.shade")
+        if shade and set(shade["cell_ids"]) - {cell.id for cell in self.river.cells}:
+            raise ValueError("river.shade names unknown cells")
+        if any(key.startswith("thermal.excelsior") for key in changes) and not any(
+                "excelsior" in source.id for source in self.river.sources):
+            raise ValueError("base build contains no Excelsior source")
+        config = copy.deepcopy(self._initial_checkpoint["config"])
+        for key, value in changes.items():
+            if key != "clock_hour":
+                _set_config(config, key, value)
+        snow = config.get("snow", {})
+        date_text = snow.get("as_of_date")
+        days = snow.get("days", 0)
+        epoch = self._initial_checkpoint["epoch_origin"]
+        if date_text is not None:
+            date = dt.date.fromisoformat(date_text)
+            origin = dt.datetime.fromtimestamp(epoch, dt.timezone(dt.timedelta(hours=-6)))
+            epoch = dt.datetime.combine(date, origin.timetz()).timestamp()
+            days = (date - dt.date(date.year if date.month >= 10 else date.year - 1, 10, 1)).days
+        patches = self._initial_checkpoint["ecology"]["patches"]
+        patched, ledger = patches, None
+        if patches:
+            air = snow.get("air_c_by_day", [config["weather"].get("night_air_c", 7.)] * days)
+            patched, ledger = snow_season.run_season(patches, days, air,
+                precip_mm_d=snow.get("precip_mm_d", 0.0))
+        self._baseline = None
+        self._restore(self._initial_checkpoint)
+        self.config = config
+        self.epoch_origin = epoch
+        self.config["start_operation"] = "scenario_reset"
+        if "clock_hour" in changes:
+            self.display_hour = float(changes["clock_hour"])
+        self.ecology["patches"] = patched
+        if ledger is not None:
+            self.ecology["snow_spinup"] = {"days": days, "ledger": ledger,
+                "initial_state_id": self.initial_state_id, "provenance": "authored seasonal forcing"}
+        self.ecology["snow_mm"] = self._patch_mean("snow_mm", 0.0)
+        self.ecology["soil_mm"] = self._patch_mean("soil_mm", 60.0)
+        self.player_t_s = self.river.time_s
+        other = {key: value for key, value in changes.items() if not key.startswith("snow.") and key != "clock_hour"}
+        if other:
+            self._control({"changes": other, "at_s": self.player_t_s})
+        self.config["start_operation"] = "scenario_reset"
+        self._clock_debt_s = 0.0
+        self._weather_cache.clear()
+        self.revision += 1
+        self.truncate_after_t_s = self.player_t_s
+        self.dirty_stages = list(DOMAIN_OUTPUTS)
+        from yellowstone_python.common.provenance import sha256_json
+        self.config["scenario_id"] = sha256_json({"initial": self.initial_state_id, "changes": changes, "epoch": epoch})
+        self._frames = [self._frame()]
+        self._checkpoints = {self.player_t_s: self._checkpoint()}
+        self._log("reset", {"changes": changes, "initial_state_id": self.initial_state_id})
+        return {"ok": True, "operation": "scenario_reset", "revision": self.revision,
+                "truncate_after_t_s": self.player_t_s, "initial_state_id": self.initial_state_id}
+
+    def _advance_time(self, payload):
+        """Integrate the requested elapsed physical interval and retain pause state."""
+        seconds = finite("elapsed_s", payload.get("elapsed_s"), minimum=0.0)
+        target = self.player_t_s + seconds
+        self.compute_until(target)
+        self.player_t_s = target
+        return {"ok": True, "operation": "advance", "player_t_s": target}
 
     def _clock(self, payload):
         if "time_scale" in payload:
@@ -1117,6 +1223,9 @@ class LiveEngine:
             shifted(arrays["met_series"]["wind_mps"]), shifted(arrays["met_series"]["sw"]), shifted(arrays["met_series"]["cloud"]))
         self.river._rebuild_forcing()
         self.config["run_mode"] = "observed_replay"
+        self.config["live"]["weather_policy"] = "preserve_published"
+        self.config["model_variant_id"] = "mapped_fv_explicit_measured_forcing"
+        self.config["scenario_id"] = "observed_replay:" + date
         self.epoch_origin = requested - at_s
         self.measured_reference = {"river": reference, "offset": offset, "marked_at_s": at_s,
                                    "epoch0": epoch0, "grid_s": 900., "date": date}
@@ -1268,7 +1377,12 @@ class LiveEngine:
             document = {"run_mode": "scenario", "live": {"session_id": self.session_id,
                 "build_id": self.build_id, "epoch_unix": self.epoch_origin,
                 "events": self.session_events, "duration_s": self.river.time_s,
-                "dt_s": min(self.max_dt_s, max(.1, self.time_scale / 150.)),
+                "dt_s": self._solver_dt_s(),
+                "exchange_strategy": "explicit_surface_budget" if self.river.surface_budget else "newton_exchange",
+                "model_variant_id": self.config.get("model_variant_id") or ("mapped_fv_explicit" if self.river.surface_budget else "mapped_fv_newton"),
+                "scenario_id": self.config.get("scenario_id", self.build_id),
+                "display_hour": self.display_hour,
+                "initial_state_id": getattr(self, "initial_state_id", None),
                 "frame_interval_s": self.frame_interval_s, "solver_config": self.solver_config(),
                 "initial_solver_config": self.session_events[0]["solver_config"],
                 "integration_segments": self._integration_segments,

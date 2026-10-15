@@ -44,7 +44,7 @@ def synthetic_landscape(n_cells=8):
 
 def test_ridge_ridge_rule_cutoff():
     rows = [{"q_lat": q, "t_lat": 25.0, "c_mult": 1.0,
-             "train_rmse": rmse}
+             "train_rmse": rmse, "budget_ok": True}
             for q, rmse in ((2.0, 1.00), (3.0, 1.05),
                             (4.0, 1.09), (5.0, 1.50))]
     members = ridge_members(rows, 1.00, tol_frac=0.10,
@@ -55,7 +55,7 @@ def test_ridge_ridge_rule_cutoff():
 
 def test_ridge_ridge_fallback_to_topn():
     rows = [{"q_lat": float(i), "t_lat": 25.0, "c_mult": 1.0,
-             "train_rmse": 1.0 + 0.5 * i} for i in range(6)]
+             "train_rmse": 1.0 + 0.5 * i, "budget_ok": True} for i in range(6)]
     members = ridge_members(rows, 1.00, tol_frac=0.01,
                             min_members=3)
     assert len(members) == 3
@@ -198,6 +198,5 @@ def test_document_document_covers_synthetic_holdout():
     assert doc['holdout_coverage']['coverage'] >= 0.9
     assert 'fit_oat' in doc
     assert len(doc['members']) >= 1
-
 
 

@@ -1,5 +1,6 @@
 class_name MidwayEcosystem
 extends Node
+const ReleaseData = preload("res://scripts/release_data.gd")
 ## Published Python state with presentation interpolation.
 signal advanced
 const DT: float = 1.0
@@ -38,17 +39,17 @@ var _mammals: Dictionary = {}
 var _warned_patch_ids: Dictionary = {}
 
 func _ready() -> void:
-	if not FileAccess.file_exists("res://data/ecosystem.json"):
+	if not ReleaseData.file_exists("res://data/ecosystem.json"):
 		push_error("Ecosystem data is missing (no data/ecosystem.json); environmental updates disabled.")
 		set_process(false)
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/ecosystem.json"))
+	var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string("res://data/ecosystem.json"))
 	if not parsed is Dictionary:
 		push_error("Ecosystem data is missing or invalid; environmental updates disabled.")
 		set_process(false)
 		return
 	configure(parsed)
-	var authored: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/world.json"))
+	var authored: Variant = JSON.parse_string(ReleaseData.get_file_as_string("res://data/world.json"))
 	if authored is Dictionary:
 		world_data = authored
 

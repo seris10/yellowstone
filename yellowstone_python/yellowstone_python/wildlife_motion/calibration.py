@@ -5,6 +5,29 @@ from pathlib import Path
 import numpy as np
 
 
+def resolve_touchdown_phases(phases: dict, engine: str) -> dict:
+    """Normalize complete contact maps to the selected engine's limb IDs."""
+    if engine not in ('bird', 'mammal'):
+        raise ValueError('Unknown contact engine: ' + str(engine))
+    limbs = ('L', 'R') if engine == 'bird' else ('FL', 'FR', 'HL', 'HR')
+    aliases = {'left': 'L', 'right': 'R', 'left_foot': 'L', 'right_foot': 'R',
+               'front_left': 'FL', 'front_right': 'FR', 'hind_left': 'HL', 'hind_right': 'HR'}
+    if not isinstance(phases, dict):
+        raise ValueError('Touchdown phases require a complete limb map')
+    resolved = {}
+    for key, value in phases.items():
+        name = str(key).strip().lower().replace(' ', '_').replace('-', '_')
+        limb = aliases.get(name, name.upper())
+        if limb not in limbs or limb in resolved:
+            raise ValueError('Unknown, incompatible or duplicate touchdown limb: ' + str(key))
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not np.isfinite(value) or not 0 <= value < 1:
+            raise ValueError('Touchdown phases must be finite cycle fractions in [0,1)')
+        resolved[limb] = float(value)
+    if set(resolved) != set(limbs):
+        raise ValueError('Touchdown phases require all limbs: ' + ', '.join(limbs))
+    return resolved
+
+
 def circular_mean(phases):
     z=np.mean(np.exp(2j*np.pi*np.asarray(phases)))
     if abs(z)<1e-6:raise ValueError('Phase observations are too dispersed for a meaningful circular mean')

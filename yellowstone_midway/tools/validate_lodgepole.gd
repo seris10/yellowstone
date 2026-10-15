@@ -185,7 +185,10 @@ func verify() -> void:
 		var source_record := {"id": "envelope", "height_m": 18., "dbh_m": .254, "crown_radius_m": .8, "crown_ratio": .3}
 		var source_copy := source_record.duplicate(true)
 		var shown := Library.display_dimensions(source_record)
-		check(source_record == source_copy and shown.source_core_radius_m == .8 and shown.source_crown_ratio == .3 and shown.crown_radius_m > .8 and shown.crown_ratio == .7, "Display envelope preserves source dimensions")
+		check(source_record == source_copy and shown.source_core_radius_m == .8 and shown.source_crown_ratio == .3 and shown.crown_radius_m > .8 and shown.crown_ratio == .3, "Display envelope preserves source dimensions")
+		var artistic_record := source_record.duplicate(true)
+		artistic_record.display_crown_policy = "photo_floor"
+		check(Library.display_dimensions(artistic_record).crown_ratio == .7, "Explicit photographic crown floor")
 		for name: String in ["dense", "edge", "open", "sapling", "snag"]:
 			var assets: Array = Library.load_assets(name)
 			check(assets.size() == (7 if name == "snag" else 10), "%s complete split geometry and billboard" % name)

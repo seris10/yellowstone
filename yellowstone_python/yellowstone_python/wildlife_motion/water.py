@@ -80,23 +80,30 @@ def water_forces(t: float,state: np.ndarray,c: WaterConfig):
     rot=axis_rotation('y',yaw);height,slope=surface(pos[0],pos[2],t,c)
     q=(height-pos[1])/c.radii_m[1];fraction=float(submerged_fraction(q))
     buoyancy=c.density_kg_m3*c.gravity_m_s2*c.volume_m3*fraction
-    force=np.array([0.,buoyancy-c.mass_kg*c.gravity_m_s2-c.heave_damping_n_s_m*vel[1],0.])
+    force=np.array([0.,buoyancy-c.mass_kg*c.gravity_m_s2-fraction*c.heave_damping_n_s_m*vel[1],0.])
     relative=vel-np.asarray(c.current_m_s);horizontal=relative.copy();horizontal[1]=0
-    area=np.pi*c.radii_m[0]*c.radii_m[1]
+    area=np.pi*c.radii_m[0]*c.radii_m[1]*fraction
     force-=.5*c.density_kg_m3*c.body_drag_coefficient*area*np.linalg.norm(horizontal)*horizontal
-    moment=-c.yaw_damping_n_m_s*rate;foot_forces=[]
+    moment=-fraction*c.yaw_damping_n_m_s*rate;foot_forces=[];foot_immersion=[]
     for sign,phase in [(1,0.),(-1,c.phase_offset)]:
         displacement,foot_velocity,effective_area=paddle_cycle(t,c.frequency_hz,c.power_fraction,
                                       c.stance_sweep_m,c.recovery_lift_m,phase)
-        lever=rot@np.array([sign*c.foot_separation_m/2,-.09,displacement[2]])
+        lever=rot@np.array([sign*c.foot_separation_m/2,-.09+displacement[1],displacement[2]])
+        foot_position=pos+lever
+        foot_surface,_=surface(foot_position[0],foot_position[2],t,c)
+        depth=foot_surface-foot_position[1]
+        wet=float(np.clip(depth/max(np.sqrt(c.foot_area_m2),1e-6),0.,1.))
         world_velocity=vel+rot@foot_velocity+np.cross([0,rate,0],lever)
         rel=world_velocity-np.asarray(c.current_m_s)
         # Reduce projected foot area during wetted recovery.
         multiplier=1+sign*c.steering_bias
-        fd=-.5*c.density_kg_m3*c.foot_drag_coefficient*c.foot_area_m2*effective_area*multiplier*np.linalg.norm(rel)*rel
+        fd=-.5*c.density_kg_m3*c.foot_drag_coefficient*c.foot_area_m2*wet*effective_area*multiplier*np.linalg.norm(rel)*rel
         force+=fd;moment+=np.cross(lever,fd)[1];foot_forces.append(fd.tolist())
+        foot_immersion.append(wet)
     return force,moment,{'submerged_fraction':fraction,'buoyancy_n':buoyancy,
-                        'surface_height_m':height,'surface_slope':slope,'foot_forces_n':foot_forces}
+                        'surface_height_m':height,'surface_slope':slope,'foot_forces_n':foot_forces,
+                        'foot_wetted_fraction':foot_immersion,'body_wetted_area_m2':area,
+                        'wetted_area_policy':'authored submerged-volume fraction and bounded foot-depth transition'}
 
 
 def simulate(c: WaterConfig,duration: float=8.,fps: int=60,initial_state=None):

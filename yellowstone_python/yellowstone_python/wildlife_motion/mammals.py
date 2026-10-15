@@ -60,14 +60,17 @@ class MammalEngine:
     def parameters(self,mode: str,overrides: dict | None=None) -> dict:
         if mode not in self.profile['gaits']:
             raise AssetError(f'{mode} is not enabled for {self.profile["common_name"]}')
-        p=copy.deepcopy(self.profile['gaits'][mode]);p.update(overrides or {})
+        from .calibration import resolve_touchdown_phases
+        p=copy.deepcopy(self.profile['gaits'][mode])
+        supported=set(p) | {'touchdown_phases'}
+        if set(overrides or {})-supported:
+            raise ValueError('Unsupported mammal controls: '+', '.join(sorted(set(overrides)-supported)))
+        p.update(overrides or {})
         numeric=[value for value in p.values() if isinstance(value,(int,float))]
         if not np.isfinite(numeric).all() or p['frequency_hz']<=0 or not 0<p['duty_factor']<1:
             raise ValueError('Gait controls must be finite, with positive frequency and duty in (0,1)')
         if 'touchdown_phases' in p:
-            phases=p['touchdown_phases']
-            if set(phases)!=set(('FL','FR','HL','HR')) or not np.isfinite(list(phases.values())).all():
-                raise ValueError('Measured touchdown phases must include finite FL, FR, HL and HR values')
+            p['touchdown_phases']=resolve_touchdown_phases(p['touchdown_phases'],'mammal')
         for name in ('stance_length_height','clearance_height','body_bob_height','body_lowering_height'):
             if p.get(name,0)<0:raise ValueError(f'{name} cannot be negative')
         return p

@@ -92,9 +92,10 @@ Precedence per key: explicit config, then date_cfg, then system clock."""
 def step_snow(snow_mm: float, air_c: float, precip_mm_d: float,
               k_melt: float = 3.0, tbase: float = 0.0,
               aspect_retention: float = 1.0, canopy_keep: float = 1.0,
-              wind_loss: float = 0.0, thermal_flux_mm_d: float = 0.0
+              wind_loss: float = 0.0, thermal_flux_mm_d: float = 0.0,
+              elapsed_days: float = 1.0
               ) -> tuple[float, float, float, float, float, float]:
-    """One day"""
+    """Advance snow and return melt, accumulation, rain and solid export in mm."""
     snow_mm = nonnegative("snow_mm", snow_mm)
     air_c = finite("air_c", air_c)
     precip = nonnegative("precip_mm_d", precip_mm_d)
@@ -103,15 +104,18 @@ def step_snow(snow_mm: float, air_c: float, precip_mm_d: float,
     k_melt_v = nonnegative("k_melt", k_melt)
     thermal_flux_v = nonnegative("thermal_flux_mm_d", thermal_flux_mm_d)
     wind_loss = nonnegative("wind_loss", wind_loss)
+    days = nonnegative("elapsed_days", elapsed_days)
+    precip *= days
     if air_c < SNOW_TEMP_C:
         accum = precip * canopy_keep_v
         rain = 0.0
     else:
         accum, rain = 0.0, precip
-    blown = (snow_mm + accum) * min(0.9, wind_loss)
+    erosion_fraction = -math.expm1(days * math.log1p(-min(0.9, wind_loss)))
+    blown = (snow_mm + accum) * erosion_fraction
     avail = snow_mm + accum - blown
-    dd_melt = k_melt_v * degree_days(air_c, tbase) / aspect_retention_v
-    thermal_melt = thermal_flux_v
+    dd_melt = k_melt_v * degree_days(air_c, tbase) / aspect_retention_v * days
+    thermal_melt = thermal_flux_v * days
     # Actual thermal contribution is limited by what remains after degree-day.
     actual_thermal = min(thermal_melt, max(0.0, avail - min(avail, dd_melt)))
     melt = min(avail, dd_melt + actual_thermal)
@@ -172,9 +176,15 @@ def step_soil_bucket(soil_mm: float, inflow_mm: float, air_c: float, wind_mps: f
     inflow = nonnegative("inflow_mm", inflow_mm)
     air = finite("air_c", air_c)
     wind = nonnegative("wind_mps", wind_mps)
-    days = positive("elapsed_days", elapsed_days)
+    days = nonnegative("elapsed_days", elapsed_days)
     capacity = positive("soil_cap_mm", soil_cap_mm) * fraction("field_capacity", field_capacity)
     et_coefficient = nonnegative("k_et", k_et)
+    if days == 0.0:
+        if inflow != 0.0:
+            raise ValueError("zero elapsed time requires zero inflow")
+        return {"soil_mm": soil, "et_mm": 0.0, "drain_mm": 0.0,
+                "surface_drain_mm": 0.0, "subsurface_drain_mm": 0.0,
+                "water_residual_mm": 0.0}
     et = min(soil + inflow,
              et_coefficient * max(0.0, air) / 20.0 * (1.0 + wind / 15.0) * days)
     storage = soil + inflow - et
@@ -183,6 +193,70 @@ def step_soil_bucket(soil_mm: float, inflow_mm: float, air_c: float, wind_mps: f
     return {"soil_mm": storage, "et_mm": et, "drain_mm": drain,
             "surface_drain_mm": drain * 0.5, "subsurface_drain_mm": drain * 0.5,
             "water_residual_mm": soil + inflow - et - drain - storage}
+
+
+def step_land(patches: list, elapsed_s: float, air_c: float, precip_mm_d: float,
+              wind_mps: float, *, interval_start_s: float = 0.0,
+              thermal_flux_mm_d_by_patch: dict | None = None,
+              k_melt: float = 3.0, tbase_c: float = 0.0,
+              wind_loss: float | None = None, soil_cap_mm: float = 120.0,
+              field_capacity: float = 0.7, k_et: float = 0.8) -> tuple[list, dict]:
+    """Advance patch snow, soil and phenology over an identified physical interval."""
+    seconds = nonnegative("elapsed_s", elapsed_s)
+    start = finite("interval_start_s", interval_start_s)
+    days = seconds / 86400.0
+    wind = nonnegative("wind_mps", wind_mps)
+    cap = positive("soil_cap_mm", soil_cap_mm)
+    ids = [patch.get("id") for patch in patches]
+    if not patches or any(pid is None for pid in ids) or len(ids) != len(set(ids)):
+        raise ValueError("patch IDs must be present and unique")
+    out = copy.deepcopy(patches)
+    totals = {key: 0.0 for key in ("accum_mm", "rain_mm", "melt_mm", "thermal_melt_mm",
+              "et_mm", "surface_runoff_mm", "subsurface_drain_mm", "snow_export_mm",
+              "snow_residual_mm", "soil_residual_mm", "initial_mm", "final_mm")}
+    for patch in out:
+        snow0 = nonnegative("snow_mm", patch.get("snow_mm", 0.0))
+        soil0 = nonnegative("soil_mm", patch.get("soil_mm", patch.get("moisture", .5) * cap))
+        totals["initial_mm"] += snow0 + soil0
+        if seconds == 0.0:
+            totals["final_mm"] += snow0 + soil0
+            continue
+        modifiers = patch_modifiers(patch)
+        loss = modifiers["wind_loss"] if wind_loss is None else wind_loss
+        flux = (thermal_flux_mm_d_by_patch or {}).get(patch["id"], 0.0)
+        snow, melt, accum, rain, exported, thermal = step_snow(
+            snow0, air_c, precip_mm_d, k_melt=k_melt, tbase=tbase_c,
+            aspect_retention=modifiers["aspect"], canopy_keep=modifiers["canopy_keep"],
+            wind_loss=loss * min(2.0, .5 + wind / 4.0), thermal_flux_mm_d=flux,
+            elapsed_days=days)
+        bucket = step_soil_bucket(soil0, melt + rain, air_c, wind, elapsed_days=days,
+                                 soil_cap_mm=cap, field_capacity=field_capacity, k_et=k_et)
+        gdd = patch.get("gdd", 0.0) + degree_days(air_c) * days
+        stage, stress = _phenology(gdd, bucket["soil_mm"] / cap)
+        patch.update(snow_mm=snow, soil_mm=bucket["soil_mm"],
+                     moisture=min(1.0, bucket["soil_mm"] / cap),
+                     gdd=gdd, phenology=stage, pheno_stress=stress,
+                     snow_depth_m=snow / 1000.0 * 3.0,
+                     snow_cover_fraction=min(1.0, snow / 1000.0 * 3.0 / SNOW_COVER_FULL_DEPTH_M))
+        values = {"accum_mm": accum, "rain_mm": rain, "melt_mm": melt,
+                  "thermal_melt_mm": thermal, "snow_export_mm": exported,
+                  "et_mm": bucket["et_mm"], "surface_runoff_mm": bucket["surface_drain_mm"],
+                  "subsurface_drain_mm": bucket["subsurface_drain_mm"],
+                  "snow_residual_mm": snow0 + accum - melt - exported - snow,
+                  "soil_residual_mm": bucket["water_residual_mm"],
+                  "final_mm": snow + bucket["soil_mm"]}
+        for key, value in values.items():
+            totals[key] += value
+    totals.update(runoff_mm=totals["surface_runoff_mm"],
+                  water_residual_mm=totals["snow_residual_mm"] + totals["soil_residual_mm"],
+                  interval_start_s=start, interval_end_s=start + seconds,
+                  window_s=seconds, modeled_patch_count=len(out),
+                  units="mm water-equivalent summed over modeled patches",
+                  et_owner="snow_soil_bucket", runoff_phase="liquid",
+                  snow_export_phase="solid", sublimation_mm=None,
+                  snow_export_destination="outside_patch_unresolved",
+                  model_variant="degree_day_soil_bucket")
+    return out, totals
 
 
 def run_season(patches: list, days: int, air_c_by_day: list,
@@ -233,131 +307,37 @@ Returns (patches, ledger) with forcing_source recording which air series ran."""
             or not 0.0 <= float(field_capacity) <= 1.0):
         raise ValueError("field_capacity must be finite and in [0, 1]")
     out = copy.deepcopy(patches)
-    # soil_state holds unrounded values; p["soil_mm"] mirrors them at display precision.
-    soil_state: dict = {}
-    for p in out:
-        p.setdefault("snow_mm", 0.0)
-        moisture_raw = float(p.get("moisture", 0.5))
-        initial_moisture = min(1.0, max(0.0, moisture_raw))
-        soil_state[p.get("id", id(p))] = initial_moisture * soil_cap_mm
-        p["soil_mm"] = round(initial_moisture * soil_cap_mm, 3)
     use_series = list(precip_mm_by_day) if precip_mm_by_day else None
-    if (use_series is not None and days > len(use_series)
-            and not extend_last):
-        raise ValueError(
-            f"precip_mm_by_day has {len(use_series)} entries for days={days}; "
-            "pass extend_last=True to reuse the last value")
-    tot = {"accum": 0.0, "rain": 0.0, "melt": 0.0, "thermal_melt": 0.0,
-           "et": 0.0, "surface_drain": 0.0, "subsurface_drain": 0.0,
-           "wind_runoff": 0.0}
-    initial_snow = sum(float(p["snow_mm"]) for p in out)
-    initial_soil = sum(soil_state[p["id"]] for p in out)
-    ids = [p.get("id") for p in out]
-    if any(i is None for i in ids) or len(ids) != len(set(ids)):
-        raise ValueError("patch IDs must be present and unique")
-    gdd = {p["id"]: 0.0 for p in out}
-    mods = {p["id"]: patch_modifiers(p) for p in out}
-    for d in range(days):
-        air = float(air_c_by_day[d] if d < len(air_c_by_day)
-                    else air_c_by_day[-1])
-        if use_series is None:
-            precip = float(precip_mm_d)
-        else:
-            precip = float(use_series[d] if d < len(use_series)
-                           else use_series[-1])
-        for p in out:
-            cx, cz = p.get("center_xz", [0, 0])
-            thermal = bool(thermal_test(cx, cz)) if thermal_test else False
-            m = mods[p["id"]]
-            wl = m["wind_loss"] if wind_loss is None else float(wind_loss)
-            # Per-patch flux overrides the scalar thermal_test fallback.
-            per_patch_flux = None
-            if thermal_flux_mm_d_by_patch is not None:
-                raw = thermal_flux_mm_d_by_patch.get(p["id"])
-                if raw is not None:
-                    raw_f = float(raw)
-                    if not math.isfinite(raw_f) or raw_f < 0.0:
-                        raise ValueError(
-                            "thermal_flux_mm_d_by_patch values must be "
-                            "finite and >= 0")
-                    per_patch_flux = raw_f
-            if per_patch_flux is not None:
-                step_flux = per_patch_flux
-                thermal = per_patch_flux > 0.0 or thermal
-            else:
-                step_flux = thermal_flux_mm_d if thermal else 0.0
-            snow, melt, accum, rain, blown, thermal_melt_actual = step_snow(
-                p["snow_mm"], air, precip,
-                k_melt=k_melt, tbase=tbase_c,
-                aspect_retention=m["aspect"], canopy_keep=m["canopy_keep"],
-                wind_loss=(wl * min(2.0, 0.5 + wind_mps / 4.0)),
-                thermal_flux_mm_d=step_flux)
-            p["snow_mm"] = round(snow, 3)
-            soil = soil_state[p["id"]]
-            inflow = melt + rain
-            bucket = step_soil_bucket(soil, inflow, air, wind_mps,
-                                      soil_cap_mm=soil_cap_mm,
-                                      field_capacity=field_capacity, k_et=k_et)
-            soil, et, drain = bucket["soil_mm"], bucket["et_mm"], bucket["drain_mm"]
-            soil_state[p["id"]] = soil
-            p["soil_mm"] = round(soil, 3)
-            p["moisture"] = round(min(1.0, soil / soil_cap_mm), 4)
-            tot["accum"] += accum
-            tot["rain"] += rain
-            tot["melt"] += melt
-            tot["wind_runoff"] += blown
-            # Drain splits equally into surface runoff and subsurface drainage.
-            tot["surface_drain"] += drain * 0.5
-            tot["subsurface_drain"] += drain * 0.5
-            tot["et"] += et
-            if thermal:
-                tot["thermal_melt"] += thermal_melt_actual
-            gdd[p["id"]] += degree_days(air)
-    final_snow = sum(float(p["snow_mm"]) for p in out)
-    final_soil = sum(soil_state[p["id"]] for p in out)
-    # Melt is a snow-to-soil transfer; the pack and bucket balances verify separately.
-    snow_res = (initial_snow + tot["accum"] - tot["melt"] - tot["wind_runoff"]
-                - final_snow)
-    drain_total = tot["surface_drain"] + tot["subsurface_drain"]
-    soil_res = (initial_soil + tot["melt"] + tot["rain"] - tot["et"]
-                - drain_total - final_soil)
-    residual = snow_res + soil_res
-    for p in out:
-        stage, stress = _phenology(gdd[p["id"]], float(p["moisture"]))
-        p["phenology"] = stage
-        p["pheno_stress"] = stress
-        p["gdd"] = round(gdd[p["id"]], 1)
-        # 3.0 is the authored SWE-to-depth ratio; see snow_energy.SWE_TO_DEPTH_RATIO.
-        p["snow_depth_m"] = round(float(p["snow_mm"]) / 1000.0 * 3.0, 3)
-        # Snow cover fraction saturates to 1 at SNOW_COVER_FULL_DEPTH_M; shared with the Godot sidecar rule.
-        p["snow_cover_fraction"] = round(
-            min(1.0, max(0.0, p["snow_depth_m"] / SNOW_COVER_FULL_DEPTH_M)),
-            4)
-    runoff_total = tot["wind_runoff"] + tot["surface_drain"]
-    ledger = {"days": days,
-              "initial_mm": round(initial_snow + initial_soil, 2),
-              "accum_mm": round(tot["accum"], 2),
-              "rain_mm": round(tot["rain"], 2),
-              "melt_mm": round(tot["melt"], 2),
-              "thermal_melt_mm": round(tot["thermal_melt"], 2),
-              "et_mm": round(tot["et"], 2),
-              "subsurface_drain_mm": round(tot["subsurface_drain"], 2),
-              "surface_runoff_mm": round(tot["surface_drain"], 2),
-              "wind_runoff_mm": round(tot["wind_runoff"], 2),
-              # drainage_mm and runoff_mm are aggregated figures.
-              "drainage_mm": round(tot["subsurface_drain"], 2),
-              "runoff_mm": round(runoff_total, 2),
-              "final_mm": round(final_snow + final_soil, 2),
-              "snow_residual_mm": round(snow_res, 6),
-              "soil_residual_mm": round(soil_res, 6),
-              "storage_residual_mm": round(residual, 6),
-              "units": "mm water-equivalent summed over modeled patches "
-                       "(not a basin volume)",
-              "note": "degree-day approximation with thermal ground as an "
-                      "added melt flux",
-              "forcing_source": forcing_source,
-              "run_mode": run_mode or "unspecified"}
+    if use_series is not None and days > len(use_series) and not extend_last:
+        raise ValueError("precip_mm_by_day has insufficient entries for days")
+    fluxes = {}
+    for patch in patches:
+        cx, cz = patch.get("center_xz", [0, 0])
+        thermal = bool(thermal_test(cx, cz)) if thermal_test else False
+        fluxes[patch["id"]] = (thermal_flux_mm_d_by_patch or {}).get(
+            patch["id"], thermal_flux_mm_d if thermal else 0.0)
+    _, ledger = step_land(out, 0.0, 0.0, 0.0, wind_mps, soil_cap_mm=soil_cap_mm,
+                          field_capacity=field_capacity)
+    for day in range(days):
+        air = air_c_by_day[min(day, len(air_c_by_day) - 1)]
+        precip = use_series[min(day, len(use_series) - 1)] if use_series else precip_mm_d
+        out, daily = step_land(out, 86400.0, air, precip, wind_mps,
+            interval_start_s=day * 86400.0, thermal_flux_mm_d_by_patch=fluxes,
+            k_melt=k_melt, tbase_c=tbase_c, wind_loss=wind_loss,
+            soil_cap_mm=soil_cap_mm, field_capacity=field_capacity, k_et=k_et)
+        for key in ("accum_mm", "rain_mm", "melt_mm", "thermal_melt_mm", "et_mm",
+                    "surface_runoff_mm", "subsurface_drain_mm", "snow_export_mm",
+                    "snow_residual_mm", "soil_residual_mm", "water_residual_mm"):
+            ledger[key] += daily[key]
+        ledger["final_mm"] = daily["final_mm"]
+    ledger.update(days=days, window_s=days * 86400.0,
+                  interval_start_s=-days * 86400.0, interval_end_s=0.0,
+                  interval_role="spinup", runoff_mm=ledger["surface_runoff_mm"],
+                  drainage_mm=ledger["subsurface_drain_mm"],
+                  storage_residual_mm=ledger["water_residual_mm"],
+                  forcing_source=forcing_source, run_mode=run_mode or "unspecified")
     return out, ledger
+
 
 
 def catchment_runoff_m3_s(patches: list, ledger: dict, *,
@@ -370,12 +350,15 @@ Scales mean per-patch depth to catchment_area_m2."""
     count = len(patches)
     if count < 1:
         raise ValueError("at least one patch is required")
-    days = int(ledger.get("days", 0))
-    if days < 1:
-        raise ValueError("ledger days must be >= 1 to form a mean rate")
-    depth_mm = float(ledger["runoff_mm"]) / count
+    window_s = nonnegative("window_s", ledger.get("window_s", ledger.get("days", 0) * 86400.0))
+    if window_s == 0.0:
+        raise ValueError("ledger window must be positive to form a mean rate")
+    if ledger.get("runoff_phase", "liquid") != "liquid":
+        raise ValueError("river runoff requires a liquid-water ledger")
+    days = window_s / 86400.0
+    depth_mm = nonnegative("runoff_mm", ledger["runoff_mm"]) / count
     volume_m3 = depth_mm / 1000.0 * area
-    rate = volume_m3 / (days * 86400.0)
+    rate = volume_m3 / window_s
     return {
         "runoff_m3_s": round(rate, 6),
         "mean_runoff_depth_mm_d": round(depth_mm / days, 6),
@@ -383,6 +366,10 @@ Scales mean per-patch depth to catchment_area_m2."""
         "catchment_area_m2": area,
         "modeled_patch_count": count,
         "window_days": days,
+        "window_s": window_s,
+        "phase": "liquid",
+        "interval_start_s": ledger.get("interval_start_s"),
+        "interval_end_s": ledger.get("interval_end_s"),
         "status": "illustrative_not_calibrated",
         "assumption": ("runoff depth uniform from the modeled patches to the "
                        "catchment; the patches cover a small fraction of the "

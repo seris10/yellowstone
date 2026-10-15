@@ -142,7 +142,8 @@ def run(state: dict, cfg: dict) -> dict:
     variant["mammal_initial_state"] = state["mammal_doc"]
     from yellowstone_python.exporters.runtime_series import python_series
     variant["python_series"] = python_series(replay_doc, reaches_in, patches2, weather_frag,
-        mammals=state["mammal_settings"], actors=state["wildlife_mammals"])
+        mammals=state["mammal_settings"], actors=state["wildlife_mammals"],
+        thermal_flux_mm_d_by_patch=state["thermal_by_patch"])
     variant["simulation_epoch_unix"] = replay_doc["simulation_time"]["start_epoch_unix"]
     variant["run_mode"] = run_mode_norm
     variant["river_model"] = "river.river_transport"
@@ -150,15 +151,25 @@ def run(state: dict, cfg: dict) -> dict:
     godot_errors = validate_for_godot(variant)
 
     timeline = {
-        "t0": "frozen baseline + config",
+        "t0": "identified initial state after snow/soil spin-up",
+        "spinup_interval_s": [-snow_days * 86400.0, 0.0],
+        "experiment_interval_s": [0.0, float(replay_doc["frames"][-1]["t_s"])],
+        "et_owner": "snow_soil_bucket",
+        "reference_et_role": "diagnostic",
+        "initial_state_preparation": {
+            "patch_biomass_window_s": [-sim_s, 0.0],
+            "patch_biomass_role": "authored initial-state preparation before snow/soil spin-up",
+            "river_geometry_forcing_window_s": [0.0, sim_s],
+            "river_geometry_forcing_role": "prescribed mean rates and diagnostic initialization",
+            "overland_source_window_s": float(overland_field.get("seconds", cfg.get("overland", {}).get("sim_s", sim_s))),
+        },
         "fast_window_s": sim_s,
         "fast_processes": ["river transport", "patch biomass",
                            "insect compartments", "trout refuge",
                            "grazer/bird timing"],
         "season_days": snow_days,
         "slow_processes": ["snowpack", "soil water", "phenology"],
-        "wildlife_reference": ("timings from t0+fast conditions; "
-                               "snow updates moisture afterwards"),
+        "wildlife_reference": ("timings from declared hydrology window; snow and soil spin-up precede experiment"),
     }
     result = {"hour0": hour0, "air0": air0, "sim_s": sim_s,
             "clock_info": clock_info, "season": season,

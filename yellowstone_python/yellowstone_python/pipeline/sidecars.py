@@ -26,6 +26,14 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
     res["replay_doc"]["input_files"] = {"world": {"path": "data/world.json",
                                                 "sha256": sha256_file(out / "world.runtime.json")}}
     res["variant"]["build_id"] = bid
+    import shutil
+    for relative in ("outflow_network/outflow_network.json", "outflow_network/wet_mask.i16",
+                     "outflow_network/flow_fraction.f32", "outflow_network/in_pool.i16", "snow_patch_mask.png"):
+        source = Path(cfg["world_root"]) / "data" / relative
+        if source.is_file():
+            target = out / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
     eco_doc = write_sidecar(
         out / "ecosystem.variant.json", {"ecosystem": res["variant"]},
         sources=[{"file": "yellowstone_midway/data/ecosystem.json",
@@ -38,6 +46,11 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
         code_rev=deps["code_rev"])
     _atomic_json_write(out / "ecosystem.godot.json", res["variant"])
     _atomic_json_write(out / "river_state.json", res["river_state"])
+    if res["replay_doc"].get("intervention"):
+        from yellowstone_python.exporters.runtime_series import mapped_comparison
+        comparison = mapped_comparison(res["replay_doc"])
+        comparison["build_id"] = bid
+        _atomic_json_write(out / "portfolio_comparison.json", comparison)
     replay_payload = res["replay_doc"]
     replay_payload.setdefault("forcing", {})
     replay_payload["forcing"]["catchment_runoff"] = {
@@ -331,12 +344,28 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
     sidecar_written, sidecar_gaps = _produce_sidecars(out)
     if sidecar_gaps:
         _LOGGER.warning("godot sidecar gaps: %s", "; ".join(sidecar_gaps))
+    from yellowstone_python.common.io import sha256_file
+    strategy = "mapped_fv_explicit" if res.get("energy_budget_choice") else "mapped_fv_newton"
+    checks["assessment"] = {
+        "build_id": bid, "model_variant_id": strategy,
+        "input_identity": _portable_input_identity(cfg, deps),
+        "artifact_hashes": {str(path.relative_to(out)): sha256_file(path)
+            for path in sorted(out.rglob("*")) if path.is_file() and path.name not in ("BUILD.json", "CHECKS.json")},
+        "numerical_targets": ["river_replay.json", "ecosystem.godot.json"],
+        "scope": "numerical and contract checks; generated artifact bytes bound at completion"}
+    _atomic_json_write(out / "CHECKS.json", checks)
     _atomic_json_write(
         out / "BUILD.json",
         build_manifest(cfg, deps, res, checks, bid, mode, prescribed, out))
     _LOGGER.info("build %s passed=%s to %s", bid, checks["passed"], out)
     for f in checks["failures"]:
         _LOGGER.error("FAIL: %s", f)
+
+
+def _portable_input_identity(cfg, deps):
+    """Identify the effective configuration, logical inputs and model source."""
+    from yellowstone_python.common.provenance import portable_identity_payload, sha256_json
+    return sha256_json(portable_identity_payload(cfg, deps))
 
 
 def _write_fragment_sidecars(cfg, baseline, deps, res, out):

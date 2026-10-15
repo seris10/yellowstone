@@ -2,6 +2,8 @@ class_name MidwayTerrainMaterials
 extends RefCounted
 ## Shared geographic and PBR terrain bindings.
 
+const ReleaseData = preload("res://scripts/release_data.gd")
+
 const LAYER_PATHS: Dictionary = {
  "geography_layers": ["res://assets/textures/midway_macro.jpg", "res://references/midway_orthophoto_detail.jpg"],
  "ground_color_layers": ["res://assets/textures/forest_ground_04_diff_1k.jpg", "res://assets/textures/rocky_trail_diff_1k.jpg"],
@@ -21,6 +23,9 @@ static var _detail_header: Dictionary = {}
 static var _detail_decoded: bool = false
 
 static func _load_image(path: String) -> Image:
+ path = ReleaseData.resolve_path(path)
+ if path.is_empty() or not FileAccess.file_exists(path):
+  return null
  if ResourceLoader.exists(path):
   var texture: Texture2D = load(path) as Texture2D
   if texture != null:

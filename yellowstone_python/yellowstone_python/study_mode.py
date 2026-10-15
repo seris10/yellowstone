@@ -85,6 +85,8 @@ SCHEMA["weather.wind_xz_mps"].update(component_min=-30.0, component_max=30.0)
 for _key in ("weather.night_air_c", "weather.day_warming_c", "weather.lag_hours"):
     SCHEMA[_key]["group"] = "Air"
 SCHEMA["weather.precip_mm_h"]["group"] = "Precipitation"
+SCHEMA["clock_hour"].update(label="Display lighting hour", operation="display_only")
+SCHEMA["snow.as_of_date"].update(label="Reset scenario date", operation="scenario_reset")
 
 
 def control_schema(config: dict) -> list[dict]:

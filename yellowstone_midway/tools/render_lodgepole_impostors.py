@@ -19,7 +19,7 @@ def pose(camera, center, azimuth: float, distance: float) -> None:
 
 
 def main() -> None:
-    """Render four views per archetype and record physical plane dimensions."""
+    """Render four views per seeded variant and record physical plane dimensions."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--assets", type=Path, default=ROOT / "assets/imported/lodgepole")
     args = parser.parse_args(sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else [])
@@ -52,34 +52,40 @@ def main() -> None:
     light.data.energy = 1600
     light.data.size = 9
     metadata["billboards"] = {}
-    for name, spec in metadata["archetypes"].items():
-        before = set(bpy.data.objects)
-        bpy.ops.import_scene.gltf(filepath=str(args.assets / f"{name}_lod0.gltf"))
-        objects = [obj for obj in bpy.data.objects if obj not in before]
-        meshes = [obj for obj in objects if obj.type == "MESH"]
-        points = [obj.matrix_world @ Vector(point) for obj in meshes for point in obj.bound_box]
-        minimum = min(point.z for point in points)
-        maximum = max(point.z for point in points)
-        height = maximum - minimum + 0.12
-        width = height * scene.render.resolution_x / scene.render.resolution_y
-        center = Vector((0.0, 0.0, (maximum + minimum) / 2))
-        camera.data.ortho_scale = width
-        views = []
-        for index in range(4):
-            angle = math.pi * index / 2
-            pose(camera, center, angle, 45.0)
-            light.location = camera.location * 0.36 + Vector((5.0, 3.0, height * 0.65))
-            light.rotation_euler = (center - light.location).to_track_quat("-Z", "Y").to_euler()
-            filename = f"{name}_billboard_{index}.png"
-            scene.render.filepath = str(args.assets / filename)
-            bpy.ops.render.render(write_still=True)
-            views.append(filename)
-        metadata["billboards"][name] = {"views": views, "width_m": width, "height_m": height, "center_y_m": center.z, "azimuth_degrees": [0, 90, 180, 270], "resolution_px": [512, 1024], "lighting": "authored diffuse render for distant unshaded impostor"}
-        for obj in objects:
-            bpy.data.objects.remove(obj, do_unlink=True)
+    metadata["variant_billboards"] = {}
+    for name in metadata["archetypes"]:
+        metadata["variant_billboards"][name] = []
+        for variant in range(4):
+            before = set(bpy.data.objects)
+            bpy.ops.import_scene.gltf(filepath=str(args.assets / metadata["near_variant_files"][name][variant]))
+            objects = [obj for obj in bpy.data.objects if obj not in before]
+            meshes = [obj for obj in objects if obj.type == "MESH"]
+            points = [obj.matrix_world @ Vector(point) for obj in meshes for point in obj.bound_box]
+            minimum = min(point.z for point in points)
+            maximum = max(point.z for point in points)
+            height = maximum - minimum + 0.12
+            width = height * scene.render.resolution_x / scene.render.resolution_y
+            center = Vector((0.0, 0.0, (maximum + minimum) / 2))
+            camera.data.ortho_scale = width
+            views = []
+            for index in range(4):
+                angle = math.pi * index / 2
+                pose(camera, center, angle, 45.0)
+                light.location = camera.location * 0.36 + Vector((5.0, 3.0, height * 0.65))
+                light.rotation_euler = (center - light.location).to_track_quat("-Z", "Y").to_euler()
+                filename = f"{name}_billboard_{index}.png" if variant == 0 else f"{name}_variant{variant}_billboard_{index}.png"
+                scene.render.filepath = str(args.assets / filename)
+                bpy.ops.render.render(write_still=True)
+                views.append(filename)
+            entry = {"views": views, "width_m": width, "height_m": height, "center_y_m": center.z, "azimuth_degrees": [0, 90, 180, 270], "resolution_px": [512, 1024], "lighting": "authored diffuse render for distant unshaded impostor"}
+            metadata["variant_billboards"][name].append(entry)
+            if variant == 0:
+                metadata["billboards"][name] = entry
+            for obj in objects:
+                bpy.data.objects.remove(obj, do_unlink=True)
     metadata["billboard_mips_pending"] = True
     metadata_path.write_text(json.dumps(metadata, indent=2) + "\n")
-    print("LODGEPOLE_IMPOSTORS", len(metadata["billboards"]), "archetypes, 20 images")
+    print("LODGEPOLE_IMPOSTORS", len(metadata["billboards"]), "archetypes, 80 variant images")
 
 
 if __name__ == "__main__":

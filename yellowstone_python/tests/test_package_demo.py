@@ -1,0 +1,61 @@
+"""Portable package preserves one generation and rejects altered bytes."""
+import pytest
+
+from tests.test_release_generations import build_fixture, project
+from yellowstone_python.common.io import write_json_atomic
+from yellowstone_python.publish import publish_generation
+from tools.package_demo import package_demo, verify_package
+
+
+def test_package_has_one_complete_release_and_excludes_unknown_assets(tmp_path, project):
+    (project / "scenes").mkdir()
+    (project / "scenes/authored_world.tscn").write_text('[gd_scene format=3]\n[node name="World" type="Node3D"]\n')
+    (project / "assets").mkdir()
+    (project / "assets/unknown.glb").write_bytes(b"unknown fixture")
+    (project / "docs").mkdir()
+    (project / "docs/geography.md").write_text("Frozen geographic source record.\n")
+    (project / "README.md").write_text("[Geography](docs/geography.md) [Current evidence](../docs/PORTFOLIO.md)\n")
+    source = tmp_path / "source"
+    (source / "docs").mkdir(parents=True)
+    (source / "docs/PORTFOLIO.md").write_text("Measured geography, simulated state, authored assumptions.\n")
+    write_json_atomic(project / "data/asset_manifest.json", {"assets": [{
+        "id": "unknown", "included": True, "files": [{"path": "assets/unknown.glb"}]}]})
+    write_json_atomic(project / "data/wildlife_motion_assets.json", {"assets": []})
+    first = publish_generation(build_fixture(tmp_path, "a"), project)
+    second = publish_generation(build_fixture(tmp_path, "b", optional=False), project)
+    destination = tmp_path / "demo"
+    report = package_demo(project, destination, source_root=source)
+    assert report["release_id"] == second["release_id"]
+    assert not (destination / "data/releases" / first["release_id"]).exists()
+    assert not (destination / "assets/unknown.glb").exists()
+    assert (destination / "scenes/authored_world.tscn").is_file()
+    assert (destination / "docs/geography.md").is_file()
+    assert (destination / "docs/PORTFOLIO.md").is_file()
+    assert "(docs/PORTFOLIO.md)" in (destination / "README.md").read_text()
+    verify_package(destination)
+    (destination / "scenes/authored_world.tscn").write_text("changed")
+    with pytest.raises(ValueError, match="package artifact changed"):
+        verify_package(destination)
+
+
+@pytest.mark.parametrize("optional", [False, True])
+def test_baked_texture_access_uses_the_generation_or_explicit_absence(tmp_path, project, optional):
+    write_json_atomic(project / "data/asset_manifest.json", {"assets": []})
+    write_json_atomic(project / "data/wildlife_motion_assets.json", {"assets": []})
+    (project / "scenes").mkdir()
+    (project / "scenes/authored_world.tscn").write_text(
+        '[gd_scene format=3]\n[ext_resource type="Texture2D" path="res://assets/textures/pool_ramps/ramp.png" id="ramp"]\n'
+        '[sub_resource type="StandardMaterial3D" id="material"]\nalbedo_texture = ExtResource("ramp")\n'
+        '[node name="World" type="Node3D"]\n')
+    release = publish_generation(build_fixture(tmp_path, optional=optional), project)
+    destination = tmp_path / "demo"
+    report = package_demo(project, destination)
+    scene = (destination / "scenes/authored_world.tscn").read_text()
+    if optional:
+        target = "data/releases/" + release["release_id"] + "/assets/textures/pool_ramps/ramp.png"
+        assert 'path="res://' + target + '"' in scene
+        assert (destination / target).is_file()
+    else:
+        assert "ExtResource" not in scene and "albedo_texture = null" in scene
+    assert report["scene_resource_bindings"]
+    verify_package(destination)

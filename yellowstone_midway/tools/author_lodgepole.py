@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import math
 import sys
+import shutil
 from pathlib import Path
 
 import numpy as np
@@ -16,8 +18,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT.parent / "yellowstone_python"))
 from yellowstone_python.authoring.tree_architecture import (
     ArchitectureParameters, BECHTOLD_MODEL, PHOTO_DISPLAY, generate_architecture,
-    bechtold_crown_radius_m, stem_radius_m,
+    bechtold_crown_radius_m, stem_radius_m, validate_architecture,
 )
+from yellowstone_python.authoring.tree_library import read_library, write_library
+from yellowstone_python.common.provenance import sha256_json
+from yellowstone_python.common.io import sha256_file, write_json_atomic
 
 ARCHETYPES = {
     "dense": {"height_m": 18.0, "dbh_m": 0.26, "crown_radius_m": 2.5, "crown_ratio": 0.70},
@@ -39,9 +44,11 @@ class Surface:
         self.normals = []
         self.uvs = []
         self.indices = []
+        self.tubes = []
 
-    def tube(self, points: np.ndarray, radii: list[float], sides: int) -> None:
+    def tube(self, points: np.ndarray, radii: list[float], sides: int, identity: str = "", parent: str | None = None) -> None:
         offset = len(self.positions)
+        self.tubes.append({"identity": identity, "parent": parent, "offset": offset, "rings": len(points), "sides": sides})
         distance = 0.0
         for index, point in enumerate(points):
             tangent = points[min(index + 1, len(points) - 1)] - points[max(index - 1, 0)]
@@ -120,23 +127,26 @@ def needle_cluster_atlas(path: Path) -> None:
     image.resize((512, 1024), Image.Resampling.LANCZOS).save(path)
 
 
-def build_tree(spec: dict, lod: int, seed: int) -> tuple[list[Surface], dict]:
+def build_tree(spec: dict, lod: int, seed: int, architecture: dict | None = None) -> tuple[list[Surface], dict]:
     """Build bole, branch axes and needle shoots from a seeded architecture graph."""
-    parameters = ArchitectureParameters(lower_branch_survival=.82 if spec["crown_ratio"] < .75 else .94)
-    graph = generate_architecture(spec, seed, parameters)
+    parameters = ArchitectureParameters(**architecture["parameters"]) if architecture is not None else ArchitectureParameters(lower_branch_survival=.82 if spec["crown_ratio"] < .75 else .94)
+    graph = copy.deepcopy(architecture) if architecture is not None else generate_architecture(spec, seed, parameters)
+    validate_architecture(graph)
+    if graph["dimensions_m"] != spec:
+        raise ValueError("Selected graph dimensions differ from the mesh input")
     bole, branches, leaves = Surface(), Surface(), Surface()
     height, dbh = spec["height_m"], spec["dbh_m"]
     ys = np.unique(np.concatenate([np.linspace(0, height, [20, 10, 5][lod] + 1), [1.3]]))
     source_stem = np.array(graph["axes"][0]["points_m"])
     stem = np.column_stack([np.interp(ys,source_stem[:,1],source_stem[:,0]),ys,np.interp(ys,source_stem[:,1],source_stem[:,2])])
     radii = [stem_radius_m(height, dbh, y) for y in ys]
-    bole.tube(stem, radii, [10, 6, 4][lod])
+    bole.tube(stem, radii, [10, 6, 4][lod], "stem")
     axes = {axis["id"]: axis for axis in graph["axes"]}
     selected_primary = set()
     primary_index = 0
     for axis in graph["axes"][1:]:
         if axis["order"] == 1:
-            selected = lod == 0 or primary_index % [1, 2, 3][lod] == 0
+            selected = True
             primary_index += 1
             if selected:
                 selected_primary.add(axis["id"])
@@ -146,9 +156,9 @@ def build_tree(spec: dict, lod: int, seed: int) -> tuple[list[Surface], dict]:
             continue
         points = np.array(axis["points_m"])
         if lod:
-            points = points[[0, len(points) // 2, -1]]
+            points = points.copy()
         taper = np.linspace(axis["radius_base_m"], .0015 if axis["order"] == 2 else .002, len(points))
-        branches.tube(points, taper.tolist(), [5 if axis["order"] == 1 else 3, 3, 3][lod])
+        branches.tube(points, taper.tolist(), [5 if axis["order"] == 1 else 3, 3, 3][lod], axis["id"], axis["parent_id"])
     def spray(center, direction, length, width, roll):
         direction = np.array(direction)
         direction /= np.linalg.norm(direction)
@@ -160,28 +170,9 @@ def build_tree(spec: dict, lod: int, seed: int) -> tuple[list[Surface], dict]:
         for angle in [roll, roll + math.pi / 2]:
             cross = across * math.cos(angle) + depth * math.sin(angle)
             leaves.card(np.array(center), direction, cross, length, width)
-    if lod == 0:
-        for index, shoot in enumerate(graph["shoots"]):
-            center = (np.array(shoot["base_m"]) + np.array(shoot["tip_m"])) * .5
-            spray(center, shoot["direction"], shoot["length_m"] + .09, .16, index * 2.399963)
-    elif lod == 1:
-        for index, axis in enumerate(graph["axes"]):
-            if axis["order"] != 1 or not axis["alive"]:
-                continue
-            points = np.array(axis["points_m"])
-            direction = points[-1] - points[0]
-            size = np.linalg.norm(direction)
-            spray(points[0] + direction * .65, direction, size * .82 + .25, size * .55 + .20, index * 2.399963)
-    else:
-        for index, axis in enumerate(graph["axes"]):
-            if axis["id"] not in selected_primary or not axis["alive"]:
-                continue
-            points = np.array(axis["points_m"])
-            direction = points[-1] - points[0]
-            size = np.linalg.norm(direction)
-            for u in [.38, .72, .96]:
-                center = points[0] + direction * u
-                spray(center, direction, max(.35, size * .42), max(.25, size * .28), index * 2.399963)
+    for index, shoot in enumerate(graph["shoots"]):
+        center = (np.array(shoot["base_m"]) + np.array(shoot["tip_m"])) * .5
+        spray(center, shoot["direction"], shoot["length_m"] + .09, .16, index * 2.399963)
     for point in bole.positions:
         point[1] = min(height, max(0.0, point[1]))
     bounds = np.array(bole.positions + branches.positions + leaves.positions)
@@ -192,14 +183,72 @@ def build_tree(spec: dict, lod: int, seed: int) -> tuple[list[Surface], dict]:
               "lod": lod, "dimension_provenance": "authored", "needle_length_m": parameters.needle_length_m,
               "needle_fascicle_count": 2, "bole_profile_m": list(zip(ys.tolist(), radii)),
               "architecture_identity": graph["identity"], "architecture_axes": len(graph["axes"]),
-              "architecture_shoots": len(graph["shoots"]), "architecture_status": graph["status"]}
+              "architecture_shoots": len(graph["shoots"]), "architecture_status": graph["status"],
+              "source_graph_sha256": sha256_json(graph), "render_transform": "identity_at_mesh_construction"}
     return [bole, branches, leaves], report
 
 
-def write_gltf(path: Path, surfaces: list[Surface], lod: int) -> int:
+def render_attachment_report(surfaces: list[Surface], tolerance_m: float = 1e-6) -> dict:
+    """Check connected wood surfaces from their final transformed mesh rings."""
+    tubes = {}
+    for surface in surfaces:
+        for tube in surface.tubes:
+            rings = np.asarray(surface.positions[tube["offset"]:tube["offset"]+tube["rings"]*(tube["sides"]+1)])
+            rings = rings.reshape(tube["rings"], tube["sides"]+1, 3)[:, :-1]
+            centers = rings.mean(axis=1)
+            radii = np.linalg.norm(rings-centers[:, None, :], axis=2).max(axis=1)*math.cos(math.pi/tube["sides"])
+            tubes[tube["identity"]] = {**tube, "centers": centers, "radii": radii}
+    gaps = {}
+    for identity, child in tubes.items():
+        if child["parent"] is None:
+            continue
+        parent = tubes[child["parent"]]
+        start, end = parent["centers"][:-1], parent["centers"][1:]
+        edge = end-start
+        fraction = np.clip(np.sum((child["centers"][0]-start)*edge, axis=1)/np.sum(edge*edge, axis=1), 0, 1)
+        distance = np.linalg.norm(child["centers"][0]-(start+fraction[:, None]*edge), axis=1)
+        radii = parent["radii"][:-1]*(1-fraction)+parent["radii"][1:]*fraction
+        gaps[identity] = float(max(0., np.min(distance-radii-child["radii"][0])))
+    maximum = max(gaps.values(), default=0.)
+    if maximum > tolerance_m:
+        raise ValueError(f"Final wood surface attachment gap {maximum:.6g} m at {max(gaps, key=gaps.get)}")
+    return {"status": "numerically_checked", "maximum_gap_m": maximum, "tolerance_m": tolerance_m,
+            "checked_attachments": len(gaps), "representation": "final_mesh_polygon_ring_inscribed_radius",
+            "foliage_alpha_contact": "visual_review_required"}
+
+
+def bind_primary_roots_to_bole(surfaces: list[Surface]) -> dict:
+    """Join transformed branch root rings to the final bole centerline."""
+    bole = surfaces[0]
+    stem = bole.tubes[0]
+    rings = np.asarray(bole.positions).reshape(stem["rings"], stem["sides"]+1, 3)[:, :-1]
+    centers = rings.mean(axis=1)
+    shifts = []
+    for surface in surfaces[1:]:
+        for tube in surface.tubes:
+            if tube["parent"] != "stem":
+                continue
+            offset, count = tube["offset"], tube["sides"]+1
+            root = np.asarray(surface.positions[offset:offset+count-1]).mean(axis=0)
+            target = np.array([np.interp(root[1], centers[:, 1], centers[:, 0]),
+                np.clip(root[1], centers[0, 1], centers[-1, 1]),
+                np.interp(root[1], centers[:, 1], centers[:, 2])])
+            shift = target-root
+            for index in range(offset, offset+count):
+                surface.positions[index] += shift
+            shifts.append(float(np.linalg.norm(shift)))
+    return {"policy": "primary_first_ring_to_final_bole_centerline", "maximum_shift_m": max(shifts, default=0.),
+            "root_count": len(shifts), "source_graph": "preserved_before_render_space_repair"}
+
+
+def write_gltf(path: Path, surfaces: list[Surface], lod: int, *, provenance: dict | None = None,
+               bark_uri: str = "../pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg") -> int:
     """Write a glTF with separate instanced bole, branches and needle meshes."""
-    document = {"asset": {"version": "2.0", "generator": "Yellowstone authored lodgepole geometry"}, "scene": 0, "scenes": [{"nodes": [0]}], "nodes": [{"name": "Lodgepole", "children": []}], "meshes": [], "accessors": [], "bufferViews": [], "buffers": [], "images": [{"uri": "../pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg"}, {"uri": "needle_shoot.png" if lod == 0 else "needle_cluster.png"}], "textures": [{"sampler": 0, "source": 0}, {"sampler": 1, "source": 1}], "samplers": [{"magFilter": 9729, "minFilter": 9987, "wrapS": 10497, "wrapT": 10497}, {"magFilter": 9729, "minFilter": 9987, "wrapS": 33071, "wrapT": 33071}], "materials": [{"name": "CC0Bark", "pbrMetallicRoughness": {"baseColorTexture": {"index": 0}, "baseColorFactor": [0.72, 0.72, 0.65, 1], "metallicFactor": 0, "roughnessFactor": 0.92}}, {"name": "AuthoredPairedNeedles", "doubleSided": True, "alphaMode": "MASK", "alphaCutoff": 0.32, "pbrMetallicRoughness": {"baseColorTexture": {"index": 1}, "metallicFactor": 0, "roughnessFactor": 0.87}}]}
+    document = {"asset": {"version": "2.0", "generator": "Yellowstone authored lodgepole geometry"}, "scene": 0, "scenes": [{"nodes": [0]}], "nodes": [{"name": "Lodgepole", "children": []}], "meshes": [], "accessors": [], "bufferViews": [], "buffers": [], "images": [{"uri": "../pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg"}, {"uri": "needle_shoot.png"}], "textures": [{"sampler": 0, "source": 0}, {"sampler": 1, "source": 1}], "samplers": [{"magFilter": 9729, "minFilter": 9987, "wrapS": 10497, "wrapT": 10497}, {"magFilter": 9729, "minFilter": 9987, "wrapS": 33071, "wrapT": 33071}], "materials": [{"name": "CC0Bark", "pbrMetallicRoughness": {"baseColorTexture": {"index": 0}, "baseColorFactor": [0.72, 0.72, 0.65, 1], "metallicFactor": 0, "roughnessFactor": 0.92}}, {"name": "AuthoredPairedNeedles", "doubleSided": True, "alphaMode": "MASK", "alphaCutoff": 0.32, "pbrMetallicRoughness": {"baseColorTexture": {"index": 1}, "metallicFactor": 0, "roughnessFactor": 0.87}}]}
     binary = bytearray()
+    document["images"][0]["uri"] = bark_uri
+    if provenance is not None:
+        document["extras"] = {"yellowstone_tree": provenance}
     def accessor(values, kind, component, target):
         data = np.ascontiguousarray(values, dtype="<f4" if component == 5126 else "<u4")
         binary.extend(b"\0" * (-len(binary) % 4))
@@ -223,6 +272,43 @@ def write_gltf(path: Path, surfaces: list[Surface], lod: int) -> int:
     path.with_suffix(".bin").write_bytes(binary)
     path.write_text(json.dumps(document, separators=(",", ":")) + "\n")
     return len(binary)
+
+
+def export_selected_architecture(library_path: Path, variant_id: str | None, output: Path) -> dict:
+    """Build all three representations from one selected canonical source graph."""
+    library = read_library(library_path)
+    selected = [variant for variant in library["variants"] if variant_id is None or variant["variant_id"] == variant_id]
+    if len(selected) != 1:
+        raise ValueError("Select exactly one canonical variant with --variant-id")
+    if output.exists() and any(output.iterdir()):
+        raise ValueError("Selected-graph export requires an empty derivative directory")
+    output.mkdir(parents=True, exist_ok=True)
+    variant = selected[0]
+    graph = variant["graph"]
+    input_hash = sha256_file(library_path)
+    needle_atlas(output / "needle_shoot.png")
+    needle_cluster_atlas(output / "needle_cluster.png")
+    shutil.copy2(ROOT / "assets/imported/pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg", output / "bark_diff_1k.jpg")
+    provenance = {"variant_id": variant["variant_id"], "record_id": variant["record_id"],
+        "input_library_sha256": input_hash, "source_graph_sha256": sha256_json(graph),
+        "resolved_parameters": variant["resolved_parameters"], "render_transform": "identity",
+        "status": "authored_graph_geometry_not_locally_validated"}
+    reports = []
+    for lod in range(3):
+        surfaces, report = build_tree(graph["dimensions_m"], lod, 0, architecture=graph)
+        report["final_attachment_checks"] = render_attachment_report(surfaces)
+        path = output / ("selected_lod" + str(lod) + ".gltf")
+        write_gltf(path, surfaces, lod, provenance=provenance, bark_uri="bark_diff_1k.jpg")
+        report.update(path=path.name, gltf_sha256=sha256_file(path), geometry_sha256=sha256_file(path.with_suffix(".bin")))
+        reports.append(report)
+    write_library(output / "architecture_library.json", {"schema": library["schema"], "variants": selected,
+        "records": [{"identity": variant["record_id"], "input_record": variant["source_record"],
+                     "variant_ids": [variant["variant_id"]]}]})
+    result = {**provenance, "representations": reports, "source_graph": graph,
+        "post_transform_attachment_check": "final_mesh_ring_overlap_checked_after_identity_transform",
+        "visual_acceptance": "unassessed", "biological_acceptance": "not_yet_accepted"}
+    write_json_atomic(output / "selected_architecture.json", result, indent=1)
+    return result
 
 
 
@@ -278,7 +364,20 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / "assets/imported/lodgepole")
     parser.add_argument("--mipmaps-only", action="store_true")
+    parser.add_argument("--architecture-library", type=Path)
+    parser.add_argument("--variant-id", help="Canonical variant identity selected for the mesh build")
     args = parser.parse_args()
+    if args.architecture_library:
+        if args.mipmaps_only:
+            parser.error("Selected-graph export and mipmap-only mode are separate operations")
+        try:
+            result = export_selected_architecture(args.architecture_library, args.variant_id, args.output)
+        except (ValueError, OSError) as error:
+            parser.error(str(error))
+        print(json.dumps({"variant_id": result["variant_id"], "representations": len(result["representations"])}))
+        return
+    if args.variant_id:
+        parser.error("--variant-id requires --architecture-library")
     args.output.mkdir(parents=True, exist_ok=True)
     old_metadata_path = args.output / "lodgepole_metadata.json"
     previous_metadata = json.loads(old_metadata_path.read_text()) if old_metadata_path.exists() else {}
@@ -311,24 +410,28 @@ def main() -> None:
                 crown = np.array(surfaces[1].positions + surfaces[2].positions)
                 reference = (crown.min(axis=0), crown.max(axis=0))
             else:
-                crown = np.array(surfaces[1].positions + surfaces[2].positions)
-                lower, upper = crown.min(axis=0), crown.max(axis=0)
-                scale = (reference[1] - reference[0]) / (upper - lower)
+                scale = np.array([radial_scale, vertical_scale, radial_scale])
+                translation = np.array([0., spec["height_m"]*(1-spec["crown_ratio"])-lower*vertical_scale if spec["crown_ratio"] else 0., 0.])
                 for surface in surfaces[1:]:
-                    surface.positions = [reference[0] + (vertex - lower) * scale for vertex in surface.positions]
-                    surface.normals = [normal / scale / np.linalg.norm(normal / scale) for normal in surface.normals]
-                bounds = np.array([vertex for surface in surfaces for vertex in surface.positions])
-                report["bounds_m"] = [bounds.min(axis=0).tolist(), bounds.max(axis=0).tolist()]
+                    surface.positions = [vertex*scale+translation for vertex in surface.positions]
+                    surface.normals = [normal/scale/np.linalg.norm(normal/scale) for normal in surface.normals]
             bounds = np.array([vertex for surface in surfaces for vertex in surface.positions])
             report["bounds_m"] = [bounds.min(axis=0).tolist(), bounds.max(axis=0).tolist()]
             report["crown_bounds_m"] = [reference[0].tolist(), reference[1].tolist()]
+            report["render_transform"] = {"scope": "branches_and_cards", "scale": [radial_scale, vertical_scale, radial_scale],
+                "translation_y_m": spec["height_m"]*(1-spec["crown_ratio"])-lower*vertical_scale if spec["crown_ratio"] else 0.}
+            report["primary_attachment_repair"] = bind_primary_roots_to_bole(surfaces)
+            report["final_attachment_checks"] = render_attachment_report(surfaces)
             path = args.output / f"{name}_lod{lod}.gltf"
             report.update(archetype=name, path=str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else path.name, buffer_bytes=write_gltf(path, surfaces, lod))
             reports.append(report)
     near_variants = {}
+    architecture_lod_files = {}
+    variant_attachment_reports = []
     architecture_graphs = []
     for index, (name, spec) in enumerate(ARCHETYPES.items()):
         paths = [f"{name}_lod0.gltf"]
+        lod_files = [[f"{name}_lod{level}.gltf" for level in range(3)]]
         for variant in range(4):
             identity = 4381 + index + variant * 10007
             architecture_graphs.append({"archetype": name, "variant": variant, "graph": generate_architecture(spec, identity, ArchitectureParameters(lower_branch_survival=.82 if spec["crown_ratio"] < .75 else .94))})
@@ -347,23 +450,55 @@ def main() -> None:
                 scale = np.array([radial_scale,vertical_scale,radial_scale])
                 surface.normals = [normal/scale/np.linalg.norm(normal/scale) for normal in surface.normals]
             filename = f"{name}_variant{variant}_lod0.gltf"
+            primary_repair = bind_primary_roots_to_bole(surfaces)
+            variant_attachment_reports.append({"archetype": name, "variant": variant, "lod": 0,
+                "source_graph_sha256": report["source_graph_sha256"],
+                "primary_attachment_repair": primary_repair,
+                "checks": render_attachment_report(surfaces), "render_transform": {
+                    "scope": "branches_and_cards", "scale": [radial_scale, vertical_scale, radial_scale],
+                    "translation_y_m": spec["height_m"]*(1-spec["crown_ratio"])-lower*vertical_scale if spec["crown_ratio"] else 0.}})
             write_gltf(args.output / filename, surfaces, 0)
             paths.append(filename)
+            reference = (np.asarray(surfaces[1].positions+surfaces[2].positions).min(axis=0),
+                         np.asarray(surfaces[1].positions+surfaces[2].positions).max(axis=0))
+            selected_files = [filename]
+            for level in (1, 2):
+                lod_surfaces, lod_report = build_tree(spec, level, identity)
+                scale = np.array([radial_scale, vertical_scale, radial_scale])
+                translation = np.array([0., spec["height_m"]*(1-spec["crown_ratio"])-lower*vertical_scale if spec["crown_ratio"] else 0., 0.])
+                for surface in lod_surfaces[1:]:
+                    surface.positions = [point*scale+translation for point in surface.positions]
+                    surface.normals = [normal/scale/np.linalg.norm(normal/scale) for normal in surface.normals]
+                lod_filename = f"{name}_variant{variant}_lod{level}.gltf"
+                selected_files.append(lod_filename)
+                primary_repair = bind_primary_roots_to_bole(lod_surfaces)
+                write_gltf(args.output/lod_filename, lod_surfaces, level)
+                variant_attachment_reports.append({"archetype": name, "variant": variant, "lod": level,
+                    "source_graph_sha256": lod_report["source_graph_sha256"],
+                    "primary_attachment_repair": primary_repair,
+                    "checks": render_attachment_report(lod_surfaces),
+                    "render_transform": {"scope": "branches_and_cards", "scale": scale.tolist(),
+                        "translation_m": translation.tolist()}})
+            lod_files.append(selected_files)
         near_variants[name] = paths
+        architecture_lod_files[name] = lod_files
     architecture_path = args.output / "architecture_library.json"
-    architecture_path.write_text(json.dumps({"schema":"yellowstone.tree_architecture_library.v1","variants":architecture_graphs},separators=(",",":"))+"\n")
-    metadata = {"schema": "yellowstone.lodgepole_assets.v1", "scientific_name": "Pinus contorta var. latifolia", "geometry_license": "Apache-2.0", "needle_texture_license": "Apache-2.0", "near_architecture_variants": 4, "bark_texture_license": "CC0-1.0", "archetypes": ARCHETYPES, "dimension_provenance": "authored", "uncertainty": "unknown", "sources": SOURCES, "lod_ranges_m": [[0, 18], [18, 65], [65, 180], [180, 3000]], "lods": reports, "display_envelope_model": BECHTOLD_MODEL, "photo_display": PHOTO_DISPLAY, "architecture_method_sources": generate_architecture(ARCHETYPES["dense"], "metadata")["sources"], "display_envelope_reference_cases": [{"dbh_m": inches * .0254, "radius_m": bechtold_crown_radius_m(inches * .0254)} for inches in [5., 10., 20., 62.2]], "limitations": ["Archetype dimensions are authored rendering assumptions, not measured allometry.", "LiDAR-derived heights remain independent; full display crowns combine retained core radii with transferred or authored envelopes.", "Fallback DBH is authored; TreeMap DBH/crown ratio are transferred. Display crown base adds an authored photo-derived constraint.", "Needle cards approximate shoots; distant LODs aggregate needles into larger cards.", "Operator-supplied Tripo candidate is inspected separately and its unspecified license is not relabeled.", "Far impostors retain the selected archetype crown ratio beyond 180 m.", "Botanical acceptance and empirical allometry are not established by topology or rendering checks."]}
+    write_library(architecture_path, {"schema":"yellowstone.tree_architecture_library.v1","variants":architecture_graphs})
+    metadata = {"schema": "yellowstone.lodgepole_assets.v1", "scientific_name": "Pinus contorta var. latifolia", "geometry_license": "Apache-2.0", "needle_texture_license": "Apache-2.0", "near_architecture_variants": 4, "bark_texture_license": "CC0-1.0", "archetypes": ARCHETYPES, "dimension_provenance": "authored", "uncertainty": "unknown", "sources": SOURCES, "lod_ranges_m": [[0, 18], [18, 65], [65, 180], [180, 3000]], "lods": reports, "display_envelope_model": BECHTOLD_MODEL, "photo_display": PHOTO_DISPLAY, "architecture_method_sources": generate_architecture(ARCHETYPES["dense"], "metadata")["sources"], "display_envelope_reference_cases": [{"dbh_m": inches * .0254, "radius_m": bechtold_crown_radius_m(inches * .0254)} for inches in [5., 10., 20., 62.2]], "limitations": ["Archetype dimensions are authored rendering assumptions, not measured allometry.", "LiDAR-derived heights remain independent; full display crowns combine retained core radii with transferred or authored envelopes.", "Fallback DBH is authored; TreeMap DBH/crown ratio are transferred. Display crown base adds an authored photo-derived constraint.", "Needle cards approximate shoots; middle LODs preserve shoot placement while reducing wood tessellation.", "Operator-supplied Tripo candidate is inspected separately and its unspecified license is not relabeled.", "Far impostors retain the selected archetype crown ratio beyond 180 m.", "Botanical acceptance and empirical allometry are not established by topology or rendering checks."]}
     signature = hashlib.sha256(b"".join(path.read_bytes() for path in sorted(args.output.glob("*_lod*.bin")))).hexdigest()
     metadata["geometry_sha256"] = signature
     metadata["near_variant_files"] = near_variants
+    metadata["architecture_lod_files"] = architecture_lod_files
+    metadata["variant_attachment_reports"] = variant_attachment_reports
     metadata["architecture_parameters_by_archetype"] = {name: graph["graph"]["parameters"] for name in ARCHETYPES for graph in architecture_graphs if graph["archetype"] == name and graph["variant"] == 0}
     metadata["architecture_library_sha256"] = hashlib.sha256(architecture_path.read_bytes()).hexdigest()
-    metadata["near_variation_scope"] = "Four seeded branch graphs at LOD0; middle and far use canonical topology and view variation"
+    metadata["near_variation_scope"] = "Each variant retains its seeded source graph through LOD0/1/2; far uses variant-specific four-direction impostors with retained envelope traits"
     billboard_inputs = sorted(args.output.glob("*_lod0.*")) + [args.output / "needle_shoot.png", ROOT / "assets/imported/pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg"]
     billboard_signature = hashlib.sha256(b"".join(path.read_bytes() for path in billboard_inputs if path.is_file() and path.suffix != ".import")).hexdigest()
     metadata["billboard_source_sha256"] = billboard_signature
     if billboard_signature == previous_billboard_signature and previous_metadata.get("billboards"):
         metadata["billboards"] = previous_metadata["billboards"]
+        metadata["variant_billboards"] = previous_metadata.get("variant_billboards", {})
     export_mipmaps(args.output,metadata)
     print(json.dumps({"archetypes": len(ARCHETYPES), "lods": len(reports), "triangles": {f'{r["archetype"]}_{r["lod"]}': r["triangles"] for r in reports}}, indent=2))
 

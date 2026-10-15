@@ -183,4 +183,6 @@ def test_supplied_mammals_retain_species_textures_and_uvs(kind, profile, forward
     assert all(clip["sampled_finite"] for clip in record["audit"]["clips"])
     mapping = manifest["wildlife_species_asset_map"][kind]
     assert mapping["path"].endswith(kind+"_animated.glb")
-    assert mapping["geometry_rights"] == "unknown"
+    assert mapping["geometry_rights"] == "owner_confirmed"
+    assert mapping["geometry_owner"] == "KJR"
+    assert mapping["redistribution_permission"] == "owner_authorized_project_release"

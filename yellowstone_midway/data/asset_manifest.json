@@ -1136,7 +1136,11 @@
         "858 triangles, animated, baked texture.",
         "Suitable as behavior/distant prototype, not a finished realistic close-up bison."
       ],
-      "files": []
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "anees_animated_bison",
@@ -1166,7 +1170,11 @@
         "Creator advertises animation and PBR materials.",
         "Original human creation, actual materials and rig not verified; inspect before adoption."
       ],
-      "files": []
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "nhm_la_rainbow_trout",
@@ -1197,7 +1205,11 @@
         "Retain NC and SA on derivatives; verify version.",
         "Present-day living appearance and actual animation archive require inspection."
       ],
-      "files": []
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "sbastuff_trout",
@@ -1227,7 +1239,11 @@
         "Approximately 3.2K triangles; bone animation.",
         "Creator used a projected photographic texture; verify source-photo permission chain."
       ],
-      "files": []
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "spacescapes_frog",
@@ -1257,7 +1273,11 @@
         "Low-poly painted frog with idle/jump animation.",
         "Species unspecified; prototype pending native anatomy and habitat review."
       ],
-      "files": []
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "prizrakh_bird",
@@ -1287,7 +1307,11 @@
         "Nine-animation listing; ambiguous species name.",
         "Check bill, tail, wing silhouette and actual skeleton before naming a species."
       ],
-      "files": []
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "rufusrockwell_lupine",
@@ -1410,7 +1434,7 @@
         "scientific_name": "Pinus contorta var. latifolia",
         "confidence": "authored_morphological_representation"
       },
-      "geometry_provenance": "Seeded connected branch graphs, secondary axes and paired-needle alpha cards; four near architecture variants; candidate geometry is not copied.",
+      "geometry_provenance": "Seeded connected branch graphs and paired-needle cards; four variants retained through near and middle LODs; variant-specific four-direction far impostors.",
       "dimension_provenance": "LiDAR-derived height and conservative core-equivalent radius remain source fields; TreeMap DBH/CR remain transferred. Full display width uses bounded Bechtold transfer or authored nonmetric photo proportions, with unknown local error.",
       "parameter_uncertainty": "unknown",
       "code_assistance": "Procedural authoring code produced with assistant support.",
@@ -1487,53 +1511,53 @@
       "files": [
         {
           "path": "assets/imported/lodgepole/architecture_library.json",
-          "bytes": 23624447,
-          "sha256": "9f4ae369f2d70e4f662eb2be6ddd2be75289e376b4c8016ecc09bb5e25c5cedd"
+          "bytes": 35683714,
+          "sha256": "8e149c3844a327ef44aa2f216f252b95d6b2545f3c8d04e6be475ee0fbbb57af"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_0.miprgba",
           "bytes": 2796204,
-          "sha256": "01dd635fdce2253527ad12dafb714f5503beeecb5b087e2fa160b72c77c2f972"
+          "sha256": "eecc46b662e1c9985faaa9d77a5f43e0964701b9bc06f6d2d5963d0dcfd10c11"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_0.png",
-          "bytes": 360735,
-          "sha256": "509cc7e8411b6948c61a1f221bb94637dfbe9bc53e8fb53bf24fa9a1fcb6d868"
+          "bytes": 360642,
+          "sha256": "7bd7d57e78a2942a94366033c0d315292a4d69a27ccd5d215b7b307eeab3c33e"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_1.miprgba",
           "bytes": 2796204,
-          "sha256": "5fd12f168d7825709c53a9623791feea7750058cd018320f4c3fdb5125cd608e"
+          "sha256": "877fcf2d4c2cd3efbe1e380d38d54127e7ed6eba11fc3951ec935c2c29ad18e0"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_1.png",
-          "bytes": 357729,
-          "sha256": "4f79ff9ecfe042adbdff1533d4575ac009167405b926761f472745736d85ad45"
+          "bytes": 357717,
+          "sha256": "04289f52a054a979998931d2fd16fee79a2948515529396c3cdbdb4a5e842a66"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_2.miprgba",
           "bytes": 2796204,
-          "sha256": "44b5a1744844fe63eb8812310c807bfcecea88c6ffb0f14afc5cc3b2f7d5f850"
+          "sha256": "820b39ea85a2665dd2177e361993c9fc2cdef37765e7c14bbeba092274f053a4"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_2.png",
-          "bytes": 357106,
-          "sha256": "be77b1d0889ad1ed374bcf1e8f8eda1e3122961d704ab65daf2c6630e4dd4c2a"
+          "bytes": 357165,
+          "sha256": "27c24c52a268a0b395d08b2a7fb42a269a8f8e11eaf320d4385567e214af9bf6"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_3.miprgba",
           "bytes": 2796204,
-          "sha256": "fa850b7623b6f7312ab1ee21df4dae414372f788cf2b50df4fbc3073a21c4798"
+          "sha256": "87ce4c8bcd4e99ed2d07bdb934cc0213089e1768a38fb32f97236a402ce7a317"
         },
         {
           "path": "assets/imported/lodgepole/dense_billboard_3.png",
-          "bytes": 367012,
-          "sha256": "23f3288e2a3bd030b0165d605da1be8c145aae21ffa65489f8ffeeaae5d3960d"
+          "bytes": 366966,
+          "sha256": "f4bc628b26586f1e63a07f6ea794a8488be89c4ee38c61e99b404f2b3eb0ad07"
         },
         {
           "path": "assets/imported/lodgepole/dense_lod0.bin",
           "bytes": 1588480,
-          "sha256": "3fa89a26ce9d7836790623e4660b518774429d3af3e14a459e6c37e533425d5c"
+          "sha256": "5d8062e6988f852ad6587d9472388f2faad487c7fccc537d411d79accdf0e8d9"
         },
         {
           "path": "assets/imported/lodgepole/dense_lod0.gltf",
@@ -1542,28 +1566,68 @@
         },
         {
           "path": "assets/imported/lodgepole/dense_lod1.bin",
-          "bytes": 65904,
-          "sha256": "d62c085b5c6f2190d2b0ae4369668b396ecb3c1958ea2d15aa46a06495d63c25"
+          "bytes": 1093632,
+          "sha256": "f58f94230539dc64f45fde66f7af92482f71c7b837826ad466107a219959a0b7"
         },
         {
           "path": "assets/imported/lodgepole/dense_lod1.gltf",
-          "bytes": 3634,
-          "sha256": "dc534b3469827c849f26435dcd2a98b96438064caf25a8ba55ccccd7390f8ca2"
+          "bytes": 3656,
+          "sha256": "1c2e04466f3ca79039276e6e7b29c5fd9d77b2470424563c4b6c3e29435236ad"
         },
         {
           "path": "assets/imported/lodgepole/dense_lod2.bin",
-          "bytes": 50560,
-          "sha256": "9ceff5398ba8ea2598753889ae4d98dec5c7745f356ea8b04b3e50c4c1685966"
+          "bytes": 1091056,
+          "sha256": "70594d3245cf2c14bc472b73adee748d62e84ddd87dbd370066849299b16ba35"
         },
         {
           "path": "assets/imported/lodgepole/dense_lod2.gltf",
-          "bytes": 3596,
-          "sha256": "c898a3a95c14d8ba9b4c3f163bce9e658f38dd51cf08bac56f6828b462fe7db9"
+          "bytes": 3619,
+          "sha256": "5ea67aa1cb1997d89210c1e1b2d943a2ef1a2b0364444c753da8de61f655afad"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "2126a658dbe7d64e0c95fcd0f16aebee7d219300a8c0b8ba3e7976050a339195"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_0.png",
+          "bytes": 373967,
+          "sha256": "3a3bc4b0616b3e25fdf7d64b54b3df129e8fdd8fbf3ceaf8ad4e3d9677c117be"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "e2f54ab78422d9a198c5397a6ccfae3322f2e6bf108149020590cc0d114a017c"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_1.png",
+          "bytes": 372637,
+          "sha256": "4eeda3a76c31aa8ff55b7117de7d2c9314ad45fb6f3d79afe7695eef7614a068"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "c05ea97f5ab3f79330d29618dd46094f2941f1bbc9948d60c2a8e1c521bec1d5"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_2.png",
+          "bytes": 368326,
+          "sha256": "aec66885b9a63e08f708a0320982619d66a8cf61e37acd88cd76510277aaadd7"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "af078411c5df2d3b45b49911cac580c45fb3b9483445ad29420aab8b14c44fde"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_billboard_3.png",
+          "bytes": 381755,
+          "sha256": "4505f745413315899d2b4faaadf8c2c4b006bf6b077cb2570a3ec5cd12cde774"
         },
         {
           "path": "assets/imported/lodgepole/dense_variant1_lod0.bin",
           "bytes": 1600968,
-          "sha256": "7e9e37db5dde9f894b4b647177ca1164a0dee128529ea578cde2dd6391d85b4b"
+          "sha256": "4632bf9774f2e7c7666709834b48260a3fb62c5e885ab3ebfb878575e788fbec"
         },
         {
           "path": "assets/imported/lodgepole/dense_variant1_lod0.gltf",
@@ -1571,9 +1635,69 @@
           "sha256": "985c123dd81e1e4e61e851172b733021c04790335cf9dc029d143a2fd7a1c99d"
         },
         {
+          "path": "assets/imported/lodgepole/dense_variant1_lod1.bin",
+          "bytes": 1100408,
+          "sha256": "2154e218049962318887b811752c69a969eef97a03e4f7cd15f038ffc6d878ee"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_lod1.gltf",
+          "bytes": 3667,
+          "sha256": "3050910c216a9e948cdf3c56260962f78b8111722757d3e30b003690984f2ed0"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_lod2.bin",
+          "bytes": 1097832,
+          "sha256": "3ec2d1812f8466a69136683368fa9aa437fa85595b147e807784811dbfa99217"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant1_lod2.gltf",
+          "bytes": 3630,
+          "sha256": "612f5c7de4607edf8fd29e7ee6bee8ec53068d041835e82f9902f3d959c60ea3"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "a2d0cf2f572463f54c83cb0009ad4b56fb08d29102b0a019092bc80310f87812"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_0.png",
+          "bytes": 375672,
+          "sha256": "5ca94b334cc20f5a36f8b7f2587ac3ab4c673136d905f614de3f2672096f36ab"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "ff39f8f770b14ff5ab8e19857d79fb23c96d197bd416bd4217ae0134bef0d86d"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_1.png",
+          "bytes": 373350,
+          "sha256": "3f2dc00ffb2219fd006db25636befe21c8864428365e55c76ba6f20d829cb90b"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "6e3362a9e5f2d81899d525eb6891a2d31248948bc46aca5db223a11d3e3d812e"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_2.png",
+          "bytes": 369905,
+          "sha256": "268bce36cc0adb7226fd3ae807091079d51a674afa0fb81e7f3e73334b4feda1"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "b41c948f5ea02f050073d9357c64b6f27f18ef8d9686d2a4bb2fb227c16f1148"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_billboard_3.png",
+          "bytes": 382279,
+          "sha256": "5ff0dc55c5a3d3ba3d8e9d1dbec709ec58a0ecdbf0bf88f856a2150f8047ef4a"
+        },
+        {
           "path": "assets/imported/lodgepole/dense_variant2_lod0.bin",
           "bytes": 1489776,
-          "sha256": "e71a953f1cf5b49951d00ac4808f5023ba7ac966e28997d1e851af0f622be03e"
+          "sha256": "052a41ac0ea1ef28fe68fa86dab959e7fdeed7b57a5f5d5ece95a075b4067fac"
         },
         {
           "path": "assets/imported/lodgepole/dense_variant2_lod0.gltf",
@@ -1581,9 +1705,69 @@
           "sha256": "ba435cac468d64f89aac28dff0ba9902165ac229a9f4103145b54e07b2ace420"
         },
         {
+          "path": "assets/imported/lodgepole/dense_variant2_lod1.bin",
+          "bytes": 1026032,
+          "sha256": "523cd7cd663ed3d21085d5c6efb78f6ee82d3e197efa8285a3c9815449869f3b"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_lod1.gltf",
+          "bytes": 3666,
+          "sha256": "fa08b21e67629988fa92d62ffecc925931d57a13bda12e427120a60aa4647e74"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_lod2.bin",
+          "bytes": 1023456,
+          "sha256": "02e20e07d29216a2677ecfd0e82b97725a441636faa7756f16d3629e46b41649"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant2_lod2.gltf",
+          "bytes": 3629,
+          "sha256": "c85bd379a85433032decdbf35aa29bc1b68f013bfa6a1a41a8c03ab7783e28a2"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "9089a18e636b7d10754ee382befcfe4acc5b10a48710aaf48643e203d25fdc32"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_0.png",
+          "bytes": 352822,
+          "sha256": "52f390eaa893d64f17ed76b4db4a5a1e2160b60bf27c2b7a9ab2136df25596d5"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "54a98f2576cd1ade1d039d19a10acb4755888b6cc38318e02cf7a2e250b665ba"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_1.png",
+          "bytes": 348013,
+          "sha256": "8b2e14a43ebda2089f13005ecd58e4cf65045c3edfac573f1f88782d6fd561e6"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "420948e5ab87cd601021e60505607b2be5abe7db364166c76212cdb0a99126de"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_2.png",
+          "bytes": 348627,
+          "sha256": "145a74033ae4a483de21e6bba886ecc43215e105729b0a776d54447ef269995e"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "223e12d016e00aab893b293a76aebeb08dd1ec61b58e6cc581ec44e774d69d0c"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_billboard_3.png",
+          "bytes": 354484,
+          "sha256": "1b4e6132eadcef0dd0b3dd28242eca9c5b7d8d5c2c7da76872daa231bbaca9cb"
+        },
+        {
           "path": "assets/imported/lodgepole/dense_variant3_lod0.bin",
           "bytes": 1176640,
-          "sha256": "9f96882bd84e896efa9c131e84680c51cb4fb63196829aab8af72b3e13e7b2d9"
+          "sha256": "3eb7e7f22c129ff720465f27c2d83aef51152aa2d55f4cce4243aab5b7251163"
         },
         {
           "path": "assets/imported/lodgepole/dense_variant3_lod0.gltf",
@@ -1591,49 +1775,69 @@
           "sha256": "9f90cdc3172d3e88411f3308ae560ff5d9cdc03336a9bda0b27c03b3f86191a1"
         },
         {
+          "path": "assets/imported/lodgepole/dense_variant3_lod1.bin",
+          "bytes": 807168,
+          "sha256": "20ea095e28d14bd8ed7693e48fa7549439d5d5a15e9ab2dfd41e47ca52224d1e"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_lod1.gltf",
+          "bytes": 3664,
+          "sha256": "07fb2f42e6a7dac7de98c61947cbadc1e788d3567a42469b25cdcd0f43dd74c7"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_lod2.bin",
+          "bytes": 804592,
+          "sha256": "46bec6bfc0f05e6ac99c5162385a05bd7eb63c117267e9e6ea1a56175cf46c21"
+        },
+        {
+          "path": "assets/imported/lodgepole/dense_variant3_lod2.gltf",
+          "bytes": 3626,
+          "sha256": "b939c03e8c83ccc27ef94b2b7ba590ffea5f82678173f2e1cf844697cfb0beae"
+        },
+        {
           "path": "assets/imported/lodgepole/edge_billboard_0.miprgba",
           "bytes": 2796204,
-          "sha256": "7fa0538eed09b361ccbe4c7bc9798019b273fbe9d90279bfd9eb2649188bab25"
+          "sha256": "a00fb19d5946b1c02d713386bc08b5f56d29d49efee8f7f5ce5982ced33628de"
         },
         {
           "path": "assets/imported/lodgepole/edge_billboard_0.png",
-          "bytes": 416689,
-          "sha256": "433fb6e548e94630d5f1d97f5fd576638ec46a3f7b53162d12b680fc014d50f6"
+          "bytes": 416818,
+          "sha256": "b00395924bb2e19f6b237678bba012ffd848e5c380dae5224af53c072c7d57c7"
         },
         {
           "path": "assets/imported/lodgepole/edge_billboard_1.miprgba",
           "bytes": 2796204,
-          "sha256": "c6842190ac38b84ceb9a7333df080b7606103d241fb3e0482b01a8e18b29e941"
+          "sha256": "226497957908d18f23c3063c48986780863059fcff7f6f2b70f3e19f329acd31"
         },
         {
           "path": "assets/imported/lodgepole/edge_billboard_1.png",
-          "bytes": 411814,
-          "sha256": "5b5190cc26ba8266e91469082e4c45eed325218302a814642e1263e6b6dbee5c"
+          "bytes": 411780,
+          "sha256": "f7e93966b8a87dab43dd19d0c330266026b0648f0be28e292e7924be5c23a83a"
         },
         {
           "path": "assets/imported/lodgepole/edge_billboard_2.miprgba",
           "bytes": 2796204,
-          "sha256": "6733d7f354a2bff072624b88c93eb2c955e2d7f33cef33c565bd817bf7aa22cb"
+          "sha256": "272acb01b4437e6d7fd65c92ffb6de66ae27d0fcd781af8c75c201e4e854c6bd"
         },
         {
           "path": "assets/imported/lodgepole/edge_billboard_2.png",
-          "bytes": 411904,
-          "sha256": "ec742340381e0f65df45ae1680716b00e1af4e6249908599b03e78e467770e1c"
+          "bytes": 411791,
+          "sha256": "5dacdf5ceddd6da78c1d21d88c7ea2d85d6990a59a3091ac35089b2baa2ad5bc"
         },
         {
           "path": "assets/imported/lodgepole/edge_billboard_3.miprgba",
           "bytes": 2796204,
-          "sha256": "a469a3675c98e7782de151945fb2e14db1971a39d4baec3dcb4c84e724865677"
+          "sha256": "4092192424e12001fc856ef4a7db03e5e2554b155075f8a1aeee6b917740ad59"
         },
         {
           "path": "assets/imported/lodgepole/edge_billboard_3.png",
-          "bytes": 419792,
-          "sha256": "e08509e80a7f84590efe7848f676c5a33c9cffaa7c048a8f46b902bc2eca7b98"
+          "bytes": 419856,
+          "sha256": "0bbd2a0e20b6817511053accf38f9e80c2a5c56af1ed7095d05383f1a47c8de8"
         },
         {
           "path": "assets/imported/lodgepole/edge_lod0.bin",
           "bytes": 1993488,
-          "sha256": "e1c10815a954aae9805791f249f6faf07044a2f63bd826d49de9f546aabb3f51"
+          "sha256": "0494207f8ad8b76435cbd6fe7eac68facc1284df51d373699a6683ce79b15144"
         },
         {
           "path": "assets/imported/lodgepole/edge_lod0.gltf",
@@ -1642,28 +1846,68 @@
         },
         {
           "path": "assets/imported/lodgepole/edge_lod1.bin",
-          "bytes": 75232,
-          "sha256": "3ad314590f40a4c6da3e30e7eb9940cb2230afb861b68dfdd24b2446adbbf0ff"
+          "bytes": 1377296,
+          "sha256": "0789705a9fa5237b444b7d1a117e3345eebb959d8ba6a674e4b2da7b03a478d2"
         },
         {
           "path": "assets/imported/lodgepole/edge_lod1.gltf",
-          "bytes": 3633,
-          "sha256": "de3a0ff342e7315c42eb06c85ffbd4cf094fdf02e324b00044ef697928ba8180"
+          "bytes": 3658,
+          "sha256": "c99e4a7c4430efd8df2e64a203bab9ce9769e49676ee531229010e83b29c6f2b"
         },
         {
           "path": "assets/imported/lodgepole/edge_lod2.bin",
-          "bytes": 61264,
-          "sha256": "16029ee2605e516df9c5646e3ceb4371ceea4cdb7f04b0d84e6c983c9e0783f5"
+          "bytes": 1374720,
+          "sha256": "c94d0ce588011ece1b6e1b5873fedb15a5e37614379e237395da11e9ab30f5a4"
         },
         {
           "path": "assets/imported/lodgepole/edge_lod2.gltf",
-          "bytes": 3596,
-          "sha256": "c4fe76aedaf2a4c59234c593b70863d874c01b5c44b3e4046d95060c0acc8f5b"
+          "bytes": 3622,
+          "sha256": "45c0b8bff77aeb49cc84c881f1981efcb980e85f985be0fe52d04d82ecf479b4"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "14e583cc0bf3c9c580e11212335e392603661de6889b37b7fe7153a22629a829"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_0.png",
+          "bytes": 406789,
+          "sha256": "c85f71827fc4c4e2b5373a6e73f9e9c0254153a92e8dee58efad7716be378a2c"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "2e08afa008deb9292e846e47ae4e62efc775015c026c28251f8200ff2a867e7d"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_1.png",
+          "bytes": 408576,
+          "sha256": "f14761ae6cad136c3fa790a4c84ac404bd5d7eeae0e97521b3f56015db437c06"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "3cd53ef66197922dd21fb970a56a3019b0a27b6c89f031e7690eafcd6e59bb5a"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_2.png",
+          "bytes": 401385,
+          "sha256": "ccb86b3a57790174a60c80c2f1204c8b7a20d19446c9391c423726f7b3295893"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "52fdcd61e543652902cda52aa534a8af29d853ec3a1649d8bb630f7e6be764d6"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_billboard_3.png",
+          "bytes": 416768,
+          "sha256": "f5672977c772880d0317f6c7bd144074462d1632ee6edb6d43a4ff8140379c7d"
         },
         {
           "path": "assets/imported/lodgepole/edge_variant1_lod0.bin",
           "bytes": 1788352,
-          "sha256": "2b0faf0d1eaebc17ff7d161142fb4bce6ad691c09e7b991d9cebea6825a84548"
+          "sha256": "3151ae744046b2157816ec3c2783949293a6a93aea77b96b78efd1524c382ac6"
         },
         {
           "path": "assets/imported/lodgepole/edge_variant1_lod0.gltf",
@@ -1671,9 +1915,69 @@
           "sha256": "db6f66dcbc3a3abadd24018ffe86f1d452858788b66dc3639cb6a2900f3b0f87"
         },
         {
+          "path": "assets/imported/lodgepole/edge_variant1_lod1.bin",
+          "bytes": 1229952,
+          "sha256": "bbb75f97abefac2955fa800965b16500b8dee69f732a9dce3de63800de65a481"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_lod1.gltf",
+          "bytes": 3663,
+          "sha256": "8788da915c8c28278f37d0bb889a8a3373844739b87803d359677c09db7b8794"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_lod2.bin",
+          "bytes": 1227376,
+          "sha256": "42c79fdfe0ef6f895171a707d19ff37b5346bbb3d6846dc83c8811506d6ec0d1"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant1_lod2.gltf",
+          "bytes": 3628,
+          "sha256": "31ec28d9e24643b5d2a1b5160cae1c6691327c1fce1cbf5aa7f95c0e1338a9bb"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "c35138b09cdc6d917c452fbd9a26915147734d2f64a7f54f4415cc496ce07668"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_0.png",
+          "bytes": 394216,
+          "sha256": "fb090dfb2a6c6fb94ece40fc2979f9513fbdb81c9ffc68dd19405bfed6df9258"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "d6b095103d99fad30e257ef541ac6efeda60656c0a68c988885b2d512bec4b3f"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_1.png",
+          "bytes": 392714,
+          "sha256": "60491d43f43e14b7833aa18df9ec3b7d12524f132a89a649470eb3d945850d37"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "5192e3424edd069634b6ffd16a02199ce203ba9b340563f1332aa3cd2e827098"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_2.png",
+          "bytes": 390670,
+          "sha256": "39d7261f46a8c098b600fea32e5ccff129986dcb4364181ee535c4cb8047ee25"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "067743dc36e6d4a4439027d9a1e46cd27757b0328324be16c8848675e8479297"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_billboard_3.png",
+          "bytes": 400545,
+          "sha256": "952a141dd32095d16f26d48960367eec4146c79242c1c4c9da2381854676001a"
+        },
+        {
           "path": "assets/imported/lodgepole/edge_variant2_lod0.bin",
           "bytes": 1728832,
-          "sha256": "79d151a3d406cd9b7fa7a629b3388950b134da0c33c490264b5d6a9b0ba7c9b7"
+          "sha256": "364c551a77efa102eb81a8aa1a0f2f18957112682b20ffcdb8ed17e3cea4a2d4"
         },
         {
           "path": "assets/imported/lodgepole/edge_variant2_lod0.gltf",
@@ -1681,9 +1985,69 @@
           "sha256": "e18acc4fc1da1280038464b73d087dcbfc0e6f1c46b088aa3841fee2c2d2048e"
         },
         {
+          "path": "assets/imported/lodgepole/edge_variant2_lod1.bin",
+          "bytes": 1190400,
+          "sha256": "ec4439c701c4dae7a6847098bddbf11333ef15d649dcb2c06189143dfd7dde3e"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_lod1.gltf",
+          "bytes": 3668,
+          "sha256": "4837d3069439cf791cb79e007c8956436372d520ac57c880621f3cef1e5607c8"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_lod2.bin",
+          "bytes": 1187824,
+          "sha256": "3f6cdd6255c65f5405cf4429a8daf81ef3acddcf09e928bac41bb495ae5a2057"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant2_lod2.gltf",
+          "bytes": 3633,
+          "sha256": "aa38c48f1635b09232545b1481d9e349007893a8ea3dbda6bbb9b99693e1b3b5"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "3f138da6a600ecbda9c4ddc8eacb0e4a0ed168f9915e106fa3efd3c923178431"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_0.png",
+          "bytes": 405980,
+          "sha256": "f06c93090f6aeeb29893757cf569a2326b921df39ce1a8a70b4e1066ee3f0466"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "51348e4b4d7ff7111644682387fb27776f4d336008bd9212bd3fc18ee6471a0a"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_1.png",
+          "bytes": 402378,
+          "sha256": "50659cc5e94d36201ffe7ce3a2c3eadc6c3aafd69defbacbbd93e02bb236376e"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "77ce20bce996dbf59d5e7c5d7e0e2e0d5525c4c403607d5c82d7ec0b3c09b357"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_2.png",
+          "bytes": 399348,
+          "sha256": "635b876e1666cd9718ca8e4ae778fe8053900710cc6fa8f0f3688e8c0b5982d6"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "ca93a504c97874c1496c6ea255932382f2608a04312f0b07c2ef0f53260974c5"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_billboard_3.png",
+          "bytes": 412410,
+          "sha256": "a26fd179b29589e26975e78e43cfd72696a44279305fdb0e4972def2815c27c3"
+        },
+        {
           "path": "assets/imported/lodgepole/edge_variant3_lod0.bin",
           "bytes": 1939576,
-          "sha256": "c2778d241ff7b85aaf14d1af7aa517b680cc1c5125cde75ab59e07ca1c918c42"
+          "sha256": "5208c9f30ba0900315cbbe2623ddb11cae7e31c128c164430df6cbc5e2cb1926"
         },
         {
           "path": "assets/imported/lodgepole/edge_variant3_lod0.gltf",
@@ -1691,9 +2055,39 @@
           "sha256": "909ff800ec8e8416e3cf2206588c3a69f29167cfd729a3f7e02e4a3ef88f67d4"
         },
         {
+          "path": "assets/imported/lodgepole/edge_variant3_lod1.bin",
+          "bytes": 1333992,
+          "sha256": "cb2276b37439b57ebae8b7054b7202af4fd602c83e3fe68bffb1f925d6b3f0c0"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_lod1.gltf",
+          "bytes": 3669,
+          "sha256": "9f948350a46be9d44e48317cab59e6ec481f414172b6560fce6e947e3abf0914"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_lod2.bin",
+          "bytes": 1331416,
+          "sha256": "c8b14a8e4cdf9afcf55cfcf2076e95bab86a93efcd9a90408bb658857a1cc5ae"
+        },
+        {
+          "path": "assets/imported/lodgepole/edge_variant3_lod2.gltf",
+          "bytes": 3634,
+          "sha256": "8517e6d2976d3f312ad80469346d0fed0c9c8467f5299662b4fcbfca6a6203d3"
+        },
+        {
+          "path": "assets/imported/lodgepole/library_history/8e149c3844a327ef44aa2f216f252b95d6b2545f3c8d04e6be475ee0fbbb57af.json",
+          "bytes": 35683714,
+          "sha256": "8e149c3844a327ef44aa2f216f252b95d6b2545f3c8d04e6be475ee0fbbb57af"
+        },
+        {
+          "path": "assets/imported/lodgepole/library_history/9f4ae369f2d70e4f662eb2be6ddd2be75289e376b4c8016ecc09bb5e25c5cedd.json",
+          "bytes": 23624447,
+          "sha256": "9f4ae369f2d70e4f662eb2be6ddd2be75289e376b4c8016ecc09bb5e25c5cedd"
+        },
+        {
           "path": "assets/imported/lodgepole/lodgepole_metadata.json",
-          "bytes": 103351,
-          "sha256": "9b7021e3ebf747c2fcc1ff4bcbaab6f878d46593fa0c0c02ddc024cb48bea576"
+          "bytes": 334335,
+          "sha256": "bda82bdcdebb1a69a7ca698a62a0a602e04c959f5bc0fdee4ac8c16392dd7a7f"
         },
         {
           "path": "assets/imported/lodgepole/needle_cluster.miprgba",
@@ -1718,47 +2112,47 @@
         {
           "path": "assets/imported/lodgepole/open_billboard_0.miprgba",
           "bytes": 2796204,
-          "sha256": "58ea52d6ff8bdd848cbf10edf7a36e0976527d04030e853f9516c8474ef9afb1"
+          "sha256": "d500c06892ad89fab7ab50dcb69a14e13974772b73213ea49c9ee487e2e3a332"
         },
         {
           "path": "assets/imported/lodgepole/open_billboard_0.png",
-          "bytes": 491578,
-          "sha256": "0993cd3b0f4e3d68e782be6e81d0650b9fa931ff5b700c3056d70cca537bbf65"
+          "bytes": 491480,
+          "sha256": "f5c0f6b84a22c370ebd12838891b4365a3acc705741eb597f2f6f7efa36c429c"
         },
         {
           "path": "assets/imported/lodgepole/open_billboard_1.miprgba",
           "bytes": 2796204,
-          "sha256": "70780567c66891023cb8dcf0043e0ced159f19cd7fcd459dc248edc171bf18dd"
+          "sha256": "408be25bc2bbea833f8aca5c7d149fdb2faa7904ca3ec07f0a015a37934a95b5"
         },
         {
           "path": "assets/imported/lodgepole/open_billboard_1.png",
-          "bytes": 485091,
-          "sha256": "692f5e25d40b14a489a89a0edfd96d0ebe6e45ba3a9171d5851ccf0f14fd8a03"
+          "bytes": 485052,
+          "sha256": "f8e9bd99c0fc28e37b3275ae58ec5fe3de5921146085eeb2336f8d4bd1e664e0"
         },
         {
           "path": "assets/imported/lodgepole/open_billboard_2.miprgba",
           "bytes": 2796204,
-          "sha256": "b7f4fa7f516af667c55d51b8913d38423f7f62fdb8c30ff37389e33d9a956ae7"
+          "sha256": "eeff884d359708b2b4d57e31c209c8e40b2960ac063337830c6b5d1e7e0d4f3a"
         },
         {
           "path": "assets/imported/lodgepole/open_billboard_2.png",
-          "bytes": 483483,
-          "sha256": "5d48e1104c4b5df06c70bc90240816e0cd1a675c94e687fc377589ef5492419e"
+          "bytes": 483420,
+          "sha256": "118afc4065d2e80a9fe864b924e6267b3ff15742fcf71c061df202a51b84aa56"
         },
         {
           "path": "assets/imported/lodgepole/open_billboard_3.miprgba",
           "bytes": 2796204,
-          "sha256": "d05efd9ca7b34234c1ec40ccf499bc1290ca4e1da5bcf12cccc3e068b03b999a"
+          "sha256": "4fbb17c1cd0a0d9235cae86aee183cb1cfbca84bc661108a83c28ccde85ef3eb"
         },
         {
           "path": "assets/imported/lodgepole/open_billboard_3.png",
-          "bytes": 498593,
-          "sha256": "383aa84431f08851e23718eeeb888d724de2344f8bc3ece1e1f632f474aa2e22"
+          "bytes": 498616,
+          "sha256": "fbbee507713c49d00d4ea8fcfc75801887c8fbdce1d14d4182c5e9f0d3ecdfe6"
         },
         {
           "path": "assets/imported/lodgepole/open_lod0.bin",
           "bytes": 1785224,
-          "sha256": "1eb51ae62c09ff0dfadc5a81c7de806160a1bff90c5220a5f018eb099e55d898"
+          "sha256": "b1d65bf5d38e40388fad717cf072e778b5d00f1f16f8c2fe068641cc9d74ad9a"
         },
         {
           "path": "assets/imported/lodgepole/open_lod0.gltf",
@@ -1767,28 +2161,68 @@
         },
         {
           "path": "assets/imported/lodgepole/open_lod1.bin",
-          "bytes": 67808,
-          "sha256": "fc155152c253d7323c15e93f9be3df85b271fb0bdb50a488560799dd7f1d8264"
+          "bytes": 1231000,
+          "sha256": "4ffdccd724c706c932e182e5fca1416f1ea77ba74a7a9b700e174d0cc45916d4"
         },
         {
           "path": "assets/imported/lodgepole/open_lod1.gltf",
-          "bytes": 3630,
-          "sha256": "c079456c81bef289d012117312b8b59cf23c858efa963e73ad455c697dd67ca9"
+          "bytes": 3653,
+          "sha256": "52a2f7c9fedd9e662119ec47d5fd76ee7bf33a59ca125f51d901f8bbe4e6528a"
         },
         {
           "path": "assets/imported/lodgepole/open_lod2.bin",
-          "bytes": 54592,
-          "sha256": "2163bd850ed24eef5ac0899542b10e4f310d764dc47f771ee36f73ead23f25bb"
+          "bytes": 1228424,
+          "sha256": "4e7a80c645e173a7b04d4b9a8dfc82c5df20c26d5bdbdb81467988c7bbe27251"
         },
         {
           "path": "assets/imported/lodgepole/open_lod2.gltf",
-          "bytes": 3596,
-          "sha256": "b90362624d9e2397fe19464df668e83e3ea009682b7121d7b1a7f20897b910d1"
+          "bytes": 3620,
+          "sha256": "e306f2a14f01d5cac269d014ca20cfdc9f2784dd7477263ea60c4b50296f09ab"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "adfcc6fc075571223be3005f5e46872365ee4582e76f60d1daa662c37f42c1af"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_0.png",
+          "bytes": 482004,
+          "sha256": "e2c8657aacbd9fc287d793449590241bcfc09f5e0c62186b0918d4939851c492"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "efa28c6405d4345ebc48aba3564cd7649ecb671aad18566f5b789aec8b966efd"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_1.png",
+          "bytes": 481430,
+          "sha256": "7a994f70446f2e7e758ee12b4094b5ec5ec7bc5cc6a0007db14de0c62e54f006"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "e480950ffe69e555a0f53db49486bfd717725ab615da3097ebe026089c2ce1e3"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_2.png",
+          "bytes": 475367,
+          "sha256": "c872800f45fcd1b4770e367b55be1d3bb89284c86e1a9a10f790c354bd55c65d"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "6465c29e1fea5a41c27d9f258b2804a70ef6ee00c20a485542f40ca1f297e0bb"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_billboard_3.png",
+          "bytes": 495108,
+          "sha256": "49be1e25211fc226cfba8d9b8838ba82ff440f704f5841049e5b256fe8bef93e"
         },
         {
           "path": "assets/imported/lodgepole/open_variant1_lod0.bin",
           "bytes": 1665952,
-          "sha256": "fac191d914da5b53d9aa9d993ecc54cfdb96460f07a87d5840f24e931bd93560"
+          "sha256": "00c41be60807357819f895c27d58bdd4b279f1197850283ee25ba53042149c48"
         },
         {
           "path": "assets/imported/lodgepole/open_variant1_lod0.gltf",
@@ -1796,9 +2230,69 @@
           "sha256": "e7dfe811927c91c8252f322752e7021eceee84878802194167e981782cb13864"
         },
         {
+          "path": "assets/imported/lodgepole/open_variant1_lod1.bin",
+          "bytes": 1149312,
+          "sha256": "a5f67b06f4280efc0f8a9d70ea51f425ecc426c541bd2cb03143f49491ae83d9"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_lod1.gltf",
+          "bytes": 3666,
+          "sha256": "62510b586afe224e6e3057fb1c22e9ac6c2c639a19aeff7f4702dea0ec708485"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_lod2.bin",
+          "bytes": 1146736,
+          "sha256": "7889c3837f02fd01c522234c5d4ac7b620549cd20b6a20f9a3fc335992596448"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant1_lod2.gltf",
+          "bytes": 3633,
+          "sha256": "f2eb32ed1f07bb5f2250ab95a7dde8206f84e36c424b72037b3635bea941d427"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "aa5a6c17d68041c2052c21e075956ebb657620a208d70cced3f33199b219050b"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_0.png",
+          "bytes": 486695,
+          "sha256": "3d9c50789387c8d228b5cb9e63e1015a92d2e75cdc896fe02335b8153d02f9f8"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "b038948ec75e39ead9b3ae483c791c75b9fafe49e653d56b33de6b35bf8c360c"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_1.png",
+          "bytes": 479725,
+          "sha256": "aada7308a413212bee12bfa31c7bcc8649f0ee4c6c57425f2a622d242387c465"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "6dacc917d6a9183bd3ae2efe281f97340380cb53910ce2aef7e69dda2601e4b9"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_2.png",
+          "bytes": 480397,
+          "sha256": "617fe427e896713c76282b506897fe73a5650a47c8ecc05b56a023bcb21188ab"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "51faa27240d72d359ce2faf74058adb79f226f73585b36a10e28adaa699c2265"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_billboard_3.png",
+          "bytes": 490828,
+          "sha256": "ae2eedeb03f48f3449ab129e0f62a92d0efa069a54384786d0f1a041ac51c72e"
+        },
+        {
           "path": "assets/imported/lodgepole/open_variant2_lod0.bin",
           "bytes": 1740896,
-          "sha256": "f9d475710b64310884db9762277a83e321b3658cd015a68c9066086225d29baf"
+          "sha256": "e3b3061b2faf960d254b43c3227f491127553bc5c9eff6eb83849ed5209300c4"
         },
         {
           "path": "assets/imported/lodgepole/open_variant2_lod0.gltf",
@@ -1806,9 +2300,69 @@
           "sha256": "79a11344855d26f2ea5f75d56f1186b6bbaf77df796267eb486e4480676b8698"
         },
         {
+          "path": "assets/imported/lodgepole/open_variant2_lod1.bin",
+          "bytes": 1202944,
+          "sha256": "87148031d18cd6a922a01f2989eb68504602200a18508fcc18a107008725d1ad"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_lod1.gltf",
+          "bytes": 3667,
+          "sha256": "73c88502ff35633c5a2220154022dd06d24d217b445f55603f9e1b0f990ee1bc"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_lod2.bin",
+          "bytes": 1200368,
+          "sha256": "dc3f4b6a62e6366683d5d5758d1c407e504afd7e7e2e2609bdaf52052d7ebd50"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant2_lod2.gltf",
+          "bytes": 3634,
+          "sha256": "b7aabc141026f550663c8f6d0443ca2ec4a50aba61951066165bb93b5fe016e2"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "51b4c8c08fff9a741412d1b1c0c0531252f06e4ee248f4dbc8c1519e66406e70"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_0.png",
+          "bytes": 484690,
+          "sha256": "4c69d85a98bc801c64814bb5099258002598a963a772b06d2ec63f54f8bac5cf"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "f062bfccee58378070e9c35856a06ca4d40781beda87be9ed5f2516a01ee695b"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_1.png",
+          "bytes": 488507,
+          "sha256": "9d896937acf33cb2c75c748b5db67f8878a1910522b19aa1dab519d3991a48c6"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "84eb378a0ff7e6e1255a47e413c103a5c8dfc39840a9213bf1814437acb9d854"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_2.png",
+          "bytes": 478713,
+          "sha256": "5824f38625e5049e12382f1602ea98cd71fb142e51de21e2443ce84cfe700969"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "69bb2ffaf5d601abffc67c799cef852437656c54bfc5b4f067adfec2fc6826fc"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_billboard_3.png",
+          "bytes": 500444,
+          "sha256": "f2ad8462d3e2f77e0a390e96b548055b2ec16012100b7a681b5078f5f6027969"
+        },
+        {
           "path": "assets/imported/lodgepole/open_variant3_lod0.bin",
           "bytes": 1814040,
-          "sha256": "b6fad44a597483348b655ea7de7be6e00a5c74a286c524b10864dddda2d45e60"
+          "sha256": "68875b1d93f611e068a6a1571f89983b5a59a40652446a7e49d6773b1c1512fe"
         },
         {
           "path": "assets/imported/lodgepole/open_variant3_lod0.gltf",
@@ -1816,49 +2370,69 @@
           "sha256": "7cbae02a48bdb7e221657a0075590b90b117c09a866e27abba1351238ea058cc"
         },
         {
+          "path": "assets/imported/lodgepole/open_variant3_lod1.bin",
+          "bytes": 1251368,
+          "sha256": "91560a90f775b7498a128c5920e90e42aa8c76467be699b5b7618a97c2480bfd"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_lod1.gltf",
+          "bytes": 3665,
+          "sha256": "ee43f06f97f2a5333cfac55ba404adc0ec07459fffc04fe5ce4c59f5a57763cf"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_lod2.bin",
+          "bytes": 1248792,
+          "sha256": "9ee400d8375458cb5c9b6b0b4d4a34c308fa923ac39263f3ee36689604d42e1d"
+        },
+        {
+          "path": "assets/imported/lodgepole/open_variant3_lod2.gltf",
+          "bytes": 3632,
+          "sha256": "2242ced322d11efcf6eb7670004e651a289da1a421c908e556af271c2edcc68f"
+        },
+        {
           "path": "assets/imported/lodgepole/sapling_billboard_0.miprgba",
           "bytes": 2796204,
-          "sha256": "03b70cf57d1102ecbea7e62973bdd55d6f305221cb1eefed1de78fc7ba3c4fd5"
+          "sha256": "e2cdf84d932b9ae889c27ad7262b6f38fca1c4af2432114ba187eaca695b702c"
         },
         {
           "path": "assets/imported/lodgepole/sapling_billboard_0.png",
-          "bytes": 417444,
-          "sha256": "41a9a3123152133f6a62bc3da50d9072d565590e0e3ed9df015e6c561b40511b"
+          "bytes": 417479,
+          "sha256": "0be19017f260d196e0b896df57de3eb6865d6de93ea4f1f9225af38aa1d456d5"
         },
         {
           "path": "assets/imported/lodgepole/sapling_billboard_1.miprgba",
           "bytes": 2796204,
-          "sha256": "801d8cb239dd487ecab1ca6a9c51c8fbd0ffef2caa3625be8cb66a4ba50a371f"
+          "sha256": "cc1466db4a827038c414f0ae56b6896c87e8a275ecad07b90ad43dfd013f9824"
         },
         {
           "path": "assets/imported/lodgepole/sapling_billboard_1.png",
-          "bytes": 407642,
-          "sha256": "5959e2293f252faff4856be12582e119f574d53efc9d08ef1f543bd3fed6b44e"
+          "bytes": 407747,
+          "sha256": "d4003d4121984af9946856706352503e3bd90d52999fa22c3cdab26142190877"
         },
         {
           "path": "assets/imported/lodgepole/sapling_billboard_2.miprgba",
           "bytes": 2796204,
-          "sha256": "94cd07df4873e75a179fd5983fefa9dbdf5032c6dd91c2824979564c75758c39"
+          "sha256": "f6f0842c17a27a74346de00230714a1589d8304393b324037bef5774446d8aeb"
         },
         {
           "path": "assets/imported/lodgepole/sapling_billboard_2.png",
-          "bytes": 409033,
-          "sha256": "f351401abfddddd29af175ef38ab30e06324c3336fd933123bbdb3da94d5f96c"
+          "bytes": 409024,
+          "sha256": "f0e1c7350b6a2cdbc1a39eb5c63629440e576ca35985e8885fdf47774fa0b0ab"
         },
         {
           "path": "assets/imported/lodgepole/sapling_billboard_3.miprgba",
           "bytes": 2796204,
-          "sha256": "d1f03117fa184bcb8b8e8614995a55f6ea5ee13373a80bb434dd527ce740990d"
+          "sha256": "0b9dca7e16aa6de76f956e53f7c463e7292461a8cd2bdd76a6b493c3499fef77"
         },
         {
           "path": "assets/imported/lodgepole/sapling_billboard_3.png",
-          "bytes": 423377,
-          "sha256": "f02d38118f4c80124f2aabf95a3559f4b3753cbe969e1b159cec3b8815001d1c"
+          "bytes": 423411,
+          "sha256": "4bd6701483b51051696388e44d3e8bccc518de0aa86954b8102b57491bcdb31e"
         },
         {
           "path": "assets/imported/lodgepole/sapling_lod0.bin",
           "bytes": 617496,
-          "sha256": "54fc5d94adced03021d63f974fd779d53a3fb6565c10ecdd4544b5019949af13"
+          "sha256": "86cb29f6567ac18e3dabc474fb42bbe4cbf2f2320ba16c3f5826d0e601706697"
         },
         {
           "path": "assets/imported/lodgepole/sapling_lod0.gltf",
@@ -1867,28 +2441,68 @@
         },
         {
           "path": "assets/imported/lodgepole/sapling_lod1.bin",
-          "bytes": 25552,
-          "sha256": "83aede34e76dc5da62bd493c651bc0f6e33346771b029952c5fe43f8b973ccc2"
+          "bytes": 423272,
+          "sha256": "5f887a15e969d540b5ae190a64615f93a274e38edbc0d7cd56de63e4d7b9eb5b"
         },
         {
           "path": "assets/imported/lodgepole/sapling_lod1.gltf",
-          "bytes": 3631,
-          "sha256": "562affdcb654db9c836d953b5713e6938fb6c733e4acbe1e13fae036f1d2a2fc"
+          "bytes": 3650,
+          "sha256": "0c585ef241ced96025ee0b72dc9b37ebd0cf492ab9f2e6289c1839000c238d63"
         },
         {
           "path": "assets/imported/lodgepole/sapling_lod2.bin",
-          "bytes": 20416,
-          "sha256": "77cdaffe93fa49004f3d3fe66abefd8658f5d871e5a38f24dcd435de15ac13a9"
+          "bytes": 420696,
+          "sha256": "f272d68a19d8768780ad1362c4731e7e4194728bea8d8166b5a05668ab971b9c"
         },
         {
           "path": "assets/imported/lodgepole/sapling_lod2.gltf",
-          "bytes": 3595,
-          "sha256": "3e28b7cf734558bdba4de67ff136eb088e5e47502120d1f0fd03f423a3ccfe31"
+          "bytes": 3617,
+          "sha256": "e980019deee1c7dfb7cf7c6fdd76c57bd4250759027e44398f065914e9c92686"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "13de4c8ae7377d1bf7821ef1b13956214acdc895ce226e93b6e76e1e6793ab5c"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_0.png",
+          "bytes": 418078,
+          "sha256": "7bce04cc416d50cfcc1ddf2c723260b68dd5c3d79d924048f8d4d4e615c21ddd"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "1071da0105568c1731586da1a8595e0706b33cd4d48f153523e30bcb0dbc1e5d"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_1.png",
+          "bytes": 404709,
+          "sha256": "8e1a26d585a48ae659c4ddf7e6848be9e8116ddaff80838f8246ffd80c60501b"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "515ac3f14b10cf3708b1a83031719ea914d7c4a4c3dcf10a409ee94eb2ef8d35"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_2.png",
+          "bytes": 410716,
+          "sha256": "f8708fc0bf90946a682eedde7422ff2c00bca5a7cd1939b16c77529d145ee73b"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "048b53838cf24750cab991ec2823afae0b79483f04c24f006e65c75a0dbee2ce"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_billboard_3.png",
+          "bytes": 423432,
+          "sha256": "47037e1be7fd25cc5652eeff29cfea11c21223b9de561d873d914b33de5af6ce"
         },
         {
           "path": "assets/imported/lodgepole/sapling_variant1_lod0.bin",
           "bytes": 661120,
-          "sha256": "9567d6af813e719cfcce978919d72772ea2cf1f04f553bebc2eccf9f2d725ca3"
+          "sha256": "d500e120ab9e149a12b87f7e490fee33707bbd076634d3a1c16d3ce301b6b6b7"
         },
         {
           "path": "assets/imported/lodgepole/sapling_variant1_lod0.gltf",
@@ -1896,9 +2510,69 @@
           "sha256": "cefb2004d8fd3a65e1a4d5bd2359400fb469fb1f43be0a1de0d97a69390ae858"
         },
         {
+          "path": "assets/imported/lodgepole/sapling_variant1_lod1.bin",
+          "bytes": 453408,
+          "sha256": "54ddfa30a2f04a55403693f6bf8372b284f9a907722ba985275752898d640c7b"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_lod1.gltf",
+          "bytes": 3662,
+          "sha256": "8a55977aaa0365bcc2edcc18ab3141db6ac4d7d0a151bec8eeea02a67f2126c1"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_lod2.bin",
+          "bytes": 450832,
+          "sha256": "36e6585c9f4efe8be2c860708b3bc53360f5bff336f463562f891efba1399af8"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant1_lod2.gltf",
+          "bytes": 3629,
+          "sha256": "03f07fb052eb08c44cf1944b4270e46d9ea6c6762200eea83322adbc2a46beac"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "0d8bada1b8a02318063b8f39e5637ff27285c78aeddee381dafbbc9fea4f6e11"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_0.png",
+          "bytes": 431761,
+          "sha256": "55615a6367074d3a616e90569f13e70745469bcca817ebe58f395fb356a82b4e"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "bfbaecc26b0a4dd7b194725d6f919df7ffaa8cfa76e3879dd09868b705f3e377"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_1.png",
+          "bytes": 419579,
+          "sha256": "087e0e86dc59c138ebf613732a9fc93971ddf1dac02a16d08d569cbbe12ba0bb"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "59db38e81f6b18897473e0ded085a70479d7e69e2b48944cc267a4fb86b3455f"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_2.png",
+          "bytes": 422631,
+          "sha256": "6f3dea34983654bc8e73fc1f5c4ca61a701cd55034f73dd470341dcf0f3ed0ae"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "e5b47d28f15a7fda51eee3c925f9291749cf422b118ead3c4500e2bbb4b2f235"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_billboard_3.png",
+          "bytes": 436220,
+          "sha256": "89af2faf96aab0071b2b2b27ab607f95522e0a1ec3da4d9f7b1ee8e8d32779ff"
+        },
+        {
           "path": "assets/imported/lodgepole/sapling_variant2_lod0.bin",
           "bytes": 660440,
-          "sha256": "559dcd97f9955421af4566f22bd415ff9b6b3b65066066647286370b6867aa0d"
+          "sha256": "c4b090f9b44efb3fb3c84c6f84929bd4dcfe54b0d078247d1629f96d5b738b14"
         },
         {
           "path": "assets/imported/lodgepole/sapling_variant2_lod0.gltf",
@@ -1906,9 +2580,69 @@
           "sha256": "428b36efa2a19c81c1f045bfa483e2cdd4838d53a788419b8842ce0538197b02"
         },
         {
+          "path": "assets/imported/lodgepole/sapling_variant2_lod1.bin",
+          "bytes": 452104,
+          "sha256": "9e712b3b1d569cea5f4e331ffa62cdd4bf0329c7a625e0cf80fd5745f3c1bfeb"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_lod1.gltf",
+          "bytes": 3661,
+          "sha256": "b88a01370226ce75af933c134e6fa93f013e6ffe73c20fbef4f03d7b6a4d5a3b"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_lod2.bin",
+          "bytes": 449528,
+          "sha256": "50157f440ee985dfae67d03811bae95e86dd05388bfb0a102d47435e3eb71eb2"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant2_lod2.gltf",
+          "bytes": 3628,
+          "sha256": "fd8d9eb8ed3296802086015f87cc100d78ebd445e70bb7b796ae8028b72211c6"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "95a50120d773a0b105898889aad4326a4caa449ad9af21cf95640838c0d6ad95"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_0.png",
+          "bytes": 431982,
+          "sha256": "7225ace0aa528f538bba71192e1687b50f55f9cee67ef2d9d98e102d89f8d911"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "7989398dff9789c86c7377716ce22e39b10268d9b056b1da0a686897272f7b50"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_1.png",
+          "bytes": 420705,
+          "sha256": "0a4b7615837feb1876f825f97b83569f35042af98b191b692ba743ce0a33e877"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "9230d041a9e2833a241a860ddbc1fdbe92d3417ee6ed88281c01472463105394"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_2.png",
+          "bytes": 422017,
+          "sha256": "cf6a83c264a4cea28212777c0ca0078122fa64b50198610d9056d819aee3bfbe"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "9941c38910b5f815721444a806b18eaaf64e32f66507f9abb23b8ac8f4cc88ea"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_billboard_3.png",
+          "bytes": 437750,
+          "sha256": "e46fb4fb5bad65d7631a306305e48693e0beb506b0bffafe8ed034329d1e9d26"
+        },
+        {
           "path": "assets/imported/lodgepole/sapling_variant3_lod0.bin",
           "bytes": 609536,
-          "sha256": "f560dba9d14783c0e8870eaf7d740814d2d552fc16db7553aa5a34c21e3113e5"
+          "sha256": "5dc37c63d11e5f25308e508b5710f06e7d64273c9c0c4a4c789fd3eed89ca7dd"
         },
         {
           "path": "assets/imported/lodgepole/sapling_variant3_lod0.gltf",
@@ -1916,49 +2650,69 @@
           "sha256": "2c666a835b2b7316c99a2edf772872b663b8d67671b12095638d389c103f4837"
         },
         {
+          "path": "assets/imported/lodgepole/sapling_variant3_lod1.bin",
+          "bytes": 416800,
+          "sha256": "9c8f8eb45531f4a804a017a77999a01ea0bf7a56b6f31d21bc3955bf3e9ac737"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_lod1.gltf",
+          "bytes": 3649,
+          "sha256": "6b8a53f42bddd1d2c46e4f39cdf6118eaa0948bc44dc5c906581640dca9bff7d"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_lod2.bin",
+          "bytes": 414224,
+          "sha256": "7c41be5afe0033993420dd09ff002778d5d646fff7aba05a90140de47205b15c"
+        },
+        {
+          "path": "assets/imported/lodgepole/sapling_variant3_lod2.gltf",
+          "bytes": 3616,
+          "sha256": "88884a4fdb349ed1a11f2c4e64a1955ccdaa6b744d1c6e1d618c680a27a8a142"
+        },
+        {
           "path": "assets/imported/lodgepole/snag_billboard_0.miprgba",
           "bytes": 2796204,
-          "sha256": "d2f989609bde2ce19819dddc2915a54b3b4d73e61e667a61abb3a3a0f32fc896"
+          "sha256": "468b21fa3242b7270e1487c48328d8bc281195973dae40c6e3e5627803276f81"
         },
         {
           "path": "assets/imported/lodgepole/snag_billboard_0.png",
-          "bytes": 222756,
-          "sha256": "6748ba1a3ee2e5986309c8521fddfee365189d5f01cd9fbdf5a15b944f3229ce"
+          "bytes": 222782,
+          "sha256": "f73f3ea60e442df3b6730ee050d20ac0dd446102bf29ccfcc42b3b082e73226d"
         },
         {
           "path": "assets/imported/lodgepole/snag_billboard_1.miprgba",
           "bytes": 2796204,
-          "sha256": "95efecc5adeeb652b2e56046ca536fef69268fe455d20afc099b115ed15556e9"
+          "sha256": "4010db6d4a75485d887d8517e6ad567f987bb2c3390a4c728dbf86f914ae192d"
         },
         {
           "path": "assets/imported/lodgepole/snag_billboard_1.png",
-          "bytes": 222177,
-          "sha256": "5117561c279b067c2fcffec8ef8c48bad37d7b39c1e5e8bb3b17513108732e37"
+          "bytes": 222151,
+          "sha256": "35e4130d933b6a3a09ea97e340614c95e13175a2ee803380b8714d09d8a54d8f"
         },
         {
           "path": "assets/imported/lodgepole/snag_billboard_2.miprgba",
           "bytes": 2796204,
-          "sha256": "6252fb15cc9ee9fe1ddcf81c414c7e0272e2b4a6ef136a4869183bfed30b24f8"
+          "sha256": "52174a28b71af4bcc839fafdad064c7d8af3aaaf9871aa5d3792859704d0e640"
         },
         {
           "path": "assets/imported/lodgepole/snag_billboard_2.png",
-          "bytes": 221304,
-          "sha256": "630de8882c88c8b9bcce78f0ceac0d01e5ddb8c1e79bf0e3aa0ee8cf6024fb29"
+          "bytes": 221314,
+          "sha256": "d3e9e2ed1d59c2390888732deca0f3cf3bc48a039cbf24a00f9180541bcea419"
         },
         {
           "path": "assets/imported/lodgepole/snag_billboard_3.miprgba",
           "bytes": 2796204,
-          "sha256": "9231fed1c2ce62aa24a45a511a20877b8fee4d6727755715aa39b82390748e70"
+          "sha256": "7af4ed5f4ecc6f0e1e58513ed1c7d45a7e040c54ce1bc64044e84a8539a226a9"
         },
         {
           "path": "assets/imported/lodgepole/snag_billboard_3.png",
-          "bytes": 223956,
-          "sha256": "0e922964057670dc93f836d6ae579439cbb409270444a68a52b86cfd2c350fe3"
+          "bytes": 223962,
+          "sha256": "1a0cc33e838b0b37d3a9af0915d592475b78dad468588a608f586b279271e445"
         },
         {
           "path": "assets/imported/lodgepole/snag_lod0.bin",
           "bytes": 158200,
-          "sha256": "a25add2209b83baa5c7aeb168abeb5a55c8945575cbf6231918d44e83fa3a70e"
+          "sha256": "7d1fb80008347c91fbcc9d69c301a6b69154cb842fe6231143161990edaa5249"
         },
         {
           "path": "assets/imported/lodgepole/snag_lod0.gltf",
@@ -1967,28 +2721,68 @@
         },
         {
           "path": "assets/imported/lodgepole/snag_lod1.bin",
-          "bytes": 26448,
-          "sha256": "48cb04dabf61125f62018649d53b63a00b53f7d2f785ecfc017c9c0cf169b0ac"
+          "bytes": 97896,
+          "sha256": "128ec4dd3037f9c7ec25e6ffbb12d1ef73d957a545b1885e0b630423bb407f7b"
         },
         {
           "path": "assets/imported/lodgepole/snag_lod1.gltf",
-          "bytes": 2708,
-          "sha256": "12083422626548507c489ae12abc1518d0aab9982fae4a6452693df10f537d2b"
+          "bytes": 2714,
+          "sha256": "7c33d59a6f66d87fd18f755f24d5f5438e7bc37d35e294e95c9261e03dc43587"
         },
         {
           "path": "assets/imported/lodgepole/snag_lod2.bin",
-          "bytes": 16480,
-          "sha256": "2bd8549778db1eeed5570177f630906fd9c17b4019d747b7094c3e1b633f8a67"
+          "bytes": 95320,
+          "sha256": "7d3237e6029b415cfa2dd7ca7d388fc49eccd4f2e7b2f81f35950e68105adca4"
         },
         {
           "path": "assets/imported/lodgepole/snag_lod2.gltf",
-          "bytes": 2673,
-          "sha256": "11742b7f38fd978e8ffc4a097f6c38efa44cceade293674ae83f7dca42ca4b0d"
+          "bytes": 2681,
+          "sha256": "7dd85109b8679647248fc09cc6c0f68ed0a841892ad538f919ad62ea2dce1be5"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "7220ddf41a2eceee4aa1b9c7b2bd8550a23b8da800d863e1e118086c01dea634"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_0.png",
+          "bytes": 220184,
+          "sha256": "2698ceaa18f60b2d6d10e79f536c546001d756b8dcb5b70a593e79e3822a6f87"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "d7d1ac755eac70db1f646b7814e1908ee75217d4def80a8ec2115c459cae92dd"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_1.png",
+          "bytes": 220394,
+          "sha256": "e544460535aa22b38bcfdcdf2873d1fb88b5ed4f0f20282cd4a5a33b5218bc9d"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "62cb91803026dc8d811a782a01bd50e5c9680e00359924367ce05de30667d7c2"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_2.png",
+          "bytes": 219201,
+          "sha256": "28e1df4d4b00b68ce22c215de5f7540bf974359098b7f40bda78b0a6db780085"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "14e0be4fbe34cb7e143b75aaf3f248e545d0f9f04051d85b4ead6bc4fb04b66c"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_billboard_3.png",
+          "bytes": 222185,
+          "sha256": "13289988202d2f58d48700e93791d63afc1d92da1c6879439697df4472478be6"
         },
         {
           "path": "assets/imported/lodgepole/snag_variant1_lod0.bin",
           "bytes": 140680,
-          "sha256": "bf385939282799cb9508d1d70b52214a50261825732df65aaaffe84bbca3464b"
+          "sha256": "df6b7b1d666441ba5114de156bca8001f03dc6b004ff817db9e4892d9a5e55db"
         },
         {
           "path": "assets/imported/lodgepole/snag_variant1_lod0.gltf",
@@ -1996,9 +2790,69 @@
           "sha256": "fdcfb6fbc1ef291ea31e2163059abc26dc075b2856890291bbe47146b55a54b8"
         },
         {
+          "path": "assets/imported/lodgepole/snag_variant1_lod1.bin",
+          "bytes": 86616,
+          "sha256": "41b8a8944ed66a6def19e6a87891f5a094100116ab9d60663b38ae9eb346eb50"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_lod1.gltf",
+          "bytes": 2722,
+          "sha256": "afb7b73e1740e09e99f5baac5c0e4f444c58bd563bfdfb2408b7ecd1ea7b0ed4"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_lod2.bin",
+          "bytes": 84040,
+          "sha256": "c7a78aad2c4a07194e9b4128a860d602688c910094fdf35e168ebd74c356d223"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant1_lod2.gltf",
+          "bytes": 2689,
+          "sha256": "7e951e56d049bc76ca0fe9bacc251a1ac37dab2f9c820afaa1fa3f4a58cdddef"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "a68df8b36b361aeaf7d24469ac44cd875f2c8cdb78ad8881c23dff56b44f2e92"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_0.png",
+          "bytes": 222250,
+          "sha256": "bf408f9b44b3df27da4d7c6090e0216655305865cd573d08f4af7c0254f76b3c"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "8f8c462713490bdd068398077ed0cff864bb448d572e836aa46923edf9934bb9"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_1.png",
+          "bytes": 222286,
+          "sha256": "636636cc112e826ac64792f69a1088d73f69dbe0d4e9c0eb75ce2f4e300fdecb"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "79c618afe9cfb9ae09c1aa075a3232d6e049bb4cc46642fe478b37956e2f4b53"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_2.png",
+          "bytes": 221030,
+          "sha256": "3b45978d9293165dfeff9718ee385385d2b1a60b46de4c8acfda38c84d253fd6"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "e982dd7d1cef71aa025892ead553613b39aa28f3ccd89f0e9a004bc2811cfe78"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_billboard_3.png",
+          "bytes": 223573,
+          "sha256": "6e5fd7c892d02116080253d729efbc2c6bce9b290266bfca5dd29bdab3abbd73"
+        },
+        {
           "path": "assets/imported/lodgepole/snag_variant2_lod0.bin",
           "bytes": 166960,
-          "sha256": "5b0c7835c74a471cdedf22952fb2a1c18727f21a545ef8df2ad3e7ff0684f91c"
+          "sha256": "8aa4de6cd232dc9dc223840224a8122b9b90996740c3399d06d2015976455f02"
         },
         {
           "path": "assets/imported/lodgepole/snag_variant2_lod0.gltf",
@@ -2006,31 +2860,111 @@
           "sha256": "c6c166325fc8bbd92837a05745a940aa4b067e493c2b6942196d0bfdff895d95"
         },
         {
+          "path": "assets/imported/lodgepole/snag_variant2_lod1.bin",
+          "bytes": 103536,
+          "sha256": "000425e8f7b9eb652cc21416521bea76fcc59b6a2f6abe7151a9d84804c9bc27"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_lod1.gltf",
+          "bytes": 2725,
+          "sha256": "236324c87f5a26309512ae9ea5767f8a91e376e588fcbdb6b03a5ffb50017699"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_lod2.bin",
+          "bytes": 100960,
+          "sha256": "6d8b33b08bdc6e59438a0a580562d1ea2ddd6b8bff69d909746bfae7383897cf"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant2_lod2.gltf",
+          "bytes": 2692,
+          "sha256": "cf1a3c1914be6dee7f5927929f5058efff3985af63bdc884b3742c8cc8844ea2"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_0.miprgba",
+          "bytes": 2796204,
+          "sha256": "0f34367c4dae76f2324f515c4d1367517e80ee8921916f38412d4d8e395ce51e"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_0.png",
+          "bytes": 222343,
+          "sha256": "3415346c649a7c6c5a0c0338d56ab2c2ebd277fcad0edd61bebacf1e8bb1f9e7"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_1.miprgba",
+          "bytes": 2796204,
+          "sha256": "a15820e77076c3a1888de2c65c0ec9c8883710d11bdbc5412d69a2943551a8e9"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_1.png",
+          "bytes": 222041,
+          "sha256": "a8f85a9ba19c3c70f96032119c6c17747b0f85212c28ca7931ee87cde1200c3e"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_2.miprgba",
+          "bytes": 2796204,
+          "sha256": "747d48d9a1a73416a08bed79226570a393d16e900688712f9f88bccc43af6625"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_2.png",
+          "bytes": 221376,
+          "sha256": "f5dbc7dbb7438e18b750ef7084a804239befc3f262ca5fcf32adbe1772032217"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_3.miprgba",
+          "bytes": 2796204,
+          "sha256": "bbc82bad64c0a3a61609b8ccef852416aa4fea9e2c1ec735854fc2abc76e18bb"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_billboard_3.png",
+          "bytes": 223467,
+          "sha256": "aa2b156a723ff15ee2ef5ce46ec25b12d026ee3d1a69ee7dd6aa045f9df90d7e"
+        },
+        {
           "path": "assets/imported/lodgepole/snag_variant3_lod0.bin",
           "bytes": 152944,
-          "sha256": "5be48b1a5fc647a15628f6e9eaabd7c88b5a977e77ba4223acf0b846ced27b1e"
+          "sha256": "2e6d3081f1aadeec5a3f2cf5f0b73d4c69d5de672f0850577944cf2b994574a9"
         },
         {
           "path": "assets/imported/lodgepole/snag_variant3_lod0.gltf",
           "bytes": 2731,
           "sha256": "a1cda63a85a58cc48450de6b31b292d9645105f4a237340395aa0dabf17875da"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_lod1.bin",
+          "bytes": 94512,
+          "sha256": "df7c7fc3aa8a5ab9a60370bae8b14a0e7d57cf399248cb5bb216b284320fa354"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_lod1.gltf",
+          "bytes": 2722,
+          "sha256": "af0cf4bbcfbb2abdf919387116c70e1507b5788140e43d5a26a222eee5dc22af"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_lod2.bin",
+          "bytes": 91936,
+          "sha256": "49a200d5e2754f67c851202afe7a3acc1b1f5e58f7eadd4ba0bc4227acea0f64"
+        },
+        {
+          "path": "assets/imported/lodgepole/snag_variant3_lod2.gltf",
+          "bytes": 2689,
+          "sha256": "3abf31f00ef34d1b4654732b22ca05162af9dae557cde7ed6d34befd63aa4b27"
         }
       ],
       "limitations": [
         "Archetype dimensions are authored rendering assumptions, not measured allometry.",
-        "LiDAR heights and crown footprints can independently scale the bole and crown.",
-        "Fallback DBH and crown ratio are authored; explicit TreeMap values are transferred and local individual values remain unmeasured.",
-        "Needle cards approximate shoots; distant LODs aggregate needles into larger cards.",
+        "LiDAR-derived heights remain independent; full display crowns combine retained core radii with transferred or authored envelopes.",
+        "Fallback DBH is authored; TreeMap DBH/crown ratio are transferred. Display crown base adds an authored photo-derived constraint.",
+        "Needle cards approximate shoots; middle LODs preserve shoot placement while reducing wood tessellation.",
         "Operator-supplied Tripo candidate is inspected separately and its unspecified license is not relabeled.",
         "Far impostors retain the selected archetype crown ratio beyond 180 m.",
         "Botanical acceptance and empirical allometry are not established by topology or rendering checks."
       ],
       "credit": "Authored lodgepole geometry and needle texture; CC0 bark by Rico Cilliers and Rob Tuytel / Poly Haven.",
       "notes": [],
-      "geometry_sha256": "4cfccd2f40a59deaec5085e9010c9f185e7d8ab8e96f755bb95778f3955360a7",
-      "architecture_library_sha256": "9f4ae369f2d70e4f662eb2be6ddd2be75289e376b4c8016ecc09bb5e25c5cedd",
+      "geometry_sha256": "1f2d2f7e3a22165d2374521c9d92b3466ddb9aa7e3268d0db82c2f821a68b238",
+      "architecture_library_sha256": "8e149c3844a327ef44aa2f216f252b95d6b2545f3c8d04e6be475ee0fbbb57af",
       "near_architecture_variants": 4,
-      "near_variation_scope": "Four seeded branch graphs at LOD0; middle and far use canonical topology and view variation",
+      "near_variation_scope": "Each variant retains its seeded source graph through LOD0/1/2; far uses variant-specific four-direction impostors with retained envelope traits",
       "display_envelope_model": {
         "id": "bechtold_lodgepole_dbh_only",
         "citation": "Bechtold (2004), Table 3, Equation 3",
@@ -2060,6 +2994,7 @@
           0.32
         ],
         "live_crown_ratio_floor": 0.7,
+        "default_crown_policy": "preserve_source",
         "evidence_class": "authored",
         "evidence_basis": "image_derived_nonmetric_silhouette_estimates",
         "uncertainty": "unknown",
@@ -2124,9 +3059,9 @@
       "cutout_mipmaps": {
         "method": "Premultiplied RGB and retained per-level alpha-test occupancy",
         "cutoff": 0.32,
-        "texture_count": 22,
+        "texture_count": 82,
         "scientific_acceptance": "not_yet_accepted",
-        "actual_screen_coverage": "unknown"
+        "actual_screen_coverage": "source-bound GPU capture report in evidence/tree-lod-quality.json; failures remain unaccepted"
       }
     },
     {
@@ -2459,7 +3394,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_synthetic_bird_folded_source",
@@ -2502,7 +3441,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_synthetic_bird_spread_animated",
@@ -2595,7 +3538,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_synthetic_bird_spread_source",
@@ -2638,7 +3585,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_synthetic_surface_swim",
@@ -2709,7 +3660,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_bobcat_animated_2k",
@@ -2863,7 +3818,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_bobcat_artistic_variant_2k",
@@ -2973,7 +3932,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_grizzly_animated_2k",
@@ -3105,7 +4068,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_grizzly_artistic_variant_2k",
@@ -3215,7 +4182,11 @@
           "Physical dimensions require independent evidence or authored display values."
         ]
       },
-      "source_manifest": "data/wildlife_motion_assets.json"
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_wolf_authored",
@@ -3325,7 +4296,11 @@
         "max_weight_sum_error": 1.1920928955078125e-07,
         "smoothed_iterations": 10,
         "seam_weld_tolerance": 2.2099999999999998e-07
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_deer_authored",
@@ -3434,7 +4409,11 @@
         "max_weight_sum_error": 1.1920928955078125e-07,
         "smoothed_iterations": 10,
         "seam_weld_tolerance": 1.98e-07
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_badger",
@@ -3613,7 +4592,11 @@
         "max_weight_sum_error": 1.1920928955078125e-07,
         "smoothed_iterations": 10,
         "seam_weld_tolerance": 9.187756165896076e-08
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_bison_animated",
@@ -3747,7 +4730,11 @@
         "max_weight_sum_error": 1.1920928955078125e-07,
         "smoothed_iterations": 10,
         "seam_weld_tolerance": 9.996834807649184e-08
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_black_bear",
@@ -3931,7 +4918,11 @@
         "forward": "+z",
         "up": "+y"
       },
-      "tangent_frame_repair": null
+      "tangent_frame_repair": null,
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "wildlife_motion_canada_lynx",
@@ -4120,7 +5111,11 @@
         "count": 1,
         "method": "orthogonal_frame_for_degenerate_UV_tangent",
         "evidence_class": "derived"
-      }
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     }
   ],
   "evaluated_not_adopted": [
@@ -4210,7 +5205,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/bison_animated.manifest.json",
       "art_status": "operator_supplied_reduced_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "rainbow_trout": {
       "path": "res://assets/imported/fauna/trout/rainbow_trout_swim.glb",
@@ -4225,13 +5223,18 @@
       "reference_length_m": 0.38,
       "length_provenance": "authored; actor individual body_length determines scale",
       "source": "operator-supplied cutthroat-fish_swim_animated.glb, AI geometry with procedural spine",
-      "license": "operator supplied; upstream license unspecified",
+      "license": "KJR-owned geometry; inclusion in project releases authorized by owner",
       "texture_provenance": "authored illustrative species colors",
       "animation_provenance": "illustrative traveling-wave kinematics",
       "tailbeat_relation": "Bainbridge 1958 J Exp Biol 35:109-133; transferred to trout; below 5 Hz extrapolated",
       "sha256": "be74b79751e1c7b8089bff51471d0ca73f992d69491cd8513cf27d083d04c761",
       "mesh_budget_vertices": 4468,
-      "lods": "Godot importer meshes/generate_lods=true"
+      "lods": "Godot importer meshes/generate_lods=true",
+      "geometry_owner": "KJR",
+      "geometry_rights": "owner_confirmed",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "source_license_record": "operator supplied; upstream license unspecified"
     },
     "brown_trout": {
       "path": "res://assets/imported/fauna/trout/brown_trout_swim.glb",
@@ -4246,13 +5249,18 @@
       "reference_length_m": 0.35,
       "length_provenance": "authored; actor individual body_length determines scale",
       "source": "operator-supplied cutthroat-fish_swim_animated.glb, AI geometry with procedural spine",
-      "license": "operator supplied; upstream license unspecified",
+      "license": "KJR-owned geometry; inclusion in project releases authorized by owner",
       "texture_provenance": "authored illustrative species colors",
       "animation_provenance": "illustrative traveling-wave kinematics",
       "tailbeat_relation": "Bainbridge 1958 J Exp Biol 35:109-133; transferred to trout; below 5 Hz extrapolated",
       "sha256": "59e0d7256bd93687808cc9b6e146f06edea2cd1de9e8cf12939292d86114d6ac",
       "mesh_budget_vertices": 4468,
-      "lods": "Godot importer meshes/generate_lods=true"
+      "lods": "Godot importer meshes/generate_lods=true",
+      "geometry_owner": "KJR",
+      "geometry_rights": "owner_confirmed",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "source_license_record": "operator supplied; upstream license unspecified"
     },
     "bobcat": {
       "path": "res://assets/imported/wildlife_motion/bobcat_animated_2k.glb",
@@ -4261,7 +5269,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/bobcat_animated_2k.manifest.json",
       "art_status": "operator_supplied_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "grizzly": {
       "path": "res://assets/imported/wildlife_motion/grizzly_animated_2k.glb",
@@ -4270,7 +5281,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/grizzly_animated_2k.manifest.json",
       "art_status": "operator_supplied_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "wolf": {
       "path": "res://assets/imported/wildlife_motion/wolf_authored.glb",
@@ -4279,7 +5293,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/wolf_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "deer": {
       "path": "res://assets/imported/wildlife_motion/deer_authored.glb",
@@ -4288,7 +5305,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/deer_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "badger": {
       "path": "res://assets/imported/wildlife_motion/badger_animated.glb",
@@ -4297,7 +5317,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/badger_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "gray_wolf": {
       "path": "res://assets/imported/wildlife_motion/wolf_authored.glb",
@@ -4306,7 +5329,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/wolf_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "mule_deer": {
       "path": "res://assets/imported/wildlife_motion/deer_authored.glb",
@@ -4315,7 +5341,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/deer_authored.manifest.json",
       "art_status": "authored_species_shape_proxy",
-      "geometry_rights": "Apache-2.0"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "american_badger": {
       "path": "res://assets/imported/wildlife_motion/badger_animated.glb",
@@ -4324,7 +5353,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/badger_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "black_bear": {
       "path": "res://assets/imported/wildlife_motion/black_bear_animated.glb",
@@ -4333,7 +5365,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/black_bear_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "canada_lynx": {
       "path": "res://assets/imported/wildlife_motion/canada_lynx_animated.glb",
@@ -4342,7 +5377,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/canada_lynx_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     },
     "canadian_lynx": {
       "path": "res://assets/imported/wildlife_motion/canada_lynx_animated.glb",
@@ -4351,7 +5389,10 @@
       "length_axis": "z",
       "clip_manifest": "res://assets/imported/wildlife_motion/canada_lynx_animated.manifest.json",
       "art_status": "operator_supplied_textured_estimated_rig",
-      "geometry_rights": "unknown"
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
     }
   },
   "wildlife_assets_tracked": [
@@ -4373,7 +5414,11 @@
       "notes": [
         "Model ships oriented with body length along +X; yaw PI/2 maps the head to Godot forward (-Z).",
         "AABB measured headless with tools/_g2_inspect_new_fauna.gd."
-      ]
+      ],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "yellowstone_cutthroat_mesh",
@@ -4393,7 +5438,11 @@
       "notes": [
         "Shared mesh for rainbow_trout and brown_trout actors; brown_trout receives a warm-tint override.",
         "Model ships oriented with body length along +X; yaw PI/2 maps the head to Godot forward (-Z)."
-      ]
+      ],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     },
     {
       "id": "snake_river_cutthroat_school9_mesh",
@@ -4403,8 +5452,2082 @@
       "notes": [
         "Operator-supplied sample_school9_swim_snake_river_fine_spotted_cutthroat.glb is 450000 bytes but the GLB header declares 596748 bytes; Godot imports it as ERR_FILE_CORRUPT (gltf_document.cpp _parse_glb chunk_length mismatch).",
         "Not copied into the project. Re-download before registering."
-      ]
+      ],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "damco_american_bison",
+      "title": "American Bison",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Damco (jondameron5)"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/american-bison-88fbc7cb875444669bd45ac3597bc579",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/american-bison-88fbc7cb875444669bd45ac3597bc579",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator listing describes an authored model; archive provenance still requires inspection.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "American Bison by Damco (jondameron5); retain original URL and exact license when acquired.",
+      "notes": [
+        "858 triangles, animated, baked texture.",
+        "Suitable as behavior/distant prototype, not a finished realistic close-up bison."
+      ],
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "anees_animated_bison",
+      "title": "Animated Free Bison",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Anees Animates"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/animated-free-bison-be2dcd97db1c4b9c91a7728d9bc89925",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/animated-free-bison-be2dcd97db1c4b9c91a7728d9bc89925",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Not yet verified beyond creator attribution and description; do not treat as cleared human-created art.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Animated Free Bison by Anees Animates; retain original URL and exact license when acquired.",
+      "notes": [
+        "Creator advertises animation and PBR materials.",
+        "Original human creation, actual materials and rig not verified; inspect before adoption."
+      ],
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "nhm_la_rainbow_trout",
+      "title": "Low-poly rainbow trout, Oncorhynchus mykiss",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Natural History Museum of Los Angeles County"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/low-poly-rainbow-trout-oncorhynchus-mykiss-e2c052bd12fd492d9abf0a1c05cff175",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution-NonCommercial-ShareAlike",
+        "url": "https://sketchfab.com/3d-models/low-poly-rainbow-trout-oncorhynchus-mykiss-e2c052bd12fd492d9abf0a1c05cff175",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": false,
+        "attribution_required": true,
+        "share_alike": true
+      },
+      "human_source_evidence": "Museum-published reconstruction; specific institutional creator listing.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Low-poly rainbow trout, Oncorhynchus mykiss by Natural History Museum of Los Angeles County; retain original URL and exact license when acquired.",
+      "notes": [
+        "672 triangles; reconstruction associated with museum fossil work.",
+        "Retain NC and SA on derivatives; verify version.",
+        "Present-day living appearance and actual animation archive require inspection."
+      ],
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "sbastuff_trout",
+      "title": "Trout Fish Animated",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "SbaStuff"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/trout-fish-animated-4fa0cb7afc004d65bd49f406bffd5b2b",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/trout-fish-animated-4fa0cb7afc004d65bd49f406bffd5b2b",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator describes modeling, photographic UV projection and bone animation.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Trout Fish Animated by SbaStuff; retain original URL and exact license when acquired.",
+      "notes": [
+        "Approximately 3.2K triangles; bone animation.",
+        "Creator used a projected photographic texture; verify source-photo permission chain."
+      ],
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "spacescapes_frog",
+      "title": "Frog",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "SpaceScapes"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/frog-b386e33f44b344bab07a17b0c02f9f1b",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/frog-b386e33f44b344bab07a17b0c02f9f1b",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator listing describes an authored model; archive provenance still requires inspection.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Frog by SpaceScapes; retain original URL and exact license when acquired.",
+      "notes": [
+        "Low-poly painted frog with idle/jump animation.",
+        "Species unspecified; prototype pending native anatomy and habitat review."
+      ],
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "prizrakh_bird",
+      "title": "Sparrow Raven, 9 animations",
+      "category": "wildlife_model",
+      "included": false,
+      "status": "conditional_creator_listing_only",
+      "authors": [
+        "Prizrakh"
+      ],
+      "source_url": "https://sketchfab.com/3d-models/sparrow-raven-9-animations-27587d3c71ad46518cad2cdf245aa35e",
+      "reviewed_at": "2026-10-07",
+      "license": {
+        "id": null,
+        "name": "Creative Commons Attribution",
+        "url": "https://sketchfab.com/3d-models/sparrow-raven-9-animations-27587d3c71ad46518cad2cdf245aa35e",
+        "version_verified": false,
+        "personal_noncommercial_use": "Supported by creator listing label; verify exact downloaded license before integration.",
+        "commercial_use": "Attribution label permits it in principle; exact version unverified.",
+        "attribution_required": true,
+        "share_alike": false
+      },
+      "human_source_evidence": "Creator listing describes an authored model; archive provenance still requires inspection.",
+      "acquisition_status": "Indexed primary creator page reviewed; direct page retrieval blocked; archive not obtained.",
+      "credit": "Sparrow Raven, 9 animations by Prizrakh; retain original URL and exact license when acquired.",
+      "notes": [
+        "Nine-animation listing; ambiguous species name.",
+        "Check bill, tail, wing silhouette and actual skeleton before naming a species."
+      ],
+      "files": [],
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_synthetic_bird_folded_animated",
+      "title": "synthetic bird folded animated",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "authored",
+      "license": {
+        "id": "MIT",
+        "name": "MIT",
+        "version_verified": true,
+        "raw_redistribution": true
+      },
+      "rig_status": "synthetic_fixture",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Programmatically authored geometry; source classification retained",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb",
+          "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59",
+          "bytes": 1086552
+        }
+      ],
+      "source_sha256": "283bed33be652445430b7eb05ca93498342af4c8aa7295e1ad2cb208f149841a",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_folded_animated.glb",
+        "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 3108,
+        "triangles": 6160,
+        "skins": [
+          {
+            "joint_count": 24,
+            "weight_sum_max_error": 0.0
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 1.3877787807814457e-17,
+            "sampled_bounds_asset_units": [
+              [
+                -0.20900000631809235,
+                1.334291453086926e-08,
+                -0.49000000953674316
+              ],
+              [
+                0.20900000631809235,
+                0.8100000191479921,
+                0.589999970048666
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.25,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 1.0408340855860843e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.21129330376160385,
+                -0.00010767357979488278,
+                -0.4900000095367433
+              ],
+              [
+                0.21129330371542182,
+                0.8100000191479921,
+                0.589999970048666
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Float",
+            "duration_s": 5.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 2.7755575615628914e-17,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2101890813182372,
+                -0.28091675827895424,
+                -0.49027462195687516
+              ],
+              [
+                0.210189081327095,
+                0.5151571336259535,
+                0.593431813242391
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Paddle",
+            "duration_s": 1.4285714626312256,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 1.6653345369377348e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.24260808661946165,
+                -0.28104991324887096,
+                -0.49027288497593025
+              ],
+              [
+                0.24246071654151066,
+                0.5151226164568982,
+                0.593431813242391
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_synthetic_bird_folded_source",
+      "title": "synthetic bird folded source",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "authored",
+      "license": {
+        "id": "MIT",
+        "name": "MIT",
+        "version_verified": true,
+        "raw_redistribution": true
+      },
+      "rig_status": "synthetic_fixture",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Programmatically authored geometry; source classification retained",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb",
+          "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+          "bytes": 398880
+        }
+      ],
+      "source_sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_folded_source.glb",
+        "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 3108,
+        "triangles": 6160,
+        "skins": [],
+        "images": [],
+        "clips": [],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_synthetic_bird_spread_animated",
+      "title": "synthetic bird spread animated",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "authored",
+      "license": {
+        "id": "MIT",
+        "name": "MIT",
+        "version_verified": true,
+        "raw_redistribution": true
+      },
+      "rig_status": "synthetic_fixture",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Programmatically authored geometry; source classification retained",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb",
+          "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc",
+          "bytes": 1652428
+        }
+      ],
+      "source_sha256": "5540f0b1b270aed511c44679fd519186bf714002c3dc10a857fac952547807cb",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_spread_animated.glb",
+        "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 7104,
+        "triangles": 14080,
+        "skins": [
+          {
+            "joint_count": 24,
+            "weight_sum_max_error": 0.0
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Flight",
+            "duration_s": 0.4000000059604645,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.8939096262929662,
+                0.10654565927284554,
+                -0.6402387378353209
+              ],
+              [
+                0.8939096262929662,
+                0.8264000192284584,
+                0.5899999886751175
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Glide",
+            "duration_s": 4.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 2.7755575615628914e-17,
+            "sampled_bounds_asset_units": [
+              [
+                -0.8705663293586914,
+                0.1393368238433759,
+                -0.49000000953674316
+              ],
+              [
+                0.8705663293586914,
+                0.8264000192284584,
+                0.589999970048666
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_synthetic_bird_spread_source",
+      "title": "synthetic bird spread source",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "authored",
+      "license": {
+        "id": "MIT",
+        "name": "MIT",
+        "version_verified": true,
+        "raw_redistribution": true
+      },
+      "rig_status": "synthetic_fixture",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Programmatically authored geometry; source classification retained",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb",
+          "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+          "bytes": 908640
+        }
+      ],
+      "source_sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_spread_source.glb",
+        "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 7104,
+        "triangles": 14080,
+        "skins": [],
+        "images": [],
+        "clips": [],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_synthetic_surface_swim",
+      "title": "synthetic surface swim",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "authored",
+      "license": {
+        "id": "MIT",
+        "name": "MIT",
+        "version_verified": true,
+        "raw_redistribution": true
+      },
+      "rig_status": "synthetic_fixture",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Programmatically authored geometry; source classification retained",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb",
+          "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab",
+          "bytes": 612768
+        }
+      ],
+      "source_sha256": "7f3e8abacaa0ce26242f5e27ea77c384c1abfdabf435077c1da0c22e0267e7d2",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_surface_swim.glb",
+        "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 3108,
+        "triangles": 6160,
+        "skins": [
+          {
+            "joint_count": 24,
+            "weight_sum_max_error": 0.0
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "SurfaceSwim",
+            "duration_s": 6.0,
+            "root_motion": true,
+            "loop": false,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 0.2679577002646198,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2285657539287464,
+                -0.2912971433255505,
+                -0.4096639877781462
+              ],
+              [
+                0.23711081551418128,
+                0.499687024414287,
+                0.8174009645405906
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "authored_surrogate_inputs_not_species_measurements"
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_bobcat_animated_2k",
+      "title": "bobcat animated 2k",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/bobcat_animated_2k.glb",
+          "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26",
+          "bytes": 13709088
+        }
+      ],
+      "source_sha256": "8dc5972398e5180ef86d85b765d5fa045a668f882b44d263094261e1a23f835e",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "bobcat_animated_2k.glb",
+        "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 12998,
+        "triangles": 14725,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "d6ca04607d002c091439d39d18ff71caa65dcadbe82b6702d89fda6ac1af7d60"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "609893bacb38d7bfe04c2335f90361be8f9af12e3fcdbdd0e2a66fad41860cb3"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.404760418572849e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3955639010739273,
+                -3.001281358805032e-08,
+                -1.2073343599545232
+              ],
+              [
+                0.39321631186514405,
+                1.3809239896692826,
+                1.0841082911676114
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.9047619104385376,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5843163435138874,
+            "surface_loop_error_asset_units": 2.7755575615628914e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3956679068903407,
+                -0.00022212594202540917,
+                -1.207331661154277
+              ],
+              [
+                0.39335574846020616,
+                1.3394962694153532,
+                1.059359118560648
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Stalk",
+            "duration_s": 3.076923131942749,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.19315455759627911,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3955650061600933,
+                -1.728373990824278e-05,
+                -1.2073320167469361
+              ],
+              [
+                0.39321771457389443,
+                1.3394962694153532,
+                1.0593593313829024
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Trot",
+            "duration_s": 1.25,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 1.2488356051237688,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3958976148222919,
+                -0.0005393376072917368,
+                -1.2073231332793024
+              ],
+              [
+                0.3934300894150348,
+                1.3394962694153532,
+                1.0593543642214849
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_bobcat_artistic_variant_2k",
+      "title": "bobcat artistic variant 2k",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb",
+          "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265",
+          "bytes": 13800228
+        }
+      ],
+      "source_sha256": "3331dae8c802953322299684efff0c41c5d7164a32791774ab2ac8dc0a47b012",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "bobcat_artistic_variant_2k.glb",
+        "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 12998,
+        "triangles": 14725,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "d6ca04607d002c091439d39d18ff71caa65dcadbe82b6702d89fda6ac1af7d60"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "609893bacb38d7bfe04c2335f90361be8f9af12e3fcdbdd0e2a66fad41860cb3"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 4.440892098500626e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.4055994492309031,
+                2.4123405733938214e-09,
+                -1.2381911236718401
+              ],
+              [
+                0.40319228561357556,
+                1.390043271798595,
+                1.1088811510803334
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.9047619104385376,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5881750221140252,
+            "surface_loop_error_asset_units": 4.440892098500626e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.40569763729753694,
+                -0.00023035159095929902,
+                -1.238188354933753
+              ],
+              [
+                0.4033229715748583,
+                1.3483419737983056,
+                1.0838553186280742
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_grizzly_animated_2k",
+      "title": "grizzly animated 2k",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/grizzly_animated_2k.glb",
+          "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434",
+          "bytes": 13893996
+        }
+      ],
+      "source_sha256": "a7b27113d138c934994aa38ce349b4978f1c7ce20a0fb8ff2a0043d363ccc778",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "grizzly_animated_2k.glb",
+        "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 18043,
+        "triangles": 14708,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "e3169d9ecacf0e6c57cbb47faf87acb7a032307921d2e93b77f016ebf460351d"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "73f4913154ce3701060b0cc3f384c712d50767b8baa241657c3271bf42ff3640"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5028627653526683,
+                -2.9802322387695312e-08,
+                -1.1172708088457197
+              ],
+              [
+                0.6028334306586216,
+                1.3013444247228616,
+                0.9590164595039029
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.6666667461395264,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.33424972976957046,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5037727197071932,
+                -3.108125661700317e-08,
+                -1.2001031708112555
+              ],
+              [
+                0.6044724334329556,
+                1.3037962430064385,
+                0.9442235703870675
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "RunningWalk",
+            "duration_s": 1.6666666269302368,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.8296979107755295,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5040345253528322,
+                -0.0003634515607350327,
+                -1.2234557019280512
+              ],
+              [
+                0.604094724859206,
+                1.304761154830489,
+                0.9441984354815462
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_grizzly_artistic_variant_2k",
+      "title": "grizzly artistic variant 2k",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb",
+          "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9",
+          "bytes": 14141192
+        }
+      ],
+      "source_sha256": "34c40c6705def9f432aecac19397cdb713321ce3ef8565ecde1bb70e3197f860",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "grizzly_artistic_variant_2k.glb",
+        "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 18043,
+        "triangles": 14708,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "e3169d9ecacf0e6c57cbb47faf87acb7a032307921d2e93b77f016ebf460351d"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "73f4913154ce3701060b0cc3f384c712d50767b8baa241657c3271bf42ff3640"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.4935059246329529,
+                -2.7188973703605223e-08,
+                -1.0863988895197272
+              ],
+              [
+                0.5885218260842381,
+                1.2552532044404772,
+                0.9341673790964424
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.6666667461395264,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.3223832283866375,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.4954621851740502,
+                -2.7577938279589883e-08,
+                -1.16580979849268
+              ],
+              [
+                0.5901411414226359,
+                1.2576636854891532,
+                0.9196729463696508
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_wolf_authored",
+      "title": "wolf authored",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "authored",
+      "license": {
+        "id": "Apache-2.0",
+        "name": "Apache-2.0",
+        "version_verified": true,
+        "raw_redistribution": true
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Programmatically authored geometry; source classification retained",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/wolf_authored.glb",
+          "sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63",
+          "bytes": 483876
+        }
+      ],
+      "source_sha256": null,
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "wolf_authored.glb",
+        "sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 1290,
+        "triangles": 2520,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.24499999974594136,
+                -2.919804156603361e-08,
+                -1.1323736432723968
+              ],
+              [
+                0.24499999974594136,
+                1.2199999964480228,
+                1.0776208551252529
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5630769230769231,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2449999991567373,
+                -0.00011755682837825467,
+                -1.1320996576665918
+              ],
+              [
+                0.2449999991567373,
+                1.2199999964480228,
+                1.077819014030609
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 1290,
+        "original_vertices": 1290,
+        "chain_vertex_counts": {
+          "body": 453,
+          "FL": 189,
+          "FR": 186,
+          "HL": 193,
+          "HR": 191,
+          "tail": 78
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 2.2099999999999998e-07
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_deer_authored",
+      "title": "deer authored",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "authored",
+      "license": {
+        "id": "Apache-2.0",
+        "name": "Apache-2.0",
+        "version_verified": true,
+        "raw_redistribution": true
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Programmatically authored geometry; source classification retained",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/deer_authored.glb",
+          "sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408",
+          "bytes": 459100
+        }
+      ],
+      "source_sha256": null,
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "deer_authored.glb",
+        "sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 1290,
+        "triangles": 2520,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.775570382862386e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.24437508078663672,
+                -2.311083266792593e-08,
+                -0.8054955008107594
+              ],
+              [
+                0.24451992973936124,
+                1.9800000093028545,
+                0.9844996279646441
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.5,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5430857142857143,
+            "surface_loop_error_asset_units": 4.727121472036799e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2503237301559023,
+                -0.0003969740675420705,
+                -0.8388138033933956
+              ],
+              [
+                0.24955611943008119,
+                1.9800000093028545,
+                0.9855187924440065
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 1290,
+        "original_vertices": 1290,
+        "chain_vertex_counts": {
+          "body": 479,
+          "FL": 199,
+          "FR": 191,
+          "HL": 214,
+          "HR": 207
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 1.98e-07
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_badger",
+      "title": "badger",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/badger_animated.glb",
+          "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5",
+          "bytes": 17735744
+        }
+      ],
+      "source_sha256": "a2f4bbd0a62cb0937115b88147b775ca99495d6dfab11107d34cc35ee7c4070c",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "badger_animated.glb",
+        "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 15915,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "e8b496f6b73be0ebdeeab5e55bb24e5ab7d8b66c82b47c78773b38ab57569172"
+          },
+          {
+            "name": "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "625c07ccb7fed05a0e38031ca3b07a6372de0b1d047a54931ba2a8edc496f4df"
+          },
+          {
+            "name": "ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "452f4e4bdc8ab4355d285112a8dffa2e14fe7690c90e3a1ae0475462d3f3316e"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 1.1102230246251565e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.21999513684713323,
+                -1.1213689195247484e-08,
+                -0.4398666146287291
+              ],
+              [
+                0.25187663044396774,
+                0.3961185645755845,
+                0.4968879986240481
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.600000023841858,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.11972610360464533,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2204364713082754,
+                -0.0004344825639943199,
+                -0.4594868807849088
+              ],
+              [
+                0.23822020313736553,
+                0.39376585909024325,
+                0.48397276809231554
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "runtime_source_sha256": "3e1da3e33155edbe2113b904dcf8390fe6d861edc9781f784ab18fa38b203c5b",
+      "textures": "source_PBR_documented_resolution_reduction",
+      "source_texture_sha256": {
+        "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62": "2e1aa312248e8f85f0cb546da003d10a28cc3113560669b789f96f2d0de629cd",
+        "ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62": "3a4acd7b963a80af204ce75c1eddcd497ab72775aba8c32167093e6f5e6d6c38",
+        "NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62": "32708e9a6c8560292eb6bdddfa633074209712d109e33e7676026803db5c3215"
+      },
+      "texture_resizing": [
+        {
+          "image": "NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+          "before": [
+            8192,
+            8192
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "texture_resolution_evidence_class": "authored",
+      "texture_content": "source_color_normal_ORM",
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 15368,
+        "original_vertices": 15915,
+        "chain_vertex_counts": {
+          "body": 6353,
+          "FL": 2755,
+          "FR": 2495,
+          "HL": 1302,
+          "HR": 1106,
+          "tail": 1904
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 9.187756165896076e-08
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_bison_animated",
+      "title": "bison animated",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/bison_animated.glb",
+          "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58",
+          "bytes": 12632180
+        }
+      ],
+      "source_sha256": "bbbeb371431d0871285ba1478f68c9fe59383be1a50cbcb5be5d87e16c237587",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "bison_animated.glb",
+        "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 17889,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "NormalGL_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "sha256": "618bd227c40a917034e0ae9f88563af7c13c1d526c90fa6868edd7795a0c7a95"
+          },
+          {
+            "name": "Color_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "sha256": "8f6ad1ad38c26ecce61c5b779e4743868b8819233032154ae78b3c0ed4aafa9e"
+          },
+          {
+            "name": "ORM_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "sha256": "09441bf91464fc333b35386489da03afdf93f19b827f8faf4a9ff635ba0a7691"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.17009616934036276,
+                -1.189453015128075e-08,
+                -0.40001453199126397
+              ],
+              [
+                0.1799453300629677,
+                0.6219258203990228,
+                0.6038297980808587
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.5,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.17058537891932896,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.1598536577946134,
+                -0.00021756564765777037,
+                -0.41975075869761275
+              ],
+              [
+                0.16992153685679487,
+                0.6219258203990228,
+                0.6019226971099187
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 17027,
+        "original_vertices": 17889,
+        "chain_vertex_counts": {
+          "body": 9343,
+          "FL": 2913,
+          "FR": 2458,
+          "HL": 1824,
+          "HR": 1351
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 9.996834807649184e-08
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_black_bear",
+      "title": "black bear",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/black_bear_animated.glb",
+          "sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b",
+          "bytes": 19310880
+        }
+      ],
+      "source_sha256": "c88974e9bf415d537059ea1b8c72f0eba9f001bc8cf53ee59cd5fe2a9d831e94",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "black_bear_animated.glb",
+        "sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 24079,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "Image_2",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "ef0278e6791e452245cf3f12ec0e8425545557d406fc1280c8c8808facf60c41"
+          },
+          {
+            "name": "Image_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "f6385903fb4c41107c04204e4b100de50da94e0aba1aa20536495d95dd7a0c30"
+          },
+          {
+            "name": "Image_1",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "8e0dce67bc7c09c8eee5348d7695267c04f96f657dde83a8bc0d4bf4e3bfdf9e"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5210129588830409,
+                1.8307066914848646e-08,
+                -0.8768099195933362
+              ],
+              [
+                0.47986708155090835,
+                1.4112837813881443,
+                1.2514905121748574
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.222222328186035,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.43548183713640487,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5221747315455989,
+                -0.0007161212149509394,
+                -0.9955053459251937
+              ],
+              [
+                0.4709979874025991,
+                1.4112837813881443,
+                1.2174672365771158
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "runtime_source_sha256": "88f32cda3d886816b4f8861120dc2bf79026aaef11b4814c5ff5ac968f2c74d2",
+      "textures": "source_PBR_documented_resolution_reduction",
+      "source_texture_sha256": {
+        "material_0.baseColorTexture": "1a510dbca482ab57d3608b4bc5233a2ba9e0b965681cd5b78c71a457b47d73fb",
+        "material_0.metallicRoughnessTexture": "7a0081608e84225919781062cb83f7f7760d79c8c0a79e913a45d5d48f564c17",
+        "material_0.normalTexture": "80592e843dc576df44c167dd370ac1d2b966a3bc18b7626b071afb334950b7ff"
+      },
+      "texture_resizing": [
+        {
+          "image": "Image_2",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_0",
+          "before": [
+            8192,
+            8192
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_1",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "texture_resolution_evidence_class": "authored",
+      "texture_content": "source_color_normal_ORM",
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 23530,
+        "original_vertices": 24079,
+        "chain_vertex_counts": {
+          "body": 9635,
+          "FL": 4168,
+          "FR": 2422,
+          "HL": 4682,
+          "HR": 3172
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 2.092053926849261e-07
+      },
+      "source_file": "black-bear.glb",
+      "source_axes": {
+        "forward": "+z",
+        "up": "+y"
+      },
+      "tangent_frame_repair": null,
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
+    },
+    {
+      "id": "wildlife_motion_canada_lynx",
+      "title": "canada lynx",
+      "category": "wildlife_model",
+      "included": true,
+      "status": "operator_supplied",
+      "license": {
+        "id": null,
+        "name": "unknown",
+        "version_verified": false,
+        "raw_redistribution": null
+      },
+      "human_source_evidence": "Operator-supplied geometry, authorship unverified",
+      "source_manifest": "data/wildlife_motion_assets.json",
+      "files": [
+        {
+          "path": "assets/imported/wildlife_motion/canada_lynx_animated.glb",
+          "sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143",
+          "bytes": 23124076
+        }
+      ],
+      "source_sha256": "d8159e22a8ae65165224dda19f8bbac8eaa9de384bf6d4fe379f63c8ffb90fb8",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "canada_lynx_animated.glb",
+        "sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 26348,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "Image_2",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "a95c95e6ea71c28348cf7bc4b9d63cd72a990a778f0aa517b7ccb043620134a1"
+          },
+          {
+            "name": "Image_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "d3a353717c839f29034478d3470f1554ac3d12785c3b79c7a1223806baec71f3"
+          },
+          {
+            "name": "Image_1",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "602a598f444e1b94b3595a65a20c724c742589d0baf38c3f47f4a70b34691d23"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 4.440892098500626e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2713708810693147,
+                -0.0004994236168386299,
+                -0.8185439003006282
+              ],
+              [
+                0.6067024994095033,
+                1.3371130575806183,
+                1.2527860020002428
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.9047619104385376,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5622216111243662,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.27137088051913266,
+                -0.002718346612218585,
+                -0.9254141066047741
+              ],
+              [
+                0.6001596509710649,
+                1.2888460014946759,
+                1.2690375838480459
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "runtime_source_sha256": "856941fa949c8be774660dd3067598588482bddd9767bee899e568f29844c254",
+      "textures": "source_PBR_documented_resolution_reduction",
+      "source_texture_sha256": {
+        "material_0.baseColorTexture": "f0dc6b011b72f4bac7006d568f4ba682e3d357177cb72434e3efe87c5826bf30",
+        "material_0.metallicRoughnessTexture": "c6bf95de9ff2ef1c22348fcf5be09586cb00fc1647e2b80db2a18bdb02717b28",
+        "material_0.normalTexture": "8aa39df91bbfd2994829ac3d7909a281a378e6b28e8767fdc1fbe70c52c91308"
+      },
+      "texture_resizing": [
+        {
+          "image": "Image_2",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_0",
+          "before": [
+            8192,
+            8192
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_1",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "texture_resolution_evidence_class": "authored",
+      "texture_content": "source_color_normal_ORM",
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 25624,
+        "original_vertices": 26348,
+        "chain_vertex_counts": {
+          "body": 14217,
+          "FL": 3858,
+          "FR": 1541,
+          "HL": 3084,
+          "HR": 1794,
+          "tail": 1854
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 2.0489334163692203e-07
+      },
+      "source_file": "canadian-lynx.glb",
+      "source_axes": {
+        "forward": "-x",
+        "up": "+y"
+      },
+      "tangent_frame_repair": {
+        "count": 1,
+        "method": "orthogonal_frame_for_degenerate_UV_tangent",
+        "evidence_class": "derived"
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release",
+      "geometry_rights": "owner_confirmed"
     }
   ],
-  "wildlife_motion_manifest": "data/wildlife_motion_assets.json"
+  "wildlife_motion_manifest": "data/wildlife_motion_assets.json",
+  "animal_geometry_ownership": {
+    "owner": "KJR",
+    "evidence": "Direct owner declaration",
+    "release_inclusion": "authorized_for_project_release",
+    "scientific_acceptance": "not_yet_accepted",
+    "scope": "All animal meshes; source method and scientific status remain per-asset records"
+  }
 }

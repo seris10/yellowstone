@@ -1,41 +1,85 @@
 # Yellowstone Midway
 
-A walkable model of the Midway Geyser Basin in Yellowstone National Park, built in Godot 4.5.1 with a Python model behind it. Python simulates the Firehole River's heat and flow, snow and soil moisture, vegetation and grazing, thermal pool outflows and microbial mats, an aquatic food web and wildlife, and publishes the results into the Godot world. In Godot you walk the Grand Loop Road, the Midway boardwalk and the overlook approach at real distances, with the river, steam, weather and ecosystem running from the published data or from a live local Python service.
+A georeferenced Yellowstone environment connecting Python ecosystem models to an interactive Godot world, with traceable data and explicit model limits.
 
-## Status
+![Actual Godot view of Midway](docs/portfolio-overlook.png)
 
-This project is unfinished and it is not yet a scientific tool. The terrain, roads, trails, river and pools are georeferenced from USGS, NPS and USDA sources, and the tree census comes from USGS lidar, but the models running on top of them are illustrative. Boundary discharge and upstream temperature are prescribed, several parameters are authored within literature ranges and were not measured here, and no model claim in the repository has been validated against an evaluation dataset. Each fit and scenario artifact carries its own evidence status, and the registries under `yellowstone_python/registry/` keep measured, literature, fitted and authored values apart. I intend to keep replacing the simpler methods with more accurate ones and to validate the results before calling any of this scientific.
+[Recorded demonstration](docs/portfolio-demo.mp4) | [Three case studies and numerical experiment](docs/PORTFOLIO.md) | [Execution evidence](evidence/receipts/) | [Model authority](docs/MODEL_AUTHORITY.md)
 
-## Where this is going
+The current environment covers a 4.096 km square around Midway Geyser Basin. Roads, boardwalks, thermal features and the Firehole use geographic inputs. Python supplies river heat transport, land stocks and ecosystem trajectories; Godot renders those trajectories with walking, probes, weather, vegetation and KJR-owned animal meshes. The recorded comparison changes one authored input and shows the downstream temperature response.
 
-Midway is a small slice. A full scale Yellowstone is planned, and the same approach is in progress for other places with different geology and ecology: a stretch of the Pacific Coast Highway in Northern California, the Mono Lake basin, compressed versions of the Sierra Nevada and the Mojave, a rainforest, Colorado National Monument and Lava Beds National Monument. Some are to scale and some are compressed representations. The longer goal for the coast is a full length highway you can drive, pull over on and wander away from, with the world loaded locally around the player as an island of terrain, simulation and rendering that follows the direction of travel.
+The project is unfinished. Geographic inputs are measured or mapped; channel widths, underwater depths, ecological rates and many placements remain authored. Numerical checks establish selected conservation, control and execution behavior. All scientific claims remain `not_yet_accepted`; ecological forecast validation is unavailable.
 
-## Run it
+## View the demo
 
-```bash
-cd yellowstone_python
-python3 -m venv --system-site-packages .venv
-.venv/bin/python -m pip install -e '.[science,fetch,dev]'
-.venv/bin/python -m pytest
-.venv/bin/python -m yellowstone_python.build --config configs/baseline.yaml
+A prepared demo package contains the authored scene and one immutable runtime generation. Extract it, use Godot 4.5.1, and run:
+
+```sh
+cd Yellowstone-Midway
+godot --headless --editor --path . --import --quit
+godot --path .
 ```
 
-The generated `yellowstone_midway/scenes/authored_world.tscn` exceeds GitHub's file-size limit and stays local. After cloning or exporting the repository, rebuild it once with Godot 4.5.1:
+Python is unnecessary for offline exploration. The local service may be unavailable. The interface shows execution mode, model time and release identity. Choose **Guided river temperature experiment** in the portfolio scenario, or begin walking. WASD walks, mouse looks, Esc opens starting places, H opens a river probe and Q pauses playback. [Controls and bake details](yellowstone_midway/README.md) describe the source checkout path.
 
-```bash
+A source checkout omits the generated 354 MB authored scene. Rebuild it from the supplied world inputs before launch:
+
+```sh
 cd yellowstone_midway
 godot --headless --editor --path . --import --quit
 godot --headless --path . --script tools/bake_world.gd
+godot --path .
 ```
 
-Replace `godot` with the path to the Godot executable. Open `project.godot` and press F5 after the bake. Published simulation data are included, so the world runs without a Python service. From `yellowstone_python/`, publish a new build with `.venv/bin/python -m yellowstone_python.publish --build derived/<build-id> --to ../yellowstone_midway`. To drive the world live, start `.venv/bin/python -m yellowstone_python.service.live --build derived/<build-id>`; Godot probes `http://127.0.0.1:8765` at startup and falls back to the published data when nothing answers.
+On the tested macOS machine, use `godot --path . --rendering-method mobile --rendering-driver metal` for visible exploration and captures. [Measured render scope](docs/PERFORMANCE.md) records platform and limits.
 
-Walk with WASD, look with the mouse, hold Shift to walk faster. Esc opens the starting places and menu, M the map, Tab the conditions and weather panel, H a river and ground probe, and 1 through 4 set the simulation speed from 1x to 3600x. F1 lists every binding.
+## Reproduce the model
 
-## Layout
+Use Python 3.14 with the clean reference lock. From the repository root:
 
-`yellowstone_python/` holds the model, its tests, the build pipeline, observation fetchers for USGS, SNOTEL and Open-Meteo, and the publish step. `yellowstone_midway/` is the Godot project: terrain, pools, vegetation, wildlife and player controls. `yellowstone_atmosphere/` renders sky, clouds and precipitation from the weather snapshots Python writes. `hydrology/` is a small NumPy rainfall, infiltration, runoff and soil water model on a grid, used for experiments.
+```sh
+cd yellowstone_python
+python3.14 -m venv .venv
+.venv/bin/python -m pip install -r requirements-reference.lock
+.venv/bin/python -m pip install -e . --no-deps --no-build-isolation
+.venv/bin/python -m pytest -m 'not needs_world' -q
+.venv/bin/python -m tools.reference_run --out ../work/reference-experiment.json --plot ../work/reference-experiment.png
+```
+
+The small experiment uses synthetic geometry and fixed forcing. Full-world reproduction requires the frozen Godot inputs and canopy artifacts described in [the Python guide](yellowstone_python/README.md). Acquire any missing raw data using that guide; a local cache is separate from a reproducible input. With those inputs available:
+
+```sh
+.venv/bin/python -m yellowstone_python.build --config configs/portfolio.yaml
+.venv/bin/python -m yellowstone_python.publish --build derived/<build-id> --to ../yellowstone_midway
+cd ../yellowstone_midway
+godot --path .
+```
+
+The publisher verifies the build manifest and bound check report, stages a complete generation, then replaces one pointer. Previous generations remain available. Starting `.venv/bin/python -m yellowstone_python.service.live --build derived/<build-id>` from `yellowstone_python/` resumes that model's initial state and forcing. A service serving another build cannot silently replace the selected generation.
+
+## Architecture and evidence
+
+```mermaid
+flowchart LR
+    Inputs[Geographic inputs and authored scenario] --> Python[Python model and checks]
+    Python --> Build[Hashed build artifacts]
+    Build --> Release[Immutable runtime generation]
+    Release --> Godot[Godot exploration and probes]
+    Build --> Live[Matching live Python session]
+    Live --> Godot
+    Receipts[Commands with source and fixture hashes] --> Dashboard[Execution evidence dashboard]
+```
+
+Display lighting, model-time advance and scenario reset have separate effects. Wind-removed snow is a solid export; only liquid drainage can enter river discharge. Snow/soil ET has one owner. Playback speed leaves the river timestep unchanged. Frozen diagnostics, unavailable fields, numerical verification and empirical evaluation have distinct evidence states.
+
+GitHub Actions defines an isolated reference path and a separate self-hosted scientific path. Local receipts report executed and skipped cases separately and become stale when source or fixture bytes change. A workflow definition alone establishes no completed GitHub run.
 
 ## Data and licensing
 
-Code is licensed under Apache-2.0 (see `LICENSE`). Third-party data keep their own terms: USGS 3DEP elevation, lidar and stream gauge data, USDA NAIP imagery, NPS geographic layers, NRCS SNOTEL observations, Open-Meteo weather, and the Yale Bright Star Catalog, each with a source record beside the files that use it. The imported wildlife motion library is MIT licensed. The code license does not relicense any of those inputs.
+Repository-default code uses [Apache-2.0](LICENSE). Original Godot subtree code and authored project structures use [MIT](yellowstone_midway/LICENSE); files with explicit license records retain those records. The wildlife motion library is MIT and the Python integration is Apache-2.0. KJR owns the animal meshes and authorized their inclusion in the project release. Geometry ownership does not establish biological validation.
+
+USGS elevation and LiDAR, USDA NAIP imagery, NPS geographic layers and field recordings, and third-party artwork retain their own source permissions. [Third-party credits](yellowstone_midway/THIRD_PARTY.md) and the release-specific `ASSET_INVENTORY.json` separate presence, runtime use, geometry checks and redistribution evidence.
+
+## Future scope
+
+A larger Yellowstone and other environments remain development plans. Midway's current evidence and reproducible boundaries are the portfolio focus. Whole-park streaming, ecological field validation and further visual refinement remain open work.

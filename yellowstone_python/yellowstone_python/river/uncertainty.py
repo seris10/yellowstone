@@ -93,7 +93,8 @@ def ridge_members(results: list[dict[str, Any]], champion_train_rmse: float,
         for key in ("q_lat", "t_lat", "c_mult"):
             if not math.isfinite(float(row[key])):
                 raise ValueError(f"{key} must be finite")
-        clean.append(row)
+        if calibrate.candidate_numerically_valid(row):
+            clean.append(row)
     cutoff = champion_train_rmse * (1.0 + tol_frac)
     members = [r for r in clean if float(r["train_rmse"]) <= cutoff]
     fallback = False
@@ -103,6 +104,9 @@ def ridge_members(results: list[dict[str, Any]], champion_train_rmse: float,
         fallback = True
     return [{"q_lat": m["q_lat"], "t_lat": m["t_lat"],
              "c_mult": m["c_mult"], "train_rmse": m["train_rmse"],
+             "budget_ok": True,
+             "inclusion_reason": "valid_within_tolerance" if float(m["train_rmse"]) <= cutoff else "valid_topn_outside_tolerance",
+             "membership_rule": "numerical_validity_then_training_rmse",
              "fallback_member": fallback,
              "requested_min_members": min_members,
              "actual_members": len(members),
@@ -141,15 +145,25 @@ def member_trajectories(bundle: dict[str, Any], volume_m3: float,
     """Forward run per ensemble member; returns shared grid + trajectories."""
     if not members:
         raise ValueError("members must be nonempty")
-    runs = [calibrate.run_fit_forward(bundle, volume_m3, area_m2,
-                                      m["q_lat"], m["t_lat"], m["c_mult"],
-                                      dt_s)
-            for m in members]
+    runs, accepted, rejected = [], [], []
+    for member in members:
+        if member.get("budget_ok") is False:
+            rejected.append({"member": dict(member), "reason": "previously_rejected_numerical_candidate"})
+            continue
+        forward = calibrate.run_fit_forward(bundle, volume_m3, area_m2,
+            member["q_lat"], member["t_lat"], member["c_mult"], dt_s)
+        if not calibrate.candidate_numerically_valid(forward):
+            rejected.append({"member": dict(member), "reason": "forward_numerical_checks_failed"})
+            continue
+        runs.append(forward)
+        accepted.append(dict(member))
     grids = [r["grid"] for r in runs]
     if any(g != grids[0] for g in grids[1:]):
         raise ValueError("member grids disagree; same bundle/dt required")
-    return {"grid": grids[0],
-            "trajectories": [r["modeled_c"] for r in runs]}
+    return {"grid": grids[0] if grids else [],
+            "trajectories": [r["modeled_c"] for r in runs],
+            "members": accepted, "rejected_members": rejected,
+            "numerical_validity": "passed" if runs else "unavailable"}
 
 
 def ensemble_bands(trajectories: Sequence[Sequence[float]],

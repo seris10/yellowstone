@@ -139,7 +139,8 @@ def load_inputs(cfg: dict) -> tuple[dict, dict, dict, object]:
         "cross_sections": (_external_entry(cs_path) if cs_path is not None
                            else {"path": None, "exists": False,
                                  "sha256": None}),
-        "met_bundle": _external_entry(met_candidate),
+        "met_bundle": (_external_entry(met_candidate) if wcfg_io.get("use_met_bundle", True)
+                       else {"path": None, "exists": False, "sha256": None}),
         "requirements": _external_entry(PKG_ROOT / "requirements.txt"),
         "package_metadata": _external_entry(PKG_ROOT / "pyproject.toml"),
         "canopy_census": _external_entry(PKG_ROOT / "derived" / "census.json"),

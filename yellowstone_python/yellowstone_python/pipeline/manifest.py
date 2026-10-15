@@ -1,6 +1,7 @@
 """Manifest build operations."""
 from __future__ import annotations
 
+from yellowstone_python.common.provenance import portable_identity_payload
 from yellowstone_python.pipeline.shared import CONTRACT_VERSION, HYDRO_HEAT_LEDGER_TOL_J, HYDRO_WATER_LEDGER_TOL_M3, PKG_ROOT, Path, REPLAY_HEAT_RELATIVE_TOLERANCE, REPLAY_WATER_RELATIVE_TOLERANCE, SNOW_STORAGE_TOL_MM, WORLD_ID, copy, predicted_quantities, sha256_file, sha256_json
 
 def _package_version(name: str) -> str:
@@ -35,7 +36,7 @@ def build_manifest(cfg: dict, deps: dict, res: dict, checks: dict,
     import platform
 
     commit, commit_status = _code_commit()
-    lock = PKG_ROOT / "requirements.txt"
+    lock = PKG_ROOT / "requirements-reference.lock"
     world_label = Path(cfg.get("world_root") or "yellowstone_midway").name
     hydro = cfg.get("hydro", {})
     replay_cfg = cfg.get("replay", {})
@@ -70,6 +71,9 @@ def build_manifest(cfg: dict, deps: dict, res: dict, checks: dict,
         "schema": "yellowstone.build_manifest.v1",
         "run_id": bid,
         "build_id": bid,
+        "scenario_id": bid,
+        "model_variant_id": "mapped_fv_explicit" if res.get("energy_budget_choice") else "mapped_fv_newton",
+        "input_identity": sha256_json(portable_identity_payload(cfg, deps)),
         "river_model": "river.river_transport",
         "thermal_curve_form": cfg.get("fish", {}).get("thermal_curve_form", "piecewise_linear"),
         "config": {key: value for key, value in cfg.items() if key != "world_root"},
@@ -104,11 +108,9 @@ def build_manifest(cfg: dict, deps: dict, res: dict, checks: dict,
         "code_rev_source": deps.get("code_rev_source"),
         "code_sha256": deps.get("code"),
         "environment_lock": {
-            "file": "requirements.txt",
+            "file": "requirements-reference.lock",
             "sha256": (sha256_file(lock) if lock.is_file() else None),
-            "note": ("requirements.txt carries version ranges; "
-                     "external_solver_versions holds the authoritative "
-                     "installed versions for this run"),
+            "note": "Exact reference dependencies; installed backend versions recorded separately",
         },
         "external_solver_versions": {
             "python": platform.python_version(),
@@ -122,6 +124,15 @@ def build_manifest(cfg: dict, deps: dict, res: dict, checks: dict,
             "salib": _package_version("SALib"),
             "xarray": _package_version("xarray"),
             "netcdf4": _package_version("netCDF4"),
+            "pvlib": _package_version("pvlib"),
+            "metpy": _package_version("metpy"),
+            "pyproj": _package_version("pyproj"),
+            "rasterio": _package_version("rasterio"),
+            "shapely": _package_version("shapely"),
+            "fipy": _package_version("fipy"),
+            "laspy": _package_version("laspy"),
+            "lazrs": _package_version("lazrs"),
+
         },
         "input_datasets": {
             "ecosystem": {"file": f"{world_label}/data/ecosystem.json",
@@ -137,6 +148,10 @@ def build_manifest(cfg: dict, deps: dict, res: dict, checks: dict,
                         "sha256": deps.get("terrain.f32")},
         },
         "configuration_hash": deps.get("config"),
+        "portable_identity": portable_identity_payload(cfg, deps),
+        "execution_receipt": {"world_root": cfg.get("world_root"),
+                              "input_paths": {key: value.get("path") for key, value in deps.get("external_inputs", {}).items()},
+                              "source_discovery": deps.get("code_hash_source")},
         "parameter_set": parameter_set,
         "parameter_set_sha256": sha256_json(parameter_set),
         "random_streams": {
@@ -216,5 +231,8 @@ def build_manifest(cfg: dict, deps: dict, res: dict, checks: dict,
         "output_artifact_hashes": artifacts,
         "deps": deps,
         "timeline": res.get("timeline"),
+        "land_thermal_flux_mm_d_by_patch": res.get("thermal_by_patch", {}),
+        "land_stock_owner": "snow_soil_bucket",
+        "land_model_variant": "degree_day_soil_bucket_solid_export",
         "metrics": copy.deepcopy(checks["metrics"]),
     }

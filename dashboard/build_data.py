@@ -8,6 +8,7 @@ from __future__ import annotations
 import datetime
 import json
 import re
+import hashlib
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -204,6 +205,46 @@ def tally(items: list, key: str, keys: list) -> dict:
     return counts
 
 
+def receipt_status(receipt: dict, root: Path = ROOT) -> str:
+    """Resolve execution evidence against current source and fixture bytes."""
+    if not receipt.get("source_hashes"):
+        return "unavailable"
+    if receipt.get("complete_source_inventory"):
+        inventory = receipt["source_inventory"]
+        discovered = {str(path.relative_to(root)) for directory in inventory["directories"]
+                      for path in (root / directory).rglob("*")
+                      if path.is_file() and path.suffix in inventory["suffixes"]}
+        discovered.update(name for name in inventory["files"] if (root / name).is_file())
+        if discovered != set(receipt["source_hashes"]):
+            return "stale"
+    artifacts = {**receipt["source_hashes"], **receipt.get("fixture_hashes", {})}
+    if receipt.get("output"):
+        artifacts[receipt["output"]] = receipt.get("output_sha256")
+    for relative, expected in artifacts.items():
+        path = root / relative
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            return "stale"
+    return receipt.get("status", "unavailable")
+
+
+def collect_receipts(root: Path = ROOT) -> list[dict]:
+    """Collect the latest source-bound command receipt for each named check."""
+    latest = {}
+    for path in sorted((root / "evidence/receipts").glob("*.json")):
+        receipt = load_json(path, {})
+        name = receipt.get("name")
+        if not name:
+            continue
+        entry = {"name": name, "status": receipt_status(receipt, root),
+                 "command": receipt.get("command"), "tests": receipt.get("tests", {}),
+                 "started_utc": receipt.get("started_utc", ""),
+                 "source_identity": receipt.get("source_identity"),
+                 "source_commit": receipt.get("source_commit"), "receipt": str(path.relative_to(root))}
+        if name not in latest or entry["started_utc"] > latest[name]["started_utc"]:
+            latest[name] = entry
+    return [latest[name] for name in sorted(latest)]
+
+
 def main() -> None:
     node_map = load_json(DATA / "node-map.json", {})
     python_inv = load_json(DATA / "inventory-python.json", {})
@@ -235,6 +276,8 @@ def main() -> None:
         "couplings": couplings,
         "rendering": render_rows,
         "docs": docs,
+        "execution_evidence": collect_receipts(),
+        "inventory_evidence_kind": "declared implementation and ledger assertions",
         "totals": {
             "components": tally([c for c in components if c["kind"] == "component"], "status", COMPONENT_STATUSES),
             "couplings": tally(couplings, "status", COUPLING_STATUSES),

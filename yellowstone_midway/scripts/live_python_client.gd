@@ -14,6 +14,8 @@ var player_t_s: float = 0.0
 var time_scale: float = 1.0
 var revision: int = -1
 var computing: bool = false
+var expected_build_id: String = ""
+var expected_model_variant_id: String = ""
 var _http: HTTPRequest
 var _kind: String = ""
 var _pending: Array[Dictionary] = []
@@ -59,6 +61,10 @@ func _completed(result: int, code: int, _headers: PackedStringArray, bytes: Pack
 		if kind == "schema":
 			schema = payload
 			live = payload.get("controls") is Array
+			var identity: Dictionary = payload.get("header", {})
+			if not expected_build_id.is_empty() and (str(identity.get("build_id", "")) != expected_build_id or str(identity.get("model_variant_id", "")) != expected_model_variant_id or identity.get("start_operation") != "resume_published"):
+				live = false
+				failed.emit("Python service has a different scenario or model variant; baked release retained.")
 			schema_received.emit(schema)
 			mode_selected.emit(live)
 		elif kind == "frames":
@@ -74,7 +80,7 @@ func _completed(result: int, code: int, _headers: PackedStringArray, bytes: Pack
 			var header: Dictionary = payload.get("header", {})
 			computing = bool(header.get("clock_held", false)) or bool(header.get("computing", false)) or float(payload.get("buffer_headroom_s", 1.0)) <= 0.0
 			frames_received.emit(payload)
-		elif kind in ["control", "preset", "measured", "intervention"]:
+		elif kind in ["control", "preset", "measured", "intervention", "reset", "advance_time"]:
 			revision = int(payload.get("revision", revision))
 			after_t_s = float(payload.get("truncate_after_t_s", player_t_s)) - 0.000001
 			control_received.emit(payload)

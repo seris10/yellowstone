@@ -90,6 +90,7 @@ def run_replay_solver(cfg: dict, baseline: dict, world: dict,
                       shortwave_multiplier: dict | None = None,
                       hyporheic_zones: dict | None = None,
                       excelsior_override: dict | None = None,
+                      boundary_series: dict | None = None,
                       ) -> dict:
     """Run the 1-D advection-dispersion solver on the Firehole chain.
 
@@ -110,6 +111,8 @@ Returns the full replay document with timestamped frames and budget.
     eco = _prepare_replay_ecosystem(baseline, cfg, hour0=hour0, weather=weather,
                                     boundary_m3s=boundary_m3s,
                                     excelsior_override=excelsior_override)
+    if boundary_series is not None:
+        eco["boundary_m3s"] = boundary_series
     if simulation_start_epoch_unix is None:
         simulation_start_epoch_unix, start_source = resolve_replay_start_epoch(
             cfg, hour0)
@@ -122,6 +125,7 @@ Returns the full replay document with timestamped frames and budget.
             cs_path = PKG_ROOT / cs_path
         cross_sections = json.loads(cs_path.read_text())
     hyd = rcfg.get("hydraulics", {})
+    intervention = rcfg.get("intervention", {})
     doc = build_mapped_replay(
         world, eco,
         simulation_start_epoch_unix=simulation_start_epoch_unix,
@@ -138,7 +142,13 @@ Returns the full replay document with timestamped frames and budget.
         manning_n=float(hyd.get("manning_n", 0.035)),
         shortwave_multiplier=shortwave_multiplier,
         hyporheic_zones=hyporheic_zones,
+        pulse_source=intervention.get("source_id", ""),
+        pulse_start_s=float(intervention.get("start_s", 300.)),
+        pulse_end_s=float(intervention.get("end_s", 900.)),
+        pulse_delta_c=float(intervention.get("delta_c", 18.)),
     )
+    if intervention:
+        doc["intervention"] = copy.deepcopy(intervention)
     doc["simulation_time_source"] = start_source
     return doc
 
@@ -465,7 +475,7 @@ from yellowstone_python.pipeline.shared import DEFAULT_TRIBUTARIES, PKG_ROOT, Pa
 from yellowstone_python.pipeline.stages.river import _chloride_validation_bound, _hyporheic_zones_dict, _river_shading_dict, _run_periphyton, _run_river_oxygen, _run_solute_transport, check_cross_sections, run_replay_solver
 from yellowstone_python.pipeline.stages.thermal import _excelsior_lateral_override
 
-READS = ('air0', 'baseline', 'hcfg', 'hour0', 'met_bundle', 'outflow_chain', 'overland_runoff_m3_s', 'run_mode_norm', 'runoff_m3_s', 'wcfg', 'weather_frag', 'world')
+READS = ('air0', 'baseline', 'hcfg', 'hour0', 'met_bundle', 'outflow_chain', 'overland_field', 'overland_runoff_m3_s', 'run_mode_norm', 'runoff_m3_s', 'wcfg', 'weather_frag', 'world')
 WRITES = ('baseflow_m3s', 'boundary_m3s', 'bridge', 'budget_mode_source', 'chloride_validation_bound', 'cross_sections_report', 'do_mg_l_by_cell', 'energy_budget_choice', 'excelsior_override', 'hydro_ledger', 'oxygen_doc', 'periphyton_doc', 'reaches_in', 'replay_doc', 'river_shading_doc', 'river_state', 'solute_concentrations_by_cell', 'solute_doc')
 
 def run(state: dict, cfg: dict) -> dict:
@@ -588,13 +598,19 @@ def run(state: dict, cfg: dict) -> dict:
         shading_cfg)
     hyporheic_zones_dict = _hyporheic_zones_dict(preview_cells, hyporheic_cfg)
     excelsior_override = _excelsior_lateral_override(outflow_chain)
+    from yellowstone_python.pipeline.stages.land import _overland_boundary_series
+    overland_series = _overland_boundary_series(boundary_m3s - overland_runoff_m3_s, state["overland_field"])
     replay_doc = run_replay_solver(
         cfg_for_replay, baseline, world,
         hour0=hour0, weather=weather_frag,
         boundary_m3s=boundary_m3s,
         shortwave_multiplier=shortwave_multiplier_by_cell,
         hyporheic_zones=hyporheic_zones_dict,
-        excelsior_override=excelsior_override)
+        excelsior_override=excelsior_override,
+        boundary_series=overland_series)
+    if overland_series is not None:
+        replay_doc["forcing"]["overland_support"] = {"phase": "liquid", "start_s": 0.0,
+            "end_s": overland_series["times_s"][-1], "application": "source_volume_routed_once"}
     replay_doc.setdefault("provenance", {})["energy_budget_source"] = (
         budget_mode_source)
     replay_doc["provenance"]["cross_sections_report"] = cross_sections_report

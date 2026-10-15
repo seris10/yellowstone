@@ -7,11 +7,12 @@ import argparse
 import json
 import math
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Sequence
 
-from yellowstone_python.river.calibrate import SCHEMA_FIT, check_continuity, estimate_lag, interp_series, least_squares_fit, reach_heat_fit, run_fit_forward
+from yellowstone_python.river.calibrate import SCHEMA_FIT, candidate_numerically_valid, check_continuity, estimate_lag, interp_series, least_squares_fit, reach_heat_fit, run_fit_forward
+from yellowstone_python.common.provenance import sha256_json
 from yellowstone_python.river.river_transport import Cell, River, Series, Source
 from yellowstone_python.river.surface_flux import BUDGET_PARAM_KEYS, BudgetParams, describe_surface_model
 from yellowstone_python.river.uncertainty import DEFAULT_BAND_LEVEL, DEFAULT_N_BOOTSTRAP, ENSEMBLE_SEED, band_coverage, ensemble_bands
@@ -175,8 +176,9 @@ def observation_hierarchy_report(bundle: dict[str, Any]) -> dict[str, Any]:
                 f"missing_any_of_channel_sets: {needed}")
     return {
         "by_category": by_category,
-        "surface_params_identifiable": identifiable,
-        "surface_params_not_identifiable": not_identifiable,
+        "eligible_parameters_from_channels": identifiable,
+        "ineligible_parameters_from_channels": not_identifiable,
+        "identifiability": {"status": "unassessed", "reason": "channel_presence_only"},
     }
 
 
@@ -314,20 +316,26 @@ class StageCResult:
     method: str
     status: str
     uncertainty: dict[str, Any]
+    c_mult: float = 1.0
+    evaluated_model: dict[str, Any] = field(default_factory=dict)
+    optimizer_attempts: list[dict[str, Any]] = field(default_factory=list)
+    numerical_validity: str = "unavailable"
 
 
 def _stage_c_grid(q_lat_grid: Sequence[float] | None,
                   t_lat_grid: Sequence[float] | None
                   ) -> tuple[list[float], list[float]]:
-    q_grid = list(q_lat_grid) if q_lat_grid else [
+    q_grid = list(q_lat_grid) if q_lat_grid is not None else [
         1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    t_grid = list(t_lat_grid) if t_lat_grid else [
+    t_grid = list(t_lat_grid) if t_lat_grid is not None else [
         5.0, 15.0, 20.0, 25.0, 35.0, 50.0]
     for name, g in (("q_lat_grid", q_grid), ("t_lat_grid", t_grid)):
         if not g:
             raise ValueError(f"{name} must be nonempty")
         for v in g:
             finite(name, v)
+    if min(q_grid) < 0:
+        raise ValueError("Lateral discharge search bounds cannot be negative")
     return q_grid, t_grid
 
 
@@ -355,11 +363,15 @@ def stage_c_sources(bundle: dict[str, Any], stage_a: StageAResult,
         c_mult_grid=[1.0], spinup_s=spinup_s, train_frac=train_frac,
         dt_s=dt_s, return_all=True)
     champ = grid_doc["champion"]
+    if not candidate_numerically_valid(champ):
+        raise ValueError("Stage C has no numerically valid grid candidate")
     best_q = float(champ["q_lat"])
     best_t = float(champ["t_lat"])
     best_train = float(champ["train_rmse"])
     best_holdout = float(champ["holdout_rmse"])
     method = "grid"
+    attempts = []
+    bounds = [(min(q_grid), max(q_grid)), (min(t_grid), max(t_grid))]
     down = bundle["sites"][DOWNSTREAM_GAUGE]["series"]
     probe = run_fit_forward(
         bundle, stage_a.volume_m3, stage_a.area_m2,
@@ -377,16 +389,19 @@ def stage_c_sources(bundle: dict[str, Any], stage_a: StageAResult,
             fwd = run_fit_forward(
                 bundle, stage_a.volume_m3, stage_a.area_m2,
                 float(x[0]), float(x[1]), 1.0, dt_s)
+            if not candidate_numerically_valid(fwd):
+                return 1e12
             diffs = [m - t for m, t in zip(fwd["modeled_c"][train],
                                            train_target)]
             return math.sqrt(math.fsum(d * d for d in diffs) / len(diffs))
 
-        bounds = [(min(q_grid), max(q_grid)),
-                  (min(t_grid), max(t_grid))]
         de = differential_evolution(
             rmse, bounds, seed=de_seed, maxiter=de_maxiter,
             popsize=de_popsize, polish=False, init="halton", tol=1e-5)
-        if de.fun < best_train:
+        attempts.append({"method": "differential_evolution", "converged": bool(de.success),
+                         "termination_reason": str(de.message), "nfev": int(de.nfev),
+                         "effective_bounds": bounds})
+        if de.success and de.fun < best_train:
             best_q = float(de.x[0])
             best_t = float(de.x[1])
             best_train = float(de.fun)
@@ -399,13 +414,23 @@ def stage_c_sources(bundle: dict[str, Any], stage_a: StageAResult,
         polished = least_squares_fit(
             bundle, stage_a.volume_m3, stage_a.area_m2,
             (best_q, best_t, 1.0), spinup_s=spinup_s,
-            train_frac=train_frac, dt_s=dt_s)
-        if polished["train_rmse"] < best_train:
+            train_frac=train_frac, dt_s=dt_s,
+            free_parameters=("q_lat", "t_lat"), frozen_parameters={"c_mult": 1.0},
+            parameter_bounds={"q_lat": bounds[0], "t_lat": bounds[1]})
+        attempts.append({"method": "least_squares", **polished["optimizer"],
+                         "effective_bounds": polished["effective_bounds"], "nfev": polished["nfev"]})
+        if polished["success"] and polished["budget_ok"] and polished["train_rmse"] < best_train:
             best_q = float(polished["q_lat"])
             best_t = float(polished["t_lat"])
             best_train = float(polished["train_rmse"])
             best_holdout = float(polished["holdout_rmse"])
             method = "least_squares_polish"
+    final = run_fit_forward(bundle, stage_a.volume_m3, stage_a.area_m2,
+                            best_q, best_t, 1.0, dt_s)
+    if not candidate_numerically_valid(final):
+        raise ValueError("Serialized Stage C model failed numerical checks")
+    best_train = score_paired_series(final["modeled_c"][train], target[train])["rmse"]
+    best_holdout = score_paired_series(final["modeled_c"][holdout], target[holdout])["rmse"]
     uncertainty = _stage_c_intervals(
         grid_doc["all_results"], best_train, tol_frac, min_members,
         band_level=band_level, n_bootstrap=n_bootstrap, seed=de_seed,
@@ -416,6 +441,13 @@ def stage_c_sources(bundle: dict[str, Any], stage_a: StageAResult,
         holdout_rmse=best_holdout, method=method,
         status="fitted_not_validated_single_window",
         uncertainty=uncertainty,
+        c_mult=1.0, numerical_validity="passed", optimizer_attempts=attempts,
+        evaluated_model={"parameters": {"q_lat": best_q, "t_lat": best_t, "c_mult": 1.0,
+            "volume_m3": stage_a.volume_m3, "area_m2": stage_a.area_m2},
+            "free_parameters": ["q_lat", "t_lat"], "frozen_parameters": {"c_mult": 1.0},
+            "effective_bounds": {"q_lat": list(bounds[0]), "t_lat": list(bounds[1])},
+            "forcing_sha256": sha256_json(bundle), "forcing_bundle": bundle,
+            "numerical_policy": {"dt_s": dt_s, "spinup_s": spinup_s, "train_frac": train_frac}},
     )
 
 
@@ -431,8 +463,21 @@ def _stage_c_intervals(all_results: list[dict[str, Any]],
     from yellowstone_python.river.uncertainty import fit_masks, member_trajectories, ridge_members
     members = ridge_members(all_results, champion_train_rmse,
                             tol_frac=tol_frac, min_members=min_members)
+    membership = {"requested_members": min_members, "n_members": len(members),
+        "membership_rule": "numerical_validity_then_rmse_with_labeled_valid_topn_fallback",
+        "fallback_used": any(member["fallback_member"] for member in members),
+        "minimum_unavailable": len(members) < min_members,
+        "members": members, "rejected_candidate_count": sum(not candidate_numerically_valid(row) for row in all_results)}
+    if len(members) < 2:
+        return {**membership, "status": "unavailable", "reason": "insufficient_valid_ensemble",
+                "method": "authored_sensitivity_not_calibrated_predictive_intervals"}
     trajs = member_trajectories(
         bundle, stage_a.volume_m3, stage_a.area_m2, members, dt_s)
+    members = trajs["members"]
+    membership.update({"n_members": len(members), "members": members,
+                       "rejected_forward_members": trajs["rejected_members"]})
+    if len(members) < 2:
+        return {**membership, "status": "unavailable", "reason": "insufficient_valid_forward_runs"}
     tail = (1.0 - band_level) / 2.0
     bands = ensemble_bands(trajs["trajectories"],
                            quantiles=(tail, 0.5, 1.0 - tail),
@@ -445,6 +490,8 @@ def _stage_c_intervals(all_results: list[dict[str, Any]],
     q_values = [float(m["q_lat"]) for m in members]
     t_values = [float(m["t_lat"]) for m in members]
     return {
+        **membership,
+        "status": "authored_sensitivity_not_calibrated_predictive_intervals",
         "method": "ridge_ensemble_with_bootstrap_band",
         "tol_frac": tol_frac,
         "n_members": len(members),
@@ -484,12 +531,18 @@ class StageDResult:
     holdout_rmse: float
     status: str
     uncertainty: dict[str, Any]
+    eligible_parameters_from_channels: list[str] = field(default_factory=list)
+    estimated_parameters: list[str] = field(default_factory=list)
+    identifiability: dict[str, Any] = field(default_factory=dict)
+    optimizer: dict[str, Any] = field(default_factory=dict)
+    objective: dict[str, Any] = field(default_factory=dict)
+    numerical_validity: str = "unavailable"
 
 
 def _stage_d_forward(arrays: dict[str, Any], volume_m3: float,
                      area_m2: float, q_lat: float, t_lat: float,
                      c_mult: float, params: BudgetParams,
-                     dt_s: float) -> list[float]:
+                     dt_s: float, *, with_checks: bool = False) -> Any:
     """Forward lumped run with explicit BudgetParams and c_mult scaling."""
     met = arrays["met_series"]
     scaled = BudgetParams(
@@ -530,7 +583,12 @@ def _stage_d_forward(arrays: dict[str, Any], volume_m3: float,
     )
     n = len(arrays["grid"]) - 1
     frames = river.run(n * dt_s, dt_s=dt_s, sample_s=dt_s)
-    return [f["temperature_c"][0] for f in frames]
+    temperatures = [f["temperature_c"][0] for f in frames]
+    budget = river.budget()
+    if with_checks:
+        return {"modeled_c": temperatures, "budget_ok": bool(budget["heat_relative_residual"] <= 1e-5
+                and budget.get("surface_iteration_failures", 0) == 0), "budget": budget}
+    return temperatures
 
 
 from yellowstone_python.river.calibrate import fit_forcing_arrays
@@ -556,9 +614,11 @@ def stage_d_surface(bundle: dict[str, Any], stage_a: StageAResult,
     from scipy.optimize import least_squares
     report = observation_hierarchy_report(bundle)
     identifiable = list(identifiable) if identifiable is not None else list(
-        report["surface_params_identifiable"])
+        report["eligible_parameters_from_channels"])
     not_identifiable = dict(not_identifiable) if not_identifiable is not None \
-        else dict(report["surface_params_not_identifiable"])
+        else dict(report["ineligible_parameters_from_channels"])
+    if len(set(identifiable)) != len(identifiable) or set(identifiable) - set(SURFACE_DEFAULTS):
+        raise ValueError("Unknown or duplicate eligible surface parameters")
     arrays = fit_forcing_arrays(bundle, dt_s)
     grid = arrays["grid"]
     down = bundle["sites"][DOWNSTREAM_GAUGE]["series"]
@@ -588,24 +648,51 @@ def stage_d_surface(bundle: dict[str, Any], stage_a: StageAResult,
 
     def residuals(x: Sequence[float]) -> np.ndarray:
         c_mult, params = params_from(x)
-        modeled = _stage_d_forward(
+        forward = _stage_d_forward(
             arrays, stage_a.volume_m3, stage_a.area_m2,
-            stage_c.q_lat, stage_c.t_lat, c_mult, params, dt_s)
-        return np.asarray(modeled[train]) - train_target
+            stage_c.q_lat, stage_c.t_lat, c_mult, params, dt_s, with_checks=True)
+        if not candidate_numerically_valid(forward):
+            return np.full(len(train_target), 1e12)
+        return np.asarray(forward["modeled_c"][train]) - train_target
 
     lower = [knob_bounds[name][0] for name in knob_names]
     upper = [knob_bounds[name][1] for name in knob_names]
+    if any(not math.isfinite(lo) or not math.isfinite(hi) or lo >= hi for lo, hi in zip(lower, upper)):
+        raise ValueError("Surface fit bounds must be finite and strictly ordered")
+    if lower[0] < 0:
+        raise ValueError("Surface multiplier bounds cannot be negative")
+    x0 = [value if lo <= value <= hi else (lo + hi) / 2 for value, lo, hi in zip(x0, lower, upper)]
     best_x = list(x0)
     method = "identity_defaults"
+    optimizer = {"converged": None, "termination_reason": "not_requested"}
     if not skip_polish:
         result = least_squares(residuals, x0, bounds=(lower, upper),
                                max_nfev=max(30, 6 * len(x0)))
         best_x = [float(v) for v in result.x]
         method = "least_squares"
+        optimizer = {"converged": bool(result.success), "termination_reason": str(result.message),
+                     "termination_code": int(result.status), "nfev": int(result.nfev),
+                     "active_bounds": dict(zip(knob_names, map(int, result.active_mask)))}
+    from yellowstone_python.river.identifiability import conditioning
+    spans = np.asarray(upper) - np.asarray(lower)
+    columns = []
+    for index, span in enumerate(spans):
+        left, right = np.array(best_x), np.array(best_x)
+        delta = max(1e-7, 1e-5 * span)
+        left[index] = max(lower[index], left[index] - delta)
+        right[index] = min(upper[index], right[index] + delta)
+        columns.append((residuals(right) - residuals(left)) / (right[index] - left[index]) * span)
+    condition = conditioning(np.column_stack(columns), rank_tol=1e-6, param_names=knob_names)
+    full_rank = condition["rank"] == len(knob_names)
+    condition.update({"status": "locally_full_rank" if full_rank else "locally_confounded",
+        "column_scaling": "effective_parameter_bound_span", "scope": "local_temperature_objective_jacobian; global and field identifiability unassessed"})
     c_mult_hat, params_hat = params_from(best_x)
-    modeled_full = _stage_d_forward(
+    final_forward = _stage_d_forward(
         arrays, stage_a.volume_m3, stage_a.area_m2,
-        stage_c.q_lat, stage_c.t_lat, c_mult_hat, params_hat, dt_s)
+        stage_c.q_lat, stage_c.t_lat, c_mult_hat, params_hat, dt_s, with_checks=True)
+    if not candidate_numerically_valid(final_forward):
+        raise ValueError("Final surface fit failed numerical checks")
+    modeled_full = final_forward["modeled_c"]
     train_score = score_paired_series(modeled_full[train], target[train])
     holdout_score = score_paired_series(modeled_full[holdout],
                                         target[holdout])
@@ -620,13 +707,20 @@ def stage_d_surface(bundle: dict[str, Any], stage_a: StageAResult,
     return StageDResult(
         budget_params=asdict(params_hat),
         c_mult=c_mult_hat,
-        identified_fields=list(identifiable),
-        not_identified_fields=not_identifiable,
+        identified_fields=list(identifiable) if full_rank and optimizer.get("converged") else [],
+        not_identified_fields={**not_identifiable, **({name: "local_objective_confounded_or_not_converged" for name in identifiable}
+                                                     if not full_rank or not optimizer.get("converged") else {})},
         train_rmse=best_train,
         holdout_rmse=holdout_rmse,
         status=("fitted_not_validated_single_window; "
                 f"optimizer={method}"),
         uncertainty=uncertainty,
+        eligible_parameters_from_channels=list(identifiable), estimated_parameters=knob_names,
+        identifiability=condition, optimizer=optimizer,
+        numerical_validity="passed",
+        objective={"residual_channels": ["downstream_temperature_c"], "units": "C", "weight": 1.0,
+                   "alignment": "shared_absolute_forcing_grid; training_window_only",
+                   "other_channels_role": "parameter_eligibility_only; not direct objective constraints"},
     )
 
 
@@ -656,21 +750,28 @@ def _stage_d_intervals(arrays: dict[str, Any], stage_a: StageAResult,
         base = asdict(BudgetParams())
         base.update(overrides)
         params = BudgetParams(**base)
-        modeled = _stage_d_forward(
+        forward = _stage_d_forward(
             arrays, stage_a.volume_m3, stage_a.area_m2,
-            stage_c.q_lat, stage_c.t_lat, c_mult, params, dt_s)
+            stage_c.q_lat, stage_c.t_lat, c_mult, params, dt_s, with_checks=True)
+        modeled = forward["modeled_c"]
         diffs = np.asarray(modeled[train]) - train_target
         rmse = float(math.sqrt(float(np.dot(diffs, diffs)) /
                                max(1, len(diffs))))
         rows.append({"x": [float(v) for v in row], "train_rmse": rmse,
-                     "modeled": modeled})
+                     "modeled": modeled, "budget_ok": candidate_numerically_valid(forward)})
     rows.sort(key=lambda r: r["train_rmse"])
+    rejected = [row for row in rows if not candidate_numerically_valid(row)]
+    rows = [row for row in rows if candidate_numerically_valid(row)]
     cutoff = champion_train_rmse * (1.0 + tol_frac)
     members = [r for r in rows if r["train_rmse"] <= cutoff]
     fallback = False
     if len(members) < min_members:
         members = rows[:min_members]
         fallback = True
+    if len(members) < 2:
+        return {"status": "unavailable", "reason": "insufficient_valid_ensemble", "n_members": len(members),
+                "requested_members": min_members, "rejected_numerical_candidates": rejected,
+                "fallback_to_topn": fallback}
     member_trajs = [m["modeled"] for m in members]
     tail = (1.0 - band_level) / 2.0
     bands = ensemble_bands(member_trajs, quantiles=(tail, 0.5, 1.0 - tail),
@@ -684,9 +785,16 @@ def _stage_d_intervals(arrays: dict[str, Any], stage_a: StageAResult,
         per_param[name] = _quantile_triplet(values, tail, band_level)
     return {
         "method": "latin_hypercube_prior_with_ridge_filter",
+        "status": "authored_sensitivity_not_calibrated_predictive_intervals",
         "n_samples": len(rows),
         "n_members": len(members),
         "fallback_to_topn": fallback,
+        "requested_members": min_members, "minimum_unavailable": len(members) < min_members,
+        "rejected_numerical_candidates": rejected,
+        "membership_rule": "numerical_validity_then_rmse_with_labeled_valid_topn_fallback",
+        "members": [{"parameters": dict(zip(knob_names, row["x"])), "budget_ok": True,
+                     "inclusion_reason": "valid_within_tolerance" if row["train_rmse"] <= cutoff else "valid_topn_outside_tolerance"}
+                    for row in members],
         "ridge_rule": {"tol_frac": tol_frac,
                        "min_members": min_members},
         "band_level": band_level,
@@ -746,8 +854,8 @@ def run_staged(bundle: dict[str, Any],
         band_level=config.band_level, n_bootstrap=config.n_bootstrap)
     stage_d = stage_d_surface(
         bundle, stage_a, stage_c,
-        identifiable=report["surface_params_identifiable"],
-        not_identifiable=report["surface_params_not_identifiable"],
+        identifiable=report["eligible_parameters_from_channels"],
+        not_identifiable=report["ineligible_parameters_from_channels"],
         dt_s=config.dt_s, spinup_s=config.spinup_s,
         train_frac=config.train_frac,
         lhs_samples=config.lhs_samples, lhs_seed=config.seed,

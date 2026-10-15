@@ -78,7 +78,7 @@ def live_server(engine, host: str = "127.0.0.1", port: int = 8765):
         def do_POST(self):
             """Dispatch a live model control request."""
             kind = urlparse(self.path).path.removeprefix("/api/live/")
-            if kind not in ("control", "clock", "preset", "mark", "measured", "compare"):
+            if kind not in ("control", "clock", "preset", "mark", "measured", "compare", "reset", "advance_time"):
                 self.write_json({"error": "unknown route"}, 404)
                 return
             try:

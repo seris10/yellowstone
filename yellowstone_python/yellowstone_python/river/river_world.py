@@ -99,7 +99,12 @@ def validate_mapped_inputs(world: dict, ecosystem: dict) -> None:
         if key not in ecosystem:
             raise ValueError(f"ecosystem requires {key!r}")
 
-    finite("ecosystem boundary_m3s", ecosystem["boundary_m3s"], minimum=0.0)
+    if isinstance(ecosystem["boundary_m3s"], dict):
+        flow_series = Series.parse(ecosystem["boundary_m3s"])
+        for value in flow_series.values:
+            finite("ecosystem boundary_m3s", value, minimum=0.0)
+    else:
+        finite("ecosystem boundary_m3s", ecosystem["boundary_m3s"], minimum=0.0)
     finite("ecosystem boundary_c", ecosystem["boundary_c"])
 
     reach_ids: set[str] = set()

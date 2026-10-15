@@ -5,6 +5,7 @@ extends "res://scripts/ecosystem.gd"
 
 const BAKED_REPLAY_FILES: Array[String] = ["river_replay.json", "firehole_control.json", "firehole_pulse.json"]
 @export_file("*.json") var replay_path: String = ""
+var world_path: String = "res://data/world.json"
 
 var replay_enabled: bool = false
 var replay_finished: bool = false
@@ -42,7 +43,7 @@ func configure(data: Dictionary) -> bool:
 		return base_ok
 
 	var value: Variant = JSON.parse_string(
-		FileAccess.get_file_as_string(replay_path)
+		ReleaseData.get_file_as_string(replay_path)
 	)
 	if not value is Dictionary:
 		return _reject("Missing or invalid Python replay.")
@@ -65,7 +66,7 @@ func configure(data: Dictionary) -> bool:
 	if hashing.start(HashingContext.HASH_SHA256) != OK:
 		return _reject("Cannot initialize world-data hash.")
 	if hashing.update(
-		FileAccess.get_file_as_bytes("res://data/world.json")
+		ReleaseData.get_file_as_bytes(world_path)
 	) != OK:
 		return _reject("Cannot hash world data.")
 	if hashing.finish().hex_encode() != expected_hash:

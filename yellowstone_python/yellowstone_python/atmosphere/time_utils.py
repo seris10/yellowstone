@@ -110,3 +110,23 @@ def epoch_unix_for_local(
         day.year, day.month, day.day, tzinfo=UTC
     ) - _datetime.timedelta(hours=offset)
     return start.timestamp() + local_seconds
+
+
+def resolve_query_epoch(origin_epoch_unix: float | None, utc_offset_hours: float, *,
+                        local_hour: float | None = None, elapsed_hours: float | None = None,
+                        epoch_unix: float | None = None) -> float:
+    """Resolve one weather query without changing the scenario's date."""
+    if sum(value is not None for value in (local_hour, elapsed_hours, epoch_unix)) > 1:
+        raise ValueError("Choose one of local hour, elapsed hours or absolute epoch")
+    if epoch_unix is not None:
+        return _finite("epoch_unix", epoch_unix, minimum=0.)
+    if origin_epoch_unix is None:
+        raise ValueError("A scenario epoch is required; a weather cache cannot supply the date")
+    origin = _finite("simulation_epoch_unix", origin_epoch_unix, minimum=0.)
+    if elapsed_hours is not None:
+        return origin + 3600. * _finite("elapsed_hours", elapsed_hours, minimum=0.)
+    if local_hour is None:
+        return origin
+    offset = _finite("utc_offset_hours", utc_offset_hours, minimum=-12., maximum=14.)
+    day = datetime.fromtimestamp(origin + offset * 3600., UTC).date().isoformat()
+    return epoch_unix_for_local(day, local_hour, offset)

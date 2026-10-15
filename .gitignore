@@ -18,8 +18,9 @@ yellowstone_python_spec/papers/
 archive/*.zip
 yellowstone_species_gen/data/
 
-# Project Python environment (create with python3 -m venv --system-site-packages yellowstone_python/.venv)
+# Project Python environments and scratch work
 yellowstone_python/.venv/
+work/
 
 .opencode/
 .venv/

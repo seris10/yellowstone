@@ -169,6 +169,34 @@
     ],
     "data/wildlife_motion_assets.json": [
       "scripts/wildlife_actor.gd"
+    ],
+    "data/insect_bird.json": [
+      "scripts/world.gd"
+    ],
+    "data/grazer.json": [
+      "scripts/world.gd"
+    ],
+    "data/fish.json": [
+      "scripts/world.gd"
+    ],
+    "data/portfolio_comparison.json": [
+      "tools/validate_terrain_render.gd",
+      "scripts/world.gd"
+    ],
+    "data/snow_patch_mask.png": [
+      "scripts/world.gd"
+    ],
+    "data/outflow_network/outflow_network.json": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_network/wet_mask.i16": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_network/flow_fraction.f32": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_network/in_pool.i16": [
+      "scripts/mat_surface.gd"
     ]
   }
 }

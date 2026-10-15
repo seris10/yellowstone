@@ -131,7 +131,9 @@ def test_alpha_mip_occupancy_and_color_buffers_preserve_source_cutout():
     """Require complete mip chains with bounded alpha-occupancy quantization error."""
     metadata = json.loads((ASSET_ROOT / "lodgepole_metadata.json").read_text())
     assert not metadata["billboard_mips_pending"]
-    assert len(metadata["cutout_mips"]) == 22
+    assert len(metadata["cutout_mips"]) == 82
+    assert set(metadata["variant_billboards"]) == set(ARCHETYPES)
+    assert all(len(variants) == 4 for variants in metadata["variant_billboards"].values())
     for filename, row in metadata["cutout_mips"].items():
         data = (ASSET_ROOT / row["path"]).read_bytes()
         assert len(data) == row["bytes"] and hashlib.sha256(data).hexdigest() == row["sha256"]

@@ -74,7 +74,7 @@ def jacobian_at_truth(step: float = 1e-6) -> list[list[float]]:
 
 
 def conditioning(jacobian: Sequence[Sequence[float]],
-                 rank_tol: float = 1e-8) -> dict[str, Any]:
+                 rank_tol: float = 1e-8, *, param_names: Sequence[str] | None = None) -> dict[str, Any]:
     """SVD rank, null directions, and identified combination."""
     import numpy as np
     jac = np.asarray(jacobian, dtype=float)
@@ -82,6 +82,11 @@ def conditioning(jacobian: Sequence[Sequence[float]],
         raise ValueError("jacobian must be a nonempty 2-D matrix")
     if not np.isfinite(jac).all():
         raise ValueError("jacobian contains nonfinite values")
+    names = list(param_names) if param_names is not None else list(PARAM_NAMES)
+    if len(names) != jac.shape[1]:
+        raise ValueError("Parameter names must match fitted Jacobian columns")
+    if not math.isfinite(rank_tol) or not 0 < rank_tol < 1:
+        raise ValueError("Rank tolerance must be finite and in (0,1)")
     _, singular, vt = np.linalg.svd(jac)
     singular = singular.tolist()
     if not singular:
@@ -94,7 +99,8 @@ def conditioning(jacobian: Sequence[Sequence[float]],
             "rank_tol": rank_tol,
             "null_directions": vt[rank:].tolist(),
             "identified_direction": vt[0].tolist(),
-            "param_names": list(PARAM_NAMES)}
+            "condition_number": float(singular[0] / singular[-1]) if rank == jac.shape[1] else None,
+            "param_names": names}
 
 
 def multistart_fit(

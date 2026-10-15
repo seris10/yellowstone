@@ -200,6 +200,7 @@ PHOTO_DISPLAY = {
     "width_height_ratio": 0.28,
     "width_height_ratio_range": [0.24, 0.32],
     "live_crown_ratio_floor": 0.70,
+    "default_crown_policy": "preserve_source",
     "evidence_class": "authored",
     "evidence_basis": "image_derived_nonmetric_silhouette_estimates",
     "uncertainty": "unknown",
@@ -254,10 +255,14 @@ def display_dimensions(record, fallback):
     low, high = PHOTO_DISPLAY["width_height_ratio_range"]
     photo_ratio = low + (high-low)*fraction
     envelope = predicted if predicted is not None else height * photo_ratio / 2
+    policy = record.get("display_crown_policy", PHOTO_DISPLAY["default_crown_policy"])
+    if policy not in ("preserve_source", "photo_floor"):
+        raise ValueError("Unknown display crown policy")
+    display_ratio = max(ratio, PHOTO_DISPLAY["live_crown_ratio_floor"]) if policy == "photo_floor" else ratio
     return dict(height_m=height, dbh_m=dbh, crown_radius_m=max(core, envelope),
-                crown_ratio=max(ratio, PHOTO_DISPLAY["live_crown_ratio_floor"]),
+                crown_ratio=display_ratio, crown_ratio_policy=policy,
                 source_core_radius_m=core, source_crown_ratio=ratio,
                 envelope_class="transferred_bechtold_dbh" if predicted is not None else PHOTO_DISPLAY["evidence_class"],
                 envelope_prediction_m=envelope, image_width_height_ratio=photo_ratio,
                 dbh_domain_status="within_bechtold_sample_range" if predicted is not None else "bechtold_unavailable_or_outside_range",
-                crown_base_class=PHOTO_DISPLAY["evidence_class"], local_error="unknown")
+                crown_base_class="authored_photo_floor" if policy == "photo_floor" else "retained_source_crown_ratio", local_error="unknown")

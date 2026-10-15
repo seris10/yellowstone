@@ -183,8 +183,8 @@ class Backend:
             return self._store if self._store.exists() else None
         build_id = None
         published = self.world / "data/ecosystem.json"
-        if published.is_file():
-            document = _load_json(published)
+        if published.is_file() or (self.world / "data/release.json").is_file():
+            document = self.ecosystem()
             if isinstance(document, dict):
                 value = document.get("build_id")
                 if isinstance(value, str) and value:
@@ -290,26 +290,42 @@ Store-backed when a store exists; crown-overlap counts live under census_crown_o
         return _load_json(self.world / "data" / "placement_overrides.json")
 
     def ecosystem(self) -> dict:
+        pointer_path = self.world / "data/release.json"
+        if pointer_path.is_file():
+            from yellowstone_python.publish import verify_release
+            pointer = _load_json(pointer_path)
+            relative = "data/releases/" + str(pointer.get("release_id", "")) + "/RELEASE.json"
+            if pointer.get("manifest") != relative or len(str(pointer.get("release_id", ""))) != 64:
+                raise DataError("Invalid active release pointer")
+            manifest_path = self.world / relative
+            if _sha256(manifest_path) != pointer.get("sha256"):
+                raise DataError("Active release manifest hash mismatch")
+            manifest = _load_json(manifest_path)
+            verify_release(manifest_path.parent, manifest)
+            return _load_json(manifest_path.parent / "data/ecosystem.json")
         return _load_json(self.world / "data" / "ecosystem.json")
 
-    def weather(self, hour: float | None = None) -> dict:
+    def weather(self, hour: float | None = None, *, epoch_unix: float | None = None,
+                elapsed_hours: float | None = None) -> dict:
         """Return shared weather at the requested simulation hour."""
         from yellowstone_python.atmosphere.microclimate import load_weather_bundle, weather_snapshot
-        from yellowstone_python.atmosphere.time_utils import epoch_unix_for_local
+        from yellowstone_python.atmosphere.time_utils import resolve_query_epoch
         bundle = load_weather_bundle(str(self.derived / "met.json"))
-        requested = float(hour) if hour is not None else None
-        eco = self.ecosystem() if (self.world / "data" / "ecosystem.json").is_file() else {}
-        clock = requested if requested is not None else float(eco.get("clock_hour", 16.2))
+        requested = _as_float("hour", hour) if hour is not None else None
+        eco = self.ecosystem() if any((self.world / "data" / name).is_file() for name in ("ecosystem.json", "release.json")) else {}
         weather = eco.get("weather", {})
-        epoch = eco.get("simulation_epoch_unix")
-        if bundle is not None:
-            epoch = float(bundle["hourly"][0][0]) + clock * 3600.0
-        elif epoch is not None:
-            day = datetime.fromtimestamp(float(epoch) - 6.0 * 3600.0, timezone.utc).date().isoformat()
-            epoch = epoch_unix_for_local(day, clock % 24.0, -6.0)
-        else:
-            day = datetime.now(timezone.utc).date().isoformat()
-            epoch = epoch_unix_for_local(day, clock % 24.0, -6.0)
+        offset = float(weather.get("utc_offset_hours", -6.))
+        epoch = resolve_query_epoch(eco.get("simulation_epoch_unix"), offset,
+            local_hour=requested, elapsed_hours=elapsed_hours, epoch_unix=epoch_unix)
+        clock = ((epoch + offset * 3600.) / 3600.) % 24.
+        bundle_window = {"status": "available" if bundle is not None else "unavailable_missing"}
+        if weather.get("use_met_bundle") is False:
+            bundle = None
+            bundle_window = {"status": "disabled_in_scenario"}
+        if bundle is not None and not float(bundle["hourly"][0][0]) <= epoch <= float(bundle["hourly"][-1][0]):
+            bundle_window = {"status": "unavailable_out_of_window", "requested_epoch_unix": epoch,
+                "first_epoch_unix": float(bundle["hourly"][0][0]), "last_epoch_unix": float(bundle["hourly"][-1][0])}
+            bundle = None
         snapshot = weather_snapshot(float(epoch), weather, bundle)
         current = snapshot["weather"]
         precip_status = snapshot["source"]["precipitation_status"]
@@ -325,7 +341,10 @@ Store-backed when a store exists; crown-overlap counts live under census_crown_o
             hydrology_state = report.state
             wetness = report.ground_wetness_fraction
         current["ground_wetness_fraction"] = wetness
-        snapshot["source"].update({"hour_requested": requested, "hydrology_status": hydrology_state.get("status", "available")})
+        snapshot["source"].update({"hour_requested": requested, "elapsed_hours_requested": elapsed_hours,
+            "epoch_requested": epoch_unix, "clock_policy": "scenario_absolute_epoch_with_recorded_local_offset",
+            "weather_bundle_window": bundle_window,
+            "hydrology_status": hydrology_state.get("status", "available")})
         snapshot.update({"air_c": current["air_temperature_c"],
                          "humidity": current["relative_humidity"],
                          "cloud": current["cloud_fraction"],
@@ -750,7 +769,7 @@ class _Handler(JsonRequestHandler):
                             {"error": f"hour must be in [0, 24), got {hour}"}, 400)
                 else:
                     hour = None
-                return self._send(b.weather(hour))
+                return self._send(b.weather(hour, **{key: p[key] for key in ("epoch_unix", "elapsed_hours") if key in p}))
             return self._send({"error": f"unknown route {route}"}, 404)
         except NoStoreError as exc:
             # /api/query only: 503 for a missing store.

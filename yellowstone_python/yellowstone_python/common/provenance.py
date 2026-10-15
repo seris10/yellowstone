@@ -52,14 +52,47 @@ def sha256_json(obj) -> str:
     ).hexdigest()
 
 
+def portable_identity_payload(config: dict, deps: dict) -> dict:
+    """Separate logical content from machine paths and discovery receipts."""
+    def effective(value):
+        if isinstance(value, dict):
+            result = {}
+            for key, item in value.items():
+                if key == "world_root":
+                    continue
+                if key in ("met_bundle", "cross_sections_file") and isinstance(item, str):
+                    result[key] = "input:" + key
+                elif isinstance(item, str) and Path(item).is_absolute():
+                    result[key] = "input:" + key
+                else:
+                    result[key] = effective(item)
+            return result
+        if isinstance(value, (list, tuple)):
+            return [effective(item) for item in value]
+        return value
+    ignored = {"ecosystem_path", "code_hash_source", "code_rev_source", "config",
+               "external_inputs_sha256", "terrain_guard", "terrain_guard_advisories",
+               "execution_receipt"}
+    logical = {}
+    for key, value in deps.items():
+        if key in ignored:
+            continue
+        if key == "external_inputs":
+            logical[key] = {name: {field: entry.get(field) for field in ("exists", "sha256")}
+                            for name, entry in value.items()}
+        elif isinstance(value, dict) and "path" in value:
+            logical[key] = {field: value.get(field) for field in ("exists", "sha256") if field in value}
+        else:
+            logical[key] = effective(value)
+    return {"config": effective(config), "logical_inputs": logical}
+
+
 def build_id(config: dict, dep_hashes: dict, code_rev: str | None = None) -> str:
-    """Short build id over config, dep hashes, and an optional code revision."""
-    payload: dict = {"config": config, "deps": dep_hashes}
+    """Return a portable content identity for configuration and input bytes."""
+    payload = portable_identity_payload(config, dep_hashes)
     if code_rev is not None:
         payload["code_rev"] = code_rev
-    return hashlib.sha1(
-        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
-    ).hexdigest()[:12]
+    return sha256_json(payload)[:12]
 
 
 def write_sidecar(path: str | Path, payload: dict, sources: list,

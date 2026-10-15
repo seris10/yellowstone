@@ -5,8 +5,9 @@ Illustrative scientific modeling for the Midway Geyser Basin Godot world. Python
 ## Install and run
 
 ```bash
-python3 -m venv --system-site-packages .venv
-.venv/bin/python -m pip install -e '.[science,fetch,dev]'
+python3.14 -m venv .venv
+.venv/bin/python -m pip install -r requirements-reference.lock
+.venv/bin/python -m pip install -e . --no-deps --no-build-isolation
 .venv/bin/python -m pytest
 .venv/bin/python -m yellowstone_python.build --config configs/baseline.yaml
 .venv/bin/python -m yellowstone_python.study_mode --list
@@ -14,11 +15,34 @@ python3 -m venv --system-site-packages .venv
 .venv/bin/python -m tools.hot_lowflow --help
 ```
 
-`science` adds optional numerical and geospatial backends, `fetch` adds observation retrieval dependencies, and `dev` adds test and notebook tools. The editable install makes package and tool imports work from outside the project. Tools run as `python -m tools.<name>`.
+The exact reference lock selects the tested numerical, geospatial and observation dependencies. FiPy, flopy, landlab and netCDF4 remain optional; skip reports identify their unavailable checks. The broader `science`, `fetch` and `dev` extras support development environments. The editable install makes package and tool imports work from outside the project. Tools run as `python -m tools.<name>`.
 
 Open `../yellowstone_midway/project.godot` in Godot 4.5.1 to run the world. A validated build can be published with `python -m yellowstone_python.publish --build derived/<build-id> --to ../yellowstone_midway`. Source inputs and previous build directories are preserved.
 
 The live service starts at 1x real time. Run `.venv/bin/python -m yellowstone_python.service.live --build derived/<build-id>` to serve a published build locally. The in-game speed selector supports 1x, 60x, 600x and 3600x; the service reports the effective rate when solver capacity limits acceleration.
+
+## Time, phase and release contracts
+
+`clock_hour` changes display lighting only. `advance_time` integrates the requested elapsed seconds. `reset` restores an identified initial state and applies a declared snow/soil spin-up once. Date controls use the reset operation. Repeating a reset target has the same result.
+
+Wind erosion records `snow_export_mm`. `runoff_mm` contains liquid surface drainage only. The snow/soil bucket owns ET; FAO reference ET is diagnostic. Spin-up, initial biomass preparation, overland source support and the experiment each have explicit intervals in `BUILD.json`. Overland discharge ends at the source-window boundary; a longer river run cannot multiply the source volume. Baked and live land steps share the same kernel.
+
+Published replays retain the resolved solver configuration, initial temperatures and forcing. Live resumption preserves Newton or explicit-budget exchange and the configured physical timestep. Playback speed affects delivery. A new controlled scenario receives a separate identity.
+
+Publication authenticates `BUILD.json` hashes and the `CHECKS.json` assessment before copying. Runtime data reside in `data/releases/<release-id>/`; `data/release.json` selects one generation atomically. Godot validates its actual replay field access before activation and retains the current generation on failure. `--unverified-development` permits an explicitly labeled development generation; demo packaging refuses it.
+
+## Frozen inputs and reference commands
+
+The baseline declares June 21, 2026 at 22:12 UTC, wind seed 11 and authored weather. `weather.use_met_bundle: false` excludes any cached weather bundle. `configs/portfolio.yaml` adds one scheduled river-entry temperature pulse; its comparison holds all other forcing and initial cells fixed.
+
+```sh
+.venv/bin/python -m tools.reference_run --out ../work/reference-experiment.json --plot ../work/reference-experiment.png
+.venv/bin/python -m tools.run_evidence --name isolated-tests --junit ../work/isolated-tests.xml -- .venv/bin/python -m pytest -m 'not needs_world' --junitxml=../work/isolated-tests.xml -q
+```
+
+Full builds use the `yellowstone_midway` sibling or `YELLOWSTONE_WORLD`. Required frozen inputs include `data/ecosystem.json`, `data/world.json`, `data/terrain.f32`, source records and canopy render artifacts. The source checkout supplies compiled world inputs; raw LiDAR tiles and observation caches require explicit acquisition with the tools below when absent. Test markers retain the distinction between isolated checks and checks requiring those inputs.
+
+Command receipts bind execution to source and fixture hashes, report skips separately, and include output-log hashes. The dashboard labels static inventory declarations and ledger assertions separately from executed checks. Added or changed source files make old receipts stale.
 
 ## Model components
 
@@ -45,7 +69,7 @@ The USGS QL1 point-cloud workflow uses the 12 delivered tiles intersecting the 1
   --dem ../yellowstone_midway/references/dem_1m_core.tif \
   --cache data/lidar/raw --out-dir derived/lidar_canopy --workers 12
 .venv/bin/python -m tools.build_lidar_forest
-.venv/bin/python -m tools.gen_flora --measured-canopy --apply
+.venv/bin/python -m yellowstone_python.authoring.gen_flora --measured-canopy --apply
 .venv/bin/python -m tools.lidar_review evaluate \
   --validation-dir derived/lidar_canopy/blind_validation \
   --out derived/lidar_canopy/blind_validation_unavailable.json
@@ -70,7 +94,7 @@ Plain review crops and frozen source hashes are in `derived/lidar_canopy/blind_v
   --output work/bobcat-motion-validation.json
 ```
 
-The imported motion library retains its MIT license. Project adapters use Apache-2.0. Asset manifests distinguish supplied meshes with unknown geometry rights, estimated rigs, synthetic fixtures and authored species shape proxies. Numerical skinning, contact and animation tests do not establish measured animal biomechanics.
+The imported motion library retains its MIT license. Project adapters use Apache-2.0. KJR owns all animal meshes and authorized their inclusion in the project release. Asset manifests retain rig estimates, synthetic-fixture labels and authored species shape proxies. Ownership and release permission are distinct from geometry or biological validation. Numerical skinning, contact and animation tests do not establish measured animal biomechanics.
 
 Supplied bison, badger, bobcat, grizzly, black bear and Canada lynx models have runtime bindings. Wolf, deer and elk retain explicit shape-proxy labels. Midway encounters include habitat-qualified black bear routes; Canada lynx remains gated to suitable cold-conifer or park-reference contexts rather than being forced into the current Midway habitat.
 
@@ -122,7 +146,7 @@ Historical figures are retained with internal working documents.
 
 ## Limits and evidence status
 
-Boundary discharge and upstream temperature are prescribed forcing. Validation targets unprescribed outputs, and both seed claims remain `not_yet_accepted`. Unknown parameter uncertainty stays `unknown`. Forecast builds require a forecast evaluation.
+Boundary discharge and upstream temperature are prescribed forcing. Validation targets unprescribed outputs, and all registered scientific claims remain `not_yet_accepted`. Unknown parameter uncertainty stays `unknown`. Forecast builds require a forecast evaluation.
 
 The models have no calibrated bathymetry, organism counts, absolute food availability, mortality, or movement cost. Mapped hydraulics depend on authored geometry and roughness. Soil moisture lacks observation validation. The shared trout and dipper foraging assumption can strand the dipper at a small pocket. These conditions bound the interpretation of the frozen results.
 

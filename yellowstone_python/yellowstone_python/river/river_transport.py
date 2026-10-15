@@ -1623,6 +1623,13 @@ def demo_config() -> dict[str, Any]:
 
 def make_replay(config: dict[str, Any]) -> dict[str, Any]:
     river = river_from_config(config)
+    solver_config = json.loads(json.dumps(config, allow_nan=False))
+    solver_config["cells"] = [asdict(cell) for cell in river.cells]
+    solver_config.update({"initialize_steady": False,
+                          "rho_cp_j_m3_k": river.rho_cp,
+                          "max_surface_iterations": river.max_surface_iterations,
+                          "surface_tolerance_c": river.surface_tolerance_c,
+                          "surface_relaxation": river.surface_relaxation})
     frames = river.run(
         duration_s=config.get("duration_s", 600.0),
         dt_s=config.get("dt_s", 1.0),
@@ -1667,6 +1674,7 @@ def make_replay(config: dict[str, Any]) -> dict[str, Any]:
             canonical_config
         ).hexdigest(),
         "code_sha256": sha256_file(Path(__file__)),
+        "solver_config": solver_config,
         "model": {
             "space": "1-D upstream-to-downstream chainage",
             "time": "physical seconds",

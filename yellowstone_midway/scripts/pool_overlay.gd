@@ -1,5 +1,6 @@
 class_name MidwayPoolOverlay
 extends Node
+const ReleaseData = preload("res://scripts/release_data.gd")
 
 const RAMP_DIR_PRIMARY := "res://data/pool_ramps/"
 const RAMP_DIR_SECONDARY := "res://assets/textures/pool_ramps/"
@@ -12,9 +13,23 @@ var secondary_applied: int = 0
 var skipped_schema_mismatch: int = 0
 
 func _ready() -> void:
-	if not FileAccess.file_exists(POOL_SHELLS_PATH):
+	reload()
+
+func reload() -> void:
+	applied_count = 0
+	primary_applied = 0
+	secondary_applied = 0
+	skipped_schema_mismatch = 0
+	for node: Node in get_tree().get_nodes_in_group("thermal_surfaces"):
+		var mesh: MeshInstance3D = node as MeshInstance3D
+		if mesh != null and mesh.mesh != null:
+			var material: ShaderMaterial = mesh.mesh.surface_get_material(0) as ShaderMaterial
+			if material != null:
+				material.set_shader_parameter("ramp_mix", 0.0)
+				material.set_shader_parameter("band_ramp", null)
+	if not ReleaseData.file_exists(POOL_SHELLS_PATH):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(POOL_SHELLS_PATH))
+	var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string(POOL_SHELLS_PATH))
 	if not parsed is Dictionary or not parsed.has("pool_shells"):
 		push_warning("pool_overlay: pool_shells.json has no pool_shells array.")
 		return
@@ -49,25 +64,27 @@ func _ready() -> void:
 			applied_count += 1
 			continue
 		# Secondary: prior-wave authored PNG under assets/textures/pool_ramps/.
+		if not ReleaseData.active.is_empty():
+			continue
 		var secondary_png: String = RAMP_DIR_SECONDARY + pool_id + ".png"
-		if ResourceLoader.exists(secondary_png):
-			sm.set_shader_parameter("band_ramp", load(secondary_png))
+		if ReleaseData.file_exists(secondary_png):
+			sm.set_shader_parameter("band_ramp", ReleaseData.texture(secondary_png))
 			sm.set_shader_parameter("ramp_mix", 1.0)
 			secondary_applied += 1
 			applied_count += 1
 	print("pool_overlay: primary=%d secondary=%d skipped_schema_mismatch=%d" % [primary_applied, secondary_applied, skipped_schema_mismatch])
 
 func _apply_ramp(sm: ShaderMaterial, png_path: String, json_path: String) -> bool:
-	if not ResourceLoader.exists(png_path):
+	if not ReleaseData.file_exists(png_path):
 		return false
-	if ResourceLoader.exists(json_path):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(json_path))
+	if ReleaseData.file_exists(json_path):
+		var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string(json_path))
 		if parsed is Dictionary:
 			var schema: String = str((parsed as Dictionary).get("schema", ""))
 			if not schema.is_empty() and schema != RAMP_SCHEMA:
 				skipped_schema_mismatch += 1
 				push_warning("pool_overlay: schema mismatch on %s (%s)" % [json_path, schema])
 				return false
-	sm.set_shader_parameter("band_ramp", load(png_path))
+	sm.set_shader_parameter("band_ramp", ReleaseData.texture(png_path))
 	sm.set_shader_parameter("ramp_mix", 1.0)
 	return true

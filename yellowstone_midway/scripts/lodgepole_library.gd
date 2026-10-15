@@ -94,11 +94,14 @@ static func load_assets(name: String, view: int = 0) -> Array:
 	_asset_cache[key] = assets
 	return assets
 
-static func load_architecture(name: String, variant: int) -> Array:
+static func load_architecture(name: String, variant: int, lod: int = 0) -> Array:
 	if not name in ARCHETYPES:
 		push_error("Unknown lodgepole archetype: %s" % name)
 		return []
-	var key := "architecture:%s:%d" % [name, posmod(variant, 4)]
+	if lod < 0 or lod > 2:
+		push_error("Architecture LOD must be 0, 1 or 2")
+		return []
+	var key := "architecture:%s:%d:%d" % [name, posmod(variant, 4), lod]
 	if _asset_cache.has(key):
 		return _asset_cache[key]
 	var files: Variant = metadata().get("near_variant_files", {}).get(name)
@@ -106,6 +109,12 @@ static func load_architecture(name: String, variant: int) -> Array:
 		push_error("Lodgepole %s requires four near architecture variants" % name)
 		return []
 	var filename := str(files[posmod(variant, 4)])
+	if lod > 0:
+		var selected: Variant = metadata().get("architecture_lod_files", {}).get(name, [])
+		if not selected is Array or selected.size() != 4:
+			push_error("Rebuild the library to supply variant-specific middle LODs")
+			return []
+		filename = str(selected[posmod(variant, 4)][lod])
 	if filename.get_file() != filename or filename.get_extension() != "gltf":
 		push_error("Lodgepole architecture path requires a glTF basename")
 		return []
@@ -115,7 +124,7 @@ static func load_architecture(name: String, variant: int) -> Array:
 		return []
 	var source: Node = load(path).instantiate()
 	var parts: Array = []
-	var valid := _collect_meshes(source, Transform3D.IDENTITY, parts, 0)
+	var valid := _collect_meshes(source, Transform3D.IDENTITY, parts, lod)
 	source.free()
 	if not valid:
 		return []
@@ -146,7 +155,12 @@ static func display_dimensions(record: Dictionary) -> Dictionary:
 	var photo_ratio := lerpf(float(width_range[0]), float(width_range[1]), fraction)
 	var predicted := bechtold_crown_radius_m(dbh) if record.has("dbh_m") else NAN
 	var envelope := predicted if is_finite(predicted) else height * photo_ratio * 0.5
-	return {"height_m": height, "dbh_m": dbh, "crown_radius_m": maxf(core, envelope), "crown_ratio": maxf(ratio, float(photo.live_crown_ratio_floor)), "source_core_radius_m": core, "source_crown_ratio": ratio, "envelope_prediction_m": envelope, "image_width_height_ratio": photo_ratio, "envelope_class": "transferred_bechtold_dbh" if is_finite(predicted) else str(photo.evidence_class), "local_error": "unknown"}
+	var policy: String = str(record.get("display_crown_policy", photo.get("default_crown_policy", "preserve_source")))
+	if policy not in ["preserve_source", "photo_floor"]:
+		push_error("Unknown display crown policy: " + policy)
+		return {}
+	var display_ratio: float = maxf(ratio, float(photo.live_crown_ratio_floor)) if policy == "photo_floor" else ratio
+	return {"height_m": height, "dbh_m": dbh, "crown_radius_m": maxf(core, envelope), "crown_ratio": display_ratio, "crown_ratio_policy": policy, "source_core_radius_m": core, "source_crown_ratio": ratio, "envelope_prediction_m": envelope, "image_width_height_ratio": photo_ratio, "envelope_class": "transferred_bechtold_dbh" if is_finite(predicted) else str(photo.evidence_class), "local_error": "unknown"}
 
 static func bechtold_crown_radius_m(dbh_m: float) -> float:
 	if not is_finite(dbh_m) or dbh_m <= 0.0:
@@ -185,6 +199,29 @@ static func cutout_texture(filename: String) -> Texture2D:
 	_texture_cache[filename] = texture
 	return texture
 
+static func bind_cutout_materials(assets: Array, frozen_wind: bool = false) -> bool:
+	for asset: Array in assets:
+		var mesh: Mesh = asset[0]
+		if not mesh is ArrayMesh:
+			continue
+		for surface: int in range(mesh.get_surface_count()):
+			var original: Material = mesh.surface_get_material(surface)
+			if original is StandardMaterial3D and original.transparency == BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR:
+				var texture := cutout_texture(original.albedo_texture.resource_path.get_file())
+				if texture == null:
+					return false
+				var leaves := ShaderMaterial.new()
+				leaves.shader = load("res://shaders/foliage.gdshader")
+				leaves.set_shader_parameter("albedo_texture", texture)
+				leaves.set_shader_parameter("alpha_cutoff", 0.32)
+				leaves.set_shader_parameter("use_texture", true)
+				leaves.set_shader_parameter("tint", Vector3(0.86, 0.92, 0.82))
+				leaves.set_shader_parameter("wind_strength", 0.14)
+				if frozen_wind:
+					leaves.set_shader_parameter("wind_vector", Vector2.ZERO)
+				mesh.surface_set_material(surface, leaves)
+	return true
+
 static func _collect_meshes(node: Node, parent: Transform3D, result: Array, level: int) -> bool:
 	var transform: Transform3D = parent * node.transform if node is Node3D else parent
 	var valid := true
@@ -197,6 +234,29 @@ static func _collect_meshes(node: Node, parent: Transform3D, result: Array, leve
 	for child: Node in node.get_children():
 		valid = _collect_meshes(child, transform, result, level) and valid
 	return valid
+
+static func load_billboard(name: String, variant: int) -> Array:
+	var key := "impostor:%s:%d" % [name, posmod(variant, 4)]
+	if _asset_cache.has(key):
+		return _asset_cache[key]
+	var entries: Array = metadata().get("variant_billboards", {}).get(name, [])
+	if entries.size() != 4:
+		push_error("Variant-specific impostors are missing for " + name)
+		return []
+	var entry: Dictionary = entries[posmod(variant, 4)]
+	var material := ShaderMaterial.new()
+	material.shader = load("res://shaders/tree_impostor.gdshader")
+	for view: int in range(4):
+		var texture := cutout_texture(str(entry.views[view]))
+		if texture == null:
+			return []
+		material.set_shader_parameter("view_%d" % view, texture)
+	var mesh := QuadMesh.new()
+	mesh.size = Vector2(float(entry.width_m), float(entry.height_m))
+	mesh.material = material
+	var asset := [mesh, Transform3D(Basis.IDENTITY, Vector3(0.0, float(entry.center_y_m), 0.0)), LOD_RANGES[3][0], LOD_RANGES[3][1], "Billboard"]
+	_asset_cache[key] = asset
+	return asset
 
 static func _billboard(info: Dictionary, name: String, view: int) -> Array:
 	var entry: Variant = info.get("billboards", {}).get(name, null)

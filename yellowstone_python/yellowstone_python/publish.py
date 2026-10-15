@@ -1,5 +1,4 @@
-"""publish: transactional release of a validated build.
-Verifies CHECKS, backs up targets, copies, hash-verifies, writes a receipt."""
+"""Immutable runtime generations and atomic release activation."""
 from __future__ import annotations
 
 import logging
@@ -26,6 +25,11 @@ FILES = [
     # Unread artifacts stay in build sidecars; data/ carries runtime files.
     ("pool_shells.json", "data/pool_shells.json", False),
     ("snow_map.png", "assets/textures/snow_map.png", False),
+    ("snow_patch_mask.png", "data/snow_patch_mask.png", False),
+    ("outflow_network/outflow_network.json", "data/outflow_network/outflow_network.json", False),
+    ("outflow_network/wet_mask.i16", "data/outflow_network/wet_mask.i16", False),
+    ("outflow_network/flow_fraction.f32", "data/outflow_network/flow_fraction.f32", False),
+    ("outflow_network/in_pool.i16", "data/outflow_network/in_pool.i16", False),
     ("season.json", "data/season.json", False),
     # Missing optional build artifacts are recorded as publish gaps.
     ("plume_field.json", "data/plume_field.json", False),
@@ -66,7 +70,11 @@ FILES = [
     ("outflow_foodweb.json", "data/outflow_foodweb.json", False),
     ("pool_ramps.json", "data/pool_ramps.json", False),
     ("river_replay.json", "data/river_replay.json", True),
-    ("world.runtime.json", "data/world.json", False),
+    ("world.runtime.json", "data/world.json", True),
+    ("portfolio_comparison.json", "data/portfolio_comparison.json", False),
+    ("insect_bird.json", "data/insect_bird.json", False),
+    ("grazer.json", "data/grazer.json", False),
+    ("fish.json", "data/fish.json", False),
     ("equations.json", "data/equations.json", False),
     ("param_registry.json", "data/param_registry.json", False),
     ("claims.json", "data/claims.json", False),
@@ -144,6 +152,147 @@ def _load_json_or_refuse(path: Path, label: str) -> tuple[dict | None, int]:
         logger.error(f"refusing: {label} is not a JSON object")
         return None, 3
     return value, 0
+
+
+def verify_build(build: Path, *, unverified: bool = False) -> tuple[dict, dict]:
+    """Authenticate build artifacts and the check report before staging."""
+    build = Path(build)
+    manifest = load_json(build / "BUILD.json")
+    checks = load_json(build / "CHECKS.json")
+    if manifest.get("build_id") != build.name:
+        raise ValueError("build directory identity differs from BUILD.json")
+    if manifest.get("contract_version") != CONTRACT_VERSION or manifest.get("world_id") != WORLD_ID:
+        raise ValueError("unsupported build contract or world")
+    hashes = manifest.get("output_artifact_hashes")
+    if not isinstance(hashes, dict) or "CHECKS.json" not in hashes:
+        raise ValueError("build lacks authenticated output and check-report hashes")
+    for name, expected in hashes.items():
+        relative = Path(name)
+        source = build / relative
+        if relative.is_absolute() or not source.resolve().is_relative_to(build.resolve()):
+            raise ValueError("artifact path escapes build directory")
+        if source.is_symlink() or not source.is_file() or _sha(source) != expected:
+            raise ValueError(f"checked artifact changed: {name}")
+    if not isinstance(checks.get("passed"), bool) or (not checks["passed"] and not unverified):
+        raise ValueError("build checks did not pass")
+    assessment = checks.get("assessment", {})
+    if not unverified:
+        if assessment.get("build_id") != manifest["build_id"]:
+            raise ValueError("check report lacks the evaluated build identity")
+        if assessment.get("model_variant_id") != manifest.get("model_variant_id"):
+            raise ValueError("check report model variant differs from build")
+        from yellowstone_python.common.provenance import sha256_json
+        if assessment.get("input_identity") != manifest.get("input_identity") or manifest.get("input_identity") != sha256_json(manifest.get("portable_identity")):
+            raise ValueError("check report effective inputs differ from build")
+        if assessment.get("artifact_hashes") != {key: value for key, value in hashes.items() if key != "CHECKS.json"}:
+            raise ValueError("check report artifact binding differs from build")
+    return manifest, checks
+
+
+def release_plan(build: Path, manifest: dict, checks: dict, *, unverified: bool = False) -> tuple[dict, dict]:
+    """Resolve complete runtime contents and explicit optional absence."""
+    files, artifacts = {}, {}
+    hashes = manifest["output_artifact_hashes"]
+    for source_name, target, required in FILES:
+        source = build / source_name
+        if not source.is_file():
+            if required:
+                raise ValueError(f"required runtime artifact absent: {source_name}")
+            artifacts[target] = {"state": "unavailable", "required": False,
+                                 "reason": "absent from this build"}
+            continue
+        if source_name not in hashes:
+            raise ValueError(f"runtime artifact lacks checked hash: {source_name}")
+        if source_name in STUDY_REPLAY_FILES:
+            status, detail = _study_replay_build_id_ok(source, build.parent)
+            if status != "ok":
+                raise ValueError(detail)
+        files[target] = source
+        artifacts[target] = {"state": "present", "path": target, "required": required,
+                             "sha256": hashes[source_name]}
+    for source_name, target in DIRS:
+        source_dir = build / source_name
+        members = sorted(source_dir.rglob("*")) if source_dir.is_dir() else []
+        selected = [path for path in members if path.is_file() and path.suffix in (".png", ".json")]
+        artifacts[target + "/"] = {"state": "present" if selected else "unavailable",
+                                    "reason": "complete directory membership for this generation"}
+        for source in selected:
+            name = str(source.relative_to(build))
+            if name not in hashes:
+                raise ValueError(f"runtime texture lacks checked hash: {name}")
+            relative = target + "/" + str(source.relative_to(source_dir))
+            files[relative] = source
+            artifacts[relative] = {"state": "present", "path": relative,
+                                   "required": False, "sha256": hashes[name]}
+    for name in ("BUILD.json", "CHECKS.json"):
+        files[name] = build / name
+        artifacts[name] = {"state": "present", "path": name, "required": True,
+                           "sha256": _sha(build / name)}
+    release = {"schema": "yellowstone.release.v1", "build_id": manifest["build_id"],
+               "model_variant_id": manifest.get("model_variant_id", "unidentified"),
+               "scenario_id": manifest.get("scenario_id", manifest["build_id"]),
+               "source_commit": manifest.get("code_commit"),
+               "source_sha256": manifest.get("code_sha256"),
+               "run_mode": manifest.get("run_mode"), "artifacts": artifacts,
+               "checks": {"path": "CHECKS.json", "sha256": hashes["CHECKS.json"]},
+               "verification": {"status": "unverified_development" if unverified else "numerical_and_contract_checks_passed",
+                                "checks_passed": checks["passed"], "empirical_acceptance": "not_yet_accepted"}}
+    from yellowstone_python.common.provenance import sha256_json
+    release["release_id"] = sha256_json(release)
+    return release, files
+
+
+def verify_release(directory: Path, release: dict) -> None:
+    """Require a complete generation with matching artifact bytes."""
+    for record in release["artifacts"].values():
+        if record["state"] != "present" or "path" not in record:
+            continue
+        source = directory / record["path"]
+        if not source.resolve().is_relative_to(directory.resolve()) or source.is_symlink():
+            raise ValueError("release artifact escapes generation")
+        if not source.is_file() or _sha(source) != record["sha256"]:
+            raise ValueError(f"release artifact changed: {record['path']}")
+
+
+def publish_generation(build: Path, destination: Path, *, unverified: bool = False,
+                       copy_file=None) -> dict:
+    """Stage verified immutable bytes and activate one generation atomically."""
+    import os
+    import tempfile
+    build, destination = Path(build), Path(destination)
+    manifest, checks = verify_build(build, unverified=unverified)
+    errors = validate_for_godot(load_json(build / "ecosystem.godot.json"))
+    if errors:
+        raise ValueError("ecosystem contract: " + "; ".join(errors))
+    if not (destination / "project.godot").is_file():
+        raise ValueError("destination is not a Godot project")
+    errors = consumer_manifest_errors(destination)
+    if errors:
+        raise ValueError("consumer declarations: " + "; ".join(errors))
+    release, files = release_plan(build, manifest, checks, unverified=unverified)
+    parent = destination / "data/releases"
+    parent.mkdir(parents=True, exist_ok=True)
+    final = parent / release["release_id"]
+    copier = shutil.copy2 if copy_file is None else copy_file
+    if not final.exists():
+        stage = Path(tempfile.mkdtemp(prefix=".stage-", dir=parent))
+        for target_name, source in files.items():
+            target = stage / target_name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            copier(source, target)
+            with target.open("rb") as stream:
+                os.fsync(stream.fileno())
+        verify_release(stage, release)
+        write_json_atomic(stage / "RELEASE.json", release, indent=2)
+        os.replace(stage, final)
+    elif load_json(final / "RELEASE.json") != release:
+        raise ValueError("existing generation identity differs from release manifest")
+    verify_release(final, release)
+    pointer = {"schema": "yellowstone.release_pointer.v1", "release_id": release["release_id"],
+               "manifest": str((final / "RELEASE.json").relative_to(destination)),
+               "sha256": _sha(final / "RELEASE.json")}
+    write_json_atomic(destination / "data/release.json", pointer, indent=2)
+    return release
 
 
 

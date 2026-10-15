@@ -5,6 +5,7 @@ import copy
 import numpy as np
 from .core import Skeleton,Pose,AssetError,fk,pose_limb,axis_rotation,sample_clip
 from .mammals import foot_cycle,stride_speed
+from .calibration import resolve_touchdown_phases
 
 
 def paddle_cycle(time: float,frequency_hz: float,power_fraction: float,
@@ -42,7 +43,14 @@ class BirdEngine:
         if mode not in self.profile['gaits']:raise AssetError(f'{mode} is not enabled for this bird')
         if mode in ('Flight','Glide') and mode not in self.available_modes():
             raise AssetError('Flight requires wing_state=spread and reviewed landmarks. Folded/fused wings cannot be made flight-ready by this program')
-        p=copy.deepcopy(self.profile['gaits'][mode]);p.update(overrides or {})
+        p=copy.deepcopy(self.profile['gaits'][mode])
+        supported=set(p) | ({'touchdown_phases'} if mode=='Walk' else set())
+        if set(overrides or {})-supported:
+            raise ValueError('Unsupported bird controls: '+', '.join(sorted(set(overrides)-supported)))
+        p.update(overrides or {})
+        if mode=='Walk':
+            p['touchdown_phases']=resolve_touchdown_phases(p.get('touchdown_phases',
+                {'L':0.,'R':p.get('left_right_phase',.5)}),'bird')
         numeric=[v for v in p.values() if isinstance(v,(int,float))]
         if not np.isfinite(numeric).all() or p['frequency_hz']<=0:
             raise ValueError('Bird controls must be finite with positive frequency')
@@ -83,7 +91,8 @@ class BirdEngine:
         lr[sk.index('neck_1')]=axis_rotation('z',-np.deg2rad(.7)*np.sin(wave)) if water else np.eye(3)
         pose=fk(sk,lr,shift);sole=sk.metadata.get('sole_offsets',{})
         contacts={};errors={};speed=0.;areas={}
-        for side,phaseoffset in [('L',0.),('R',p.get('left_right_phase',.5))]:
+        phases=p['touchdown_phases'] if mode=='Walk' else {'L':0.,'R':p.get('left_right_phase',.5)}
+        for side,phaseoffset in phases.items():
             chain=sk.groups[side];foot=sk.rest[chain[-1]];target=foot.copy();rf=np.eye(3)
             if mode=='Walk':
                 S=p['stance_length_height']*h

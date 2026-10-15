@@ -1,5 +1,6 @@
 class_name MidwayMatSurface
 extends RefCounted
+const ReleaseData = preload("res://scripts/release_data.gd")
 const TerrainMaterials = preload("res://scripts/terrain_materials.gd")
 
 const OUTFLOW_JSON := "res://data/outflow_network/outflow_network.json"
@@ -35,9 +36,9 @@ var pigment_width_m: float = 1280.0
 var pigment_height_m: float = 1280.0
 
 func load_outflow() -> bool:
-	if not FileAccess.file_exists(OUTFLOW_JSON):
+	if not ReleaseData.file_exists(OUTFLOW_JSON):
 		return false
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(OUTFLOW_JSON))
+	var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string(OUTFLOW_JSON))
 	if not parsed is Dictionary:
 		return false
 	outflow_meta = parsed
@@ -55,8 +56,11 @@ func load_outflow() -> bool:
 	return wet_mask_tex != null or flow_fraction_tex != null
 
 func load_pigment() -> bool:
-	if FileAccess.file_exists(MAT_STATE_PATH):
-		var sparsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(MAT_STATE_PATH))
+	pigment_tex = null
+	community_tex = null
+	mat_state_meta.clear()
+	if ReleaseData.file_exists(MAT_STATE_PATH):
+		var sparsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string(MAT_STATE_PATH))
 		if sparsed is Dictionary:
 			mat_state_meta = sparsed as Dictionary
 			var grid: Dictionary = mat_state_meta.get("grid", {})
@@ -75,17 +79,19 @@ func load_pigment() -> bool:
 					push_warning("mat_surface: unexpected row_order %s; mat sampling may be flipped." % row_order)
 			# int16 community raster at full grid; used by the headless check for class coverage.
 			community_tex = _load_i16_raster_as_binary_texture(MAT_COMMUNITY_PATH, nx, nz)
-	if not FileAccess.file_exists(MAT_PIGMENT_PATH):
+	if not ReleaseData.file_exists(MAT_PIGMENT_PATH):
 		return false
 	pigment_tex = _load_png_as_texture(MAT_PIGMENT_PATH)
 	if pigment_tex != null:
-		pigment_sha256_at_load = FileAccess.get_sha256(MAT_PIGMENT_PATH)
+		pigment_sha256_at_load = ReleaseData.get_sha256(MAT_PIGMENT_PATH)
 	return pigment_tex != null
 
 func load_outflow_temperature() -> bool:
-	if not FileAccess.file_exists(OUTFLOW_TEMPERATURE_META):
+	outflow_temp_tex = null
+	outflow_temp_meta.clear()
+	if not ReleaseData.file_exists(OUTFLOW_TEMPERATURE_META):
 		return false
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(OUTFLOW_TEMPERATURE_META))
+	var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string(OUTFLOW_TEMPERATURE_META))
 	if parsed is Dictionary:
 		outflow_temp_meta = parsed as Dictionary
 	var grid: Dictionary = outflow_temp_meta.get("grid", {})
@@ -192,19 +198,19 @@ func pigment_pixel_size_m() -> float:
 func _load_png_as_texture(path: String) -> Texture2D:
 	# Bypass Godot's import system; data/ pngs may land before an editor import runs.
 	var image: Image = Image.new()
-	var err: int = image.load(ProjectSettings.globalize_path(path))
+	var err: int = image.load(ProjectSettings.globalize_path(ReleaseData.resolve_path(path)))
 	if err != OK:
 		# ProjectSettings.globalize_path returns absolute for res://; retry with the raw path once as fallback.
-		err = image.load(path)
+		err = image.load(ReleaseData.resolve_path(path))
 	if err != OK:
 		push_warning("mat_surface: Image.load failed for %s (err %d)" % [path, err])
 		return null
 	return ImageTexture.create_from_image(image)
 
 func _load_f32_raster_as_texture(path: String, w: int, h: int) -> Texture2D:
-	if not FileAccess.file_exists(path):
+	if not ReleaseData.file_exists(path):
 		return null
-	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	var bytes: PackedByteArray = ReleaseData.get_file_as_bytes(path)
 	if bytes.size() != w * h * 4:
 		push_warning("mat_surface: f32 raster byte count mismatch at %s (%d != %d)" % [path, bytes.size(), w * h * 4])
 		return null
@@ -216,9 +222,9 @@ func _load_f32_raster_as_texture(path: String, w: int, h: int) -> Texture2D:
 
 func _load_i16_raster_as_binary_texture(path: String, w: int, h: int) -> Texture2D:
 	# int16 rasters go in as FORMAT_R8 with 255 for positive samples and 0 otherwise, so the shader can read them with filter_linear.
-	if not FileAccess.file_exists(path):
+	if not ReleaseData.file_exists(path):
 		return null
-	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	var bytes: PackedByteArray = ReleaseData.get_file_as_bytes(path)
 	if bytes.size() != w * h * 2:
 		push_warning("mat_surface: i16 raster byte count mismatch at %s (%d != %d)" % [path, bytes.size(), w * h * 2])
 		return null

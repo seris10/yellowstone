@@ -209,7 +209,13 @@ footer code { font-size: 14px; }
   </section>
 
   <section class="panel">
-    <h2>Fixes queue, verified per item</h2>
+    <h2>Executed checks</h2>
+    <p class="cap">Command receipts bind results to source and fixture hashes. Changed sources make previous execution evidence stale. Skipped checks remain separate from executed checks.</p>
+    <div id="execution-evidence"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Fixes queue, ledger assertions</h2>
     <p class="cap">One bar per fixes document, grouped by the code area that owns it. Counts come from the ledger rows, which are updated as items land; new audit documents count every finding as open until they get a ledger.</p>
     <div class="keyrow" id="fix-legend"></div>
     <div class="fixcols" id="fixes"></div>
@@ -297,7 +303,12 @@ footer code { font-size: 14px; }
   const checked = Object.values(D.verified || {}).filter(Boolean).sort();
   document.getElementById("meta").textContent =
     `Generated ${D.generated_utc}. ${comps.length} components, ${D.couplings.length} couplings, ${D.docs.length} fixes documents. ` +
-    `Map last checked against code: ${checked.length === 3 ? checked[0].replace("T", " ").replace(/Z$/, "") + " UTC" : "not recorded"}.`;
+    `Inventory review recorded: ${checked.length === 3 ? checked[0].replace("T", " ").replace(/Z$/, "") + " UTC" : "not recorded"}.`;
+
+  const receipts = D.execution_evidence || [];
+  document.getElementById("execution-evidence").innerHTML = receipts.length ?
+    `<table><thead><tr><th>Check</th><th>Evidence status</th><th>Executed</th><th>Skipped</th><th>Source</th></tr></thead><tbody>${receipts.map((r) => `<tr><td>${esc(r.name)}</td><td>${esc(r.status)}</td><td>${r.tests.executed ?? "unavailable"}</td><td>${r.tests.skipped ?? "unavailable"}</td><td><code>${esc((r.source_identity || "unavailable").slice(0, 12))}</code></td></tr>`).join("")}</tbody></table>` :
+    "<p>Execution evidence unavailable. Inventory and ledger status do not establish a test pass.</p>";
 
   // Stat tiles
   const segbar = (pairs) => `<div class="segbar">${pairs.filter((p) => p.n > 0).map((p) =>
@@ -311,11 +322,11 @@ footer code { font-size: 14px; }
   document.getElementById("tiles").innerHTML = `
     <div class="panel tile"><div class="sub">Simulated components drawn in Godot</div>
       <div class="big">${ct.rendered} of ${comps.length}</div>${segbar(compPairs)}${keyList(compPairs)}</div>
-    <div class="panel tile"><div class="sub">Couplings fully wired</div>
+    <div class="panel tile"><div class="sub">Couplings declared wired</div>
       <div class="big">${cp.wired} of ${D.couplings.length}</div>${segbar(coupPairs)}${keyList(coupPairs)}</div>
-    <div class="panel tile"><div class="sub">Fix items implemented, verified against code</div>
+    <div class="panel tile"><div class="sub">Fix items reported implemented in the ledger</div>
       <div class="big">${vt.implemented} of ${D.totals.fix_items}</div>${segbar(fixPairs)}${keyList(fixPairs)}</div>
-    <div class="panel tile"><div class="sub">Godot systems working</div>
+    <div class="panel tile"><div class="sub">Godot systems declared rendered</div>
       <div class="big">${rt.rendered} of ${D.rendering.length}</div>
       <div class="sub">${rt.partial_unwired} partial, ${rt.python_only} loaded but not drawn, ${rt.not_started} not started.</div></div>`;
 

@@ -142,7 +142,7 @@ EXCHANGES = [
     },
     {
         "exchange_id": "snow_runoff_discharge",
-        "quantity": "mean snow-ledger runoff increment",
+        "quantity": "mean liquid surface-drainage increment",
         "units": "m3/s",
         "sign_convention": "positive added to prescribed baseflow",
         "spatial_support": "configured catchment area",
@@ -156,6 +156,9 @@ EXCHANGES = [
                    "configured catchment area and divided by the season "
                    "window"),
         "conservation": PRESCRIBED_INCREMENT,
+        "phase": "liquid",
+        "owner": "snow_soil_bucket",
+        "source_interval": "declared snow/soil integration window",
     },
     {
         "exchange_id": "shear_disturbance",
@@ -367,16 +370,16 @@ EXCHANGES = [
     },
     {
         "exchange_id": "reference_et_soil_water",
-        "quantity": "reference evapotranspiration draws patch soil water",
+        "quantity": "reference evapotranspiration demand diagnostic",
         "units": "mm/day",
-        "sign_convention": "positive reduces soil water",
+        "sign_convention": "positive atmospheric demand",
         "spatial_support": "patch",
         "temporal_support": "daily rate",
-        "kind": "transfer",
+        "kind": "mapping",
         "source": "FAO-56 reference ET0 and crop coefficient",
-        "destination": "patch soil water",
+        "destination": "reference ET diagnostic",
         "method": "Kc times ET0 scaled by relative soil water",
-        "conservation": "conserved",
+        "conservation": "mapped",
     },
     {
         "exchange_id": "steam_plume_microclimate",

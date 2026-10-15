@@ -515,6 +515,8 @@ func _update_fish(dt: float) -> void:
 		chainage_m = float(reach.get("projected_s_m", reach.get("s_m", NAN)))
 	var physical_dt: float = maxf(0.0, float(_ecosystem.elapsed) - _last_sim_time)
 	_last_sim_time = maxf(_last_sim_time, float(_ecosystem.elapsed))
+	var actual_ground_velocity_mps: float = 0.0
+	var relative_speed_available: bool = true
 	if is_finite(target_s_m) and is_finite(chainage_m) and _ecosystem.has_method("position_at_s"):
 		var length: float = float(record.get("approx_dimensions_m", {}).get("body_length", 0.35))
 		var sustained: float = float(record.get("sustained_swim_bl_s", _ecosystem.params.get("fish_sustained_swim_bl_s", 1.5)))
@@ -522,6 +524,7 @@ func _update_fish(dt: float) -> void:
 		swim_speed_mps = length * sustained * maxf(0.08, maxf(_activity, refuge_drive))
 		var previous_s: float = chainage_m
 		chainage_m = move_toward(chainage_m, target_s_m, swim_speed_mps * physical_dt)
+		actual_ground_velocity_mps = (chainage_m - previous_s) / physical_dt if physical_dt > 0.0 else 0.0
 		var next: Vector3 = _ecosystem.call("position_at_s", chainage_m, river_id)
 		next.y += float(record.get("water_offset_m", 0.0))
 		_face(next - _world_position, 1.0)
@@ -531,17 +534,26 @@ func _update_fish(dt: float) -> void:
 		if state == "hold":
 			swim_speed_mps = 0.0
 	else:
+		var previous_position: Vector3 = _world_position
 		swim_speed_mps = float(record.get("walk_mps", 0.2)) * maxf(0.08, _activity)
 		if state == "hold":
 			if _state_age > float(record.get("hold_seconds", 9.0)):
 				_set_state("swim")
-		elif state == "swim" and _move_toward_target(dt, swim_speed_mps):
+		elif state == "swim" and _move_toward_target(physical_dt, swim_speed_mps):
 			_next_target()
 			_set_state("hold")
-	_update_swim_clip(swim_speed_mps + absf(float(reach.get("velocity_mps", 0.0))))
+		relative_speed_available = previous_position.is_equal_approx(_world_position)
+	var downstream_current_mps: float = float(reach.get("velocity_mps", 0.0))
+	if relative_speed_available:
+		_update_swim_clip(water_relative_speed(actual_ground_velocity_mps, downstream_current_mps))
+	set_meta("actual_ground_velocity_mps", actual_ground_velocity_mps if relative_speed_available else null)
+	set_meta("water_relative_speed_status", "available_signed_chainage" if relative_speed_available else "unavailable_flow_direction")
 	set_meta("feeding", _activity)
 	set_meta("chainage_m", chainage_m)
 	set_meta("target_s_m", target_s_m)
+
+static func water_relative_speed(actual_ground_velocity_mps: float, downstream_current_mps: float) -> float:
+	return absf(actual_ground_velocity_mps - downstream_current_mps)
 
 static func required_tailbeat_hz(relative_speed_mps: float, length_m: float) -> float:
 	# Bainbridge (1958) relation transferred to trout; below 5 Hz is extrapolated.
@@ -561,6 +573,10 @@ func _find_swim_animations(node: Node) -> void:
 func _update_swim_clip(relative_speed_mps: float) -> void:
 	var length: float = float(record.get("approx_dimensions_m", {}).get("body_length", 0.35))
 	tailbeat_hz = required_tailbeat_hz(relative_speed_mps, length)
+	set_meta("water_relative_speed_mps", relative_speed_mps)
+	set_meta("tailbeat_hz", tailbeat_hz)
+	set_meta("tailbeat_basis", "Bainbridge 1958 transferred to trout; sub-5 Hz extrapolation")
+	set_meta("tailbeat_clock_policy", "presentation_seconds_at_simulated_relative_speed; frozen_while_paused")
 	if _animation_player == null or _swim_clips.is_empty():
 		return
 	var chosen: String = ""
@@ -573,8 +589,6 @@ func _update_swim_clip(relative_speed_mps: float) -> void:
 	if _animation_player.current_animation != chosen:
 		_animation_player.play(chosen, 0.12)
 	_animation_player.speed_scale = tailbeat_hz / float(_swim_clips[chosen])
-	set_meta("tailbeat_hz", tailbeat_hz)
-	set_meta("tailbeat_basis", "Bainbridge 1958 transferred to trout; sub-5 Hz extrapolation")
 
 func _update_insects(habitat: Dictionary) -> void:
 	_activity = float(habitat.get("insect_activity", 0.0))

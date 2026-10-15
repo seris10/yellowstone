@@ -57,6 +57,10 @@ Numeric fields pass through _finite_number so NaN, inf, bool, and string values 
     _nonnegative_finite("hydro.simulate_seconds",
                         hydro.get("simulate_seconds", 600.0))
     weather = normalized.get("weather", {}) or {}
+    if "use_met_bundle" in weather and not isinstance(weather["use_met_bundle"], bool):
+        raise ValueError("weather.use_met_bundle must be boolean")
+    if weather.get("use_met_bundle") is False and weather.get("met_bundle"):
+        raise ValueError("a met bundle path requires weather.use_met_bundle")
     for key in ("humidity", "cloud"):
         if key in weather:
             _fraction(f"weather.{key}", weather[key])
@@ -110,6 +114,17 @@ Numeric fields pass through _finite_number so NaN, inf, bool, and string values 
                         rcfg.get("exchange_w_m2_k", 12.0))
     _positive_finite("replay.dt_s", rcfg.get("dt_s", 2.0))
     _positive_finite("replay.sample_s", rcfg.get("sample_s", 10.0))
+    intervention = rcfg.get("intervention")
+    if intervention is not None:
+        if not isinstance(intervention, dict) or set(intervention) != {"source_id", "start_s", "end_s", "delta_c"}:
+            raise ValueError("replay.intervention requires source_id, start_s, end_s and delta_c")
+        if not isinstance(intervention["source_id"], str) or not intervention["source_id"]:
+            raise ValueError("replay.intervention.source_id must be nonempty")
+        start = _positive_finite("intervention.start_s", intervention["start_s"])
+        end = _positive_finite("intervention.end_s", intervention["end_s"])
+        if not start < end < float(rcfg.get("duration_s", 7200.)):
+            raise ValueError("intervention must lie inside the replay window")
+        _finite_number("intervention.delta_c", intervention["delta_c"])
     hyd = rcfg.get("hydraulics", {})
     if not isinstance(hyd, dict):
         raise ValueError("replay.hydraulics must be a mapping")

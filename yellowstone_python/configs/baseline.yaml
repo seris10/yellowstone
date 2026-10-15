@@ -4,8 +4,13 @@
 # Declared interpretation of this run. Prescribed boundary flows and
 # temperatures count as forcing; validation covers unprescribed outputs.
 run_mode: illustrative
+wind_seed: 11
 clock_hour: 16.2
+simulation:
+  start_utc: '2026-06-21T22:12:00+00:00'
+  utc_offset_hours: -6.0
 weather:
+  use_met_bundle: false
   # AUTHORED DEFAULTS (illustrative scenario). Real weather forcing available
   # via Open-Meteo: python tools/fetch_met_forcing.py --lat 44.459 --lon -110.822 --days 7 --out derived/met.json
   # See yellowstone_python/microclimate.py WEATHER_PROVENANCE for full gap documentation.

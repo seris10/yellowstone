@@ -180,6 +180,7 @@ def test_validate_config_rejects_nan_and_inf_numerics():
 
 def test_validate_config_requires_explicit_start_in_measured_modes():
     cfg = _cfg()
+    cfg.pop("simulation", None)
     cfg["run_mode"] = "hindcast"
     with pytest.raises(ValueError, match="simulation"):
         validate_config(cfg)

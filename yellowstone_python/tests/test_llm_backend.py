@@ -296,7 +296,7 @@ def test_snapshot_degrades_section_not_bundle(tmp_path):
     import shutil
     world = tmp_path / "world"
     derived = tmp_path / "derived"
-    shutil.copytree(DATA, world / "data")
+    shutil.copytree(DATA, world / "data", ignore=shutil.ignore_patterns("release.json", "releases"))
     derived.mkdir()
     shutil.copy(CENSUS_JSON, derived / "census.json")
     eco_path = world / "data" / "ecosystem.json"
@@ -338,7 +338,7 @@ def test_weather_never_derives_rain_from_cloud(tmp_path):
     import shutil
     world = tmp_path / "world"
     derived = tmp_path / "derived"
-    shutil.copytree(DATA, world / "data")
+    shutil.copytree(DATA, world / "data", ignore=shutil.ignore_patterns("release.json", "releases"))
     derived.mkdir()
     # Six-column bundle (no precip column); cloud is 1.0 at every row.
     bundle = {
@@ -347,6 +347,11 @@ def test_weather_never_derives_rain_from_cloud(tmp_path):
                    for epoch in range(0, 24 * 3600, 3600)],
     }
     (derived / "met.json").write_text(json.dumps(bundle))
+    ecosystem_path = world / "data/ecosystem.json"
+    ecosystem = json.loads(ecosystem_path.read_text())
+    ecosystem["simulation_epoch_unix"] = 21600.
+    ecosystem.setdefault("weather", {})["use_met_bundle"] = True
+    ecosystem_path.write_text(json.dumps(ecosystem))
     from yellowstone_python.service.llm_backend import Backend
     out = Backend(world=world, derived=derived).weather(hour=0.0)
     assert out["weather"]["cloud_fraction"] == 1.0

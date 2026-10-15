@@ -88,9 +88,9 @@ def test_export_records_source_classes_and_preserves_caller_dimensions(tmp_path)
           "--crown-ratio", "0.7", "--out", str(out)])
     artifact = json.loads(out.read_text())
     assert len(artifact["variants"]) == 4
-    assert all(v["status"] == "illustrative_not_locally_validated" for v in artifact["variants"])
-    assert all(v["uncertainty"] == "unknown" for v in artifact["variants"])
-    assert all(v["dimensions_m"] == DIMENSIONS for v in artifact["variants"])
+    assert all(v["graph"]["status"] == "illustrative_not_locally_validated" for v in artifact["variants"])
+    assert all(v["graph"]["uncertainty"] == "unknown" for v in artifact["variants"])
+    assert all(v["graph"]["dimensions_m"] == DIMENSIONS for v in artifact["variants"])
 
 
 @pytest.mark.parametrize("dbh_in", [5.0, 10.0, 20.0, 62.2])
@@ -121,7 +121,9 @@ def test_display_envelope_retains_observation_core_and_donor_dimensions():
     assert result["source_core_radius_m"] == row["crown_radius_m"]
     assert result["source_crown_ratio"] == row["crown_ratio"]
     assert result["crown_radius_m"] > row["crown_radius_m"]
-    assert result["crown_ratio"] == .7
+    assert result["crown_ratio"] == .3
+    assert result["crown_ratio_policy"] == "preserve_source"
+    assert display_dimensions({**row, "display_crown_policy": "photo_floor"}, DIMENSIONS)["crown_ratio"] == .7
     assert result["envelope_class"] == "transferred_bechtold_dbh"
     assert result["local_error"] == "unknown"
 
@@ -175,7 +177,7 @@ def test_record_export_integrates_display_envelope_without_overwriting_raw_recor
     assert artifact["input_record"] == raw and record.read_bytes() == original
     assert artifact["display_dimensions"]["source_core_radius_m"] == .8
     assert artifact["display_dimensions"]["envelope_class"] == "transferred_bechtold_dbh"
-    assert artifact["variants"][0]["dimensions_m"]["crown_radius_m"] > .8
+    assert artifact["variants"][0]["graph"]["dimensions_m"]["crown_radius_m"] > .8
 
 
 @pytest.mark.parametrize("value", [math.nan, math.inf, -1, True])
@@ -200,7 +202,7 @@ def test_census_input_selection_and_parameter_json(tmp_path):
     assert result["records"][0]["input_record"] == row
     assert result["records"][0]["source_evidence_class"] == "derived_not_field_validated"
     assert result["parameters"]["lower_branch_survival"] == 1.0
-    assert all(axis["alive"] for axis in result["variants"][0]["axes"])
+    assert all(axis["alive"] for axis in result["variants"][0]["graph"]["axes"])
 
 
 @pytest.mark.parametrize("case", ["mixed", "unknown_parameter", "too_many", "missing_identity", "nonfinite"])

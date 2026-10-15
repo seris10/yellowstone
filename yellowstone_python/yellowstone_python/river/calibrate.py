@@ -7,7 +7,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 from yellowstone_python.river.hydraulics import score_paired_series
 from yellowstone_python.river.river_transport import River, Series
@@ -749,7 +749,7 @@ def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
                 results.append(row)
     # Primary ranking by train_rmse; champion prefers budget_ok, tiebreak composite.
     results.sort(key=lambda r: r["train_rmse"])
-    valid = [r for r in results if r["budget_ok"]]
+    valid = [r for r in results if candidate_numerically_valid(r)]
     if valid:
         valid.sort(key=lambda r: r["composite_score"])
         champion_row = valid[0]
@@ -775,6 +775,9 @@ def reach_heat_fit(bundle: dict[str, Any], volume_m3: float, area_m2: float,
         champion["locked_final_bias"] = locked_scores["bias"]
     champion["budget_ok"] = champ_forward["budget_ok"]
     champion["budget_totals"] = champ_forward["budget_totals"]
+    champion["numerical_validity"] = "passed" if valid and candidate_numerically_valid(champion) else "rejected"
+    champion["fit_status"] = "numerically_eligible_candidate" if champion["numerical_validity"] == "passed" else "no_valid_fit"
+    champion["scientific_acceptance"] = "not_yet_accepted"
     axis_grids = {
         "q_lat": lateral_q_grid,
         "t_lat": lateral_t_grid,
@@ -1029,13 +1032,28 @@ def information_criteria(residuals, k: int) -> dict:
             "bic_effective": adjusted["bic"], "selection_criterion": "aic_effective"}
 
 
+def candidate_numerically_valid(candidate: dict[str, Any]) -> bool:
+    """Require explicit successful numerical checks and finite available outputs."""
+    if candidate.get("budget_ok") is not True:
+        return False
+    try:
+        values = [candidate[key] for key in ("q_lat", "t_lat", "c_mult", "train_rmse") if key in candidate]
+        values.extend(candidate.get("modeled_c", []))
+        return all(math.isfinite(float(value)) for value in values)
+    except (TypeError, ValueError):
+        return False
+
+
 def least_squares_fit(bundle: dict[str, Any], volume_m3: float,
                       area_m2: float,
                       x0: tuple[float, float, float] | None = None,
                       spinup_s: float = 86400.0,
                       train_frac: float = 0.7,
                       dt_s: float = 900.0,
-                      max_nfev: int = 60) -> dict[str, Any]:
+                      max_nfev: int = 60, *,
+                      free_parameters: Sequence[str] | None = None,
+                      frozen_parameters: dict[str, float] | None = None,
+                      parameter_bounds: dict[str, tuple[float, float]] | None = None) -> dict[str, Any]:
     """Bounded least-squares refinement of the grid champion."""
     import numpy as np
     from scipy.optimize import least_squares
@@ -1046,13 +1064,33 @@ def least_squares_fit(bundle: dict[str, Any], volume_m3: float,
     if max_nfev <= 0:
         raise ValueError("max_nfev must be positive")
     knob_order = ("q_lat", "t_lat", "c_mult")
-    lower = [LS_BOUNDS[k][0] for k in knob_order]
-    upper = [LS_BOUNDS[k][1] for k in knob_order]
-    for name, value, lo, hi in zip(knob_order, x0, lower, upper):
-        xv = _finite(f"x0[{name}]", value)
-        if not lo <= xv <= hi:
+    free = list(knob_order if free_parameters is None else free_parameters)
+    frozen = dict(frozen_parameters or {})
+    bounds = {**LS_BOUNDS, **(parameter_bounds or {})}
+    if len(x0) != 3 or len(set(free)) != len(free) or set(free)-set(knob_order) or set(frozen)-set(knob_order) or set(bounds)-set(knob_order):
+        raise ValueError("Unknown, duplicate or incomplete fit parameters")
+    if set(free) & set(frozen):
+        raise ValueError("A parameter cannot be both free and frozen")
+    vector = dict(zip(knob_order, (_finite("x0", value) for value in x0)))
+    for name in knob_order:
+        lo, hi = (_finite("parameter bound", value) for value in bounds[name])
+        if lo > hi:
+            raise ValueError("Parameter bounds must be ordered")
+        if name in ("q_lat", "c_mult") and lo < 0:
+            raise ValueError("Discharge and exchange bounds cannot be negative")
+        if name in free and lo == hi:
+            free.remove(name)
+            frozen[name] = lo
+        if name not in free:
+            frozen.setdefault(name, vector[name])
+            vector[name] = _finite("frozen parameter", frozen[name])
+        if name in free and not lo <= vector[name] <= hi:
             raise ValueError(
-                f"x0[{name}]={xv:g} outside LS_BOUNDS[{lo:g}, {hi:g}]")
+                f"x0[{name}]={vector[name]:g} outside effective bounds [{lo:g}, {hi:g}]")
+    if vector["q_lat"] < 0 or vector["c_mult"] < 0:
+        raise ValueError("Discharge and exchange multiplier cannot be negative")
+    lower = [bounds[name][0] for name in free]
+    upper = [bounds[name][1] for name in free]
     arrays = fit_forcing_arrays(bundle, dt_s)
     grid = arrays["grid"]
     down = bundle["sites"][DOWNSTREAM_GAUGE]["series"]
@@ -1065,14 +1103,17 @@ def least_squares_fit(bundle: dict[str, Any], volume_m3: float,
     train_target = np.asarray(target[train])
 
     def residuals(x: Any) -> Any:
-        q, t, c = (float(x[0]), float(x[1]), float(x[2]))
+        parameters = {**vector, **dict(zip(free, (float(value) for value in x)))}
+        q, t, c = (parameters[name] for name in knob_order)
         fwd = run_fit_forward(bundle, volume_m3, area_m2, q, t, c, dt_s)
+        if not candidate_numerically_valid(fwd):
+            return np.full(len(train_target), 1e12)
         return np.asarray(fwd["modeled_c"][train]) - train_target
 
-    result = least_squares(residuals, list(x0), bounds=(lower, upper),
-                           max_nfev=max_nfev)
-    q, t, c = (float(result.x[0]), float(result.x[1]),
-               float(result.x[2]))
+    result = least_squares(residuals, [vector[name] for name in free], bounds=(lower, upper),
+                           max_nfev=max_nfev) if free else None
+    parameters = {**vector, **dict(zip(free, (float(value) for value in result.x)))} if result is not None else vector
+    q, t, c = (parameters[name] for name in knob_order)
     fwd = run_fit_forward(bundle, volume_m3, area_m2, q, t, c, dt_s)
     train_rmse = score_paired_series(
         fwd["modeled_c"][train], target[train])["rmse"]
@@ -1080,8 +1121,16 @@ def least_squares_fit(bundle: dict[str, Any], volume_m3: float,
         fwd["modeled_c"][holdout], target[holdout])["rmse"]
     return {"q_lat": q, "t_lat": t, "c_mult": c,
             "train_rmse": train_rmse, "holdout_rmse": holdout_rmse,
-            "nfev": int(result.nfev), "cost": float(result.cost),
-            "success": bool(result.success),
+            "nfev": int(result.nfev) if result is not None else 0,
+            "cost": float(result.cost) if result is not None else None,
+            "success": bool(result.success) if result is not None else True,
+            "budget_ok": candidate_numerically_valid(fwd),
+            "evaluated_parameters": parameters, "free_parameters": free,
+            "frozen_parameters": frozen, "effective_bounds": {name: list(bounds[name]) for name in free},
+            "optimizer": {"converged": bool(result.success) if result is not None else None,
+                "termination_reason": str(result.message) if result is not None else "all_parameters_frozen",
+                "termination_code": int(result.status) if result is not None else None,
+                "active_bounds": dict(zip(free, map(int, result.active_mask))) if result is not None else {}},
             "status": "fitted_not_validated_single_window"}
 
 

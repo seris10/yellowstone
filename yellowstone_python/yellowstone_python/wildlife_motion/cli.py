@@ -66,6 +66,7 @@ def parser():
     a=sub.add_parser('population-fit',help='Fit correlated relative factors, grouped by individual')
     a.add_argument('input',type=Path);a.add_argument('--output',type=Path,required=True)
     a.add_argument('--qualifiers',type=Path,help='JSON exact-match filters, e.g. sex/life_stage/population')
+    a.add_argument('--base-reference',type=Path,help='Species and exact source asset SHA256; required before population-based export')
     a=sub.add_parser('calibrate',help='Fit gait frequency, duty and phase from annotated contact events')
     a.add_argument('input',type=Path);a.add_argument('--output',type=Path,required=True)
     a.add_argument('--bootstrap',type=int,default=1000);a.add_argument('--seed',type=int,default=0)
@@ -134,6 +135,8 @@ def main(argv=None,expected_engine=None):
             print(f'Wrote {args.output}: {len(sk.names)} joints; clips {", ".join(c.name for c in clips)}')
             print(f'Landmarks: {sk.metadata["review_status"]}. Scale: {sk.metadata["scale_status"]}. Inspect shoulder/hip skinning.')
         elif args.command=='diversify':
+            from .asset_audit import audit_asset
+            from .validation import validate_motion
             from .variation import sample_artistic,sample_population,diversify,Variant
             if not 1<=args.count<=100:raise ValueError('Variant count must be in [1,100]')
             asset,sk,profile=fit(args,expected_engine);args.outdir.mkdir(parents=True,exist_ok=True)
@@ -145,10 +148,15 @@ def main(argv=None,expected_engine=None):
                 engine=(MammalEngine if profile['engine']=='mammal' else BirdEngine)(vs,profile)
                 out=args.outdir/f'{profile["id"]}_variant_{i:02}.glb'
                 export_asset(va,out,vs,j,w,engine.clips(args.modes.split(',')),args.texture_max)
+                validation=validate_motion(va,vs,j,w,engine,args.modes.split(','))
+                audit=audit_asset(out)
+                dump(out.with_suffix('.validation.json'),{'asset_sha256':audit['sha256'],
+                    'population_lineage':cfg.population_lineage,'deformation':validation,'serialized':audit,
+                    'visual_acceptance':'unassessed','biological_acceptance':'not_yet_accepted'})
                 print(out)
         elif args.command=='population-fit':
             from .variation import fit_population
-            dump(args.output,fit_population(args.input,read_json(args.qualifiers)))
+            dump(args.output,fit_population(args.input,read_json(args.qualifiers),base_reference=read_json(args.base_reference)))
             print(args.output)
         elif args.command=='calibrate':
             from .calibration import fit_gait_events
@@ -173,16 +181,25 @@ def main(argv=None,expected_engine=None):
                 export_asset(imported,args.outdir/f'synthetic_bird_{tag}_animated.glb',sk,j,w,e.clips(modes))
             print(f'Wrote original synthetic engineering proxies to {args.outdir}; these are not biological reference models.')
         elif args.command=='validate':
-            from .validation import imported_skin
-            doc,blob=read_glb(args.input);report={'schema':'wildlife-motion.serialized-check/1','animations':[]}
-            if not doc.get('skins') or not doc.get('animations'):raise AssetError('Expected an animated, skinned GLB')
-            for anim in doc['animations']:
-                t=accessor(doc,blob,anim['samplers'][0]['input']).ravel();finite=True
-                for time in np.linspace(t[0],t[-1],5):finite&=bool(np.isfinite(imported_skin(args.input,anim['name'],float(time))).all())
-                report['animations'].append({'name':anim['name'],'sampled_finite':finite})
+            from .asset_audit import audit_asset
+            report={'schema':'wildlife-motion.serialized-check/1','animations':[],
+                    'passed':False,'required_checks':{'geometry_skin_and_clips':'unavailable'}}
+            try:
+                audit=audit_asset(args.input)
+                if not audit['skins'] or not audit['clips'] or not audit['triangles']:
+                    raise AssetError('Expected nonempty animated, skinned geometry')
+                report['animations']=[{'name':clip['name'],'sampled_finite':clip['sampled_finite']} for clip in audit['clips']]
+                report['audit']=audit
+                report['passed']=all(clip['sampled_finite'] for clip in audit['clips'])
+                report['required_checks']['geometry_skin_and_clips']='passed' if report['passed'] else 'failed'
+            except (AssetError,ValueError,KeyError,OSError,RuntimeError,IndexError,TypeError) as error:
+                report['error']=str(error)
+                report['required_checks']['geometry_skin_and_clips']='failed'
+            report['status']='numerically_checked' if report['passed'] else 'failed'
             report['note']='Use the official Khronos glTF Validator for complete format conformance checks.'
             if args.output:dump(args.output,report)
             print(json.dumps(report,indent=2))
+            return 0 if report['passed'] else 2
     except (AssetError,ValueError,KeyError,OSError,RuntimeError) as e:
         p.exit(2,f'Error: {e}\n')
     return 0

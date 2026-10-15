@@ -88,29 +88,29 @@ class TestObservationHierarchy:
     def test_baseline_bundle_identifies_no_surface_params(self):
         bundle = _synthetic_bundle()
         report = observation_hierarchy_report(bundle)
-        assert report["surface_params_identifiable"] == []
+        assert report["eligible_parameters_from_channels"] == []
         for field in SURFACE_IDENTIFIABILITY:
-            assert field in report["surface_params_not_identifiable"]
+            assert field in report["ineligible_parameters_from_channels"]
 
     def test_longwave_channel_identifies_longwave_parameters(self):
         bundle = _synthetic_bundle(
             optional_channels={"longwave_down_w_m2": [[0.0, 310.0]]})
         report = observation_hierarchy_report(bundle)
-        assert "shortwave_multiplier" in report["surface_params_not_identifiable"]
+        assert "shortwave_multiplier" in report["ineligible_parameters_from_channels"]
         for field in ("longwave_multiplier",
                       "longwave_bias_w_m2", "cloud_longwave_factor"):
-            assert field in report["surface_params_identifiable"]
-        assert "a_RH" in report["surface_params_not_identifiable"]
+            assert field in report["eligible_parameters_from_channels"]
+        assert "a_RH" in report["ineligible_parameters_from_channels"]
 
     def test_measured_shortwave_or_net_radiation_identifies_shortwave(self):
         bundle = _synthetic_bundle()
         bundle["met"]["shortwave_source"] = "measured_station"
         report = observation_hierarchy_report(bundle)
-        assert "shortwave_multiplier" in report["surface_params_identifiable"]
+        assert "shortwave_multiplier" in report["eligible_parameters_from_channels"]
         bundle["met"].pop("shortwave_source")
         bundle["flux_station"] = {"net": [[0.0, 200.0]]}
         report = observation_hierarchy_report(bundle)
-        assert "shortwave_multiplier" in report["surface_params_identifiable"]
+        assert "shortwave_multiplier" in report["eligible_parameters_from_channels"]
 
     def test_hierarchy_covers_four_categories(self):
         assert set(OBSERVATION_HIERARCHY) == {
@@ -281,7 +281,7 @@ class TestRunStagedEndToEnd:
         assert doc["stage_c"]["q_lat"] == pytest.approx(truth[0], abs=1e-9)
         assert doc["stage_c"]["t_lat"] == pytest.approx(truth[1], abs=1e-9)
         assert doc["observation_hierarchy"]["report"][
-            "surface_params_identifiable"] == []
+            "eligible_parameters_from_channels"] == []
         assert len(doc["sequence"]) == 10
         surface = doc["surface_model"]
         assert surface["parameter_status"]["c_h"] == "scaled_by_calibration"

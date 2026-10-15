@@ -1,12 +1,18 @@
 # Third-party credits and source permissions
 
-Reviewed **7 October 2026**. The authoritative file inventory, creator names, acquisition status and SHA-256 checksums are in [data/asset_manifest.json](data/asset_manifest.json). Geographic download receipts and source metadata are in [references/geodata_manifest.json](references/geodata_manifest.json) and the accompanying provenance files. An included file is present in the project; inclusion does not mean every variant is used by the running scene.
+The release-specific `ASSET_INVENTORY.json` records inclusion decisions and exact bytes. KJR confirmed ownership of all animal meshes and authorized project release inclusion on 14 October 2026. The authoritative file inventory, creator names, acquisition status and SHA-256 checksums are in [data/asset_manifest.json](data/asset_manifest.json). Geographic download receipts and source metadata are in [references/geodata_manifest.json](references/geodata_manifest.json) and the accompanying provenance files. An included file is present in the project; inclusion does not mean every variant is used by the running scene.
 
 ## Original project work
 
 Copyright © 2026 Yellowstone Midway project contributors. Original GDScript, Python authoring tools, shaders, documentation, source-independent proxy art and project-authored structures are supplied under the [MIT License](LICENSE). This includes the original wildlife and botanical stand-ins, deck/support geometry and scene assembly. Retain the MIT copyright and permission notice when redistributing substantial portions of that work.
 
 MIT does not relicense the third-party assets or government source data below. **No claim to original U.S. Government works.** Project modifications are identified separately from the source measurements and artworks. This is an independent landscape project; agency and creator credits identify the sources rather than an endorsement.
+
+## Animal meshes and motion software
+
+KJR owns all animal meshes in this project and authorized their inclusion in the project release. The ownership statement covers supplied mammal, bird and fish geometry as well as authored shape proxies. It preserves existing source-method and generation records. Motion software uses MIT; Python adapters use Apache-2.0. Original files with explicit asset licenses retain those licenses. Owner-authorized inclusion does not assign a blanket open license to every supplied mesh.
+
+Rig/contact checks are numerical execution evidence. Local species identification, biomechanics and ecological forecast acceptance remain separate and unaccepted. Per-file inventory fields distinguish presence, runtime use, geometry checks, source permissions, modifications and the release decision.
 
 ## Included Poly Haven artwork — CC0 1.0
 
