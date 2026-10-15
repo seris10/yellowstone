@@ -1,0 +1,12 @@
+{
+ "dir": "derived",
+ "failures": [],
+ "legacy_allowlist": [
+  "usgs_06036805.json",
+  "llm_snapshot.json"
+ ],
+ "n_files": 47,
+ "passed": true,
+ "schema": "yellowstone.provenance_audit.v1",
+ "status": "authored_standing_rules_check"
+}

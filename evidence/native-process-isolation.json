@@ -1,0 +1,92 @@
+{
+  "schema": "yellowstone.native_process_isolation.v1",
+  "full_run_junit_sha256": "7c6f132ca6551c0be4a346c8c94fc3146c81d24f2bd66220767ad62960ad590f",
+  "scope": "Rerun each failed monolithic case in its own fresh locked-environment interpreter; no skipped tests or assertion changes",
+  "cases": [
+    {
+      "nodeid": "tests/test_runtime_release.py::test_actual_godot_reader_consumes_generation_and_rejects_missing_field",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_core_terrain.py::test_tool_fails_without_dem",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_release_generations.py::test_process_exit_during_staging_keeps_generation_valid_after_restart",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_tree_interchange.py::test_installed_commands_offer_help_from_outside_the_checkout",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_build_store.py::test_unreferenced_fit_warns_but_passes",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_build_store.py::test_sha_mismatch_against_build_json",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_build_store.py::test_malformed_fit_clean_exit",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_build_store.py::test_build_store_cli_runs",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_fetch_met_forcing.py::test_vars_wrong_width_rejected",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_fetch_met_forcing.py::test_days_range_rejected",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_validate_obs_bundles.py::test_verdict_atomic_write",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_validate_obs_bundles.py::test_all_consumer_propagates_bundle_fetched_at_utc",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_check_terrain.py::test_missing_file_exit1",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_check_terrain.py::test_enclosing_build_hash_picked_up",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_package_layout.py::test_package_and_tools_import_outside_checkout",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_hydrology_provider.py::test_bundle_to_provider_to_weather",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_audit_provenance.py::test_report_atomic",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_audit_provenance.py::test_audit_stores_flag",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_audit_provenance.py::test_derived_disk_flag",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_channel_geometry.py::test_tool_import_safe",
+      "returncode": 0
+    },
+    {
+      "nodeid": "tests/test_toolchain_quality.py::test_actual_fish_actor_uses_signed_displacement_and_freezes_on_pause",
+      "returncode": 0
+    }
+  ],
+  "passed": true
+}

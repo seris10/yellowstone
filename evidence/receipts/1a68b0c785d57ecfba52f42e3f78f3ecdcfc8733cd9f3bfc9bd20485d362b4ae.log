@@ -1,0 +1,24 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+Movie Maker mode enabled, recording movie at 30 FPS...
+WARNING: Current available space on disk is low (7.43 GiB). MovieWriter will fail during movie recording if the disk runs out of available space.
+     at: begin (servers/movie_writer/movie_writer.cpp:124)
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=0 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+PORTFOLIO_CAPTURE PASS frames=2160
+--------------------------------------------------------------------------------
+Done recording movie at path: /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/../work/portfolio-metal.avi
+2172 frames at 30 FPS (movie length: 00:01:12:12), recorded in 00:04:37 (25% of real-time speed).
+CPU render time: 25.95 seconds (average: 11.95 ms/frame)
+GPU render time: 0.00 seconds (average: 0.00 ms/frame)
+Encoding time: 68.13 seconds (average: 31.37 ms/frame)
+--------------------------------------------------------------------------------
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2514)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:795)

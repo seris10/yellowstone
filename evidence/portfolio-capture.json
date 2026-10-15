@@ -1,0 +1,62 @@
+{
+  "build_id": "4ce0d3fbe78e",
+  "comparison_sha256": "e65579eb3a7b408cc9e3f66e96f9ec7a391bcbdcd8e62b93e698a2325e85e457",
+  "cpu": "Apple M4",
+  "date_utc": "2026-06-21T22:12:00Z",
+  "duration_s": 72.0,
+  "fps": 30,
+  "frames": 2160,
+  "godot": "4.5.1-stable (official)",
+  "median_capture_wall_frame_ms": 57.039,
+  "mode": "offline baked with fixed sampled model time",
+  "model_variant_id": "mapped_fv_newton",
+  "p95_capture_wall_frame_ms": 99.237,
+  "performance_scope": "Movie capture overhead; normal exploration performance is measured separately",
+  "release_id": "9db90704b79e5333d809665719ebe7c3475ab5b0063bca8f5529d7c27cdca7d3",
+  "renderer": "mobile",
+  "resolution": [
+    1440,
+    900
+  ],
+  "route": [
+    {
+      "name": "thermal boardwalk",
+      "position": "(-115.0, 19.0, -110.0)",
+      "target": "(-99.0, 11.0, -9.0)"
+    },
+    {
+      "name": "mapped river probe",
+      "position": "(59.17187, 7.58959, -320.9494)",
+      "target": "(31.17187, -0.410411, -334.9494)"
+    },
+    {
+      "name": "overlook",
+      "position": "(-242.0, 52.0, 160.0)",
+      "target": "(-213.0, 30.0, 125.0)"
+    }
+  ],
+  "schema": "yellowstone.portfolio_capture.v1",
+  "status": "actual_engine_recording",
+  "wind_seed": 11,
+  "encoded_video": {
+    "path": "docs/portfolio-demo.mp4",
+    "sha256": "1c478e080420242638a3f8e1c087891577c38c61bb4523a421b3db1f8be9cd4c",
+    "metadata": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1440,
+          "height": 900,
+          "r_frame_rate": "30/1",
+          "nb_frames": "2160"
+        }
+      ],
+      "format": {
+        "duration": "72.000000",
+        "size": "46577366"
+      }
+    },
+    "operation": "remove 12 startup frames; encode actual 2160 engine frames; no resampling or synthetic frames"
+  }
+}

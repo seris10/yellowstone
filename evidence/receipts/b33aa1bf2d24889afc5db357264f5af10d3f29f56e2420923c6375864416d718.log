@@ -1,0 +1,175 @@
+tests/test_runtime_release.py::test_actual_godot_reader_consumes_generation_and_rejects_missing_field 0
+.                                                                        [100%]
+1 passed in 2.29s
+
+tests/test_core_terrain.py::test_tool_fails_without_dem 0
+.                                                                        [100%]
+1 passed in 0.26s
+
+tests/test_release_generations.py::test_process_exit_during_staging_keeps_generation_valid_after_restart 0
+.                                                                        [100%]
+1 passed in 0.67s
+
+tests/test_tree_interchange.py::test_installed_commands_offer_help_from_outside_the_checkout 0
+.                                                                        [100%]
+1 passed in 0.83s
+
+tests/test_build_store.py::test_unreferenced_fit_warns_but_passes 0
+.                                                                        [100%]
+1 passed in 0.09s
+
+tests/test_build_store.py::test_sha_mismatch_against_build_json 0
+.                                                                        [100%]
+1 passed in 0.09s
+
+tests/test_build_store.py::test_malformed_fit_clean_exit 0
+.                                                                        [100%]
+1 passed in 0.10s
+
+tests/test_build_store.py::test_build_store_cli_runs 0
+.                                                                        [100%]
+1 passed in 0.09s
+
+tests/test_fetch_met_forcing.py::test_vars_wrong_width_rejected 0
+.                                                                        [100%]
+1 passed in 0.11s
+
+tests/test_fetch_met_forcing.py::test_days_range_rejected 0
+.                                                                        [100%]
+1 passed in 0.10s
+
+tests/test_validate_obs_bundles.py::test_verdict_atomic_write 0
+.                                                                        [100%]
+1 passed in 0.19s
+
+tests/test_validate_obs_bundles.py::test_all_consumer_propagates_bundle_fetched_at_utc 0
+.                                                                        [100%]
+1 passed in 0.18s
+
+tests/test_check_terrain.py::test_missing_file_exit1 0
+.                                                                        [100%]
+1 passed in 0.17s
+
+tests/test_check_terrain.py::test_enclosing_build_hash_picked_up 0
+.                                                                        [100%]
+1 passed in 0.22s
+
+tests/test_package_layout.py::test_package_and_tools_import_outside_checkout 0
+.                                                                        [100%]
+1 passed in 0.16s
+
+tests/test_hydrology_provider.py::test_bundle_to_provider_to_weather 1
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______________________ test_bundle_to_provider_to_weather ______________________
+
+tmp_path = PosixPath('/private/var/folders/1x/83my3qs17_x7dyggf751g3q00000gn/T/pytest-of-kreed/pytest-963/test_bundle_to_provider_to_wea0')
+
+    def test_bundle_to_provider_to_weather(tmp_path):
+        """Meteorological bundle precipitation reaches the provider and weather response."""
+        import json
+        from yellowstone_python.service.llm_backend import Backend
+    
+        bundle_origin_epoch = 1_791_072_000.0
+        rows = []
+        precipitation = []
+        for i in range(24):
+            epoch = bundle_origin_epoch + i * 3600.0
+            rows.append([epoch, 7.0, 0.5, 2.0, 150.0, 0.3])
+            precipitation.append(2.0 if i == 16 else 0.0)
+        bundle = {
+            "schema": "yellowstone.met_forcing.v1",
+            "status": "measured_remote_not_calibrated",
+            "fetched_at_utc": "2026-10-11T00:00:00+00:00",
+            "elevation_m": 2245.0,
+            "hourly": rows,
+            "precipitation_mm_h": precipitation,
+        }
+        world = tmp_path / "world"
+        derived = tmp_path / "derived"
+        data = world / "data"
+        data.mkdir(parents=True)
+        derived.mkdir()
+        (derived / "met.json").write_text(json.dumps(bundle))
+        (data / "ecosystem.json").write_text(json.dumps(
+            {"clock_hour": 16.0, "weather": {}, "river_reaches": [],
+             "patches": [], "wildlife": []}))
+        (data / "placements.json").write_text(json.dumps({"trees": []}))
+        (data / "placement_overrides.json").write_text(json.dumps(
+            {"add": [], "remove": [], "replace": {}}))
+        (data / "world.json").write_text(json.dumps({"pools": []}))
+        (derived / "census.json").write_text(json.dumps(
+            {"n": 0, "status": "stub", "trees": []}))
+    
+        class FakeProvider:
+            """Stand-in provider that mirrors HydrologyProvider's contract."""
+    
+            def __init__(self):
+                self.calls = []
+    
+            def snapshot(self, *, weather, hour):
+                self.calls.append({"weather": dict(weather), "hour": hour})
+                rain = weather.get("precipitation_rate_mm_h")
+                if rain is None:
+                    return type("S", (), {
+                        "status": "no_precipitation_input",
+                        "ground_wetness_fraction": None,
+                        "state": {"status": "no_precipitation_input"},
+                    })
+                return type("S", (), {
+                    "status": "ok",
+                    "ground_wetness_fraction": 0.5,
+                    "state": {"status": "ok", "sim_grid": 8},
+                })
+    
+        provider = FakeProvider()
+        backend = Backend(world=world, derived=derived, hydrology=provider)
+>       response = backend.weather(hour=16.0)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_hydrology_provider.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+yellowstone_python/service/llm_backend.py:318: in weather
+    epoch = resolve_query_epoch(eco.get("simulation_epoch_unix"), offset,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+origin_epoch_unix = None, utc_offset_hours = -6.0, local_hour = 16.0
+elapsed_hours = None, epoch_unix = None
+
+    def resolve_query_epoch(origin_epoch_unix: float | None, utc_offset_hours: float, *,
+                            local_hour: float | None = None, elapsed_hours: float | None = None,
+                            epoch_unix: float | None = None) -> float:
+        """Resolve one weather query without changing the scenario's date."""
+        if sum(value is not None for value in (local_hour, elapsed_hours, epoch_unix)) > 1:
+            raise ValueError("Choose one of local hour, elapsed hours or absolute epoch")
+        if epoch_unix is not None:
+            return _finite("epoch_unix", epoch_unix, minimum=0.)
+        if origin_epoch_unix is None:
+>           raise ValueError("A scenario epoch is required; a weather cache cannot supply the date")
+E           ValueError: A scenario epoch is required; a weather cache cannot supply the date
+
+yellowstone_python/atmosphere/time_utils.py:124: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_hydrology_provider.py::test_bundle_to_provider_to_weather
+1 failed in 0.07s
+
+tests/test_audit_provenance.py::test_report_atomic 0
+.                                                                        [100%]
+1 passed in 0.09s
+
+tests/test_audit_provenance.py::test_audit_stores_flag 0
+.                                                                        [100%]
+1 passed in 0.10s
+
+tests/test_audit_provenance.py::test_derived_disk_flag 0
+.                                                                        [100%]
+1 passed in 0.09s
+
+tests/test_channel_geometry.py::test_tool_import_safe 0
+.                                                                        [100%]
+1 passed in 0.17s
+
+tests/test_toolchain_quality.py::test_actual_fish_actor_uses_signed_displacement_and_freezes_on_pause 0
+.                                                                        [100%]
+1 passed in 0.73s
+

@@ -1,5 +1,5 @@
 window.YS_DASHBOARD = {
- "generated_utc": "2026-10-14 01:37 UTC",
+ "generated_utc": "2026-10-15 04:15 UTC",
  "sources": {
   "inventory_python": "Current referenced-source sha256-12: hydrology/demo_hydrosim.py=daa91c657881; hydrology/hydrosim.py=2fe6f6074e3d; hydrology/validate_hydrosim.py=354ef65c2ee0; yellowstone_midway/scripts/ecosystem.gd=add6a99dfec5; yellowstone_midway/scripts/pool_overlay.gd=0636371d9b83; yellowstone_midway/scripts/python_river_replay.gd=bda1dced97bf; yellowstone_midway/scripts/thermal_probe_overlay.gd=4dcee11c7769; yellowstone_midway/scripts/wildlife_actor.gd=8d1f69d370d0; yellowstone_midway/scripts/world.gd=286bf8522556; yellowstone_python/tools/audit_provenance.py=42f5ec7bfb46; yellowstone_python/tools/build_store.py=8a1333b6f2b9; yellowstone_python/tools/calibrate_river_transport.py=201c4b51512f; yellowstone_python/tools/channel_geometry.py=3521dfdcd77e; yellowstone_python/tools/check_terrain.py=eae68353c9ad; yellowstone_python/tools/compare_bundles.py=736c435a1bde; yellowstone_python/tools/execute_notebook.py=59bd2fe83bc4; yellowstone_python/tools/fetch_firehole_obs.py=fb5dcc296425; yellowstone_python/tools/fetch_met_forcing.py=decc67866af2; yellowstone_python/tools/fetch_snotel_obs.py=b1e48768531e; yellowstone_python/tools/fetch_yellowstone_tributaries.py=c3e9eeac6845; yellowstone_python/tools/plot_fit.py=04f6f8a02448; yellowstone_python/tools/usgs_nwis.py=637fc5fb2f16; yellowstone_python/tools/validate_obs_bundles.py=a0c682a9eca3; yellowstone_python/yellowstone_python/aquatic/aquatic_foodweb.py=406e2cfe6094; yellowstone_python/yellowstone_python/aquatic/fish.py=94aa2107d78b; yellowstone_python/yellowstone_python/aquatic/thermal_curves.py=022e33e3a68f; yellowstone_python/yellowstone_python/atmosphere/microclimate.py=7d72a9ace691; yellowstone_python/yellowstone_python/atmosphere/time_utils.py=fc1bc89c0034; yellowstone_python/yellowstone_python/authoring/gen_flora.py=2ac3a3fcb200; yellowstone_python/yellowstone_python/authoring/gen_trail_mask.py=f3d7303a4564; yellowstone_python/yellowstone_python/authoring/review_proposals.py=e6ea09c3b2b1; yellowstone_python/yellowstone_python/census/canopy_census.py=e5d5c9358e64; yellowstone_python/yellowstone_python/census/census_validate.py=f4ce39e091b9; yellowstone_python/yellowstone_python/cli/publish.py=93353164579a; yellowstone_python/yellowstone_python/common/coords.py=f8aea03661d6; yellowstone_python/yellowstone_python/common/provenance.py=bbbe3b133f2b; yellowstone_python/yellowstone_python/common/units.py=1a2b66a7805c; yellowstone_python/yellowstone_python/compare.py=3a4f539f95eb; yellowstone_python/yellowstone_python/exporters/godot_sidecars.py=172d66696a74; yellowstone_python/yellowstone_python/exporters/to_ecosystem.py=fdf9f0f7fd96; yellowstone_python/yellowstone_python/exporters/to_map.py=0647193734f2; yellowstone_python/yellowstone_python/insects_birds.py=9907ffee428f; yellowstone_python/yellowstone_python/land/grazers.py=9edef5b1a822; yellowstone_python/yellowstone_python/land/groundwater_provider.py=db4f1db489ef; yellowstone_python/yellowstone_python/land/hydrology_provider.py=2c9944ba1bc6; yellowstone_python/yellowstone_python/land/overland_flow.py=8e8dff278ee4; yellowstone_python/yellowstone_python/land/overland_provider.py=b924da64a1ee; yellowstone_python/yellowstone_python/land/snow_energy.py=21e9735190eb; yellowstone_python/yellowstone_python/land/snow_season.py=8530e64c6ab1; yellowstone_python/yellowstone_python/land/snow_validate.py=aeca5e5a5d84; yellowstone_python/yellowstone_python/land/vegetation.py=838ee01986f7; yellowstone_python/yellowstone_python/pipeline/config.py=81715bacaaf9; yellowstone_python/yellowstone_python/pipeline/inputs.py=6f039a591d76; yellowstone_python/yellowstone_python/pipeline/pipeline.py=5c24b07108d4; yellowstone_python/yellowstone_python/pipeline/render.py=184395bc6222; yellowstone_python/yellowstone_python/pipeline/sidecars.py=a3ee5a6bc71e; yellowstone_python/yellowstone_python/publish.py=20709897b639; yellowstone_python/yellowstone_python/registry/claims.py=57faf990357e; yellowstone_python/yellowstone_python/registry/coupling.py=a1867aaa9475; yellowstone_python/yellowstone_python/registry/equations.py=8d48ef6d07b0; yellowstone_python/yellowstone_python/registry/param_registry.py=e7d41edab545; yellowstone_python/yellowstone_python/registry/run_mode.py=6d1f496511d0; yellowstone_python/yellowstone_python/river/benchmarks.py=ce3f7acce30a; yellowstone_python/yellowstone_python/river/calibrate.py=67ae4ca11d77; yellowstone_python/yellowstone_python/river/datasets.py=72c44a7406fb; yellowstone_python/yellowstone_python/river/figures.py=58bedd341501; yellowstone_python/yellowstone_python/river/fipy_reference.py=ee14c79ed594; yellowstone_python/yellowstone_python/river/hydraulics.py=3f8a52180fcc; yellowstone_python/yellowstone_python/river/identifiability.py=6965d5bbdb3a; yellowstone_python/yellowstone_python/river/nc_export.py=e1a5c0aaf8e7; yellowstone_python/yellowstone_python/river/obs_frame.py=c406e7ae68d5; yellowstone_python/yellowstone_python/river/obs_model.py=8c457f30adab; yellowstone_python/yellowstone_python/river/plume2d.py=0942686fb0de; yellowstone_python/yellowstone_python/river/reach_reference.py=0ce0da88cc21; yellowstone_python/yellowstone_python/river/river_transport.py=360fe7e6cbdd; yellowstone_python/yellowstone_python/river/river_world.py=008ced9a47d1; yellowstone_python/yellowstone_python/river/surface_flux.py=dfe568aa14d8; yellowstone_python/yellowstone_python/river/uncertainty.py=f3a9ea13784a; yellowstone_python/yellowstone_python/scenarios/hot_lowflow.py=d033250ac7ba; yellowstone_python/yellowstone_python/service/analysis_store.py=be6948e9fd8d; yellowstone_python/yellowstone_python/service/llm_backend.py=c56b1a993bde; yellowstone_python/yellowstone_python/study_mode.py=51d920aa12ce; yellowstone_python/yellowstone_python/thermal_features/geochemistry.py=56ea01159b86; yellowstone_python/yellowstone_python/thermal_features/pool_crust.py=dc3314e9be3b; yellowstone_python/yellowstone_python/validation/checks.py=9a5c93a27f4c; yellowstone_python/yellowstone_python/validation/claims.py=f0ff294f154e; yellowstone_python/yellowstone_python/validation/contracts.py=b7a5d84d7f12",
   "inventory_godot": "Current source/data SHA-256 inventory: yellowstone_midway/data/asset_manifest.json@d82a74822797, yellowstone_midway/data/consumers.json@5650d9348369, yellowstone_midway/data/terrain.f32@8f5ca1bf65eb, yellowstone_midway/project.godot@cc54a9b3ba3f, yellowstone_midway/scenes/authored_world.tscn@0d1e6476f0dd, yellowstone_midway/scenes/botanical_details.tscn@70a06586f6ce, yellowstone_midway/scenes/handcrafted_details.tscn@d85430e528aa, yellowstone_midway/scenes/study.tscn@5e3b7ba3ee84, yellowstone_midway/scripts/authored_placement.gd@5103c95d73de, yellowstone_midway/scripts/calibration_panel.gd@ad0c32cb1a20, yellowstone_midway/scripts/data_watcher.gd@6018ea44be50, yellowstone_midway/scripts/ecosystem.gd@add6a99dfec5, yellowstone_midway/scripts/height_field.gd@222fe409957b, yellowstone_midway/scripts/input_help.gd@0dd8beb94a63, yellowstone_midway/scripts/live_python_client.gd@9f22c6fb682a, yellowstone_midway/scripts/map_view.gd@6fa399091680, yellowstone_midway/scripts/mat_surface.gd@f1462054281a, yellowstone_midway/scripts/player.gd@98ceea1b96f7, yellowstone_midway/scripts/pool_overlay.gd@0636371d9b83, yellowstone_midway/scripts/python_river_replay.gd@bda1dced97bf, yellowstone_midway/scripts/scientific_overlays.gd@7d8e2bc77eaa, yellowstone_midway/scripts/simulation_panel.gd@a2fe8d35f9c0, yellowstone_midway/scripts/thermal_probe_overlay.gd@4dcee11c7769, yellowstone_midway/scripts/weather_snapshot_reader.gd@2054cd25daa5, yellowstone_midway/scripts/wildlife_actor.gd@8d1f69d370d0, yellowstone_midway/scripts/world.gd@286bf8522556, yellowstone_midway/scripts/yellowstone_atmosphere.gd@466a8710e66c, yellowstone_midway/shaders/boardwalk.gdshader@a6a6028ffbf9, yellowstone_midway/shaders/foliage.gdshader@9c2b6fbc19a0, yellowstone_midway/shaders/steam.gdshader@c604fadf723c, yellowstone_midway/shaders/terrain.gdshader@5da142ac6140, yellowstone_midway/shaders/trail.gdshader@388494c2d20f, yellowstone_midway/shaders/water.gdshader@c6d1bb9b94b0, yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader@7f5acf01294f, yellowstone_midway/tools/bake_botany.gd@6c795f473668, yellowstone_midway/tools/bake_world.gd@64d3c52c7ee5, yellowstone_midway/tools/prepare_swimming_trout.py@d99eaf0d1f9a, yellowstone_midway/tools/tests/test_fish_swim.py@0e2ebedc9f41, yellowstone_midway/tools/validate_consumers.gd@443254002aa5, yellowstone_midway/tools/validate_data_watcher.gd@04b9bb6719f6, yellowstone_midway/tools/validate_ecology.gd@3d3e2083fd76, yellowstone_midway/tools/validate_interface.gd@0ea8dfd39c20, yellowstone_midway/tools/validate_live_client.gd@ac3355d60a37, yellowstone_midway/tools/validate_live_service.gd@bfd815a56f36, yellowstone_midway/tools/validate_projection.gd@656b7ece9d99, yellowstone_python/yellowstone_python/aquatic/aquatic_foodweb.py@406e2cfe6094, yellowstone_python/yellowstone_python/aquatic/fish.py@94aa2107d78b, yellowstone_python/yellowstone_python/atmosphere/microclimate.py@7d72a9ace691, yellowstone_python/yellowstone_python/exporters/godot_sidecars.py@172d66696a74, yellowstone_python/yellowstone_python/exporters/runtime_series.py@50866c7394a1, yellowstone_python/yellowstone_python/insects_birds.py@9907ffee428f, yellowstone_python/yellowstone_python/land/snow_season.py@8530e64c6ab1, yellowstone_python/yellowstone_python/land/vegetation.py@838ee01986f7, yellowstone_python/yellowstone_python/registry/equations.py@8d48ef6d07b0, yellowstone_python/yellowstone_python/registry/param_registry.py@e7d41edab545, yellowstone_python/yellowstone_python/river/calibrate.py@67ae4ca11d77, yellowstone_python/yellowstone_python/river/river_transport.py@360fe7e6cbdd, yellowstone_python/yellowstone_python/service/live/engine.py@bcf14fe1218b, yellowstone_python/yellowstone_python/service/server.py@646818416bd8, yellowstone_python/yellowstone_python/study_mode.py@51d920aa12ce, yellowstone_python/yellowstone_python/thermal_features/mat_appearance.py@af21e0dbfa49, yellowstone_midway/data/river_replay.json@fa51a017de6e, yellowstone_midway/data/ecosystem.json@f71f2ad7b056, yellowstone_midway/data/world.json@ee15ef84b106",
@@ -6791,16 +6791,16 @@ window.YS_DASHBOARD = {
    "id": "51",
    "file": "yellowstone_python_spec/fixes/fixes-51-forest-density-tree-form-and-fish-models.md",
    "area": "N",
-   "ledger": null,
+   "ledger": "yellowstone_python_spec/fixes/ledger/fixes-51.md",
    "counts": {
     "implemented": 0,
     "shortcut": 0,
     "partial": 0,
-    "missing": 6,
+    "missing": 0,
     "superseded": 0,
     "conflicts": 0
    },
-   "items": 6,
+   "items": 0,
    "targets": []
   },
   {
@@ -6823,19 +6823,868 @@ window.YS_DASHBOARD = {
    "id": "53",
    "file": "yellowstone_python_spec/fixes/fixes-53-lidar-canopy-and-tree-count-sources.md",
    "area": "N",
-   "ledger": null,
+   "ledger": "yellowstone_python_spec/fixes/ledger/fixes-53.md",
    "counts": {
     "implemented": 0,
     "shortcut": 0,
     "partial": 0,
-    "missing": 6,
+    "missing": 0,
     "superseded": 0,
     "conflicts": 0
    },
-   "items": 6,
+   "items": 0,
+   "targets": []
+  },
+  {
+   "id": "54",
+   "file": "yellowstone_python_spec/fixes/fixes-54-portfolio-coherence.md",
+   "area": "N",
+   "ledger": "yellowstone_python_spec/fixes/ledger/fixes-54.md",
+   "counts": {
+    "implemented": 12,
+    "shortcut": 0,
+    "partial": 0,
+    "missing": 0,
+    "superseded": 0,
+    "conflicts": 0
+   },
+   "items": 12,
+   "targets": []
+  },
+  {
+   "id": "55",
+   "file": "yellowstone_python_spec/fixes/fixes-55-toolchain-quality.md",
+   "area": "N",
+   "ledger": "yellowstone_python_spec/fixes/ledger/fixes-55.md",
+   "counts": {
+    "implemented": 12,
+    "shortcut": 0,
+    "partial": 3,
+    "missing": 0,
+    "superseded": 0,
+    "conflicts": 0
+   },
+   "items": 15,
    "targets": []
   }
  ],
+ "execution_evidence": [
+  {
+   "name": "animal-ownership-contract",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/wildlife_motion/test_input_contracts.py"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T23:06:07.270543+00:00",
+   "source_identity": "5c2040105d472fd728da31c5c2c15f6710a080266eed5de017f053ad484b503c",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/4bd4bdcd34ca5ff3c45acf037c833bc905af9c5c6bc19acd8bd546aa12500520.json"
+  },
+  {
+   "name": "baseline-build",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "yellowstone_python.build",
+    "--config",
+    "configs/baseline.yaml"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:23:57.391077+00:00",
+   "source_identity": "e5c55acffae7f16dad10c7e84b6dc691b28ab045b9a41508f81cba8e329be868",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/1504d24fddf61e21227de496a73e83e521f73e85fe2e122f5a9308e60e5a7092.json"
+  },
+  {
+   "name": "baseline-build-current-commit",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "yellowstone_python.build",
+    "--config",
+    "configs/baseline.yaml"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:30:11.356653+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/3dcac2c4d0551d50bc8bbd3514a0af0e6156bcb76a6b10ef753b164e27158892.json"
+  },
+  {
+   "name": "boundary-tests",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_live_engine.py",
+    "tests/test_model_boundaries.py",
+    "tests/test_phase_and_clock.py",
+    "tests/test_release_generations.py",
+    "tests/test_runtime_release.py",
+    "tests/test_package_demo.py",
+    "tests/test_reference_run.py",
+    "tests/test_dashboard_evidence.py",
+    "tests/test_execution_evidence.py",
+    "tests/test_repository_style.py",
+    "tests/test_check_comment_style.py",
+    "tests/test_pipeline.py",
+    "--junitxml=../work/boundary-current.xml"
+   ],
+   "tests": {
+    "collected_reported": 169,
+    "executed": 169,
+    "failed": 0,
+    "skip_reasons": [],
+    "skipped": 0
+   },
+   "started_utc": "2026-10-15T00:02:49.095632+00:00",
+   "source_identity": "08ab27f400123e3457a09f28bb1687f110b8e057733d5449ef982ac34e78ef50",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/d69999e87f9cc48606c77189fb96ee73bcc42bd527da34fddaaefdb935d565e0.json"
+  },
+  {
+   "name": "clean-checkout-isolated",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-m",
+    "not needs_world",
+    "-q",
+    "--junitxml=../work-clean.xml"
+   ],
+   "tests": {
+    "collected_reported": 1959,
+    "executed": 1944,
+    "failed": 0,
+    "skip_reasons": [
+     "complete comparison build missing: /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/reference-checkout/yellowstone_python/derived",
+     "fipy not installed",
+     "flopy not present",
+     "landlab not present",
+     "xarray/netCDF4 not installed"
+    ],
+    "skipped": 15
+   },
+   "started_utc": "2026-10-15T00:02:50.332771+00:00",
+   "source_identity": "08ab27f400123e3457a09f28bb1687f110b8e057733d5449ef982ac34e78ef50",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/f69f3464ed26352bc1d609af515fba35573c414d3c096c4f7d404d60f6d71eac.json"
+  },
+  {
+   "name": "clean-checkout-reference",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "tools.reference_run",
+    "--out",
+    "../work/reference-experiment.json"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T22:16:00.858121+00:00",
+   "source_identity": "06bd1fa8345c051c596792c78a409d27397d354fa8989e9b00c48f6b1ed67de3",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/066678daa243621ad8932bb53e117d76aa2f2dee4071d5672305fef5cf7e47a4.json"
+  },
+  {
+   "name": "clean-reference-core-complete",
+   "status": "executed_passed",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-m",
+    "not needs_world",
+    "--junitxml=../../clean-core-complete.xml"
+   ],
+   "tests": {
+    "collected_reported": 1987,
+    "executed": 1973,
+    "failed": 0,
+    "skip_reasons": [
+     "fipy not installed",
+     "flopy not present",
+     "landlab not present",
+     "xarray/netCDF4 not installed"
+    ],
+    "skipped": 14
+   },
+   "started_utc": "2026-10-15T04:04:24.244352+00:00",
+   "source_identity": "3669453a2c75423df300a056dc49958a6904e602fb61e2abfab18b31999def29",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/65fcb80c8fb99b68d6ae4a4a2c3089ca82c3f861896f92651da1fc0d2e16265f.json"
+  },
+  {
+   "name": "clean-reference-python",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-m",
+    "not needs_world",
+    "--junitxml=../../clean-reference-final.xml"
+   ],
+   "tests": {
+    "collected_reported": 1987,
+    "executed": 1972,
+    "failed": 0,
+    "skip_reasons": [
+     "complete comparison build missing: /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/reference-checkout/yellowstone_python/derived",
+     "fipy not installed",
+     "flopy not present",
+     "landlab not present",
+     "xarray/netCDF4 not installed"
+    ],
+    "skipped": 15
+   },
+   "started_utc": "2026-10-15T03:27:18.917928+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/d075d8e29f5d7cdfd458e5e0fa664b91f7f881d0dcc9704a9aa290293aff44ae.json"
+  },
+  {
+   "name": "clean-reference-world-complete",
+   "status": "executed_passed",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-m",
+    "needs_world",
+    "--junitxml=../../clean-world-complete.xml"
+   ],
+   "tests": {
+    "collected_reported": 121,
+    "executed": 121,
+    "failed": 0,
+    "skip_reasons": [],
+    "skipped": 0
+   },
+   "started_utc": "2026-10-15T04:04:23.058809+00:00",
+   "source_identity": "3669453a2c75423df300a056dc49958a6904e602fb61e2abfab18b31999def29",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/ed5b305594c523e1eb24140ab5a859d8b478ab17acae6cd5d49de66756810c96.json"
+  },
+  {
+   "name": "demo-package",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "tools.package_demo",
+    "--out",
+    "../work/Yellowstone-Midway-Final"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T23:50:46.443975+00:00",
+   "source_identity": "2e6364a455a6214fb61dec54c4fd4cec47e163dc4e5b5087ce5b950cbcacf5bc",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/3bf41011e8679d6b8f159853e04b254019ff68f5360b4baa5d653bd5e25a9f53.json"
+  },
+  {
+   "name": "full-python-suite",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--junitxml=../work/full-final.xml"
+   ],
+   "tests": {
+    "collected_reported": 2108,
+    "executed": 2094,
+    "failed": 21,
+    "skip_reasons": [
+     "fipy not installed",
+     "flopy not present",
+     "landlab not present",
+     "xarray/netCDF4 not installed"
+    ],
+    "skipped": 14
+   },
+   "started_utc": "2026-10-15T03:27:17.712666+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/461455da76af92dcb518a9f8cd39b704854fdffd43c30fb4e91b5f49e09b6eab.json"
+  },
+  {
+   "name": "full-suite",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--junitxml=../work/full-final.xml"
+   ],
+   "tests": {
+    "collected_reported": 2078,
+    "executed": 2064,
+    "failed": 0,
+    "skip_reasons": [
+     "fipy not installed",
+     "flopy not present",
+     "landlab not present",
+     "xarray/netCDF4 not installed"
+    ],
+    "skipped": 14
+   },
+   "started_utc": "2026-10-14T23:07:36.859112+00:00",
+   "source_identity": "5c2040105d472fd728da31c5c2c15f6710a080266eed5de017f053ad484b503c",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/4b130aecd310f05a94664504e84b8b52d0469a1174317ad37932d1db0c5ded4e.json"
+  },
+  {
+   "name": "geographic-registration",
+   "status": "stale",
+   "command": [
+    "../work/reference-env/bin/python",
+    "../yellowstone_midway/tools/validate_world.py"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T00:05:55.819442+00:00",
+   "source_identity": "08ab27f400123e3457a09f28bb1687f110b8e057733d5449ef982ac34e78ef50",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/3a1c4341308a5de1c4105a1d5f5af01b7b3ab7e05b4b6284a877cc922eb95a62.json"
+  },
+  {
+   "name": "mesh-reduction-negatives",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "../work/check_reducer_failures.py",
+    ".."
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T02:46:22.579522+00:00",
+   "source_identity": "2a122f9c80e2a16f0c90faa2e3d04281d5b9350dcf1d4f9d49f0a23c814b9714",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/8d9242949a7b9b6f089d9c0e77bbcc7e2a99cf39b64a6d022ce4c99e1cd6041f.json"
+  },
+  {
+   "name": "mesh-reduction-positive",
+   "status": "stale",
+   "command": [
+    "blender",
+    "--background",
+    "--factory-startup",
+    "--python-exit-code",
+    "2",
+    "--python",
+    "tools/blender_wildlife_decimate.py",
+    "--",
+    "--source",
+    "../work/reducer-fixture/source.glb",
+    "--output",
+    "../work/reducer-fixture/accepted.glb",
+    "--triangles",
+    "600"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T02:28:26.858420+00:00",
+   "source_identity": "b8231b94d69ebab4996fcf57e7a01666ac45c44cab40a52487369c2b1996c0f4",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/3eb8c1488df1ec157fea26433bcbed5773f11d6ac72b104dd99c09614559af3c.json"
+  },
+  {
+   "name": "native-process-isolation",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "../work/check_native_isolation.py"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:50:12.660175+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/b33aa1bf2d24889afc5db357264f5af10d3f29f56e2420923c6375864416d718.json"
+  },
+  {
+   "name": "native-process-isolation-final",
+   "status": "executed_passed",
+   "command": [
+    ".venv/bin/python",
+    "../work/check_native_isolation.py"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T04:04:21.855427+00:00",
+   "source_identity": "3669453a2c75423df300a056dc49958a6904e602fb61e2abfab18b31999def29",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/264310e21f92a9845eafec26bad639536648dca42e48badf5d3b617f2f922429.json"
+  },
+  {
+   "name": "offline-startup",
+   "status": "stale",
+   "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "../yellowstone_midway",
+    "--fixed-fps",
+    "60",
+    "--",
+    "--smoke-test"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T22:55:59.476044+00:00",
+   "source_identity": "d40aa0d0c8d2d3abf7f828179c022f4b949abea05c9d74a1ca3e3209f7693e71",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/176bab65106e1cb7020013f6f78f00c98d00a0cc6bef721091291aa4ef74d7a6.json"
+  },
+  {
+   "name": "package-clean-import",
+   "status": "stale",
+   "command": [
+    "godot",
+    "--headless",
+    "--editor",
+    "--path",
+    "../work/Yellowstone-Midway-Final",
+    "--import",
+    "--quit"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T23:51:25.182322+00:00",
+   "source_identity": "93946afaaed4aa272b8ce7a90f80f4c402ca2f1c74973a0202511b1edb94d64d",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/1aab02165d69a0e43417b8eee3634057aafa54c2e1fc76c72186e99a39bb732b.json"
+  },
+  {
+   "name": "package-offline-startup",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "../work/check_package_startup.py",
+    "../work/Yellowstone-Midway-Final"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T00:04:05.309443+00:00",
+   "source_identity": "08ab27f400123e3457a09f28bb1687f110b8e057733d5449ef982ac34e78ef50",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/767bddd448e597615b2b73de48b9157ce32c972eb909d05323dea51970f03120.json"
+  },
+  {
+   "name": "portable-demo-offline-startup",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "../work/check_package_startup.py",
+    "../work/Yellowstone-Midway"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:47:16.554171+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/22a0227ae1e6dc7fa8631b6810dc4856ceba8d0b6dbeaf98a560894acfd96e80.json"
+  },
+  {
+   "name": "portable-demo-package",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "tools.package_demo",
+    "--world",
+    "../yellowstone_midway",
+    "--out",
+    "../work/Yellowstone-Midway"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:41:25.754449+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/e2c4866edd4eec147a9d435547d9673f171f274704f286ac29266bd0b9781d68.json"
+  },
+  {
+   "name": "portable-demo-visible-offline-startup",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "../work/check_visible_startup.py",
+    "../work/Yellowstone-Midway"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T04:00:58.211859+00:00",
+   "source_identity": "e9dd13e8f0847e087fdaddae058275dd89b663ce15b64f4fe53cf274f4b23422",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/3cbfbf822e6d890d261d28ac11f6a06364a631826e377b9cc9392e021bb139c1.json"
+  },
+  {
+   "name": "portfolio-build",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "yellowstone_python.build",
+    "--config",
+    "configs/portfolio.yaml"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:25:19.202516+00:00",
+   "source_identity": "6bad745a27fe67533579416a714f179e21e758d7885dfa7f3ba697518c44ca18",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/986d7d2235e479d4116e5173271f844ffc8e304ee535f949b23fd1f4fa186a82.json"
+  },
+  {
+   "name": "portfolio-engine-recording",
+   "status": "stale",
+   "command": [
+    "/usr/bin/time",
+    "-lp",
+    "godot",
+    "--path",
+    "../yellowstone_midway",
+    "--rendering-method",
+    "mobile",
+    "--rendering-driver",
+    "metal",
+    "--write-movie",
+    "../work/portfolio-final.avi",
+    "--fixed-fps",
+    "30",
+    "--disable-vsync",
+    "--script",
+    "tools/validate_terrain_render.gd",
+    "--",
+    "--portfolio",
+    "--out=/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/portfolio-final"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:30:41.577258+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/8e414a6f03adc3f873938eb76dd17479a33c5a0e0cb3b13e7bb10bfe577882a7.json"
+  },
+  {
+   "name": "portfolio-publication",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "yellowstone_python.publish",
+    "--build",
+    "derived/4ce0d3fbe78e",
+    "--to",
+    "../yellowstone_midway"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:29:40.113962+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/a712e87771552f244d17f6d3f648bf5c900a34b12fb2ca7135eccea6545e1259.json"
+  },
+  {
+   "name": "portfolio-recording",
+   "status": "stale",
+   "command": [
+    "godot",
+    "--path",
+    "../yellowstone_midway",
+    "--render-thread",
+    "safe",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "30",
+    "--write-movie",
+    "../work/portfolio.avi",
+    "--script",
+    "tools/validate_terrain_render.gd",
+    "--",
+    "--portfolio",
+    "--out=../work/portfolio-capture"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T22:57:38.762823+00:00",
+   "source_identity": "d40aa0d0c8d2d3abf7f828179c022f4b949abea05c9d74a1ca3e3209f7693e71",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/651e5b06fb04350958c17d167ea0385bf9150eec56c778a570346d391d0dbdb8.json"
+  },
+  {
+   "name": "portfolio-recording-metal",
+   "status": "stale",
+   "command": [
+    "godot",
+    "--path",
+    "../yellowstone_midway",
+    "--rendering-method",
+    "mobile",
+    "--rendering-driver",
+    "metal",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "30",
+    "--write-movie",
+    "../work/portfolio-metal.avi",
+    "--script",
+    "tools/validate_terrain_render.gd",
+    "--",
+    "--portfolio",
+    "--out=/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/portfolio-capture-metal"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T23:17:39.708629+00:00",
+   "source_identity": "5c2040105d472fd728da31c5c2c15f6710a080266eed5de017f053ad484b503c",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/1a68b0c785d57ecfba52f42e3f78f3ecdcfc8733cd9f3bfc9bd20485d362b4ae.json"
+  },
+  {
+   "name": "provenance-audit",
+   "status": "stale",
+   "command": [
+    "../work/reference-env/bin/python",
+    "-m",
+    "tools.audit_provenance",
+    "--dir",
+    "derived",
+    "--out",
+    "../evidence/provenance-audit.json"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T23:52:33.785812+00:00",
+   "source_identity": "93946afaaed4aa272b8ce7a90f80f4c402ca2f1c74973a0202511b1edb94d64d",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/d9915d2928b1225ed820e73d5d86c1231b6508451e8f3418f128043e0554c6ab.json"
+  },
+  {
+   "name": "provenance-current",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "tools.audit_provenance",
+    "--dir",
+    "derived"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:30:12.522297+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/ff608e297e0e743ebd6b6650722091924e2a5ae71fddf4321671cbcdef2e6cb2.json"
+  },
+  {
+   "name": "published-live-parity",
+   "status": "stale",
+   "command": [
+    "../work/reference-env/bin/python",
+    "../work/verify_published.py",
+    "derived/4ce0d3fbe78e",
+    "../evidence/published-live-parity.json"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:30:13.714948+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/d1368c8c82d5f455ad3aad0e24e3e7c67a7c38a8ddce7432550009f35531d7a9.json"
+  },
+  {
+   "name": "reference-experiment",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "tools.reference_run",
+    "--out",
+    "../evidence/reference-experiment.json",
+    "--plot",
+    "../docs/reference-experiment.png"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T23:57:57.493049+00:00",
+   "source_identity": "93946afaaed4aa272b8ce7a90f80f4c402ca2f1c74973a0202511b1edb94d64d",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/c6068b6e675694c7821f21f1ab15324dbaaa8db3ee02b004262102ad3f3c2a9a.json"
+  },
+  {
+   "name": "release-runtime",
+   "status": "stale",
+   "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "../yellowstone_midway",
+    "--script",
+    "tools/validate_release_generation.gd"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T22:55:59.475820+00:00",
+   "source_identity": "d40aa0d0c8d2d3abf7f828179c022f4b949abea05c9d74a1ca3e3209f7693e71",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/946de6264e648fd0394f034c43e1b06ca26195859e548d4b20368ae642364134.json"
+  },
+  {
+   "name": "runtime-and-style",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_runtime_release.py",
+    "tests/test_repository_style.py",
+    "tests/test_dashboard_evidence.py",
+    "tests/test_asset_release_inventory.py",
+    "tests/test_execution_evidence.py",
+    "tests/test_reference_run.py",
+    "tests/test_package_demo.py",
+    "tests/test_release_generations.py"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-14T23:25:24.312076+00:00",
+   "source_identity": "2620d1fb45a345e66a9fc1c9fcf6ef644989f4594fbe94d3c91fa92e62cef9d6",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/cc1d1692956aa39d6e06939cc3e522ac5b18153d40339127cffab27eb2262d08.json"
+  },
+  {
+   "name": "source-native-contracts",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_runtime_release.py",
+    "tests/test_release_generations.py",
+    "tests/test_toolchain_quality.py",
+    "tests/test_package_demo.py",
+    "--junitxml=../work/native-contracts-final.xml"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:35:42.001080+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/c76a51bd2c87bd6f6aa3af0c293bd2fea2f1d76f6bfd6f97d360317d27039c15.json"
+  },
+  {
+   "name": "synthetic-reference-current",
+   "status": "stale",
+   "command": [
+    ".venv/bin/python",
+    "-m",
+    "tools.reference_run",
+    "--out",
+    "../evidence/reference-experiment.json",
+    "--plot",
+    "../docs/reference-experiment.png"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:36:21.330272+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/56858fbd3b0385701889da0da0353fe695e4aa5f9ba4167dad8987e94aeaf67a.json"
+  },
+  {
+   "name": "terrain-render",
+   "status": "stale",
+   "command": [
+    "/usr/bin/time",
+    "-l",
+    "godot",
+    "--path",
+    "../work/Yellowstone-Midway-Final",
+    "--rendering-method",
+    "mobile",
+    "--rendering-driver",
+    "metal",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "tools/validate_terrain_render.gd",
+    "--",
+    "--out=/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/terrain-render-package"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T00:05:54.920499+00:00",
+   "source_identity": "08ab27f400123e3457a09f28bb1687f110b8e057733d5449ef982ac34e78ef50",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/16f495ba901728d2f51b45e46d5e59c1dd44b7308b2876aad8e8633ad25560ec.json"
+  },
+  {
+   "name": "terrain-render-current",
+   "status": "stale",
+   "command": [
+    "/usr/bin/time",
+    "-lp",
+    "godot",
+    "--path",
+    "../yellowstone_midway",
+    "--rendering-method",
+    "mobile",
+    "--rendering-driver",
+    "metal",
+    "--script",
+    "tools/validate_terrain_render.gd",
+    "--",
+    "--out=/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/terrain-final"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:35:03.185382+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/08a45a2eb1c5b7e0165f96061e11cd496060c3a77dea0daa9ff4ec5375202193.json"
+  },
+  {
+   "name": "terrain-render-current-low-contention",
+   "status": "stale",
+   "command": [
+    "/usr/bin/time",
+    "-lp",
+    "godot",
+    "--path",
+    "../yellowstone_midway",
+    "--rendering-method",
+    "mobile",
+    "--rendering-driver",
+    "metal",
+    "--script",
+    "tools/validate_terrain_render.gd",
+    "--",
+    "--out=/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/terrain-quiet"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T03:41:27.708831+00:00",
+   "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+   "source_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+   "receipt": "evidence/receipts/00c986c97f3862700ecb4bf27f14bf57f564f05249ecac6d46d8d09cd81cc93b.json"
+  },
+  {
+   "name": "wildlife-native",
+   "status": "stale",
+   "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "../yellowstone_midway",
+    "--script",
+    "tools/validate_wildlife_motion.gd",
+    "--",
+    "--report=../evidence/wildlife-native.json"
+   ],
+   "tests": {},
+   "started_utc": "2026-10-15T02:50:13.610294+00:00",
+   "source_identity": "284e2ec162035c154512e717cc8301c06671cf7eceddab07e2f5ef878eab727c",
+   "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+   "receipt": "evidence/receipts/c27533e5d6f810695279252e43eaf881d998e6f25bd47a944eaada0048c461d9.json"
+  }
+ ],
+ "inventory_evidence_kind": "declared implementation and ledger assertions",
  "totals": {
   "components": {
    "rendered": 28,
@@ -6858,13 +7707,13 @@ window.YS_DASHBOARD = {
    "next_phase": 0
   },
   "verdicts": {
-   "implemented": 985,
+   "implemented": 1009,
    "shortcut": 0,
-   "partial": 11,
-   "missing": 57,
+   "partial": 14,
+   "missing": 45,
    "superseded": 4,
    "conflicts": 0
   },
-  "fix_items": 1057
+  "fix_items": 1072
  }
 };

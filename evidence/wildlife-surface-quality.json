@@ -1,0 +1,850 @@
+{
+  "schema": "yellowstone.current_wildlife_surface_quality.v1",
+  "predeclared_budget": {
+    "maximum_edge_stretch_p99": 0.65,
+    "maximum_stance_surface_slip_height_per_s": 0.5,
+    "maximum_stance_surface_distance_height": 0.15,
+    "maximum_loop_error_height": 0.01
+  },
+  "budget_class": "authored_geometric_limits",
+  "assets": [
+    {
+      "id": "synthetic_bird_folded_animated",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 7.855111972432395e-08,
+            "stance_surface_slip_height_per_s": 0.00022805535768251394,
+            "stance_surface_distance_height": 0.019802560971317038,
+            "loop_error_height": 1.7656218285087164e-17,
+            "observed_contact_regions": [
+              "L",
+              "R"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 7.855112134969047e-08,
+            "stance_surface_slip_height_per_s": 0.5551507732611267,
+            "stance_surface_distance_height": 0.019876811445837115,
+            "loop_error_height": 1.3242163713815373e-16,
+            "observed_contact_regions": [
+              "L",
+              "R"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 0.7860000133514404,
+        "contact_region_vertices": {
+          "L": 101,
+          "R": 101
+        },
+        "required_contact_regions": [
+          "L",
+          "R"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": false,
+        "failures": [
+          "Walk.stance_surface_slip_height_per_s"
+        ],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "synthetic_bird_folded_source",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb",
+      "report": {
+        "status": "unavailable",
+        "reason": "single_source_bound_skin_required",
+        "asset_sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6"
+      },
+      "decision": {
+        "passed": false,
+        "failures": [
+          "required_idle_walk_surface_evidence_unavailable"
+        ],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "synthetic_bird_spread_animated",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc",
+        "modes": {},
+        "samples_per_clip": 9,
+        "height_asset_units": 0.7860000133514404,
+        "contact_region_vertices": {
+          "L": 101,
+          "R": 101
+        },
+        "required_contact_regions": [
+          "L",
+          "R"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": false,
+        "failures": [
+          "required_idle_walk_surface_evidence_unavailable"
+        ],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "synthetic_bird_spread_source",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb",
+      "report": {
+        "status": "unavailable",
+        "reason": "single_source_bound_skin_required",
+        "asset_sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9"
+      },
+      "decision": {
+        "passed": false,
+        "failures": [
+          "required_idle_walk_surface_evidence_unavailable"
+        ],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "synthetic_surface_swim",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab",
+        "modes": {},
+        "samples_per_clip": 9,
+        "height_asset_units": 0.7860000133514404,
+        "contact_region_vertices": {
+          "L": 101,
+          "R": 101
+        },
+        "required_contact_regions": [
+          "L",
+          "R"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": false,
+        "failures": [
+          "required_idle_walk_surface_evidence_unavailable"
+        ],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "bobcat_animated_2k",
+      "path": "assets/imported/wildlife_motion/bobcat_animated_2k.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.0985405609791381,
+            "stance_surface_slip_height_per_s": 0.0006137752488634513,
+            "stance_surface_distance_height": 0.01997283421118504,
+            "loop_error_height": 1.7414140403057958e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.36872214075560966,
+            "stance_surface_slip_height_per_s": 0.09473629322809099,
+            "stance_surface_distance_height": 0.019972837638037973,
+            "loop_error_height": 2.009927837323191e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.3809239864349365,
+        "contact_region_vertices": {
+          "FL": 295,
+          "FR": 315,
+          "HL": 253,
+          "HR": 233
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "bobcat_artistic_variant_2k",
+      "path": "assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.09831859148098061,
+            "stance_surface_slip_height_per_s": 0.0006436039545195812,
+            "stance_surface_distance_height": 0.019956120727166324,
+            "loop_error_height": 3.194786975737217e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.3636681315436439,
+            "stance_surface_slip_height_per_s": 0.09418063150913553,
+            "stance_surface_distance_height": 0.019956124098659687,
+            "loop_error_height": 3.194786975737217e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.3900432586669922,
+        "contact_region_vertices": {
+          "FL": 295,
+          "FR": 313,
+          "HL": 251,
+          "HR": 233
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "grizzly_animated_2k",
+      "path": "assets/imported/wildlife_motion/grizzly_animated_2k.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.07658162225968805,
+            "stance_surface_slip_height_per_s": 0.0011311384556462536,
+            "stance_surface_distance_height": 0.01999138965824818,
+            "loop_error_height": 1.7082193837857143e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.4604992478867258,
+            "stance_surface_slip_height_per_s": 0.004321987171028961,
+            "stance_surface_distance_height": 0.019991372642753143,
+            "loop_error_height": 2.5623290756785717e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.2998600006103516,
+        "contact_region_vertices": {
+          "FL": 260,
+          "FR": 101,
+          "HL": 333,
+          "HR": 481
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "grizzly_artistic_variant_2k",
+      "path": "assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.07741847256360133,
+            "stance_surface_slip_height_per_s": 0.0008620066382084079,
+            "stance_surface_distance_height": 0.01992035949178757,
+            "loop_error_height": 2.6566449494175573e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.4646353708336039,
+            "stance_surface_slip_height_per_s": 0.003975379392110076,
+            "stance_surface_distance_height": 0.01992031093905923,
+            "loop_error_height": 2.6566449494175573e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.25371253490448,
+        "contact_region_vertices": {
+          "FL": 263,
+          "FR": 97,
+          "HL": 325,
+          "HR": 469
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "wolf_authored",
+      "path": "assets/imported/wildlife_motion/wolf_authored.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.0592553722142603,
+            "stance_surface_slip_height_per_s": 0.0005044073159419611,
+            "stance_surface_distance_height": 0.010803446684020434,
+            "loop_error_height": 1.8200377026054235e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.3505284181448718,
+            "stance_surface_slip_height_per_s": 0.014255451542783232,
+            "stance_surface_distance_height": 0.010803434554116148,
+            "loop_error_height": 1.8200377026054235e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.2200000286102295,
+        "contact_region_vertices": {
+          "FL": 25,
+          "FR": 25,
+          "HL": 25,
+          "HR": 25
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "deer_authored",
+      "path": "assets/imported/wildlife_motion/deer_authored.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.08546238224975025,
+            "stance_surface_slip_height_per_s": 0.00035666307355987885,
+            "stance_surface_distance_height": 0.01767678617701996,
+            "loop_error_height": 1.4018032101641977e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 12.058994617722064,
+            "stance_surface_slip_height_per_s": 0.012389966745823669,
+            "stance_surface_distance_height": 0.01772363819217277,
+            "loop_error_height": 2.387435063888934e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.9800000190734863,
+        "contact_region_vertices": {
+          "FL": 29,
+          "FR": 69,
+          "HL": 29,
+          "HR": 69
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": false,
+        "failures": [
+          "Walk.edge_stretch_p99"
+        ],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "badger",
+      "path": "assets/imported/wildlife_motion/badger_animated.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.13136598265721555,
+            "stance_surface_slip_height_per_s": 0.001137250314509325,
+            "stance_surface_distance_height": 0.01998945962076782,
+            "loop_error_height": 2.8195004147271005e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.6687992207907014,
+            "stance_surface_slip_height_per_s": 0.02850309288523905,
+            "stance_surface_distance_height": 0.01998943462254495,
+            "loop_error_height": 5.639000829454201e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 0.3937658667564392,
+        "contact_region_vertices": {
+          "FL": 33,
+          "FR": 157,
+          "HL": 30,
+          "HR": 97
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": false,
+        "failures": [
+          "Walk.edge_stretch_p99"
+        ],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "bison_animated",
+      "path": "assets/imported/wildlife_motion/bison_animated.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.09667137205723784,
+            "stance_surface_slip_height_per_s": 0.0008286584669633011,
+            "stance_surface_distance_height": 0.01984414583523525,
+            "loop_error_height": 3.5702746841170466e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.436411944663566,
+            "stance_surface_slip_height_per_s": 0.0066685505990682365,
+            "stance_surface_distance_height": 0.019844132585349297,
+            "loop_error_height": 3.5702746841170466e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 0.6219258308410645,
+        "contact_region_vertices": {
+          "FL": 89,
+          "FR": 105,
+          "HL": 69,
+          "HR": 76
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "black_bear",
+      "path": "assets/imported/wildlife_motion/black_bear_animated.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.08100330700522612,
+            "stance_surface_slip_height_per_s": 0.00034687977516807987,
+            "stance_surface_distance_height": 0.01996809032754697,
+            "loop_error_height": 2.3600279657645315e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.3408172704141951,
+            "stance_surface_slip_height_per_s": 0.16511331683757177,
+            "stance_surface_distance_height": 0.03946315466329697,
+            "loop_error_height": 2.3600279657645315e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.4112837314605713,
+        "contact_region_vertices": {
+          "FL": 108,
+          "FR": 150,
+          "HL": 171,
+          "HR": 158
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    },
+    {
+      "id": "canada_lynx",
+      "path": "assets/imported/wildlife_motion/canada_lynx_animated.glb",
+      "report": {
+        "schema": "yellowstone.serialized_surface_quality.v1",
+        "status": "numerically_measured",
+        "asset_sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143",
+        "modes": {
+          "Idle": {
+            "edge_stretch_p99": 0.05806178051613881,
+            "stance_surface_slip_height_per_s": 0.0007569748893169953,
+            "stance_surface_distance_height": 0.019512077034593643,
+            "loop_error_height": 3.342265352194306e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          },
+          "Walk": {
+            "edge_stretch_p99": 0.4966464246160666,
+            "stance_surface_slip_height_per_s": 0.24192261605442042,
+            "stance_surface_distance_height": 0.019512078308553556,
+            "loop_error_height": 1.671132676097153e-16,
+            "observed_contact_regions": [
+              "FL",
+              "FR",
+              "HL",
+              "HR"
+            ]
+          }
+        },
+        "samples_per_clip": 9,
+        "height_asset_units": 1.328707218170166,
+        "contact_region_vertices": {
+          "FL": 55,
+          "FR": 15,
+          "HL": 48,
+          "HR": 35
+        },
+        "required_contact_regions": [
+          "FL",
+          "FR",
+          "HL",
+          "HR"
+        ],
+        "ground_policy": "flat canonical ground at y=0; turns and actual terrain require target-engine review",
+        "biological_acceptance": "not_yet_accepted",
+        "visual_acceptance": "unassessed"
+      },
+      "decision": {
+        "passed": true,
+        "failures": [],
+        "budget": {
+          "maximum_edge_stretch_p99": 0.65,
+          "maximum_stance_surface_slip_height_per_s": 0.5,
+          "maximum_stance_surface_distance_height": 0.15,
+          "maximum_loop_error_height": 0.01
+        },
+        "budget_class": "authored_geometric_acceptance_limits; not biological distributions"
+      },
+      "human_visual_acceptance": "unassessed",
+      "biological_acceptance": "not_yet_accepted"
+    }
+  ],
+  "production_acceptance": "unaccepted_until_source_bound_rig_and_target_engine_review"
+}

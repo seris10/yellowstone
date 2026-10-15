@@ -1,0 +1,85 @@
+{
+ "crown_policy_counts": {
+  "preserve_source": 34303
+ },
+ "display": {
+  "clear_bole_fraction": {
+   "count": 34303,
+   "median": 0.30000000000000004,
+   "p05": 0.30000000000000004,
+   "p95": 0.30000000000000004,
+   "status": "available"
+  },
+  "crown_diameter_m": {
+   "count": 34303,
+   "median": 2.6784202882405417,
+   "p05": 1.3266866504208068,
+   "p95": 5.293305038743252,
+   "status": "available"
+  },
+  "crown_ratio": {
+   "count": 34303,
+   "median": 0.7,
+   "p05": 0.7,
+   "p95": 0.7,
+   "status": "available"
+  },
+  "dbh_m": {
+   "count": 34303,
+   "median": 0.11272444444444446,
+   "p05": 0.05478777777777778,
+   "p95": 0.26210888888888895,
+   "status": "available"
+  },
+  "height_m": {
+   "count": 34303,
+   "median": 7.804,
+   "p05": 3.793,
+   "p95": 18.146,
+   "status": "available"
+  }
+ },
+ "local_biological_acceptance": "not_yet_accepted",
+ "record_count": 34303,
+ "schema": "yellowstone.tree_display_distribution.v1",
+ "source": {
+  "clear_bole_fraction": {
+   "count": 0,
+   "median": null,
+   "p05": null,
+   "p95": null,
+   "status": "unavailable"
+  },
+  "core_diameter_m": {
+   "count": 34303,
+   "median": 2.034,
+   "p05": 0.798,
+   "p95": 4.478,
+   "status": "available"
+  },
+  "crown_ratio": {
+   "count": 0,
+   "median": null,
+   "p05": null,
+   "p95": null,
+   "status": "unavailable"
+  },
+  "dbh_m": {
+   "count": 0,
+   "median": null,
+   "p05": null,
+   "p95": null,
+   "status": "unavailable"
+  },
+  "height_m": {
+   "count": 34303,
+   "median": 7.804,
+   "p05": 3.793,
+   "p95": 18.146,
+   "status": "available"
+  }
+ },
+ "source_class": "provided_record_traits; measured_derived_transferred_and_authored_classes_remain_in_source",
+ "source_sha256": "d09fdb76b7c46f68971e2d9d804a728042bf75aa0937711efc1df0f79ffaa70f",
+ "width_scope": "source_crown_core_diameter_and_display_full_crown_diameter_are_distinct_quantities"
+}

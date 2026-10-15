@@ -1,0 +1,29 @@
+19:23:47 | INFO: Data are loaded, start creating Blender stuff
+19:23:47 | INFO: Blender create Mesh node Sphere
+19:23:47 | INFO: Blender create Mesh node Sphere.001
+19:23:47 | INFO: glTF import finished in 0.01s
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+19:23:47 | INFO: Starting glTF 2.0 export
+19:23:47 | INFO: Extracting primitive: Sphere
+19:23:47 | INFO: Primitives created: 1
+19:23:47 | INFO: Extracting primitive: Sphere.001
+19:23:47 | INFO: Primitives created: 1
+19:23:47 | INFO: Finished glTF 2.0 export in 0.006651878356933594 s
+
+19:23:48 | INFO: Data are loaded, start creating Blender stuff
+19:23:48 | INFO: Blender create Mesh node Sphere
+19:23:48 | INFO: Blender create Mesh node Sphere.001
+19:23:48 | INFO: glTF import finished in 0.00s
+Traceback (most recent call last):
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py", line 160, in <module>
+    main(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else sys.argv[1:])
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py", line 141, in main
+    raise ValueError('Reduced surface exceeds the declared geometric error budget')
+ValueError: Reduced surface exceeds the declared geometric error budget
+
+Error: script failed, file: 'tools/blender_wildlife_decimate.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

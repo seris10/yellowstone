@@ -1,0 +1,19 @@
+{
+  "schema": "yellowstone.offline_startup.v1",
+  "status": "executed_passed",
+  "receipt": "evidence/receipts/22a0227ae1e6dc7fa8631b6810dc4856ceba8d0b6dbeaf98a560894acfd96e80.json",
+  "live_service_available": false,
+  "anchors_grounded": [
+    "overlook",
+    "boardwalk",
+    "river",
+    "trailhead"
+  ],
+  "heat_budget_error": 0.0,
+  "native_executable_export": "unavailable",
+  "godot": "4.5.1",
+  "platform": "macOS arm64",
+  "visible_startup_receipt": "evidence/receipts/3cbfbf822e6d890d261d28ac11f6a06364a631826e377b9cc9392e021bb139c1.json",
+  "visible_rendered_frames": 1200,
+  "visible_renderer": "Metal 3.2 Forward Mobile"
+}

@@ -4,7 +4,7 @@ A georeferenced Yellowstone environment connecting Python ecosystem models to an
 
 ![Actual Godot view of Midway](docs/portfolio-overlook.png)
 
-[Recorded demonstration](docs/portfolio-demo.mp4) | [Three case studies and numerical experiment](docs/PORTFOLIO.md) | [Execution evidence](evidence/receipts/) | [Model authority](docs/MODEL_AUTHORITY.md)
+[Recorded demonstration](docs/portfolio-demo.mp4) | [Three case studies and numerical experiment](docs/PORTFOLIO.md) | [Execution evidence](evidence/receipts/) | [Model authority](docs/MODEL_AUTHORITY.md) | [Toolchain contracts](docs/TOOLCHAIN.md)
 
 The current environment covers a 4.096 km square around Midway Geyser Basin. Roads, boardwalks, thermal features and the Firehole use geographic inputs. Python supplies river heat transport, land stocks and ecosystem trajectories; Godot renders those trajectories with walking, probes, weather, vegetation and KJR-owned animal meshes. The recorded comparison changes one authored input and shows the downstream temperature response.
 
@@ -12,7 +12,7 @@ The project is unfinished. Geographic inputs are measured or mapped; channel wid
 
 ## View the demo
 
-A prepared demo package contains the authored scene and one immutable runtime generation. Extract it, use Godot 4.5.1, and run:
+[Download the preview package](https://github.com/seris10/yellowstone/releases/download/midway-audit-preview-9db90704b79e/Yellowstone-Midway.zip). The prepared demo package contains the authored scene and one immutable runtime generation. Extract it, use Godot 4.5.1, and run:
 
 ```sh
 cd Yellowstone-Midway
@@ -22,7 +22,7 @@ godot --path .
 
 Python is unnecessary for offline exploration. The local service may be unavailable. The interface shows execution mode, model time and release identity. Choose **Guided river temperature experiment** in the portfolio scenario, or begin walking. WASD walks, mouse looks, Esc opens starting places, H opens a river probe and Q pauses playback. [Controls and bake details](yellowstone_midway/README.md) describe the source checkout path.
 
-A source checkout omits the generated 354 MB authored scene. Rebuild it from the supplied world inputs before launch:
+A source checkout omits the generated authored scene. Rebuild it from the supplied world inputs before launch:
 
 ```sh
 cd yellowstone_midway

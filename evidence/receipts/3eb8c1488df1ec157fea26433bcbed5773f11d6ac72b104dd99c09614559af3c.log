@@ -1,0 +1,78 @@
+19:28:27 | INFO: Data are loaded, start creating Blender stuff
+19:28:27 | INFO: Blender create Mesh node Sphere
+19:28:27 | INFO: Blender create Mesh node Sphere.001
+19:28:27 | INFO: glTF import finished in 0.01s
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+19:28:27 | INFO: Starting glTF 2.0 export
+19:28:27 | INFO: Extracting primitive: Sphere
+19:28:27 | INFO: Primitives created: 1
+19:28:27 | INFO: Extracting primitive: Sphere.001
+19:28:27 | INFO: Primitives created: 1
+19:28:27 | INFO: Finished glTF 2.0 export in 0.006814002990722656 s
+
+19:28:28 | INFO: Data are loaded, start creating Blender stuff
+19:28:28 | INFO: Blender create Mesh node Sphere
+19:28:28 | INFO: Blender create Mesh node Sphere.001
+19:28:28 | INFO: glTF import finished in 0.00s
+{
+ "schema": "yellowstone.mesh_reduction.v2",
+ "blender_version": "5.2.1 LTS",
+ "triangle_budget": 600,
+ "budget_kind": "hard_cap",
+ "final_triangles": 580,
+ "status": "numerically_checked; visual_and_deformation_acceptance_unassessed",
+ "source_sha256": "c6a88183e0cba1ae73ee4d2a29f99c23a3109447c5dfcf2c7b2e0534fccb5568",
+ "output_sha256": "b3969599f197661b01023b52f71d2588c54d2d912fc837cb1abaabb7ad56a4ea",
+ "attempts": 1,
+ "original_meshes": [
+  {
+   "object": "Sphere",
+   "triangles": 960,
+   "uv_layers": 1,
+   "material_slots": 0
+  },
+  {
+   "object": "Sphere.001",
+   "triangles": 960,
+   "uv_layers": 1,
+   "material_slots": 0
+  }
+ ],
+ "output_meshes": [
+  {
+   "object": "Sphere",
+   "triangles": 290,
+   "uv_layers": 1,
+   "material_slots": 0
+  },
+  {
+   "object": "Sphere.001",
+   "triangles": 290,
+   "uv_layers": 1,
+   "material_slots": 0
+  }
+ ],
+ "surface_error": {
+  "samples": 5696,
+  "maximum_m_or_asset_units": 0.019538071006536484,
+  "p95_m_or_asset_units": 0.017006218433380127,
+  "maximum_fraction_of_source_extent": 0.003907615132955344,
+  "method": "deterministic_sampled_vertex_to_triangle; not exact Hausdorff distance"
+ },
+ "surface_error_budget_fraction": 0.025,
+ "texture_policy": "preserve_pixels",
+ "source_image_pixels": [],
+ "output_image_pixels": [],
+ "required_serialized_attributes": [
+  "NORMAL",
+  "POSITION",
+  "TANGENT",
+  "TEXCOORD_0"
+ ],
+ "rig_review_required_for_new_identity": true,
+ "coincident_vertex_weld_distance_asset_units": 4.999998807907105e-08
+}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

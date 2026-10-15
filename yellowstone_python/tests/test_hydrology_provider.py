@@ -178,7 +178,8 @@ def test_bundle_to_provider_to_weather(tmp_path):
     derived.mkdir()
     (derived / "met.json").write_text(json.dumps(bundle))
     (data / "ecosystem.json").write_text(json.dumps(
-        {"clock_hour": 16.0, "weather": {}, "river_reaches": [],
+        {"clock_hour": 16.0, "simulation_epoch_unix": bundle_origin_epoch,
+         "weather": {"utc_offset_hours": 0.0}, "river_reaches": [],
          "patches": [], "wildlife": []}))
     (data / "placements.json").write_text(json.dumps({"trees": []}))
     (data / "placement_overrides.json").write_text(json.dumps(
@@ -210,7 +211,7 @@ def test_bundle_to_provider_to_weather(tmp_path):
 
     provider = FakeProvider()
     backend = Backend(world=world, derived=derived, hydrology=provider)
-    response = backend.weather(hour=16.0)
+    response = backend.weather(epoch_unix=bundle_origin_epoch + 16 * 3600.0)
 
     assert response["schema_version"] == 2
     assert isinstance(response["generated_at_unix"], int)
@@ -224,7 +225,7 @@ def test_bundle_to_provider_to_weather(tmp_path):
     forwarded = provider.calls[-1]["weather"]
     assert forwarded["precipitation_rate_mm_h"] == 2.0
 
-    dry_response = backend.weather(hour=0.0)
+    dry_response = backend.weather(epoch_unix=bundle_origin_epoch)
     assert dry_response["precipitation_status"] == "meteorological_model_forcing"
     assert dry_response["precipitation_rate_mm_h"] == 0.0
     assert dry_response["source"]["hydrology_status"] == "ok"

@@ -1,0 +1,39 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+ERROR: Unable to open file: res://.godot/imported/snow_map.png-a3107b8bf363b3c05057e50c8960f3f1.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:41)
+   GDScript backtrace (most recent call first):
+       [0] _load_image (res://scripts/terrain_materials.gd:25)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:66)
+       [2] _ready (res://scripts/world.gd:191)
+ERROR: Failed loading resource: res://.godot/imported/snow_map.png-a3107b8bf363b3c05057e50c8960f3f1.ctex.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _load_image (res://scripts/terrain_materials.gd:25)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:66)
+       [2] _ready (res://scripts/world.gd:191)
+ERROR: Failed loading resource: res://assets/textures/snow_map.png.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _load_image (res://scripts/terrain_materials.gd:25)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:66)
+       [2] _ready (res://scripts/world.gd:191)
+ERROR: Error opening file '/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/work/Yellowstone-Midway-Final/assets/textures/snow_map.png'.
+   at: load_image (core/io/image_loader.cpp:89)
+   GDScript backtrace (most recent call first):
+       [0] _load_image (res://scripts/terrain_materials.gd:33)
+       [1] bind_ground_material (res://scripts/terrain_materials.gd:66)
+       [2] _ready (res://scripts/world.gd:191)
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=0 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+SMOKE scene=ready terrain=256 routes=41 pools=15
+SMOKE anchor=overlook floor=true y=48.0149383544922
+SMOKE anchor=boardwalk floor=true y=16.7649726867676
+SMOKE anchor=river floor=true y=4.53882169723511
+SMOKE anchor=trailhead floor=true y=7.9974799156189
+SMOKE heat_budget_error=0.0
+SMOKE multimesh_validation=absent (run tools/validate_multimesh.gd to regenerate)

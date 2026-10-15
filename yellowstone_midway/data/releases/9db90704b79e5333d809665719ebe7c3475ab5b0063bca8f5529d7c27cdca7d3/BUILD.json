@@ -1,0 +1,3281 @@
+{
+  "build_id": "4ce0d3fbe78e",
+  "checks_passed": true,
+  "claim_ids": [
+    "reach_water_temperature_ice_free",
+    "snow_swe_clearings",
+    "upstream_discharge_predicted",
+    "groundwater_lateral_heat",
+    "channel_velocity_inundation_2d"
+  ],
+  "code_commit": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+  "code_commit_status": "git_head",
+  "code_rev": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+  "code_rev_source": "git",
+  "code_sha256": "843c36f369921681",
+  "config": {
+    "clock_hour": 16.2,
+    "fish": {
+      "cover": 0.6,
+      "food": 0.7,
+      "weights": null
+    },
+    "hydro": {
+      "attach": {},
+      "boundary_c": 17.5,
+      "boundary_m3s": 8.0,
+      "catchment": {
+        "area_m2": null
+      },
+      "simulate_seconds": 600.0,
+      "tributaries": {}
+    },
+    "insects": {
+      "flowering_stage": 0.6
+    },
+    "overland": {
+      "cell_m": 8.0,
+      "dt_s": 60.0,
+      "enabled": false,
+      "grid": 256,
+      "rain_mm_h": 2.0,
+      "sim_s": 600.0,
+      "soil": "sandy_loam"
+    },
+    "replay": {
+      "cross_sections_file": "configs/cross_sections.json",
+      "depth_m": 1.1,
+      "dispersion_m2_s": 1.0,
+      "dt_s": 1.0,
+      "duration_s": 7200.0,
+      "energy_budget": false,
+      "exchange_w_m2_k": 12.0,
+      "hydraulics": {
+        "bank_slope_zh": 1.5,
+        "manning_n": 0.035
+      },
+      "intervention": {
+        "delta_c": 18.0,
+        "end_s": 3600.0,
+        "source_id": "excelsior_aggregate_outflow",
+        "start_s": 600.0
+      },
+      "max_cell_m": 20.0,
+      "sample_s": 10.0
+    },
+    "run_mode": "scenario",
+    "simulation": {
+      "start_utc": "2026-06-21T22:12:00+00:00",
+      "utc_offset_hours": -6.0
+    },
+    "snow": {
+      "days": 30,
+      "precip_mm_d": 2.0,
+      "season": "summer"
+    },
+    "vegetation": {
+      "grazers": null,
+      "proposal": {
+        "center_xz": [
+          -360,
+          260
+        ],
+        "count": 40,
+        "guild": "lodgepole_pine",
+        "habitat_id": "forest_edge",
+        "radius_m": 30,
+        "seed": 7
+      }
+    },
+    "weather": {
+      "cloud": 0.16,
+      "day_warming_c": 15.0,
+      "gust_mps": 0.45,
+      "humidity": 0.45,
+      "night_air_c": 7.0,
+      "use_met_bundle": false,
+      "wind_xz_mps": [
+        1.8,
+        0.6
+      ]
+    },
+    "wind_seed": 11
+  },
+  "configuration_hash": "9c4fd4f945a91f705cf9f34a2d0b6bb1c9057d6219486611a2eb0c2ecb99c2fe",
+  "contract_version": "0.1.0",
+  "deps": {
+    "code": "843c36f369921681",
+    "code_hash_source": "yellowstone_python:fd+tools:fd+scripts:fd+shaders:fd+tools:fd",
+    "code_rev": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+    "code_rev_source": "git",
+    "config": "9c4fd4f945a91f705cf9f34a2d0b6bb1c9057d6219486611a2eb0c2ecb99c2fe",
+    "ecosystem.json": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645",
+    "ecosystem_path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/ecosystem.json.pre-python",
+    "ecosystem_role": "frozen_pre_python_baseline",
+    "external_inputs": {
+      "asset_manifest": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/asset_manifest.json",
+        "sha256": "0ee23850e349af88b658f026b7a7d6c612524006eae76e2b80aab072ebd86687",
+        "size": 297057
+      },
+      "authored_scene": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/scenes/authored_world.tscn",
+        "sha256": "566e3b8370196a825a9aaefe7746a5d24208b5f55b15b378d75c8f9e7ac59732",
+        "size": 461369636
+      },
+      "canopy_census": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/census.json",
+        "sha256": "00a2787e57118209a2863263b280a3dabbc7ccf6ff2c786cb924d336b3b7afb2",
+        "size": 16825266
+      },
+      "canopy_cover": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_coverage.json",
+        "sha256": "3cb1dfdbfeea7ea9c078287a881d52ee5f8ca8beefe6b836923fa1f57c04b9a8",
+        "size": 9620497
+      },
+      "canopy_height": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_height.tif",
+        "sha256": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9",
+        "size": 8333270
+      },
+      "canopy_provenance": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_height.provenance.json",
+        "sha256": "0adec7fd19106f5d872e350179c3a39e05a5d328e42b1d7012f4eb35f8399042",
+        "size": 42486
+      },
+      "canopy_render/canopy_top_scene_y.f32": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_top_scene_y.f32",
+        "sha256": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b",
+        "size": 1638400
+      },
+      "canopy_render/cover_fraction.f32": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/cover_fraction.f32",
+        "sha256": "281517e9acf007dae73fdf9ced6f34293f142dd22c733feeabc970fe91b49db4",
+        "size": 1638400
+      },
+      "canopy_render/ground_scene_y.f32": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/ground_scene_y.f32",
+        "sha256": "bb83028e13e51ca32bf999def952dbb70604c929c7436f18fa6d2607cf97e82f",
+        "size": 1638400
+      },
+      "canopy_render/unresolved_cells.u8": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/unresolved_cells.u8",
+        "sha256": "c4acc86cc9bfff89bddd26cb051c95327736f3fe369940882e837fc2eefcc9e8",
+        "size": 409600
+      },
+      "canopy_render/unresolved_render_canopy.json": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/unresolved_render_canopy.json",
+        "sha256": "d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde",
+        "size": 2737
+      },
+      "canopy_render/unresolved_render_mask.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/unresolved_render_mask.png",
+        "sha256": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca",
+        "size": 474017
+      },
+      "canopy_render/valid_fraction.f32": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/valid_fraction.f32",
+        "sha256": "4d3a0623298531c185c9ae05b94ec9ad56386cc32c20a906262901ecd20db30d",
+        "size": 1638400
+      },
+      "canopy_render/valid_support.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/valid_support.png",
+        "sha256": "a1fcbf6a1d6b1a9f7175457f85a95bcca990f3c682948c187f5f187c596e0ed4",
+        "size": 177063
+      },
+      "cross_sections": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/configs/cross_sections.json",
+        "sha256": "3b80174eb34427843df9900ad5e91195e5602f4802cc301eddea5af7b9a4c4bd",
+        "size": 2038
+      },
+      "forest_floor": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/forest_floor.json",
+        "sha256": "5f52f0b9782a5532042850a17a14e5c2231833575c15525bd53fb10e12d5fe8f",
+        "size": 4306385
+      },
+      "habitat_mask": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/textures/habitat_mask.png",
+        "sha256": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a",
+        "size": 1634188
+      },
+      "interpreted_canopy_height": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/interpreted_canopy_height.tif",
+        "sha256": "0dedb3698d96ac176252d83f4c4db54ff4398ac4a63169fd0c136d466e22ea56",
+        "size": 5545884
+      },
+      "lodgepole_metadata": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json",
+        "sha256": "bda82bdcdebb1a69a7ca698a62a0a602e04c959f5bc0fdee4ac8c16392dd7a7f",
+        "size": 334335
+      },
+      "lodgepole_texture/dense_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_0.miprgba",
+        "sha256": "eecc46b662e1c9985faaa9d77a5f43e0964701b9bc06f6d2d5963d0dcfd10c11",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_0.png",
+        "sha256": "7bd7d57e78a2942a94366033c0d315292a4d69a27ccd5d215b7b307eeab3c33e",
+        "size": 360642
+      },
+      "lodgepole_texture/dense_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_1.miprgba",
+        "sha256": "877fcf2d4c2cd3efbe1e380d38d54127e7ed6eba11fc3951ec935c2c29ad18e0",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_1.png",
+        "sha256": "04289f52a054a979998931d2fd16fee79a2948515529396c3cdbdb4a5e842a66",
+        "size": 357717
+      },
+      "lodgepole_texture/dense_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_2.miprgba",
+        "sha256": "820b39ea85a2665dd2177e361993c9fc2cdef37765e7c14bbeba092274f053a4",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_2.png",
+        "sha256": "27c24c52a268a0b395d08b2a7fb42a269a8f8e11eaf320d4385567e214af9bf6",
+        "size": 357165
+      },
+      "lodgepole_texture/dense_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_3.miprgba",
+        "sha256": "87ce4c8bcd4e99ed2d07bdb934cc0213089e1768a38fb32f97236a402ce7a317",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_3.png",
+        "sha256": "f4bc628b26586f1e63a07f6ea794a8488be89c4ee38c61e99b404f2b3eb0ad07",
+        "size": 366966
+      },
+      "lodgepole_texture/dense_variant1_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_0.miprgba",
+        "sha256": "2126a658dbe7d64e0c95fcd0f16aebee7d219300a8c0b8ba3e7976050a339195",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant1_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_0.png",
+        "sha256": "3a3bc4b0616b3e25fdf7d64b54b3df129e8fdd8fbf3ceaf8ad4e3d9677c117be",
+        "size": 373967
+      },
+      "lodgepole_texture/dense_variant1_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_1.miprgba",
+        "sha256": "e2f54ab78422d9a198c5397a6ccfae3322f2e6bf108149020590cc0d114a017c",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant1_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_1.png",
+        "sha256": "4eeda3a76c31aa8ff55b7117de7d2c9314ad45fb6f3d79afe7695eef7614a068",
+        "size": 372637
+      },
+      "lodgepole_texture/dense_variant1_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_2.miprgba",
+        "sha256": "c05ea97f5ab3f79330d29618dd46094f2941f1bbc9948d60c2a8e1c521bec1d5",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant1_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_2.png",
+        "sha256": "aec66885b9a63e08f708a0320982619d66a8cf61e37acd88cd76510277aaadd7",
+        "size": 368326
+      },
+      "lodgepole_texture/dense_variant1_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_3.miprgba",
+        "sha256": "af078411c5df2d3b45b49911cac580c45fb3b9483445ad29420aab8b14c44fde",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant1_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_3.png",
+        "sha256": "4505f745413315899d2b4faaadf8c2c4b006bf6b077cb2570a3ec5cd12cde774",
+        "size": 381755
+      },
+      "lodgepole_texture/dense_variant2_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_0.miprgba",
+        "sha256": "a2d0cf2f572463f54c83cb0009ad4b56fb08d29102b0a019092bc80310f87812",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant2_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_0.png",
+        "sha256": "5ca94b334cc20f5a36f8b7f2587ac3ab4c673136d905f614de3f2672096f36ab",
+        "size": 375672
+      },
+      "lodgepole_texture/dense_variant2_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_1.miprgba",
+        "sha256": "ff39f8f770b14ff5ab8e19857d79fb23c96d197bd416bd4217ae0134bef0d86d",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant2_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_1.png",
+        "sha256": "3f2dc00ffb2219fd006db25636befe21c8864428365e55c76ba6f20d829cb90b",
+        "size": 373350
+      },
+      "lodgepole_texture/dense_variant2_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_2.miprgba",
+        "sha256": "6e3362a9e5f2d81899d525eb6891a2d31248948bc46aca5db223a11d3e3d812e",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant2_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_2.png",
+        "sha256": "268bce36cc0adb7226fd3ae807091079d51a674afa0fb81e7f3e73334b4feda1",
+        "size": 369905
+      },
+      "lodgepole_texture/dense_variant2_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_3.miprgba",
+        "sha256": "b41c948f5ea02f050073d9357c64b6f27f18ef8d9686d2a4bb2fb227c16f1148",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant2_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_3.png",
+        "sha256": "5ff0dc55c5a3d3ba3d8e9d1dbec709ec58a0ecdbf0bf88f856a2150f8047ef4a",
+        "size": 382279
+      },
+      "lodgepole_texture/dense_variant3_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_0.miprgba",
+        "sha256": "9089a18e636b7d10754ee382befcfe4acc5b10a48710aaf48643e203d25fdc32",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant3_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_0.png",
+        "sha256": "52f390eaa893d64f17ed76b4db4a5a1e2160b60bf27c2b7a9ab2136df25596d5",
+        "size": 352822
+      },
+      "lodgepole_texture/dense_variant3_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_1.miprgba",
+        "sha256": "54a98f2576cd1ade1d039d19a10acb4755888b6cc38318e02cf7a2e250b665ba",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant3_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_1.png",
+        "sha256": "8b2e14a43ebda2089f13005ecd58e4cf65045c3edfac573f1f88782d6fd561e6",
+        "size": 348013
+      },
+      "lodgepole_texture/dense_variant3_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_2.miprgba",
+        "sha256": "420948e5ab87cd601021e60505607b2be5abe7db364166c76212cdb0a99126de",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant3_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_2.png",
+        "sha256": "145a74033ae4a483de21e6bba886ecc43215e105729b0a776d54447ef269995e",
+        "size": 348627
+      },
+      "lodgepole_texture/dense_variant3_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_3.miprgba",
+        "sha256": "223e12d016e00aab893b293a76aebeb08dd1ec61b58e6cc581ec44e774d69d0c",
+        "size": 2796204
+      },
+      "lodgepole_texture/dense_variant3_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_3.png",
+        "sha256": "1b4e6132eadcef0dd0b3dd28242eca9c5b7d8d5c2c7da76872daa231bbaca9cb",
+        "size": 354484
+      },
+      "lodgepole_texture/edge_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_0.miprgba",
+        "sha256": "a00fb19d5946b1c02d713386bc08b5f56d29d49efee8f7f5ce5982ced33628de",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_0.png",
+        "sha256": "b00395924bb2e19f6b237678bba012ffd848e5c380dae5224af53c072c7d57c7",
+        "size": 416818
+      },
+      "lodgepole_texture/edge_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_1.miprgba",
+        "sha256": "226497957908d18f23c3063c48986780863059fcff7f6f2b70f3e19f329acd31",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_1.png",
+        "sha256": "f7e93966b8a87dab43dd19d0c330266026b0648f0be28e292e7924be5c23a83a",
+        "size": 411780
+      },
+      "lodgepole_texture/edge_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_2.miprgba",
+        "sha256": "272acb01b4437e6d7fd65c92ffb6de66ae27d0fcd781af8c75c201e4e854c6bd",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_2.png",
+        "sha256": "5dacdf5ceddd6da78c1d21d88c7ea2d85d6990a59a3091ac35089b2baa2ad5bc",
+        "size": 411791
+      },
+      "lodgepole_texture/edge_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_3.miprgba",
+        "sha256": "4092192424e12001fc856ef4a7db03e5e2554b155075f8a1aeee6b917740ad59",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_3.png",
+        "sha256": "0bbd2a0e20b6817511053accf38f9e80c2a5c56af1ed7095d05383f1a47c8de8",
+        "size": 419856
+      },
+      "lodgepole_texture/edge_variant1_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_0.miprgba",
+        "sha256": "14e583cc0bf3c9c580e11212335e392603661de6889b37b7fe7153a22629a829",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant1_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_0.png",
+        "sha256": "c85f71827fc4c4e2b5373a6e73f9e9c0254153a92e8dee58efad7716be378a2c",
+        "size": 406789
+      },
+      "lodgepole_texture/edge_variant1_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_1.miprgba",
+        "sha256": "2e08afa008deb9292e846e47ae4e62efc775015c026c28251f8200ff2a867e7d",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant1_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_1.png",
+        "sha256": "f14761ae6cad136c3fa790a4c84ac404bd5d7eeae0e97521b3f56015db437c06",
+        "size": 408576
+      },
+      "lodgepole_texture/edge_variant1_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_2.miprgba",
+        "sha256": "3cd53ef66197922dd21fb970a56a3019b0a27b6c89f031e7690eafcd6e59bb5a",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant1_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_2.png",
+        "sha256": "ccb86b3a57790174a60c80c2f1204c8b7a20d19446c9391c423726f7b3295893",
+        "size": 401385
+      },
+      "lodgepole_texture/edge_variant1_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_3.miprgba",
+        "sha256": "52fdcd61e543652902cda52aa534a8af29d853ec3a1649d8bb630f7e6be764d6",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant1_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_3.png",
+        "sha256": "f5672977c772880d0317f6c7bd144074462d1632ee6edb6d43a4ff8140379c7d",
+        "size": 416768
+      },
+      "lodgepole_texture/edge_variant2_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_0.miprgba",
+        "sha256": "c35138b09cdc6d917c452fbd9a26915147734d2f64a7f54f4415cc496ce07668",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant2_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_0.png",
+        "sha256": "fb090dfb2a6c6fb94ece40fc2979f9513fbdb81c9ffc68dd19405bfed6df9258",
+        "size": 394216
+      },
+      "lodgepole_texture/edge_variant2_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_1.miprgba",
+        "sha256": "d6b095103d99fad30e257ef541ac6efeda60656c0a68c988885b2d512bec4b3f",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant2_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_1.png",
+        "sha256": "60491d43f43e14b7833aa18df9ec3b7d12524f132a89a649470eb3d945850d37",
+        "size": 392714
+      },
+      "lodgepole_texture/edge_variant2_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_2.miprgba",
+        "sha256": "5192e3424edd069634b6ffd16a02199ce203ba9b340563f1332aa3cd2e827098",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant2_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_2.png",
+        "sha256": "39d7261f46a8c098b600fea32e5ccff129986dcb4364181ee535c4cb8047ee25",
+        "size": 390670
+      },
+      "lodgepole_texture/edge_variant2_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_3.miprgba",
+        "sha256": "067743dc36e6d4a4439027d9a1e46cd27757b0328324be16c8848675e8479297",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant2_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_3.png",
+        "sha256": "952a141dd32095d16f26d48960367eec4146c79242c1c4c9da2381854676001a",
+        "size": 400545
+      },
+      "lodgepole_texture/edge_variant3_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_0.miprgba",
+        "sha256": "3f138da6a600ecbda9c4ddc8eacb0e4a0ed168f9915e106fa3efd3c923178431",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant3_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_0.png",
+        "sha256": "f06c93090f6aeeb29893757cf569a2326b921df39ce1a8a70b4e1066ee3f0466",
+        "size": 405980
+      },
+      "lodgepole_texture/edge_variant3_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_1.miprgba",
+        "sha256": "51348e4b4d7ff7111644682387fb27776f4d336008bd9212bd3fc18ee6471a0a",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant3_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_1.png",
+        "sha256": "50659cc5e94d36201ffe7ce3a2c3eadc6c3aafd69defbacbbd93e02bb236376e",
+        "size": 402378
+      },
+      "lodgepole_texture/edge_variant3_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_2.miprgba",
+        "sha256": "77ce20bce996dbf59d5e7c5d7e0e2e0d5525c4c403607d5c82d7ec0b3c09b357",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant3_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_2.png",
+        "sha256": "635b876e1666cd9718ca8e4ae778fe8053900710cc6fa8f0f3688e8c0b5982d6",
+        "size": 399348
+      },
+      "lodgepole_texture/edge_variant3_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_3.miprgba",
+        "sha256": "ca93a504c97874c1496c6ea255932382f2608a04312f0b07c2ef0f53260974c5",
+        "size": 2796204
+      },
+      "lodgepole_texture/edge_variant3_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_3.png",
+        "sha256": "a26fd179b29589e26975e78e43cfd72696a44279305fdb0e4972def2815c27c3",
+        "size": 412410
+      },
+      "lodgepole_texture/needle_cluster.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_cluster.miprgba",
+        "sha256": "7a8b9aea660778f57a77e67634cfeceb00bd9412e19e66db846fc13e502abb15",
+        "size": 2796204
+      },
+      "lodgepole_texture/needle_cluster.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_cluster.png",
+        "sha256": "fa776a9ad7f80b37c2bff440605d95e968fde122e7f77117216982f9808eaa1d",
+        "size": 541730
+      },
+      "lodgepole_texture/needle_shoot.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_shoot.miprgba",
+        "sha256": "f0e4a3b5eb1968df29ed3cb18414456161b4c82fd62b79d40fc456dca719a9ef",
+        "size": 2796204
+      },
+      "lodgepole_texture/needle_shoot.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_shoot.png",
+        "sha256": "2ec7d0eae8c3782a029f52a747e73af8c70a48d259c304594328592c6dbbc136",
+        "size": 447316
+      },
+      "lodgepole_texture/open_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_0.miprgba",
+        "sha256": "d500c06892ad89fab7ab50dcb69a14e13974772b73213ea49c9ee487e2e3a332",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_0.png",
+        "sha256": "f5c0f6b84a22c370ebd12838891b4365a3acc705741eb597f2f6f7efa36c429c",
+        "size": 491480
+      },
+      "lodgepole_texture/open_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_1.miprgba",
+        "sha256": "408be25bc2bbea833f8aca5c7d149fdb2faa7904ca3ec07f0a015a37934a95b5",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_1.png",
+        "sha256": "f8e9bd99c0fc28e37b3275ae58ec5fe3de5921146085eeb2336f8d4bd1e664e0",
+        "size": 485052
+      },
+      "lodgepole_texture/open_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_2.miprgba",
+        "sha256": "eeff884d359708b2b4d57e31c209c8e40b2960ac063337830c6b5d1e7e0d4f3a",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_2.png",
+        "sha256": "118afc4065d2e80a9fe864b924e6267b3ff15742fcf71c061df202a51b84aa56",
+        "size": 483420
+      },
+      "lodgepole_texture/open_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_3.miprgba",
+        "sha256": "4fbb17c1cd0a0d9235cae86aee183cb1cfbca84bc661108a83c28ccde85ef3eb",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_3.png",
+        "sha256": "fbbee507713c49d00d4ea8fcfc75801887c8fbdce1d14d4182c5e9f0d3ecdfe6",
+        "size": 498616
+      },
+      "lodgepole_texture/open_variant1_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_0.miprgba",
+        "sha256": "adfcc6fc075571223be3005f5e46872365ee4582e76f60d1daa662c37f42c1af",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant1_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_0.png",
+        "sha256": "e2c8657aacbd9fc287d793449590241bcfc09f5e0c62186b0918d4939851c492",
+        "size": 482004
+      },
+      "lodgepole_texture/open_variant1_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_1.miprgba",
+        "sha256": "efa28c6405d4345ebc48aba3564cd7649ecb671aad18566f5b789aec8b966efd",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant1_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_1.png",
+        "sha256": "7a994f70446f2e7e758ee12b4094b5ec5ec7bc5cc6a0007db14de0c62e54f006",
+        "size": 481430
+      },
+      "lodgepole_texture/open_variant1_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_2.miprgba",
+        "sha256": "e480950ffe69e555a0f53db49486bfd717725ab615da3097ebe026089c2ce1e3",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant1_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_2.png",
+        "sha256": "c872800f45fcd1b4770e367b55be1d3bb89284c86e1a9a10f790c354bd55c65d",
+        "size": 475367
+      },
+      "lodgepole_texture/open_variant1_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_3.miprgba",
+        "sha256": "6465c29e1fea5a41c27d9f258b2804a70ef6ee00c20a485542f40ca1f297e0bb",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant1_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_3.png",
+        "sha256": "49be1e25211fc226cfba8d9b8838ba82ff440f704f5841049e5b256fe8bef93e",
+        "size": 495108
+      },
+      "lodgepole_texture/open_variant2_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_0.miprgba",
+        "sha256": "aa5a6c17d68041c2052c21e075956ebb657620a208d70cced3f33199b219050b",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant2_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_0.png",
+        "sha256": "3d9c50789387c8d228b5cb9e63e1015a92d2e75cdc896fe02335b8153d02f9f8",
+        "size": 486695
+      },
+      "lodgepole_texture/open_variant2_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_1.miprgba",
+        "sha256": "b038948ec75e39ead9b3ae483c791c75b9fafe49e653d56b33de6b35bf8c360c",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant2_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_1.png",
+        "sha256": "aada7308a413212bee12bfa31c7bcc8649f0ee4c6c57425f2a622d242387c465",
+        "size": 479725
+      },
+      "lodgepole_texture/open_variant2_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_2.miprgba",
+        "sha256": "6dacc917d6a9183bd3ae2efe281f97340380cb53910ce2aef7e69dda2601e4b9",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant2_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_2.png",
+        "sha256": "617fe427e896713c76282b506897fe73a5650a47c8ecc05b56a023bcb21188ab",
+        "size": 480397
+      },
+      "lodgepole_texture/open_variant2_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_3.miprgba",
+        "sha256": "51faa27240d72d359ce2faf74058adb79f226f73585b36a10e28adaa699c2265",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant2_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_3.png",
+        "sha256": "ae2eedeb03f48f3449ab129e0f62a92d0efa069a54384786d0f1a041ac51c72e",
+        "size": 490828
+      },
+      "lodgepole_texture/open_variant3_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_0.miprgba",
+        "sha256": "51b4c8c08fff9a741412d1b1c0c0531252f06e4ee248f4dbc8c1519e66406e70",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant3_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_0.png",
+        "sha256": "4c69d85a98bc801c64814bb5099258002598a963a772b06d2ec63f54f8bac5cf",
+        "size": 484690
+      },
+      "lodgepole_texture/open_variant3_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_1.miprgba",
+        "sha256": "f062bfccee58378070e9c35856a06ca4d40781beda87be9ed5f2516a01ee695b",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant3_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_1.png",
+        "sha256": "9d896937acf33cb2c75c748b5db67f8878a1910522b19aa1dab519d3991a48c6",
+        "size": 488507
+      },
+      "lodgepole_texture/open_variant3_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_2.miprgba",
+        "sha256": "84eb378a0ff7e6e1255a47e413c103a5c8dfc39840a9213bf1814437acb9d854",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant3_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_2.png",
+        "sha256": "5824f38625e5049e12382f1602ea98cd71fb142e51de21e2443ce84cfe700969",
+        "size": 478713
+      },
+      "lodgepole_texture/open_variant3_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_3.miprgba",
+        "sha256": "69bb2ffaf5d601abffc67c799cef852437656c54bfc5b4f067adfec2fc6826fc",
+        "size": 2796204
+      },
+      "lodgepole_texture/open_variant3_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_3.png",
+        "sha256": "f2ad8462d3e2f77e0a390e96b548055b2ec16012100b7a681b5078f5f6027969",
+        "size": 500444
+      },
+      "lodgepole_texture/sapling_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_0.miprgba",
+        "sha256": "e2cdf84d932b9ae889c27ad7262b6f38fca1c4af2432114ba187eaca695b702c",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_0.png",
+        "sha256": "0be19017f260d196e0b896df57de3eb6865d6de93ea4f1f9225af38aa1d456d5",
+        "size": 417479
+      },
+      "lodgepole_texture/sapling_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_1.miprgba",
+        "sha256": "cc1466db4a827038c414f0ae56b6896c87e8a275ecad07b90ad43dfd013f9824",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_1.png",
+        "sha256": "d4003d4121984af9946856706352503e3bd90d52999fa22c3cdab26142190877",
+        "size": 407747
+      },
+      "lodgepole_texture/sapling_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_2.miprgba",
+        "sha256": "f6f0842c17a27a74346de00230714a1589d8304393b324037bef5774446d8aeb",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_2.png",
+        "sha256": "f0e1c7350b6a2cdbc1a39eb5c63629440e576ca35985e8885fdf47774fa0b0ab",
+        "size": 409024
+      },
+      "lodgepole_texture/sapling_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_3.miprgba",
+        "sha256": "0b9dca7e16aa6de76f956e53f7c463e7292461a8cd2bdd76a6b493c3499fef77",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_3.png",
+        "sha256": "4bd6701483b51051696388e44d3e8bccc518de0aa86954b8102b57491bcdb31e",
+        "size": 423411
+      },
+      "lodgepole_texture/sapling_variant1_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_0.miprgba",
+        "sha256": "13de4c8ae7377d1bf7821ef1b13956214acdc895ce226e93b6e76e1e6793ab5c",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant1_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_0.png",
+        "sha256": "7bce04cc416d50cfcc1ddf2c723260b68dd5c3d79d924048f8d4d4e615c21ddd",
+        "size": 418078
+      },
+      "lodgepole_texture/sapling_variant1_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_1.miprgba",
+        "sha256": "1071da0105568c1731586da1a8595e0706b33cd4d48f153523e30bcb0dbc1e5d",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant1_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_1.png",
+        "sha256": "8e1a26d585a48ae659c4ddf7e6848be9e8116ddaff80838f8246ffd80c60501b",
+        "size": 404709
+      },
+      "lodgepole_texture/sapling_variant1_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_2.miprgba",
+        "sha256": "515ac3f14b10cf3708b1a83031719ea914d7c4a4c3dcf10a409ee94eb2ef8d35",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant1_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_2.png",
+        "sha256": "f8708fc0bf90946a682eedde7422ff2c00bca5a7cd1939b16c77529d145ee73b",
+        "size": 410716
+      },
+      "lodgepole_texture/sapling_variant1_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_3.miprgba",
+        "sha256": "048b53838cf24750cab991ec2823afae0b79483f04c24f006e65c75a0dbee2ce",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant1_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_3.png",
+        "sha256": "47037e1be7fd25cc5652eeff29cfea11c21223b9de561d873d914b33de5af6ce",
+        "size": 423432
+      },
+      "lodgepole_texture/sapling_variant2_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_0.miprgba",
+        "sha256": "0d8bada1b8a02318063b8f39e5637ff27285c78aeddee381dafbbc9fea4f6e11",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant2_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_0.png",
+        "sha256": "55615a6367074d3a616e90569f13e70745469bcca817ebe58f395fb356a82b4e",
+        "size": 431761
+      },
+      "lodgepole_texture/sapling_variant2_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_1.miprgba",
+        "sha256": "bfbaecc26b0a4dd7b194725d6f919df7ffaa8cfa76e3879dd09868b705f3e377",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant2_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_1.png",
+        "sha256": "087e0e86dc59c138ebf613732a9fc93971ddf1dac02a16d08d569cbbe12ba0bb",
+        "size": 419579
+      },
+      "lodgepole_texture/sapling_variant2_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_2.miprgba",
+        "sha256": "59db38e81f6b18897473e0ded085a70479d7e69e2b48944cc267a4fb86b3455f",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant2_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_2.png",
+        "sha256": "6f3dea34983654bc8e73fc1f5c4ca61a701cd55034f73dd470341dcf0f3ed0ae",
+        "size": 422631
+      },
+      "lodgepole_texture/sapling_variant2_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_3.miprgba",
+        "sha256": "e5b47d28f15a7fda51eee3c925f9291749cf422b118ead3c4500e2bbb4b2f235",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant2_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_3.png",
+        "sha256": "89af2faf96aab0071b2b2b27ab607f95522e0a1ec3da4d9f7b1ee8e8d32779ff",
+        "size": 436220
+      },
+      "lodgepole_texture/sapling_variant3_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_0.miprgba",
+        "sha256": "95a50120d773a0b105898889aad4326a4caa449ad9af21cf95640838c0d6ad95",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant3_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_0.png",
+        "sha256": "7225ace0aa528f538bba71192e1687b50f55f9cee67ef2d9d98e102d89f8d911",
+        "size": 431982
+      },
+      "lodgepole_texture/sapling_variant3_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_1.miprgba",
+        "sha256": "7989398dff9789c86c7377716ce22e39b10268d9b056b1da0a686897272f7b50",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant3_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_1.png",
+        "sha256": "0a4b7615837feb1876f825f97b83569f35042af98b191b692ba743ce0a33e877",
+        "size": 420705
+      },
+      "lodgepole_texture/sapling_variant3_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_2.miprgba",
+        "sha256": "9230d041a9e2833a241a860ddbc1fdbe92d3417ee6ed88281c01472463105394",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant3_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_2.png",
+        "sha256": "cf6a83c264a4cea28212777c0ca0078122fa64b50198610d9056d819aee3bfbe",
+        "size": 422017
+      },
+      "lodgepole_texture/sapling_variant3_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_3.miprgba",
+        "sha256": "9941c38910b5f815721444a806b18eaaf64e32f66507f9abb23b8ac8f4cc88ea",
+        "size": 2796204
+      },
+      "lodgepole_texture/sapling_variant3_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_3.png",
+        "sha256": "e46fb4fb5bad65d7631a306305e48693e0beb506b0bffafe8ed034329d1e9d26",
+        "size": 437750
+      },
+      "lodgepole_texture/snag_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_0.miprgba",
+        "sha256": "468b21fa3242b7270e1487c48328d8bc281195973dae40c6e3e5627803276f81",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_0.png",
+        "sha256": "f73f3ea60e442df3b6730ee050d20ac0dd446102bf29ccfcc42b3b082e73226d",
+        "size": 222782
+      },
+      "lodgepole_texture/snag_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_1.miprgba",
+        "sha256": "4010db6d4a75485d887d8517e6ad567f987bb2c3390a4c728dbf86f914ae192d",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_1.png",
+        "sha256": "35e4130d933b6a3a09ea97e340614c95e13175a2ee803380b8714d09d8a54d8f",
+        "size": 222151
+      },
+      "lodgepole_texture/snag_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_2.miprgba",
+        "sha256": "52174a28b71af4bcc839fafdad064c7d8af3aaaf9871aa5d3792859704d0e640",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_2.png",
+        "sha256": "d3e9e2ed1d59c2390888732deca0f3cf3bc48a039cbf24a00f9180541bcea419",
+        "size": 221314
+      },
+      "lodgepole_texture/snag_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_3.miprgba",
+        "sha256": "7af4ed5f4ecc6f0e1e58513ed1c7d45a7e040c54ce1bc64044e84a8539a226a9",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_3.png",
+        "sha256": "1a0cc33e838b0b37d3a9af0915d592475b78dad468588a608f586b279271e445",
+        "size": 223962
+      },
+      "lodgepole_texture/snag_variant1_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_0.miprgba",
+        "sha256": "7220ddf41a2eceee4aa1b9c7b2bd8550a23b8da800d863e1e118086c01dea634",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant1_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_0.png",
+        "sha256": "2698ceaa18f60b2d6d10e79f536c546001d756b8dcb5b70a593e79e3822a6f87",
+        "size": 220184
+      },
+      "lodgepole_texture/snag_variant1_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_1.miprgba",
+        "sha256": "d7d1ac755eac70db1f646b7814e1908ee75217d4def80a8ec2115c459cae92dd",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant1_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_1.png",
+        "sha256": "e544460535aa22b38bcfdcdf2873d1fb88b5ed4f0f20282cd4a5a33b5218bc9d",
+        "size": 220394
+      },
+      "lodgepole_texture/snag_variant1_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_2.miprgba",
+        "sha256": "62cb91803026dc8d811a782a01bd50e5c9680e00359924367ce05de30667d7c2",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant1_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_2.png",
+        "sha256": "28e1df4d4b00b68ce22c215de5f7540bf974359098b7f40bda78b0a6db780085",
+        "size": 219201
+      },
+      "lodgepole_texture/snag_variant1_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_3.miprgba",
+        "sha256": "14e0be4fbe34cb7e143b75aaf3f248e545d0f9f04051d85b4ead6bc4fb04b66c",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant1_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_3.png",
+        "sha256": "13289988202d2f58d48700e93791d63afc1d92da1c6879439697df4472478be6",
+        "size": 222185
+      },
+      "lodgepole_texture/snag_variant2_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_0.miprgba",
+        "sha256": "a68df8b36b361aeaf7d24469ac44cd875f2c8cdb78ad8881c23dff56b44f2e92",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant2_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_0.png",
+        "sha256": "bf408f9b44b3df27da4d7c6090e0216655305865cd573d08f4af7c0254f76b3c",
+        "size": 222250
+      },
+      "lodgepole_texture/snag_variant2_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_1.miprgba",
+        "sha256": "8f8c462713490bdd068398077ed0cff864bb448d572e836aa46923edf9934bb9",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant2_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_1.png",
+        "sha256": "636636cc112e826ac64792f69a1088d73f69dbe0d4e9c0eb75ce2f4e300fdecb",
+        "size": 222286
+      },
+      "lodgepole_texture/snag_variant2_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_2.miprgba",
+        "sha256": "79c618afe9cfb9ae09c1aa075a3232d6e049bb4cc46642fe478b37956e2f4b53",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant2_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_2.png",
+        "sha256": "3b45978d9293165dfeff9718ee385385d2b1a60b46de4c8acfda38c84d253fd6",
+        "size": 221030
+      },
+      "lodgepole_texture/snag_variant2_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_3.miprgba",
+        "sha256": "e982dd7d1cef71aa025892ead553613b39aa28f3ccd89f0e9a004bc2811cfe78",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant2_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_3.png",
+        "sha256": "6e5fd7c892d02116080253d729efbc2c6bce9b290266bfca5dd29bdab3abbd73",
+        "size": 223573
+      },
+      "lodgepole_texture/snag_variant3_billboard_0.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_0.miprgba",
+        "sha256": "0f34367c4dae76f2324f515c4d1367517e80ee8921916f38412d4d8e395ce51e",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant3_billboard_0.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_0.png",
+        "sha256": "3415346c649a7c6c5a0c0338d56ab2c2ebd277fcad0edd61bebacf1e8bb1f9e7",
+        "size": 222343
+      },
+      "lodgepole_texture/snag_variant3_billboard_1.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_1.miprgba",
+        "sha256": "a15820e77076c3a1888de2c65c0ec9c8883710d11bdbc5412d69a2943551a8e9",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant3_billboard_1.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_1.png",
+        "sha256": "a8f85a9ba19c3c70f96032119c6c17747b0f85212c28ca7931ee87cde1200c3e",
+        "size": 222041
+      },
+      "lodgepole_texture/snag_variant3_billboard_2.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_2.miprgba",
+        "sha256": "747d48d9a1a73416a08bed79226570a393d16e900688712f9f88bccc43af6625",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant3_billboard_2.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_2.png",
+        "sha256": "f5dbc7dbb7438e18b750ef7084a804239befc3f262ca5fcf32adbe1772032217",
+        "size": 221376
+      },
+      "lodgepole_texture/snag_variant3_billboard_3.miprgba": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_3.miprgba",
+        "sha256": "bbc82bad64c0a3a61609b8ccef852416aa4fea9e2c1ec735854fc2abc76e18bb",
+        "size": 2796204
+      },
+      "lodgepole_texture/snag_variant3_billboard_3.png": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_3.png",
+        "sha256": "aa2b156a723ff15ee2ef5ce46ec25b12d026ee3d1a69ee7dd6aa045f9df90d7e",
+        "size": 223467
+      },
+      "mammal_catalogue": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/data/mammal_catalogue.json",
+        "sha256": "33618955f1fefedd673ce16b278c13f438d53097acef0934b6119e6486e48773",
+        "size": 174057
+      },
+      "met_bundle": {
+        "exists": false,
+        "path": null,
+        "sha256": null
+      },
+      "motion_profiles/sources.json": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/wildlife_motion/profiles/sources.json",
+        "sha256": "578679785fc95742cc76e107ed77e31762b8e7b29f888f685318fb83d5de3e0d",
+        "size": 4995
+      },
+      "motion_profiles/species.json": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/wildlife_motion/profiles/species.json",
+        "sha256": "615e02a05da8a89ba58c92332a4a2f45c8995943f84d3ab4c64f86cddae59f96",
+        "size": 26357
+      },
+      "package_metadata": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/pyproject.toml",
+        "sha256": "49ddef99dc0c988766b486130d0efc0ebe01e9e85e75b2b2fcffb0391409d52e",
+        "size": 1633
+      },
+      "requirements": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/requirements.txt",
+        "sha256": "e2dc49b19c577eadc2dc5395f9221c60dff63f6c55830078d9d74d268ecbe222",
+        "size": 24
+      },
+      "terrain": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/terrain.f32",
+        "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+        "size": 4202500
+      },
+      "tree_architecture_library": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/architecture_library.json",
+        "sha256": "8e149c3844a327ef44aa2f216f252b95d6b2545f3c8d04e6be475ee0fbbb57af",
+        "size": 35683714
+      },
+      "treemap_sizes": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/treemap_midway.json",
+        "sha256": "d75e62a0c37df2cd4bf8f6d3c115e63b352094a2311a3af61f92c91f0270bccd",
+        "size": 959790
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/badger_animated.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/badger_animated.glb",
+        "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5",
+        "size": 17735744
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb",
+        "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59",
+        "size": 1086552
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb",
+        "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+        "size": 398880
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb",
+        "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc",
+        "size": 1652428
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb",
+        "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+        "size": 908640
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb",
+        "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab",
+        "size": 612768
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/bison_animated.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/bison_animated.glb",
+        "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58",
+        "size": 12632180
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/black_bear_animated.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/black_bear_animated.glb",
+        "sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b",
+        "size": 19310880
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/bobcat_animated_2k.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/bobcat_animated_2k.glb",
+        "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26",
+        "size": 13709088
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb",
+        "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265",
+        "size": 13800228
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/canada_lynx_animated.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/canada_lynx_animated.glb",
+        "sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143",
+        "size": 23124076
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/deer_authored.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/deer_authored.glb",
+        "sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408",
+        "size": 459100
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/grizzly_animated_2k.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/grizzly_animated_2k.glb",
+        "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434",
+        "size": 13893996
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb",
+        "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9",
+        "size": 14141192
+      },
+      "wildlife_asset/assets/imported/wildlife_motion/wolf_authored.glb": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/wolf_authored.glb",
+        "sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63",
+        "size": 483876
+      },
+      "wildlife_motion_assets": {
+        "exists": true,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/wildlife_motion_assets.json",
+        "sha256": "08e11136a7e9d6e42faa9cc7f277ca74e77a2c75847605e76903215692acfb52",
+        "size": 75797
+      }
+    },
+    "external_inputs_sha256": "9419dd93d5fa5a5f56341a9a665d2f78feeb31e7789b6a1ba3fec80e1c5158c5",
+    "placements.json": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+    "species_catalogue.json": "d5602569f703b80125afd3a75fa7be476c81a8843e82233847282f378347f872",
+    "terrain": {
+      "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/terrain.f32",
+      "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+    },
+    "terrain.f32": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+    "terrain_guard": {
+      "expected_sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+      "guards": [
+        {
+          "detail": "status: NAVD88 meters (USGS 3DEP)",
+          "name": "vertical-datum",
+          "passed": true
+        },
+        {
+          "detail": "4202500 bytes",
+          "name": "size",
+          "passed": true
+        },
+        {
+          "detail": "1050625 finite",
+          "name": "finite",
+          "passed": true
+        },
+        {
+          "detail": "1025x1025 <f4",
+          "name": "grid",
+          "passed": true
+        },
+        {
+          "detail": "row_major_C; rows=south_to_north; cols=west_to_east; origin=southwest_corner",
+          "name": "axis",
+          "passed": true
+        },
+        {
+          "detail": "[-10.89, 238.13] within [-20.0, 250.0]",
+          "name": "range",
+          "passed": true
+        },
+        {
+          "detail": "p1=-5.09, p99=221.28",
+          "name": "percentiles",
+          "passed": true
+        },
+        {
+          "detail": "slope<=5.739, jump<=16.74 m, flats=0.007",
+          "name": "spatial",
+          "passed": true
+        },
+        {
+          "detail": "8f5ca1bf65eb...",
+          "name": "hash",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "schema": "yellowstone.terrain_guard.v1",
+      "status": "authored_terrain_guard",
+      "terrain": {
+        "axis_order": "row_major_C",
+        "cell_m": 4.0,
+        "col_direction": "west_to_east",
+        "dims": [
+          1025,
+          1025
+        ],
+        "dtype": "<f4",
+        "grid_semantics": "vertex_grid",
+        "max_m": 238.130126953125,
+        "mean_m": 46.139896392822266,
+        "min_m": -10.889993667602539,
+        "nbytes": 4202500,
+        "origin": "southwest_corner",
+        "p1_m": -5.094217910766601,
+        "p99_m": 221.28388671875,
+        "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/terrain.f32",
+        "row_direction": "south_to_north",
+        "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+        "spatial": {
+          "flat_cell_fraction": 0.006594170136823319,
+          "max_jump_m": 16.743896484375,
+          "max_slope_ratio": 5.739495277404785
+        },
+        "vertical_datum_status": "NAVD88 meters (USGS 3DEP)"
+      }
+    },
+    "terrain_guard_advisories": [],
+    "world.json": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+  },
+  "environment_lock": {
+    "file": "requirements-reference.lock",
+    "note": "Exact reference dependencies; installed backend versions recorded separately",
+    "sha256": "42cef9d2695ab16cea5a334700b505796b25a8d98f18328b4d57f6f295e443f9"
+  },
+  "execution_receipt": {
+    "input_paths": {
+      "asset_manifest": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/asset_manifest.json",
+      "authored_scene": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/scenes/authored_world.tscn",
+      "canopy_census": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/census.json",
+      "canopy_cover": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_coverage.json",
+      "canopy_height": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_height.tif",
+      "canopy_provenance": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_height.provenance.json",
+      "canopy_render/canopy_top_scene_y.f32": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/canopy_top_scene_y.f32",
+      "canopy_render/cover_fraction.f32": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/cover_fraction.f32",
+      "canopy_render/ground_scene_y.f32": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/ground_scene_y.f32",
+      "canopy_render/unresolved_cells.u8": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/unresolved_cells.u8",
+      "canopy_render/unresolved_render_canopy.json": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/unresolved_render_canopy.json",
+      "canopy_render/unresolved_render_mask.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/unresolved_render_mask.png",
+      "canopy_render/valid_fraction.f32": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/valid_fraction.f32",
+      "canopy_render/valid_support.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/valid_support.png",
+      "cross_sections": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/configs/cross_sections.json",
+      "forest_floor": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/forest_floor.json",
+      "habitat_mask": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/textures/habitat_mask.png",
+      "interpreted_canopy_height": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/lidar_canopy/interpreted_canopy_height.tif",
+      "lodgepole_metadata": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/lodgepole_metadata.json",
+      "lodgepole_texture/dense_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_0.miprgba",
+      "lodgepole_texture/dense_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_0.png",
+      "lodgepole_texture/dense_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_1.miprgba",
+      "lodgepole_texture/dense_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_1.png",
+      "lodgepole_texture/dense_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_2.miprgba",
+      "lodgepole_texture/dense_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_2.png",
+      "lodgepole_texture/dense_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_3.miprgba",
+      "lodgepole_texture/dense_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_billboard_3.png",
+      "lodgepole_texture/dense_variant1_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_0.miprgba",
+      "lodgepole_texture/dense_variant1_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_0.png",
+      "lodgepole_texture/dense_variant1_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_1.miprgba",
+      "lodgepole_texture/dense_variant1_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_1.png",
+      "lodgepole_texture/dense_variant1_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_2.miprgba",
+      "lodgepole_texture/dense_variant1_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_2.png",
+      "lodgepole_texture/dense_variant1_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_3.miprgba",
+      "lodgepole_texture/dense_variant1_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant1_billboard_3.png",
+      "lodgepole_texture/dense_variant2_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_0.miprgba",
+      "lodgepole_texture/dense_variant2_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_0.png",
+      "lodgepole_texture/dense_variant2_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_1.miprgba",
+      "lodgepole_texture/dense_variant2_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_1.png",
+      "lodgepole_texture/dense_variant2_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_2.miprgba",
+      "lodgepole_texture/dense_variant2_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_2.png",
+      "lodgepole_texture/dense_variant2_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_3.miprgba",
+      "lodgepole_texture/dense_variant2_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant2_billboard_3.png",
+      "lodgepole_texture/dense_variant3_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_0.miprgba",
+      "lodgepole_texture/dense_variant3_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_0.png",
+      "lodgepole_texture/dense_variant3_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_1.miprgba",
+      "lodgepole_texture/dense_variant3_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_1.png",
+      "lodgepole_texture/dense_variant3_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_2.miprgba",
+      "lodgepole_texture/dense_variant3_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_2.png",
+      "lodgepole_texture/dense_variant3_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_3.miprgba",
+      "lodgepole_texture/dense_variant3_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/dense_variant3_billboard_3.png",
+      "lodgepole_texture/edge_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_0.miprgba",
+      "lodgepole_texture/edge_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_0.png",
+      "lodgepole_texture/edge_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_1.miprgba",
+      "lodgepole_texture/edge_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_1.png",
+      "lodgepole_texture/edge_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_2.miprgba",
+      "lodgepole_texture/edge_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_2.png",
+      "lodgepole_texture/edge_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_3.miprgba",
+      "lodgepole_texture/edge_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_billboard_3.png",
+      "lodgepole_texture/edge_variant1_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_0.miprgba",
+      "lodgepole_texture/edge_variant1_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_0.png",
+      "lodgepole_texture/edge_variant1_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_1.miprgba",
+      "lodgepole_texture/edge_variant1_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_1.png",
+      "lodgepole_texture/edge_variant1_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_2.miprgba",
+      "lodgepole_texture/edge_variant1_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_2.png",
+      "lodgepole_texture/edge_variant1_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_3.miprgba",
+      "lodgepole_texture/edge_variant1_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant1_billboard_3.png",
+      "lodgepole_texture/edge_variant2_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_0.miprgba",
+      "lodgepole_texture/edge_variant2_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_0.png",
+      "lodgepole_texture/edge_variant2_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_1.miprgba",
+      "lodgepole_texture/edge_variant2_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_1.png",
+      "lodgepole_texture/edge_variant2_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_2.miprgba",
+      "lodgepole_texture/edge_variant2_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_2.png",
+      "lodgepole_texture/edge_variant2_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_3.miprgba",
+      "lodgepole_texture/edge_variant2_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant2_billboard_3.png",
+      "lodgepole_texture/edge_variant3_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_0.miprgba",
+      "lodgepole_texture/edge_variant3_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_0.png",
+      "lodgepole_texture/edge_variant3_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_1.miprgba",
+      "lodgepole_texture/edge_variant3_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_1.png",
+      "lodgepole_texture/edge_variant3_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_2.miprgba",
+      "lodgepole_texture/edge_variant3_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_2.png",
+      "lodgepole_texture/edge_variant3_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_3.miprgba",
+      "lodgepole_texture/edge_variant3_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/edge_variant3_billboard_3.png",
+      "lodgepole_texture/needle_cluster.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_cluster.miprgba",
+      "lodgepole_texture/needle_cluster.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_cluster.png",
+      "lodgepole_texture/needle_shoot.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_shoot.miprgba",
+      "lodgepole_texture/needle_shoot.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/needle_shoot.png",
+      "lodgepole_texture/open_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_0.miprgba",
+      "lodgepole_texture/open_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_0.png",
+      "lodgepole_texture/open_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_1.miprgba",
+      "lodgepole_texture/open_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_1.png",
+      "lodgepole_texture/open_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_2.miprgba",
+      "lodgepole_texture/open_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_2.png",
+      "lodgepole_texture/open_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_3.miprgba",
+      "lodgepole_texture/open_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_billboard_3.png",
+      "lodgepole_texture/open_variant1_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_0.miprgba",
+      "lodgepole_texture/open_variant1_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_0.png",
+      "lodgepole_texture/open_variant1_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_1.miprgba",
+      "lodgepole_texture/open_variant1_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_1.png",
+      "lodgepole_texture/open_variant1_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_2.miprgba",
+      "lodgepole_texture/open_variant1_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_2.png",
+      "lodgepole_texture/open_variant1_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_3.miprgba",
+      "lodgepole_texture/open_variant1_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant1_billboard_3.png",
+      "lodgepole_texture/open_variant2_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_0.miprgba",
+      "lodgepole_texture/open_variant2_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_0.png",
+      "lodgepole_texture/open_variant2_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_1.miprgba",
+      "lodgepole_texture/open_variant2_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_1.png",
+      "lodgepole_texture/open_variant2_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_2.miprgba",
+      "lodgepole_texture/open_variant2_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_2.png",
+      "lodgepole_texture/open_variant2_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_3.miprgba",
+      "lodgepole_texture/open_variant2_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant2_billboard_3.png",
+      "lodgepole_texture/open_variant3_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_0.miprgba",
+      "lodgepole_texture/open_variant3_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_0.png",
+      "lodgepole_texture/open_variant3_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_1.miprgba",
+      "lodgepole_texture/open_variant3_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_1.png",
+      "lodgepole_texture/open_variant3_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_2.miprgba",
+      "lodgepole_texture/open_variant3_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_2.png",
+      "lodgepole_texture/open_variant3_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_3.miprgba",
+      "lodgepole_texture/open_variant3_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/open_variant3_billboard_3.png",
+      "lodgepole_texture/sapling_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_0.miprgba",
+      "lodgepole_texture/sapling_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_0.png",
+      "lodgepole_texture/sapling_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_1.miprgba",
+      "lodgepole_texture/sapling_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_1.png",
+      "lodgepole_texture/sapling_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_2.miprgba",
+      "lodgepole_texture/sapling_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_2.png",
+      "lodgepole_texture/sapling_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_3.miprgba",
+      "lodgepole_texture/sapling_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_billboard_3.png",
+      "lodgepole_texture/sapling_variant1_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_0.miprgba",
+      "lodgepole_texture/sapling_variant1_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_0.png",
+      "lodgepole_texture/sapling_variant1_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_1.miprgba",
+      "lodgepole_texture/sapling_variant1_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_1.png",
+      "lodgepole_texture/sapling_variant1_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_2.miprgba",
+      "lodgepole_texture/sapling_variant1_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_2.png",
+      "lodgepole_texture/sapling_variant1_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_3.miprgba",
+      "lodgepole_texture/sapling_variant1_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant1_billboard_3.png",
+      "lodgepole_texture/sapling_variant2_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_0.miprgba",
+      "lodgepole_texture/sapling_variant2_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_0.png",
+      "lodgepole_texture/sapling_variant2_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_1.miprgba",
+      "lodgepole_texture/sapling_variant2_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_1.png",
+      "lodgepole_texture/sapling_variant2_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_2.miprgba",
+      "lodgepole_texture/sapling_variant2_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_2.png",
+      "lodgepole_texture/sapling_variant2_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_3.miprgba",
+      "lodgepole_texture/sapling_variant2_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant2_billboard_3.png",
+      "lodgepole_texture/sapling_variant3_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_0.miprgba",
+      "lodgepole_texture/sapling_variant3_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_0.png",
+      "lodgepole_texture/sapling_variant3_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_1.miprgba",
+      "lodgepole_texture/sapling_variant3_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_1.png",
+      "lodgepole_texture/sapling_variant3_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_2.miprgba",
+      "lodgepole_texture/sapling_variant3_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_2.png",
+      "lodgepole_texture/sapling_variant3_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_3.miprgba",
+      "lodgepole_texture/sapling_variant3_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/sapling_variant3_billboard_3.png",
+      "lodgepole_texture/snag_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_0.miprgba",
+      "lodgepole_texture/snag_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_0.png",
+      "lodgepole_texture/snag_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_1.miprgba",
+      "lodgepole_texture/snag_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_1.png",
+      "lodgepole_texture/snag_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_2.miprgba",
+      "lodgepole_texture/snag_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_2.png",
+      "lodgepole_texture/snag_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_3.miprgba",
+      "lodgepole_texture/snag_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_billboard_3.png",
+      "lodgepole_texture/snag_variant1_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_0.miprgba",
+      "lodgepole_texture/snag_variant1_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_0.png",
+      "lodgepole_texture/snag_variant1_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_1.miprgba",
+      "lodgepole_texture/snag_variant1_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_1.png",
+      "lodgepole_texture/snag_variant1_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_2.miprgba",
+      "lodgepole_texture/snag_variant1_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_2.png",
+      "lodgepole_texture/snag_variant1_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_3.miprgba",
+      "lodgepole_texture/snag_variant1_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant1_billboard_3.png",
+      "lodgepole_texture/snag_variant2_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_0.miprgba",
+      "lodgepole_texture/snag_variant2_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_0.png",
+      "lodgepole_texture/snag_variant2_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_1.miprgba",
+      "lodgepole_texture/snag_variant2_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_1.png",
+      "lodgepole_texture/snag_variant2_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_2.miprgba",
+      "lodgepole_texture/snag_variant2_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_2.png",
+      "lodgepole_texture/snag_variant2_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_3.miprgba",
+      "lodgepole_texture/snag_variant2_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant2_billboard_3.png",
+      "lodgepole_texture/snag_variant3_billboard_0.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_0.miprgba",
+      "lodgepole_texture/snag_variant3_billboard_0.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_0.png",
+      "lodgepole_texture/snag_variant3_billboard_1.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_1.miprgba",
+      "lodgepole_texture/snag_variant3_billboard_1.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_1.png",
+      "lodgepole_texture/snag_variant3_billboard_2.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_2.miprgba",
+      "lodgepole_texture/snag_variant3_billboard_2.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_2.png",
+      "lodgepole_texture/snag_variant3_billboard_3.miprgba": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_3.miprgba",
+      "lodgepole_texture/snag_variant3_billboard_3.png": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/snag_variant3_billboard_3.png",
+      "mammal_catalogue": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/data/mammal_catalogue.json",
+      "met_bundle": null,
+      "motion_profiles/sources.json": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/wildlife_motion/profiles/sources.json",
+      "motion_profiles/species.json": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/wildlife_motion/profiles/species.json",
+      "package_metadata": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/pyproject.toml",
+      "requirements": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/requirements.txt",
+      "terrain": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/terrain.f32",
+      "tree_architecture_library": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/lodgepole/architecture_library.json",
+      "treemap_sizes": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/treemap_midway.json",
+      "wildlife_asset/assets/imported/wildlife_motion/badger_animated.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/badger_animated.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/bison_animated.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/bison_animated.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/black_bear_animated.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/black_bear_animated.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/bobcat_animated_2k.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/bobcat_animated_2k.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/canada_lynx_animated.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/canada_lynx_animated.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/deer_authored.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/deer_authored.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/grizzly_animated_2k.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/grizzly_animated_2k.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb",
+      "wildlife_asset/assets/imported/wildlife_motion/wolf_authored.glb": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/assets/imported/wildlife_motion/wolf_authored.glb",
+      "wildlife_motion_assets": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/data/wildlife_motion_assets.json"
+    },
+    "source_discovery": "yellowstone_python:fd+tools:fd+scripts:fd+shaders:fd+tools:fd",
+    "world_root": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway"
+  },
+  "external_solver_versions": {
+    "fipy": "not_installed",
+    "laspy": "2.7.0",
+    "lazrs": "0.8.2",
+    "matplotlib": "3.11.2",
+    "metpy": "1.7.1",
+    "netcdf4": "not_installed",
+    "numpy": "2.4.4",
+    "pandas": "2.3.3",
+    "pillow": "12.3.0",
+    "pint": "0.26.1",
+    "pvlib": "0.16.1",
+    "pyproj": "3.8.0",
+    "python": "3.14.7",
+    "pyyaml": "6.0.3",
+    "rasterio": "1.5.2",
+    "salib": "1.6.0",
+    "scipy": "1.18.1",
+    "shapely": "2.2.0",
+    "xarray": "2026.9.0"
+  },
+  "grid_and_time_step": {
+    "hydro_simulate_seconds": 600.0,
+    "n_cells": 276,
+    "n_frames": 721,
+    "replay_depth_m": 1.1,
+    "replay_dt_s": 1.0,
+    "replay_duration_s": 7200.0,
+    "replay_max_cell_m": 20.0,
+    "replay_sample_s": 10.0
+  },
+  "hardware": {
+    "cpu_count": 10,
+    "parallelism": "single process",
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O"
+  },
+  "hydrology": {
+    "baseflow_m3s": 8.0,
+    "catchment_enabled": false,
+    "effective_boundary_m3s": 8.0,
+    "snow_runoff_m3_s": 0.0
+  },
+  "hydrology_components": {
+    "baseflow_m3s": 8.0,
+    "effective_boundary_m3s": 8.0,
+    "overland_runoff_m3_s": 0.0,
+    "snow_runoff_m3_s": 0.0
+  },
+  "input_datasets": {
+    "ecosystem": {
+      "file": "yellowstone_midway/data/ecosystem.json",
+      "sha256": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645"
+    },
+    "placements": {
+      "file": "yellowstone_midway/data/placements.json",
+      "sha256": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f"
+    },
+    "species_catalogue": {
+      "file": "yellowstone_midway/data/species_catalogue.json",
+      "sha256": "d5602569f703b80125afd3a75fa7be476c81a8843e82233847282f378347f872"
+    },
+    "terrain": {
+      "file": "yellowstone_midway/data/terrain.f32",
+      "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+    },
+    "world": {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  },
+  "input_identity": "2b983ab1cdb39fee3d3fe6703b33717326ace883888fb6c418926a85ed28bc0d",
+  "land_model_variant": "degree_day_soil_bucket_solid_export",
+  "land_stock_owner": "snow_soil_bucket",
+  "land_thermal_flux_mm_d_by_patch": {
+    "bridge_riparian": 0.07760479041916168,
+    "forest_edge": 0.07760479041916168,
+    "north_meadow": 0.07760479041916168
+  },
+  "live": {
+    "delta_u_switch": 0.1,
+    "foodweb_interval_s": 3600.0,
+    "max_dt_s": 2.0,
+    "movement_cost_per_m": 1e-05,
+    "tau_exposure_h": 1.0
+  },
+  "met_bundle_provenance": {
+    "path": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/met.json",
+    "pool_crust_hot_source": "plume2d uses the Excelsior reach temperature after pool-to-river mixing, not the pool interior temperature; pool_crust temperatures stay in pool_shells.json (illustrative by design)",
+    "source": "disabled_explicit_scenario_weather",
+    "surface_budget_wiring": "explicit surface budget runs in hindcast/observed_replay when the met bundle carries night_air_c, humidity, cloud, and wind_xz_mps; otherwise Newton stays (illustrative by design)",
+    "window_check": {
+      "status": "no_bundle"
+    }
+  },
+  "metrics": {
+    "chloride_validation_bound": {
+      "modeled_source_chloride_flux_g_s": 79.28927832359386,
+      "note": "Midway-only source flux is a bound on the between-gauge chloride increment; other basins between the gauges are not modeled",
+      "schema": "yellowstone.chloride_validation.v1",
+      "source_data": {
+        "data_file": "yellowstone_python/data/hydrothermal_solutes.json",
+        "transport_scheme": "backward_euler_upwind_advection_centered_dispersion"
+      },
+      "status": "bound_not_match",
+      "window_s": 7200.0
+    },
+    "claim_gates": [
+      {
+        "boundary_discharge": null,
+        "discharge_relative_residual": null,
+        "failures": [],
+        "holdout_rmse_c": 0.5882894580669131,
+        "missing_nulls": [
+          "downstream_climatology"
+        ],
+        "name": "reach_holdout_beats_nulls",
+        "null_holdout_rmse_c": {
+          "mixing_only_c0_refit": 1.6582498066719764,
+          "upstream_persistence": 6.896805799249254
+        },
+        "skipped": false,
+        "source": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/reach_heat_fit_v300k.json"
+      },
+      {
+        "failures": [],
+        "name": "snotel_holdout_beats_nulls",
+        "sites": {
+          "609:MT:SNTL": {
+            "holdout_rmse_mm": 112.02,
+            "null_nomelt_rmse_mm": 471.58,
+            "null_persistence_rmse_mm": 293.29
+          },
+          "924:MT:SNTL": {
+            "holdout_rmse_mm": 45.04,
+            "null_nomelt_rmse_mm": 194.36,
+            "null_persistence_rmse_mm": 179.04
+          }
+        },
+        "skipped": false,
+        "source": "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/snow_degree_day_fit.json"
+      }
+    ],
+    "coupling_check_passed": true,
+    "coupling_n_landscape_cells": 276,
+    "coupling_n_pockets": 0,
+    "coupling_n_solver_cells": 276,
+    "coupling_n_sources": 1,
+    "coupling_passed": true,
+    "coupling_snow_runoff_check": "ok",
+    "coupling_surface_method": "newton_lumped",
+    "cross_family_compared": 5,
+    "cross_family_comparison_statistic": "replay_time_mean_vs_lumped_final",
+    "cross_family_max_delta_c": 0.312,
+    "cross_family_mean_delta_c": 0.1414,
+    "cross_family_passed": true,
+    "cross_family_profile_kind": "time_mean",
+    "cross_family_skipped": [
+      "south_boundary: no polyline points"
+    ],
+    "cross_family_tolerance_c": 2.0,
+    "fipy_reference_skip_reason": "fipy not installed; install the fipy extras group to run the dispersion and MMS references",
+    "fipy_reference_skipped": true,
+    "foodweb_dipper_per_day": 0.965297,
+    "foodweb_emergence_total": 1034.118067,
+    "foodweb_refuge_U": -0.057,
+    "foodweb_refuge_s_m": 1280.1546656669748,
+    "foodweb_refuge_temp_c": 17.53,
+    "groundwater_exchange": {
+      "reason": "no hydro.groundwater.cells configured; the head-gradient exchange needs per-cell bed conductivity, thickness, width, length, aquifer and river heads, and an aquifer temperature",
+      "status": "partial"
+    },
+    "heat_budget_error": 0.21590805053710938,
+    "heat_budget_error_j": 0.21590805053710938,
+    "identifiability_max_cost": 6.946936424222868e-18,
+    "identifiability_rank": 1,
+    "n_proposals": 21,
+    "n_reaches": 6,
+    "n_shells": 15,
+    "numerics_closed_thermal_system": true,
+    "numerics_conservative_tracer": true,
+    "numerics_diffusive_decay": true,
+    "numerics_excluded": [
+      "lake_at_rest_over_variable_bed",
+      "dam_break_transient"
+    ],
+    "numerics_mms_traveling_wave": true,
+    "numerics_passed": true,
+    "numerics_restart_equivalence": true,
+    "numerics_spatial_convergence": true,
+    "numerics_spatial_convergence_dispersive": true,
+    "numerics_temporal_convergence": true,
+    "numerics_two_stream_mixing": true,
+    "outflow_chain_defects": [],
+    "phenology": {
+      "peak_green": 3
+    },
+    "registry_failures": [],
+    "replay_flat_grade_cells": 3,
+    "replay_heat_budget_error": 0.21590805053710938,
+    "replay_manning_median": 0.739833203081753,
+    "replay_n_cells": 276,
+    "replay_n_frames": 721,
+    "replay_numerical_warnings": [],
+    "replay_travel_time_s": 7527.1136482906395,
+    "replay_water_budget_error_m3": -4.547473508864641e-13,
+    "structural_surface_gap_c": 0.04358736171849742,
+    "substrate_ok": true,
+    "validation_claims": [],
+    "validations": {
+      "mats": {
+        "classes": [
+          "blue_water",
+          "yellow",
+          "orange",
+          "brown",
+          "green",
+          "white_sinter",
+          "unclassified"
+        ],
+        "confusion_matrix": {
+          "blue_water": {
+            "blue_water": 0,
+            "brown": 0,
+            "green": 295,
+            "orange": 104,
+            "unclassified": 0,
+            "white_sinter": 0,
+            "yellow": 3
+          },
+          "brown": {
+            "blue_water": 0,
+            "brown": 0,
+            "green": 8019,
+            "orange": 673,
+            "unclassified": 0,
+            "white_sinter": 0,
+            "yellow": 0
+          },
+          "green": {
+            "blue_water": 4,
+            "brown": 0,
+            "green": 47348,
+            "orange": 923,
+            "unclassified": 0,
+            "white_sinter": 4,
+            "yellow": 81
+          },
+          "orange": {
+            "blue_water": 0,
+            "brown": 0,
+            "green": 747,
+            "orange": 0,
+            "unclassified": 0,
+            "white_sinter": 0,
+            "yellow": 0
+          },
+          "unclassified": {
+            "blue_water": 0,
+            "brown": 0,
+            "green": 60198,
+            "orange": 107,
+            "unclassified": 0,
+            "white_sinter": 3,
+            "yellow": 3
+          },
+          "white_sinter": {
+            "blue_water": 0,
+            "brown": 0,
+            "green": 3637,
+            "orange": 14,
+            "unclassified": 0,
+            "white_sinter": 0,
+            "yellow": 3
+          },
+          "yellow": {
+            "blue_water": 0,
+            "brown": 0,
+            "green": 4431,
+            "orange": 14,
+            "unclassified": 0,
+            "white_sinter": 0,
+            "yellow": 0
+          }
+        },
+        "model_class_to_observed": {
+          "brown_green_mixed_photosynthetic": "green",
+          "orange_cyanobacteria_chromatiaceae": "orange",
+          "pink_chemolithotroph": "white_sinter",
+          "sinter_dry": "white_sinter",
+          "water_hot_clear": "blue_water",
+          "white_chemolithotroph": "white_sinter",
+          "yellow_cyanobacteria": "yellow",
+          "yellow_green_cyanobacteria_chloroflexus": "yellow"
+        },
+        "note": "validation only; never feeds back into model parameters",
+        "overall_agreement": 0.374,
+        "per_class_area_m2": {
+          "modeled": {
+            "blue_water": 4.0,
+            "brown": 0.0,
+            "green": 279014.0,
+            "orange": 1835.0,
+            "unclassified": 0.0,
+            "white_sinter": 7.0,
+            "yellow": 90.0
+          },
+          "observed": {
+            "blue_water": 4753.0,
+            "brown": 20900.0,
+            "green": 116469.0,
+            "orange": 1814.0,
+            "unclassified": 113343.0,
+            "white_sinter": 7963.0,
+            "yellow": 11737.0
+          }
+        },
+        "schema": "yellowstone.mat_validation.v1",
+        "sources": [
+          "yellowstone_midway/references/midway_orthophoto_detail.jpg",
+          "yellowstone_midway/data/outflow_network/outflow_network.json"
+        ],
+        "status": "validation",
+        "thermal_mask_cells": 276979,
+        "thermal_mask_radius_m": 220.0
+      },
+      "solutes": {
+        "modeled_source_chloride_flux_g_s": 79.28927832359386,
+        "note": "Midway-only source flux is a bound on the between-gauge chloride increment; other basins between the gauges are not modeled",
+        "schema": "yellowstone.chloride_validation.v1",
+        "source_data": {
+          "data_file": "yellowstone_python/data/hydrothermal_solutes.json",
+          "transport_scheme": "backward_euler_upwind_advection_centered_dispersion"
+        },
+        "status": "bound_not_match",
+        "window_s": 7200.0
+      }
+    },
+    "water_budget_error_m3": -4.547473508864641e-13
+  },
+  "model_authority": {
+    "fish_display": "river.river_transport",
+    "foodweb": "replay_doc",
+    "reach_summary": "flow-weighted mapped replay cells",
+    "thermal_transport": "replay_doc",
+    "trout_position": "fish.place_trout_at_chainage"
+  },
+  "model_variant_id": "mapped_fv_newton",
+  "output_artifact_hashes": {
+    "CHECKS.json": "4d67f7575842cd19b2c1b0007aeef5990aabc943367d78665cde47590c03fbbe",
+    "apron_mask.png": "2011560885daed7b3af34a1aadd74cec4cdd39b5ec72bf6faaa3ec13e83535a4",
+    "apron_tiles/apron_pool_1001_0.png": "d453a27e2c0bd878dc9d4c2d8a32b7b025d58b503945116ada7a114af053393e",
+    "apron_tiles/apron_pool_1007_0.png": "3b31bf5db3439c59ccde34a93c950ee59600cef6b5b075c5c73007ba347bc246",
+    "apron_tiles/apron_pool_1018_0.png": "ab6e4b102863dc439e4ae0b2455a1a1f4d6aed4a54e90b575905e8d93735326b",
+    "apron_tiles/apron_pool_1028_0.png": "a2480a41ae83e2cc9d691c93fb3929b9c7d60a1701042c9b3016f296b436283a",
+    "apron_tiles/apron_pool_1029_0.png": "4df65962e6a75b95622bbaf345adcb6725508d6d387ded83ada1b01cd62fdff5",
+    "apron_tiles/apron_pool_1030_0.png": "06f763c147d8055f36a311cf2f9cadd2b85384031fc5330fdce7ac3f0d5eabcf",
+    "apron_tiles/apron_pool_1034_0.png": "ca231f2e707bb65e2ffcdcd7d31160fb9b9149ad409fe98a63261f56e6572e61",
+    "apron_tiles/apron_pool_1048_0.png": "d616de39ed0a1cf0d2b598a9d36ddeed34beaa6fbf51a46c285c9cd1298b7778",
+    "apron_tiles/apron_pool_1056_0.png": "44d5620ada8c8a6bce511e1319241a29f4d82700ef5e1cd0ba1ed2d27d04b448",
+    "apron_tiles/apron_pool_1066_0.png": "850b29a759840748e33c7628d4e53095e575f98bdacd32cbbd2bd4fdee6b457b",
+    "apron_tiles/apron_pool_1071_0.png": "586f2450abe847c16ed3888eaa45bc43513640c572b439f45cce890bc19cf7f8",
+    "apron_tiles/apron_pool_984_0.png": "9cb4915a77b3712727837d7fb08206330942b06908aa82ba8c9d266f5674657d",
+    "apron_tiles/apron_pool_988_0.png": "69c0b1675fa93d863ff3fd49fbbd86093f396d943c05467f3af4a93bffc335c1",
+    "apron_tiles/apron_pool_995_0.png": "a75397d3bc33b44ab353ddd2521453780f4f7a5224c6e926901a6f01239358b9",
+    "apron_tiles/apron_pool_996_0.png": "041b7711803cbeb6df99214b110e71a348256b595a78ca668f2dbfd4221f782c",
+    "aquatic_foodweb.json": "090d3ef5f6839d63d933c418d3b4b62aa8de6aac99bb82d373ffa581dee488ee",
+    "benthic_grid.json": "f7ea924ae08e78a2792bac832db132982ea46c57916d13b6af9e21bc77180999",
+    "calibration_summary.json": "5c8fd951400aa47fe85bc3ca1244068170fb9d5ec69e583aca909ee1245e1944",
+    "catchment_runoff.json": "25b7fb527da482884d3830056e892334e4b9f132e0a1bcd7e20fd7d60130aa57",
+    "census.json": "d09fdb76b7c46f68971e2d9d804a728042bf75aa0937711efc1df0f79ffaa70f",
+    "claims.json": "a05a2a68a7ccdecadaad092acc35a67c5962c872cd17b55f4bd05e67e82bde4a",
+    "coupling.json": "e19bb9cfbbe74c1f39b4d9cfc3e4c8a291da003ff00f4301b8ccc1162e759a33",
+    "coupling_check.json": "aae6fb49c1b2b50fef1f027807d4b8f7f9af3433c257e463ffa24ed27d97744f",
+    "ecosystem.godot.json": "6d426d46bc1a89b364110b730ddcdeed6fa6be548b69eaa1a0e7fe07bd0ba760",
+    "ecosystem.variant.json": "23292d69c6a2d6270489e6e0c4da1839731d1365d96dd6d04d7d25c750ab7faf",
+    "equations.json": "362b2e90547f25c72722aa3752572763da6300aab8e7068af239c8d2576bae11",
+    "evapotranspiration.json": "9ba9583f859bd64a42a44c77a5f5bebff7078bee40c49e465379af0ae898fbb5",
+    "fish.json": "995dee44ec82699fe1358ef23e29b38494075534f40c61fb7b776cbfa4630a63",
+    "forest_floor.json": "5f52f0b9782a5532042850a17a14e5c2231833575c15525bd53fb10e12d5fe8f",
+    "geochemistry.json": "f3a6de46e678eb591ef44096d4845a251f0166d176c8a81dc8d02f6419c11caa",
+    "grazer.json": "14829a72b22f38cabd226cec276cd0a24335fb42bf8419ccae286e78ee076196",
+    "grazer_tracks.png": "d684bb7d5ed1d2ec784763989f47db29080d3df7320d3112c869b3ce732659c7",
+    "ground_heat.json": "bac3c7f89960ff70e09a2687395d555a9c0e16b9d479a3ecb584f0ca37daba63",
+    "identifiability.json": "44fb3c45994565cf0c6b9ab33a06b62a1100e08ab142c254df325b1847f5e784",
+    "insect_bird.json": "74ca5ec1fd113805f5f4439df2bdc2b094e775e56af202403ad79577bccbb51d",
+    "lidar_canopy/canopy_top_scene_y.f32": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b",
+    "lidar_canopy/cover_fraction.f32": "281517e9acf007dae73fdf9ced6f34293f142dd22c733feeabc970fe91b49db4",
+    "lidar_canopy/ground_scene_y.f32": "bb83028e13e51ca32bf999def952dbb70604c929c7436f18fa6d2607cf97e82f",
+    "lidar_canopy/unresolved_cells.u8": "c4acc86cc9bfff89bddd26cb051c95327736f3fe369940882e837fc2eefcc9e8",
+    "lidar_canopy/unresolved_render_canopy.json": "d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde",
+    "lidar_canopy/unresolved_render_mask.png": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca",
+    "lidar_canopy/valid_fraction.f32": "4d3a0623298531c185c9ae05b94ec9ad56386cc32c20a906262901ecd20db30d",
+    "lidar_canopy/valid_support.png": "a1fcbf6a1d6b1a9f7175457f85a95bcca990f3c682948c187f5f187c596e0ed4",
+    "mammal_catalogue.json": "4cdadfe3e2179b69ef22529f12f9d80fbaea4dc7a8f1eab9a196453ea421b774",
+    "mammals.json": "8cf63c8da51f033c3c1b97c3a2694cddf994fe40966b6a25b103941f580f4489",
+    "mat_appearance.json": "c2dffe0cb61ef1e5185de9efd6f6262fa8af71a29ceb09be5ac468e2edf13791",
+    "mat_community.i16": "287e204444b3574e3775f5ab9a6e26cab00fd43f61f71e92376f7cc698faae2b",
+    "mat_pigment.f32": "050a72777a833b121a78cec6964b17739f1e999daa19f606077dd3fefc575a14",
+    "mat_pigment.png": "b41dd65a189bd92928f9627e2879f42478498172e0e94d3e2f8d4f0514848311",
+    "mat_reflectance_rgb.f32": "9178ab5e4f42eff753239cf0788dc26bd60afc9726372ff4200650a12010ab48",
+    "mat_state.json": "f0a76d8086b2122825f1f8d5bc5c67429575d9103120fed80e1c602bf491073a",
+    "numerics_benchmarks.json": "a8876b916efef599e073219e2db958806c049c351ff3427758ea8bb092a32aef",
+    "outflow_foodweb.json": "677f1c465676578aaeb98e41b6788975d9f0449e4bb48f6f600cda3c18b993f7",
+    "outflow_network/flow_fraction.f32": "b8db7e9d86fca9f5a7d1667976d140a56ff3e6d002667a7bfc43a06e87808ae0",
+    "outflow_network/in_pool.i16": "57e930ac486513b5ced11e5f7d1951f682ebd1ab0929206589ab33f6ee8d5361",
+    "outflow_network/outflow_network.json": "735f8069c6a4f0d8beb1a85b8bab9e7ba204e30691bf712fe38131b6f72f7c98",
+    "outflow_network/wet_mask.i16": "3af73669b6dd608c4e8df814f3b94045ba3185030ca27139952c6063e6a58288",
+    "outflow_temperature.f32": "ba10daed5e8c20cb8d6e4463f49fb38661cfd867d7e7999cee38264362c1c8df",
+    "outflow_temperature.json": "e193390a20b30af173d32ca1d3afaa99e0548bce350d6edcb87988f42900d0af",
+    "outflow_to_replay_lateral.json": "606acb7abf43b77dbf0be29da55a51c761cf0e00006d7f303db8375d9256460c",
+    "overland_field.json": "4ef708fe544b101d9facd476350f566ac5d6b5550bbf23a461a17b60e4271d9c",
+    "overland_flow.json": "66b9f0d65d2c9adb8836eb1df88082d20e0756cbc1347e6ff8abebeacd0a9955",
+    "param_registry.json": "a461f6979bc30998cd5b7eb1b750d018cee083915baac6ce884d77f5d7aa7b85",
+    "patch_state.json": "d8645b92587fbac75e0328f5703b63b07e9688f5e9e3c08286328acbdea96c6d",
+    "periphyton.json": "850fe1bc582421913c1f747c094e56a782ec24694e2a3b8f973055a54a033b61",
+    "piscivores.json": "332bac92a2243a4fff2626bda110284c21f2e8826e1e6a2ac56cccf9844b156c",
+    "planting_proposal.json": "91037a614af9034d749195e5009f7dd98f21caf3fe97b8493ea197aade99acb4",
+    "plume_field.json": "19d9ac0fd0adac8d45f392b6163d5b238b8521d2ba7061586a186a89956aff68",
+    "plume_map.png": "df54b8b1376011c8625ee8af34d1678389ae4ab91b1d1b44568b1cd220eaf660",
+    "pool_cross_section.png": "de61f50ee6af4b70639e79aae4a6d1d529d13710f1b6e27b25ce61b57a7c06aa",
+    "pool_cross_section.png.meta.json": "e35540817c4a492d86eaab2d1efa43dfeb36ac688a7f82ed0b41600400b2db0e",
+    "pool_ramps.json": "ad1e672f2e6fef6017f3de38381c29d0b42ecda552f26455e6995775b79b6c28",
+    "pool_ramps/pool_1001_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_1007_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_1018_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_1028_0.png": "5a5864e3055e5ec5c158c0e9168e77836d5a472b6811411a2a2cbdb95f4a496e",
+    "pool_ramps/pool_1029_0.png": "0c67479f8166336923eeaf4d49612ceacc3953ea48185e9b499885700eca5189",
+    "pool_ramps/pool_1030_0.png": "63d3769f7a92d7bb7345e505d366c5c9db4b67af69aafb8514e1c0a2954ff748",
+    "pool_ramps/pool_1034_0.png": "cf0836f70de3cc12be38b3d0eb03f031ee745850d975949d52e73575223b4fcc",
+    "pool_ramps/pool_1048_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_1056_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_1066_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_1071_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_984_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_988_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_995_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/pool_996_0.png": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+    "pool_ramps/ramp_pool_1001_0.json": "5c7546d2084696688d8a8c5165f89c4f0d5be90d4a646c553ce5f448b8473904",
+    "pool_ramps/ramp_pool_1001_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_1007_0.json": "d97cad58c7384aa71cccb31797c96e036f3e4afabb1ec1e3c657d0127938f395",
+    "pool_ramps/ramp_pool_1007_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_1018_0.json": "20c74d2e20c845b7c1826b4fb666edce1d3fe612fae9b49b77300d1baab87ade",
+    "pool_ramps/ramp_pool_1018_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_1028_0.json": "9cf91f19201253a68c13b0b2ea1c5ef5f3314bc713d5590c860568ff31667305",
+    "pool_ramps/ramp_pool_1028_0.png": "324a6a8f08569c900a4e0e9fab404a4e972d96ef7fd6544a3c19df1510363cb2",
+    "pool_ramps/ramp_pool_1029_0.json": "81740535f56359c498be20eab89b78a3e8a934d649acc6b81de6f73b0d305dc7",
+    "pool_ramps/ramp_pool_1029_0.png": "bd23007f5a8aadb6b3673ba22e9d17caee1c11fd21d4ab30cec846cc566a9e4e",
+    "pool_ramps/ramp_pool_1030_0.json": "3fd05a9e3ea95e080b3a47f4e503d8455cde7c4f98f56db2e4303de2649f878b",
+    "pool_ramps/ramp_pool_1030_0.png": "ac293466ce951fd6092757f2aedddf5fbea1c14ac1e675a7b807d49b5f5b5d6a",
+    "pool_ramps/ramp_pool_1034_0.json": "378d8a33ab3553fd947de1dcf1ab191884cad1542c08f230a9a97f0e41d56730",
+    "pool_ramps/ramp_pool_1034_0.png": "f1a05edf2e1e0c605b926f995f03c264ad129923d23736941ecc079b8d96f76d",
+    "pool_ramps/ramp_pool_1048_0.json": "2b6764ff0e614a5f6bc686090d2579808f0b75158859d416fa3b08d43281ebcd",
+    "pool_ramps/ramp_pool_1048_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_1056_0.json": "15ade18f069e14c6cff8f8d6b7e3228b4ba228f4705bc9b70fbd261ff4ff558c",
+    "pool_ramps/ramp_pool_1056_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_1066_0.json": "702740c2bfac37050cb71846c8dd2c50e123f820b0fd3477c60180c852178747",
+    "pool_ramps/ramp_pool_1066_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_1071_0.json": "63b2d95b90f74271b64c09b58c1a8f401168a4b17d1fc6aa2c140e2bc296a948",
+    "pool_ramps/ramp_pool_1071_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_984_0.json": "2457d61244096bf075b2e2989d5671124a742c7f9ab961e8ebdee312e22759ad",
+    "pool_ramps/ramp_pool_984_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_988_0.json": "d068ad1c2f105d2d6dddd7c809712c0327d4382b4ffbea949d93ccba6dbce553",
+    "pool_ramps/ramp_pool_988_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_995_0.json": "d0b7c83857f1821584376a941c820e1e7e3aa325742ce2e094d0445bb9d296ed",
+    "pool_ramps/ramp_pool_995_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_ramps/ramp_pool_996_0.json": "b28da78ea873968413528e4682061ce8990016ffa449af451d0a21580d98be4c",
+    "pool_ramps/ramp_pool_996_0.png": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+    "pool_shells.json": "2e7c9c8f91cb7af4aac3ee45e16c8339fe7c94a436f3b3fcb5881ff8754421c9",
+    "pools_state.json": "6f440394b3367db7a2a4c328c75fee090b8bfeb312faf700ad29f4db2f305c35",
+    "portfolio_comparison.json": "e65579eb3a7b408cc9e3f66e96f9ec7a391bcbdcd8e62b93e698a2325e85e457",
+    "refuge_map.png": "26ab267f8c930b95bc5d30ec0d5b5b05b69f20691ab64a5986b01c9416e640a9",
+    "river_oxygen.json": "642317d0adf3eb5494ba64b0ffb69c54687ce82372cf03f3569359766c998e18",
+    "river_replay.json": "b1849c7878831ef9a05fcbd917f456c5c0c330512b399c51fc32e1217b5459d3",
+    "river_shading.json": "69a87d85aac3b50d5381774efbac2f5fc4c252d56ed80b4039949c4d8dbe63b0",
+    "river_state.json": "b2e8c1ae8b2968125cff19282fd1af4c27d215bef237dc451a44094c530bd973",
+    "season.json": "1504e145fa23b68dfd21618c9f6208146f37ba5c560d276b302e9e0b7ab0d1a4",
+    "snow_cover.json": "f28a2ef6398d6de43613b8ab26878d63d6d71471561a44e6e1aa28e908ef3315",
+    "snow_map.png": "5933d4c44ed2bc2f431e2698b41923a18d056b24b450540bb109e7592a547060",
+    "soil_temperature.json": "b72e5b4c9fb7b92d51c659bbf34a67cc810097e4120c9c227c36d7ae3b9ee4a0",
+    "solute_transport.json": "9333f3a5f0b3e55984fd6bd2a72da56c1fe62b6553d906efdf09e2e5906d76ca",
+    "steam_microclimate.json": "c16a7da4d20288ec2d3245d6712a67976847ed16a7b93978ef577d19e097a91b",
+    "substrate_rules.json": "c15fe0862c9e88c712a8cd6e874b95f17f8e808e98bafda3155dabf45023d278",
+    "suitability_demo.png": "61b7d70d4a0f05ee5500a9cddd479ca874b9aad84fcccbf6e0036e4aaa6fd43b",
+    "weather.json": "95317c32b9b784ea6a0626ad993ea900aa1ee3d74343117c9fa6c65d58dc8c5d",
+    "weather_snapshot.json": "2bc5a27e1b8efb217c5e1793da506c7f891701f37582def1b76d0dfba3cb693c",
+    "winter_grazing.json": "8c565e6e11a2f7e8aa9e00f73c32197d1ee937a3fc4152de35e157d527f03342",
+    "world.runtime.json": "a5e2a0cc5681463cbc990d2162724f7b5e3dd3b005b5d929fafebaaf7326dfc6"
+  },
+  "parameter_set": {
+    "fish": {
+      "cover": 0.6,
+      "food": 0.7,
+      "species": null,
+      "weights": null
+    },
+    "foodweb": {
+      "days": null,
+      "dt_days": null,
+      "ne_turnover_days": null,
+      "shear_disturb_pa": null
+    },
+    "hydro": {
+      "attach": {},
+      "boundary_c": 17.5,
+      "boundary_m3s": 8.0,
+      "catchment": {
+        "area_m2": null
+      },
+      "tributaries": {}
+    },
+    "insects": {
+      "flowering_stage": 0.6
+    },
+    "overland": {
+      "cell_m": 8.0,
+      "dt_s": 60.0,
+      "enabled": false,
+      "grid": 256,
+      "rain_mm_h": 2.0,
+      "sim_s": 600.0,
+      "soil": "sandy_loam"
+    },
+    "replay": {
+      "cross_sections_file": "configs/cross_sections.json",
+      "depth_m": 1.1,
+      "dispersion_m2_s": 1.0,
+      "dt_s": 1.0,
+      "duration_s": 7200.0,
+      "energy_budget": false,
+      "exchange_w_m2_k": 12.0,
+      "hydraulics": {
+        "bank_slope_zh": 1.5,
+        "manning_n": 0.035
+      },
+      "intervention": {
+        "delta_c": 18.0,
+        "end_s": 3600.0,
+        "source_id": "excelsior_aggregate_outflow",
+        "start_s": 600.0
+      },
+      "max_cell_m": 20.0,
+      "sample_s": 10.0
+    },
+    "simulation": {
+      "start_utc": "2026-06-21T22:12:00+00:00",
+      "utc_offset_hours": -6.0
+    },
+    "snow": {
+      "as_of_date": null,
+      "days": 30,
+      "precip_mm_d": 2.0,
+      "season": "summer"
+    },
+    "vegetation": {
+      "grazers": null,
+      "proposal": {
+        "center_xz": [
+          -360,
+          260
+        ],
+        "count": 40,
+        "guild": "lodgepole_pine",
+        "habitat_id": "forest_edge",
+        "radius_m": 30,
+        "seed": 7
+      }
+    },
+    "weather": {
+      "cloud": 0.16,
+      "day_warming_c": 15.0,
+      "gust_mps": 0.45,
+      "humidity": 0.45,
+      "night_air_c": 7.0,
+      "use_met_bundle": false,
+      "wind_xz_mps": [
+        1.8,
+        0.6
+      ]
+    },
+    "wind_seed": 11
+  },
+  "parameter_set_sha256": "996dce19a8ad1aa407b151b647e840aea180e0e22beb5af8531faf5b9335b952",
+  "portable_identity": {
+    "config": {
+      "clock_hour": 16.2,
+      "fish": {
+        "cover": 0.6,
+        "food": 0.7,
+        "weights": null
+      },
+      "hydro": {
+        "attach": {},
+        "boundary_c": 17.5,
+        "boundary_m3s": 8.0,
+        "catchment": {
+          "area_m2": null
+        },
+        "simulate_seconds": 600.0,
+        "tributaries": {}
+      },
+      "insects": {
+        "flowering_stage": 0.6
+      },
+      "overland": {
+        "cell_m": 8.0,
+        "dt_s": 60.0,
+        "enabled": false,
+        "grid": 256,
+        "rain_mm_h": 2.0,
+        "sim_s": 600.0,
+        "soil": "sandy_loam"
+      },
+      "replay": {
+        "cross_sections_file": "input:cross_sections_file",
+        "depth_m": 1.1,
+        "dispersion_m2_s": 1.0,
+        "dt_s": 1.0,
+        "duration_s": 7200.0,
+        "energy_budget": false,
+        "exchange_w_m2_k": 12.0,
+        "hydraulics": {
+          "bank_slope_zh": 1.5,
+          "manning_n": 0.035
+        },
+        "intervention": {
+          "delta_c": 18.0,
+          "end_s": 3600.0,
+          "source_id": "excelsior_aggregate_outflow",
+          "start_s": 600.0
+        },
+        "max_cell_m": 20.0,
+        "sample_s": 10.0
+      },
+      "run_mode": "scenario",
+      "simulation": {
+        "start_utc": "2026-06-21T22:12:00+00:00",
+        "utc_offset_hours": -6.0
+      },
+      "snow": {
+        "days": 30,
+        "precip_mm_d": 2.0,
+        "season": "summer"
+      },
+      "vegetation": {
+        "grazers": null,
+        "proposal": {
+          "center_xz": [
+            -360,
+            260
+          ],
+          "count": 40,
+          "guild": "lodgepole_pine",
+          "habitat_id": "forest_edge",
+          "radius_m": 30,
+          "seed": 7
+        }
+      },
+      "weather": {
+        "cloud": 0.16,
+        "day_warming_c": 15.0,
+        "gust_mps": 0.45,
+        "humidity": 0.45,
+        "night_air_c": 7.0,
+        "use_met_bundle": false,
+        "wind_xz_mps": [
+          1.8,
+          0.6
+        ]
+      },
+      "wind_seed": 11
+    },
+    "logical_inputs": {
+      "code": "843c36f369921681",
+      "code_rev": "08a9b73f1a72f11b1b68ddeb74bbd73b8d38c1dc",
+      "ecosystem.json": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645",
+      "ecosystem_role": "frozen_pre_python_baseline",
+      "external_inputs": {
+        "asset_manifest": {
+          "exists": true,
+          "sha256": "0ee23850e349af88b658f026b7a7d6c612524006eae76e2b80aab072ebd86687"
+        },
+        "authored_scene": {
+          "exists": true,
+          "sha256": "566e3b8370196a825a9aaefe7746a5d24208b5f55b15b378d75c8f9e7ac59732"
+        },
+        "canopy_census": {
+          "exists": true,
+          "sha256": "00a2787e57118209a2863263b280a3dabbc7ccf6ff2c786cb924d336b3b7afb2"
+        },
+        "canopy_cover": {
+          "exists": true,
+          "sha256": "3cb1dfdbfeea7ea9c078287a881d52ee5f8ca8beefe6b836923fa1f57c04b9a8"
+        },
+        "canopy_height": {
+          "exists": true,
+          "sha256": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9"
+        },
+        "canopy_provenance": {
+          "exists": true,
+          "sha256": "0adec7fd19106f5d872e350179c3a39e05a5d328e42b1d7012f4eb35f8399042"
+        },
+        "canopy_render/canopy_top_scene_y.f32": {
+          "exists": true,
+          "sha256": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b"
+        },
+        "canopy_render/cover_fraction.f32": {
+          "exists": true,
+          "sha256": "281517e9acf007dae73fdf9ced6f34293f142dd22c733feeabc970fe91b49db4"
+        },
+        "canopy_render/ground_scene_y.f32": {
+          "exists": true,
+          "sha256": "bb83028e13e51ca32bf999def952dbb70604c929c7436f18fa6d2607cf97e82f"
+        },
+        "canopy_render/unresolved_cells.u8": {
+          "exists": true,
+          "sha256": "c4acc86cc9bfff89bddd26cb051c95327736f3fe369940882e837fc2eefcc9e8"
+        },
+        "canopy_render/unresolved_render_canopy.json": {
+          "exists": true,
+          "sha256": "d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde"
+        },
+        "canopy_render/unresolved_render_mask.png": {
+          "exists": true,
+          "sha256": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca"
+        },
+        "canopy_render/valid_fraction.f32": {
+          "exists": true,
+          "sha256": "4d3a0623298531c185c9ae05b94ec9ad56386cc32c20a906262901ecd20db30d"
+        },
+        "canopy_render/valid_support.png": {
+          "exists": true,
+          "sha256": "a1fcbf6a1d6b1a9f7175457f85a95bcca990f3c682948c187f5f187c596e0ed4"
+        },
+        "cross_sections": {
+          "exists": true,
+          "sha256": "3b80174eb34427843df9900ad5e91195e5602f4802cc301eddea5af7b9a4c4bd"
+        },
+        "forest_floor": {
+          "exists": true,
+          "sha256": "5f52f0b9782a5532042850a17a14e5c2231833575c15525bd53fb10e12d5fe8f"
+        },
+        "habitat_mask": {
+          "exists": true,
+          "sha256": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a"
+        },
+        "interpreted_canopy_height": {
+          "exists": true,
+          "sha256": "0dedb3698d96ac176252d83f4c4db54ff4398ac4a63169fd0c136d466e22ea56"
+        },
+        "lodgepole_metadata": {
+          "exists": true,
+          "sha256": "bda82bdcdebb1a69a7ca698a62a0a602e04c959f5bc0fdee4ac8c16392dd7a7f"
+        },
+        "lodgepole_texture/dense_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "eecc46b662e1c9985faaa9d77a5f43e0964701b9bc06f6d2d5963d0dcfd10c11"
+        },
+        "lodgepole_texture/dense_billboard_0.png": {
+          "exists": true,
+          "sha256": "7bd7d57e78a2942a94366033c0d315292a4d69a27ccd5d215b7b307eeab3c33e"
+        },
+        "lodgepole_texture/dense_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "877fcf2d4c2cd3efbe1e380d38d54127e7ed6eba11fc3951ec935c2c29ad18e0"
+        },
+        "lodgepole_texture/dense_billboard_1.png": {
+          "exists": true,
+          "sha256": "04289f52a054a979998931d2fd16fee79a2948515529396c3cdbdb4a5e842a66"
+        },
+        "lodgepole_texture/dense_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "820b39ea85a2665dd2177e361993c9fc2cdef37765e7c14bbeba092274f053a4"
+        },
+        "lodgepole_texture/dense_billboard_2.png": {
+          "exists": true,
+          "sha256": "27c24c52a268a0b395d08b2a7fb42a269a8f8e11eaf320d4385567e214af9bf6"
+        },
+        "lodgepole_texture/dense_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "87ce4c8bcd4e99ed2d07bdb934cc0213089e1768a38fb32f97236a402ce7a317"
+        },
+        "lodgepole_texture/dense_billboard_3.png": {
+          "exists": true,
+          "sha256": "f4bc628b26586f1e63a07f6ea794a8488be89c4ee38c61e99b404f2b3eb0ad07"
+        },
+        "lodgepole_texture/dense_variant1_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "2126a658dbe7d64e0c95fcd0f16aebee7d219300a8c0b8ba3e7976050a339195"
+        },
+        "lodgepole_texture/dense_variant1_billboard_0.png": {
+          "exists": true,
+          "sha256": "3a3bc4b0616b3e25fdf7d64b54b3df129e8fdd8fbf3ceaf8ad4e3d9677c117be"
+        },
+        "lodgepole_texture/dense_variant1_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "e2f54ab78422d9a198c5397a6ccfae3322f2e6bf108149020590cc0d114a017c"
+        },
+        "lodgepole_texture/dense_variant1_billboard_1.png": {
+          "exists": true,
+          "sha256": "4eeda3a76c31aa8ff55b7117de7d2c9314ad45fb6f3d79afe7695eef7614a068"
+        },
+        "lodgepole_texture/dense_variant1_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "c05ea97f5ab3f79330d29618dd46094f2941f1bbc9948d60c2a8e1c521bec1d5"
+        },
+        "lodgepole_texture/dense_variant1_billboard_2.png": {
+          "exists": true,
+          "sha256": "aec66885b9a63e08f708a0320982619d66a8cf61e37acd88cd76510277aaadd7"
+        },
+        "lodgepole_texture/dense_variant1_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "af078411c5df2d3b45b49911cac580c45fb3b9483445ad29420aab8b14c44fde"
+        },
+        "lodgepole_texture/dense_variant1_billboard_3.png": {
+          "exists": true,
+          "sha256": "4505f745413315899d2b4faaadf8c2c4b006bf6b077cb2570a3ec5cd12cde774"
+        },
+        "lodgepole_texture/dense_variant2_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "a2d0cf2f572463f54c83cb0009ad4b56fb08d29102b0a019092bc80310f87812"
+        },
+        "lodgepole_texture/dense_variant2_billboard_0.png": {
+          "exists": true,
+          "sha256": "5ca94b334cc20f5a36f8b7f2587ac3ab4c673136d905f614de3f2672096f36ab"
+        },
+        "lodgepole_texture/dense_variant2_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "ff39f8f770b14ff5ab8e19857d79fb23c96d197bd416bd4217ae0134bef0d86d"
+        },
+        "lodgepole_texture/dense_variant2_billboard_1.png": {
+          "exists": true,
+          "sha256": "3f2dc00ffb2219fd006db25636befe21c8864428365e55c76ba6f20d829cb90b"
+        },
+        "lodgepole_texture/dense_variant2_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "6e3362a9e5f2d81899d525eb6891a2d31248948bc46aca5db223a11d3e3d812e"
+        },
+        "lodgepole_texture/dense_variant2_billboard_2.png": {
+          "exists": true,
+          "sha256": "268bce36cc0adb7226fd3ae807091079d51a674afa0fb81e7f3e73334b4feda1"
+        },
+        "lodgepole_texture/dense_variant2_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "b41c948f5ea02f050073d9357c64b6f27f18ef8d9686d2a4bb2fb227c16f1148"
+        },
+        "lodgepole_texture/dense_variant2_billboard_3.png": {
+          "exists": true,
+          "sha256": "5ff0dc55c5a3d3ba3d8e9d1dbec709ec58a0ecdbf0bf88f856a2150f8047ef4a"
+        },
+        "lodgepole_texture/dense_variant3_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "9089a18e636b7d10754ee382befcfe4acc5b10a48710aaf48643e203d25fdc32"
+        },
+        "lodgepole_texture/dense_variant3_billboard_0.png": {
+          "exists": true,
+          "sha256": "52f390eaa893d64f17ed76b4db4a5a1e2160b60bf27c2b7a9ab2136df25596d5"
+        },
+        "lodgepole_texture/dense_variant3_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "54a98f2576cd1ade1d039d19a10acb4755888b6cc38318e02cf7a2e250b665ba"
+        },
+        "lodgepole_texture/dense_variant3_billboard_1.png": {
+          "exists": true,
+          "sha256": "8b2e14a43ebda2089f13005ecd58e4cf65045c3edfac573f1f88782d6fd561e6"
+        },
+        "lodgepole_texture/dense_variant3_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "420948e5ab87cd601021e60505607b2be5abe7db364166c76212cdb0a99126de"
+        },
+        "lodgepole_texture/dense_variant3_billboard_2.png": {
+          "exists": true,
+          "sha256": "145a74033ae4a483de21e6bba886ecc43215e105729b0a776d54447ef269995e"
+        },
+        "lodgepole_texture/dense_variant3_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "223e12d016e00aab893b293a76aebeb08dd1ec61b58e6cc581ec44e774d69d0c"
+        },
+        "lodgepole_texture/dense_variant3_billboard_3.png": {
+          "exists": true,
+          "sha256": "1b4e6132eadcef0dd0b3dd28242eca9c5b7d8d5c2c7da76872daa231bbaca9cb"
+        },
+        "lodgepole_texture/edge_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "a00fb19d5946b1c02d713386bc08b5f56d29d49efee8f7f5ce5982ced33628de"
+        },
+        "lodgepole_texture/edge_billboard_0.png": {
+          "exists": true,
+          "sha256": "b00395924bb2e19f6b237678bba012ffd848e5c380dae5224af53c072c7d57c7"
+        },
+        "lodgepole_texture/edge_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "226497957908d18f23c3063c48986780863059fcff7f6f2b70f3e19f329acd31"
+        },
+        "lodgepole_texture/edge_billboard_1.png": {
+          "exists": true,
+          "sha256": "f7e93966b8a87dab43dd19d0c330266026b0648f0be28e292e7924be5c23a83a"
+        },
+        "lodgepole_texture/edge_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "272acb01b4437e6d7fd65c92ffb6de66ae27d0fcd781af8c75c201e4e854c6bd"
+        },
+        "lodgepole_texture/edge_billboard_2.png": {
+          "exists": true,
+          "sha256": "5dacdf5ceddd6da78c1d21d88c7ea2d85d6990a59a3091ac35089b2baa2ad5bc"
+        },
+        "lodgepole_texture/edge_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "4092192424e12001fc856ef4a7db03e5e2554b155075f8a1aeee6b917740ad59"
+        },
+        "lodgepole_texture/edge_billboard_3.png": {
+          "exists": true,
+          "sha256": "0bbd2a0e20b6817511053accf38f9e80c2a5c56af1ed7095d05383f1a47c8de8"
+        },
+        "lodgepole_texture/edge_variant1_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "14e583cc0bf3c9c580e11212335e392603661de6889b37b7fe7153a22629a829"
+        },
+        "lodgepole_texture/edge_variant1_billboard_0.png": {
+          "exists": true,
+          "sha256": "c85f71827fc4c4e2b5373a6e73f9e9c0254153a92e8dee58efad7716be378a2c"
+        },
+        "lodgepole_texture/edge_variant1_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "2e08afa008deb9292e846e47ae4e62efc775015c026c28251f8200ff2a867e7d"
+        },
+        "lodgepole_texture/edge_variant1_billboard_1.png": {
+          "exists": true,
+          "sha256": "f14761ae6cad136c3fa790a4c84ac404bd5d7eeae0e97521b3f56015db437c06"
+        },
+        "lodgepole_texture/edge_variant1_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "3cd53ef66197922dd21fb970a56a3019b0a27b6c89f031e7690eafcd6e59bb5a"
+        },
+        "lodgepole_texture/edge_variant1_billboard_2.png": {
+          "exists": true,
+          "sha256": "ccb86b3a57790174a60c80c2f1204c8b7a20d19446c9391c423726f7b3295893"
+        },
+        "lodgepole_texture/edge_variant1_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "52fdcd61e543652902cda52aa534a8af29d853ec3a1649d8bb630f7e6be764d6"
+        },
+        "lodgepole_texture/edge_variant1_billboard_3.png": {
+          "exists": true,
+          "sha256": "f5672977c772880d0317f6c7bd144074462d1632ee6edb6d43a4ff8140379c7d"
+        },
+        "lodgepole_texture/edge_variant2_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "c35138b09cdc6d917c452fbd9a26915147734d2f64a7f54f4415cc496ce07668"
+        },
+        "lodgepole_texture/edge_variant2_billboard_0.png": {
+          "exists": true,
+          "sha256": "fb090dfb2a6c6fb94ece40fc2979f9513fbdb81c9ffc68dd19405bfed6df9258"
+        },
+        "lodgepole_texture/edge_variant2_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "d6b095103d99fad30e257ef541ac6efeda60656c0a68c988885b2d512bec4b3f"
+        },
+        "lodgepole_texture/edge_variant2_billboard_1.png": {
+          "exists": true,
+          "sha256": "60491d43f43e14b7833aa18df9ec3b7d12524f132a89a649470eb3d945850d37"
+        },
+        "lodgepole_texture/edge_variant2_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "5192e3424edd069634b6ffd16a02199ce203ba9b340563f1332aa3cd2e827098"
+        },
+        "lodgepole_texture/edge_variant2_billboard_2.png": {
+          "exists": true,
+          "sha256": "39d7261f46a8c098b600fea32e5ccff129986dcb4364181ee535c4cb8047ee25"
+        },
+        "lodgepole_texture/edge_variant2_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "067743dc36e6d4a4439027d9a1e46cd27757b0328324be16c8848675e8479297"
+        },
+        "lodgepole_texture/edge_variant2_billboard_3.png": {
+          "exists": true,
+          "sha256": "952a141dd32095d16f26d48960367eec4146c79242c1c4c9da2381854676001a"
+        },
+        "lodgepole_texture/edge_variant3_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "3f138da6a600ecbda9c4ddc8eacb0e4a0ed168f9915e106fa3efd3c923178431"
+        },
+        "lodgepole_texture/edge_variant3_billboard_0.png": {
+          "exists": true,
+          "sha256": "f06c93090f6aeeb29893757cf569a2326b921df39ce1a8a70b4e1066ee3f0466"
+        },
+        "lodgepole_texture/edge_variant3_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "51348e4b4d7ff7111644682387fb27776f4d336008bd9212bd3fc18ee6471a0a"
+        },
+        "lodgepole_texture/edge_variant3_billboard_1.png": {
+          "exists": true,
+          "sha256": "50659cc5e94d36201ffe7ce3a2c3eadc6c3aafd69defbacbbd93e02bb236376e"
+        },
+        "lodgepole_texture/edge_variant3_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "77ce20bce996dbf59d5e7c5d7e0e2e0d5525c4c403607d5c82d7ec0b3c09b357"
+        },
+        "lodgepole_texture/edge_variant3_billboard_2.png": {
+          "exists": true,
+          "sha256": "635b876e1666cd9718ca8e4ae778fe8053900710cc6fa8f0f3688e8c0b5982d6"
+        },
+        "lodgepole_texture/edge_variant3_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "ca93a504c97874c1496c6ea255932382f2608a04312f0b07c2ef0f53260974c5"
+        },
+        "lodgepole_texture/edge_variant3_billboard_3.png": {
+          "exists": true,
+          "sha256": "a26fd179b29589e26975e78e43cfd72696a44279305fdb0e4972def2815c27c3"
+        },
+        "lodgepole_texture/needle_cluster.miprgba": {
+          "exists": true,
+          "sha256": "7a8b9aea660778f57a77e67634cfeceb00bd9412e19e66db846fc13e502abb15"
+        },
+        "lodgepole_texture/needle_cluster.png": {
+          "exists": true,
+          "sha256": "fa776a9ad7f80b37c2bff440605d95e968fde122e7f77117216982f9808eaa1d"
+        },
+        "lodgepole_texture/needle_shoot.miprgba": {
+          "exists": true,
+          "sha256": "f0e4a3b5eb1968df29ed3cb18414456161b4c82fd62b79d40fc456dca719a9ef"
+        },
+        "lodgepole_texture/needle_shoot.png": {
+          "exists": true,
+          "sha256": "2ec7d0eae8c3782a029f52a747e73af8c70a48d259c304594328592c6dbbc136"
+        },
+        "lodgepole_texture/open_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "d500c06892ad89fab7ab50dcb69a14e13974772b73213ea49c9ee487e2e3a332"
+        },
+        "lodgepole_texture/open_billboard_0.png": {
+          "exists": true,
+          "sha256": "f5c0f6b84a22c370ebd12838891b4365a3acc705741eb597f2f6f7efa36c429c"
+        },
+        "lodgepole_texture/open_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "408be25bc2bbea833f8aca5c7d149fdb2faa7904ca3ec07f0a015a37934a95b5"
+        },
+        "lodgepole_texture/open_billboard_1.png": {
+          "exists": true,
+          "sha256": "f8e9bd99c0fc28e37b3275ae58ec5fe3de5921146085eeb2336f8d4bd1e664e0"
+        },
+        "lodgepole_texture/open_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "eeff884d359708b2b4d57e31c209c8e40b2960ac063337830c6b5d1e7e0d4f3a"
+        },
+        "lodgepole_texture/open_billboard_2.png": {
+          "exists": true,
+          "sha256": "118afc4065d2e80a9fe864b924e6267b3ff15742fcf71c061df202a51b84aa56"
+        },
+        "lodgepole_texture/open_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "4fbb17c1cd0a0d9235cae86aee183cb1cfbca84bc661108a83c28ccde85ef3eb"
+        },
+        "lodgepole_texture/open_billboard_3.png": {
+          "exists": true,
+          "sha256": "fbbee507713c49d00d4ea8fcfc75801887c8fbdce1d14d4182c5e9f0d3ecdfe6"
+        },
+        "lodgepole_texture/open_variant1_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "adfcc6fc075571223be3005f5e46872365ee4582e76f60d1daa662c37f42c1af"
+        },
+        "lodgepole_texture/open_variant1_billboard_0.png": {
+          "exists": true,
+          "sha256": "e2c8657aacbd9fc287d793449590241bcfc09f5e0c62186b0918d4939851c492"
+        },
+        "lodgepole_texture/open_variant1_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "efa28c6405d4345ebc48aba3564cd7649ecb671aad18566f5b789aec8b966efd"
+        },
+        "lodgepole_texture/open_variant1_billboard_1.png": {
+          "exists": true,
+          "sha256": "7a994f70446f2e7e758ee12b4094b5ec5ec7bc5cc6a0007db14de0c62e54f006"
+        },
+        "lodgepole_texture/open_variant1_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "e480950ffe69e555a0f53db49486bfd717725ab615da3097ebe026089c2ce1e3"
+        },
+        "lodgepole_texture/open_variant1_billboard_2.png": {
+          "exists": true,
+          "sha256": "c872800f45fcd1b4770e367b55be1d3bb89284c86e1a9a10f790c354bd55c65d"
+        },
+        "lodgepole_texture/open_variant1_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "6465c29e1fea5a41c27d9f258b2804a70ef6ee00c20a485542f40ca1f297e0bb"
+        },
+        "lodgepole_texture/open_variant1_billboard_3.png": {
+          "exists": true,
+          "sha256": "49be1e25211fc226cfba8d9b8838ba82ff440f704f5841049e5b256fe8bef93e"
+        },
+        "lodgepole_texture/open_variant2_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "aa5a6c17d68041c2052c21e075956ebb657620a208d70cced3f33199b219050b"
+        },
+        "lodgepole_texture/open_variant2_billboard_0.png": {
+          "exists": true,
+          "sha256": "3d9c50789387c8d228b5cb9e63e1015a92d2e75cdc896fe02335b8153d02f9f8"
+        },
+        "lodgepole_texture/open_variant2_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "b038948ec75e39ead9b3ae483c791c75b9fafe49e653d56b33de6b35bf8c360c"
+        },
+        "lodgepole_texture/open_variant2_billboard_1.png": {
+          "exists": true,
+          "sha256": "aada7308a413212bee12bfa31c7bcc8649f0ee4c6c57425f2a622d242387c465"
+        },
+        "lodgepole_texture/open_variant2_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "6dacc917d6a9183bd3ae2efe281f97340380cb53910ce2aef7e69dda2601e4b9"
+        },
+        "lodgepole_texture/open_variant2_billboard_2.png": {
+          "exists": true,
+          "sha256": "617fe427e896713c76282b506897fe73a5650a47c8ecc05b56a023bcb21188ab"
+        },
+        "lodgepole_texture/open_variant2_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "51faa27240d72d359ce2faf74058adb79f226f73585b36a10e28adaa699c2265"
+        },
+        "lodgepole_texture/open_variant2_billboard_3.png": {
+          "exists": true,
+          "sha256": "ae2eedeb03f48f3449ab129e0f62a92d0efa069a54384786d0f1a041ac51c72e"
+        },
+        "lodgepole_texture/open_variant3_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "51b4c8c08fff9a741412d1b1c0c0531252f06e4ee248f4dbc8c1519e66406e70"
+        },
+        "lodgepole_texture/open_variant3_billboard_0.png": {
+          "exists": true,
+          "sha256": "4c69d85a98bc801c64814bb5099258002598a963a772b06d2ec63f54f8bac5cf"
+        },
+        "lodgepole_texture/open_variant3_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "f062bfccee58378070e9c35856a06ca4d40781beda87be9ed5f2516a01ee695b"
+        },
+        "lodgepole_texture/open_variant3_billboard_1.png": {
+          "exists": true,
+          "sha256": "9d896937acf33cb2c75c748b5db67f8878a1910522b19aa1dab519d3991a48c6"
+        },
+        "lodgepole_texture/open_variant3_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "84eb378a0ff7e6e1255a47e413c103a5c8dfc39840a9213bf1814437acb9d854"
+        },
+        "lodgepole_texture/open_variant3_billboard_2.png": {
+          "exists": true,
+          "sha256": "5824f38625e5049e12382f1602ea98cd71fb142e51de21e2443ce84cfe700969"
+        },
+        "lodgepole_texture/open_variant3_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "69bb2ffaf5d601abffc67c799cef852437656c54bfc5b4f067adfec2fc6826fc"
+        },
+        "lodgepole_texture/open_variant3_billboard_3.png": {
+          "exists": true,
+          "sha256": "f2ad8462d3e2f77e0a390e96b548055b2ec16012100b7a681b5078f5f6027969"
+        },
+        "lodgepole_texture/sapling_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "e2cdf84d932b9ae889c27ad7262b6f38fca1c4af2432114ba187eaca695b702c"
+        },
+        "lodgepole_texture/sapling_billboard_0.png": {
+          "exists": true,
+          "sha256": "0be19017f260d196e0b896df57de3eb6865d6de93ea4f1f9225af38aa1d456d5"
+        },
+        "lodgepole_texture/sapling_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "cc1466db4a827038c414f0ae56b6896c87e8a275ecad07b90ad43dfd013f9824"
+        },
+        "lodgepole_texture/sapling_billboard_1.png": {
+          "exists": true,
+          "sha256": "d4003d4121984af9946856706352503e3bd90d52999fa22c3cdab26142190877"
+        },
+        "lodgepole_texture/sapling_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "f6f0842c17a27a74346de00230714a1589d8304393b324037bef5774446d8aeb"
+        },
+        "lodgepole_texture/sapling_billboard_2.png": {
+          "exists": true,
+          "sha256": "f0e1c7350b6a2cdbc1a39eb5c63629440e576ca35985e8885fdf47774fa0b0ab"
+        },
+        "lodgepole_texture/sapling_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "0b9dca7e16aa6de76f956e53f7c463e7292461a8cd2bdd76a6b493c3499fef77"
+        },
+        "lodgepole_texture/sapling_billboard_3.png": {
+          "exists": true,
+          "sha256": "4bd6701483b51051696388e44d3e8bccc518de0aa86954b8102b57491bcdb31e"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "13de4c8ae7377d1bf7821ef1b13956214acdc895ce226e93b6e76e1e6793ab5c"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_0.png": {
+          "exists": true,
+          "sha256": "7bce04cc416d50cfcc1ddf2c723260b68dd5c3d79d924048f8d4d4e615c21ddd"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "1071da0105568c1731586da1a8595e0706b33cd4d48f153523e30bcb0dbc1e5d"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_1.png": {
+          "exists": true,
+          "sha256": "8e1a26d585a48ae659c4ddf7e6848be9e8116ddaff80838f8246ffd80c60501b"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "515ac3f14b10cf3708b1a83031719ea914d7c4a4c3dcf10a409ee94eb2ef8d35"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_2.png": {
+          "exists": true,
+          "sha256": "f8708fc0bf90946a682eedde7422ff2c00bca5a7cd1939b16c77529d145ee73b"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "048b53838cf24750cab991ec2823afae0b79483f04c24f006e65c75a0dbee2ce"
+        },
+        "lodgepole_texture/sapling_variant1_billboard_3.png": {
+          "exists": true,
+          "sha256": "47037e1be7fd25cc5652eeff29cfea11c21223b9de561d873d914b33de5af6ce"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "0d8bada1b8a02318063b8f39e5637ff27285c78aeddee381dafbbc9fea4f6e11"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_0.png": {
+          "exists": true,
+          "sha256": "55615a6367074d3a616e90569f13e70745469bcca817ebe58f395fb356a82b4e"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "bfbaecc26b0a4dd7b194725d6f919df7ffaa8cfa76e3879dd09868b705f3e377"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_1.png": {
+          "exists": true,
+          "sha256": "087e0e86dc59c138ebf613732a9fc93971ddf1dac02a16d08d569cbbe12ba0bb"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "59db38e81f6b18897473e0ded085a70479d7e69e2b48944cc267a4fb86b3455f"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_2.png": {
+          "exists": true,
+          "sha256": "6f3dea34983654bc8e73fc1f5c4ca61a701cd55034f73dd470341dcf0f3ed0ae"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "e5b47d28f15a7fda51eee3c925f9291749cf422b118ead3c4500e2bbb4b2f235"
+        },
+        "lodgepole_texture/sapling_variant2_billboard_3.png": {
+          "exists": true,
+          "sha256": "89af2faf96aab0071b2b2b27ab607f95522e0a1ec3da4d9f7b1ee8e8d32779ff"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "95a50120d773a0b105898889aad4326a4caa449ad9af21cf95640838c0d6ad95"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_0.png": {
+          "exists": true,
+          "sha256": "7225ace0aa528f538bba71192e1687b50f55f9cee67ef2d9d98e102d89f8d911"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "7989398dff9789c86c7377716ce22e39b10268d9b056b1da0a686897272f7b50"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_1.png": {
+          "exists": true,
+          "sha256": "0a4b7615837feb1876f825f97b83569f35042af98b191b692ba743ce0a33e877"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "9230d041a9e2833a241a860ddbc1fdbe92d3417ee6ed88281c01472463105394"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_2.png": {
+          "exists": true,
+          "sha256": "cf6a83c264a4cea28212777c0ca0078122fa64b50198610d9056d819aee3bfbe"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "9941c38910b5f815721444a806b18eaaf64e32f66507f9abb23b8ac8f4cc88ea"
+        },
+        "lodgepole_texture/sapling_variant3_billboard_3.png": {
+          "exists": true,
+          "sha256": "e46fb4fb5bad65d7631a306305e48693e0beb506b0bffafe8ed034329d1e9d26"
+        },
+        "lodgepole_texture/snag_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "468b21fa3242b7270e1487c48328d8bc281195973dae40c6e3e5627803276f81"
+        },
+        "lodgepole_texture/snag_billboard_0.png": {
+          "exists": true,
+          "sha256": "f73f3ea60e442df3b6730ee050d20ac0dd446102bf29ccfcc42b3b082e73226d"
+        },
+        "lodgepole_texture/snag_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "4010db6d4a75485d887d8517e6ad567f987bb2c3390a4c728dbf86f914ae192d"
+        },
+        "lodgepole_texture/snag_billboard_1.png": {
+          "exists": true,
+          "sha256": "35e4130d933b6a3a09ea97e340614c95e13175a2ee803380b8714d09d8a54d8f"
+        },
+        "lodgepole_texture/snag_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "52174a28b71af4bcc839fafdad064c7d8af3aaaf9871aa5d3792859704d0e640"
+        },
+        "lodgepole_texture/snag_billboard_2.png": {
+          "exists": true,
+          "sha256": "d3e9e2ed1d59c2390888732deca0f3cf3bc48a039cbf24a00f9180541bcea419"
+        },
+        "lodgepole_texture/snag_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "7af4ed5f4ecc6f0e1e58513ed1c7d45a7e040c54ce1bc64044e84a8539a226a9"
+        },
+        "lodgepole_texture/snag_billboard_3.png": {
+          "exists": true,
+          "sha256": "1a0cc33e838b0b37d3a9af0915d592475b78dad468588a608f586b279271e445"
+        },
+        "lodgepole_texture/snag_variant1_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "7220ddf41a2eceee4aa1b9c7b2bd8550a23b8da800d863e1e118086c01dea634"
+        },
+        "lodgepole_texture/snag_variant1_billboard_0.png": {
+          "exists": true,
+          "sha256": "2698ceaa18f60b2d6d10e79f536c546001d756b8dcb5b70a593e79e3822a6f87"
+        },
+        "lodgepole_texture/snag_variant1_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "d7d1ac755eac70db1f646b7814e1908ee75217d4def80a8ec2115c459cae92dd"
+        },
+        "lodgepole_texture/snag_variant1_billboard_1.png": {
+          "exists": true,
+          "sha256": "e544460535aa22b38bcfdcdf2873d1fb88b5ed4f0f20282cd4a5a33b5218bc9d"
+        },
+        "lodgepole_texture/snag_variant1_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "62cb91803026dc8d811a782a01bd50e5c9680e00359924367ce05de30667d7c2"
+        },
+        "lodgepole_texture/snag_variant1_billboard_2.png": {
+          "exists": true,
+          "sha256": "28e1df4d4b00b68ce22c215de5f7540bf974359098b7f40bda78b0a6db780085"
+        },
+        "lodgepole_texture/snag_variant1_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "14e0be4fbe34cb7e143b75aaf3f248e545d0f9f04051d85b4ead6bc4fb04b66c"
+        },
+        "lodgepole_texture/snag_variant1_billboard_3.png": {
+          "exists": true,
+          "sha256": "13289988202d2f58d48700e93791d63afc1d92da1c6879439697df4472478be6"
+        },
+        "lodgepole_texture/snag_variant2_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "a68df8b36b361aeaf7d24469ac44cd875f2c8cdb78ad8881c23dff56b44f2e92"
+        },
+        "lodgepole_texture/snag_variant2_billboard_0.png": {
+          "exists": true,
+          "sha256": "bf408f9b44b3df27da4d7c6090e0216655305865cd573d08f4af7c0254f76b3c"
+        },
+        "lodgepole_texture/snag_variant2_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "8f8c462713490bdd068398077ed0cff864bb448d572e836aa46923edf9934bb9"
+        },
+        "lodgepole_texture/snag_variant2_billboard_1.png": {
+          "exists": true,
+          "sha256": "636636cc112e826ac64792f69a1088d73f69dbe0d4e9c0eb75ce2f4e300fdecb"
+        },
+        "lodgepole_texture/snag_variant2_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "79c618afe9cfb9ae09c1aa075a3232d6e049bb4cc46642fe478b37956e2f4b53"
+        },
+        "lodgepole_texture/snag_variant2_billboard_2.png": {
+          "exists": true,
+          "sha256": "3b45978d9293165dfeff9718ee385385d2b1a60b46de4c8acfda38c84d253fd6"
+        },
+        "lodgepole_texture/snag_variant2_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "e982dd7d1cef71aa025892ead553613b39aa28f3ccd89f0e9a004bc2811cfe78"
+        },
+        "lodgepole_texture/snag_variant2_billboard_3.png": {
+          "exists": true,
+          "sha256": "6e5fd7c892d02116080253d729efbc2c6bce9b290266bfca5dd29bdab3abbd73"
+        },
+        "lodgepole_texture/snag_variant3_billboard_0.miprgba": {
+          "exists": true,
+          "sha256": "0f34367c4dae76f2324f515c4d1367517e80ee8921916f38412d4d8e395ce51e"
+        },
+        "lodgepole_texture/snag_variant3_billboard_0.png": {
+          "exists": true,
+          "sha256": "3415346c649a7c6c5a0c0338d56ab2c2ebd277fcad0edd61bebacf1e8bb1f9e7"
+        },
+        "lodgepole_texture/snag_variant3_billboard_1.miprgba": {
+          "exists": true,
+          "sha256": "a15820e77076c3a1888de2c65c0ec9c8883710d11bdbc5412d69a2943551a8e9"
+        },
+        "lodgepole_texture/snag_variant3_billboard_1.png": {
+          "exists": true,
+          "sha256": "a8f85a9ba19c3c70f96032119c6c17747b0f85212c28ca7931ee87cde1200c3e"
+        },
+        "lodgepole_texture/snag_variant3_billboard_2.miprgba": {
+          "exists": true,
+          "sha256": "747d48d9a1a73416a08bed79226570a393d16e900688712f9f88bccc43af6625"
+        },
+        "lodgepole_texture/snag_variant3_billboard_2.png": {
+          "exists": true,
+          "sha256": "f5dbc7dbb7438e18b750ef7084a804239befc3f262ca5fcf32adbe1772032217"
+        },
+        "lodgepole_texture/snag_variant3_billboard_3.miprgba": {
+          "exists": true,
+          "sha256": "bbc82bad64c0a3a61609b8ccef852416aa4fea9e2c1ec735854fc2abc76e18bb"
+        },
+        "lodgepole_texture/snag_variant3_billboard_3.png": {
+          "exists": true,
+          "sha256": "aa2b156a723ff15ee2ef5ce46ec25b12d026ee3d1a69ee7dd6aa045f9df90d7e"
+        },
+        "mammal_catalogue": {
+          "exists": true,
+          "sha256": "33618955f1fefedd673ce16b278c13f438d53097acef0934b6119e6486e48773"
+        },
+        "met_bundle": {
+          "exists": false,
+          "sha256": null
+        },
+        "motion_profiles/sources.json": {
+          "exists": true,
+          "sha256": "578679785fc95742cc76e107ed77e31762b8e7b29f888f685318fb83d5de3e0d"
+        },
+        "motion_profiles/species.json": {
+          "exists": true,
+          "sha256": "615e02a05da8a89ba58c92332a4a2f45c8995943f84d3ab4c64f86cddae59f96"
+        },
+        "package_metadata": {
+          "exists": true,
+          "sha256": "49ddef99dc0c988766b486130d0efc0ebe01e9e85e75b2b2fcffb0391409d52e"
+        },
+        "requirements": {
+          "exists": true,
+          "sha256": "e2dc49b19c577eadc2dc5395f9221c60dff63f6c55830078d9d74d268ecbe222"
+        },
+        "terrain": {
+          "exists": true,
+          "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+        },
+        "tree_architecture_library": {
+          "exists": true,
+          "sha256": "8e149c3844a327ef44aa2f216f252b95d6b2545f3c8d04e6be475ee0fbbb57af"
+        },
+        "treemap_sizes": {
+          "exists": true,
+          "sha256": "d75e62a0c37df2cd4bf8f6d3c115e63b352094a2311a3af61f92c91f0270bccd"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/badger_animated.glb": {
+          "exists": true,
+          "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb": {
+          "exists": true,
+          "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb": {
+          "exists": true,
+          "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb": {
+          "exists": true,
+          "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb": {
+          "exists": true,
+          "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb": {
+          "exists": true,
+          "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/bison_animated.glb": {
+          "exists": true,
+          "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/black_bear_animated.glb": {
+          "exists": true,
+          "sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/bobcat_animated_2k.glb": {
+          "exists": true,
+          "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb": {
+          "exists": true,
+          "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/canada_lynx_animated.glb": {
+          "exists": true,
+          "sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/deer_authored.glb": {
+          "exists": true,
+          "sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/grizzly_animated_2k.glb": {
+          "exists": true,
+          "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb": {
+          "exists": true,
+          "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9"
+        },
+        "wildlife_asset/assets/imported/wildlife_motion/wolf_authored.glb": {
+          "exists": true,
+          "sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63"
+        },
+        "wildlife_motion_assets": {
+          "exists": true,
+          "sha256": "08e11136a7e9d6e42faa9cc7f277ca74e77a2c75847605e76903215692acfb52"
+        }
+      },
+      "placements.json": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+      "species_catalogue.json": "d5602569f703b80125afd3a75fa7be476c81a8843e82233847282f378347f872",
+      "terrain": {
+        "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+      },
+      "terrain.f32": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+      "world.json": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  },
+  "predicted_quantities": [],
+  "prescribed_quantities": [
+    "discharge",
+    "upstream_temperature"
+  ],
+  "provenance": {
+    "bundle_select_epoch_s": null,
+    "bundle_select_mode": "unused",
+    "canopy_fraction_proposal": 0.21554551094567048,
+    "canopy_source": "measured_canopy_height_footprint; valid_fraction=0.998142",
+    "code_hash_source": "yellowstone_python:fd+tools:fd+scripts:fd+shaders:fd+tools:fd",
+    "energy_budget_choice": false,
+    "energy_budget_source": "replay.energy_budget explicit",
+    "snow_partition_source": "snow_season_air_c_threshold_1C",
+    "trout_position_authority": "fish.place_trout_at_chainage"
+  },
+  "random_streams": {
+    "generator": "stdlib random.Random, no global numpy RNG in build path",
+    "proposal_seed": 7,
+    "wind_seed": 11
+  },
+  "restart": {
+    "benchmark": "restart_equivalence",
+    "support": "split-run same process; fresh object under constant forcing"
+  },
+  "river_model": "river.river_transport",
+  "run_id": "4ce0d3fbe78e",
+  "run_mode": "scenario",
+  "scenario_id": "4ce0d3fbe78e",
+  "schema": "yellowstone.build_manifest.v1",
+  "shared_forcing": {
+    "air_c_at_t0_c": 21.265847744427305,
+    "forcing_match": "reach summaries and ecology consume mapped replay forcing",
+    "replay_forcing_source": "weather_frag with the resolved air time series",
+    "weather_fragment_source": "cfg.weather plus optional met_bundle override"
+  },
+  "solver_tolerances": {
+    "hydro_heat_ledger": 1e-09,
+    "hydro_water_ledger": 1e-09,
+    "replay_heat_relative": 1e-09,
+    "replay_water_relative": 1e-12,
+    "snow_storage_mm": 0.05,
+    "source": "yellowstone_python.validation.checks"
+  },
+  "thermal_curve_form": "piecewise_linear",
+  "timeline": {
+    "et_owner": "snow_soil_bucket",
+    "experiment_interval_s": [
+      0.0,
+      7200.0
+    ],
+    "fast_processes": [
+      "river transport",
+      "patch biomass",
+      "insect compartments",
+      "trout refuge",
+      "grazer/bird timing"
+    ],
+    "fast_window_s": 600.0,
+    "initial_state_preparation": {
+      "overland_source_window_s": 600.0,
+      "patch_biomass_role": "authored initial-state preparation before snow/soil spin-up",
+      "patch_biomass_window_s": [
+        -600.0,
+        0.0
+      ],
+      "river_geometry_forcing_role": "prescribed mean rates and diagnostic initialization",
+      "river_geometry_forcing_window_s": [
+        0.0,
+        600.0
+      ]
+    },
+    "reference_et_role": "diagnostic",
+    "season_days": 30,
+    "slow_processes": [
+      "snowpack",
+      "soil water",
+      "phenology"
+    ],
+    "spinup_interval_s": [
+      -2592000.0,
+      0.0
+    ],
+    "t0": "identified initial state after snow/soil spin-up",
+    "wildlife_reference": "timings from declared hydrology window; snow and soil spin-up precede experiment"
+  },
+  "warnings_and_failures": [],
+  "world_id": "yellowstone_midway"
+}

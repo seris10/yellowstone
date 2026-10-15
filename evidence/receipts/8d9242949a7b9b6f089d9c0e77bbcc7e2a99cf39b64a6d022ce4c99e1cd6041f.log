@@ -1,0 +1,48 @@
+19:46:23 | INFO: Data are loaded, start creating Blender stuff
+19:46:23 | INFO: glTF import finished in 0.00s
+Traceback (most recent call last):
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py", line 171, in <module>
+    main(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else sys.argv[1:])
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py", line 103, in main
+    original = scene_geometry(bpy)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py", line 35, in scene_geometry
+    raise ValueError('Source or exported scene contains no triangulated mesh geometry')
+ValueError: Source or exported scene contains no triangulated mesh geometry
+
+Error: script failed, file: '/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+
+19:46:24 | INFO: Data are loaded, start creating Blender stuff
+19:46:24 | INFO: Blender create Mesh node Sphere
+19:46:24 | INFO: Blender create Mesh node Sphere.001
+19:46:24 | INFO: glTF import finished in 0.01s
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+19:46:24 | INFO: Starting glTF 2.0 export
+19:46:24 | INFO: Extracting primitive: Sphere
+19:46:24 | INFO: Primitives created: 1
+19:46:24 | INFO: Extracting primitive: Sphere.001
+19:46:24 | INFO: Primitives created: 1
+19:46:24 | INFO: Finished glTF 2.0 export in 0.007359981536865234 s
+
+19:46:24 | INFO: Data are loaded, start creating Blender stuff
+19:46:24 | INFO: Blender create Mesh node Sphere
+19:46:24 | INFO: Blender create Mesh node Sphere.001
+19:46:24 | INFO: glTF import finished in 0.00s
+Traceback (most recent call last):
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py", line 171, in <module>
+    main(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else sys.argv[1:])
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py", line 151, in main
+    raise ValueError(f"Reduced surface error {error['maximum_fraction_of_source_extent']:.6g} exceeds {args.max_surface_error_fraction:.6g}")
+ValueError: Reduced surface error 0.0231739 exceeds 1e-08
+
+Error: script failed, file: '/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/tools/blender_wildlife_decimate.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+
+REDUCTION_NEGATIVE_CONTROLS PASS [{"case": "empty", "returncode": 2, "accepted_derivative_preserved": true}, {"case": "quality_budget", "returncode": 2, "accepted_derivative_preserved": true}]

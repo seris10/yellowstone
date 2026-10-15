@@ -1,0 +1,52 @@
+{
+  "schema": "yellowstone.documented_cli_help.v1",
+  "status": "executed_passed",
+  "source_identity": "133ee3939148c581727eb8afbc53fa0ed78aa8254912434577684df8fdb026e4",
+  "commands": [
+    {
+      "module": "yellowstone_python.build",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "yellowstone_python.publish",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "yellowstone_python.service.live",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "tools.calibrate_river_transport",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "tools.build_wildlife_motion_assets",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "tools.asset_release_inventory",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "tools.package_demo",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "tools.reference_run",
+      "returncode": 0,
+      "usage_reported": true
+    },
+    {
+      "module": "tools.run_evidence",
+      "returncode": 0,
+      "usage_reported": true
+    }
+  ]
+}

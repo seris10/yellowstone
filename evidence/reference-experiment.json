@@ -1,0 +1,320 @@
+{
+  "baked_live_max_error_tolerance_c": 1e-11,
+  "budget": {
+    "additional_heat_flux_j": 0.0,
+    "boundary_input_j": 81627000000.0,
+    "boundary_input_m3": 900.0,
+    "cell_heat_j": 0.0,
+    "courant_warning_threshold": 1.0,
+    "current_sensible_energy_j": 39725423424.12298,
+    "diffusive_warning_threshold": 1.0,
+    "expected_change_j": 14609423424.12316,
+    "heat_relative_residual": 1.2318341709327842e-15,
+    "heat_residual_j": -0.00018310546875,
+    "hyporheic": null,
+    "hyporheic_exchange_j": 0.0,
+    "initial_sensible_energy_j": 25116000000.0,
+    "lateral_input_j": 0.0,
+    "lateral_input_m3": 0.0,
+    "max_advective_courant": 0.025,
+    "max_cell_heat_residual_j": 3.8817524909973145e-06,
+    "max_diffusive_number": 0.0,
+    "max_step_heat_residual_j": 6.213784217834473e-06,
+    "max_surface_iterations_used": 0,
+    "max_surface_linearization_error_w": 0.0,
+    "max_surface_newton_residual_c": 0.0,
+    "numerical_warnings": [],
+    "outlet_export_j": 67008355682.87147,
+    "outlet_export_m3": 900.0,
+    "steps": 180,
+    "storage_change_j": 14609423424.122976,
+    "surface_component_difference_j": 9220893.005372332,
+    "surface_component_sum_j": 0.0,
+    "surface_exchange_j": -9220893.005372332,
+    "surface_iteration_failures": 0,
+    "surface_latent_j": 0.0,
+    "surface_longwave_j": 0.0,
+    "surface_sensible_j": 0.0,
+    "surface_shortwave_j": 0.0,
+    "water_relative_residual": 0.0,
+    "water_residual_m3": 0.0
+  },
+  "frames": [
+    {
+      "control_c": [
+        14.999824375900584,
+        14.99980168844996
+      ],
+      "intervention_c": [
+        14.999824375900584,
+        14.99980168844996
+      ],
+      "t_s": 10
+    },
+    {
+      "control_c": [
+        14.99968718247186,
+        14.999613310398447
+      ],
+      "intervention_c": [
+        14.99968718247186,
+        14.999613310398447
+      ],
+      "t_s": 20
+    },
+    {
+      "control_c": [
+        14.999580010182024,
+        14.999440014371599
+      ],
+      "intervention_c": [
+        14.999580010182024,
+        14.999440014371599
+      ],
+      "t_s": 30
+    },
+    {
+      "control_c": [
+        14.999496289702003,
+        14.999284220006416
+      ],
+      "intervention_c": [
+        14.999496289702003,
+        14.999284220006416
+      ],
+      "t_s": 40
+    },
+    {
+      "control_c": [
+        14.999430889225952,
+        14.99914656581013
+      ],
+      "intervention_c": [
+        14.999430889225952,
+        14.99914656581013
+      ],
+      "t_s": 50
+    },
+    {
+      "control_c": [
+        14.999379799907457,
+        14.999026572804947
+      ],
+      "intervention_c": [
+        14.999379799907457,
+        14.999026572804947
+      ],
+      "t_s": 60
+    },
+    {
+      "control_c": [
+        14.99933989012971,
+        14.998923103017782
+      ],
+      "intervention_c": [
+        17.187323461872936,
+        15.28157092534528
+      ],
+      "t_s": 70
+    },
+    {
+      "control_c": [
+        14.999308713547066,
+        14.998834670822752
+      ],
+      "intervention_c": [
+        18.89649375134823,
+        15.919157585340058
+      ],
+      "t_s": 80
+    },
+    {
+      "control_c": [
+        14.999284359131682,
+        14.998759649580705
+      ],
+      "intervention_c": [
+        20.231657507713333,
+        16.742874120966572
+      ],
+      "t_s": 90
+    },
+    {
+      "control_c": [
+        14.999265334033414,
+        14.9986964044905
+      ],
+      "intervention_c": [
+        21.274656129493884,
+        17.640731361748127
+      ],
+      "t_s": 100
+    },
+    {
+      "control_c": [
+        14.99925047207271,
+        14.998643374050573
+      ],
+      "intervention_c": [
+        22.08942219833755,
+        18.540839262429593
+      ],
+      "t_s": 110
+    },
+    {
+      "control_c": [
+        14.999238862257467,
+        14.998599116259935
+      ],
+      "intervention_c": [
+        22.72589834804297,
+        19.399220101342426
+      ],
+      "t_s": 120
+    },
+    {
+      "control_c": [
+        14.999229792942007,
+        14.998562331089598
+      ],
+      "intervention_c": [
+        23.22309859316211,
+        20.191035100127777
+      ],
+      "t_s": 130
+    },
+    {
+      "control_c": [
+        14.999222708205414,
+        14.998531867397308
+      ],
+      "intervention_c": [
+        23.611499767127484,
+        20.904314140728427
+      ],
+      "t_s": 140
+    },
+    {
+      "control_c": [
+        14.999217173775296,
+        14.998506720017918
+      ],
+      "intervention_c": [
+        23.914909657646604,
+        21.535513208822827
+      ],
+      "t_s": 150
+    },
+    {
+      "control_c": [
+        14.999212850408247,
+        14.998486020997941
+      ],
+      "intervention_c": [
+        24.151926350271292,
+        22.0863999092579
+      ],
+      "t_s": 160
+    },
+    {
+      "control_c": [
+        14.999209473095277,
+        14.99846902767628
+      ],
+      "intervention_c": [
+        24.33707823337778,
+        22.5618985529459
+      ],
+      "t_s": 170
+    },
+    {
+      "control_c": [
+        14.999206834817569,
+        14.998455109411259
+      ],
+      "intervention_c": [
+        24.481714543328167,
+        22.968623994802478
+      ],
+      "t_s": 180
+    }
+  ],
+  "scenario": {
+    "dt_s": 1.0,
+    "duration_s": 180.0,
+    "epoch_unix": 1782064800.0,
+    "model_variant_id": "mapped_fv_newton",
+    "run_mode": "scenario",
+    "sample_s": 10.0,
+    "seed": 7,
+    "solver": {
+      "air_c": 8.0,
+      "boundary_c": {
+        "times_s": [
+          0.0,
+          60.0
+        ],
+        "values": [
+          15.0,
+          25.0
+        ]
+      },
+      "boundary_m3_s": 5.0,
+      "cells": [
+        {
+          "exchange_w_m2_k": 12.0,
+          "id": "upstream",
+          "initial_c": 15.0,
+          "length_m": 20.0,
+          "volume_m3": 200.0,
+          "width_m": 10.0
+        },
+        {
+          "exchange_w_m2_k": 12.0,
+          "id": "downstream",
+          "initial_c": 15.0,
+          "length_m": 20.0,
+          "volume_m3": 200.0,
+          "width_m": 10.0
+        }
+      ],
+      "initialize_steady": false
+    }
+  },
+  "scenario_id": "22747a909cb592889b1b69fd18a4c2af544a03d6266694ecb8e3756eb87e6478",
+  "schema": "yellowstone.reference_experiment.v1",
+  "scientific_status": "synthetic_numerical_check_not_field_validation",
+  "snow_phase_control": {
+    "accum_mm": 0.0,
+    "days": 1,
+    "drainage_mm": 0.0,
+    "et_mm": 0.0,
+    "et_owner": "snow_soil_bucket",
+    "final_mm": 97.0,
+    "forcing_source": "air_c_by_day",
+    "initial_mm": 112.0,
+    "interval_end_s": 0.0,
+    "interval_role": "spinup",
+    "interval_start_s": -86400.0,
+    "melt_mm": 0.0,
+    "model_variant": "degree_day_soil_bucket",
+    "modeled_patch_count": 1,
+    "rain_mm": 0.0,
+    "run_mode": "unspecified",
+    "runoff_mm": 0.0,
+    "runoff_phase": "liquid",
+    "snow_export_destination": "outside_patch_unresolved",
+    "snow_export_mm": 15.0,
+    "snow_export_phase": "solid",
+    "snow_residual_mm": 0.0,
+    "soil_residual_mm": 0.0,
+    "storage_residual_mm": 0.0,
+    "sublimation_mm": null,
+    "subsurface_drain_mm": 0.0,
+    "surface_runoff_mm": 0.0,
+    "thermal_melt_mm": 0.0,
+    "units": "mm water-equivalent summed over modeled patches",
+    "water_residual_mm": 0.0,
+    "window_s": 86400.0
+  }
+}

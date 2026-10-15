@@ -1,0 +1,44 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M4
+
+Movie Maker mode enabled, recording movie at 30 FPS...
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=0 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+ERROR: Terrain capture timed out.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://tools/validate_terrain_render.gd:53)
+--------------------------------------------------------------------------------
+Done recording movie at path: /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/../work/portfolio.avi
+1 frames at 30 FPS (movie length: 00:00:00:01), recorded in 00:07:25 (0% of real-time speed).
+CPU render time: 5198.78 seconds (average: 5198778.50 ms/frame)
+GPU render time: 0.00 seconds (average: 0.00 ms/frame)
+Encoding time: 338.23 seconds (average: 338227.19 ms/frame)
+--------------------------------------------------------------------------------
+ERROR: 1 shaders of type SceneShaderGLES3 were never freed
+   at: ~ShaderGLES3 (drivers/gles3/shader_gles3.cpp:836)
+ERROR: 25 RID allocations of type 'N5GLES38MaterialE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N5GLES36ShaderE' were leaked at exit.
+ERROR: 5 RID allocations of type 'N5GLES37TextureE' were leaked at exit.
+ERROR: Texture with GL ID of 31: leaked 5592404 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 32: leaked 2796204 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 33: leaked 2796204 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 48: leaked 1398100 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 49: leaked 1398100 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 111: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 112: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2514)
+ERROR: 35 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:795)

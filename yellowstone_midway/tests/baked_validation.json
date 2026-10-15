@@ -1,6 +1,6 @@
 {
   "failures": [],
-  "max_collision_vertex_error_m": 0.0001983642578125,
+  "max_collision_vertex_error_m": 0.0,
   "max_normal_error": 0.0,
   "max_tile_edge_error_m": 0.0,
   "ok": true,

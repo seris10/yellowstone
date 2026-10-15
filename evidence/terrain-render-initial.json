@@ -1,0 +1,388 @@
+{
+	"captures": [
+		{
+			"file": "overlook_current.png",
+			"id": "overlook_current",
+			"position_m": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"sha256": "d51acd3fa5b292650df68d40f6b558a9e8e3bdb55922802284a85902d791b0d5",
+			"sun_rotation_radians": [
+				-0.868979871273041,
+				-1.87619125843048,
+				0.0
+			],
+			"target_m": [
+				-213.0,
+				30.0,
+				125.0
+			]
+		},
+		{
+			"file": "overlook_low.png",
+			"id": "overlook_low",
+			"position_m": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"sha256": "83ae5dcc2f93c226be2bc8a96e45f9e6cfc79eabf4f5c08f5ae6ffaacafe91fc",
+			"sun_rotation_radians": [
+				-0.314159274101257,
+				-0.610865235328674,
+				0.0
+			],
+			"target_m": [
+				-213.0,
+				30.0,
+				125.0
+			]
+		},
+		{
+			"file": "overlook_high.png",
+			"id": "overlook_high",
+			"position_m": [
+				-242.0,
+				52.0,
+				160.0
+			],
+			"sha256": "9d481969027258cc2e0228a7e5eff37780f3878bbfea7fcb5dda031be2cb3b24",
+			"sun_rotation_radians": [
+				-1.13446402549744,
+				0.436332315206528,
+				0.0
+			],
+			"target_m": [
+				-213.0,
+				30.0,
+				125.0
+			]
+		},
+		{
+			"file": "trail_detail_current.png",
+			"id": "trail_detail_current",
+			"position_m": [
+				-249.247192382812,
+				47.9387550354004,
+				168.131805419922
+			],
+			"sha256": "8b65647eba5467b1efef2b70ebcad560cfa907183c0f7b6d671b40b48ef35fa2",
+			"sun_rotation_radians": [
+				-0.868979871273041,
+				-1.87619125843048,
+				0.0
+			],
+			"target_m": [
+				-242.263793945312,
+				46.338752746582,
+				165.85969543457
+			]
+		},
+		{
+			"file": "trail_detail_low.png",
+			"id": "trail_detail_low",
+			"position_m": [
+				-249.247192382812,
+				47.9387550354004,
+				168.131805419922
+			],
+			"sha256": "5492a8da739e1d469bb60ae040b74b7adef10c0fbeea7ec48959da96834dc607",
+			"sun_rotation_radians": [
+				-0.314159274101257,
+				-0.610865235328674,
+				0.0
+			],
+			"target_m": [
+				-242.263793945312,
+				46.338752746582,
+				165.85969543457
+			]
+		},
+		{
+			"file": "trail_detail_high.png",
+			"id": "trail_detail_high",
+			"position_m": [
+				-249.247192382812,
+				47.9387550354004,
+				168.131805419922
+			],
+			"sha256": "8b14e0f5f7edc1ba8d888558be3e0acc33eb5e14bf8667686b3fcd5d156589dd",
+			"sun_rotation_radians": [
+				-1.13446402549744,
+				0.436332315206528,
+				0.0
+			],
+			"target_m": [
+				-242.263793945312,
+				46.338752746582,
+				165.85969543457
+			]
+		},
+		{
+			"file": "core_boundary_current.png",
+			"id": "core_boundary_current",
+			"position_m": [
+				-346.0,
+				60.9096527099609,
+				166.0
+			],
+			"sha256": "e6e2eaa484356d197554d49cafd0071531fb44920733cce0eba871133e682218",
+			"sun_rotation_radians": [
+				-0.868979871273041,
+				-1.87619125843048,
+				0.0
+			],
+			"target_m": [
+				-329.0,
+				52.9406127929688,
+				155.0
+			]
+		},
+		{
+			"file": "core_boundary_low.png",
+			"id": "core_boundary_low",
+			"position_m": [
+				-346.0,
+				60.9096527099609,
+				166.0
+			],
+			"sha256": "0a297c12750b0da4db6333b30a4ac53cf7c92c6b0018b4e1e80558d5ccefaf67",
+			"sun_rotation_radians": [
+				-0.314159274101257,
+				-0.610865235328674,
+				0.0
+			],
+			"target_m": [
+				-329.0,
+				52.9406127929688,
+				155.0
+			]
+		},
+		{
+			"file": "core_boundary_high.png",
+			"id": "core_boundary_high",
+			"position_m": [
+				-346.0,
+				60.9096527099609,
+				166.0
+			],
+			"sha256": "5ae408f649b78b72d8b689210798d4e8e8c0c7d0b5d74f6533ecc55b6b0b8c6b",
+			"sun_rotation_radians": [
+				-1.13446402549744,
+				0.436332315206528,
+				0.0
+			],
+			"target_m": [
+				-329.0,
+				52.9406127929688,
+				155.0
+			]
+		}
+	],
+	"core_render_cut": {
+		"collision_complete": true,
+		"collision_geometry": "retained_render_triangles",
+		"collision_tiles": 12,
+		"complete": true,
+		"expected_removed_triangles": 45000,
+		"failures": [],
+		"fallback_exterior_collision_preserved": true,
+		"removed_triangles": 45000,
+		"tiles": [
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 6890
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 1302,
+				"retained_triangles": 6890,
+				"tile": "Terrain_06_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 4224
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 3968,
+				"retained_triangles": 4224,
+				"tile": "Terrain_07_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 4224
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 3968,
+				"retained_triangles": 4224,
+				"tile": "Terrain_08_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 8130
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 62,
+				"retained_triangles": 8130,
+				"tile": "Terrain_09_06"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 5504
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 2688,
+				"retained_triangles": 5504,
+				"tile": "Terrain_06_07"
+			},
+			{
+				"collision": {
+					"disabled": true,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 0
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 8192,
+				"retained_triangles": 0,
+				"tile": "Terrain_07_07"
+			},
+			{
+				"collision": {
+					"disabled": true,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 0
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 8192,
+				"retained_triangles": 0,
+				"tile": "Terrain_08_07"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 8064
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 128,
+				"retained_triangles": 8064,
+				"tile": "Terrain_09_07"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 5882
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 2310,
+				"retained_triangles": 5882,
+				"tile": "Terrain_06_08"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 1152
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 7040,
+				"retained_triangles": 1152,
+				"tile": "Terrain_07_08"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 1152
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 7040,
+				"retained_triangles": 1152,
+				"tile": "Terrain_08_08"
+			},
+			{
+				"collision": {
+					"disabled": false,
+					"ok": true,
+					"reason": "",
+					"retained_triangles": 8082
+				},
+				"ok": true,
+				"original_triangles": 8192,
+				"removed_triangles": 110,
+				"retained_triangles": 8082,
+				"tile": "Terrain_09_08"
+			}
+		]
+	},
+	"cpu": "Apple M4",
+	"failures": [
+		"Core/master seasonal state differs: snow_mask"
+	],
+	"foreground_luminance_variance": 0.00130519755199007,
+	"godot": "4.5.1-stable (official)",
+	"memory_static_peak_bytes": 3026712964.0,
+	"mode": "offline baked; frozen forcing during timing",
+	"moving_camera": {
+		"configured_fps_cap": 60,
+		"draw_calls_mean": 2362.04166666667,
+		"fps_cap": 0,
+		"median_wall_frame_ms": 33.387,
+		"p95_wall_frame_ms": 38.574,
+		"process_frame_mean_ms": 51.4135666666667,
+		"sample_frames": 120,
+		"scope": "Frozen forcing and foliage with a moving camera; wall time includes display synchronization."
+	},
+	"ok": false,
+	"release_id": "b20b470bd1aa1e0e374191858d7be30d6e640ceb1e0f228d1ce69d7c432588e3",
+	"renderer": "mobile",
+	"resolution": [
+		1440,
+		900
+	],
+	"runtime_ground": {
+		"core_in_seasonal_list": true,
+		"material_count": 2,
+		"wetness_probe": 0.6
+	},
+	"shadow": {
+		"bias": 0.0299999993294477,
+		"normal_bias": 3.0,
+		"range_m": 140.0
+	},
+	"startup_s": 132.909064
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "yellowstone.published_live_parity.v1",
+  "status": "numerically_verified",
+  "build_id": "a855226dffc3",
+  "model_variant_id": "mapped_fv_newton",
+  "start_operation": "resume_published",
+  "temperature_errors_c": {
+    "0.0": 0.0,
+    "10.0": 0.0,
+    "60.0": 0.0,
+    "120.0": 0.0,
+    "600.0": 0.0,
+    "3600.0": 0.0,
+    "7200.0": 0.0
+  },
+  "land_stock_errors": {
+    "soil_mm": 0.0,
+    "snow_mm": 0.0,
+    "gdd": 0.0,
+    "biomass": 1.2212453270876722e-15
+  },
+  "tolerance": 1e-10,
+  "scope": "full mapped initial state, published forcing, common solver and sample times; field validation unavailable"
+}

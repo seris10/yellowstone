@@ -1,0 +1,2 @@
+usage: python -m tools.package_demo [-h] [--world WORLD] --out OUT [--verify]
+python -m tools.package_demo: error: unrecognized arguments: --source-root ..

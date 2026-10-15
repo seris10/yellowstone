@@ -58,4 +58,3 @@ def test_coupling_contract_records_the_snow_exchange():
     from yellowstone_python.registry.coupling import EXCHANGES
     ids = {r["exchange_id"] for r in EXCHANGES}
     assert "snow_runoff_discharge" in ids
-

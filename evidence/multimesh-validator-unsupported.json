@@ -1,0 +1,665 @@
+{
+  "active_authored_placements": 78216,
+  "actual_instance_slots": 1136258,
+  "actual_kind_slots": {
+    "grass": 13498,
+    "log": 435,
+    "pine": 635650,
+    "rock": 718,
+    "steam": 110
+  },
+  "actual_multimesh_resources": 27278,
+  "bounds_tolerance_m": 0.003,
+  "elapsed_seconds": 42.492,
+  "engine": "4.5.1-stable (official)",
+  "expected_instance_slots": 269021,
+  "expected_kind_slots": {
+    "grass": 13498,
+    "log": 435,
+    "pine": 254260,
+    "rock": 718,
+    "steam": 110
+  },
+  "expected_multimesh_resources": 3891,
+  "failure_count": 1187825,
+  "failure_counts_by_code": {
+    "authored_position_mismatch": 200811,
+    "authored_scale_mismatch": 430201,
+    "instance_count_mismatch": 1,
+    "instance_outside_explicit_aabb": 4470,
+    "placement_multiplicity": 63565,
+    "resource_count_mismatch": 1,
+    "unmatched_authored_origin": 485847,
+    "vegetation_format_flags": 2929
+  },
+  "failure_examples_truncated": true,
+  "failures": [
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_000_110 expected 0.80300, decoded (0.835916, 0.803, 0.835916)",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_111 expected 0.69800, decoded (0.747863, 0.698, 0.747863)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_112 expected 0.60200, decoded (0.625873, 0.602, 0.625873)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_010_116 expected 1.10100, decoded (1.185091, 1.101, 1.185091)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_011_116 expected 1.09100, decoded (1.164495, 1.091, 1.164495)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_012_115 expected 0.75600, decoded (0.780739, 0.756, 0.780739)",
+      "instance": 17,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_117 expected 0.79500, decoded (0.799962, 0.795, 0.799962)",
+      "instance": 3,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_107 expected 1.03200, decoded (1.146369, 1.032, 1.146369)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_116 expected 0.94200, decoded (0.949402, 0.942, 0.949402)",
+      "instance": 6,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_107 expected 0.72600, decoded (0.733259, 0.726, 0.733259)",
+      "instance": 7,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_110 expected 0.73100, decoded (0.764192, 0.731, 0.764192)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_117 expected 0.89000, decoded (0.912492, 0.89, 0.912492)",
+      "instance": 9,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_005_118 expected 0.74600, decoded (0.775651, 0.746, 0.775651)",
+      "instance": 12,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_007_115 expected 0.63100, decoded (0.680294, 0.631, 0.680294)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_008_115 expected 0.60600, decoded (0.692159, 0.606, 0.692159)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_000_110 expected 0.80300, decoded (0.835916, 0.803, 0.835916)",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_111 expected 0.69800, decoded (0.747863, 0.698, 0.747863)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_112 expected 0.60200, decoded (0.625873, 0.602, 0.625873)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_010_116 expected 1.10100, decoded (1.185091, 1.101, 1.185091)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_011_116 expected 1.09100, decoded (1.164495, 1.091, 1.164495)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_012_115 expected 0.75600, decoded (0.780739, 0.756, 0.780739)",
+      "instance": 17,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_117 expected 0.79500, decoded (0.799962, 0.795, 0.799962)",
+      "instance": 3,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_107 expected 1.03200, decoded (1.146369, 1.032, 1.146369)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_116 expected 0.94200, decoded (0.949402, 0.942, 0.949402)",
+      "instance": 6,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_107 expected 0.72600, decoded (0.733259, 0.726, 0.733259)",
+      "instance": 7,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_110 expected 0.73100, decoded (0.764192, 0.731, 0.764192)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_117 expected 0.89000, decoded (0.912492, 0.89, 0.912492)",
+      "instance": 9,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_005_118 expected 0.74600, decoded (0.775651, 0.746, 0.775651)",
+      "instance": 12,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_007_115 expected 0.63100, decoded (0.680294, 0.631, 0.680294)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_008_115 expected 0.60600, decoded (0.692159, 0.606, 0.692159)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_0_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_000_110 expected 0.80300, decoded (0.835916, 0.803, 0.835916)",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_111 expected 0.69800, decoded (0.747863, 0.698, 0.747863)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_112 expected 0.60200, decoded (0.625873, 0.602, 0.625873)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_010_116 expected 1.10100, decoded (1.185091, 1.101, 1.185091)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_011_116 expected 1.09100, decoded (1.164495, 1.091, 1.164495)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_012_115 expected 0.75600, decoded (0.780739, 0.756, 0.780739)",
+      "instance": 17,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_117 expected 0.79500, decoded (0.799962, 0.795, 0.799962)",
+      "instance": 3,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_107 expected 1.03200, decoded (1.146369, 1.032, 1.146369)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_116 expected 0.94200, decoded (0.949402, 0.942, 0.949402)",
+      "instance": 6,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_107 expected 0.72600, decoded (0.733259, 0.726, 0.733259)",
+      "instance": 7,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_110 expected 0.73100, decoded (0.764192, 0.731, 0.764192)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_117 expected 0.89000, decoded (0.912492, 0.89, 0.912492)",
+      "instance": 9,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_005_118 expected 0.74600, decoded (0.775651, 0.746, 0.775651)",
+      "instance": 12,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_007_115 expected 0.63100, decoded (0.680294, 0.631, 0.680294)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_008_115 expected 0.60600, decoded (0.692159, 0.606, 0.692159)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_000_110 expected 0.80300, decoded (0.835916, 0.803, 0.835916)",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_111 expected 0.69800, decoded (0.747863, 0.698, 0.747863)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_112 expected 0.60200, decoded (0.625873, 0.602, 0.625873)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_010_116 expected 1.10100, decoded (1.185091, 1.101, 1.185091)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_011_116 expected 1.09100, decoded (1.164495, 1.091, 1.164495)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_012_115 expected 0.75600, decoded (0.780739, 0.756, 0.780739)",
+      "instance": 17,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_117 expected 0.79500, decoded (0.799962, 0.795, 0.799962)",
+      "instance": 3,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_107 expected 1.03200, decoded (1.146369, 1.032, 1.146369)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_116 expected 0.94200, decoded (0.949402, 0.942, 0.949402)",
+      "instance": 6,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_107 expected 0.72600, decoded (0.733259, 0.726, 0.733259)",
+      "instance": 7,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_110 expected 0.73100, decoded (0.764192, 0.731, 0.764192)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_117 expected 0.89000, decoded (0.912492, 0.89, 0.912492)",
+      "instance": 9,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_005_118 expected 0.74600, decoded (0.775651, 0.746, 0.775651)",
+      "instance": 12,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_007_115 expected 0.63100, decoded (0.680294, 0.631, 0.680294)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_008_115 expected 0.60600, decoded (0.692159, 0.606, 0.692159)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_18_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_000_110 expected 0.80300, decoded (0.835916, 0.803, 0.835916)",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_111 expected 0.69800, decoded (0.747863, 0.698, 0.747863)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_112 expected 0.60200, decoded (0.625873, 0.602, 0.625873)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_010_116 expected 1.10100, decoded (1.185091, 1.101, 1.185091)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_011_116 expected 1.09100, decoded (1.164495, 1.091, 1.164495)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_012_115 expected 0.75600, decoded (0.780739, 0.756, 0.780739)",
+      "instance": 17,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_117 expected 0.79500, decoded (0.799962, 0.795, 0.799962)",
+      "instance": 3,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_107 expected 1.03200, decoded (1.146369, 1.032, 1.146369)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_116 expected 0.94200, decoded (0.949402, 0.942, 0.949402)",
+      "instance": 6,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_107 expected 0.72600, decoded (0.733259, 0.726, 0.733259)",
+      "instance": 7,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_110 expected 0.73100, decoded (0.764192, 0.731, 0.764192)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_117 expected 0.89000, decoded (0.912492, 0.89, 0.912492)",
+      "instance": 9,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_005_118 expected 0.74600, decoded (0.775651, 0.746, 0.775651)",
+      "instance": 12,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_007_115 expected 0.63100, decoded (0.680294, 0.631, 0.680294)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_008_115 expected 0.60600, decoded (0.692159, 0.606, 0.692159)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Branches_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_000_110 expected 0.80300, decoded (0.835916, 0.803, 0.835916)",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_111 expected 0.69800, decoded (0.747863, 0.698, 0.747863)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_112 expected 0.60200, decoded (0.625873, 0.602, 0.625873)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_010_116 expected 1.10100, decoded (1.185091, 1.101, 1.185091)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_011_116 expected 1.09100, decoded (1.164495, 1.091, 1.164495)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_012_115 expected 0.75600, decoded (0.780739, 0.756, 0.780739)",
+      "instance": 17,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_117 expected 0.79500, decoded (0.799962, 0.795, 0.799962)",
+      "instance": 3,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_107 expected 1.03200, decoded (1.146369, 1.032, 1.146369)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_002_116 expected 0.94200, decoded (0.949402, 0.942, 0.949402)",
+      "instance": 6,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_107 expected 0.72600, decoded (0.733259, 0.726, 0.733259)",
+      "instance": 7,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_110 expected 0.73100, decoded (0.764192, 0.731, 0.764192)",
+      "instance": 8,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_003_117 expected 0.89000, decoded (0.912492, 0.89, 0.912492)",
+      "instance": 9,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_005_118 expected 0.74600, decoded (0.775651, 0.746, 0.775651)",
+      "instance": 12,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_007_115 expected 0.63100, decoded (0.680294, 0.631, 0.680294)",
+      "instance": 14,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_008_115 expected 0.60600, decoded (0.692159, 0.606, 0.692159)",
+      "instance": 16,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_NeedleCards_65_variant2"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_000_107 differs by 1.127100 m",
+      "instance": 0,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_000_108 differs by 0.880100 m",
+      "instance": 1,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_000_110 differs by 1.043900 m",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_000_110 expected 0.80300, decoded (0.835916, 0.803, 0.835916)",
+      "instance": 2,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_001_107 differs by 1.008801 m",
+      "instance": 3,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_001_111 differs by 0.907400 m",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_scale_mismatch",
+      "detail": "pine_001_111 expected 0.69800, decoded (0.747863, 0.698, 0.747863)",
+      "instance": 4,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_001_113 differs by 1.495000 m",
+      "instance": 5,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_002_109 differs by 1.263600 m",
+      "instance": 6,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    },
+    {
+      "code": "authored_position_mismatch",
+      "detail": "pine_003_111 differs by 1.095900 m",
+      "instance": 7,
+      "node": "/AuthoredMidway/AuthoredVegetation/pine_dense_0_256_-2_-8_Billboard_180_view1"
+    }
+  ],
+  "maximum_aabb_protrusion_m": 2.77580642700195,
+  "maximum_authored_position_error_m": 14.2695388793945,
+  "maximum_basis_determinant": 26.9140090942383,
+  "minimum_basis_determinant": 0.00834310054779053,
+  "ok": false,
+  "overrides_sha256": "6db9906472d50b1b0cb959b502e2bb3ebc7baffe5bc6ef02d1127fbc210040dd",
+  "placements_sha256": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+  "position_tolerance_m": 0.01,
+  "scene_sha256": "566e3b8370196a825a9aaefe7746a5d24208b5f55b15b378d75c8f9e7ac59732",
+  "serialized_buffer_floats": 16236740,
+  "steam_slots": 110,
+  "validation_method": "CPU decode of saved MultiMesh.buffer; no renderer instance-transform/AABB getters",
+  "vegetation_slots": 1136148,
+  "world_origin_max_m": [
+    2026.90100097656,
+    246.374008178711,
+    2049.27905273438
+  ],
+  "world_origin_min_m": [
+    -2048.93090820312,
+    -6.21999979019165,
+    -2051.05810546875
+  ],
+  "zero_local_origins": 0,
+  "interpretation": "unavailable_for_current_representation",
+  "scope_limit": "Validator expects four pine copies and uniform scalar dimensions. The current bake has split bole/branch/shoot meshes across three LODs, seeded variants, far impostors and a separate residual canopy layer. Its failures do not establish acceptance or rejection of all those representations.",
+  "remaining_requirement": "Validate each supported representation and actual shader-space bounds; placement acceptance is unassessed by this command."
+}

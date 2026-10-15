@@ -1,0 +1,44 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+Movie Maker mode enabled, recording movie at 30 FPS...
+WARNING: Current available space on disk is low (8.52 GiB). MovieWriter will fail during movie recording if the disk runs out of available space.
+     at: begin (servers/movie_writer/movie_writer.cpp:124)
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+pool_overlay: primary=0 secondary=0 skipped_schema_mismatch=0
+core_terrain: render_cut complete=true triangles=45000
+season: snow_amount=0.00 snow_swe_mm=0.0 snow_cover_fraction=0.00 (cover_patches=3) from summer.
+mat_surface: pigment=ready, wet_mask=ready, flow_fraction=ready, in_pool=ready, outflow_temp=ready, community=ready
+core_terrain: tile built; extent={ "x_min_m": -340.0, "x_max_m": 260.0, "z_min_m": -380.0, "z_max_m": 220.0, "nx": 601, "nz": 601, "cell_m": 1.0, "vertical_origin_m": 2200.0 }
+PORTFOLIO_CAPTURE PASS frames=2160
+--------------------------------------------------------------------------------
+Done recording movie at path: /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_midway/../work/portfolio-final.avi
+2172 frames at 30 FPS (movie length: 00:01:12:12), recorded in 00:03:35 (33% of real-time speed).
+CPU render time: 7.04 seconds (average: 3.24 ms/frame)
+GPU render time: 0.00 seconds (average: 0.00 ms/frame)
+Encoding time: 42.08 seconds (average: 19.37 ms/frame)
+--------------------------------------------------------------------------------
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2514)
+ERROR: 4 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:795)
+real 216.87
+user 188.68
+sys 17.99
+          2845212672  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1566447  page reclaims
+                6859  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   1  messages sent
+                   0  messages received
+                   0  signals received
+                2742  voluntary context switches
+              234708  involuntary context switches
+       1340622793238  instructions retired
+        335598495655  cycles elapsed
+          5906043080  peak memory footprint

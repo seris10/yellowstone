@@ -392,7 +392,7 @@ def test_wet_bulb_switch_uses_metpy_when_available(tmp_path):
     _write_bundle(tmp_path / "derived" / "met.json",
                   epoch=0.0, air_c=0.0, rh=0.5)
     backend = _make_backend(tmp_path)
-    response = backend.weather(hour=0.0)
+    response = backend.weather(epoch_unix=0.0)
     assert response["weather"]["snow_partition_source"] == "metpy_wet_bulb"
     # Partition ramp around a 1 C wet-bulb threshold yields a finite 0..1 fraction for Godot consumers.
     assert 0.0 <= response["weather"]["snow_fraction"] <= 1.0
@@ -408,7 +408,7 @@ def test_wet_bulb_switch_falls_back_to_stull(monkeypatch, tmp_path):
     _write_bundle(tmp_path / "derived" / "met.json",
                   epoch=0.0, air_c=0.0, rh=0.5)
     backend = _make_backend(tmp_path)
-    response = backend.weather(hour=0.0)
+    response = backend.weather(epoch_unix=0.0)
     assert (response["weather"]["snow_partition_source"]
             == "stull_2011_wet_bulb")
     assert 0.0 <= response["weather"]["snow_fraction"] <= 1.0
@@ -427,7 +427,7 @@ def test_wet_bulb_switch_reports_unavailable_outside_stull_range(
     _write_bundle(tmp_path / "derived" / "met.json",
                   epoch=0.0, air_c=-40.0, rh=0.5)
     backend = _make_backend(tmp_path)
-    response = backend.weather(hour=0.0)
+    response = backend.weather(epoch_unix=0.0)
     assert (response["weather"]["snow_partition_source"]
             == "unavailable_outside_stull_2011_validity_range")
     # Without wet-bulb the snow partition stays at the default zero; the source string carries the diagnostic.

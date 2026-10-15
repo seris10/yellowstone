@@ -1,0 +1,84 @@
+tests/test_runtime_release.py::test_actual_godot_reader_consumes_generation_and_rejects_missing_field 0
+.                                                                        [100%]
+1 passed in 1.57s
+
+tests/test_core_terrain.py::test_tool_fails_without_dem 0
+.                                                                        [100%]
+1 passed in 0.34s
+
+tests/test_release_generations.py::test_process_exit_during_staging_keeps_generation_valid_after_restart 0
+.                                                                        [100%]
+1 passed in 1.28s
+
+tests/test_tree_interchange.py::test_installed_commands_offer_help_from_outside_the_checkout 0
+.                                                                        [100%]
+1 passed in 1.49s
+
+tests/test_build_store.py::test_unreferenced_fit_warns_but_passes 0
+.                                                                        [100%]
+1 passed in 0.21s
+
+tests/test_build_store.py::test_sha_mismatch_against_build_json 0
+.                                                                        [100%]
+1 passed in 0.18s
+
+tests/test_build_store.py::test_malformed_fit_clean_exit 0
+.                                                                        [100%]
+1 passed in 0.19s
+
+tests/test_build_store.py::test_build_store_cli_runs 0
+.                                                                        [100%]
+1 passed in 0.18s
+
+tests/test_fetch_met_forcing.py::test_vars_wrong_width_rejected 0
+.                                                                        [100%]
+1 passed in 0.20s
+
+tests/test_fetch_met_forcing.py::test_days_range_rejected 0
+.                                                                        [100%]
+1 passed in 0.30s
+
+tests/test_validate_obs_bundles.py::test_verdict_atomic_write 0
+.                                                                        [100%]
+1 passed in 0.36s
+
+tests/test_validate_obs_bundles.py::test_all_consumer_propagates_bundle_fetched_at_utc 0
+.                                                                        [100%]
+1 passed in 0.35s
+
+tests/test_check_terrain.py::test_missing_file_exit1 0
+.                                                                        [100%]
+1 passed in 0.32s
+
+tests/test_check_terrain.py::test_enclosing_build_hash_picked_up 0
+.                                                                        [100%]
+1 passed in 0.40s
+
+tests/test_package_layout.py::test_package_and_tools_import_outside_checkout 0
+.                                                                        [100%]
+1 passed in 0.36s
+
+tests/test_hydrology_provider.py::test_bundle_to_provider_to_weather 0
+.                                                                        [100%]
+1 passed in 2.97s
+
+tests/test_audit_provenance.py::test_report_atomic 0
+.                                                                        [100%]
+1 passed in 0.18s
+
+tests/test_audit_provenance.py::test_audit_stores_flag 0
+.                                                                        [100%]
+1 passed in 0.17s
+
+tests/test_audit_provenance.py::test_derived_disk_flag 0
+.                                                                        [100%]
+1 passed in 0.16s
+
+tests/test_channel_geometry.py::test_tool_import_safe 0
+.                                                                        [100%]
+1 passed in 0.31s
+
+tests/test_toolchain_quality.py::test_actual_fish_actor_uses_signed_displacement_and_freezes_on_pause 0
+.                                                                        [100%]
+1 passed in 1.98s
+

@@ -1,0 +1,1192 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (59 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | MidwayAuthoredPlacement[39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | YellowstoneCanopySurface[39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | MidwayCoreTerrain[39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | YellowstoneDataWatcher[39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | MidwayEcosystem[39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | YellowstoneForestFloor[39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | MidwayHeightField[39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | YellowstoneInputHelp[39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | YellowstoneLivePythonClient[39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | YellowstoneLodgepoleLibrary[39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | MidwayMatSurface[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | MidwayWalker[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | MidwayPoolOverlay[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | MidwayPythonRiverReplay[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | YellowstoneReleaseData[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | YellowstoneSimulationPanel[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | MidwayTerrainMaterials[39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | YellowstoneWeatherHttpConsumer[39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | YellowstoneWeatherSnapshotReader[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | MidwayWildlifeActor[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | MidwayWildlifeMotionController[39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | YellowstoneAtmosphereController[39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (226 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | nps_firehole_dipper_geese.mp3[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | nps_geyser_hill_birds.mp3[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | nps_geyser_hill_water.mp3[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | nps_lower_basin_wind.mp3[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | bison.glb[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | bison_BisonPlains_BaseColor.png[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | dipper_sparrow_base.glb[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | goose_mallard_base.glb[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | goose_mallard_base_MallardDuck_BaseColor.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | raven.glb[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | raven_Raven_BaseColor.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | salmon.glb[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | salmon_Sushi_Atlas.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | brown_trout_swim.glb[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | brown_trout_swim_brown_trout_authored_skin.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | brown_trout_swim_Image_1.jpg[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | brown_trout_swim_Image_2.jpg[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | rainbow_trout_swim.glb[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | rainbow_trout_swim_Image_1.jpg[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | rainbow_trout_swim_Image_2.jpg[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | rainbow_trout_swim_rainbow_trout_authored_skin.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | trout.glb[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | trout_Tex_Trout.png[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | broadleaf.png[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | grass_medium_01_alpha_1k.png[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | grass_medium_01_arm_1k.jpg[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | grass_medium_01_diff_1k.jpg[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | grass_medium_01_nor_gl_1k.jpg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | grass_medium_01_rgba_1k.png[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | grass_mid_b.gltf[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | grass_small_a.gltf[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | grass_small_b.gltf[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | grass_tall_a.gltf[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | grass_tall_b.gltf[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | grass_tiny_a.gltf[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | grass_tiny_b.gltf[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | grass_tiny_c.gltf[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | grass_tiny_d.gltf[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | grass_tiny_e.gltf[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | grass_tiny_f.gltf[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | dense_billboard_0.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | dense_billboard_1.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | dense_billboard_2.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | dense_billboard_3.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | dense_lod0.gltf[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | dense_lod1.gltf[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | dense_lod2.gltf[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | dense_variant1_lod0.gltf[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | dense_variant2_lod0.gltf[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | dense_variant3_lod0.gltf[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | edge_billboard_0.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | edge_billboard_1.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | edge_billboard_2.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | edge_billboard_3.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | edge_lod0.gltf[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | edge_lod1.gltf[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | edge_lod2.gltf[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | edge_variant1_lod0.gltf[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | edge_variant2_lod0.gltf[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | edge_variant3_lod0.gltf[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | needle_cluster.png[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | needle_shoot.png[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | open_billboard_0.png[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | open_billboard_1.png[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | open_billboard_2.png[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | open_billboard_3.png[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | open_lod0.gltf[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | open_lod1.gltf[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | open_lod2.gltf[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | open_variant1_lod0.gltf[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | open_variant2_lod0.gltf[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | open_variant3_lod0.gltf[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | sapling_billboard_0.png[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | sapling_billboard_1.png[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | sapling_billboard_2.png[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | sapling_billboard_3.png[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | sapling_lod0.gltf[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | sapling_lod1.gltf[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | sapling_lod2.gltf[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | sapling_variant1_lod0.gltf[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | sapling_variant2_lod0.gltf[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | sapling_variant3_lod0.gltf[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | snag_billboard_0.png[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | snag_billboard_1.png[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | snag_billboard_2.png[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | snag_billboard_3.png[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | snag_lod0.gltf[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | snag_lod1.gltf[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | snag_lod2.gltf[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | snag_variant1_lod0.gltf[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | snag_variant2_lod0.gltf[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | snag_variant3_lod0.gltf[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | pine_tree_01_alpha_1k.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | pine_tree_01_bark_arm_1k.jpg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | pine_tree_01_bark_diff_1k.jpg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | pine_tree_01_bark_nor_gl_1k.jpg[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | pine_tree_01_trunk_b_arm_1k.jpg[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | pine_tree_01_trunk_b_diff_1k.jpg[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | pine_tree_01_trunk_b_nor_gl_1k.jpg[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | pine_tree_01_twig_arm_1k.jpg[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | pine_tree_01_twig_card.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | pine_tree_01_twig_diff_1k.jpg[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | pine_tree_01_twig_nor_gl_1k.jpg[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | pine_tree_01_twig_rgba_1k.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | pine_billboard_0.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | pine_billboard_1.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | pine_billboard_2.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | pine_billboard_3.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | pine_b_compact.gltf[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | pine_b_lod1.gltf[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | pine_b_lod2.gltf[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | synthetic_bird_folded_animated.glb[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | synthetic_bird_folded_source.glb[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | synthetic_bird_spread_animated.glb[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | synthetic_bird_spread_source.glb[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | synthetic_surface_swim.glb[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | badger_animated.glb[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | badger_animated_Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | badger_animated_NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | badger_animated_ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | bison_animated.glb[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | bison_animated_Color_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | bison_animated_NormalGL_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | bison_animated_ORM_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | black_bear_animated.glb[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | black_bear_animated_Image_0.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | black_bear_animated_Image_1.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | black_bear_animated_Image_2.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | bobcat_animated_2k.glb[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | bobcat_animated_2k_texture_0.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | bobcat_animated_2k_texture_0_metallic_roughness.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | bobcat_artistic_variant_2k.glb[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | bobcat_artistic_variant_2k_texture_0.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | bobcat_artistic_variant_2k_texture_0_metallic_roughness.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | canada_lynx_animated.glb[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | canada_lynx_animated_Image_0.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | canada_lynx_animated_Image_1.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | canada_lynx_animated_Image_2.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | deer_authored.glb[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | grizzly_animated_2k.glb[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | grizzly_animated_2k_texture_0.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | grizzly_animated_2k_texture_0_metallic_roughness.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | grizzly_artistic_variant_2k.glb[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | grizzly_artistic_variant_2k_texture_0.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | grizzly_artistic_variant_2k_texture_0_metallic_roughness.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | wolf_authored.glb[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | bison.glb[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | bison_Color_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | bison_NormalGL_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | bison_ORM_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | yellowstone_cutthroat.glb[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | yellowstone_cutthroat_0.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | apron_pool_984_0.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | apron_pool_988_0.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | apron_pool_995_0.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | apron_pool_996_0.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | apron_pool_1001_0.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | apron_pool_1007_0.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | apron_pool_1018_0.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | apron_pool_1028_0.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | apron_pool_1029_0.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | apron_pool_1030_0.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | apron_pool_1034_0.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | apron_pool_1048_0.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | apron_pool_1056_0.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | apron_pool_1066_0.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | apron_pool_1071_0.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | apron_mask.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | detail.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | forest_ground_04_arm_1k.jpg[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | forest_ground_04_diff_1k.jpg[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | forest_ground_04_nor_gl_1k.jpg[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | grazer_tracks.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | habitat_mask.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | midway_macro.jpg[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | pine_bark_diff_1k.jpg[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | pine_bark_nor_gl_1k.jpg[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | plume_map.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | pool_cross_section.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | refuge_map.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | rocky_trail_arm_1k.jpg[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | rocky_trail_diff_1k.jpg[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | rocky_trail_nor_gl_1k.jpg[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | rock_boulder_dry_diff_1k.jpg[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | suitability_demo.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | thermal_reference.jpg[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | trail_mask.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | water_normal.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | core_normal.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | pool_984_0.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | pool_988_0.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | pool_995_0.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | pool_996_0.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | pool_1001_0.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | pool_1007_0.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | pool_1018_0.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | pool_1028_0.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | pool_1029_0.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | pool_1030_0.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | pool_1034_0.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | pool_1048_0.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | pool_1056_0.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | pool_1066_0.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | pool_1071_0.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | ramp_pool_984_0.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | ramp_pool_988_0.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | ramp_pool_995_0.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | ramp_pool_996_0.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | ramp_pool_1001_0.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | ramp_pool_1007_0.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | ramp_pool_1018_0.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | ramp_pool_1028_0.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | ramp_pool_1029_0.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | ramp_pool_1030_0.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | ramp_pool_1034_0.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | ramp_pool_1048_0.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | ramp_pool_1056_0.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | ramp_pool_1066_0.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | ramp_pool_1071_0.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | snow_map.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | unresolved_render_mask.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | valid_support.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | mat_pigment.png[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | midway_orthophoto_detail.jpg[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | midway_outflow_reference.png[39m[0m
+[  99% ] [90m[1m_update_scan_actions[22m | orthophoto.jpg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (226 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  99% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Started Preparing scenes for reload (1 steps)[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Analyzing scene [empty][39m[0m
+[  50% ] [90m[1mpreload_reimporting_scene[22m | Preparation done.[39m[0m
+[92m[ DONE ][39m [1mpreload_reimporting_scene[22m
+[0m
+[   0% ] [90m[1mreimport[22m | nps_firehole_dipper_geese.mp3[39m[0m
+[   0% ] [90m[1mreimport[22m | nps_geyser_hill_birds.mp3[39m[0m
+[   0% ] [90m[1mreimport[22m | nps_geyser_hill_water.mp3[39m[0m
+[   1% ] [90m[1mreimport[22m | nps_lower_basin_wind.mp3[39m[0m
+[   1% ] [90m[1mreimport[22m | nps_firehole_dipper_geese.mp3[39m[0m
+[   2% ] [90m[1mreimport[22m | nps_geyser_hill_birds.mp3[39m[0m
+[   2% ] [90m[1mreimport[22m | nps_geyser_hill_water.mp3[39m[0m
+[   3% ] [90m[1mreimport[22m | nps_lower_basin_wind.mp3[39m[0m
+[   3% ] [90m[1mreimport[22m | bison_ORM_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[   3% ] [90m[1mreimport[22m | yellowstone_cutthroat_0.png[39m[0m
+[   4% ] [90m[1mreimport[22m | apron_pool_984_0.png[39m[0m
+[   4% ] [90m[1mreimport[22m | apron_pool_988_0.png[39m[0m
+[   5% ] [90m[1mreimport[22m | apron_pool_995_0.png[39m[0m
+[   5% ] [90m[1mreimport[22m | apron_pool_996_0.png[39m[0m
+[   6% ] [90m[1mreimport[22m | apron_pool_1001_0.png[39m[0m
+[   6% ] [90m[1mreimport[22m | apron_pool_1007_0.png[39m[0m
+[   7% ] [90m[1mreimport[22m | apron_pool_1018_0.png[39m[0m
+[   7% ] [90m[1mreimport[22m | apron_pool_1028_0.png[39m[0m
+[   7% ] [90m[1mreimport[22m | apron_pool_1029_0.png[39m[0m
+[   8% ] [90m[1mreimport[22m | apron_pool_1030_0.png[39m[0m
+[   8% ] [90m[1mreimport[22m | apron_pool_1034_0.png[39m[0m
+[   9% ] [90m[1mreimport[22m | apron_pool_1048_0.png[39m[0m
+[   9% ] [90m[1mreimport[22m | apron_pool_1056_0.png[39m[0m
+[  10% ] [90m[1mreimport[22m | apron_pool_1066_0.png[39m[0m
+[  10% ] [90m[1mreimport[22m | apron_pool_1071_0.png[39m[0m
+[  11% ] [90m[1mreimport[22m | apron_mask.png[39m[0m
+[  11% ] [90m[1mreimport[22m | detail.png[39m[0m
+[  11% ] [90m[1mreimport[22m | forest_ground_04_arm_1k.jpg[39m[0m
+[  12% ] [90m[1mreimport[22m | forest_ground_04_diff_1k.jpg[39m[0m
+[  12% ] [90m[1mreimport[22m | forest_ground_04_nor_gl_1k.jpg[39m[0m
+[  13% ] [90m[1mreimport[22m | grazer_tracks.png[39m[0m
+[  13% ] [90m[1mreimport[22m | habitat_mask.png[39m[0m
+[  13% ] [90m[1mreimport[22m | habitat_mask.png[39m[0m
+[  13% ] [90m[1mreimport[22m | habitat_mask.png[39m[0m
+[  13% ] [90m[1mreimport[22m | habitat_mask.png[39m[0m
+[  14% ] [90m[1mreimport[22m | midway_macro.jpg[39m[0m
+[  14% ] [90m[1mreimport[22m | pine_billboard_1.png[39m[0m
+[  14% ] [90m[1mreimport[22m | pine_billboard_2.png[39m[0m
+[  14% ] [90m[1mreimport[22m | pine_billboard_2.png[39m[0m
+[  15% ] [90m[1mreimport[22m | pine_billboard_3.png[39m[0m
+[  15% ] [90m[1mreimport[22m | badger_animated_Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  16% ] [90m[1mreimport[22m | badger_animated_NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  16% ] [90m[1mreimport[22m | badger_animated_NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  16% ] [90m[1mreimport[22m | badger_animated_NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  16% ] [90m[1mreimport[22m | badger_animated_ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png[39m[0m
+[  17% ] [90m[1mreimport[22m | bison_animated_Color_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[  17% ] [90m[1mreimport[22m | bison_animated_NormalGL_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.png[39m[0m
+[  18% ] [90m[1mreimport[22m | bison_animated_ORM_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[  18% ] [90m[1mreimport[22m | black_bear_animated_Image_0.png[39m[0m
+[  18% ] [90m[1mreimport[22m | black_bear_animated_Image_1.png[39m[0m
+[  19% ] [90m[1mreimport[22m | black_bear_animated_Image_2.png[39m[0m
+[  19% ] [90m[1mreimport[22m | bobcat_animated_2k_texture_0.png[39m[0m
+[  20% ] [90m[1mreimport[22m | bobcat_animated_2k_texture_0_metallic_roughness.png[39m[0m
+[  20% ] [90m[1mreimport[22m | bobcat_artistic_variant_2k_texture_0.png[39m[0m
+[  21% ] [90m[1mreimport[22m | bobcat_artistic_variant_2k_texture_0_metallic_roughness.png[39m[0m
+[  21% ] [90m[1mreimport[22m | canada_lynx_animated_Image_0.png[39m[0m
+[  22% ] [90m[1mreimport[22m | canada_lynx_animated_Image_1.png[39m[0m
+[  22% ] [90m[1mreimport[22m | canada_lynx_animated_Image_2.png[39m[0m
+[  22% ] [90m[1mreimport[22m | grizzly_animated_2k_texture_0.png[39m[0m
+[  23% ] [90m[1mreimport[22m | grizzly_animated_2k_texture_0_metallic_roughness.png[39m[0m
+[  23% ] [90m[1mreimport[22m | grizzly_artistic_variant_2k_texture_0.png[39m[0m
+[  24% ] [90m[1mreimport[22m | grizzly_artistic_variant_2k_texture_0_metallic_roughness.png[39m[0m
+[  24% ] [90m[1mreimport[22m | bison_Color_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.jpg[39m[0m
+[  25% ] [90m[1mreimport[22m | bison_NormalGL_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f.png[39m[0m
+[  25% ] [90m[1mreimport[22m | pool_1056_0.png[39m[0m
+[  25% ] [90m[1mreimport[22m | pool_1066_0.png[39m[0m
+[  26% ] [90m[1mreimport[22m | pool_1071_0.png[39m[0m
+[  26% ] [90m[1mreimport[22m | ramp_pool_984_0.png[39m[0m
+[  27% ] [90m[1mreimport[22m | ramp_pool_988_0.png[39m[0m
+[  27% ] [90m[1mreimport[22m | ramp_pool_995_0.png[39m[0m
+[  28% ] [90m[1mreimport[22m | ramp_pool_996_0.png[39m[0m
+[  28% ] [90m[1mreimport[22m | ramp_pool_1001_0.png[39m[0m
+[  29% ] [90m[1mreimport[22m | ramp_pool_1007_0.png[39m[0m
+[  29% ] [90m[1mreimport[22m | ramp_pool_1018_0.png[39m[0m
+[  29% ] [90m[1mreimport[22m | ramp_pool_1028_0.png[39m[0m
+[  30% ] [90m[1mreimport[22m | ramp_pool_1029_0.png[39m[0m
+[  30% ] [90m[1mreimport[22m | ramp_pool_1030_0.png[39m[0m
+[  31% ] [90m[1mreimport[22m | ramp_pool_1034_0.png[39m[0m
+[  31% ] [90m[1mreimport[22m | ramp_pool_1048_0.png[39m[0m
+[  32% ] [90m[1mreimport[22m | ramp_pool_1056_0.png[39m[0m
+[  32% ] [90m[1mreimport[22m | ramp_pool_1066_0.png[39m[0m
+[  33% ] [90m[1mreimport[22m | ramp_pool_1071_0.png[39m[0m
+[  33% ] [90m[1mreimport[22m | snow_map.png[39m[0m
+[  33% ] [90m[1mreimport[22m | unresolved_render_mask.png[39m[0m
+[  34% ] [90m[1mreimport[22m | valid_support.png[39m[0m
+[  34% ] [90m[1mreimport[22m | mat_pigment.png[39m[0m
+[  35% ] [90m[1mreimport[22m | midway_orthophoto_detail.jpg[39m[0m
+[  35% ] [90m[1mreimport[22m | midway_outflow_reference.png[39m[0m
+[  36% ] [90m[1mreimport[22m | orthophoto.jpg[39m[0m
+[  36% ] [90m[1mreimport[22m | pine_bark_diff_1k.jpg[39m[0m
+[  37% ] [90m[1mreimport[22m | pine_bark_nor_gl_1k.jpg[39m[0m
+[  37% ] [90m[1mreimport[22m | plume_map.png[39m[0m
+[  37% ] [90m[1mreimport[22m | pool_cross_section.png[39m[0m
+[  38% ] [90m[1mreimport[22m | refuge_map.png[39m[0m
+[  38% ] [90m[1mreimport[22m | rocky_trail_arm_1k.jpg[39m[0m
+[  39% ] [90m[1mreimport[22m | rocky_trail_diff_1k.jpg[39m[0m
+[  39% ] [90m[1mreimport[22m | rocky_trail_nor_gl_1k.jpg[39m[0m
+[  40% ] [90m[1mreimport[22m | rock_boulder_dry_diff_1k.jpg[39m[0m
+[  40% ] [90m[1mreimport[22m | suitability_demo.png[39m[0m
+[  40% ] [90m[1mreimport[22m | thermal_reference.jpg[39m[0m
+[  41% ] [90m[1mreimport[22m | trail_mask.png[39m[0m
+[  41% ] [90m[1mreimport[22m | water_normal.png[39m[0m
+[  42% ] [90m[1mreimport[22m | core_normal.png[39m[0m
+[  42% ] [90m[1mreimport[22m | pool_984_0.png[39m[0m
+[  43% ] [90m[1mreimport[22m | pool_988_0.png[39m[0m
+[  43% ] [90m[1mreimport[22m | pool_995_0.png[39m[0m
+[  44% ] [90m[1mreimport[22m | pool_996_0.png[39m[0m
+[  44% ] [90m[1mreimport[22m | pool_1001_0.png[39m[0m
+[  44% ] [90m[1mreimport[22m | pool_1007_0.png[39m[0m
+[  45% ] [90m[1mreimport[22m | pool_1018_0.png[39m[0m
+[  45% ] [90m[1mreimport[22m | pool_1028_0.png[39m[0m
+[  46% ] [90m[1mreimport[22m | pool_1029_0.png[39m[0m
+[  46% ] [90m[1mreimport[22m | pool_1030_0.png[39m[0m
+[  47% ] [90m[1mreimport[22m | pool_1034_0.png[39m[0m
+[  47% ] [90m[1mreimport[22m | pool_1048_0.png[39m[0m
+[  48% ] [90m[1mreimport[22m | dense_billboard_2.png[39m[0m
+[  48% ] [90m[1mreimport[22m | dense_billboard_3.png[39m[0m
+[  48% ] [90m[1mreimport[22m | edge_billboard_0.png[39m[0m
+[  49% ] [90m[1mreimport[22m | edge_billboard_1.png[39m[0m
+[  49% ] [90m[1mreimport[22m | edge_billboard_2.png[39m[0m
+[  50% ] [90m[1mreimport[22m | edge_billboard_3.png[39m[0m
+[  50% ] [90m[1mreimport[22m | needle_cluster.png[39m[0m
+[  51% ] [90m[1mreimport[22m | needle_shoot.png[39m[0m
+[  51% ] [90m[1mreimport[22m | open_billboard_0.png[39m[0m
+[  51% ] [90m[1mreimport[22m | open_billboard_1.png[39m[0m
+[  52% ] [90m[1mreimport[22m | open_billboard_2.png[39m[0m
+[  52% ] [90m[1mreimport[22m | open_billboard_3.png[39m[0m
+[  53% ] [90m[1mreimport[22m | sapling_billboard_0.png[39m[0m
+[  53% ] [90m[1mreimport[22m | sapling_billboard_1.png[39m[0m
+[  54% ] [90m[1mreimport[22m | sapling_billboard_2.png[39m[0m
+[  54% ] [90m[1mreimport[22m | sapling_billboard_3.png[39m[0m
+[  55% ] [90m[1mreimport[22m | snag_billboard_0.png[39m[0m
+[  55% ] [90m[1mreimport[22m | snag_billboard_1.png[39m[0m
+[  55% ] [90m[1mreimport[22m | bison_BisonPlains_BaseColor.png[39m[0m
+[  56% ] [90m[1mreimport[22m | goose_mallard_base_MallardDuck_BaseColor.png[39m[0m
+[  56% ] [90m[1mreimport[22m | raven_Raven_BaseColor.png[39m[0m
+[  57% ] [90m[1mreimport[22m | salmon_Sushi_Atlas.png[39m[0m
+[  57% ] [90m[1mreimport[22m | brown_trout_swim_brown_trout_authored_skin.png[39m[0m
+[  58% ] [90m[1mreimport[22m | brown_trout_swim_Image_1.jpg[39m[0m
+[  58% ] [90m[1mreimport[22m | brown_trout_swim_Image_2.jpg[39m[0m
+[  59% ] [90m[1mreimport[22m | rainbow_trout_swim_Image_1.jpg[39m[0m
+[  59% ] [90m[1mreimport[22m | rainbow_trout_swim_Image_2.jpg[39m[0m
+[  59% ] [90m[1mreimport[22m | rainbow_trout_swim_rainbow_trout_authored_skin.png[39m[0m
+[  60% ] [90m[1mreimport[22m | trout_Tex_Trout.png[39m[0m
+[  60% ] [90m[1mreimport[22m | broadleaf.png[39m[0m
+[  61% ] [90m[1mreimport[22m | grass_medium_01_alpha_1k.png[39m[0m
+[  61% ] [90m[1mreimport[22m | grass_medium_01_arm_1k.jpg[39m[0m
+[  62% ] [90m[1mreimport[22m | grass_medium_01_diff_1k.jpg[39m[0m
+[  62% ] [90m[1mreimport[22m | grass_medium_01_nor_gl_1k.jpg[39m[0m
+[  62% ] [90m[1mreimport[22m | grass_medium_01_rgba_1k.png[39m[0m
+[  63% ] [90m[1mreimport[22m | dense_billboard_0.png[39m[0m
+[  63% ] [90m[1mreimport[22m | dense_billboard_1.png[39m[0m
+[  64% ] [90m[1mreimport[22m | pine_tree_01_bark_nor_gl_1k.jpg[39m[0m
+[  64% ] [90m[1mreimport[22m | pine_tree_01_trunk_b_arm_1k.jpg[39m[0m
+[  65% ] [90m[1mreimport[22m | pine_tree_01_trunk_b_diff_1k.jpg[39m[0m
+[  65% ] [90m[1mreimport[22m | pine_tree_01_bark_diff_1k.jpg[39m[0m
+[  66% ] [90m[1mreimport[22m | pine_tree_01_bark_arm_1k.jpg[39m[0m
+[  66% ] [90m[1mreimport[22m | pine_tree_01_alpha_1k.png[39m[0m
+[  66% ] [90m[1mreimport[22m | pine_tree_01_trunk_b_nor_gl_1k.jpg[39m[0m
+[  67% ] [90m[1mreimport[22m | pine_tree_01_twig_arm_1k.jpg[39m[0m
+[  67% ] [90m[1mreimport[22m | pine_tree_01_twig_card.png[39m[0m
+[  68% ] [90m[1mreimport[22m | pine_tree_01_twig_diff_1k.jpg[39m[0m
+[  68% ] [90m[1mreimport[22m | pine_tree_01_twig_rgba_1k.png[39m[0m
+[  69% ] [90m[1mreimport[22m | grass_small_b.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  69% ] [90m[1mreimport[22m | grass_tall_a.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  70% ] [90m[1mreimport[22m | grass_tall_b.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  70% ] [90m[1mreimport[22m | grass_tiny_a.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  70% ] [90m[1mreimport[22m | grass_tiny_b.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  71% ] [90m[1mreimport[22m | goose_mallard_base.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  71% ] [90m[1mreimport[22m | grass_tiny_c.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  72% ] [90m[1mreimport[22m | dipper_sparrow_base.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  72% ] [90m[1mreimport[22m | grass_tiny_d.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  73% ] [90m[1mreimport[22m | grass_tiny_e.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  73% ] [90m[1mreimport[22m | grass_tiny_f.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  74% ] [90m[1mreimport[22m | black_bear_animated.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  74% ] [90m[1mreimport[22m | bison.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  74% ] [90m[1mreimport[22m | pine_b_compact.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  75% ] [90m[1mreimport[22m | brown_trout_swim.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  75% ] [90m[1mreimport[22m | pine_b_lod1.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  76% ] [90m[1mreimport[22m | pine_b_lod2.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  76% ] [90m[1mreimport[22m | synthetic_bird_folded_animated.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  77% ] [90m[1mreimport[22m | rainbow_trout_swim.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  77% ] [90m[1mreimport[22m | synthetic_bird_folded_source.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  77% ] [90m[1mreimport[22m | synthetic_bird_spread_animated.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  78% ] [90m[1mreimport[22m | synthetic_bird_spread_source.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  78% ] [90m[1mreimport[22m | trout.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  79% ] [90m[1mreimport[22m | synthetic_surface_swim.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  79% ] [90m[1mreimport[22m | badger_animated.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  80% ] [90m[1mreimport[22m | salmon.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  80% ] [90m[1mreimport[22m | raven.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  81% ] [90m[1mreimport[22m | bison_animated.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  81% ] [90m[1mreimport[22m | grass_mid_b.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  81% ] [90m[1mreimport[22m | grass_small_a.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  82% ] [90m[1mreimport[22m | open_lod1.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  82% ] [90m[1mreimport[22m | open_lod2.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  83% ] [90m[1mreimport[22m | open_variant1_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  83% ] [90m[1mreimport[22m | open_variant2_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  84% ] [90m[1mreimport[22m | open_variant3_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  84% ] [90m[1mreimport[22m | snag_lod1.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  85% ] [90m[1mreimport[22m | snag_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  85% ] [90m[1mreimport[22m | deer_authored.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  85% ] [90m[1mreimport[22m | grizzly_animated_2k.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  86% ] [90m[1mreimport[22m | sapling_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  86% ] [90m[1mreimport[22m | sapling_lod1.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  87% ] [90m[1mreimport[22m | sapling_lod2.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  87% ] [90m[1mreimport[22m | yellowstone_cutthroat.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  88% ] [90m[1mreimport[22m | sapling_variant1_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  88% ] [90m[1mreimport[22m | sapling_variant2_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  88% ] [90m[1mreimport[22m | sapling_variant3_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  89% ] [90m[1mreimport[22m | bison.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  89% ] [90m[1mreimport[22m | wolf_authored.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  90% ] [90m[1mreimport[22m | grizzly_artistic_variant_2k.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  90% ] [90m[1mreimport[22m | dense_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  91% ] [90m[1mreimport[22m | dense_lod1.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  91% ] [90m[1mreimport[22m | dense_lod2.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  92% ] [90m[1mreimport[22m | dense_variant1_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  92% ] [90m[1mreimport[22m | dense_variant2_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  92% ] [90m[1mreimport[22m | dense_variant3_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  93% ] [90m[1mreimport[22m | bobcat_animated_2k.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  93% ] [90m[1mreimport[22m | edge_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  94% ] [90m[1mreimport[22m | edge_lod1.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  94% ] [90m[1mreimport[22m | edge_lod2.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  95% ] [90m[1mreimport[22m | edge_variant1_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  95% ] [90m[1mreimport[22m | edge_variant2_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  96% ] [90m[1mreimport[22m | edge_variant3_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  96% ] [90m[1mreimport[22m | snag_variant3_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  96% ] [90m[1mreimport[22m | bobcat_artistic_variant_2k.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  97% ] [90m[1mreimport[22m | snag_variant2_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  97% ] [90m[1mreimport[22m | snag_variant1_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  98% ] [90m[1mreimport[22m | canada_lynx_animated.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  98% ] [90m[1mreimport[22m | snag_lod2.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  99% ] [90m[1mreimport[22m | open_lod0.gltf[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  99% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (226 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

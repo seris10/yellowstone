@@ -1,0 +1,23 @@
+............................F........................................... [ 54%]
+...........................................................              [100%]
+=================================== FAILURES ===================================
+_ test_forcing_control_identifies_branch_and_display_control_preserves_identity _
+
+    def test_forcing_control_identifies_branch_and_display_control_preserves_identity():
+        solver = {"cells": [{"id": "a", "length_m": 20., "width_m": 10., "volume_m3": 200., "initial_c": 15.}],
+                  "boundary_m3_s": 5., "boundary_c": 15.}
+        model = LiveEngine(river_from_config(solver), build_id="published")
+        model.command("control", {"changes": {"clock_hour": 17.}})
+        assert model._header()["scenario_id"] == "published"
+        response = model.command("control", {"changes": {"hydro.boundary_c": 20.}})
+        assert response["parent_scenario_id"] == "published"
+        assert model._header()["scenario_id"] != "published"
+        assert model._header()["exchange_strategy"] == "newton_exchange"
+>       assert model._header()["start_operation"] == "controlled_branch"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'start_operation'
+
+tests/test_model_boundaries.py:85: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_model_boundaries.py::test_forcing_control_identifies_branch_and_display_control_preserves_identity
+1 failed, 130 passed in 83.56s (0:01:23)

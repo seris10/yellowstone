@@ -1,0 +1,95 @@
+{
+  "schema": "yellowstone.tree_display_distribution.v1",
+  "record_count": 63565,
+  "source": {
+    "height_m": {
+      "count": 34303,
+      "status": "available",
+      "p05": 3.793,
+      "median": 7.804,
+      "p95": 18.146
+    },
+    "dbh_m": {
+      "count": 23026,
+      "status": "available",
+      "p05": 0.04064,
+      "median": 0.09906000000000001,
+      "p95": 0.23114
+    },
+    "crown_ratio": {
+      "count": 23026,
+      "status": "available",
+      "p05": 0.3,
+      "median": 0.59,
+      "p95": 0.9
+    },
+    "clear_bole_fraction": {
+      "count": 23026,
+      "status": "available",
+      "p05": 0.09999999999999998,
+      "median": 0.41000000000000003,
+      "p95": 0.7
+    },
+    "core_diameter_m": {
+      "count": 34303,
+      "status": "available",
+      "p05": 0.798,
+      "median": 2.034,
+      "p95": 4.478
+    }
+  },
+  "display": {
+    "height_m": {
+      "count": 63565,
+      "status": "available",
+      "p05": 4.4432,
+      "median": 11.212,
+      "p95": 20.483999999999998
+    },
+    "dbh_m": {
+      "count": 63565,
+      "status": "available",
+      "p05": 0.053340000000000005,
+      "median": 0.17498000000000002,
+      "p95": 0.32
+    },
+    "crown_ratio": {
+      "count": 63565,
+      "status": "available",
+      "p05": 0.35,
+      "median": 0.7,
+      "p95": 0.86
+    },
+    "clear_bole_fraction": {
+      "count": 63565,
+      "status": "available",
+      "p05": 0.14,
+      "median": 0.30000000000000004,
+      "p95": 0.65
+    },
+    "crown_diameter_m": {
+      "count": 63565,
+      "status": "available",
+      "p05": 1.5695183362884928,
+      "median": 3.4050000000000002,
+      "p95": 5.9839106869680645
+    }
+  },
+  "crown_policy_counts": {
+    "preserve_source": 63565
+  },
+  "archetype_counts": {
+    "dense": 29172,
+    "edge": 16274,
+    "sapling": 18119
+  },
+  "archetype_policy": "runtime",
+  "source_class": "provided_record_traits; measured_derived_transferred_and_authored_classes_remain_in_source",
+  "width_scope": "source_crown_core_diameter_and_display_full_crown_diameter_are_distinct_quantities",
+  "local_biological_acceptance": "not_yet_accepted",
+  "cohort": "actual_bake_tree_records_after_preserved_add_remove_replace_overrides",
+  "source_hashes": {
+    "yellowstone_midway/data/placements.json": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f",
+    "yellowstone_midway/data/placement_overrides.json": "6db9906472d50b1b0cb959b502e2bb3ebc7baffe5bc6ef02d1127fbc210040dd"
+  }
+}

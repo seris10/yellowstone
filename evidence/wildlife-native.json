@@ -1,0 +1,1287 @@
+{
+  "actors": [
+    {
+      "animation": "Walk",
+      "inactive_hidden": true,
+      "kind": "bison",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "articulated_shape_proxy",
+      "inactive_hidden": true,
+      "kind": "elk",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "Walk",
+      "inactive_hidden": true,
+      "kind": "bobcat",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "RunningWalk",
+      "inactive_hidden": true,
+      "kind": "grizzly",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "Walk",
+      "inactive_hidden": true,
+      "kind": "badger",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "Walk",
+      "inactive_hidden": true,
+      "kind": "wolf",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "Walk",
+      "inactive_hidden": true,
+      "kind": "deer",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "Walk",
+      "inactive_hidden": true,
+      "kind": "black_bear",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    },
+    {
+      "animation": "Walk",
+      "inactive_hidden": true,
+      "kind": "canada_lynx",
+      "paused": true,
+      "travel_xz_m": 0.499677866697311
+    }
+  ],
+  "assets": [
+    {
+      "clips": [
+        {
+          "duration_s": 5.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0125948125496507,
+          "name": "Float"
+        },
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 1.42857146263123,
+          "finite": true,
+          "joint_motion_asset_units": 0.20666179060936,
+          "name": "Paddle"
+        },
+        {
+          "duration_s": 1.25,
+          "finite": true,
+          "joint_motion_asset_units": 0.172892838716507,
+          "name": "Walk"
+        }
+      ],
+      "id": "synthetic_bird_folded_animated",
+      "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59"
+    },
+    {
+      "clips": [],
+      "id": "synthetic_bird_folded_source",
+      "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 0.400000005960464,
+          "finite": true,
+          "joint_motion_asset_units": 0.354130804538727,
+          "name": "Flight"
+        },
+        {
+          "duration_s": 4.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.040111631155014,
+          "name": "Glide"
+        }
+      ],
+      "id": "synthetic_bird_spread_animated",
+      "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc"
+    },
+    {
+      "clips": [],
+      "id": "synthetic_bird_spread_source",
+      "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 6.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.260156273841858,
+          "name": "SurfaceSwim"
+        }
+      ],
+      "id": "synthetic_surface_swim",
+      "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0421738550066948,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 3.07692313194275,
+          "finite": true,
+          "joint_motion_asset_units": 0.223879486322403,
+          "name": "Stalk"
+        },
+        {
+          "duration_s": 1.25,
+          "finite": true,
+          "joint_motion_asset_units": 0.387301951646805,
+          "name": "Trot"
+        },
+        {
+          "duration_s": 1.90476191043854,
+          "finite": true,
+          "joint_motion_asset_units": 0.365958988666534,
+          "name": "Walk"
+        }
+      ],
+      "id": "bobcat_animated_2k",
+      "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0432537943124771,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 1.90476191043854,
+          "finite": true,
+          "joint_motion_asset_units": 0.368340760469437,
+          "name": "Walk"
+        }
+      ],
+      "id": "bobcat_artistic_variant_2k",
+      "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0155392596498132,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 1.66666662693024,
+          "finite": true,
+          "joint_motion_asset_units": 0.344395130872726,
+          "name": "RunningWalk"
+        },
+        {
+          "duration_s": 2.66666674613953,
+          "finite": true,
+          "joint_motion_asset_units": 0.318803280591965,
+          "name": "Walk"
+        }
+      ],
+      "id": "grizzly_animated_2k",
+      "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0150939328595996,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 2.66666674613953,
+          "finite": true,
+          "joint_motion_asset_units": 0.307512253522873,
+          "name": "Walk"
+        }
+      ],
+      "id": "grizzly_artistic_variant_2k",
+      "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0334524996578693,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 2.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.342599034309387,
+          "name": "Walk"
+        }
+      ],
+      "id": "wolf_authored",
+      "sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0248260479420424,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 2.5,
+          "finite": true,
+          "joint_motion_asset_units": 0.485814541578293,
+          "name": "Walk"
+        }
+      ],
+      "id": "deer_authored",
+      "sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0122090103104711,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 1.60000002384186,
+          "finite": true,
+          "joint_motion_asset_units": 0.073946513235569,
+          "name": "Walk"
+        }
+      ],
+      "id": "badger",
+      "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.00647926377132535,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 2.5,
+          "finite": true,
+          "joint_motion_asset_units": 0.152557820081711,
+          "name": "Walk"
+        }
+      ],
+      "id": "bison_animated",
+      "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0301396902650595,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 2.22222232818604,
+          "finite": true,
+          "joint_motion_asset_units": 0.346015572547913,
+          "name": "Walk"
+        }
+      ],
+      "id": "black_bear",
+      "sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b"
+    },
+    {
+      "clips": [
+        {
+          "duration_s": 10.0,
+          "finite": true,
+          "joint_motion_asset_units": 0.0235834289342165,
+          "name": "Idle"
+        },
+        {
+          "duration_s": 1.90476191043854,
+          "finite": true,
+          "joint_motion_asset_units": 0.351821482181549,
+          "name": "Walk"
+        }
+      ],
+      "id": "canada_lynx",
+      "sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143"
+    }
+  ],
+  "captures": [
+    {
+      "label": "synthetic_bird_folded_animated_Idle_000",
+      "path": "synthetic_bird_folded_animated_Idle_000.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "0deff513e013ddad9a1270df953b2e7a547f4a8f5d7008020e7e257a92a6a16b"
+    },
+    {
+      "label": "synthetic_bird_folded_animated_Idle_025",
+      "path": "synthetic_bird_folded_animated_Idle_025.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "0deff513e013ddad9a1270df953b2e7a547f4a8f5d7008020e7e257a92a6a16b"
+    },
+    {
+      "label": "synthetic_bird_folded_animated_Idle_050",
+      "path": "synthetic_bird_folded_animated_Idle_050.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "0deff513e013ddad9a1270df953b2e7a547f4a8f5d7008020e7e257a92a6a16b"
+    },
+    {
+      "label": "synthetic_bird_folded_animated_Idle_075",
+      "path": "synthetic_bird_folded_animated_Idle_075.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "0deff513e013ddad9a1270df953b2e7a547f4a8f5d7008020e7e257a92a6a16b"
+    },
+    {
+      "label": "synthetic_bird_folded_animated_Walk_000",
+      "path": "synthetic_bird_folded_animated_Walk_000.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "85b0d3a3c8cbf00b565bd3f805d8a943cee9b83accc11dd91beb480e92830c73"
+    },
+    {
+      "label": "synthetic_bird_folded_animated_Walk_025",
+      "path": "synthetic_bird_folded_animated_Walk_025.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "b72bdcb6865e66407cefdd61acbd0e9cda52313ccf9f493744621ce97dfcfa26"
+    },
+    {
+      "label": "synthetic_bird_folded_animated_Walk_050",
+      "path": "synthetic_bird_folded_animated_Walk_050.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "9e109ef2aa87e64f2fdd1722599813f77b10c115b61ccb7cf14fc6b28bfe4f96"
+    },
+    {
+      "label": "synthetic_bird_folded_animated_Walk_075",
+      "path": "synthetic_bird_folded_animated_Walk_075.png",
+      "rendered_bounds": "[P: (-0.209, 0.024, -0.49), S: (0.418, 0.786, 1.08)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "96d5450a47aed3f42665427d59c3ccd8272c0c463533b010bf4b555603b125b0"
+    },
+    {
+      "label": "bobcat_animated_2k_Idle_000",
+      "path": "bobcat_animated_2k_Idle_000.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "56ad0bc9a825da020cdd2b2883ab4bebe5870d2c264323d747834acbb08ff0ac"
+    },
+    {
+      "label": "bobcat_animated_2k_Idle_025",
+      "path": "bobcat_animated_2k_Idle_025.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "9f7b167389b8a7b1b51319acb5a52a8da3219ffca71a0123f71d1a175d993c80"
+    },
+    {
+      "label": "bobcat_animated_2k_Idle_050",
+      "path": "bobcat_animated_2k_Idle_050.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "27d4cc2d56f1c0c58b7dc07d89cd2b6316d2add4d4bc13b5a80c68f12e3bef08"
+    },
+    {
+      "label": "bobcat_animated_2k_Idle_075",
+      "path": "bobcat_animated_2k_Idle_075.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "fe5aa23feda18eb233f95c81c3a52111568096c6353f9ddeb74c49d8225366df"
+    },
+    {
+      "label": "bobcat_animated_2k_Walk_000",
+      "path": "bobcat_animated_2k_Walk_000.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "f9ef1290c9c61776cc2880e03bec410d09376c5ff9f239632a873172b267c4c5"
+    },
+    {
+      "label": "bobcat_animated_2k_Walk_025",
+      "path": "bobcat_animated_2k_Walk_025.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "e4d611349cfeb656389c93b389c4c6d64976ef1d47efa358a07ad5beb3fa61c2"
+    },
+    {
+      "label": "bobcat_animated_2k_Walk_050",
+      "path": "bobcat_animated_2k_Walk_050.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "c916e11e92c0b52457f47b321c46bb7389f540d0c7562b8f06cb5719e69e15f1"
+    },
+    {
+      "label": "bobcat_animated_2k_Walk_075",
+      "path": "bobcat_animated_2k_Walk_075.png",
+      "rendered_bounds": "[P: (-0.395564, 0.0, -1.204447), S: (0.78878, 1.380924, 2.263098)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "a97f074543f4416acd58c2b5432fa050ae9fa4cc3ee742dae871f5c93a79facd"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Idle_000",
+      "path": "bobcat_artistic_variant_2k_Idle_000.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "09f2d117b51f3b6326b0e66499849ba339872df0450fed58501bcb7c951b5b51"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Idle_025",
+      "path": "bobcat_artistic_variant_2k_Idle_025.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "f97fde81023da8ee3930d4918d88e017616c6fc2e54a91dc1ad84f00d91bb959"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Idle_050",
+      "path": "bobcat_artistic_variant_2k_Idle_050.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "631ed60930d98e64f24026a8bab273dbe186135173c758a9552d0529cbb7095e"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Idle_075",
+      "path": "bobcat_artistic_variant_2k_Idle_075.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "41853cbee8c048873fb592ea432c5f7fe24bda564465957cbecbf09296ede2bd"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Walk_000",
+      "path": "bobcat_artistic_variant_2k_Walk_000.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "36a52178505d7ecb9794ef53dadc90dcbf7b96b3060662e86233ca6f002dda67"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Walk_025",
+      "path": "bobcat_artistic_variant_2k_Walk_025.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "b3670a91e1e4a925ecd834b8e26f33aa33215b57a925742cd08750391997a0b9"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Walk_050",
+      "path": "bobcat_artistic_variant_2k_Walk_050.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "e867798988f3a1b4e4bc378fa3a00f17c474b529d6c3a90b743f8d233cfa885f"
+    },
+    {
+      "label": "bobcat_artistic_variant_2k_Walk_075",
+      "path": "bobcat_artistic_variant_2k_Walk_075.png",
+      "rendered_bounds": "[P: (-0.405599, 0.0, -1.235229), S: (0.808792, 1.390043, 2.318382)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "516aa6f99d1aadd2b8209ee1ac1979114da8bf1f01f2ec2f0a082ebf485fa452"
+    },
+    {
+      "label": "grizzly_animated_2k_Idle_000",
+      "path": "grizzly_animated_2k_Idle_000.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "7664d95d3527e5f5de7cca25b1c4540aafe9e94cd67a2c8005ca0d64518d9a74"
+    },
+    {
+      "label": "grizzly_animated_2k_Idle_025",
+      "path": "grizzly_animated_2k_Idle_025.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "62e67fd982628510e309186c20c5796d87eb058fea4dfd0dfac22ccd49a96970"
+    },
+    {
+      "label": "grizzly_animated_2k_Idle_050",
+      "path": "grizzly_animated_2k_Idle_050.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "435a3f389743833d6ea594e51cce9defc877d04e3d0f7f47907a637ba03611bd"
+    },
+    {
+      "label": "grizzly_animated_2k_Idle_075",
+      "path": "grizzly_animated_2k_Idle_075.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "c45afe970d05741b5236592d71f4a0079ecdc2d3cdda671e429fb3e4d8279416"
+    },
+    {
+      "label": "grizzly_animated_2k_Walk_000",
+      "path": "grizzly_animated_2k_Walk_000.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "1435b5cb72cedd28b6857fdf4e50fe2a4ccdeed0e1aff494aad7a94904f3a174"
+    },
+    {
+      "label": "grizzly_animated_2k_Walk_025",
+      "path": "grizzly_animated_2k_Walk_025.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "f800eca05e0cdbbd5a385e5ef218ad6118f7c6e4508cf8dbe2cf1945df918a7a"
+    },
+    {
+      "label": "grizzly_animated_2k_Walk_050",
+      "path": "grizzly_animated_2k_Walk_050.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "5f0e72257ea518089498fb38ee82f9c417d03d1a1c840e285da5f9eb1609db6d"
+    },
+    {
+      "label": "grizzly_animated_2k_Walk_075",
+      "path": "grizzly_animated_2k_Walk_075.png",
+      "rendered_bounds": "[P: (-0.500219, 0.0, -1.117271), S: (1.099842, 1.29986, 2.057898)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "683647166a1ccd798d343d0a2a5d312a1f81947573083e9de9df62b90c1b4c7d"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Idle_000",
+      "path": "grizzly_artistic_variant_2k_Idle_000.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "b795ced4137751c6698589b636cf6cfd92540f31eb0c455ef68c8d0ec5f3d8c2"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Idle_025",
+      "path": "grizzly_artistic_variant_2k_Idle_025.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "ac8d6d3a00d91cf6fc0193bcdfcb8b215b27f6fc224708b7d803470674801dc1"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Idle_050",
+      "path": "grizzly_artistic_variant_2k_Idle_050.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "3329760ea421d9999a03db70c3a6f8b5e0e7a1c7d37a780cba82505e964c94ff"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Idle_075",
+      "path": "grizzly_artistic_variant_2k_Idle_075.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "6e0f8e53f2d955fb99a3d3be383f8b67000e836d08390579dfe122905de44faf"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Walk_000",
+      "path": "grizzly_artistic_variant_2k_Walk_000.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "4af097f4a38fd1c0e890d22dbb73093e95c22660d686073c86fecc805ce0b35e"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Walk_025",
+      "path": "grizzly_artistic_variant_2k_Walk_025.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "5f67460372fbc848dfa51fa10bd4022d4cdd63da4cac43fba357965d17d8e8e0"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Walk_050",
+      "path": "grizzly_artistic_variant_2k_Walk_050.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "511cea93c6022332d619f20977c921795162cded7a112549b80c7c63fcc6bab4"
+    },
+    {
+      "label": "grizzly_artistic_variant_2k_Walk_075",
+      "path": "grizzly_artistic_variant_2k_Walk_075.png",
+      "rendered_bounds": "[P: (-0.486952, -0.000001, -1.086399), S: (1.072378, 1.253713, 2.002523)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "63b905076bc10c077163e452dc23619f42ac35488aabfb0acc2cb6c83109d614"
+    },
+    {
+      "label": "wolf_authored_Idle_000",
+      "path": "wolf_authored_Idle_000.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "930d95e707a94c1803aba8d27fd3e2931fcbd8d0071487f0b290ac4c7179fa0e"
+    },
+    {
+      "label": "wolf_authored_Idle_025",
+      "path": "wolf_authored_Idle_025.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "c6ef7b43e339cbd42fa72404dc261495768c3be515bfbbd75c7fb1968e4aaff8"
+    },
+    {
+      "label": "wolf_authored_Idle_050",
+      "path": "wolf_authored_Idle_050.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "d24100f22084839b9ccfe524f3d2b37ca978a8778b9278b7026f2d7e0bcdb8a5"
+    },
+    {
+      "label": "wolf_authored_Idle_075",
+      "path": "wolf_authored_Idle_075.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "9ee545053b2b8267ca54e398d5d9ce636f007662048c15c7f3c252e5d0df12a0"
+    },
+    {
+      "label": "wolf_authored_Walk_000",
+      "path": "wolf_authored_Walk_000.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "b1aa2c4bde2b708438c8f5c57f4b5908c6bf8dacf86e49f13ca16c60ced19a88"
+    },
+    {
+      "label": "wolf_authored_Walk_025",
+      "path": "wolf_authored_Walk_025.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "91fb98e4e2a48a685469bbda2313f04611039914f4474d49a478b80c7528e26d"
+    },
+    {
+      "label": "wolf_authored_Walk_050",
+      "path": "wolf_authored_Walk_050.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "b1aa2c4bde2b708438c8f5c57f4b5908c6bf8dacf86e49f13ca16c60ced19a88"
+    },
+    {
+      "label": "wolf_authored_Walk_075",
+      "path": "wolf_authored_Walk_075.png",
+      "rendered_bounds": "[P: (-0.245, 0.0, -1.132374), S: (0.49, 1.22, 2.21)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "91fb98e4e2a48a685469bbda2313f04611039914f4474d49a478b80c7528e26d"
+    },
+    {
+      "label": "deer_authored_Idle_000",
+      "path": "deer_authored_Idle_000.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "254f8cde04e6b4203c64640f4295e4f97cc730201405bff3e6bd2d4b737f2f81"
+    },
+    {
+      "label": "deer_authored_Idle_025",
+      "path": "deer_authored_Idle_025.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "129235fd5d427a195728662a5e2b3308c637eab2859a7beb61fbdb548786b171"
+    },
+    {
+      "label": "deer_authored_Idle_050",
+      "path": "deer_authored_Idle_050.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "20dc57b6067091b0b12bf33a2b1dadd6cf828c9b046762fc4858006ec425864f"
+    },
+    {
+      "label": "deer_authored_Idle_075",
+      "path": "deer_authored_Idle_075.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "129235fd5d427a195728662a5e2b3308c637eab2859a7beb61fbdb548786b171"
+    },
+    {
+      "label": "deer_authored_Walk_000",
+      "path": "deer_authored_Walk_000.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "9f47088180efe592666d7cf008b1f332e6855f40d9363765449efc65d2296396"
+    },
+    {
+      "label": "deer_authored_Walk_025",
+      "path": "deer_authored_Walk_025.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "3d6fbe487543022a9d91684169bf119622f639fce7243c0cf916ea6f6cdc545d"
+    },
+    {
+      "label": "deer_authored_Walk_050",
+      "path": "deer_authored_Walk_050.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "b04be26a4530176fd63af21da39854e5eabaa42ef19e8ff94cd0db82c1c7b3b7"
+    },
+    {
+      "label": "deer_authored_Walk_075",
+      "path": "deer_authored_Walk_075.png",
+      "rendered_bounds": "[P: (-0.24, 0.0, -0.805496), S: (0.48, 1.98, 1.79)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "0e98889f40e16555d6d73a4c282275a2c4b45fafa09f51bbc0c485b3374febdb"
+    },
+    {
+      "label": "badger_Idle_000",
+      "path": "badger_Idle_000.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "645cd71b2a5701515536761d3d12585b977bbb92a99f501d73c60a5538b73f36"
+    },
+    {
+      "label": "badger_Idle_025",
+      "path": "badger_Idle_025.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "34a69f0bcdbce0abd4ce2d223ad6f4512980852396d272e5e121c7fcc7051072"
+    },
+    {
+      "label": "badger_Idle_050",
+      "path": "badger_Idle_050.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "9d5d2566c3ad1f1571d25d2b3c3cc863ac65a29484f396ca3112a609a3a29123"
+    },
+    {
+      "label": "badger_Idle_075",
+      "path": "badger_Idle_075.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "6f5f3f6cfc47707e786bf367dd1a5271fe137e242cf83ed6a99fe2b8ee50485f"
+    },
+    {
+      "label": "badger_Walk_000",
+      "path": "badger_Walk_000.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "7dd7bf0e0c5b7e243989c7c52a007d4d139c505f949a21c3d6d31d3eff042d79"
+    },
+    {
+      "label": "badger_Walk_025",
+      "path": "badger_Walk_025.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "f90f9b68e20d5ad772219ffa566ebc68be1c2888db05284cb79c1eceb43c098c"
+    },
+    {
+      "label": "badger_Walk_050",
+      "path": "badger_Walk_050.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "4257898d8e9c62efcd5373816948716e067584f6efae0421278de37a6feac47a"
+    },
+    {
+      "label": "badger_Walk_075",
+      "path": "badger_Walk_075.png",
+      "rendered_bounds": "[P: (-0.219458, 0.0, -0.43986), S: (0.450783, 0.393766, 0.918776)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "5e271ed085a06b65c87ee4e34c271012da8d3d48d007f3304b42be477aa76915"
+    },
+    {
+      "label": "bison_animated_Idle_000",
+      "path": "bison_animated_Idle_000.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "f29106a3995bc634f091b6f855342ec379b5909d11b067352fae6ade4fcba957"
+    },
+    {
+      "label": "bison_animated_Idle_025",
+      "path": "bison_animated_Idle_025.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "eb69aead1c60b16e4dfb67fe32526770d51336b69aa403a4c3c96bd813a860f1"
+    },
+    {
+      "label": "bison_animated_Idle_050",
+      "path": "bison_animated_Idle_050.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "d907d271c4f321ca353bff1809b68e66fb61816128f5371bf0737b6d16292eba"
+    },
+    {
+      "label": "bison_animated_Idle_075",
+      "path": "bison_animated_Idle_075.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "f3c3e6bc3062905b281315721380bbd2f2a7585f89e42b17814c2de81c1dcb35"
+    },
+    {
+      "label": "bison_animated_Walk_000",
+      "path": "bison_animated_Walk_000.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "58932c6c02747ff9d7b13c8634ca4208071fbb5923e652cb8a68cbd91569c473"
+    },
+    {
+      "label": "bison_animated_Walk_025",
+      "path": "bison_animated_Walk_025.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "131d2c521bc99588497dcd567f2dd780723a518bb9f779e9014f271d562e1489"
+    },
+    {
+      "label": "bison_animated_Walk_050",
+      "path": "bison_animated_Walk_050.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "58a32deba43ab01b4d5758231932141ac5f36d8bee2283a33eb186d14385d928"
+    },
+    {
+      "label": "bison_animated_Walk_075",
+      "path": "bison_animated_Walk_075.png",
+      "rendered_bounds": "[P: (-0.153308, 0.0, -0.400014), S: (0.316738, 0.621926, 0.999683)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "d66b9c7f6d55f8462d49c81c62c2cbd88fb146f1d7aa9beae24167445c2f767c"
+    },
+    {
+      "label": "black_bear_Idle_000",
+      "path": "black_bear_Idle_000.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "571ceedab9c49a8d6575be6826c1bbcc89dd90f26a2dd94740cee587b5babfde"
+    },
+    {
+      "label": "black_bear_Idle_025",
+      "path": "black_bear_Idle_025.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "cf7962244f019e86ad8a791c0415b1b77566d79bcd6573adfa47c1f95ef57ec9"
+    },
+    {
+      "label": "black_bear_Idle_050",
+      "path": "black_bear_Idle_050.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "ac2bf07cd5314b8913405366f46f36d98e3de6c2a6d316f55e330fbe57fe7c3d"
+    },
+    {
+      "label": "black_bear_Idle_075",
+      "path": "black_bear_Idle_075.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "abdc45fcc39990fdb60e8b09d8b7669d77959efe0555f8d4e8ea15a2ef1e0c30"
+    },
+    {
+      "label": "black_bear_Walk_000",
+      "path": "black_bear_Walk_000.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "e4fd38162b8dcf3926426495010946e3c986164a5068af86d0ded6519a121837"
+    },
+    {
+      "label": "black_bear_Walk_025",
+      "path": "black_bear_Walk_025.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "72939bb4341cda3cbdc26a246727488bf317fd759637e74029333d0e0c40f849"
+    },
+    {
+      "label": "black_bear_Walk_050",
+      "path": "black_bear_Walk_050.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "af6c20486f93a4e4709515b1aa60185a1e146f564d5b28170db83a89b94f0aa9"
+    },
+    {
+      "label": "black_bear_Walk_075",
+      "path": "black_bear_Walk_075.png",
+      "rendered_bounds": "[P: (-0.519353, 0.0, -0.87681), S: (0.984703, 1.411284, 2.092054)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "c0c0551eab52e918d33868ce8ea5cb81b3ed6138f3a4a537552bb31eb7e8051f"
+    },
+    {
+      "label": "canada_lynx_Idle_000",
+      "path": "canada_lynx_Idle_000.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "6e9be62b28265300d851005aa55d398581a1b6cd0e8ea0cf26d93c3c6c65f477"
+    },
+    {
+      "label": "canada_lynx_Idle_025",
+      "path": "canada_lynx_Idle_025.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "80f2d960a287339620b7d44d814ed4109e804a4adaabbf20f4cbcb6d06a6508e"
+    },
+    {
+      "label": "canada_lynx_Idle_050",
+      "path": "canada_lynx_Idle_050.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "da911353772a5e365d90fd983e939f9cc9cbed7dc6b349eb011edca11de43947"
+    },
+    {
+      "label": "canada_lynx_Idle_075",
+      "path": "canada_lynx_Idle_075.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "52ad5653bcb61d57d6de737458d02113dbd05d76540509fc82878ea00a17b024"
+    },
+    {
+      "label": "canada_lynx_Walk_000",
+      "path": "canada_lynx_Walk_000.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "12719b449f43cc668f8d3ed87cc396be313f087fb7d2d8a41ad4b49e6c07a1bc"
+    },
+    {
+      "label": "canada_lynx_Walk_025",
+      "path": "canada_lynx_Walk_025.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "346d7b9ec353b0c93f82e32ae4d2829b157828da021bf600584662d5bf614a73"
+    },
+    {
+      "label": "canada_lynx_Walk_050",
+      "path": "canada_lynx_Walk_050.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "f8525d1d17a569d5a482bb1aa4d16c7559baa02297ed6b7bf900a58639dec769"
+    },
+    {
+      "label": "canada_lynx_Walk_075",
+      "path": "canada_lynx_Walk_075.png",
+      "rendered_bounds": "[P: (-0.271371, 0.0, -0.818544), S: (0.861941, 1.328707, 2.048934)]",
+      "sampled_ground_y_m_or_asset_units": 0.0,
+      "sha256": "076eff2df53d8af1cae7ddafa23446d465d0ae9a2084a5f5c75908a7de8f0402"
+    },
+    {
+      "label": "bison_ground_walk",
+      "path": "bison_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.237629), S: (1.5, 0.933184, 0.475258)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "4fb17affd0772f0ff1d24e76c421aa1322484f7c4b84cfe72584b4b667dafb21"
+    },
+    {
+      "label": "bison_paused",
+      "path": "bison_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.237629), S: (1.5, 0.933184, 0.475258)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "a9a243bdb59c18d4c682b8818bd39c196e574d13a753ce0b35055009d2ac7c06"
+    },
+    {
+      "label": "bison_speed_change",
+      "path": "bison_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.237629), S: (1.5, 0.933184, 0.475258)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "edb53d76349c53945ddbcc9260ba216d2d81870b78bacd43629fd52e86d73a50"
+    },
+    {
+      "label": "bison_walk_to_idle",
+      "path": "bison_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.237629), S: (1.5, 0.933184, 0.475258)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "a3e0189bd76bc5fe466c7b3cabd23027af4b396922e5e5ba12f959b78ed88985"
+    },
+    {
+      "label": "bison_idle_to_walk_turn",
+      "path": "bison_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252258, 16.85157, -0.237629), S: (1.5, 0.933184, 0.475258)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "af108dc2db15dd6094088bbd70494e314cd2702b43c4e8eca2fc64dd92c09a72"
+    },
+    {
+      "label": "elk_ground_walk",
+      "path": "elk_ground_walk.png",
+      "rendered_bounds": "[P: (-0.733943, 16.94512, -0.52649), S: (2.718019, 1.904472, 1.05298)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "df85fd9acbe3df343a07b58372ebf4fb9890366c274d1a90a07df356d5e65321"
+    },
+    {
+      "label": "elk_paused",
+      "path": "elk_paused.png",
+      "rendered_bounds": "[P: (-0.733943, 16.94512, -0.52649), S: (2.718019, 1.904472, 1.05298)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "df85fd9acbe3df343a07b58372ebf4fb9890366c274d1a90a07df356d5e65321"
+    },
+    {
+      "label": "elk_speed_change",
+      "path": "elk_speed_change.png",
+      "rendered_bounds": "[P: (0.265365, 16.93752, -0.52649), S: (2.715388, 1.913359, 1.05298)]",
+      "sampled_ground_y_m_or_asset_units": 16.9300345177689,
+      "sha256": "07ac921388fee410e41c5ba41faa178408756cc4db7f95db72e9239a812f1db0"
+    },
+    {
+      "label": "elk_walk_to_idle",
+      "path": "elk_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.265365, 16.93276, -0.52649), S: (2.714273, 1.906809, 1.05298)]",
+      "sampled_ground_y_m_or_asset_units": 16.9300345177689,
+      "sha256": "6ddca9a0b696c827716c0485fab6bbd3daecde4a549fadcfcd6fbc1e9d52ce74"
+    },
+    {
+      "label": "elk_idle_to_walk_turn",
+      "path": "elk_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (3.523292, 16.84769, -0.52649), S: (2.712587, 1.912687, 1.05298)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "f1db0cbd5dd36fe2a20746544169752518e6b17c2a5b3c14a0f63e28bfcaba44"
+    },
+    {
+      "label": "bobcat_ground_walk",
+      "path": "bobcat_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.261405), S: (1.5, 0.915287, 0.52281)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "96e5c05515462e2b437bbaa7fe2dcc873e4e50400fed1662ea9ef85a84ecbc9d"
+    },
+    {
+      "label": "bobcat_paused",
+      "path": "bobcat_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.261405), S: (1.5, 0.915287, 0.52281)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "750b3415a4aa5e600f38e00c60b51814b1d360ec13af2711463b4e538b6dec19"
+    },
+    {
+      "label": "bobcat_speed_change",
+      "path": "bobcat_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.261405), S: (1.5, 0.915287, 0.52281)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "e480ad8a9e03173a27cee9ffc29441e2b67468a7f38074cd49307b39719c46c1"
+    },
+    {
+      "label": "bobcat_walk_to_idle",
+      "path": "bobcat_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.261405), S: (1.5, 0.915287, 0.52281)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "de2bd335dd37329a362cf165b9dd0cd301486b087ddfbd51c434a8a6cdc363b3"
+    },
+    {
+      "label": "bobcat_idle_to_walk_turn",
+      "path": "bobcat_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252258, 16.85157, -0.261405), S: (1.5, 0.915287, 0.52281)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "929ba4da0f42036048dc7b1e49189fb965e4f02ffb13d268eeb6d579e594dd79"
+    },
+    {
+      "label": "grizzly_ground_walk",
+      "path": "grizzly_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.400837), S: (1.5, 0.947466, 0.801674)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "c5b21b6840e437b2643b2ef6e3644173b3919be0f6901a1797c86eb7a7eff068"
+    },
+    {
+      "label": "grizzly_paused",
+      "path": "grizzly_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.400837), S: (1.5, 0.947466, 0.801674)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "00b61f9ca6ec60cde2803e270f0199f40a245d2261aaf5dcd2f99baf30ad7903"
+    },
+    {
+      "label": "grizzly_speed_change",
+      "path": "grizzly_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.400837), S: (1.5, 0.947466, 0.801674)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "06136e620ee19274bd04e35f032e34346caa8421c24fecc44c9fa462ea49acb7"
+    },
+    {
+      "label": "grizzly_walk_to_idle",
+      "path": "grizzly_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.400837), S: (1.5, 0.947466, 0.801674)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "9198e0bea8fb13a611271239657792f6680d4e8c143d124e6c2a303897f39db4"
+    },
+    {
+      "label": "grizzly_idle_to_walk_turn",
+      "path": "grizzly_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252258, 16.85157, -0.400837), S: (1.5, 0.947466, 0.801674)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "6eb4c025fa99cf6c3e80fdddede1c9ae3fd7a2fc826efb51b744efd968aeb119"
+    },
+    {
+      "label": "badger_ground_walk",
+      "path": "badger_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.367976), S: (1.5, 0.642864, 0.735951)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "ed52c2bcf48cc0c4dffe0a08e8afa644af990a7ec2aa7a35d6f2fe739ac9fe7f"
+    },
+    {
+      "label": "badger_paused",
+      "path": "badger_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.367976), S: (1.5, 0.642864, 0.735951)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "522cc18d6799d6ef98e10168b71bdf22302d8ffd6abe8667313a28ba7f10b581"
+    },
+    {
+      "label": "badger_speed_change",
+      "path": "badger_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.367976), S: (1.5, 0.642864, 0.735951)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "aacf75459ec7c196fb7c4dcd70b61f6d5cf907807659eb118b83d0fb48750572"
+    },
+    {
+      "label": "badger_walk_to_idle",
+      "path": "badger_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.367976), S: (1.5, 0.642864, 0.735951)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "bbb87ad4fdae0a40c85a5cc4182bcbb3e5413a17cefae2c4c9509e58bbc99922"
+    },
+    {
+      "label": "badger_idle_to_walk_turn",
+      "path": "badger_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252258, 16.85157, -0.367976), S: (1.5, 0.642864, 0.735951)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "36415481d955cf16343e8424fe73dc5215afa0d2db6232fa6459f92960335dcd"
+    },
+    {
+      "label": "wolf_ground_walk",
+      "path": "wolf_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.16629), S: (1.5, 0.828054, 0.332579)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "b0abed25451e289cc4014415e1bdef2082bb1cf9719fb5550f38d40776c8ce75"
+    },
+    {
+      "label": "wolf_paused",
+      "path": "wolf_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.16629), S: (1.5, 0.828054, 0.332579)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "8e2d051713e95aa429f14a7570054ec6b7467ef3c093c7f3a268169a47177a2c"
+    },
+    {
+      "label": "wolf_speed_change",
+      "path": "wolf_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.16629), S: (1.5, 0.828054, 0.332579)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "c32a1a66c7380bfc5739c4a8d91745cb2f9a3e4b7645426e391d175d5d8822df"
+    },
+    {
+      "label": "wolf_walk_to_idle",
+      "path": "wolf_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.16629), S: (1.5, 0.828054, 0.332579)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "5936943c59182328136b1a36b68f14da77133d2a9320e9658d97c4a768c6e0c0"
+    },
+    {
+      "label": "wolf_idle_to_walk_turn",
+      "path": "wolf_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252258, 16.85157, -0.16629), S: (1.5, 0.828054, 0.332579)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "b75ba73037f6196fe1d8264bf99f8cfac3aaac5c0d290ea3e1b74d81ebccd3dc"
+    },
+    {
+      "label": "deer_ground_walk",
+      "path": "deer_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.201117), S: (1.5, 1.659218, 0.402235)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "036980c88744f491c35c1135cc760bde88098a74457addbd725543e8dc9308c6"
+    },
+    {
+      "label": "deer_paused",
+      "path": "deer_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.201117), S: (1.5, 1.659218, 0.402235)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "128d5952668516b26078b68a45aed8fdf7b7a8c34bf76859f60622a84ab92eb2"
+    },
+    {
+      "label": "deer_speed_change",
+      "path": "deer_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.201117), S: (1.5, 1.659218, 0.402235)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "2384e3ba73a696f7db6b014793f282ea73e0ac8895f51355b8635bf44ad05551"
+    },
+    {
+      "label": "deer_walk_to_idle",
+      "path": "deer_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.201117), S: (1.5, 1.659218, 0.402235)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "851f32aef5c58f61ed6b535202fe518839aded5cc44e17e5f5b3ac0741766ffe"
+    },
+    {
+      "label": "deer_idle_to_walk_turn",
+      "path": "deer_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252258, 16.85157, -0.201117), S: (1.5, 1.659218, 0.402235)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "5c53f27e6f1cdb6e6785a4b97708bbc39a472b548db0d025e4519b6127a88ac4"
+    },
+    {
+      "label": "black_bear_ground_walk",
+      "path": "black_bear_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.353016), S: (1.5, 1.011889, 0.706031)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "c98071663b87a387876f62d383e6ae7c332e39d9a22a9ce62016994637aabab3"
+    },
+    {
+      "label": "black_bear_paused",
+      "path": "black_bear_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.353016), S: (1.5, 1.011889, 0.706031)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "434206f13a02bb6d0a50b1f7d752e2f5aa63e4230d52478ab7c69b06bb655b08"
+    },
+    {
+      "label": "black_bear_speed_change",
+      "path": "black_bear_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.353016), S: (1.5, 1.011889, 0.706031)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "c27263d3686d34f33974187cd87993f786a869b25160cb5a4869f6950b04675c"
+    },
+    {
+      "label": "black_bear_walk_to_idle",
+      "path": "black_bear_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.353016), S: (1.5, 1.011889, 0.706031)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "8c9de2247895c9598b8e5aa3673af19b65958425ba0a695a8fd0d0c2cfa12f1d"
+    },
+    {
+      "label": "black_bear_idle_to_walk_turn",
+      "path": "black_bear_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252258, 16.85157, -0.353016), S: (1.5, 1.011889, 0.706031)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "b55979c8b3e070fd150f1137ca506d2ee837bcfceb90997b7e9a230a15589263"
+    },
+    {
+      "label": "canada_lynx_ground_walk",
+      "path": "canada_lynx_ground_walk.png",
+      "rendered_bounds": "[P: (-0.250322, 16.9412, -0.315508), S: (1.5, 0.972731, 0.631017)]",
+      "sampled_ground_y_m_or_asset_units": 16.9411962249997,
+      "sha256": "6c234481a0d037ba8bfad8da990f22188234a332c63a0933c05a14ac4f530b5b"
+    },
+    {
+      "label": "canada_lynx_paused",
+      "path": "canada_lynx_paused.png",
+      "rendered_bounds": "[P: (-0.000495, 16.93841, -0.315508), S: (1.5, 0.972731, 0.631017)]",
+      "sampled_ground_y_m_or_asset_units": 16.9384057982752,
+      "sha256": "86bc882a7841599c03f4941b95b8d9727815ae1d838ba653023950d8743ad841"
+    },
+    {
+      "label": "canada_lynx_speed_change",
+      "path": "canada_lynx_speed_change.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.315508), S: (1.5, 0.972731, 0.631017)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "8bd90ea7ab55f6f99bbaa575c32e4a58ddaecaa67968869e3cd25d316eb54a2f"
+    },
+    {
+      "label": "canada_lynx_walk_to_idle",
+      "path": "canada_lynx_walk_to_idle.png",
+      "rendered_bounds": "[P: (0.499146, 16.93283, -0.315508), S: (1.5, 0.972731, 0.631017)]",
+      "sampled_ground_y_m_or_asset_units": 16.9328250919571,
+      "sha256": "fce956820f7fa8b49695f1068aac031bf48df602bfbefaed4b64ad404fc8bf95"
+    },
+    {
+      "label": "canada_lynx_idle_to_walk_turn",
+      "path": "canada_lynx_idle_to_walk_turn.png",
+      "rendered_bounds": "[P: (4.252257, 16.85157, -0.315508), S: (1.5, 0.972731, 0.631017)]",
+      "sampled_ground_y_m_or_asset_units": 16.8515707420302,
+      "sha256": "1c3610bd7df582ef61e53b362396508dcc475c44c5c28bae7b476f0dca72b62b"
+    }
+  ],
+  "engine": {
+    "build": "official",
+    "hash": "f62fdbde15035c5576dad93e586201f4d41ef0cb",
+    "hex": 263425,
+    "major": 4,
+    "minor": 5,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.5.1-stable (official)",
+    "timestamp": 0
+  },
+  "human_visual_acceptance": "unassessed",
+  "pool_segment_checks": 2,
+  "schema": "yellowstone.wildlife_native_checks.v1",
+  "scientific_acceptance": "not_yet_accepted",
+  "status": "automated_runtime_checks",
+  "terrain_sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520"
+}

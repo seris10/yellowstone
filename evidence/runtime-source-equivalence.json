@@ -1,0 +1,96 @@
+{
+  "schema": "yellowstone.runtime_source_equivalence.v1",
+  "current_source_identity": "3669453a2c75423df300a056dc49958a6904e602fb61e2abfab18b31999def29",
+  "scope": "Current production/model/render code equals the executed versions. Test-fixture corrections are listed. This does not claim a new execution or change stale receipt status.",
+  "receipts": [
+    {
+      "receipt": "evidence/receipts/986d7d2235e479d4116e5173271f844ffc8e304ee535f949b23fd1f4fa186a82.json",
+      "receipt_sha256": "56e2ff4c53dc33303f122aac3ada1f4df5e07586eb9e4b962f44f836c8868904",
+      "name": "portfolio-build",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_microclimate.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "stale"
+    },
+    {
+      "receipt": "evidence/receipts/22a0227ae1e6dc7fa8631b6810dc4856ceba8d0b6dbeaf98a560894acfd96e80.json",
+      "receipt_sha256": "25fdd8a331fab2e1e7d49170e4beb5b66869ccb4b52132f09ddebc740983710f",
+      "name": "portable-demo-offline-startup",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "executed_passed"
+    },
+    {
+      "receipt": "evidence/receipts/d1368c8c82d5f455ad3aad0e24e3e7c67a7c38a8ddce7432550009f35531d7a9.json",
+      "receipt_sha256": "2c585eb65502c3cdeb225caa22c2dea5718a82afe99ebd2f4fb5547b28d1a9f9",
+      "name": "published-live-parity",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "executed_passed"
+    },
+    {
+      "receipt": "evidence/receipts/8e414a6f03adc3f873938eb76dd17479a33c5a0e0cb3b13e7bb10bfe577882a7.json",
+      "receipt_sha256": "fe4f8a1ab82a3804a581bcc41eeba5ee9916925a0b5c810385834ec9ff2d1a77",
+      "name": "portfolio-engine-recording",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "executed_passed"
+    },
+    {
+      "receipt": "evidence/receipts/ff608e297e0e743ebd6b6650722091924e2a5ae71fddf4321671cbcdef2e6cb2.json",
+      "receipt_sha256": "e220264575bcfe8ff2fb14cb4e007d82988d991db49ba4ce38c70fa4b7108974",
+      "name": "provenance-current",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "executed_passed"
+    },
+    {
+      "receipt": "evidence/receipts/56858fbd3b0385701889da0da0353fe695e4aa5f9ba4167dad8987e94aeaf67a.json",
+      "receipt_sha256": "440216c2b9eb829d7d9c2b2ca18523bd5791a950596795afcbd3e4d70997af9c",
+      "name": "synthetic-reference-current",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "executed_passed"
+    },
+    {
+      "receipt": "evidence/receipts/00c986c97f3862700ecb4bf27f14bf57f564f05249ecac6d46d8d09cd81cc93b.json",
+      "receipt_sha256": "7655bddaa34a818a39403cf5ad89f38f81aa45e502aec325c8d8cd04f1164549",
+      "name": "terrain-render-current-low-contention",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "executed_passed"
+    },
+    {
+      "receipt": "evidence/receipts/3dcac2c4d0551d50bc8bbd3514a0af0e6156bcb76a6b10ef753b164e27158892.json",
+      "receipt_sha256": "a3098bc9faab7b0029a13772a5cad8dd31fea60aa2bdd0949d7584c1a9ad98cf",
+      "name": "baseline-build-current-commit",
+      "source_changes": [
+        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
+        "yellowstone_python/tests/test_hydrology_provider.py"
+      ],
+      "runtime_sources_unchanged": true,
+      "original_status": "executed_passed"
+    }
+  ]
+}
