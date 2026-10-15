@@ -1,8 +1,10 @@
+from pathlib import Path
+
 from yellowstone_python.registry.equations import COMPONENTS, validate_inventory
 
 
 def test_inventory_passes_validation():
-    assert validate_inventory() == []
+    assert validate_inventory(Path(__file__).resolve().parents[1] / "yellowstone_python") == []
 
 
 def test_inventory_covers_core_components():
