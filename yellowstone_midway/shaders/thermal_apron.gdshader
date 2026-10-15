@@ -67,7 +67,10 @@ void fragment() {
  float spring_support = spring_display_mix * thermal;
  vec3 display_color = spring_color.rgb * mix(vec3(1.0), surface.spatial_detail, 0.35) * surface.mineral_grain;
  base = mix(base, display_color, spring_color.a * spring_support);
- base *= 1.0 - terrace.b * terrace.a * spring_support * 0.42;
+ float mapped_contrast = abs(dot(surface.spatial_detail, vec3(0.2126, 0.7152, 0.0722)) - 1.0);
+ float terrace_structure = max(smoothstep(0.06, 0.24, mapped_contrast), flow);
+ float terrace_edge = terrace.b * terrace.a * spring_support * terrace_structure;
+ base *= 1.0 - terrace_edge * 0.075;
  float wet_amount = clamp(max(wet, flow), 0.0, 1.0) * thermal;
  float film_amount = clamp(max(flow, pool), 0.0, 1.0) * thermal;
  base *= 1.0 - 0.18 * wet_amount * (1.0 - pool);

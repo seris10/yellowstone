@@ -13,6 +13,7 @@ const AtmosphereController = preload("res://scripts/yellowstone_atmosphere.gd")
 const ShadowQuality = preload("res://scripts/shadow_quality.gd")
 const TerrainMaterials = preload("res://scripts/terrain_materials.gd")
 const LodgepoleLibrary = preload("res://scripts/lodgepole_library.gd")
+const TreeSubmission = preload("res://scripts/tree_submission.gd")
 const WeatherSnapshotReader = preload("res://scripts/weather_snapshot_reader.gd")
 ## Optional published Python replay path.
 @export_file("*.json") var replay_path: String = ""
@@ -156,6 +157,10 @@ func _ready() -> void:
 	player.name = "Walker"
 	add_child(player)
 	go_to_anchor(0)
+	var tree_submission := TreeSubmission.new()
+	tree_submission.name = "TreeSubmission"
+	add_child(tree_submission)
+	tree_submission.configure(find_child("AuthoredVegetation", true, false))
 	atmosphere_controller = AtmosphereController.new()
 	atmosphere_controller.name = "YellowstoneAtmosphere"
 	add_child(atmosphere_controller)

@@ -5546,7 +5546,7 @@
     {
       "id": "terrain_color_filter_manifest",
       "included": true,
-      "status": "deterministic_display_filter",
+      "status": "authored",
       "title": "Terrain linear-light mip provenance",
       "source_url": "../yellowstone_python/tools/prepare_color_mips.py",
       "asset_provenance": {

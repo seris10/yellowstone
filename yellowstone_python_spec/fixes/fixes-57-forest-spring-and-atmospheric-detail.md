@@ -59,3 +59,40 @@ limitations. Verify pushed commit and packaged release contents.
 
 Display distributions and local species placement are authored. Optical
 geometry is analytical; rainbow frequency is not locally calibrated.
+
+## Submission cost audit
+
+The fixed-path ABBA comparison submits about 23.40 million primitives for the
+published surface scene and 50.85 million for the detailed scene. The detailed
+scene measures 107.212/133.058 ms median versus 52.247/89.916 ms for the baseline;
+desktop contention is uncontrolled, but the repeatable primitive increase is a
+structural regression. Conservatively padded tree batches submit detailed meshes
+for instances whose shader distance test subsequently rejects every vertex.
+The raw results remain in the performance evidence.
+
+Reduce this unused submission before release. A conservative per-instance
+selection may compact immutable transform/color/custom-data records into the
+visible prefix of a MultiMesh. Its distance envelope must contain every instance
+that can survive the existing shader LOD interval, including transitions and
+camera motion between updates. Camera changes and teleports require selection
+updates before rendering. Preserve shadows, geometry, render distances, source
+records and complementary transitions. Avoid changing shared source buffers or
+mutating serialized geometry. Verify frozen-view image equivalence, boundary
+motion and teleport coverage, and record submitted primitives and native timing.
+The optimization must remain active when model playback is paused or a capture
+harness disables world simulation processing.
+
+## Terrace repetition audit
+
+Native wide views expose broad, regularly spaced dark rings across the spring
+apron. The authored radial terrace phase has insufficient variation, and its
+edge channel multiplies albedo strongly enough to read as a concentric target.
+The supplied reference shows irregular sheet margins and flowing transitions.
+This visible mismatch requires correction before release.
+
+Preserve measured geography, pool geometry, source rasters, scientific outputs
+and terrain collision. Modify the display treatment to interrupt coherent
+circular bands and retain irregular, directional sheet-edge and normal detail.
+Keep authored procedural structure distinct from surveyed microtopography.
+Check the actual saved world from the overlook and close to the apron, preserve
+source hashes, and include the final shader in runtime and performance checks.
