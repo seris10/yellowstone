@@ -1,0 +1,16 @@
+{
+  "schema": "yellowstone.surface_archive.v1",
+  "release_id": "b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee",
+  "build_id": "db183e56a88e",
+  "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3",
+  "archive": "Yellowstone-Surface-Update.zip",
+  "archive_bytes": 770313723,
+  "archive_sha256": "d039a64346318f99dbd6749afea8f67a705b5107802f3accec53b93578abde6a",
+  "package_sha256": "7bb18a762b29fc76d7b2b850d780bde1aeec850da1162bf9fb18cfed70a17192",
+  "verified_file_hashes": 2290,
+  "startup_evidence": {
+    "surface-package-headless": "evidence/receipts/bd6e8cce1fc01ddbc6aef7866a6438ffc80ebc0f82f02c8f74aec757c8d7b816.json",
+    "surface-package-native": "evidence/receipts/6ac9332a0d6cd89ed29996f0136422517641eac0f924b8c000d29089c5007159.json"
+  },
+  "scope": "Every archived file matches the authenticated portable package; one selected generation; Godot 4.5.1 editor runtime required."
+}

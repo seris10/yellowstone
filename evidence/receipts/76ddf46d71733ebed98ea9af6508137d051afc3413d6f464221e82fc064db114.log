@@ -1,0 +1,33 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+ERROR: Condition "img.is_null()" is true. Returning: ERR_INVALID_PARAMETER
+   at: _create_from_images (scene/resources/image_texture.cpp:278)
+   GDScript backtrace (most recent call first):
+       [0] bake_vegetation_only (res://tools/bake_world.gd:802)
+       [1] bake (res://tools/bake_world.gd:107)
+ERROR: Condition "_create_from_images(p_images) != OK" is true.
+   at: _set_images (scene/resources/image_texture.cpp:294)
+   GDScript backtrace (most recent call first):
+       [0] bake_vegetation_only (res://tools/bake_world.gd:802)
+       [1] bake (res://tools/bake_world.gd:107)
+ERROR: Condition "img.is_null()" is true. Returning: ERR_INVALID_PARAMETER
+   at: _create_from_images (scene/resources/image_texture.cpp:278)
+   GDScript backtrace (most recent call first):
+       [0] bake_vegetation_only (res://tools/bake_world.gd:802)
+       [1] bake (res://tools/bake_world.gd:107)
+ERROR: Condition "_create_from_images(p_images) != OK" is true.
+   at: _set_images (scene/resources/image_texture.cpp:294)
+   GDScript backtrace (most recent call first):
+       [0] bake_vegetation_only (res://tools/bake_world.gd:802)
+       [1] bake (res://tools/bake_world.gd:107)
+ERROR: Condition "img.is_null()" is true. Returning: ERR_INVALID_PARAMETER
+   at: _create_from_images (scene/resources/image_texture.cpp:278)
+   GDScript backtrace (most recent call first):
+       [0] bake_vegetation_only (res://tools/bake_world.gd:802)
+       [1] bake (res://tools/bake_world.gd:107)
+ERROR: Condition "_create_from_images(p_images) != OK" is true.
+   at: _set_images (scene/resources/image_texture.cpp:294)
+   GDScript backtrace (most recent call first):
+       [0] bake_vegetation_only (res://tools/bake_world.gd:802)
+       [1] bake (res://tools/bake_world.gd:107)
+VEGETATION_BAKE 0 147.528 seconds

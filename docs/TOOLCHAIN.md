@@ -46,6 +46,10 @@ The saved-array MultiMesh validator assumes four pine copies and uniform scalar 
 
 ## Reference test scopes
 
-The macOS reference matrix uses separate isolated interpreter processes for `pytest -m 'not needs_world'` and `pytest -m needs_world`. The attempted monolithic run reports 2073 passes, 21 failures and 14 skips; native child-process crashes appear in PROJ/SQLite at-fork stack traces. Twenty failures are native child-launch crashes; one hydrology fixture lacked an explicit epoch and is corrected. Fresh-process reruns of all 21 cases pass. This does not establish a green monolithic run. The failed receipts remain available.
+The macOS reference matrix uses separate isolated interpreter processes for `pytest -m 'not needs_world'` and `pytest -m needs_world`. The surface-update matrix reports 1,993 core passes, 14 optional-dependency skips, and 121 world passes. The two scopes have 2,128 disjoint cases: 2,114 executed passes and 14 skips. Their source-bound receipts and JUnit files are in `evidence/reference-test-matrix.json`.
+
+The historical monolithic attempt and native PROJ/SQLite child-launch failures remain in the prior matrix and isolation records. The passing isolated scopes do not establish a green monolithic process.
+
+The full Python scopes executed at `c13d620`. Five Godot render/test files changed afterward to expose mapped pool water. Every Python model, tool, configuration and test byte remains identical. `evidence/runtime-source-equivalence.json` lists those changed render files and preserves the original execution identities. Native water, color, canopy, batch, material and render checks execute the complete selected render inventory. This equivalence does not relabel the historical receipts as executions of a different full inventory.
 
 Raw reduction sources for black bear and Canada lynx live in the ignored `assets/imported/wildlife_motion/sources/` directory. UV comparisons require the exact owner-provided files named by the source manifest and report unavailable when absent. The local reference matrix uses those supplied source files. Runtime exploration does not need them. Broader biological reference datasets remain unavailable.

@@ -1,0 +1,8 @@
+{
+	"checks": 7591,
+	"clamped_edges_included": true,
+	"failures": [],
+	"maximum_absolute_error": 0.000000114083292035438,
+	"ok": true,
+	"source_refresh_checked": true
+}

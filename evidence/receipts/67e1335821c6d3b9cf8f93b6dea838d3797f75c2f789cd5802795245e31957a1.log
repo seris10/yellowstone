@@ -1,0 +1,2 @@
+godot sidecar gaps: groundwater_field.json: groundwater_field.json requires a build-side groundwater sidecar; groundwater_provider.STATUS is authored_lateral_not_modeled and the build does not run MF6 or a Darcy exchange solve.
+build b6153354aacf passed=True to /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/b6153354aacf

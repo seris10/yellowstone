@@ -1,6 +1,6 @@
 # Yellowstone dynamic atmosphere for Godot 4.x
 
-A small, modular atmosphere renderer designed for the existing Yellowstone scene, including its Compatibility-renderer target. It uses Godot's `PhysicalSkyMaterial`, a procedural transparent cloud shell, camera-following GPU rain/snow particle emitters, and weather-driven distance fog.
+A small, modular atmosphere renderer designed for the existing Yellowstone scene, including its Compatibility-renderer target. It uses a three-band single-scattering sky shader, a procedural transparent cloud shell, camera-following GPU rain/snow particle emitters, and weather-driven distance fog.
 
 ## What is included
 
@@ -22,9 +22,9 @@ A small, modular atmosphere renderer designed for the existing Yellowstone scene
 
 ## Renderer and scientific scope
 
-`PhysicalSkyMaterial` uses Godot's Preetham analytic daylight model. The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation or radiative-transfer model. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0  degrees C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
+The daylight shader integrates a lower scattering column with Rayleigh and aerosol phase functions. An upper ozone column attenuates the incident sunlight. Its RGB radiance remains linear through luminance-based display compression; stars appear at night. Coefficients and display limits are documented in [the surface methods](../yellowstone_midway/docs/SURFACE_RENDERING.md). The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation or radiative-transfer model. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0  degrees C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
 
-The project currently uses Godot's Compatibility renderer. This package therefore does not enable built-in volumetric fog, which Godot documents as Forward+-only. Procedural clouds and GPU particles are the supported fallback. A true ray-marched volumetric cloud implementation should be a separate Forward+ quality tier, not silently enabled on this renderer.
+The Midway production project uses Godot's Mobile renderer; Compatibility remains selectable. This package does not enable built-in volumetric fog, which Godot documents as Forward+-only. Procedural clouds and GPU particles are the supported fallback. A true ray-marched volumetric cloud implementation should be a separate Forward+ quality tier, not silently enabled on this renderer.
 
 ## Install
 

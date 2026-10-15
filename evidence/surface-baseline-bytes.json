@@ -1,0 +1,8 @@
+{
+  "schema": "yellowstone.baseline_runtime_bytes.v1",
+  "runtime_files_checked": 899,
+  "changed_runtime_files": [],
+  "modified_harness": "tools/validate_terrain_render.gd",
+  "harness_sha256": "747fa904b5148f05337420f909e5636523f8785f48b1a0964e57a9bcd20eeac4",
+  "reference_package_release_id": "9db90704b79e5333d809665719ebe7c3475ab5b0063bca8f5529d7c27cdca7d3"
+}

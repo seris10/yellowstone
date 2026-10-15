@@ -1,0 +1,29 @@
+{
+  "schema": "yellowstone.reference_test_matrix.v1",
+  "passed": true,
+  "source_identity": "3669453a2c75423df300a056dc49958a6904e602fb61e2abfab18b31999def29",
+  "execution_strategy": "two separate isolated interpreter scopes; not one green monolithic run",
+  "runs": [
+    {
+      "scope": "Core reference",
+      "passed": 1973,
+      "skipped": 14,
+      "failed": 0,
+      "receipt": "evidence/receipts/65fcb80c8fb99b68d6ae4a4a2c3089ca82c3f861896f92651da1fc0d2e16265f.json",
+      "junit": "evidence/tests/clean-core-complete.xml"
+    },
+    {
+      "scope": "World reference",
+      "passed": 121,
+      "skipped": 0,
+      "failed": 0,
+      "receipt": "evidence/receipts/ed5b305594c523e1eb24140ab5a859d8b478ab17acae6cd5d49de66756810c96.json",
+      "junit": "evidence/tests/clean-world-complete.xml"
+    }
+  ],
+  "unique_cases": 2108,
+  "unique_passed": 2094,
+  "unique_skipped": 14,
+  "failed_monolithic_receipt": "evidence/receipts/461455da76af92dcb518a9f8cd39b704854fdffd43c30fb4e91b5f49e09b6eab.json",
+  "native_failure_retests": "evidence/native-process-isolation.json"
+}

@@ -1,0 +1,17 @@
+{
+	"cut": {
+		"collision_scope": "source surface-elevation proxy; submerged bathymetry unavailable",
+		"policy": "remove only complete ground triangles inside rendered thermal water polygons",
+		"removed_triangles": 4638,
+		"retained_triangles": 175362,
+		"source_vertices_preserved": true
+	},
+	"depth_control": "identical water mesh with depth testing disabled",
+	"failures": [],
+	"minimum_positive_fraction": 0.85,
+	"negative_visible_fraction": 0.0152901785714286,
+	"ok": true,
+	"positive_visible_fraction": 0.933258928571429,
+	"release_id": "b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee",
+	"scope": "Steam temporarily hidden for the isolated water-material probe; production captures preserve steam."
+}

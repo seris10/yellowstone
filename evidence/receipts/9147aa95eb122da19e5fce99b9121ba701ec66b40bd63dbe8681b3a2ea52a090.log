@@ -1,0 +1,188 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+Metal 3.2 - Forward Mobile - Using Device #0: Apple - Apple M4 (Apple9)
+
+ERROR: Canopy metadata requires schema yellowstone.unresolved_canopy_render.v1
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:293)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:405)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy width requires a positive integer
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:298)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:405)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy grid requires positive equal X and Z cell spacing
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:307)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:405)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy grid requires positive equal X and Z cell spacing
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:307)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:405)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy mask spacing must divide grid spacing
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:311)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:405)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy artifact record is missing: canopy_top_scene_y
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:320)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:405)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy artifact size or SHA-256 differs: canopy_top_scene_y
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:332)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:410)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy artifact size or SHA-256 differs: canopy_top_scene_y
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:332)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:410)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy artifact paths require local relative paths: canopy_top_scene_y
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:324)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:410)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy artifact is missing: user://canopy_surface_fixture/missing.bin
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:328)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:410)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy active cell requires finite top above ground at 0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:360)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:419)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy active cell requires finite top above ground at 0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:360)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:419)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy cover fraction differs from the source mask at 0,0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:392)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:419)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy cell mask and cover fraction disagree at 0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:354)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:419)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy cell mask and cover fraction disagree at 0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:354)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:419)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy mask requires binary coverage within valid support at 0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:376)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:428)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy mask requires binary coverage within valid support at 0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] read_source (res://scripts/canopy_surface.gd:376)
+       [2] build (res://scripts/canopy_surface.gd:22)
+       [3] check_rejected (res://tools/validate_canopy_surface.gd:439)
+       [4] validate_negative (res://tools/validate_canopy_surface.gd:428)
+       [5] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Canopy tile size requires a positive whole number of cells
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _error (res://scripts/canopy_surface.gd:546)
+       [1] build (res://scripts/canopy_surface.gd:28)
+       [2] validate_negative (res://tools/validate_canopy_surface.gd:430)
+       [3] verify (res://tools/validate_canopy_surface.gd:56)
+ERROR: Condition "img.is_null()" is true. Returning: ERR_INVALID_PARAMETER
+   at: _create_from_images (scene/resources/image_texture.cpp:278)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tools/validate_canopy_surface.gd:65)
+ERROR: Condition "_create_from_images(p_images) != OK" is true.
+   at: _set_images (scene/resources/image_texture.cpp:294)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tools/validate_canopy_surface.gd:65)
+ERROR: Condition "img.is_null()" is true. Returning: ERR_INVALID_PARAMETER
+   at: _create_from_images (scene/resources/image_texture.cpp:278)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tools/validate_canopy_surface.gd:65)
+ERROR: Condition "_create_from_images(p_images) != OK" is true.
+   at: _set_images (scene/resources/image_texture.cpp:294)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tools/validate_canopy_surface.gd:65)
+ERROR: Condition "img.is_null()" is true. Returning: ERR_INVALID_PARAMETER
+   at: _create_from_images (scene/resources/image_texture.cpp:278)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tools/validate_canopy_surface.gd:65)
+ERROR: Condition "_create_from_images(p_images) != OK" is true.
+   at: _set_images (scene/resources/image_texture.cpp:294)
+   GDScript backtrace (most recent call first):
+       [0] verify (res://tools/validate_canopy_surface.gd:65)
+CANOPY_VALIDATION ok=true checks=13420379 cells=159157 triangles=1643520 area_m2=329939.0 seconds=140.265

@@ -1,0 +1,179 @@
+{
+	"checks": 1345,
+	"failures": [],
+	"far_batches": 1311,
+	"far_instances": 63565,
+	"ok": true,
+	"pools": [
+		{
+			"name": "Turquoise Pool",
+			"path": "res://data/releases/b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee/assets/textures/pool_ramps/ramp_pool_1028_0.png",
+			"radial_range": [
+				0.0,
+				1.0
+			],
+			"sha256": "fc6a3d6b688e291e4372d346a827bf1decb4ca5eb068e6f65eb44997be6e0b76"
+		},
+		{
+			"name": "Opal Pool",
+			"path": "res://data/releases/b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee/assets/textures/pool_ramps/ramp_pool_1029_0.png",
+			"radial_range": [
+				0.0,
+				1.0
+			],
+			"sha256": "b20947d7695d0c65b20a6e75d15efa2b61cf8f5d8b2e610a21d1323fe3f15870"
+		},
+		{
+			"name": "Excelsior Geyser Crater",
+			"path": "res://data/releases/b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee/assets/textures/pool_ramps/ramp_pool_1030_0.png",
+			"radial_range": [
+				0.0,
+				1.0
+			],
+			"sha256": "33e44d0ceff0af16b7fca6ce114f4fea0316f4e93f8b9fe2cd19374ca497289a"
+		},
+		{
+			"name": "Grand Prismatic Spring",
+			"path": "res://data/releases/b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee/assets/textures/pool_ramps/ramp_pool_1034_0.png",
+			"radial_range": [
+				0.0,
+				1.0
+			],
+			"sha256": "6463a689498df730d278d7b693d44bd097519cd3ceaee1294d145cbca930936a"
+		}
+	],
+	"release_id": "b2b3d24fd7a0b08bdd63c34576aefd01412875728a5233935c6bd6ae992900ee",
+	"weather_cases": {
+		"clear": {
+			"ambient_light_energy": 0.25,
+			"cloud_fraction": 0.0,
+			"day_of_year": 172,
+			"daylight_factor": 1.0,
+			"direct_light_energy": 1.35000002384186,
+			"fog_sky_affect": 0.0,
+			"has_simulation_timestamp": true,
+			"precipitation_rate_mm_h": 0.0,
+			"quadrature_expected_rgb": [
+				0.374164283275604,
+				0.524311721324921,
+				0.74275153875351
+			],
+			"quadrature_maximum_channel_error": 0.00553682446479797,
+			"simulation_epoch_unix": 1782079920.78128,
+			"sky_turbidity": 2.2,
+			"snow_fraction": 0.0,
+			"solar_azimuth_deg": 180.0,
+			"solar_elevation_deg": 50.0,
+			"solar_override_active": true,
+			"star_catalog_loaded": true,
+			"star_rebuild_epoch_unix": 1782079920.0,
+			"star_visibility": 0.0,
+			"terrain": {
+				"cloud_shadow_fraction": -1.0,
+				"ground_wetness_fraction": -1.0,
+				"insect_activity": -1.0,
+				"puddle_fraction": -1.0,
+				"snow_cover_fraction": 0.0,
+				"snow_water_equivalent_mm": -1.0,
+				"soil_temperature_c": -273.15,
+				"steam_intensity": -1.0
+			},
+			"visibility_m": 24000.0,
+			"zenith_rgb": [
+				0.368627458810806,
+				0.529411792755127,
+				0.74117648601532
+			]
+		},
+		"hazy": {
+			"ambient_light_energy": 0.365200012922287,
+			"cloud_fraction": 0.5,
+			"day_of_year": 172,
+			"daylight_factor": 1.0,
+			"direct_light_energy": 0.911249995231628,
+			"fog_sky_affect": 0.462152779102325,
+			"has_simulation_timestamp": true,
+			"precipitation_rate_mm_h": 0.0,
+			"simulation_epoch_unix": 1782079920.78128,
+			"sky_turbidity": 7.24166666666667,
+			"snow_fraction": 0.0,
+			"solar_azimuth_deg": 180.0,
+			"solar_elevation_deg": 50.0,
+			"solar_override_active": true,
+			"star_catalog_loaded": true,
+			"star_rebuild_epoch_unix": 1782079920.0,
+			"star_visibility": 0.0,
+			"terrain": {
+				"cloud_shadow_fraction": -1.0,
+				"ground_wetness_fraction": -1.0,
+				"insect_activity": -1.0,
+				"puddle_fraction": -1.0,
+				"snow_cover_fraction": 0.0,
+				"snow_water_equivalent_mm": -1.0,
+				"soil_temperature_c": -273.15,
+				"steam_intensity": -1.0
+			},
+			"visibility_m": 2000.0
+		},
+		"night": {
+			"ambient_light_energy": 0.0450000017881393,
+			"cloud_fraction": 0.0,
+			"day_of_year": 172,
+			"daylight_factor": 0.0,
+			"direct_light_energy": 0.0,
+			"fog_sky_affect": 0.0,
+			"has_simulation_timestamp": true,
+			"precipitation_rate_mm_h": 0.0,
+			"simulation_epoch_unix": 1782079920.78128,
+			"sky_turbidity": 2.2,
+			"snow_fraction": 0.0,
+			"solar_azimuth_deg": 180.0,
+			"solar_elevation_deg": -12.0,
+			"solar_override_active": true,
+			"star_catalog_loaded": true,
+			"star_rebuild_epoch_unix": 1782079920.0,
+			"star_visibility": 1.0,
+			"terrain": {
+				"cloud_shadow_fraction": -1.0,
+				"ground_wetness_fraction": -1.0,
+				"insect_activity": -1.0,
+				"puddle_fraction": -1.0,
+				"snow_cover_fraction": 0.0,
+				"snow_water_equivalent_mm": -1.0,
+				"soil_temperature_c": -273.15,
+				"steam_intensity": -1.0
+			},
+			"visibility_m": 24000.0
+		},
+		"overcast": {
+			"ambient_light_energy": 0.480399996042252,
+			"cloud_fraction": 1.0,
+			"day_of_year": 172,
+			"daylight_factor": 1.0,
+			"direct_light_energy": 0.472499996423721,
+			"fog_sky_affect": 0.0,
+			"has_simulation_timestamp": true,
+			"precipitation_rate_mm_h": 0.0,
+			"simulation_epoch_unix": 1782079920.78128,
+			"sky_turbidity": 2.2,
+			"snow_fraction": 0.0,
+			"solar_azimuth_deg": 180.0,
+			"solar_elevation_deg": 50.0,
+			"solar_override_active": true,
+			"star_catalog_loaded": true,
+			"star_rebuild_epoch_unix": 1782079920.0,
+			"star_visibility": 0.0,
+			"terrain": {
+				"cloud_shadow_fraction": -1.0,
+				"ground_wetness_fraction": -1.0,
+				"insect_activity": -1.0,
+				"puddle_fraction": -1.0,
+				"snow_cover_fraction": 0.0,
+				"snow_water_equivalent_mm": -1.0,
+				"soil_temperature_c": -273.15,
+				"steam_intensity": -1.0
+			},
+			"visibility_m": 24000.0
+		}
+	}
+}

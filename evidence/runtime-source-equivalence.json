@@ -1,96 +1,114 @@
 {
   "schema": "yellowstone.runtime_source_equivalence.v1",
-  "current_source_identity": "3669453a2c75423df300a056dc49958a6904e602fb61e2abfab18b31999def29",
-  "scope": "Current production/model/render code equals the executed versions. Test-fixture corrections are listed. This does not claim a new execution or change stale receipt status.",
-  "receipts": [
-    {
-      "receipt": "evidence/receipts/986d7d2235e479d4116e5173271f844ffc8e304ee535f949b23fd1f4fa186a82.json",
-      "receipt_sha256": "56e2ff4c53dc33303f122aac3ada1f4df5e07586eb9e4b962f44f836c8868904",
-      "name": "portfolio-build",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_microclimate.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
+  "current_source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3",
+  "scope": "Render and build commands execute the complete current inventory. Full Python scopes execute identical Python/model/test bytes; subsequent render-only changes are listed explicitly. Historical receipts preserve their original status.",
+  "python_scope_equivalence": {
+    "surface-core-verified": {
+      "executed_source_identity": "7b93dbcf9ab3381a74400358e139327e65b70e4f7e1f3e113fb028dcc39fbd3f",
+      "changed_render_sources": [
+        "yellowstone_midway/scripts/core_terrain.gd",
+        "yellowstone_midway/scripts/world.gd",
+        "yellowstone_midway/shaders/water.gdshader",
+        "yellowstone_midway/tools/validate_open_water_cut.gd",
+        "yellowstone_midway/tools/validate_water_visibility.gd"
       ],
-      "runtime_sources_unchanged": true,
-      "original_status": "stale"
+      "python_model_and_test_sources_unchanged": true,
+      "receipt_status": "Original execution retained; complete render inventory changed after Python execution."
     },
-    {
-      "receipt": "evidence/receipts/22a0227ae1e6dc7fa8631b6810dc4856ceba8d0b6dbeaf98a560894acfd96e80.json",
-      "receipt_sha256": "25fdd8a331fab2e1e7d49170e4beb5b66869ccb4b52132f09ddebc740983710f",
-      "name": "portable-demo-offline-startup",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
+    "surface-world-verified": {
+      "executed_source_identity": "7b93dbcf9ab3381a74400358e139327e65b70e4f7e1f3e113fb028dcc39fbd3f",
+      "changed_render_sources": [
+        "yellowstone_midway/scripts/core_terrain.gd",
+        "yellowstone_midway/scripts/world.gd",
+        "yellowstone_midway/shaders/water.gdshader",
+        "yellowstone_midway/tools/validate_open_water_cut.gd",
+        "yellowstone_midway/tools/validate_water_visibility.gd"
       ],
-      "runtime_sources_unchanged": true,
-      "original_status": "executed_passed"
-    },
-    {
-      "receipt": "evidence/receipts/d1368c8c82d5f455ad3aad0e24e3e7c67a7c38a8ddce7432550009f35531d7a9.json",
-      "receipt_sha256": "2c585eb65502c3cdeb225caa22c2dea5718a82afe99ebd2f4fb5547b28d1a9f9",
-      "name": "published-live-parity",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
-      ],
-      "runtime_sources_unchanged": true,
-      "original_status": "executed_passed"
-    },
-    {
-      "receipt": "evidence/receipts/8e414a6f03adc3f873938eb76dd17479a33c5a0e0cb3b13e7bb10bfe577882a7.json",
-      "receipt_sha256": "fe4f8a1ab82a3804a581bcc41eeba5ee9916925a0b5c810385834ec9ff2d1a77",
-      "name": "portfolio-engine-recording",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
-      ],
-      "runtime_sources_unchanged": true,
-      "original_status": "executed_passed"
-    },
-    {
-      "receipt": "evidence/receipts/ff608e297e0e743ebd6b6650722091924e2a5ae71fddf4321671cbcdef2e6cb2.json",
-      "receipt_sha256": "e220264575bcfe8ff2fb14cb4e007d82988d991db49ba4ce38c70fa4b7108974",
-      "name": "provenance-current",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
-      ],
-      "runtime_sources_unchanged": true,
-      "original_status": "executed_passed"
-    },
-    {
-      "receipt": "evidence/receipts/56858fbd3b0385701889da0da0353fe695e4aa5f9ba4167dad8987e94aeaf67a.json",
-      "receipt_sha256": "440216c2b9eb829d7d9c2b2ca18523bd5791a950596795afcbd3e4d70997af9c",
-      "name": "synthetic-reference-current",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
-      ],
-      "runtime_sources_unchanged": true,
-      "original_status": "executed_passed"
-    },
-    {
-      "receipt": "evidence/receipts/00c986c97f3862700ecb4bf27f14bf57f564f05249ecac6d46d8d09cd81cc93b.json",
-      "receipt_sha256": "7655bddaa34a818a39403cf5ad89f38f81aa45e502aec325c8d8cd04f1164549",
-      "name": "terrain-render-current-low-contention",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
-      ],
-      "runtime_sources_unchanged": true,
-      "original_status": "executed_passed"
-    },
-    {
-      "receipt": "evidence/receipts/3dcac2c4d0551d50bc8bbd3514a0af0e6156bcb76a6b10ef753b164e27158892.json",
-      "receipt_sha256": "a3098bc9faab7b0029a13772a5cad8dd31fea60aa2bdd0949d7584c1a9ad98cf",
-      "name": "baseline-build-current-commit",
-      "source_changes": [
-        "yellowstone_python/tests/wildlife_motion/test_input_contracts.py",
-        "yellowstone_python/tests/test_hydrology_provider.py"
-      ],
-      "runtime_sources_unchanged": true,
-      "original_status": "executed_passed"
+      "python_model_and_test_sources_unchanged": true,
+      "receipt_status": "Original execution retained; complete render inventory changed after Python execution."
     }
-  ]
+  },
+  "receipts": {
+    "surface-baseline-verified": {
+      "receipt": "evidence/receipts/e80038cd030dd7b3229b9f2773af1fa58fc9b0147dea1e7f26565a173827db32.json",
+      "sha256": "dd157a2299d9eb804552b8283a4932eeb5fff7d7048a32e47e79da2da46cb0e9",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-portfolio-verified": {
+      "receipt": "evidence/receipts/fc0d18791140736c15d89b7a1c0f297a30d4e0ba7cb0b6d8c0ab92002378337e.json",
+      "sha256": "863f0ca53f4ede6027046c8d71c6b88c368f513fb4f7c976a0c23c91ef7b75e4",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-publish-verified": {
+      "receipt": "evidence/receipts/2254bdc016066047cf74bcd6d26d33a565484c7b31e981c22415ff17909f32f1.json",
+      "sha256": "ec233782a2d10c62f1182994223090a5072dc1d077e3ce3347ec7dadbc5a5fd7",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-core-verified": {
+      "receipt": "evidence/receipts/d0daa43b20404cc904332a548389920ccb5ce481381dcb5e1d8c60e1a07ace82.json",
+      "sha256": "20d00a37445cae6f3e7d29a361ca6087aba65bd3820129ec1e2c9ca5fc7c1d70",
+      "source_identity": "7b93dbcf9ab3381a74400358e139327e65b70e4f7e1f3e113fb028dcc39fbd3f"
+    },
+    "surface-world-verified": {
+      "receipt": "evidence/receipts/4df28c691b3ef443f35fb863dc1fd6085d14daf3ce74ada396e417ab5b4e46bf.json",
+      "sha256": "85362f10a30dcd893f430df99c2564f3d5d0c0148b5e6b8ea81a9d75bb606f9c",
+      "source_identity": "7b93dbcf9ab3381a74400358e139327e65b70e4f7e1f3e113fb028dcc39fbd3f"
+    },
+    "surface-canopy-verified": {
+      "receipt": "evidence/receipts/99e78e1e56277007137240ea3b0bcaf22c7be4753fbb5c31f08abf35aea89f8c.json",
+      "sha256": "8f32ed159cb09461dbb17c6806c68b6e02d04af14e8419ee88a88fbf6032e1b8",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-core-materials-verified": {
+      "receipt": "evidence/receipts/28820c47cfc5b11b5341354c43ac185add5c9b0fd64216872e28896e418dcdbe.json",
+      "sha256": "a6c8110199531261293c52c704b76fd233d465b9205b25951b2235cbee71a7d0",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-outflow-verified": {
+      "receipt": "evidence/receipts/43415edb2e63ae3aff63a5e4b7ee1bb9d1085bc60c5df0d28f3aa68cda4b69c8.json",
+      "sha256": "492a3b21b1bf8216ed2b4b402fd41e3e2293a567ea7f0eff4ca077ac1c166954",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-atmosphere-verified": {
+      "receipt": "evidence/receipts/ada6d987f23bec77e00516066cb48cfa4008f9c41b9c23b36341ca0dbb1325c8.json",
+      "sha256": "2e1c06ae6ec1163d720155f7fc000a37d94f104ddbff438602fb905b253ee249",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-impostor-reload-equivalence": {
+      "receipt": "evidence/receipts/4425c7f3dde6d834c510a102071f980d093b2e803dd892f25b59d85e5d315088.json",
+      "sha256": "2ebaa41dcbb3e4a53b770e5821656e38502f2b2e39f1722027b6b3772b956280",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-display-color-verified": {
+      "receipt": "evidence/receipts/ee820a699b4d5d39150728c2a76e042e34fc1b780c8e173b5251a4e364c3e2ab.json",
+      "sha256": "8637b3466c5ea401c4377689cdc093584e936d6c21956593b9fa56e1e7ece89e",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-terrain-render-verified": {
+      "receipt": "evidence/receipts/d387609b2e94dbfcb277628ca6e0cab1a8388286565030ddf3319123fe5f60ab.json",
+      "sha256": "d12d99f98a7c2aa1c716fef8e59d717c049c43b5adad439c484401083fd959fe",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-provenance-verified": {
+      "receipt": "evidence/receipts/ed589545fbef303b9c64da5592d70d94cfa4db58053b360a44d89939dce955cf.json",
+      "sha256": "1f80a6cfff276e5bc61e13bb2321355d9e740374cb204e475005a53e8ae615dd",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-open-water-verified": {
+      "receipt": "evidence/receipts/84b1d34c065811d4d907c751914fad379028efd95c13b8563d9d2339400228f1.json",
+      "sha256": "d23eb3f01912889b6a7cf7572910d7e5b31f13a0bbee7309d18db269946914b5",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-water-visibility-verified": {
+      "receipt": "evidence/receipts/66b7888dd977f7c97a6cf0c50772167ecffd9b84bbc30c051fdeb4fa0a1341fa.json",
+      "sha256": "8628a1a0966c30ad97b6e634f4a009ac036bbff1660b9082aa0fa0602d771f22",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    },
+    "surface-style-verified": {
+      "receipt": "evidence/receipts/79242b2b7825a829c4d5dfa42e71200210df1c32fefecb15f8f1edb29a811293.json",
+      "sha256": "455fa1247b44f454998c03ea4ec8755ae6b4b0e0fa8ef15e546e0c2a00ba73f0",
+      "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3"
+    }
+  },
+  "prior_record": "evidence/runtime-source-equivalence-before-surface.json"
 }

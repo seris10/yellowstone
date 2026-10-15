@@ -1,29 +1,54 @@
 {
   "schema": "yellowstone.reference_test_matrix.v1",
   "passed": true,
-  "source_identity": "3669453a2c75423df300a056dc49958a6904e602fb61e2abfab18b31999def29",
-  "execution_strategy": "two separate isolated interpreter scopes; not one green monolithic run",
+  "source_identity": "a584657b440806dbccfa1ed3a609c801f56f28ed5f55fdc013f64e568a6c5ea3",
+  "execution_strategy": "two separate isolated interpreter scopes; not one monolithic run",
+  "python_scope_equivalence": {
+    "surface-core-verified": {
+      "executed_source_identity": "7b93dbcf9ab3381a74400358e139327e65b70e4f7e1f3e113fb028dcc39fbd3f",
+      "changed_render_sources": [
+        "yellowstone_midway/scripts/core_terrain.gd",
+        "yellowstone_midway/scripts/world.gd",
+        "yellowstone_midway/shaders/water.gdshader",
+        "yellowstone_midway/tools/validate_open_water_cut.gd",
+        "yellowstone_midway/tools/validate_water_visibility.gd"
+      ],
+      "python_model_and_test_sources_unchanged": true,
+      "receipt_status": "Original execution retained; complete render inventory changed after Python execution."
+    },
+    "surface-world-verified": {
+      "executed_source_identity": "7b93dbcf9ab3381a74400358e139327e65b70e4f7e1f3e113fb028dcc39fbd3f",
+      "changed_render_sources": [
+        "yellowstone_midway/scripts/core_terrain.gd",
+        "yellowstone_midway/scripts/world.gd",
+        "yellowstone_midway/shaders/water.gdshader",
+        "yellowstone_midway/tools/validate_open_water_cut.gd",
+        "yellowstone_midway/tools/validate_water_visibility.gd"
+      ],
+      "python_model_and_test_sources_unchanged": true,
+      "receipt_status": "Original execution retained; complete render inventory changed after Python execution."
+    }
+  },
   "runs": [
     {
-      "scope": "Core reference",
-      "passed": 1973,
+      "scope": "Core",
+      "passed": 1993,
       "skipped": 14,
       "failed": 0,
-      "receipt": "evidence/receipts/65fcb80c8fb99b68d6ae4a4a2c3089ca82c3f861896f92651da1fc0d2e16265f.json",
-      "junit": "evidence/tests/clean-core-complete.xml"
+      "receipt": "evidence/receipts/d0daa43b20404cc904332a548389920ccb5ce481381dcb5e1d8c60e1a07ace82.json",
+      "junit": "evidence/tests/surface-core-verified.xml"
     },
     {
-      "scope": "World reference",
+      "scope": "World",
       "passed": 121,
       "skipped": 0,
       "failed": 0,
-      "receipt": "evidence/receipts/ed5b305594c523e1eb24140ab5a859d8b478ab17acae6cd5d49de66756810c96.json",
-      "junit": "evidence/tests/clean-world-complete.xml"
+      "receipt": "evidence/receipts/4df28c691b3ef443f35fb863dc1fd6085d14daf3ce74ada396e417ab5b4e46bf.json",
+      "junit": "evidence/tests/surface-world-verified.xml"
     }
   ],
-  "unique_cases": 2108,
-  "unique_passed": 2094,
+  "unique_cases": 2128,
+  "unique_passed": 2114,
   "unique_skipped": 14,
-  "failed_monolithic_receipt": "evidence/receipts/461455da76af92dcb518a9f8cd39b704854fdffd43c30fb4e91b5f49e09b6eab.json",
-  "native_failure_retests": "evidence/native-process-isolation.json"
+  "prior_matrix": "evidence/reference-test-matrix-before-surface.json"
 }

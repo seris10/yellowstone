@@ -1,0 +1,3 @@
+godot sidecar gaps: groundwater_field.json: groundwater_field.json requires a build-side groundwater sidecar; groundwater_provider.STATUS is authored_lateral_not_modeled and the build does not run MF6 or a Darcy exchange solve.
+build ec8997e9c4a1 passed=False to /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/derived/ec8997e9c4a1
+FAIL: registry: component daylight sky display: module not found: /Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/yellowstone_midway/shaders/physical_daylight.gdshader

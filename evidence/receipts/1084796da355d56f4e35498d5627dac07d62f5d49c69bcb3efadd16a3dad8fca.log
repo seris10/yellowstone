@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/build.py", line 22, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/cli.py", line 40, in main
+    res = simulate_all(cfg, baseline, world, tfns)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/pipeline.py", line 29, in simulate_all
+    stage.run(state, cfg)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/stages/thermal.py", line 360, in run
+    outflow_chain = _run_outflow_chain(world_root, air0, wcfg,
+                                       outflow_epoch_s, outflow_epoch_source)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/stages/thermal.py", line 85, in _run_outflow_chain
+    sweep = graph_sweep_outflow_temperature(
+        network, network_rasters, dem, world_pools,
+    ...<2 lines>...
+        forcing_epoch_utc=float(start_epoch_s),
+    )
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_thermal.py", line 1010, in graph_sweep_outflow_temperature
+    verification = verify_flow_fraction_wp_a(
+        dem, world_pools, discharges_m3_s, reference_fraction,
+        convention=convention, mfd_exponent=mfd_exponent,
+        tolerance=verify_tolerance,
+    )
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_thermal.py", line 753, in verify_flow_fraction_wp_a
+    out = recompute_flow_fraction_wp_a(dem, world_pools, discharges_m3_s,
+                                       convention=convention,
+                                       mfd_exponent=mfd_exponent)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_thermal.py", line 687, in recompute_flow_fraction_wp_a
+    filled = _outflow_network.fill_depressions(interior_dem)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_network.py", line 308, in fill_depressions
+    raised = max(float(dem[nj, ni]), elev + epsilon)
+                 ~~~~~^^^^^^^^^^^^^
+KeyboardInterrupt

@@ -12,7 +12,7 @@ The project is unfinished. Geographic inputs are measured or mapped; channel wid
 
 ## View the demo
 
-[Download the preview package](https://github.com/seris10/yellowstone/releases/download/midway-audit-preview-9db90704b79e/Yellowstone-Midway.zip). The prepared demo package contains the authored scene and one immutable runtime generation. Extract it, use Godot 4.5.1, and run:
+[Download the preview package](https://github.com/seris10/yellowstone/releases/download/midway-surface-b2b3d24fd7a0/Yellowstone-Surface-Update.zip). The prepared demo package contains the authored scene and one immutable runtime generation. Extract it, use Godot 4.5.1, and run:
 
 ```sh
 cd Yellowstone-Midway

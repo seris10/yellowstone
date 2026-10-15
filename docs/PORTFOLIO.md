@@ -4,6 +4,8 @@
 
 [72-second recorded demonstration](portfolio-demo.mp4) shows the thermal boardwalk, geographic source map, a mapped river probe, one frozen temperature intervention and its downstream plot. The camera route, model date, wind seed, checked comparison and release identity are recorded in the capture receipt. It uses actual Godot frames.
 
+The surface display connects residual canopy through authored supports, adds metric ground relief and mapped basin detail, and binds linear-light spring optics from the selected generation. Clear skies use the physical sky without an added gray fog veil. Distant tree variants share batches while preserving their original view images. [Surface methods and reproduction](../yellowstone_midway/docs/SURFACE_RENDERING.md) and [executed surface evidence](../evidence/surface-rendering.json) distinguish source geography, authored display parameters, numerical checks, and native rendering.
+
 ## Geographic reconstruction
 
 The domain is 4096 by 4096 m. One Godot unit is one metre. Coordinates use EPSG:32612 with origin E=512952.5950985841, N=4930199.044097667 and vertical offset 2200 m, NAVD88. Source-to-world conversion is `x=E-E0`, `z=N0-N`, `y=elevation-2200`. The elevation grid is 1025 by 1025 at 4 m spacing. USGS source coverage is from 2020; the selected USDA NAIP imagery was acquired July 19, 2022.

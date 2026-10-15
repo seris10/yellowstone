@@ -1,0 +1,46 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/build.py", line 22, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/cli.py", line 43, in main
+    _write_variant_and_gate(cfg, baseline, deps, res, out, bid,
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            shells_doc is not None)
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/sidecars.py", line 108, in _write_variant_and_gate
+    _write_fragment_sidecars(cfg, baseline, deps, res, out)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/sidecars.py", line 476, in _write_fragment_sidecars
+    _write_integration_sidecars(deps, res, out)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/sidecars.py", line 717, in _write_integration_sidecars
+    foodweb_doc = _run_outflow_foodweb(outflow_chain, out)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/pipeline/stages/thermal.py", line 215, in _run_outflow_foodweb
+    report = outflow_foodweb_from_files(
+        mat_state_json_path=mat_state_path,
+        outflow_temp_json_path=outflow_temp_path,
+        outflow_discharge_cv=discharge_cv,
+        mat_biomass_g_per_m2=mat_biomass_g_per_m2)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_foodweb.py", line 433, in outflow_foodweb_from_files
+    cell = outflow_cell_population(
+        temperature_c=t, mat_area_m2=cell_area_m2,
+        flow_cv=outflow_discharge_cv,
+        mat_biomass_g_per_m2=mat_biomass_g_per_m2,
+        species=species, predators=predators)
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_foodweb.py", line 315, in outflow_cell_population
+    if _balance(mid) <= 0.0:
+       ~~~~~~~~^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_foodweb.py", line 305, in _balance
+    pred = predator_offtake_holling_ii(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        n, preds)["predation_flies_per_m2_per_day"]
+        ^^^^^^^^^
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/thermal_features/outflow_foodweb.py", line 252, in predator_offtake_holling_ii
+    density = _nonnegative(f"{cid}.density_per_m2",
+                            entry["density_per_m2"])
+  File "/Users/kreed/!claude/roots-of-reason/5-original-games/yellowstone/yellowstone_python/yellowstone_python/common/checks.py", line 31, in nonnegative
+    def nonnegative(name: str, value: object) -> float:
+    
+KeyboardInterrupt
