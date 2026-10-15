@@ -1,11 +1,14 @@
-# Yellowstone dynamic atmosphere for Godot 4.x
+# Yellowstone dynamic atmosphere for Godot 4.5
 
-A small, modular atmosphere renderer designed for the existing Yellowstone scene, including its Compatibility-renderer target. It uses a three-band single-scattering sky shader, a procedural transparent cloud shell, camera-following GPU rain/snow particle emitters, and weather-driven distance fog.
+A small, modular atmosphere renderer designed for the existing Yellowstone scene, including its Compatibility-renderer target. It uses a three-band single-scattering sky shader, a procedural cloud layer, conditional rainbows, camera-following GPU rain/snow particle emitters, and weather-driven distance fog.
 
 ## What is included
 
 - `scripts/yellowstone_atmosphere.gd`: atmosphere, solar geometry, clouds, particles, fog and optional ground-wetness material binding.
-- `shaders/yellowstone_cloud_shell.gdshader`: world-space procedural cloud field on an ellipsoidal shell. It avoids ray marching and volumetric-fog requirements.
+- `shaders/yellowstone_cloud_shell.gdshader`: four-sample cloud layer with cached 3D noise, directional density shading and sky-depth terrain occlusion.
+- `scripts/atmosphere_optics.gd`: shared cloud field, spherical-drop geometry, Fresnel ratios and advected liquid-rain history.
+- `shaders/rainbow.gdshader`: primary and weaker reversed secondary scattering constrained to the illuminated liquid curtain.
+- `shaders/physical_daylight.gdshader`: linear three-band daylight and night-star rendering.
 - `scripts/weather_snapshot_reader.gd`: validates and polls an externally produced weather JSON snapshot. It does not make network requests.
 - `examples/latest_weather.example.json`: documented snapshot shape with example values. These are illustrative, not a real observation.
 - `docs/integration_patch.md`: precise integration changes for the main world script.
@@ -18,11 +21,12 @@ A small, modular atmosphere renderer designed for the existing Yellowstone scene
 - `clear_weather_solar_override()`: drop a weather solar override and return to simulated solar geometry.
 - `set_weather_state()`: partial states merge into the current weather. Non-finite fields are rejected with a warning, a half-solar state is ignored, and accepted values are clamped to documented ranges.
 - `smooth_weather_transitions` / `weather_transition_seconds`: ease cloud geometry, visibility/fog, particle rates and light color with `weather_transition_seconds / time_scale`. Air, wind, wetness and snow-cover values come directly from accepted Python frames. Set `weather_transition_seconds = 0` for immediate visual application.
+- `set_simulation_elapsed(seconds)` binds transient cloud/rain history to accepted simulation progress. Call each frame with the replay elapsed time; pause, backend holds and exhausted buffers then freeze history. Backward seeks reset transient history; pass `reset_on_rewind=false` for live-clock corrections that should wait at the consumed watermark. Without this binding, `time_scale` advances the standalone controller.
 - `get_render_state()` reports the timestamp, solar override state, and the render values it applied.
 
 ## Renderer and scientific scope
 
-The daylight shader integrates a lower scattering column with Rayleigh and aerosol phase functions. An upper ozone column attenuates the incident sunlight. Its RGB radiance remains linear through luminance-based display compression; stars appear at night. Coefficients and display limits are documented in [the surface methods](../yellowstone_midway/docs/SURFACE_RENDERING.md). The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation or radiative-transfer model. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0  degrees C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
+The daylight shader integrates a lower scattering column with Rayleigh and aerosol phase functions. An upper ozone column attenuates the incident sunlight. Its RGB radiance remains linear through luminance-based display compression; stars appear at night. Coefficients and display limits are documented in [the surface methods](https://github.com/seris10/yellowstone/blob/main/yellowstone_midway/docs/SURFACE_RENDERING.md). The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation or radiative-transfer model. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0  degrees C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
 
 The Midway production project uses Godot's Mobile renderer; Compatibility remains selectable. This package does not enable built-in volumetric fog, which Godot documents as Forward+-only. Procedural clouds and GPU particles are the supported fallback. A true ray-marched volumetric cloud implementation should be a separate Forward+ quality tier, not silently enabled on this renderer.
 
@@ -32,11 +36,15 @@ Copy the two folders into the Godot project, preserving these exact paths:
 
 ```text
 res://scripts/yellowstone_atmosphere.gd
+res://scripts/atmosphere_optics.gd
 res://scripts/weather_snapshot_reader.gd
+res://scripts/weather_http_consumer.gd
 res://shaders/yellowstone_cloud_shell.gdshader
+res://shaders/physical_daylight.gdshader
+res://shaders/rainbow.gdshader
 ```
 
-Apply `docs/integration_patch.md` to the main world script. Keep the project's existing `DirectionalLight3D`, `Environment`, player, terrain, and ecosystem. The controller reuses the existing physical sky material when possible and owns only the cloud shell and precipitation emitters it creates.
+Apply `docs/integration_patch.md` to the main world script. Keep the project's existing `DirectionalLight3D`, `Environment`, player, terrain, and ecosystem. The controller installs its sky material on the supplied Environment and creates its cloud, rainbow and precipitation nodes.
 
 If the world creates terrain/material instances after the atmosphere controller is configured, call `atmosphere_controller.refresh_wetness_material_cache()` after they enter the scene tree.
 
@@ -92,9 +100,12 @@ The sample `source` metadata is for human provenance only. The reader does not c
 ## Quality and performance notes
 
 - Default particle counts are 1,800 rain and 1,200 snow particles. Reduce those exports on low-end machines.
-- A player-following cloud shell avoids loading a cloud mesh per map tile. The shader uses world-space noise so the cloud field does not slide when the shell recenters.
-- The current world has a 4 km authored extent. Tune `cloud_radius_m` and visibility values to the camera scale and terrain boundaries.
-- Godot 4.5.1 headless checks cover canonical script copies, frame-time interpolation, accelerated weather easing and the main/study scene startup. Visual acceptance remains a separate review.
+- One sky-depth quad uses a cached 64x64x64 cloud-density texture and 16 trilinear reads per visible sky fragment. World-space drift follows the supplied wind.
+- Cloud altitude is independent of the camera far plane. The retained `cloud_radius_m` export is a legacy scene property and does not bound the analytic layer.
+- A second quad renders rainbows only when liquid history and direct sun permit scattering. No rainbow appears at clear startup; weather toggles do not reseed visibility.
+- [Atmospheric optics](docs/atmosphere-optics.md) records the authored spatial assumptions and uncalibrated frequency.
+- Godot 4.5.1 native fixtures on Apple M4 verify clear/broken clouds, a forced double rainbow, dry/night negatives and opaque foreground occlusion in Mobile and Compatibility. Each active layer adds one draw call and two triangles in that fixture; fragment cost and full-world frame rate require separate profiling.
+- Native analytical checks cover 3,236 optical/history/coverage cases, 16 cardinal/light/wind assertions seven canonical file pairs and 25 accepted-clock/live-wind integration cases. Visual acceptance remains a separate review.
 
 ## Reference documentation
 

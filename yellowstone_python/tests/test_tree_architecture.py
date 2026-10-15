@@ -38,7 +38,8 @@ def test_invalid_tree_dimensions_fail(field, value):
                                            ("branch_count_min", 1.5),
                                            ("lower_branch_survival", -0.1),
                                            ("trunk_sway_fraction", 0.1),
-                                           ("needle_length_m", 0.2), ("fascicle_count", 3)])
+                                           ("needle_length_m", 0.2), ("fascicle_count", 3),
+                                           ("apex_taper_length_m", 0)])
 def test_invalid_architecture_parameters_fail(field, value):
     """Reject invalid distributions and unsupported needle morphology."""
     with pytest.raises(ValueError):
@@ -66,6 +67,24 @@ def test_dead_snag_has_branch_structure_and_no_foliage():
     assert len(graph["axes"]) > 1
     assert graph["shoots"] == []
     assert all(not axis["alive"] for axis in graph["axes"][1:])
+
+
+@pytest.mark.parametrize("identity", [4381, 14388, 24395, 34402])
+def test_live_crown_occupancy_and_terminal_taper(identity):
+    """Require overlapping shoot heights and a narrower upper crown across seeded variants."""
+    graph = generate_architecture(DIMENSIONS, identity)
+    spans = sorted((min(s["base_m"][1], s["tip_m"][1]),
+                    max(s["base_m"][1], s["tip_m"][1])) for s in graph["shoots"])
+    covered_to = spans[0][1]
+    for lower, upper in spans[1:]:
+        assert lower - covered_to < .12
+        covered_to = max(covered_to, upper)
+    points = [s[key] for s in graph["shoots"] for key in ("base_m", "tip_m")]
+    upper_radius = max(math.hypot(p[0], p[2]) for p in points if p[1] > 17.5)
+    middle_radius = max(math.hypot(p[0], p[2]) for p in points if 9 < p[1] < 12)
+    assert upper_radius < middle_radius * .36
+    assert max(p[1] for p in points) <= DIMENSIONS["height_m"]
+    assert any(s["parent_id"] == "stem" for s in graph["shoots"])
 
 
 def test_disconnected_parent_and_shoot_geometry_fail():

@@ -722,7 +722,11 @@ func make_vegetation() -> bool:
 			var mm := MultiMesh.new()
 			mm.transform_format=MultiMesh.TRANSFORM_3D
 			mm.use_colors=true
+			var is_tree: bool = exemplar.kind in ["pine", "snag"]
+			mm.use_custom_data=is_tree
 			mm.mesh=asset[0]
+			if is_tree:
+				LodgepoleLibrary.bind_instance_lods(asset)
 			mm.instance_count=render_entries.size()
 			var batch_cell_m: float = 64.0 if exemplar.kind in ["pine", "snag"] and detail_bounds.has_point(Vector2(exemplar.position[0], exemplar.position[2])) else 256.0
 			var center := Vector3((floor(float(exemplar.position[0])/batch_cell_m)+0.5)*batch_cell_m,0,(floor(float(exemplar.position[2])/batch_cell_m)+0.5)*batch_cell_m)
@@ -739,11 +743,14 @@ func make_vegetation() -> bool:
 					return false
 				var color := Color(float(LodgepoleLibrary.variation_key(r)) / 3.0, 1.0, 1.0, 1.0) if int(batch[2]) == -2 else Color.WHITE
 				append_instance(instance_buffer,xf,color)
+				if is_tree:
+					var height_m: float = float(LodgepoleLibrary.display_dimensions(r).height_m)
+					instance_buffer.append_array(PackedFloat32Array([p.x, p.y + height_m * 0.5, p.z, 1.0]))
 				var bounds: AABB=xf*mm.mesh.get_aabb()
 				instance_bounds=bounds if i==0 else instance_bounds.merge(bounds)
 			mm.buffer=instance_buffer
 			mm.custom_aabb=instance_bounds.grow(.7)
-			assert(mm.buffer.size()==render_entries.size()*16,"Vegetation instance data lost")
+			assert(mm.buffer.size()==render_entries.size()*(20 if is_tree else 16),"Vegetation instance data lost")
 			var node := MultiMeshInstance3D.new()
 			node.name=key + "_%s_%d" % [str(asset[4]), int(asset[2])] if exemplar.kind in ["pine", "snag"] else key
 			if int(batch[2]) >= 0:
@@ -773,6 +780,13 @@ func make_vegetation() -> bool:
 			own(node,group)
 		for tree_mesh: MultiMeshInstance3D in tree_meshes:
 			tree_mesh.multimesh.custom_aabb = tree_bin_bounds.grow(.7)
+			var radius_m: float = tree_mesh.multimesh.custom_aabb.size.length() * 0.5
+			var begin_padding_m: float = radius_m + clampf(tree_mesh.visibility_range_begin * 0.1, 2.0, 18.0)
+			var end_padding_m: float = radius_m + clampf(tree_mesh.visibility_range_end * 0.1, 2.0, 18.0)
+			tree_mesh.set_meta("instance_lod", true)
+			tree_mesh.set_meta("lod_batch_padding_m", [begin_padding_m, end_padding_m])
+			tree_mesh.visibility_range_begin = maxf(0.0, tree_mesh.visibility_range_begin - begin_padding_m)
+			tree_mesh.visibility_range_end += end_padding_m
 		# Trunk colliders at the same placement as meshes.
 		if exemplar.kind in ["pine", "snag"]:
 			for r: Dictionary in entries:

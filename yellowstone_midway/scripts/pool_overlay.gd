@@ -6,6 +6,8 @@ const RAMP_DIR_PRIMARY := "res://assets/textures/pool_ramps/"
 const RAMP_DIR_SECONDARY := "res://assets/textures/pool_ramps/"
 const RAMP_SCHEMA := "yellowstone.pool_radiative_ramp.v1"
 const POOL_SHELLS_PATH := "res://data/pool_shells.json"
+const DISPLAY_CONFIG := "res://data/display/prismatic.json"
+const DISPLAY_RAMP := "res://assets/textures/prismatic_water_display.png"
 
 var applied_count: int = 0
 var primary_applied: int = 0
@@ -26,6 +28,10 @@ func reload() -> void:
 			var material: ShaderMaterial = mesh.mesh.surface_get_material(0) as ShaderMaterial
 			if material != null:
 				material.set_shader_parameter("ramp_mix", 0.0)
+				material.set_shader_parameter("display_ramp_mix", 0.0)
+				material.set_shader_parameter("display_band_ramp", null)
+				material.remove_meta("pool_display_class")
+				material.remove_meta("pool_display_sha256")
 				material.set_shader_parameter("band_ramp", null)
 				material.remove_meta("pool_ramp_path")
 				material.remove_meta("pool_ramp_sha256")
@@ -58,6 +64,7 @@ func reload() -> void:
 		if not mat is ShaderMaterial:
 			continue
 		var sm: ShaderMaterial = mat as ShaderMaterial
+		_apply_display(sm, pool_id)
 		# Published radiative-transfer ramp in the selected generation.
 		var primary_png: String = RAMP_DIR_PRIMARY + "ramp_" + pool_id + ".png"
 		var primary_json: String = RAMP_DIR_PRIMARY + "ramp_" + pool_id + ".json"
@@ -92,3 +99,19 @@ func _apply_ramp(sm: ShaderMaterial, png_path: String, json_path: String, pool_i
 	sm.set_meta("pool_ramp_path", ReleaseData.resolve_path(png_path))
 	sm.set_meta("pool_ramp_sha256", ReleaseData.get_sha256(png_path))
 	return true
+
+func _apply_display(sm: ShaderMaterial, pool_id: String) -> void:
+	if not FileAccess.file_exists(DISPLAY_CONFIG):
+		return
+	var config: Variant = JSON.parse_string(FileAccess.get_file_as_string(DISPLAY_CONFIG))
+	if not config is Dictionary or config.get("schema") != "yellowstone.spring_display.v1":
+		return
+	if config.get("pool_id") != pool_id or not ResourceLoader.exists(DISPLAY_RAMP):
+		return
+	var texture: Texture2D = load(DISPLAY_RAMP) as Texture2D
+	if texture == null:
+		return
+	sm.set_shader_parameter("display_band_ramp", texture)
+	sm.set_shader_parameter("display_ramp_mix", 1.0)
+	sm.set_meta("pool_display_class", config.get("value_class", "authored_image_informed_display"))
+	sm.set_meta("pool_display_sha256", FileAccess.get_sha256(DISPLAY_RAMP))

@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode unshaded, cull_disabled;
+#include "res://shaders/tree_lod.gdshaderinc"
 uniform sampler2D view_0 : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
 uniform sampler2D view_1 : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
 uniform sampler2D view_2 : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
@@ -19,8 +20,11 @@ void vertex() {
     vec3 world_position = center + right * VERTEX.x * length(MODEL_MATRIX[0].xyz)
         + vec3(0.0, VERTEX.y * length(MODEL_MATRIX[1].xyz), 0.0);
     POSITION = PROJECTION_MATRIX * VIEW_MATRIX * vec4(world_position, 1.0);
+    tree_distance_m = distance(INSTANCE_CUSTOM.xyz, MAIN_CAM_INV_VIEW_MATRIX[3].xyz);
+    if (tree_lod_outside(tree_distance_m)) POSITION = vec4(2.0, 2.0, 2.0, 1.0);
 }
 void fragment() {
+    if (tree_lod_discard(FRAGCOORD.xy)) discard;
     vec4 color;
     if (use_view_layers) color = texture(view_layers, vec3(UV, float(variant_index * 4 + direction_index)));
     else if (direction_index == 0) color = texture(view_0, UV);

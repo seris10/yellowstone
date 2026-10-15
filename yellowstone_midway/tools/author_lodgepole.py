@@ -157,12 +157,14 @@ def build_tree(spec: dict, lod: int, seed: int, architecture: dict | None = None
         if not selected:
             continue
         points = np.array(axis["points_m"])
+        if axis["order"] == 2 and np.allclose(points, np.linspace(points[0], points[-1], len(points)), rtol=0, atol=1e-10):
+            points = points[[0, -1]]
         if lod:
             points = points.copy()
         taper = np.linspace(axis["radius_base_m"], .0015 if axis["order"] == 2 else .002, len(points))
         branches.tube(points, taper.tolist(), [5 if axis["order"] == 1 else 3, 3, 3][lod], axis["id"], axis["parent_id"])
     def spray(center, direction, length, width, roll):
-        direction = np.array(direction)
+        direction = np.array(direction, dtype=float)
         direction /= np.linalg.norm(direction)
         across = np.cross(direction, np.array([0., 1., 0.]))
         if np.linalg.norm(across) < 1e-8:
@@ -172,9 +174,32 @@ def build_tree(spec: dict, lod: int, seed: int, architecture: dict | None = None
         for angle in [roll, roll + math.pi / 2]:
             cross = across * math.cos(angle) + depth * math.sin(angle)
             leaves.card(np.array(center), direction, cross, length, width)
-    for index, shoot in enumerate(graph["shoots"]):
-        center = (np.array(shoot["base_m"]) + np.array(shoot["tip_m"])) * .5
-        spray(center, shoot["direction"], shoot["length_m"] + .09, .16, index * 2.399963)
+    if lod == 0:
+        for index, shoot in enumerate(graph["shoots"]):
+            center = (np.array(shoot["base_m"]) + np.array(shoot["tip_m"])) * .5
+            tip_scale = min(1., shoot["length_m"] / .25)
+            spray(center, shoot["direction"], shoot["length_m"] + .09 * tip_scale,
+                  .19 * tip_scale, index * 2.399963)
+    else:
+        groups = {}
+        for shoot in graph["shoots"]:
+            parent = axes[shoot["parent_id"]]
+            identity = parent["parent_id"] if lod == 2 and parent["order"] == 2 else parent["id"]
+            groups.setdefault(identity, []).append(shoot)
+        for index, shoots in enumerate(groups.values()):
+            points = np.array([s[k] for s in shoots for k in ("base_m", "tip_m")])
+            lo, hi = points.min(axis=0), points.max(axis=0)
+            center = (lo + hi) * .5
+            apex_scale = min(1., max(.03, (height-center[1])/parameters.apex_taper_length_m))
+            if lod == 1:
+                direction = np.mean([s["direction"] for s in shoots], axis=0)
+                length = np.linalg.norm(hi-lo) + .09*apex_scale
+                width = max(.22*apex_scale, np.linalg.norm((hi-lo)[[0,2]]) * .65)
+                spray(center, direction, length, width, index * 2.399963)
+            else:
+                length = max(.25*apex_scale, hi[1]-lo[1]+.12*apex_scale)
+                width = max(.22*apex_scale, np.linalg.norm((hi-lo)[[0,2]])+.12*apex_scale)
+                spray(center, [0,1,0], length, width, index * 2.399963)
     for point in bole.positions:
         point[1] = min(height, max(0.0, point[1]))
     bounds = np.array(bole.positions + branches.positions + leaves.positions)
@@ -247,6 +272,8 @@ def write_gltf(path: Path, surfaces: list[Surface], lod: int, *, provenance: dic
                bark_uri: str = "../pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg") -> int:
     """Write a glTF with separate instanced bole, branches and needle meshes."""
     document = {"asset": {"version": "2.0", "generator": "Yellowstone authored lodgepole geometry"}, "scene": 0, "scenes": [{"nodes": [0]}], "nodes": [{"name": "Lodgepole", "children": []}], "meshes": [], "accessors": [], "bufferViews": [], "buffers": [], "images": [{"uri": "../pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg"}, {"uri": "needle_shoot.png"}], "textures": [{"sampler": 0, "source": 0}, {"sampler": 1, "source": 1}], "samplers": [{"magFilter": 9729, "minFilter": 9987, "wrapS": 10497, "wrapT": 10497}, {"magFilter": 9729, "minFilter": 9987, "wrapS": 33071, "wrapT": 33071}], "materials": [{"name": "CC0Bark", "pbrMetallicRoughness": {"baseColorTexture": {"index": 0}, "baseColorFactor": [0.72, 0.72, 0.65, 1], "metallicFactor": 0, "roughnessFactor": 0.92}}, {"name": "AuthoredPairedNeedles", "doubleSided": True, "alphaMode": "MASK", "alphaCutoff": 0.32, "pbrMetallicRoughness": {"baseColorTexture": {"index": 1}, "metallicFactor": 0, "roughnessFactor": 0.87}}]}
+    if lod > 0:
+        document["images"][1]["uri"] = "needle_cluster.png"
     binary = bytearray()
     document["images"][0]["uri"] = bark_uri
     if provenance is not None:
@@ -314,43 +341,117 @@ def export_selected_architecture(library_path: Path, variant_id: str | None, out
 
 
 
+def _coverage_uv(side: int = 192) -> np.ndarray:
+    """Return deterministic stratified UVs for offline filter calibration."""
+    y, x = np.meshgrid(np.arange(side), np.arange(side), indexing="ij")
+    jitter = np.random.default_rng(1643).random((side * side, 2))
+    return (np.column_stack([x.ravel(), y.ravel()]) + jitter) / side
+
+
+def _alpha_taps(alpha: np.ndarray, uv: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Return clamp-to-edge bilinear texels and weights at normalized UVs."""
+    height, width = alpha.shape
+    position = uv * np.array([width, height]) - .5
+    index = np.floor(position).astype(int)
+    u, v = (position - index).T
+    x, y = index.T
+    left, right = x.clip(0, width - 1), (x + 1).clip(0, width - 1)
+    top, bottom = y.clip(0, height - 1), (y + 1).clip(0, height - 1)
+    taps = np.array([alpha[top, left], alpha[top, right], alpha[bottom, left], alpha[bottom, right]])
+    return taps, np.array([(1-u)*(1-v), u*(1-v), (1-u)*v, u*v])
+
+
+def _sample_alpha(alpha: np.ndarray, uv: np.ndarray) -> np.ndarray:
+    """Evaluate the bilinear alpha field used by the renderer."""
+    taps, weights = _alpha_taps(alpha, uv)
+    return (taps * weights).sum(axis=0)
+
+
+def _filtered_alpha(alpha: np.ndarray, previous: np.ndarray, target: float,
+                    cutoff: float, uv: np.ndarray) -> tuple[np.ndarray, dict]:
+    """Fit quantized alpha against bilinear and adjacent trilinear coverage."""
+    taps, weights = _alpha_taps(alpha, uv)
+    def evaluate(scale):
+        sampled = (np.rint(np.clip(taps * scale, 0, 1) * 255) / 255 * weights).sum(axis=0)
+        coverages = [float((sampled >= cutoff).mean())]
+        coverages.extend(float((previous * (1-fraction) + sampled * fraction >= cutoff).mean())
+                         for fraction in (.25, .5, .75))
+        return coverages
+    low, high = 0., 1.
+    while np.mean(evaluate(high)) < target and high < 4096:
+        high *= 2
+    for _ in range(22):
+        middle = (low + high) * .5
+        if np.mean(evaluate(middle)) < target:
+            low = middle
+        else:
+            high = middle
+    scale = min((low, high), key=lambda candidate: max(abs(value-target) for value in evaluate(candidate)))
+    result = np.rint(np.clip(alpha * scale, 0, 1) * 255).astype(np.uint8)
+    mode = "filtered_coverage_fit"
+    if target > 0 and alpha.size == 1:
+        result[:] = 255
+        mode = "terminal_single_texel_conservative_visibility"
+    elif target > 0 and result.max() < math.ceil(cutoff * 255):
+        result.flat[int(alpha.argmax())] = math.ceil(cutoff * 255)
+        mode = "subpixel_single_survivor"
+    sampled = _sample_alpha(result / 255, uv)
+    return result, {"alpha_scale": scale, "calibration_mode": mode,
+        "bilinear_coverage": float((sampled >= cutoff).mean()),
+        "trilinear_coverage_from_previous": [float((previous*(1-fraction)+sampled*fraction >= cutoff).mean())
+                                              for fraction in (.25, .5, .75)]}
+
+
 def cutout_mip_chain(path: Path, cutoff: float = .32) -> dict:
-    """Export premultiplied-color mip levels with conserved alpha-test occupancy."""
+    """Export premultiplied-color mips calibrated after bilinear/trilinear filtering."""
     source = Image.open(path).convert("RGBA")
     pixels = np.array(source, dtype=np.float64) / 255
-    target = float((pixels[:,:,3] >= cutoff).mean())
+    rgb = pixels[:, :, :3]
+    linear_rgb = np.where(rgb <= .04045, rgb / 12.92, ((rgb + .055) / 1.055) ** 2.4)
+    if not 0 < cutoff < 1:
+        raise ValueError("Alpha cutoff must lie strictly between zero and one")
+    uv = _coverage_uv()
+    previous = _sample_alpha(pixels[:, :, 3], uv)
+    target = float((previous >= cutoff).mean())
+    point_target = float((pixels[:, :, 3] >= cutoff).mean())
     width, height = source.size
     data = bytearray()
     levels = []
     offset = 0
-    for level in range(int(math.log2(max(width,height)))+1):
-        w, h = max(1,width >> level), max(1,height >> level)
+    for level in range(int(math.log2(max(width, height))) + 1):
+        w, h = max(1, width >> level), max(1, height >> level)
         if level == 0:
             rgba = np.array(source)
+            calibration = {"alpha_scale": 1., "calibration_mode": "unaltered_source",
+                           "bilinear_coverage": target, "trilinear_coverage_from_previous": []}
         else:
-            alpha = np.array(Image.fromarray(pixels[:,:,3].astype(np.float32)).resize((w,h),Image.Resampling.BOX))
+            alpha = np.array(Image.fromarray(pixels[:, :, 3].astype(np.float32)).resize((w, h), Image.Resampling.BOX))
             colors = []
             for channel in range(3):
-                premult = pixels[:,:,channel] * pixels[:,:,3]
-                average = np.array(Image.fromarray(premult.astype(np.float32)).resize((w,h),Image.Resampling.BOX))
-                colors.append(np.divide(average,alpha,out=np.zeros_like(average),where=alpha>1e-9))
-            count = int(round(target * w * h))
-            order = np.argsort(alpha.ravel(),kind="stable")
-            corrected = np.zeros(w*h,dtype=np.uint8)
-            if count:
-                selected = order[-count:]
-                pivot = max(float(alpha.ravel()[selected].min()),1e-9)
-                corrected = np.minimum(255,np.round(alpha.ravel()*(cutoff+1/255)/pivot*255)).astype(np.uint8)
-                corrected[order[:-count]] = np.minimum(corrected[order[:-count]],math.ceil(cutoff*255)-1)
-                corrected[selected] = np.maximum(corrected[selected],math.ceil(cutoff*255))
-            rgba = np.dstack([np.uint8(np.clip(color,0,1)*255) for color in colors]+[corrected.reshape(h,w)])
+                premult = linear_rgb[:, :, channel] * pixels[:, :, 3]
+                average = np.array(Image.fromarray(premult.astype(np.float32)).resize((w, h), Image.Resampling.BOX))
+                linear = np.divide(average, alpha, out=np.zeros_like(average), where=alpha > 1e-9)
+                colors.append(np.where(linear <= .0031308, linear * 12.92, 1.055 * np.maximum(linear, 0) ** (1/2.4) - .055))
+            corrected, calibration = _filtered_alpha(alpha, previous, target, cutoff, uv)
+            rgba = np.dstack([np.uint8(np.clip(color, 0, 1) * 255) for color in colors] + [corrected])
+        previous = _sample_alpha(rgba[:, :, 3] / 255, uv)
         block = rgba.tobytes()
-        levels.append({"level":level,"width":w,"height":h,"offset":offset,"bytes":len(block),"alpha_test_coverage":float((rgba[:,:,3]>=cutoff*255).mean())})
+        levels.append({"level": level, "width": w, "height": h, "offset": offset, "bytes": len(block),
+            "alpha_test_coverage": float((rgba[:, :, 3] >= cutoff * 255).mean()), **calibration})
         data.extend(block)
         offset += len(block)
     output = path.with_suffix(".miprgba")
     output.write_bytes(data)
-    return {"path":output.name,"sha256":hashlib.sha256(data).hexdigest(),"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"bytes":len(data),"width":width,"height":height,"cutoff":cutoff,"base_coverage":target,"levels":levels,"evidence_class":"authored","method":"Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"}
+    return {"path": output.name, "sha256": hashlib.sha256(data).hexdigest(),
+        "source_sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "bytes": len(data),
+        "width": width, "height": height, "cutoff": cutoff, "base_coverage": point_target,
+        "filtered_coverage_target": target, "calibration_samples": len(uv),
+        "trilinear_fractions": [.25, .5, .75], "filter_address_mode": "clamp_to_edge",
+        "levels": levels, "evidence_class": "authored", "color_filter_space": "linear_sRGB",
+        "method": "Linear-light premultiplied RGB box filter; quantized alpha bisection against stratified bilinear and adjacent trilinear coverage",
+        "method_source": "https://www.ludicon.com/castano/blog/articles/computing-alpha-mipmaps/",
+        "limitations": ["Finite UV samples approximate filtered coverage; anisotropic projected geometry requires native checks.",
+                        "Very small levels cannot reproduce every spatial coverage; a nonempty 1x1 source remains visible conservatively."]}
 
 
 def export_mipmaps(output: Path, metadata: dict) -> None:
@@ -428,6 +529,9 @@ def main() -> None:
                 for surface in surfaces[1:]:
                     surface.positions = [vertex*scale+translation for vertex in surface.positions]
                     surface.normals = [normal/scale/np.linalg.norm(normal/scale) for normal in surface.normals]
+            for surface in surfaces[1:]:
+                for vertex in surface.positions:
+                    vertex[1] = min(spec["height_m"], vertex[1])
             bounds = np.array([vertex for surface in surfaces for vertex in surface.positions])
             report["bounds_m"] = [bounds.min(axis=0).tolist(), bounds.max(axis=0).tolist()]
             report["crown_bounds_m"] = [reference[0].tolist(), reference[1].tolist()]
@@ -482,6 +586,9 @@ def main() -> None:
                 for surface in lod_surfaces[1:]:
                     surface.positions = [point*scale+translation for point in surface.positions]
                     surface.normals = [normal/scale/np.linalg.norm(normal/scale) for normal in surface.normals]
+                for surface in lod_surfaces[1:]:
+                    for vertex in surface.positions:
+                        vertex[1] = min(spec["height_m"], vertex[1])
                 lod_filename = f"{name}_variant{variant}_lod{level}.gltf"
                 selected_files.append(lod_filename)
                 primary_repair = bind_primary_roots_to_bole(lod_surfaces)
@@ -497,7 +604,7 @@ def main() -> None:
         architecture_lod_files[name] = lod_files
     architecture_path = args.output / "architecture_library.json"
     write_library(architecture_path, {"schema":"yellowstone.tree_architecture_library.v1","variants":architecture_graphs})
-    metadata = {"schema": "yellowstone.lodgepole_assets.v1", "scientific_name": "Pinus contorta var. latifolia", "geometry_license": "Apache-2.0", "needle_texture_license": "Apache-2.0", "near_architecture_variants": 4, "bark_texture_license": "CC0-1.0", "archetypes": ARCHETYPES, "dimension_provenance": "authored", "uncertainty": "unknown", "sources": SOURCES, "lod_ranges_m": [[0, 18], [18, 65], [65, 180], [180, 3000]], "lods": reports, "display_envelope_model": BECHTOLD_MODEL, "photo_display": PHOTO_DISPLAY, "architecture_method_sources": generate_architecture(ARCHETYPES["dense"], "metadata")["sources"], "display_envelope_reference_cases": [{"dbh_m": inches * .0254, "radius_m": bechtold_crown_radius_m(inches * .0254)} for inches in [5., 10., 20., 62.2]], "limitations": ["Archetype dimensions are authored rendering assumptions, not measured allometry.", "LiDAR-derived heights remain independent; full display crowns combine retained core radii with transferred or authored envelopes.", "Fallback DBH is authored; TreeMap DBH/crown ratio are transferred. Display crown base adds an authored photo-derived constraint.", "Needle cards approximate shoots; middle LODs preserve shoot placement while reducing wood tessellation.", "Operator-supplied Tripo candidate is inspected separately and its unspecified license is not relabeled.", "Far impostors retain the selected archetype crown ratio beyond 180 m.", "Botanical acceptance and empirical allometry are not established by topology or rendering checks."]}
+    metadata = {"schema": "yellowstone.lodgepole_assets.v1", "scientific_name": "Pinus contorta var. latifolia", "geometry_license": "Apache-2.0", "needle_texture_license": "Apache-2.0", "near_architecture_variants": 4, "bark_texture_license": "CC0-1.0", "archetypes": ARCHETYPES, "dimension_provenance": "authored", "uncertainty": "unknown", "sources": SOURCES, "lod_ranges_m": [[0, 18], [18, 65], [65, 180], [180, 3000]], "lods": reports, "display_envelope_model": BECHTOLD_MODEL, "photo_display": PHOTO_DISPLAY, "architecture_method_sources": generate_architecture(ARCHETYPES["dense"], "metadata")["sources"], "display_envelope_reference_cases": [{"dbh_m": inches * .0254, "radius_m": bechtold_crown_radius_m(inches * .0254)} for inches in [5., 10., 20., 62.2]], "limitations": ["Archetype dimensions are authored rendering assumptions, not measured allometry.", "LiDAR-derived heights remain independent; full display crowns combine retained core radii with transferred or authored envelopes.", "Fallback DBH is authored; TreeMap DBH/crown ratio are transferred. Display crown base adds an authored photo-derived constraint.", "Needle cards approximate shoots; middle LODs aggregate attached shoots into bounded leafy sprays and reduce wood tessellation.", "Operator-supplied Tripo candidate is inspected separately and its unspecified license is not relabeled.", "Far impostors retain the selected archetype crown ratio beyond 180 m.", "Botanical acceptance and empirical allometry are not established by topology or rendering checks."]}
     signature = hashlib.sha256(b"".join(path.read_bytes() for path in sorted(args.output.glob("*_lod*.bin")))).hexdigest()
     metadata["geometry_sha256"] = signature
     metadata["near_variant_files"] = near_variants

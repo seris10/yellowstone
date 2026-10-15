@@ -13,6 +13,7 @@ uniform float detail_z_min_m = -640.0;
 uniform float detail_width_m = 1280.0;
 uniform float detail_height_m = 1280.0;
 uniform float soil_tile_width_m = 3.15;
+uniform float forest_tile_width_m = 2.0;
 uniform float trail_tile_width_m = 2.0;
 uniform float macro_color_strength = 0.28;
 uniform float ground_wetness = 0.12;
@@ -51,12 +52,23 @@ GroundSurface ground_surface(vec3 p, vec3 n) {
  GroundSurface surface;
  vec2 uv = p.xz / soil_tile_width_m;
  vec2 rotated_uv = mat2(vec2(0.8, -0.6), vec2(0.6, 0.8)) * uv * 0.23;
- vec3 soil = mix(texture(ground_color_layers, vec3(uv, 0.0)).rgb, texture(ground_color_layers, vec3(rotated_uv, 0.0)).rgb, 0.32);
- vec3 soil_arm = texture(ground_arm_layers, vec3(uv, 0.0)).rgb;
+ vec3 soil = mix(texture(ground_color_layers, vec3(uv, 2.0)).rgb, texture(ground_color_layers, vec3(rotated_uv, 2.0)).rgb, 0.32);
+ vec3 soil_arm = texture(ground_arm_layers, vec3(uv, 2.0)).rgb;
  vec4 biome = texture(biome_map, (p.xz + vec2(2048.0)) / 4096.0);
  float variation = texture(detail_map, p.xz / 67.0).r;
  vec3 meadow = mix(vec3(0.20, 0.235, 0.08), vec3(0.42, 0.39, 0.20), variation);
+ float forest_weight = (1.0 - biome.g) * (1.0 - biome.r);
  vec3 forest = soil * vec3(0.59, 0.60, 0.47);
+ vec2 soil_xy = (texture(ground_normal_layers, vec3(uv, 3.0)).rg * 2.0 - 1.0) * 0.90;
+ if (forest_weight > 0.0001) {
+  vec2 forest_uv = p.xz / forest_tile_width_m;
+  vec2 forest_macro_uv = mat2(vec2(0.8, -0.6), vec2(0.6, 0.8)) * forest_uv;
+  forest = mix(texture(ground_color_layers, vec3(forest_uv, 0.0)).rgb, texture(ground_color_layers, vec3(forest_macro_uv, 0.0)).rgb, 0.32);
+  vec3 forest_arm = texture(ground_arm_layers, vec3(forest_uv, 0.0)).rgb;
+  vec2 forest_xy = (texture(ground_normal_layers, vec3(forest_uv, 0.0)).rg * 2.0 - 1.0) * 0.90;
+  soil_arm = mix(soil_arm, forest_arm, 1.0 - biome.g);
+  soil_xy = mix(soil_xy, forest_xy, 1.0 - biome.g);
+ }
  vec3 ground = mix(forest, meadow * (soil * 1.45 + 0.38), biome.g);
  vec3 mineral = mix(vec3(0.61, 0.59, 0.48), vec3(0.84, 0.81, 0.68), variation);
  vec4 mineral_sample = texture(ground_normal_layers, vec3(p.xz / 4.0, 2.0));
@@ -71,7 +83,8 @@ GroundSurface ground_surface(vec3 p, vec3 n) {
  float pigment = smoothstep(0.045, 0.14, photo.r - photo.b) * smoothstep(0.02, 0.09, photo.g - photo.b) * biome.r;
  photo = mix(photo, photo * vec3(1.04, 0.80, 0.76), pigment * 0.65);
  vec3 photo_detail = mix(soil * 0.95 + 0.66, vec3(mineral_relief), biome.r);
- ground = mix(ground, photo * photo_detail, mix(macro_color_strength, 0.68, biome.r));
+ float photo_weight = mix(macro_color_strength, 0.68, biome.r) * (1.0 - forest_weight * 0.80);
+ ground = mix(ground, photo * photo_detail, photo_weight);
  float edge_detail = texture(detail_map, p.xz / 1.8).r - 0.5;
  float tread = smoothstep(0.18, 0.72, texture(trail_mask, (p.xz + vec2(2048.0)) / 4096.0).r + edge_detail * 0.06);
  vec2 trail_uv = p.xz / trail_tile_width_m;
@@ -81,7 +94,6 @@ GroundSurface ground_surface(vec3 p, vec3 n) {
  ground = mix(ground, mix(dirt, trail, 0.82), tread);
  float wet = clamp(ground_wetness * biome.b, 0.0, 1.0);
  surface.albedo = ground * mix(1.0, 0.73, wet);
- vec2 soil_xy = (texture(ground_normal_layers, vec3(uv, 0.0)).rg * 2.0 - 1.0) * 0.90;
  vec2 trail_xy = (texture(ground_normal_layers, vec3(trail_uv, 1.0)).rg * 2.0 - 1.0) * 0.65;
  vec2 mineral_xy = mineral_sample.rg * 2.0 - 1.0;
  mineral_xy += mat2(vec2(0.8, 0.6), vec2(-0.6, 0.8)) * (mineral_meso.rg * 2.0 - 1.0) * (4.0 / 19.0);

@@ -16,6 +16,77 @@ SOURCE_REF_FIELDS = ("path", "key", "expected")
 UNKNOWN = "unknown"
 
 PARAMS = [
+    {'param_id': 'rainbow.visible_water_indices',
+     'meaning': 'Representative visible-water indices 1.331, 1.335, 1.343 for geometric red, green and '
+                'violet bows',
+     'units': 'dimensionless',
+     'param_class': 'illustrative',
+     'source': 'authored representative indices within visible water dispersion; Harvey et al. (1998), '
+               'doi:10.1063/1.556029; scripts/atmosphere_optics.gd DROP_INDICES',
+     'applicability': 'spherical-drop stationary angles and unpolarized Fresnel throughput',
+     'uncertainty': 'unknown',
+     'missingness': 'no local droplet temperature, size spectrum or spectral calibration',
+     'review': 'not_yet_accepted'},
+    {'param_id': 'rainbow.angular_display',
+     'meaning': 'Angular Gaussian width 0.006 rad, secondary width multiplier 1.15, display radiance gain '
+                '0.42',
+     'units': 'rad; dimensionless',
+     'param_class': 'illustrative',
+     'source': 'authored three-band caustic display in shaders/rainbow.gdshader; angular locations follow '
+               'Snell law',
+     'applicability': 'solar disk and unresolved droplet-width approximation',
+     'uncertainty': 'unknown',
+     'missingness': 'no measured phase function, Mie diffraction or local visibility calibration',
+     'review': 'not_yet_accepted'},
+    {'param_id': 'rainbow.rain_curtain',
+     'meaning': 'Radius 1050 m; initial downwind 1550 m and crosswind 650 m; optical target '
+                '0.24*sqrt(mm/h), cap 1.8; buildup 75 s; evaporation 35-170 s; settling 6 m/s',
+     'units': 'm; s; m/s; dimensionless optical depth',
+     'param_class': 'illustrative',
+     'source': 'authored spatial and liquid-history assumptions in scripts/atmosphere_optics.gd; WMO '
+               'International Cloud Atlas primary rainbow requires an illuminated screen of drops',
+     'applicability': 'local forcing drives one finite-lived advected remote curtain; no random event gate',
+     'uncertainty': 'unknown',
+     'missingness': 'no resolved regional showers, measured liquid-water field or local rainbow frequency',
+     'review': 'not_yet_accepted'},
+    {'param_id': 'cloud.layer_display',
+     'meaning': 'Four vertical samples; cached 64x64x64 three-octave Simplex density at noise frequency 0.045; '
+                'threshold 0.75 to 0.24; optical-depth scale 3.4; 0.18 edge softness; '
+                'authored dome and directional-density lighting',
+     'units': 'dimensionless',
+     'param_class': 'illustrative',
+     'source': 'authored slab display in shaders/yellowstone_cloud_shell.gdshader and '
+               'scripts/atmosphere_optics.gd; forcing supplies cloud base, thickness, cover and wind',
+     'applicability': 'sky layer and matching cloud attenuation of sunlight at rain-curtain midpoint',
+     'uncertainty': 'unknown',
+     'missingness': 'no local cloud microphysics or measured field; coverage-to-noise relation '
+                    'approximated',
+     'review': 'not_yet_accepted'},
+    {'param_id': 'spring.image_informed_display_profile',
+     'meaning': 'Grand Prismatic ordered sRGB image samples and authored normalized radial stops; '
+                'cyan/green 0.84-0.974, yellow 0.974-1.0',
+     'units': 'sRGB color; normalized radius; apron distance m',
+     'param_class': 'illustrative',
+     'source': 'authored_image_informed_display in yellowstone_midway/data/display/prismatic.json; '
+               'user-supplied reference samples retain steam and unknown camera processing',
+     'applicability': 'display-only linear-light palette interpolation; scientific published '
+                      'radiative-transfer and microbial pigment outputs unchanged',
+     'uncertainty': 'unknown',
+     'missingness': 'no calibrated reflectance, known illumination or measured perspective-correct ring '
+                    'widths',
+     'review': 'not_yet_accepted'},
+    {'param_id': 'spring.terrace_relief_display',
+     'meaning': 'Spacing 6.5 m, ridge width 0.8 m, height scale 0.065 m, eight retained harmonics and 17 m '
+                'waviness',
+     'units': 'm',
+     'param_class': 'illustrative',
+     'source': 'authored flow-oriented display relief; yellowstone_midway/data/display/prismatic.json',
+     'applicability': 'band-limited normals and color relief aligned outward from pool source; terrain and '
+                      'collision unchanged',
+     'uncertainty': 'unknown',
+     'missingness': 'no measured terrace profiles or subpixel geographic reconstruction',
+     'review': 'not_yet_accepted'},
+
     {
         "param_id": "sky.optical_columns",
         "meaning": "Rayleigh spectrum at 680, 550, 440 nm; 8000 m scale height; 2200 m elevation; ozone effective column 15000 m",
@@ -1331,7 +1402,7 @@ PARAMS.extend({
     "uncertainty": UNKNOWN,
     "missingness": "no field dimensions or mortality survey",
     "review": "not_yet_accepted",
-} for _kind in ("snag", "log", "understory"))
+} for _kind in ("snag", "log", "understory", "litter"))
 PARAMS.extend({
     "param_id": f"canopy_display.{_name}",
     "meaning": _meaning,
@@ -1350,11 +1421,15 @@ PARAMS.extend({
     ("skin_fade_end", "Distance where aggregate skin replaces the foliage cluster layer",
      "authored 260 m in shaders/canopy_surface.gdshader skin_fade_end_m"),
     ("cluster_depth", "Display depth of anonymous canopy foliage clusters",
-     "authored 0.70*(source_top_y-source_ground_y) in scripts/canopy_surface.gd; canopy depth was not measured"),
-    ("shoot_card_size", "Physical width and height of a compact anonymous shoot card",
-     "authored 0.40 m in scripts/canopy_surface.gd; display geometry, not a measured shoot dimension"),
+     "authored min(0.70*(source_top_y-source_ground_y),2 m) in scripts/canopy_surface.gd; canopy depth was not measured"),
+    ("shoot_card_size", "Physical width of a compact anonymous shoot card",
+     "authored 0.48 m bough in scripts/canopy_surface.gd; five human-made CC0 0.18 by 0.36 m shoot images, unknown local dimensions"),
+    ("shoot_card_height", "Physical height of a compact anonymous shoot card",
+     "authored 0.64 m bough in scripts/canopy_surface.gd; component shoots remain 0.36 m including padding and attached stems"),
+    ("support_span_limit", "Maximum horizontal span of an authored residual-to-bole connection",
+     "authored 2 m in scripts/canopy_support.gd; more distant patches use local grounded display supports, with no stem census claim"),
     ("needle_repeat", "Physical repetition interval of the coarse needle texture",
-     "authored 0.40 m in shaders/canopy_surface.gdshader; derived from the authored needle atlas scale"),
+     "authored 0.48 m in scripts/canopy_surface.gd; derived from the authored CC0 bough display width"),
     ("near_lod_end", "Distance where compact high-detail foliage is replaced",
      "authored 45 m in scripts/canopy_surface.gd; display LOD distance"),
     ("middle_lod_end", "Distance where compact foliage gives way to the coarse proxy",
@@ -1384,7 +1459,7 @@ PARAMS.extend({
     ("compact_radial_profile", "Radial display factor along the compact foliage interval",
      "authored 0.28+0.72*depth_fraction in scripts/canopy_surface.gd; no local leaf-distribution fit"),
     ("near_shoot_budget", "Near-LOD display shoot clusters per residual cell",
-     "authored 64 in scripts/canopy_surface.gd; not measured shoots or stems"),
+     "authored 40 in scripts/canopy_surface.gd; not measured shoots or stems"),
     ("middle_shoot_budget", "Middle-LOD display shoot clusters per residual cell",
      "authored 16 in scripts/canopy_surface.gd; not measured shoots or stems"),
 ))
@@ -1408,6 +1483,17 @@ for _name, _value in _tree_parameters_dict(_ArchitectureParameters()).items():
     })
 
 PARAMS.extend([
+    {
+        "param_id": "tree_architecture.render_lod_transition",
+        "meaning": "Per-tree camera distance and complementary mesh transition widths",
+        "units": "m",
+        "param_class": "illustrative",
+        "source": "authored boundaries 18, 65, 180 m; half-width clamp(0.1*boundary, 2, 18) in shaders/tree_lod.gdshaderinc",
+        "applicability": "rendering only; common world-space half-height center and identity-transformed authored root",
+        "uncertainty": UNKNOWN,
+        "missingness": "perceptual transition thresholds across hardware and viewing conditions unavailable",
+        "review": "not_yet_accepted",
+    },
     {
         "param_id": "tree_architecture.crown_width_transfer",
         "meaning": "Lodgepole horizontal crown diameter from DBH within the source model range",

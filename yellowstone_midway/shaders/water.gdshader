@@ -12,6 +12,8 @@ uniform sampler2D ripple : hint_normal, filter_linear_mipmap, repeat_enable;
 // Optional per-pool authored pigment ramp (pool_shells.json + pool_ramps/); ramp_mix 0 uses the default two-color look, ramp x=0 is the hot center, x=1 the outer rim.
 uniform sampler2D band_ramp : source_color, filter_linear, repeat_disable;
 uniform float ramp_mix = 0.0;
+uniform sampler2D display_band_ramp : source_color, filter_linear, repeat_disable;
+uniform float display_ramp_mix = 0.0;
 varying vec3 world;
 varying float incline;
 void vertex(){
@@ -30,6 +32,10 @@ void fragment(){
   if(pool>0.5&&ramp_mix>0.001){
     vec3 band=texture(band_ramp,vec2(clamp(1.0-side,0.0,1.0),0.5)).rgb;
     color=mix(color,band,ramp_mix);
+    if(display_ramp_mix>0.001){
+      vec3 display_band=texture(display_band_ramp,vec2(clamp(1.0-side,0.0,1.0),0.5)).rgb;
+      color=mix(color,display_band,display_ramp_mix);
+    }
   }
   // Firehole river authored tint between 7 and 32 degC.
   if(pool<0.5&&cascade<0.5){

@@ -160,6 +160,7 @@ func _ready() -> void:
 	atmosphere_controller.name = "YellowstoneAtmosphere"
 	add_child(atmosphere_controller)
 	atmosphere_controller.configure(sun, environment, player)
+	_sync_atmosphere_clock()
 	# The build's simulation_epoch_unix anchors the simulation clock once; _process adds ecosystem.elapsed seconds to that start.
 	if spec.get("simulation_epoch_unix") != null:
 		_simulation_start_epoch_unix = float(spec["simulation_epoch_unix"])
@@ -433,6 +434,8 @@ func apply_probe_sidecars() -> void:
 func _python_mode_selected(live: bool) -> void:
 	if live:
 		ecosystem.begin_live(live_client.schema)
+		if atmosphere_controller != null:
+			atmosphere_controller.reset_simulation_elapsed(float(ecosystem.elapsed))
 		weather_snapshot_reader.set_process(false)
 		help_label.text = help_label.text.trim_suffix(" | baked Python build")
 	else:
@@ -1132,6 +1135,7 @@ func toggle_replay() -> void:
 	replay_run_name = next_path.get_file().get_basename()
 
 func _process(delta: float) -> void:
+	_sync_atmosphere_clock()
 	if ecosystem==null or status_label==null:
 		return
 	if live_client != null:
@@ -1173,10 +1177,17 @@ func _process(delta: float) -> void:
 	if _mat_pigment_blending:
 		_poll_mat_pigment_change(delta)
 
+func _sync_atmosphere_clock() -> void:
+	if atmosphere_controller == null or ecosystem == null:
+		return
+	# Accepted elapsed deltas cover holds, buffer limits, replay endpoints and single-frame stepping.
+	atmosphere_controller.time_scale = 0.0 if ecosystem.paused or ecosystem.clock_held else maxf(ecosystem.time_scale, 0.0)
+	atmosphere_controller.set_simulation_elapsed(float(ecosystem.elapsed), not ecosystem.live_mode)
+
 func update_environment() -> void:
 	if atmosphere_controller == null or ecosystem == null:
 		return
-	atmosphere_controller.time_scale = ecosystem.time_scale
+	_sync_atmosphere_clock()
 	if _has_simulation_epoch:
 		atmosphere_controller.set_simulation_timestamp(_simulation_epoch_unix, float(spec.get("utc_offset_hours", -6.0)))
 	if ecosystem.live_mode:
@@ -1187,7 +1198,7 @@ func update_environment() -> void:
 		weather["relative_humidity"] = ecosystem.humidity
 		weather["cloud_fraction"] = ecosystem.cloud
 		weather["wind_speed_mps"] = ecosystem.wind.length()
-		weather["wind_direction_deg"] = fposmod(rad_to_deg(atan2(-ecosystem.wind.x, -ecosystem.wind.y)), 360.0)
+		weather["wind_direction_deg"] = fposmod(rad_to_deg(atan2(-ecosystem.wind.x, ecosystem.wind.y)), 360.0)
 		var ecology: Dictionary = ecosystem.current_frame.get("ecology", {})
 		var terrain: Dictionary = ecology.get("terrain", {}).duplicate(true)
 		if ecology.get("snow") is Dictionary and ecology.snow.get("swe_mm") != null:

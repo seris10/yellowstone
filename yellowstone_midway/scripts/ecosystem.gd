@@ -168,12 +168,16 @@ func apply_python_frame(frame: Dictionary) -> void:
 	air_c = float(weather.get("air_c", weather.get("air_temperature_c", air_c)))
 	humidity = float(weather.get("humidity", weather.get("relative_humidity", humidity)))
 	cloud = float(weather.get("cloud", weather.get("cloud_fraction", cloud)))
-	var direction: Variant = weather.get("wind_xz_mps", params.get("weather", {}).get("wind_xz_mps", [1.8, 0.6]))
+	var direction: Variant = weather.get("wind_xz_mps")
 	if direction is Array and direction.size() == 2:
 		wind = Vector2(float(direction[0]), float(direction[1]))
 	elif weather.has("wind_speed_mps"):
 		var angle: float = deg_to_rad(float(weather.get("wind_direction_deg", 270.0)) + 180.0)
-		wind = Vector2(sin(angle), cos(angle)) * float(weather.wind_speed_mps)
+		wind = Vector2(sin(angle), -cos(angle)) * float(weather.wind_speed_mps)
+	else:
+		var fallback: Variant = params.get("weather", {}).get("wind_xz_mps", [1.8, 0.6])
+		if fallback is Array and fallback.size() == 2:
+			wind = Vector2(float(fallback[0]), float(fallback[1]))
 	for reach: Dictionary in frame.get("reaches", []):
 		if _reach_indices.has(str(reach.get("id", ""))):
 			river[int(_reach_indices[str(reach.id)])].merge(reach, true)

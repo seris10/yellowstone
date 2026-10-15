@@ -55,6 +55,7 @@ atmosphere_controller = AtmosphereController.new()
 atmosphere_controller.name = "YellowstoneAtmosphere"
 add_child(atmosphere_controller)
 atmosphere_controller.configure(sun, environment, player)
+atmosphere_controller.set_simulation_elapsed(ecosystem.elapsed)
 
 # Prefer the replay timestamp when the build supplies one; the local date and
 # day of year derive from it.
@@ -81,7 +82,8 @@ This should run before the first call to `update_environment()`. The reader is o
 For a replay clock, advance the timestamp each frame and hand the same value to the reader so `simulation_clock` freshness compares against simulated time:
 
 ```gdscript
-simulation_epoch_unix += delta * simulation_rate
+simulation_epoch_unix = simulation_start_epoch_unix + ecosystem.elapsed
+atmosphere_controller.set_simulation_elapsed(ecosystem.elapsed)
 atmosphere_controller.set_simulation_timestamp(simulation_epoch_unix, -6.0)
 weather_snapshot_reader.set_simulation_epoch_unix(simulation_epoch_unix)
 ```
@@ -114,7 +116,7 @@ func update_environment() -> void:
 		# ecosystem.wind is treated here as a world-space flow vector. Convert to
 		# meteorological FROM direction for the atmosphere controller's API.
 		local_weather["wind_direction_deg"] = fposmod(
-			rad_to_deg(atan2(-ecosystem.wind.x, -ecosystem.wind.z)),
+			rad_to_deg(atan2(-ecosystem.wind.x, ecosystem.wind.y)),
 			360.0
 		)
 	atmosphere_controller.set_weather_state(local_weather)

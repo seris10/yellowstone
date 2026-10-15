@@ -9,6 +9,9 @@ var cells := 0
 var triangles := 0
 var tiles := 0
 var represented_area := 0.0
+var minimum_retained_shoots := [40, 16]
+var support_only_clusters := [0, 0]
+var rendered_ground: RefCounted
 
 func _initialize() -> void:
 	call_deferred("verify")
@@ -37,7 +40,7 @@ func verify() -> void:
 		return
 	var parent := Node3D.new()
 	get_root().add_child(parent)
-	check(Canopy.build(parent, fixture), "Fixture build fails")
+	check(Canopy.build(parent, fixture, 128.0, [], false), "Fixture build fails")
 	var group := parent.get_node_or_null("AuthoredCanopySurface")
 	check(group != null, "Fixture canopy group is missing")
 	if group != null:
@@ -70,7 +73,7 @@ func verify() -> void:
 			if observed_group != null:
 				validate_group(observed_group, source)
 			observed.free()
-	var report := {"ok": failures.is_empty(), "engine": Engine.get_version_info().string, "checks": checks, "active_cells": cells, "triangles": triangles, "tiles": tiles, "represented_area_m2": represented_area, "fixture_geometry": fixture_geometry, "source_sha256": FileAccess.get_sha256(data_path) if not data_path.is_empty() else "fixture", "negative_controls": negative, "geometry_class": "authored", "height_evidence_class": "derived_not_field_validated", "footprint_evidence_class": "derived_not_field_validated", "shell_thickness_class": "authored_display_geometry", "stem_count_claim": "none", "scientific_acceptance": "not_yet_accepted", "elapsed_seconds": (Time.get_ticks_msec() - started) / 1000.0, "failures": failures}
+	var report := {"ok": failures.is_empty(), "engine": Engine.get_version_info().string, "checks": checks, "active_cells": cells, "triangles": triangles, "tiles": tiles, "represented_area_m2": represented_area, "fixture_geometry": fixture_geometry, "minimum_retained_shoots_by_lod": minimum_retained_shoots, "support_only_clusters_by_lod": support_only_clusters, "source_sha256": FileAccess.get_sha256(data_path) if not data_path.is_empty() else "fixture", "negative_controls": negative, "geometry_class": "authored", "height_evidence_class": "derived_not_field_validated", "footprint_evidence_class": "derived_not_field_validated", "shell_thickness_class": "authored_display_geometry", "stem_count_claim": "none", "scientific_acceptance": "not_yet_accepted", "elapsed_seconds": (Time.get_ticks_msec() - started) / 1000.0, "failures": failures}
 	var output := FileAccess.open(output_path, FileAccess.WRITE)
 	if output == null:
 		push_error("Cannot write canopy validation report: %s" % output_path)
@@ -94,6 +97,12 @@ func validate_group(group: Node3D, source: Dictionary) -> void:
 	check(group.get_meta("near_fade_begin_m", -1.0) == 0.0 and group.get_meta("near_fade_end_m", -1.0) == 0.0, "Source-grounded foliage must remain visible at near distances")
 	check(group.get_meta("cluster_live_crown_ratio", -1.0) == 0.70 and group.get_meta("cluster_depth_class", "") == "authored_display_volume", "Residual volume depth provenance differs")
 	check(group.get_meta("support_geometry_class", "") == "authored_display_geometry", "Reconstructed supports require explicit authored provenance")
+	check(group.get_meta("cluster_anchor_class", "") == "authored_display_placement" and group.get_meta("guaranteed_origin_shoot", false) == true, "Covered canopy anchors require authored provenance and an origin shoot")
+	check(group.get_meta("cluster_anchor_rule", "") == "nearest_covered_native_pixel_center_within_original_source_cell" and group.get_meta("cluster_anchor_height_rule", "") == "unchanged_source_cell_top_and_ground", "Canopy anchor rule must preserve source cell identity and elevations")
+	check(is_equal_approx(float(group.get_meta("cluster_anchor_max_offset_m", -1.0)), (source.cell_size_m - source.highres_mask_cell_size_m) / sqrt(2.0)), "Canopy anchor displacement bound differs")
+	rendered_ground = Canopy.Ground.new() if group.get_meta("support_root_rule", "").contains("rendered_terrain") else null
+	if rendered_ground != null:
+		check(rendered_ground.valid(), "Rendered canopy support terrain is valid")
 	var mask: Image = source.mask_image
 	var support: Image = source.support_image
 	var mask_bytes := mask.get_data()
@@ -211,17 +220,20 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 		return
 	check(node.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF, "Canopy clusters require disabled shadows")
 	var lod: int = node.get_meta("cluster_lod", -1)
-	check(node.visibility_range_begin == Canopy.CLUSTER_LODS[lod][0] and node.visibility_range_end == Canopy.CLUSTER_LODS[lod][1], "Canopy foliage LOD ranges differ")
+	var padding := multimesh.custom_aabb.size.length() * 0.5
+	check(is_equal_approx(node.visibility_range_begin, maxf(0.0, Canopy.CLUSTER_LODS[lod][0] - 8.0 - padding)) and is_equal_approx(node.visibility_range_end, Canopy.CLUSTER_LODS[lod][1] + padding), "Canopy coarse bounds violate the per-root triangle inequality")
 	var material: Material = multimesh.mesh.surface_get_material(0)
 	check(material is ShaderMaterial and material.get_shader_parameter("cluster_mode") == true, "Canopy cluster material mode differs")
+	check(material.get_shader_parameter("lod_begin_m") == Canopy.CLUSTER_LODS[lod][0] and material.get_shader_parameter("lod_end_m") == Canopy.CLUSTER_LODS[lod][1] and material.get_shader_parameter("lod_dither_invert") == (lod % 2 == 1), "Per-cluster canopy LOD shader contract differs")
 	var source_indices: PackedInt32Array = node.get_meta("source_indices", PackedInt32Array())
 	var buffer := multimesh.buffer
 	check(source_indices.size() == multimesh.instance_count and buffer.size() == multimesh.instance_count * 16 and multimesh.use_custom_data, "Canopy source indices or saved attachment buffer differs")
 	var shape_bounds := multimesh.mesh.get_aabb()
 	var radius: float = source.cell_size_m / sqrt(2.0)
 	var near_shoots: bool = int(Canopy.CLUSTER_LODS[lod][2]) > 0
+	var mesh_anchors: PackedVector2Array = multimesh.mesh.surface_get_arrays(0)[Mesh.ARRAY_TEX_UV2] if near_shoots else PackedVector2Array()
 	check(material.get_shader_parameter("near_shoot_mode") == near_shoots, "Metric foliage material mode differs")
-	check(material.get_shader_parameter("needle_repeat_m") == 0.40, "Residual needle texture physical scale differs")
+	check(material.get_shader_parameter("needle_repeat_m") == Canopy.SHOOT_CARD_SIZE_M and material.get_shader_parameter("shoot_envelope_m") == Canopy.SHOOT_ENVELOPE_M, "Residual needle texture physical scale differs")
 	if not near_shoots:
 		check(absf(shape_bounds.end.y) < 0.00001 and absf(shape_bounds.position.y + 1.0 / Canopy.CLUSTER_LIVE_CROWN_RATIO) < 0.00001, "Far support top or ground depth differs")
 		check(absf(shape_bounds.size.x - radius * 2.0) < 0.00001 and absf(shape_bounds.size.z - radius * sqrt(3.0)) < 0.00001, "Far foliage proxy footprint differs")
@@ -238,9 +250,21 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 		var bottom := world * Vector3(0.0, -minf(depth, 2.0) / depth, 0.0)
 		var expected_base: float = source.canopy_top_scene_y[index] - minf(depth, 2.0)
 		check(absf(bottom.y - expected_base) < 0.00001 and bottom.y > source.ground_scene_y[index], "Canopy volume lower foliage is detached from its authored source-grounded crown interval")
-		check(world.origin.distance_to(position) < 0.00001, "Canopy cluster top or XY differs from its source cell")
+		validate_anchor(world.origin, position, source)
+		if near_shoots:
+			var retained := 0
+			for shoot: int in int(Canopy.CLUSTER_LODS[lod][2]):
+				var anchor := mesh_anchors[shoot * 11]
+				var at_world := world * Vector3(anchor.x, 0.0, anchor.y)
+				retained += 1 if covered(at_world, source) else 0
+			minimum_retained_shoots[lod] = mini(minimum_retained_shoots[lod], retained)
+			support_only_clusters[lod] += 1 if retained == 0 else 0
+			check(retained > 0, "Canopy support retains zero foliage shoots after the native coverage mask")
 		var root := world * Vector3(buffer[at + 12], buffer[at + 13], buffer[at + 14])
-		check(root.is_finite() and (buffer[at + 15] == 1.0 or absf(root.y - source.ground_scene_y[index] + 0.04) < 0.00004), "Unattached display support does not reach matched source ground")
+		var ground_y: float = rendered_ground.sample(world.origin.x, world.origin.z) if rendered_ground != null else source.ground_scene_y[index]
+		check(root.is_finite() and (buffer[at + 15] == 1.0 or absf(root.y - ground_y + 0.04) < 0.00004), "Unattached display support does not reach rendered ground")
+		if buffer[at + 15] != 1.0:
+			check(Vector2(root.x - world.origin.x, root.z - world.origin.z).length() < 0.00004, "Unattached support remains at the old uncovered cell center")
 		check(multimesh.custom_aabb.grow(0.0001).has_point(root - node.position), "Woody connection exceeds batch culling bounds")
 		var volume_bounds := AABB(Vector3(-source.cell_size_m, -1.0 / Canopy.CLUSTER_LIVE_CROWN_RATIO, -source.cell_size_m), Vector3(source.cell_size_m * 2.0, 1.0 / Canopy.CLUSTER_LIVE_CROWN_RATIO, source.cell_size_m * 2.0))
 		check(multimesh.custom_aabb.grow(0.0001).encloses(transform * volume_bounds), "Shader-deformed foliage volume exceeds explicit culling bounds")
@@ -260,26 +284,28 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 	for vertex: int in vertices.size():
 		check(vertices[vertex].is_finite() and normals[vertex].is_finite() and absf(normals[vertex].length() - 1.0) < 0.00001, "Canopy cluster vertex or normal is invalid")
 		if near_shoots and colors[vertex].g < 0.5:
-			check(colors[vertex].r > 0.0 and colors[vertex].r < 1.0 and absf(vertices[vertex].y + colors[vertex].r) <= 0.203, "Metric foliage vertex differs from its authored center and physical size")
+			check(colors[vertex].r > 0.0 and colors[vertex].r < 1.0 and absf(vertices[vertex].y + colors[vertex].r) <= Canopy.SHOOT_ENVELOPE_M * 0.5 + 0.003, "Metric foliage vertex differs from its authored center and physical size")
 		elif not near_shoots and colors[vertex].g < 0.5 and absf(vertices[vertex].y) < 0.00001:
 			check(Vector2(vertices[vertex].x, vertices[vertex].z).length() <= radius * Canopy.CLUSTER_TOP_WIDTH_RATIO + 0.00001, "Canopy upper volume taper differs")
 	if near_shoots:
 		var anchors: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV2]
 		check(anchors.size() == vertices.size(), "Whole-shoot mask anchors are missing")
+		check(anchors[0].length() < 0.000001, "Near and middle LOD require a guaranteed origin shoot")
 		for shoot: int in count:
 			var base := shoot * 11
-			var center_xz := (Vector2(vertices[base].x, vertices[base].z) + Vector2(vertices[base + 1].x, vertices[base + 1].z)) * 0.5
-			for corner: int in 8:
+			var center_point := (vertices[base] + vertices[base + 2]) * 0.5
+			var center_xz := Vector2(center_point.x, center_point.z)
+			for corner: int in 11:
 				check(anchors[base + corner].distance_to(center_xz) < 0.000001, "Canopy mask clips a shoot independently of its attachment center")
 			check(colors[base + 10].g > 0.5 and colors[base].g < 0.5, "Twig and needle material classes disagree")
 			for depth: float in [0.07, 0.7, 7.0, 21.0, 70.0]:
 				var crown_depth := minf(depth, 2.0)
-				var scale := minf(1.0, crown_depth / 0.4)
+				var scale := minf(1.0, crown_depth / Canopy.SHOOT_ENVELOPE_M)
 				var center := (vertices[base + 2] + vertices[base + 3]) * 0.5
 				var fraction := colors[base].r
-				center.y = -lerpf(0.2 * scale, crown_depth - 0.2 * scale, fraction) + (center.y + fraction) * scale
+				center.y = -lerpf(Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, crown_depth - Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, fraction) + (center.y + fraction) * scale
 				var tip := vertices[base + 10]
-				tip.y = tip.y * crown_depth + uvs[base + 10].y * scale
+				tip.y = -lerpf(Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, crown_depth - Canopy.SHOOT_ENVELOPE_M * 0.5 * scale, fraction) + (tip.y + fraction) * scale
 				check(center.distance_to(tip) < 0.00001, "Needle base and woody twig disconnect after nonuniform height scaling")
 			var left := vertices[base + 8]
 			var right := vertices[base + 9]
@@ -298,6 +324,34 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 		check(multiplicity in [1, 2], "Needle card edge is nonmanifold")
 	check(edges.values().count(1) == quads * 4 + count * 3 and edges.values().count(2) == quads, "Needle, twig and support edge counts differ")
 
+func covered(position: Vector3, source: Dictionary) -> bool:
+	var origin: Vector2 = Vector2(source.first_cell_x_m, source.first_cell_z_m) - Vector2.ONE * source.cell_size_m * 0.5
+	var pixel: Vector2 = (Vector2(position.x, position.z) - origin) / source.highres_mask_cell_size_m
+	var mask: Image = source.mask_image
+	var x := floori(pixel.x)
+	var z := floori(pixel.y)
+	if x < 0 or x >= mask.get_width() or z < 0 or z >= mask.get_height():
+		return false
+	return mask.get_pixel(x, z).r > 0.5 and source.support_image.get_pixel(x, z).r > 0.5
+
+func validate_anchor(actual: Vector3, source_center: Vector3, source: Dictionary) -> void:
+	var delta := Vector2(actual.x - source_center.x, actual.z - source_center.z)
+	var half_cell: float = source.cell_size_m * 0.5
+	var half_pixel: float = source.highres_mask_cell_size_m * 0.5
+	check(absf(actual.y - source_center.y) < 0.00001, "Canopy anchor changes measured-derived source top elevation")
+	check(absf(delta.x) <= half_cell - half_pixel + 0.00001 and absf(delta.y) <= half_cell - half_pixel + 0.00001, "Canopy anchor leaves its original source cell interior")
+	check(covered(actual, source), "Canopy anchor is outside observed supported coverage")
+	var nearest := INF
+	var subdivisions := int(round(source.cell_size_m / source.highres_mask_cell_size_m))
+	for z: int in subdivisions:
+		for x: int in subdivisions:
+			var candidate := source_center + Vector3((x + 0.5) * source.highres_mask_cell_size_m - half_cell, 0.0, (z + 0.5) * source.highres_mask_cell_size_m - half_cell)
+			if covered(candidate, source):
+				nearest = minf(nearest, Vector2(candidate.x - source_center.x, candidate.z - source_center.z).length_squared())
+	check(absf(delta.length_squared() - nearest) < 0.00001, "Canopy anchor is not the nearest covered native pixel center")
+	var local_pixel: Vector2 = (delta + Vector2.ONE * half_cell) / source.highres_mask_cell_size_m - Vector2.ONE * 0.5
+	check(local_pixel.distance_to(local_pixel.round()) < 0.00001, "Canopy anchor must sit inside a covered pixel, away from a shader sampling boundary")
+
 func validate_support_connections() -> void:
 	var host := {"base": Vector3(1, 30, 0), "top_y": 40.0, "transform": Transform3D(Basis.IDENTITY, Vector3(1, 30, 0)), "profile": PackedVector3Array([Vector3.ZERO, Vector3(1, 10, 0)])}
 	var bins := {Vector2i.ZERO: [host]}
@@ -305,6 +359,8 @@ func validate_support_connections() -> void:
 	check(actual.attached and actual.point.distance_to(Vector3(1.578, 35.78, 0)) < 0.00001, "Canopy support misses the independently specified leaning bole")
 	actual = Support.connection(Vector3(30, 38, 0), 30.0, bins)
 	check(not actual.attached and actual.point.distance_to(Vector3(30, 29.96, 0)) < 0.00001, "Out-of-range canopy support must use matched ground")
+	actual = Support.connection(Vector3(4, 38, 0), 30.0, bins)
+	check(not actual.attached and Support.SEARCH_M == 2.0, "Residual support cannot span more than 2m to a distant bole")
 	actual = Support.connection(Vector3(3, 44, 0), 30.0, bins)
 	check(not actual.attached, "Short neighboring tree cannot support a higher canopy patch")
 	var rendered := Support.prepare([{"id": "support_fixture", "kind": "pine", "archetype": "dense", "position": [0, 30, 0], "yaw": 0.0, "height_m": 18.0, "dbh_m": 0.26, "crown_r_m": 2.5, "crown_ratio": 0.7}])
@@ -397,7 +453,7 @@ func validate_negative(fixture: String) -> void:
 	var parsed: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(fixture))
 	var parent := Node3D.new()
 	get_root().add_child(parent)
-	check(Canopy.build(parent, fixture), "Negative-control setup fails")
+	check(Canopy.build(parent, fixture, 128.0, [], false), "Negative-control setup fails")
 	var original := parent.get_node("AuthoredCanopySurface")
 	for mutation: Dictionary in [{"schema": "unknown"}, {"width": 2.5}, {"cell_size_m": 0.0}, {"row_step_z_m": -2.0}, {"highres_mask_cell_size_m": 0.3}, {"artifacts": {}}]:
 		var invalid := parsed.duplicate(true)

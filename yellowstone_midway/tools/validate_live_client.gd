@@ -126,9 +126,10 @@ func run() -> void:
 		check(absf(float(cached.projected_s_m) - float(full.projected_s_m)) < 0.000001, "Cached projection matches full projection")
 	var atmosphere: Node3D = Atmosphere.new()
 	atmosphere.set_weather_state({"cloud_fraction": 1.0})
+	var initial_cloud: float = float(atmosphere.get("_weather").cloud_fraction)
 	atmosphere.time_scale = 600.0
 	atmosphere.call("_update_weather_interpolation", 0.1)
-	check(float(atmosphere.get("_weather").cloud_fraction) > 0.96, "600x cloud reaches 95 percent within three real seconds")
+	check(float(atmosphere.get("_weather").cloud_fraction) >= initial_cloud + 0.95 * (1.0 - initial_cloud), "600x cloud closes 95 percent of the initial gap in 0.1 real seconds")
 	for action: StringName in InputMap.get_actions():
 		if str(action).begins_with("ui_"):
 			continue

@@ -1,0 +1,30 @@
+{
+  "schema": "yellowstone.atmosphere_package.v1",
+  "author": "KJR",
+  "run_mode": "illustrative",
+  "godot_tested": "4.5.1",
+  "contents": {
+    "README.md": "78a138973bc5b20ef82a7d38ebe9a37d51bd380af0103cc3380fc231dd538f62",
+    "docs/atmosphere-optics.md": "7a07406bb9b561b9a6580703b48d02c22b3b9db01d75f20fa6e512a9c40a4970",
+    "docs/integration_patch.md": "8a9ee97ff38be7111870a10387a97313b1e4f0229f0f09deae6d44d580a324b1",
+    "examples/latest_weather.example.json": "98307f41b5c0f7753a3b13b08501ad39b4679db2003ca8e71370d4f56601e137",
+    "examples/weather_state.schema.json": "8b04dc3da0c447650e4793290ad89faf288062bffc0c49db292290180df1cadf",
+    "scripts/atmosphere_optics.gd": "e009227f338885d1f343ff988033fdfd74ec6d31eeb8bc5ac9d3c0ab38d920f9",
+    "scripts/weather_http_consumer.gd": "181a1f27512c17c2cfbd3e5c30cdc90bc14e87e16bdea4a9f19168570dd63890",
+    "scripts/weather_snapshot_reader.gd": "2054cd25daa56796ac632cabcb28f2ef15e3480d4d1eebeedbae2d4f8332e34c",
+    "scripts/yellowstone_atmosphere.gd": "a32ae50cb97a28d59611b3792e9e161f0794150903a3f46763909b2c873f2eb3",
+    "shaders/physical_daylight.gdshader": "4aecd36cd734411cefd485ee717d9c7b33e47e3087aa412ee36f157386dba4d0",
+    "shaders/rainbow.gdshader": "c4597950eccd41220927b38cfee63de5b6b1b2fbb6000836e927ef088c587e23",
+    "shaders/yellowstone_cloud_shell.gdshader": "493a9ba6437bbf23172827d7eecc24d05546615acb5e889b4e425e94f5a68be6"
+  },
+  "canonical_runtime_sources": {
+    "scripts/atmosphere_optics.gd": "yellowstone_midway/scripts/atmosphere_optics.gd",
+    "scripts/weather_http_consumer.gd": "yellowstone_midway/scripts/weather_http_consumer.gd",
+    "scripts/weather_snapshot_reader.gd": "yellowstone_midway/scripts/weather_snapshot_reader.gd",
+    "scripts/yellowstone_atmosphere.gd": "yellowstone_midway/scripts/yellowstone_atmosphere.gd",
+    "shaders/physical_daylight.gdshader": "yellowstone_midway/shaders/physical_daylight.gdshader",
+    "shaders/rainbow.gdshader": "yellowstone_midway/shaders/rainbow.gdshader",
+    "shaders/yellowstone_cloud_shell.gdshader": "yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader"
+  },
+  "limits": "Authored cloud and remote liquid-curtain fields; local rainbow frequency, physical radiance and full-world performance uncalibrated."
+}

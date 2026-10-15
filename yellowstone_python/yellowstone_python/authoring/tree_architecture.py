@@ -14,7 +14,7 @@ SOURCES = [
 
 @dataclass(frozen=True)
 class ArchitectureParameters:
-    whorl_spacing_m: float = 0.65
+    whorl_spacing_m: float = 0.30
     spacing_relative_variation: float = 0.35
     branch_count_min: int = 4
     branch_count_max: int = 7
@@ -23,13 +23,14 @@ class ArchitectureParameters:
     branch_length_fraction_max: float = 1.0
     lower_branch_survival: float = 0.86
     branch_drop_fraction: float = 0.12
-    branch_tip_turn_fraction: float = 0.19
+    branch_tip_turn_fraction: float = 0.50
+    apex_taper_length_m: float = 1.25
     lateral_pairs_min: int = 3
     lateral_pairs_max: int = 5
-    shoot_length_min_m: float = 0.16
-    shoot_length_max_m: float = 0.36
-    shoot_count_min: int = 3
-    shoot_count_max: int = 5
+    shoot_length_min_m: float = 0.24
+    shoot_length_max_m: float = 0.44
+    shoot_count_min: int = 2
+    shoot_count_max: int = 3
     trunk_sway_fraction: float = 0.003
     needle_length_m: float = 0.0508
     fascicle_count: int = 2
@@ -44,6 +45,8 @@ class ArchitectureParameters:
                 raise ValueError("architecture counts require ordered integers in [1,16]")
         if not 0 < self.whorl_spacing_m <= 5 or not 0 <= self.spacing_relative_variation < 0.8:
             raise ValueError("whorl spacing or variation is outside display bounds")
+        if not 0 < self.apex_taper_length_m <= 5:
+            raise ValueError("apex taper requires a positive length up to five meters")
         if not 0 <= self.lower_branch_survival <= 1 or not 0 <= self.trunk_sway_fraction <= 0.01:
             raise ValueError("survival or trunk sway is outside display bounds")
         if not 0 < self.branch_length_fraction_min <= self.branch_length_fraction_max <= 1:
@@ -120,6 +123,7 @@ def generate_architecture(dimensions, identity, parameters=None):
     for level,weight in enumerate(weights[:-1]):
         fraction += weight/total
         y=base+fraction*live_length if ratio else h*(.20+.7*fraction)
+        apex_scale=min(1., max(.03, (h-y)/parameters.apex_taper_length_m)) if ratio else 1.
         whorl_rng=random.Random(_seed(identity,f"whorl:{level}"))
         n=whorl_rng.randint(parameters.branch_count_min,parameters.branch_count_max)
         rotation += whorl_rng.uniform(.35,1.45)
@@ -130,8 +134,13 @@ def generate_architecture(dimensions, identity, parameters=None):
             alive=bool(ratio) and branch_rng.random()<survival
             az=rotation+slot*math.tau/n+branch_rng.uniform(-parameters.branch_azimuth_jitter_rad,parameters.branch_azimuth_jitter_rad)
             radial=[math.cos(az),0,math.sin(az)];side=[-radial[2],0,radial[0]]
-            length=r*(1-fraction)**.60*branch_rng.uniform(parameters.branch_length_fraction_min,parameters.branch_length_fraction_max)
-            start=_point(stem,(y+branch_rng.uniform(-.07,.07)*parameters.whorl_spacing_m)/h)
+            length=r*(1-fraction)**.90*branch_rng.uniform(parameters.branch_length_fraction_min,parameters.branch_length_fraction_max)
+            length *= apex_scale
+            if not alive:
+                if branch_rng.random() < .55:
+                    continue
+                length *= branch_rng.uniform(.08, .38)
+            start=_point(stem,(y+branch_rng.uniform(-.32,.32)*parameters.whorl_spacing_m)/h)
             points=[]
             for i in range(6):
                 u=i/5
@@ -145,17 +154,31 @@ def generate_architecture(dimensions, identity, parameters=None):
                 u=.20+.70*(lateral+.5)/pairs
                 attachment=_point(branch,u)
                 for sign in [-1,1]:
-                    d=_unit(_add(_add([0,branch_rng.uniform(-.08,.26),0],radial,.60),side,sign*.72))
-                    size=max(.09,length*(1-u)*branch_rng.uniform(.35,.55))
+                    d=_unit(_add(_add([0,branch_rng.uniform(.18,.65),0],radial,.60),side,sign*.72))
+                    size=max(.09*apex_scale,length*(1-u)*branch_rng.uniform(.35,.55))
                     tip=_add(attachment,d,size)
                     axis={"id":branch['id']+f"_l{lateral}_{sign}","parent_id":branch['id'],"order":2,"attachment_fraction":u,"attachment_m":attachment,"points_m":[attachment,_add(attachment,d,size*.5),tip],"radius_base_m":.004,"alive":True}
                     axes.append(axis)
                     for shoot in range(branch_rng.randint(parameters.shoot_count_min,parameters.shoot_count_max)):
                         fraction_s=.22+.78*(shoot+.5)/parameters.shoot_count_max
                         p=_point(axis,fraction_s)
-                        direction=_unit(_add(_add([0,.28,0],d,.8),side,branch_rng.uniform(-.28,.28)))
-                        shoot_length=branch_rng.uniform(parameters.shoot_length_min_m,parameters.shoot_length_max_m)
+                        direction=_unit(_add(_add([0,branch_rng.uniform(.55,1.05),0],d,.8),side,branch_rng.uniform(-.28,.28)))
+                        shoot_length=branch_rng.uniform(parameters.shoot_length_min_m,parameters.shoot_length_max_m)*apex_scale
+                        shoot_length=min(shoot_length, max(.025, (h-.06-p[1])/direction[1]))
                         shoots.append({"id":axis['id']+f"_s{shoot}","parent_id":axis['id'],"attachment_fraction":fraction_s,"base_m":p,"tip_m":_add(p,direction,shoot_length),"direction":direction,"length_m":shoot_length,"needle_length_m":parameters.needle_length_m,"fascicle_count":2,"evidence_class":"authored"})
+    if ratio:
+        for index in range(7):
+            y = h - .08 - index * .11
+            fraction_s = y / h
+            p = _point(stem, fraction_s)
+            az = index * 2.399963
+            direction = _unit([.20 * math.cos(az), 1., .20 * math.sin(az)])
+            length = min(.30, h - y)
+            shoots.append({"id": f"leader_s{index}", "parent_id": "stem",
+                           "attachment_fraction": fraction_s, "base_m": p,
+                           "tip_m": _add(p, direction, length), "direction": direction,
+                           "length_m": length, "needle_length_m": parameters.needle_length_m,
+                           "fascicle_count": 2, "evidence_class": "authored"})
     result={"schema":"yellowstone.tree_architecture.v1","identity":str(identity),"dimensions_m":dict(dimensions),"parameters":asdict(parameters),"axes":axes,"shoots":shoots,"whorls":whorls,"sources":SOURCES,"evidence_class":"authored","evidence_basis":"literature_computational_method_and_authored_display_parameters","status":"illustrative_not_locally_validated","uncertainty":"unknown","parameter_distributions":"Bounded authored display distributions; local population distributions unknown","limitations":["Whorl station count does not establish age or annual growth.","Branch survival is an authored display rule; local light and mortality are unmeasured.","Needle shoots approximate occupied foliage volume; no calibrated leaf area or biomass.","Dimensions retain their caller-provided source classes."]}
     validate_architecture(result)
     return result

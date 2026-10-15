@@ -6,6 +6,8 @@ extends Node3D
 ## This script renders meteorology; the forecast is supplied through set_weather_state(). Snow fraction comes from the weather model, ideally from wet-bulb temperature.
 
 const CLOUD_SHADER: Shader = preload("res://shaders/yellowstone_cloud_shell.gdshader")
+const OPTICS = preload("res://scripts/atmosphere_optics.gd")
+const RAINBOW_SHADER: Shader = preload("res://shaders/rainbow.gdshader")
 
 @export_group("Solar geometry")
 @export var latitude_deg: float = 44.60
@@ -29,9 +31,9 @@ var _visual_weight: float = 1.0
 @export_range(0.0002, 0.008, 0.00005) var cloud_scale: float = 0.00125
 @export_range(0.0, 1.0, 0.05) var cloud_detail: float = 0.68
 @export_range(0.0, 1.0, 0.05) var cloud_opacity: float = 0.78
-@export_range(0.0, 1.0, 0.05) var default_cloud_fraction: float = 0.28
+@export_range(0.0, 1.0, 0.05) var default_cloud_fraction: float = 0.16
 @export_range(0.1, 2.5, 0.1) var cloud_drift_multiplier: float = 0.65
-## Multiplies coverage to produce the shader cloud_density input.
+## Scales cloud optical depth independently of coverage.
 @export_range(0.0, 2.0, 0.05) var cloud_density_scale: float = 1.0
 @export_range(0.02, 0.5, 0.01) var cloud_vertical_edge_softness: float = 0.18
 ## Treat cloud_base_agl_m as a world altitude; otherwise it is a height above the follow target.
@@ -65,6 +67,11 @@ var _target: Node3D
 var _physical_sky: ShaderMaterial
 var _cloud_shell: MeshInstance3D
 var _cloud_material: ShaderMaterial
+var _rainbow: MeshInstance3D
+var _rainbow_material: ShaderMaterial
+var _rain_curtain = OPTICS.new()
+var _rainbow_direct_transmission: float = 0.0
+var _sky_uniforms: Dictionary = {}
 var _rain: GPUParticles3D
 var _snow: GPUParticles3D
 var _rain_process: ParticleProcessMaterial
@@ -85,6 +92,8 @@ var _weather_target: Dictionary = {}
 var _weather_initialized: bool = false
 var _update_elapsed: float = 0.0
 var _cloud_offset: Vector2 = Vector2.ZERO
+var _external_elapsed_s: float = NAN
+var _pending_physical_seconds: float = 0.0
 var _wetness_surfaces: Array[ShaderMaterial] = []
 var _star_rebuild_epoch_unix: float = 0.0
 var _star_catalog_loaded: bool = false
@@ -105,7 +114,7 @@ const WEATHER_DEFAULTS: Dictionary = {
 	"relative_humidity": 0.55,
 	"wind_speed_mps": 2.0,
 	"wind_direction_deg": 270.0,
-	"cloud_fraction": 0.28,
+	"cloud_fraction": 0.16,
 	"cloud_base_agl_m": 1050.0,
 	"cloud_thickness_m": 600.0,
 	"precipitation_rate_mm_h": 0.0,
@@ -154,6 +163,7 @@ func configure(sun_node: DirectionalLight3D, environment_resource: Environment, 
 	_install_physical_sky()
 	_star_rebuild_epoch_unix = _simulation_epoch_unix
 	_create_cloud_shell()
+	_create_rainbow()
 	_create_precipitation()
 	_cache_wetness_materials()
 	_configured = true
@@ -178,6 +188,43 @@ func set_simulation_timestamp(epoch_unix: float, utc_offset_hours: float = -99.0
 	if not _solar_override_active:
 		_update_solar_position_from_timestamp(_simulation_epoch_unix)
 		_apply_solar_position()
+
+
+## Bind a new clock origin and clear unavailable transient history.
+func reset_simulation_elapsed(elapsed_s: float) -> void:
+	if not is_finite(elapsed_s):
+		push_warning("Simulation elapsed time must be finite.")
+		return
+	_external_elapsed_s = elapsed_s
+	_pending_physical_seconds = 0.0
+	_rain_curtain = OPTICS.new()
+	_cloud_offset = Vector2.ZERO
+	if _rainbow != null:
+		_rainbow.visible = false
+
+
+## Bind transient history to accepted elapsed time; backward seeks can reset rain and cloud history.
+func set_simulation_elapsed(elapsed_s: float, reset_on_rewind: bool = true) -> void:
+	if not is_finite(elapsed_s):
+		push_warning("Simulation elapsed time must be finite.")
+		return
+	if is_finite(_external_elapsed_s):
+		if elapsed_s < _external_elapsed_s - 0.000001:
+			if not reset_on_rewind:
+				return
+			reset_simulation_elapsed(elapsed_s)
+			return
+		else:
+			_pending_physical_seconds += maxf(0.0, elapsed_s - _external_elapsed_s)
+	_external_elapsed_s = elapsed_s
+
+
+func _consume_physical_seconds(delta: float) -> float:
+	if not is_finite(_external_elapsed_s):
+		return maxf(0.0, delta) * maxf(time_scale, 0.0)
+	var seconds: float = _pending_physical_seconds
+	_pending_physical_seconds = 0.0
+	return seconds
 
 
 ## Return to clock hour and day of year solar geometry.
@@ -257,6 +304,7 @@ func _process(delta: float) -> void:
 
 
 func _install_physical_sky() -> void:
+	_sky_uniforms.clear()
 	_physical_sky = ShaderMaterial.new()
 	_physical_sky.shader = load("res://shaders/physical_daylight.gdshader")
 	_physical_sky.set_shader_parameter("night_sky", _build_star_texture())
@@ -510,7 +558,7 @@ func _local_sidereal_time_hours(epoch_unix: float, observer_longitude_deg: float
 func horizontal_to_world_direction(azimuth_deg: float, elevation_deg: float) -> Vector3:
 	var az: float = deg_to_rad(azimuth_deg)
 	var el: float = deg_to_rad(elevation_deg)
-	return Vector3(sin(az) * cos(el), sin(el), cos(az) * cos(el)).normalized()
+	return Vector3(sin(az) * cos(el), sin(el), -cos(az) * cos(el)).normalized()
 
 
 func _update_solar_override(state: Dictionary) -> void:
@@ -567,11 +615,12 @@ func _apply_weather_state() -> void:
 		_apply_weather_state_immediate()
 
 
-func _update_weather_interpolation(delta: float) -> void:
+func _update_weather_interpolation(delta: float, physical_seconds: float = -1.0) -> void:
 	if not _weather_initialized or not smooth_weather_transitions:
 		return
 
-	var factor: float = 1.0 - exp(-maxf(0.0, delta) * maxf(time_scale, 0.0) / maxf(weather_transition_seconds, 0.001))
+	var seconds: float = physical_seconds if physical_seconds >= 0.0 else maxf(0.0, delta) * maxf(time_scale, 0.0)
+	var factor: float = 1.0 - exp(-seconds / maxf(weather_transition_seconds, 0.001))
 	_visual_weight = factor
 
 	for key: String in SMOOTHED_WEATHER_FIELDS:
@@ -600,32 +649,67 @@ func _apply_weather_state_immediate() -> void:
 
 
 func _create_cloud_shell() -> void:
-	# A cylinder shell keeps a constant vertical thickness across the full radius, which is a closer match to a cloud layer than a flattened ellipsoid.
-	var cylinder: CylinderMesh = CylinderMesh.new()
-	cylinder.top_radius = 1.0
-	cylinder.bottom_radius = 1.0
-	cylinder.height = 2.0
-	cylinder.radial_segments = 64
-	cylinder.rings = 1
-	cylinder.cap_top = true
-	cylinder.cap_bottom = true
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(2.0, 2.0)
 	_cloud_shell = MeshInstance3D.new()
 	_cloud_shell.name = "ProceduralCloudShell"
-	_cloud_shell.mesh = cylinder
+	_cloud_shell.mesh = quad
 	_cloud_shell.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	_cloud_shell.extra_cull_margin = 16.0
+	_cloud_shell.extra_cull_margin = 16384.0
 	_cloud_material = ShaderMaterial.new()
 	_cloud_material.shader = CLOUD_SHADER
+	_cloud_material.set_shader_parameter("cloud_field", OPTICS.cloud_texture())
+	_cloud_material.render_priority = -100
 	_cloud_material.set_shader_parameter("cloud_scale", cloud_scale)
 	_cloud_material.set_shader_parameter("cloud_detail", cloud_detail)
 	_cloud_material.set_shader_parameter("cloud_opacity", cloud_opacity)
 	_cloud_material.set_shader_parameter("cloud_cover", default_cloud_fraction)
-	_cloud_material.set_shader_parameter("cloud_density", default_cloud_fraction * cloud_density_scale)
+	_cloud_material.set_shader_parameter("cloud_density", cloud_density_scale)
 	_cloud_material.set_shader_parameter("cloud_base_agl_m", default_cloud_base_agl_m)
 	_cloud_material.set_shader_parameter("cloud_top_agl_m", default_cloud_base_agl_m + default_cloud_thickness_m)
 	_cloud_material.set_shader_parameter("cloud_vertical_edge_softness", cloud_vertical_edge_softness)
 	_cloud_shell.material_override = _cloud_material
 	add_child(_cloud_shell)
+
+
+func _create_rainbow() -> void:
+	_rain_curtain = OPTICS.new()
+	_rainbow_material = ShaderMaterial.new()
+	_rainbow_material.shader = RAINBOW_SHADER
+	_rainbow_material.render_priority = -90
+	_rainbow_material.set_shader_parameter("primary_angles", OPTICS.angles(1))
+	_rainbow_material.set_shader_parameter("secondary_angles", OPTICS.angles(2))
+	_rainbow_material.set_shader_parameter("secondary_ratio", OPTICS.secondary_ratio())
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(2.0, 2.0)
+	_rainbow = MeshInstance3D.new()
+	_rainbow.name = "RainCurtainScattering"
+	_rainbow.mesh = quad
+	_rainbow.material_override = _rainbow_material
+	_rainbow.extra_cull_margin = 16384.0
+	_rainbow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_rainbow.visible = false
+	add_child(_rainbow)
+
+
+func _update_rainbow(physical_seconds: float, wind_mps: Vector3, cloud_base_world: float, cloud_thickness: float) -> void:
+	_rain_curtain.advance(physical_seconds, _weather, _target.global_position, wind_mps)
+	var sun_direction: Vector3 = _sun_direction_vector()
+	var sample_origin: Vector3 = Vector3(_rain_curtain.center.x, (_rain_curtain.base_y_m + _rain_curtain.top_y_m) * 0.5, _rain_curtain.center.z)
+	_rainbow_direct_transmission = OPTICS.cloud_transmission(sample_origin, sun_direction, cloud_base_world, cloud_thickness, cloud_scale, _cloud_offset, float(_weather["cloud_fraction"]), cloud_detail, cloud_density_scale)
+	_rainbow_direct_transmission *= OPTICS.daylight_gate(sun_direction)
+	_rainbow.global_position = _target.global_position
+	_rainbow.visible = _rain_curtain.optical_depth > 0.001 and _rainbow_direct_transmission > 0.005
+	if not _rainbow.visible:
+		return
+	_rainbow_material.set_shader_parameter("sun_direction", sun_direction)
+	_rainbow_material.set_shader_parameter("curtain_center", _rain_curtain.center)
+	_rainbow_material.set_shader_parameter("curtain_radius_m", OPTICS.CURTAIN_RADIUS_M)
+	_rainbow_material.set_shader_parameter("curtain_base_m", _rain_curtain.base_y_m)
+	_rainbow_material.set_shader_parameter("curtain_top_m", _rain_curtain.top_y_m)
+	_rainbow_material.set_shader_parameter("drop_optical_depth", _rain_curtain.optical_depth)
+	_rainbow_material.set_shader_parameter("direct_transmission", _rainbow_direct_transmission)
+	_rainbow_material.set_shader_parameter("sun_tint", Vector3(_sun.light_color.r, _sun.light_color.g, _sun.light_color.b))
 
 
 func _create_precipitation() -> void:
@@ -706,7 +790,8 @@ func _update_atmosphere(delta: float) -> void:
 	if _target == null:
 		return
 
-	_update_weather_interpolation(delta)
+	var physical_seconds: float = _consume_physical_seconds(delta)
+	_update_weather_interpolation(delta, physical_seconds)
 	_maybe_rebuild_star_sky()
 
 	var player_position: Vector3 = _target.global_position
@@ -714,20 +799,19 @@ func _update_atmosphere(delta: float) -> void:
 	var cloud_thickness: float = maxf(float(_weather["cloud_thickness_m"]), 100.0)
 	var cloud_top: float = cloud_base + cloud_thickness
 	var base_altitude: float = cloud_base if cloud_world_altitude_mode else player_position.y + cloud_base
-	_cloud_shell.global_position = Vector3(player_position.x, base_altitude + cloud_thickness * 0.5, player_position.z)
-	_cloud_shell.scale = Vector3(cloud_radius_m, cloud_thickness * 0.5, cloud_radius_m)
+	_cloud_shell.global_position = player_position
 
 	var wind_speed: float = float(_weather["wind_speed_mps"])
 	var wind_toward: Vector3 = _meteorological_wind_toward(float(_weather["wind_direction_deg"]))
 	var wind_xz: Vector2 = Vector2(wind_toward.x, wind_toward.z) * wind_speed
-	_cloud_offset += wind_xz * delta * cloud_drift_multiplier * cloud_scale
+	_cloud_offset -= wind_xz * physical_seconds * cloud_drift_multiplier * cloud_scale
 
 	var cloud_fraction: float = float(_weather["cloud_fraction"])
 
 	_cloud_material.set_shader_parameter("cloud_offset", _cloud_offset)
-	_cloud_material.set_shader_parameter("cloud_center", _cloud_shell.global_position)
+	_cloud_material.set_shader_parameter("cloud_center", Vector3(player_position.x, base_altitude + cloud_thickness * 0.5, player_position.z))
 	_cloud_material.set_shader_parameter("cloud_cover", cloud_fraction)
-	_cloud_material.set_shader_parameter("cloud_density", cloud_fraction * cloud_density_scale)
+	_cloud_material.set_shader_parameter("cloud_density", cloud_density_scale)
 	_cloud_material.set_shader_parameter("cloud_scale", cloud_scale)
 	_cloud_material.set_shader_parameter("cloud_detail", cloud_detail)
 	_cloud_material.set_shader_parameter("cloud_opacity", cloud_opacity)
@@ -737,7 +821,8 @@ func _update_atmosphere(delta: float) -> void:
 	_cloud_material.set_shader_parameter("sun_direction", _sun_direction_vector())
 	_cloud_material.set_shader_parameter("sun_tint", Vector3(_sun.light_color.r, _sun.light_color.g, _sun.light_color.b))
 	_cloud_material.set_shader_parameter("daylight", _daylight_factor())
-	_cloud_shell.visible = cloud_fraction > 0.015
+	_cloud_shell.visible = cloud_fraction > 0.001
+	_update_rainbow(physical_seconds, wind_toward * wind_speed, base_altitude, cloud_thickness)
 
 	_rain.global_position = player_position + Vector3(0.0, emitter_height_m, 0.0)
 	_snow.global_position = player_position + Vector3(0.0, emitter_height_m, 0.0)
@@ -775,14 +860,20 @@ func _update_precipitation_amounts() -> void:
 	_snow.emitting = _snow.amount_ratio > 0.005
 
 
+func _set_sky_uniform(key: String, value: float) -> void:
+	if not _sky_uniforms.has(key) or absf(float(_sky_uniforms[key]) - value) > 0.0001:
+		_sky_uniforms[key] = value
+		_physical_sky.set_shader_parameter(key, value)
+
+
 func _update_environment_from_weather() -> void:
 	var humidity: float = float(_weather["relative_humidity"])
 	var visibility: float = float(_weather["visibility_m"])
 	var cloud_fraction: float = float(_weather["cloud_fraction"])
 	var haze: float = clampf(1.0 - visibility / maxf(clear_visibility_m, 100.0), 0.0, 1.0)
-	_physical_sky.set_shader_parameter("turbidity", clampf(2.2 + haze * 5.5 + maxf(0.0, humidity - 0.7) * 1.6, 2.0, 10.0))
-	_physical_sky.set_shader_parameter("exposure", lerpf(0.78, 1.0, _daylight_factor()))
-	_physical_sky.set_shader_parameter("daylight", _daylight_factor())
+	_set_sky_uniform("turbidity", clampf(2.2 + haze * 5.5 + maxf(0.0, humidity - 0.7) * 1.6, 2.0, 10.0))
+	_set_sky_uniform("exposure", lerpf(0.78, 1.0, _daylight_factor()))
+	_set_sky_uniform("daylight", _daylight_factor())
 
 	var daylight: float = _daylight_factor()
 	_environment.ambient_light_color = Color(0.53, 0.61, 0.70).lerp(Color(0.68, 0.70, 0.72), haze * 0.55)
@@ -865,7 +956,7 @@ func _is_finite_number(value: Variant) -> bool:
 func _meteorological_wind_toward(direction_from_deg: float) -> Vector3:
 	# World axes: +X east and +Z south; meteorological direction is the source bearing, so the rendered vector points 180 degrees opposite.
 	var angle: float = deg_to_rad(direction_from_deg + 180.0)
-	return Vector3(sin(angle), 0.0, cos(angle)).normalized()
+	return Vector3(sin(angle), 0.0, -cos(angle)).normalized()
 
 
 func _daylight_factor() -> float:
@@ -873,9 +964,7 @@ func _daylight_factor() -> float:
 
 
 func _sun_direction_vector() -> Vector3:
-	var azimuth: float = deg_to_rad(_solar_azimuth_deg)
-	var elevation: float = deg_to_rad(_solar_elevation_deg)
-	return Vector3(sin(azimuth) * cos(elevation), sin(elevation), cos(azimuth) * cos(elevation)).normalized()
+	return horizontal_to_world_direction(_solar_azimuth_deg, _solar_elevation_deg)
 
 
 func _update_solar_position_from_timestamp(epoch_unix: float) -> void:
@@ -940,6 +1029,10 @@ func get_render_state() -> Dictionary:
 		"solar_elevation_deg": _solar_elevation_deg,
 		"daylight_factor": _daylight_factor(),
 		"cloud_fraction": float(_weather["cloud_fraction"]),
+		"rain_curtain_optical_depth": _rain_curtain.optical_depth,
+		"rain_curtain_center": _rain_curtain.center,
+		"rainbow_direct_transmission": _rainbow_direct_transmission,
+		"rainbow_secondary_ratio": OPTICS.secondary_ratio(),
 		"precipitation_rate_mm_h": float(_weather["precipitation_rate_mm_h"]),
 		"snow_fraction": float(_weather["snow_fraction"]),
 		"visibility_m": float(_weather["visibility_m"]),

@@ -86,8 +86,15 @@ func validate(path: String) -> void:
 		var buffer := multimesh.buffer
 		check(buffer.size() == multimesh.instance_count * 12 and ids.size() == multimesh.instance_count, "Forest-floor saved buffer or source IDs differ")
 		check(node.visibility_range_end > node.visibility_range_begin, "Forest-floor LOD range is empty")
-		if node.get_meta("floor_kind", "") == "understory_card":
-			check(node.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF and node.visibility_range_end <= 110.0, "Understory requires bounded culling and disabled shadows")
+		if node.get_meta("floor_kind", "") in ["understory_card", "litter"]:
+			var material: ShaderMaterial = multimesh.mesh.surface_get_material(0)
+			var fade_begin: float = material.get_shader_parameter("fade_begin")
+			var fade_end: float = material.get_shader_parameter("fade_end")
+			var radius := multimesh.custom_aabb.size.length() * 0.5
+			var limit := 65.0 if node.get_meta("floor_kind", "") == "litter" else 110.0
+			check(node.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF and fade_end <= limit, "Floor patches require bounded root-distance culling and disabled shadows")
+			check(is_equal_approx(node.visibility_range_end, fade_end + radius) and is_equal_approx(node.visibility_range_begin, maxf(0.0, fade_begin - 8.0 - radius)), "Batch visibility range violates the per-root distance triangle inequality")
+			check(is_equal_approx(float(node.get_meta("batch_visibility_padding_m", -1.0)), radius), "Batch visibility padding metadata differs from its bounding sphere")
 		for index: int in ids.size():
 			var id: String = ids[index]
 			check(records.has(id), "Forest-floor instance has an unknown source ID")
@@ -102,14 +109,19 @@ func validate(path: String) -> void:
 			var position := Vector3(record.position[0], record.position[1], record.position[2])
 			var part: String = node.get_meta("floor_part", "")
 			var world_bounds: AABB = world * multimesh.mesh.get_aabb()
-			if part != "Billboard":
+			if record.kind == "snag" and part != "Billboard":
 				check(world_bounds.position.y >= position.y - 0.0001, "Forest-floor solid geometry lies below its ground anchor")
 			if record.kind == "log":
-				check(world.origin.distance_to(position + Vector3(0.0, record.size[0] * 0.5, 0.0)) < 0.0001, "Log center differs from source ground plus radius")
-				check(absf(world_bounds.position.y - position.y) < 0.0001 and absf(world_bounds.end.y - position.y - record.size[0]) < 0.0001, "Log diameter or ground contact differs")
-			elif record.kind == "understory_card":
+				var endpoints: Array = record.axis_end_positions
+				var a := Vector3(endpoints[0][0], endpoints[0][1], endpoints[0][2])
+				var b := Vector3(endpoints[1][0], endpoints[1][1], endpoints[1][2])
+				check((world * Vector3(0, -0.5, 0)).distance_to(a) < 0.0001 and (world * Vector3(0, 0.5, 0)).distance_to(b) < 0.0001, "Log axis differs from sampled terrain profile")
+				check(absf(world.basis.x.length() - record.size[0]) < 0.0001, "Log diameter differs")
+			elif record.kind in ["understory_card", "litter"]:
 				check(world.origin.distance_to(position) < 0.0001, "Understory source position differs")
-				check(absf(world_bounds.position.y - position.y) < 0.0001 and absf(world_bounds.end.y - position.y - record.size[1]) < 0.0001, "Understory height or ground contact differs")
+				check(local.origin.distance_to(multimesh.custom_aabb.get_center()) <= multimesh.custom_aabb.size.length() * 0.5 + 0.00001, "Plant root escapes the sphere used for conservative batch culling")
+				var normal := Vector3(record.ground_normal[0], record.ground_normal[1], record.ground_normal[2])
+				check(world.basis.y.normalized().distance_to(normal) < 0.0001, "Floor patch differs from sampled terrain normal")
 			elif part == "Bole":
 				check(world.origin.distance_to(position) < 0.0001, "Snag source position differs")
 				check(absf(world_bounds.position.y - position.y) < 0.0001 and absf(world_bounds.end.y - position.y - record.height_m) < 0.0001, "Snag height or ground contact differs")
@@ -117,7 +129,7 @@ func validate(path: String) -> void:
 			instance_slots += 1
 	for id: String in records:
 		var kind: String = records[id].kind
-		var expected := 7 if kind == "snag" else (2 if kind == "understory_card" else 1)
+		var expected := 7 if kind == "snag" else 2
 		check(seen[id] == expected, "Forest-floor source ID has wrong LOD multiplicity: %s" % id)
 	var packed := PackedScene.new()
 	check(packed.pack(parent) == OK, "Forest-floor group does not pack")
@@ -134,7 +146,7 @@ func validate_mesh(mesh: Mesh) -> void:
 		var material := mesh.surface_get_material(surface)
 		check(material != null, "Forest-floor mesh material is missing")
 		if material is ShaderMaterial:
-			check(material.shader.resource_path == "res://shaders/foliage.gdshader" and material.get_shader_parameter("albedo_texture") is Texture2D, "Understory cutout material differs")
+			check(material.shader.resource_path in ["res://shaders/forest_floor_foliage.gdshader", "res://shaders/forest_floor_wood.gdshader", "res://shaders/foliage.gdshader"], "Forest-floor shader differs")
 		elif material is StandardMaterial3D:
 			check(material.albedo_texture != null and material.albedo_color.a > 0.0, "Woody or billboard material is invisible")
 		var arrays := mesh.surface_get_arrays(surface)
@@ -151,15 +163,31 @@ func make_fixture() -> String:
 	var records: Array = []
 	var support := {"canopy_cover_fraction": 0.5, "canopy_valid_fraction": 1.0, "slope_deg": 3.0, "apron_distance_m": 12.0, "thermal_band": true, "protected_clearance_m": 10.0}
 	for guild: String in Floor.GUILDS:
-		records.append({"id": guild, "kind": "understory_card", "guild": guild, "position": [records.size() * 70.0, 20.0, 3.0], "size": [0.7, 0.3, 0.7], "yaw": 0.7, "anchor": "ground_contact", "evidence_class": "authored", "support": support})
-	records.append({"id": "log", "kind": "log", "position": [-15.0, 22.0, -13.0], "size": [0.6, 0.6, 4.0], "yaw": 0.3, "anchor": "ground_contact", "evidence_class": "authored", "support": support})
-	records.append({"id": "snag", "kind": "snag", "archetype": "snag", "position": [-35.0, 25.0, 41.0], "size": [0.25, 8.0, 0.25], "height_m": 8.0, "dbh_m": 0.25, "crown_radius_m": 0.8, "crown_ratio": 0.0, "yaw": 1.2, "anchor": "ground_contact", "evidence_class": "authored", "support": support})
+		records.append({"id": guild, "kind": "understory_card", "guild": guild, "position": [records.size() * 70.0, 20.0, 3.0], "size": [0.7, 0.3, 0.7], "yaw": 0.7, "anchor": "ground_contact", "ground_normal": [0, 1, 0], "plane_error_m": 0.0, "evidence_class": "authored", "support": support})
+	records.append({"id": "log", "kind": "log", "position": [-15.0, 22.0, -13.0], "size": [0.6, 0.6, 4.0], "yaw": 0.3, "anchor": "ground_contact", "ground_normal": [0, 1, 0], "plane_error_m": 0.0, "evidence_class": "authored", "support": support})
+	records.append({"id": "snag", "kind": "snag", "archetype": "snag", "position": [-35.0, 25.0, 41.0], "size": [0.25, 8.0, 0.25], "height_m": 8.0, "dbh_m": 0.25, "crown_radius_m": 0.8, "crown_ratio": 0.0, "yaw": 1.2, "anchor": "ground_contact", "ground_normal": [0, 1, 0], "plane_error_m": 0.0, "evidence_class": "authored", "support": support})
+	var log: Dictionary = records[4]
+	var radius := float(log.size[0]) * 0.5
+	var center := Vector3(log.position[0], log.position[1], log.position[2])
+	var offset := Vector3(sin(log.yaw), 0.0, cos(log.yaw)) * float(log.size[2]) * 0.5
+	log.end_positions = [[center.x - offset.x, center.y, center.z - offset.z], [center.x + offset.x, center.y, center.z + offset.z]]
+	log.axis_end_positions = [[center.x - offset.x, center.y + radius, center.z - offset.z], [center.x + offset.x, center.y + radius, center.z + offset.z]]
+	log.contact_clearance_m = []
+	log.ground_profile_m = []
+	for i: int in 9:
+		log.contact_clearance_m.append(0.0)
+		log.ground_profile_m.append([-2.0 + i * 0.5, center.y])
+	var litter: Dictionary = records[0].duplicate(true)
+	litter.id = "litter"
+	litter.kind = "litter"
+	litter.size = [1.4, 0.05, 1.4]
+	records.append(litter)
 	for record: Dictionary in records:
 		record.support = record.support.duplicate(true)
 		record.support.terrain_y_m = record.position[1]
 	var choices: Dictionary = {}
-	for key: String in ["minimum_valid_fraction", "floor_slope_max_deg", "moderate_cover_low", "moderate_cover_high", "thermal_band_inner_m", "thermal_band_outer_m"]:
-		var values := {"minimum_valid_fraction": 0.95, "floor_slope_max_deg": 38.0, "moderate_cover_low": 0.15, "moderate_cover_high": 0.75, "thermal_band_inner_m": 3.0, "thermal_band_outer_m": 30.0}
+	for key: String in ["minimum_valid_fraction", "floor_slope_max_deg", "moderate_cover_low", "moderate_cover_high", "thermal_band_inner_m", "thermal_band_outer_m", "maximum_log_gap_m", "maximum_floor_plane_error_m"]:
+		var values := {"minimum_valid_fraction": 0.95, "floor_slope_max_deg": 38.0, "moderate_cover_low": 0.15, "moderate_cover_high": 0.75, "thermal_band_inner_m": 3.0, "thermal_band_outer_m": 30.0, "maximum_log_gap_m": 0.24, "maximum_floor_plane_error_m": 0.008}
 		choices[key] = {"status": "authored", "value": values[key]}
 	var data := {"schema": Floor.SCHEMA, "status": "authored", "scientific_acceptance": "not_yet_accepted", "uncertainty": "unknown", "authoring_choices": choices, "records": records}
 	var path := "user://forest_floor_fixture.json"
@@ -193,7 +221,7 @@ func negative_controls(path: String) -> void:
 		cases.append(invalid)
 	var excessive := source.duplicate(true)
 	excessive.records = []
-	for index: int in range(4097):
+	for index: int in range(Floor.LIMITS.understory_card + 1):
 		var record: Dictionary = source.records[0].duplicate(true)
 		record.id = "card_%d" % index
 		excessive.records.append(record)

@@ -3,6 +3,7 @@ extends Node3D
 
 const GroundMaterials = preload("res://scripts/terrain_materials.gd")
 const OutflowFilter = preload("res://scripts/outflow_filter.gd")
+const WaterCut = preload("res://scripts/water_polygon_cut.gd")
 
 const CORE_JSON := "res://data/core_terrain/core_terrain.json"
 const CORE_HEIGHTFIELD := "res://data/core_terrain/core_heightfield.f32"
@@ -38,56 +39,29 @@ var _render_cut_root_id: int = 0
 var _render_cut_report: Dictionary = {}
 var _pool_cut_source_mesh: ArrayMesh
 var _pool_cut_report: Dictionary = {}
+var _shoreline_mesh_instance: MeshInstance3D
 
 func cut_open_water(pools: Array) -> Dictionary:
 	if _tile_mesh_instance == null:
 		return {}
 	if _pool_cut_source_mesh == null:
 		_pool_cut_source_mesh = _tile_mesh_instance.mesh
-	var regions: Array[Dictionary] = []
-	for pool: Dictionary in pools:
-		if not bool(pool.get("thermal", false)):
-			continue
-		var polygon := PackedVector2Array()
-		for point: Array in pool.get("ring", []):
-			polygon.append(Vector2(float(point[0]), float(point[1])))
-		if polygon.size() < 3:
-			continue
-		var bounds := Rect2(polygon[0], Vector2.ZERO)
-		for point: Vector2 in polygon:
-			bounds = bounds.expand(point)
-		regions.append({"polygon": polygon, "bounds": bounds, "name": pool.get("name", "")})
-	var arrays := _pool_cut_source_mesh.surface_get_arrays(0)
-	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
-	var original: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
-	var indices := PackedInt32Array()
-	indices.resize(original.size())
-	var cursor := 0
-	for start: int in range(0, original.size(), 3):
-		var triangle := PackedVector2Array()
-		for corner: int in 3:
-			var point := _tile_mesh_instance.to_global(vertices[original[start + corner]])
-			triangle.append(Vector2(point.x, point.z))
-		var inside := false
-		for region: Dictionary in regions:
-			if not region.bounds.has_point(triangle[0]) or not region.bounds.has_point(triangle[1]) or not region.bounds.has_point(triangle[2]):
-				continue
-			if not Geometry2D.is_point_in_polygon(triangle[0], region.polygon) or not Geometry2D.is_point_in_polygon(triangle[1], region.polygon) or not Geometry2D.is_point_in_polygon(triangle[2], region.polygon):
-				continue
-			if Geometry2D.clip_polygons(triangle, region.polygon).is_empty():
-				inside = true
-				break
-		if not inside:
-			for corner: int in 3:
-				indices[cursor] = original[start + corner]
-				cursor += 1
-	indices.resize(cursor)
-	arrays[Mesh.ARRAY_INDEX] = indices
-	var mesh := ArrayMesh.new()
-	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	mesh.surface_set_material(0, _pool_cut_source_mesh.surface_get_material(0))
-	_tile_mesh_instance.mesh = mesh
-	_pool_cut_report = {"removed_triangles": int((original.size() - cursor) / 3), "retained_triangles": int(cursor / 3), "source_vertices_preserved": vertices == mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX], "policy": "remove only complete ground triangles inside rendered thermal water polygons", "collision_scope": "source surface-elevation proxy; submerged bathymetry unavailable"}
+	var result := WaterCut.cut(_pool_cut_source_mesh, _tile_mesh_instance.global_transform, pools)
+	if not bool(result.get("ok", false)):
+		push_error("core_terrain: water render cut failed: " + str(result.get("reason", "unknown")))
+		_pool_cut_report = result
+		return result.duplicate(true)
+	_tile_mesh_instance.mesh = result.mesh
+	if _shoreline_mesh_instance == null:
+		_shoreline_mesh_instance = MeshInstance3D.new()
+		_shoreline_mesh_instance.name = "MappedWaterRenderInterface"
+		_tile_mesh_instance.add_child(_shoreline_mesh_instance)
+		_shoreline_mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		_shoreline_mesh_instance.set_meta("value_class", "authored_render_interface")
+	_shoreline_mesh_instance.mesh = result.shoreline_mesh
+	result.erase("mesh")
+	result.erase("shoreline_mesh")
+	_pool_cut_report = result
 	return _pool_cut_report.duplicate(true)
 
 func open_water_cut_status() -> Dictionary:

@@ -3,7 +3,7 @@ extends RefCounted
 ## Authored canopy connections to rendered bole centerlines.
 
 const Lodgepole = preload("res://scripts/lodgepole_library.gd")
-const SEARCH_M := 8.0
+const SEARCH_M := 2.0
 
 static func prepare(records: Array) -> Dictionary:
 	var profiles: Dictionary = {}
@@ -64,7 +64,7 @@ static func connection(top: Vector3, ground_y: float, bins: Dictionary) -> Dicti
 				if host.top_y < top.y - 2.0 or host.base.y >= top.y - 0.1:
 					continue
 				var distance_squared := Vector2(top.x - host.base.x, top.z - host.base.z).length_squared()
-				if distance_squared >= nearest:
+				if distance_squared > nearest:
 					continue
 				var patch_base := top.y - minf((top.y - ground_y) * 0.70, 2.0) * 1.05
 				var target_y := clampf(patch_base - 0.12, host.base.y + 0.1, host.top_y - 0.1)
@@ -74,7 +74,10 @@ static func connection(top: Vector3, ground_y: float, bins: Dictionary) -> Dicti
 					if local_y < points[index - 1].y or local_y > points[index].y:
 						continue
 					var weight := (local_y - points[index - 1].y) / (points[index].y - points[index - 1].y)
-					result = {"point": host.transform * points[index - 1].lerp(points[index], weight), "attached": true}
+					var point: Vector3 = host.transform * points[index - 1].lerp(points[index], weight)
+					if Vector2(top.x - point.x, top.z - point.z).length() > SEARCH_M:
+						continue
+					result = {"point": point, "attached": true}
 					nearest = distance_squared
 					break
 	return result

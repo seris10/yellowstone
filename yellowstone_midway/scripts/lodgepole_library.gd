@@ -228,6 +228,28 @@ static func bind_cutout_materials(assets: Array, frozen_wind: bool = false) -> b
 				mesh.surface_set_material(surface, leaves)
 	return true
 
+static func bind_instance_lods(asset: Array) -> void:
+	var mesh: Mesh = asset[0]
+	for surface: int in mesh.get_surface_count():
+		var original: Material = mesh.surface_get_material(surface)
+		var material: ShaderMaterial
+		if original is StandardMaterial3D:
+			material = ShaderMaterial.new()
+			material.shader = load("res://shaders/tree_bark.gdshader")
+			material.set_shader_parameter("albedo_texture", original.albedo_texture)
+			material.set_shader_parameter("bark_color", original.albedo_color)
+			material.set_shader_parameter("bark_roughness", original.roughness)
+		else:
+			material = original as ShaderMaterial
+		assert(material != null, "Tree LOD requires a supported material")
+		material.set_shader_parameter("instance_lod", true)
+		material.set_shader_parameter("lod_begin_m", float(asset[2]))
+		material.set_shader_parameter("lod_end_m", float(asset[3]))
+		if mesh is PrimitiveMesh:
+			mesh.material = material
+		else:
+			mesh.surface_set_material(surface, material)
+
 static func _collect_meshes(node: Node, parent: Transform3D, result: Array, level: int) -> bool:
 	var transform: Transform3D = parent * node.transform if node is Node3D else parent
 	var valid := true

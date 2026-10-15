@@ -8,6 +8,49 @@ ENTRY_FIELDS = ("component", "module", "model_level", "equations",
                 "validation_status")
 
 COMPONENTS = [
+    {'component': 'rainbow geometric display',
+     'module': '../../yellowstone_midway/scripts/atmosphere_optics.gd',
+     'model_level': 'spherical-drop stationary ray geometry and authored finite rain curtain',
+     'equations': 'cos(i)^2=(n^2-1)/((k+1)^2-1); r=asin(sin(i)/n); D=k*pi+2*i-2*(k+1)*r; radius=abs(pi-D); '
+                  'energy=mean((1-Rs)^2*Rs^k,(1-Rp)^2*Rp^k); '
+                  'tau_next=target+(tau-target)*exp(-dt/timescale)',
+     'variables': 'n: refractive index; k: internal reflection count; Rs,Rp: Fresnel power reflectance; '
+                  'tau: rain-curtain optical-depth proxy',
+     'units': 'angles rad; time s; dimensionless optical depth',
+     'assumptions': 'three authored representative visible-water indices; secondary radiance divided by '
+                    'angular solid-angle width; local forcing drives remote cylindrical curtain; liquid '
+                    'history and cloud transmission gate illumination',
+     'limits': 'no calibrated frequency, measured regional rain field, full Mie scattering, nonspherical '
+               'droplets or terrain shadows at remote curtain; display Gaussian and radiance gain authored',
+     'validation_status': 'native_independent_Snell_sweep_history_and_negative_cases_tested_not_field_validated'},
+    {'component': 'cloud slab display',
+     'module': '../../yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader',
+     'model_level': 'four-sample authored cloud-layer optical column',
+     'equations': 'tau=3.4*density*mean(body*vertical_profile)/max(ray_y,0.15); '
+                  'alpha=(1-exp(-tau))*opacity*horizon_fade; body=thresholded_cached_three_octave_Simplex_noise',
+     'variables': 'body: authored cloud density; ray_y: view elevation sine; vertical_profile: softened '
+                  'slab edges; tau: optical-depth proxy',
+     'units': 'cloud geometry m; optical depth dimensionless',
+     'assumptions': 'horizontal layer; analytic height intersections rendered at sky depth; weather '
+                    'supplies base, thickness, cover and drift; camera far plane does not bound cloud '
+                    'altitude',
+     'limits': 'no cloud microphysics or multiple scattering; shape and radiance authored; sky-depth layer '
+               'assumes terrain below cloud base',
+     'validation_status': 'native_cloud_visibility_and_sun_occlusion_checks_not_field_validated'},
+    {'component': 'spring image-informed display',
+     'module': '../../yellowstone_midway/data/display/prismatic.json',
+     'model_level': 'authored image-informed radial color profile and band-limited terrace relief',
+     'equations': 'E(r)=lerp(sRGBdecode(c_i),sRGBdecode(c_j)); terrace relief is an eight-harmonic '
+                  'softened sawtooth plus 17 m low-amplitude waviness',
+     'variables': 'r: normalized mapped polygon radius; c_i: supplied image color; terrace spacing 6.5 m '
+                  'and height scale 0.065 m',
+     'units': 'linear RGB; m',
+     'assumptions': 'image samples have unknown camera response and illumination; ring stops and terrace '
+                    'wavelengths authored; no terrain rescaling',
+     'limits': 'display-only lookup does not validate pigment species, optical radiometry, measured band '
+               'widths or subpixel terrain; published scientific fields unchanged',
+     'validation_status': 'analytic_gradient_and_transform_checks_not_field_validated'},
+
     {
         "component": "daylight sky display",
         "module": "../../yellowstone_midway/shaders/physical_daylight.gdshader",

@@ -1,0 +1,118 @@
+{
+  "source_api": {
+    "date_published": 1544764483,
+    "old_id": 180,
+    "categories": [
+      "terrain",
+      "outdoor",
+      "natural"
+    ],
+    "type": 1,
+    "authors": {
+      "Rob Tuytel": "All"
+    },
+    "dimensions": [
+      2000,
+      2000
+    ],
+    "name": "Forest Ground 03",
+    "max_resolution": [
+      8192,
+      8192
+    ],
+    "files_hash": "c49b32586b5ba1abda47c1180d540d91aa18102d",
+    "tags": [
+      "pine",
+      "needles",
+      "forest",
+      "plant debris",
+      "dirt soil",
+      "leaf litter",
+      "twigs",
+      "fallen leaves",
+      "ground cover",
+      "fallen pine needles",
+      "dry grass"
+    ],
+    "description": "Free 8K texture of a dry forest floor with compact soil, fallen pine needles, leaf litter and twigs; rough, fibrous surface and muted brown tones.",
+    "category_id": "8f7b5218-24b6-53f1-9298-0d51d2d0764e",
+    "category": "Ground & Terrain/Forest Floor/Pine Needle Litter",
+    "attributes": {
+      "surface_use": "ground",
+      "condition": [
+        "weathered"
+      ],
+      "origin": "natural",
+      "setting": "outdoor"
+    },
+    "img_version": "af1d852b",
+    "download_count": 40778,
+    "thumbnail_url": "https://cdn.polyhaven.com/asset_img/thumbs/forrest_ground_03.png?width=256&height=256&format=webp&v=af1d852b"
+  },
+  "asset": {
+    "id": "polyhaven_forrest_ground_03",
+    "title": "Forest Ground 03 pine-needle litter",
+    "category": "surface_material",
+    "included": true,
+    "status": "downloaded",
+    "authors": [
+      "Rob Tuytel"
+    ],
+    "publisher": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/forrest_ground_03",
+    "license": {
+      "id": "CC0-1.0",
+      "name": "Creative Commons Zero 1.0 Universal",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "version_verified": true,
+      "personal_noncommercial_use": true,
+      "commercial_use": true,
+      "raw_redistribution": true,
+      "attribution_required": false,
+      "verification_url": "https://polyhaven.com/license"
+    },
+    "human_source_evidence": "Named photographer Rob Tuytel; original Poly Haven material. Source API identifies pine needles, fallen leaf litter and twigs.",
+    "reviewed_at": "2026-10-15",
+    "credit": "Forest Ground 03 by Rob Tuytel / Poly Haven (CC0).",
+    "physical_width_m": 2.0,
+    "source_dimensions_m": [
+      2.0,
+      2.0
+    ],
+    "dimension_source_url": "https://api.polyhaven.com/info/forrest_ground_03",
+    "channel_order": [
+      "ambient_occlusion",
+      "roughness",
+      "metallic"
+    ],
+    "notes": [
+      "Human photographed generic pine-needle litter; local Yellowstone species and cover are not inferred.",
+      "Original 1k JPEG files retained unchanged. Forest terrain layer and shallow litter beds use the source 2 m width.",
+      "Old Forest Ground 04 remains available for meadow and mineral substrate. Metallic remains disabled."
+    ],
+    "files": [
+      {
+        "path": "assets/textures/forrest_ground_03_diff_1k.jpg",
+        "bytes": 821191,
+        "sha256": "69c3ae8a40c70eecbb312c2ca1044b5dea4f48d37f2a6f84ca7ed56b95f04a7b",
+        "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forrest_ground_03/forrest_ground_03_diff_1k.jpg",
+        "source_md5": "0a63f012ae0e3663451b5a0e5049975a"
+      },
+      {
+        "path": "assets/textures/forrest_ground_03_nor_gl_1k.jpg",
+        "bytes": 1587102,
+        "sha256": "2f2a18622ff1fde203ad7b17f12da5e46608b77b27307f6a91cc5a016cc72e41",
+        "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forrest_ground_03/forrest_ground_03_nor_gl_1k.jpg",
+        "source_md5": "9f44096b43a0f796ae6f52d7fe784698"
+      },
+      {
+        "path": "assets/textures/forrest_ground_03_arm_1k.jpg",
+        "bytes": 272025,
+        "sha256": "7856a569af65d19e2982c1f062277f24e507b7954a74fbeb808fab2907006b53",
+        "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forrest_ground_03/forrest_ground_03_arm_1k.jpg",
+        "source_md5": "6f166341687a85219ad54e22aabd2547"
+      }
+    ]
+  },
+  "files_api_url": "https://api.polyhaven.com/files/forrest_ground_03"
+}

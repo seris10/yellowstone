@@ -4,33 +4,40 @@ extends RefCounted
 
 const Lodgepole = preload("res://scripts/lodgepole_library.gd")
 const Support = preload("res://scripts/canopy_support.gd")
+const Ground = preload("res://scripts/rendered_ground.gd")
 const SCHEMA := "yellowstone.unresolved_canopy_render.v1"
-const TEXTURE_PATH := "res://assets/imported/lodgepole/needle_supported.png"
+const TEXTURE_PATH := "res://assets/imported/canopy_shoot/pine_bough.png"
+const TEXTURE_METADATA_PATH := "res://assets/imported/canopy_shoot/pine_shoot.json"
 const SHADER_PATH := "res://shaders/canopy_surface.gdshader"
 const GROUP_NAME := "AuthoredCanopySurface"
 const DISPLAY_SMOOTHING_RADIUS_M := 5.0
 const CLUSTER_LIVE_CROWN_RATIO := 0.70
 const CLUSTER_TOP_WIDTH_RATIO := 0.22
 const CLUSTER_UNIT_DEPTH_M := 1.0
-const SHOOT_CARD_SIZE_M := 0.40
+const SHOOT_CARD_SIZE_M := 0.48
+const SHOOT_CARD_HEIGHT_M := 0.64
+const SHOOT_ENVELOPE_M := 0.80
 const PATCH_DEPTH_CAP_M := 2.0
-const CLUSTER_LODS := [[0.0, 45.0, 64], [45.0, 120.0, 16], [120.0, 350.0, 0]]
+const CLUSTER_LODS := [[0.0, 45.0, 40], [45.0, 120.0, 16], [120.0, 350.0, 0]]
 const CLUSTER_TILE_M := 64.0
 const ARTIFACTS := ["canopy_top_scene_y", "ground_scene_y", "unresolved_cells", "cover_fraction", "valid_fraction", "unresolved_render_mask", "valid_support"]
 
-static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0, support_records: Array = []) -> bool:
+static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0, support_records: Array = [], use_rendered_ground: bool = true) -> bool:
 	var source := read_source(data_path)
 	if source.is_empty() or parent == null:
 		return false
+	var ground = Ground.new() if use_rendered_ground else null
+	if ground != null and not ground.valid():
+		return _error("Canopy supports require valid rendered terrain")
 	var cell_size: float = source.cell_size_m
 	_prepare_surface(source)
 	if not is_finite(tile_size_m) or tile_size_m < cell_size or not is_equal_approx(tile_size_m / cell_size, round(tile_size_m / cell_size)):
 		return _error("Canopy tile size requires a positive whole number of cells")
-	if not ResourceLoader.exists(TEXTURE_PATH) or not ResourceLoader.exists(SHADER_PATH):
+	if not FileAccess.file_exists(TEXTURE_PATH) or not ResourceLoader.exists(SHADER_PATH):
 		return _error("Canopy material requires the authored needle texture and canopy shader")
 	var material := ShaderMaterial.new()
 	material.shader = load(SHADER_PATH)
-	var needle_texture := Lodgepole.cutout_texture(TEXTURE_PATH.get_file())
+	var needle_texture := _shoot_texture()
 	if needle_texture == null:
 		return false
 	material.set_shader_parameter("albedo_texture", needle_texture)
@@ -39,6 +46,7 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 	material.set_shader_parameter("mask_origin_m", Vector2(source.first_cell_x_m - cell_size * 0.5, source.first_cell_z_m - cell_size * 0.5))
 	material.set_shader_parameter("mask_extent_m", Vector2(source.width * cell_size, source.height * cell_size))
 	material.set_shader_parameter("needle_repeat_m", SHOOT_CARD_SIZE_M)
+	material.set_shader_parameter("shoot_envelope_m", SHOOT_ENVELOPE_M)
 	material.set_shader_parameter("cluster_mode", false)
 	var group := Node3D.new()
 	group.name = GROUP_NAME
@@ -70,15 +78,30 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 	group.set_meta("cluster_depth_class", "authored_display_volume")
 	group.set_meta("cluster_top_width_ratio", CLUSTER_TOP_WIDTH_RATIO)
 	group.set_meta("cluster_yaw_class", "seeded_authored_display_orientation")
+	group.set_meta("cluster_anchor_class", "authored_display_placement")
+	group.set_meta("cluster_anchor_rule", "nearest_covered_native_pixel_center_within_original_source_cell")
+	group.set_meta("cluster_anchor_max_offset_m", (cell_size - source.highres_mask_cell_size_m) / sqrt(2.0))
+	group.set_meta("cluster_anchor_height_rule", "unchanged_source_cell_top_and_ground")
+	group.set_meta("guaranteed_origin_shoot", true)
 	group.set_meta("cluster_radius_m", cell_size / sqrt(2.0))
 	group.set_meta("cluster_geometry_class", "authored_display_geometry")
 	group.set_meta("cluster_representation", "connected_metric_shoots_on_grounded_display_scaffolds")
 	group.set_meta("support_geometry_class", "authored_display_geometry")
-	group.set_meta("support_root_rule", "rendered_bole_centerline_or_matched_source_ground_minus_0.04m")
+	group.set_meta("support_root_rule", "rendered_bole_centerline_or_rendered_terrain_minus_0.04m" if use_rendered_ground else "rendered_bole_centerline_or_fixture_ground_minus_0.04m")
+	group.set_meta("support_root_height_class", "authored_contact_with_rendered_terrain")
+	group.set_meta("support_ground_sha256", ground.source_hashes if ground != null else {})
 	group.set_meta("patch_depth_cap_m", PATCH_DEPTH_CAP_M)
 	group.set_meta("cluster_lods", CLUSTER_LODS)
 	group.set_meta("shoot_card_size_m", SHOOT_CARD_SIZE_M)
-	group.set_meta("cluster_triangles", [328, 88, 14])
+	group.set_meta("cluster_triangles", [208, 88, 14])
+	group.set_meta("twig_mask_rule", "same_anchor_as_needle_shoot")
+	group.set_meta("shoot_card_height_m", SHOOT_CARD_HEIGHT_M)
+	group.set_meta("shoot_card_source", "human_made_cc0_polyhaven_pine_tree_01")
+	group.set_meta("shoot_card_dimensions_class", "authored_unknown_uncertainty")
+	group.set_meta("shoot_card_assembly", "five_natural_0.18_by_0.36m_shoots_on_authored_bough")
+	group.set_meta("shoot_inclination_degrees", [20.0, 70.0])
+	group.set_meta("support_horizontal_limit_m", Support.SEARCH_M)
+	group.set_meta("local_support_stem_count_claim", "none_authored_geometry_only")
 	group.set_meta("cluster_top_class", "source_2m_cell_mean")
 	group.set_meta("cluster_rendered_coverage", "unknown")
 	group.set_meta("cluster_count_claim", "display_cells_only")
@@ -103,7 +126,7 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 	group.set_meta("represented_area_m2", represented_area)
 	group.set_meta("cell_size_m", cell_size)
 	group.set_meta("tile_size_m", tile_size_m)
-	_build_clusters(group, source, material, Support.prepare(support_records))
+	_build_clusters(group, source, material, Support.prepare(support_records), ground)
 	var previous := parent.get_node_or_null(NodePath(GROUP_NAME))
 	if previous != null:
 		previous.free()
@@ -111,13 +134,34 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 	_set_owner(group, parent)
 	return true
 
-static func _build_clusters(group: Node3D, source: Dictionary, skin_material: ShaderMaterial, hosts: Dictionary) -> void:
+static func _shoot_texture() -> Texture2D:
+	var metadata: Variant = JSON.parse_string(FileAccess.get_file_as_string(TEXTURE_METADATA_PATH))
+	if not metadata is Dictionary or metadata.get("source_class", "") != "human_made_cc0":
+		_error("Natural canopy shoot provenance is missing")
+		return null
+	var entry: Dictionary = metadata.get("mips", {})
+	var path := TEXTURE_PATH.get_base_dir().path_join(str(entry.get("path", "")))
+	if not FileAccess.file_exists(path) or FileAccess.get_sha256(path) != entry.get("sha256", "") or FileAccess.get_sha256(TEXTURE_PATH) != entry.get("source_sha256", ""):
+		_error("Natural canopy shoot texture or mip checksum differs")
+		return null
+	var bytes := FileAccess.get_file_as_bytes(path)
+	if bytes.size() != int(entry.get("bytes", 0)):
+		_error("Natural canopy shoot mip buffer size differs")
+		return null
+	var image := Image.create_from_data(int(entry.width), int(entry.height), true, Image.FORMAT_RGBA8, bytes)
+	return ImageTexture.create_from_image(image)
+
+static func _build_clusters(group: Node3D, source: Dictionary, skin_material: ShaderMaterial, hosts: Dictionary, ground: RefCounted = null) -> void:
 	var material: ShaderMaterial = skin_material.duplicate()
 	material.set_shader_parameter("cluster_mode", true)
 	var meshes: Array = []
-	for lod: Array in CLUSTER_LODS:
+	for lod_index: int in CLUSTER_LODS.size():
+		var lod: Array = CLUSTER_LODS[lod_index]
 		var lod_material: ShaderMaterial = material.duplicate()
 		lod_material.set_shader_parameter("near_shoot_mode", int(lod[2]) > 0)
+		lod_material.set_shader_parameter("lod_begin_m", float(lod[0]))
+		lod_material.set_shader_parameter("lod_end_m", float(lod[1]))
+		lod_material.set_shader_parameter("lod_dither_invert", lod_index % 2 == 1)
 		meshes.append(_shoot_mesh(source.cell_size_m / sqrt(2.0), int(lod[2]), lod_material) if int(lod[2]) > 0 else _cluster_mesh(source.cell_size_m / sqrt(2.0), lod_material))
 	var bins: Dictionary = {}
 	var origin := Vector2(source.first_cell_x_m, source.first_cell_z_m)
@@ -139,9 +183,8 @@ static func _build_clusters(group: Node3D, source: Dictionary, skin_material: Sh
 		var bounds := AABB()
 		var indices := PackedInt32Array()
 		for index: int in bins[key]:
-			var column: int = index % source.width
-			var row: int = int(index / source.width)
-			var position := Vector3(source.first_cell_x_m + column * source.cell_size_m, source.canopy_top_scene_y[index], source.first_cell_z_m + row * source.cell_size_m) - center
+			var anchor := _cluster_anchor(source, index)
+			var position := Vector3(anchor.x, source.canopy_top_scene_y[index], anchor.y) - center
 			var depth: float = (source.canopy_top_scene_y[index] - source.ground_scene_y[index]) * CLUSTER_LIVE_CROWN_RATIO
 			var seed: int = (index * 1103515245 + 12345) & 0x7fffffff
 			var yaw := float(seed) / 2147483647.0 * TAU
@@ -149,6 +192,8 @@ static func _build_clusters(group: Node3D, source: Dictionary, skin_material: Sh
 			var transform := Transform3D(basis, position)
 			buffer.append_array(PackedFloat32Array([basis.x.x, basis.y.x, basis.z.x, position.x, basis.x.y, basis.y.y, basis.z.y, position.y, basis.x.z, basis.y.z, basis.z.z, position.z]))
 			var connection := Support.connection(position + center, source.ground_scene_y[index], hosts)
+			if not connection.attached and ground != null:
+				connection.point.y = ground.sample(anchor.x, anchor.y) - 0.04
 			var root: Vector3 = basis.inverse() * (connection.point - position - center)
 			buffer.append_array(PackedFloat32Array([root.x, root.y, root.z, 1.0 if connection.attached else 0.0]))
 			attached += 1 if connection.attached else 0
@@ -168,8 +213,11 @@ static func _build_clusters(group: Node3D, source: Dictionary, skin_material: Sh
 			node.name = "CanopyClusters_%d_%d_lod%d" % [key.x, key.y, lod]
 			node.position = center
 			node.multimesh = multimesh
-			node.visibility_range_begin = CLUSTER_LODS[lod][0]
-			node.visibility_range_end = CLUSTER_LODS[lod][1]
+			var padding := multimesh.custom_aabb.size.length() * 0.5
+			node.visibility_range_begin = maxf(0.0, CLUSTER_LODS[lod][0] - 8.0 - padding)
+			node.visibility_range_end = CLUSTER_LODS[lod][1] + padding
+			node.set_meta("batch_visibility_padding_m", padding)
+			node.set_meta("lod_distance_rule", "per_source_canopy_top_with_padded_batch_bounds")
 			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			node.set_meta("canopy_part", "source_grounded_needle_volume")
 			node.set_meta("source_indices", indices)
@@ -183,6 +231,25 @@ static func _build_clusters(group: Node3D, source: Dictionary, skin_material: Sh
 	group.set_meta("patches_attached_to_rendered_boles", attached)
 	group.set_meta("patches_with_grounded_display_support", total - attached)
 
+static func _cluster_anchor(source: Dictionary, index: int) -> Vector2:
+	var subdivisions: int = int(round(source.cell_size_m / source.highres_mask_cell_size_m))
+	var column: int = index % source.width
+	var row: int = int(index / source.width)
+	var cell_center := Vector2(source.first_cell_x_m + column * source.cell_size_m, source.first_cell_z_m + row * source.cell_size_m)
+	var best_distance := INF
+	var offset := Vector2.ZERO
+	var mask: Image = source.mask_image
+	for z: int in subdivisions:
+		for x: int in subdivisions:
+			if mask.get_pixel(column * subdivisions + x, row * subdivisions + z).r < 0.5:
+				continue
+			var candidate: Vector2 = (Vector2(x, z) + Vector2.ONE * 0.5) * source.highres_mask_cell_size_m - Vector2.ONE * source.cell_size_m * 0.5
+			var distance_squared := candidate.length_squared()
+			if distance_squared < best_distance:
+				best_distance = distance_squared
+				offset = candidate
+	return cell_center + offset
+
 static func _shoot_mesh(radius: float, count: int, material: Material) -> ArrayMesh:
 	var vertices := PackedVector3Array()
 	var normals := PackedVector3Array()
@@ -195,30 +262,33 @@ static func _shoot_mesh(radius: float, count: int, material: Material) -> ArrayM
 		var encoded: float = quantized / 255.0
 		var fraction: float = encoded
 		var angle := float(shoot) * 2.3999632297
-		var reach: float = radius * (0.28 + 0.72 * fraction) * sqrt(fmod(float(shoot) * 0.61803398875 + 0.37, 1.0))
+		var reach: float = 0.0 if shoot == 0 else radius * (0.28 + 0.72 * fraction) * sqrt(fmod(float(shoot) * 0.61803398875 + 0.37, 1.0))
 		var center := Vector3(cos(angle) * reach, -fraction, sin(angle) * reach)
+		var inclination := deg_to_rad(20.0 + 50.0 * fmod(float(shoot) * 0.754877666, 1.0))
+		var axis := Vector3(cos(angle) * sin(inclination), cos(inclination), sin(angle) * sin(inclination))
+		var transverse := Vector3(-sin(angle), 0.0, cos(angle))
 		for plane: int in range(2):
-			var yaw := angle + plane * PI * 0.5
-			var across := Vector3(cos(yaw), 0.0, sin(yaw))
-			var normal := Vector3.UP.cross(across).normalized()
+			var across := transverse if plane == 0 else axis.cross(transverse).normalized()
+			var normal := axis.cross(across).normalized()
 			var half := SHOOT_CARD_SIZE_M * 0.5
+			var half_height := SHOOT_CARD_HEIGHT_M * 0.5
 			var offset := vertices.size()
-			vertices.append_array(PackedVector3Array([center - across * half + Vector3.UP * half, center + across * half + Vector3.UP * half, center + across * half - Vector3.UP * half, center - across * half - Vector3.UP * half]))
+			vertices.append_array(PackedVector3Array([center - across * half + axis * half_height, center + across * half + axis * half_height, center + across * half - axis * half_height, center - across * half - axis * half_height]))
 			normals.append_array(PackedVector3Array([normal, normal, normal, normal]))
 			uvs.append_array(PackedVector2Array([Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)]))
 			for vertex: int in 4:
 				anchors.append(Vector2(center.x, center.z))
 			colors.append_array(PackedColorArray([Color(encoded, 0, 0, 1), Color(encoded, 0, 0, 1), Color(encoded, 0, 0, 1), Color(encoded, 0, 0, 1)]))
 			indices.append_array(PackedInt32Array([offset, offset + 2, offset + 1, offset, offset + 3, offset + 2]))
-		var across := Vector3(-sin(angle), 0.0, cos(angle)) * 0.014
+		var across := transverse * 0.003
 		var start := Vector3(0.0, -fraction - 0.04, 0.0)
 		var offset := vertices.size()
-		vertices.append_array(PackedVector3Array([start - across, start + across, center]))
+		vertices.append_array(PackedVector3Array([start - across, start + across, center - axis * SHOOT_CARD_HEIGHT_M * 0.5]))
 		var normal := (vertices[offset + 1] - vertices[offset]).cross(vertices[offset + 2] - vertices[offset]).normalized()
 		normals.append_array(PackedVector3Array([normal, normal, normal]))
-		uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2(0.0, SHOOT_CARD_SIZE_M * (fraction - 1.0))]))
-		anchors.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]))
-		colors.append_array(PackedColorArray([Color(0, 1, 0, 1), Color(0, 1, 0, 1), Color(0, 1, 0, 1)]))
+		uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]))
+		anchors.append_array(PackedVector2Array([Vector2(center.x, center.z), Vector2(center.x, center.z), Vector2(center.x, center.z)]))
+		colors.append_array(PackedColorArray([Color(encoded, 1, 0, 1), Color(encoded, 1, 0, 1), Color(encoded, 1, 0, 1)]))
 		indices.append_array(PackedInt32Array([offset, offset + 2, offset + 1]))
 	_add_support_stem(vertices, normals, uvs, colors, indices)
 	var arrays: Array = []
@@ -240,16 +310,16 @@ static func _add_support_stem(vertices: PackedVector3Array, normals: PackedVecto
 		var across := Vector3.RIGHT if plane == 0 else Vector3.FORWARD
 		var normal := Vector3.UP.cross(across)
 		var offset := vertices.size()
-		vertices.append_array(PackedVector3Array([-across * 0.006, across * 0.006, across * 0.025 - Vector3.UP * 1.05, -across * 0.025 - Vector3.UP * 1.05]))
+		vertices.append_array(PackedVector3Array([-across * 0.002, across * 0.002, across * 0.009 - Vector3.UP * 1.05, -across * 0.009 - Vector3.UP * 1.05]))
 		normals.append_array(PackedVector3Array([normal, normal, normal, normal]))
 		uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]))
-		colors.append_array(PackedColorArray([Color(0, 1, 0, 1), Color(0, 1, 0, 1), Color(0, 1, 0, 1), Color(0, 1, 0, 1)]))
+		colors.append_array(PackedColorArray([Color(0, 1, 0.5, 1), Color(0, 1, 0.5, 1), Color(0, 1, 0.5, 1), Color(0, 1, 0.5, 1)]))
 		indices.append_array(PackedInt32Array([offset, offset + 2, offset + 1, offset, offset + 3, offset + 2]))
 	for plane: int in 2:
 		var across := Vector3.RIGHT if plane == 0 else Vector3.FORWARD
 		var normal := Vector3.UP.cross(across)
 		var offset := vertices.size()
-		vertices.append_array(PackedVector3Array([-across * 0.006, across * 0.006, across * 0.035 - Vector3.UP / CLUSTER_LIVE_CROWN_RATIO, -across * 0.035 - Vector3.UP / CLUSTER_LIVE_CROWN_RATIO]))
+		vertices.append_array(PackedVector3Array([-across * 0.003, across * 0.003, across * 0.012 - Vector3.UP / CLUSTER_LIVE_CROWN_RATIO, -across * 0.012 - Vector3.UP / CLUSTER_LIVE_CROWN_RATIO]))
 		normals.append_array(PackedVector3Array([normal, normal, normal, normal]))
 		uvs.append_array(PackedVector2Array([Vector2(0, plane), Vector2(0, plane), Vector2(1, plane), Vector2(1, plane)]))
 		colors.append_array(PackedColorArray([Color(0, 1, 1, 1), Color(0, 1, 1, 1), Color(0, 1, 1, 1), Color(0, 1, 1, 1)]))

@@ -13,6 +13,25 @@ from tools.asset_release_inventory import release_inventory
 from tools.run_evidence import source_hashes
 
 
+def _temporary_path(relative: Path) -> bool:
+    """Identify workspace/editor detritus without excluding runtime import sidecars."""
+    for name in relative.parts:
+        if name in {".DS_Store", "Thumbs.db", "desktop.ini", "__pycache__", ".git", ".godot"}:
+            return True
+        if name.startswith("._") or name.endswith("~"):
+            return True
+        if Path(name).suffix.lower() in {".pyc", ".pyo", ".tmp", ".temp", ".bak", ".backup", ".old", ".orig", ".rej", ".swp", ".swo", ".package"}:
+            return True
+        if re.search(r"\.tscn\.pre-[a-z0-9-]+-bake$", name):
+            return True
+    return False
+
+
+def _ignore_temporary(directory: str, names: list[str]) -> list[str]:
+    """Apply the package hygiene rule when merging repository documentation."""
+    return [name for name in names if _temporary_path(Path(name))]
+
+
 def _bind_scene_resources(destination: Path, release: dict) -> list[dict]:
     """Bind baked scene resources to the selected immutable generation."""
     changes = []
@@ -75,11 +94,15 @@ def package_demo(world: Path, destination: Path, *, source_root: Path | None = N
     managed_files = {target for _, target, _ in FILES}
     managed_dirs = [target + "/" for _, target in DIRS]
     package_paths = []
+    excluded_temporary = []
     for directory in ("assets", "data", "docs", "references", "scenes", "scripts", "shaders", "tools"):
         for path in sorted((world / directory).rglob("*")):
             if not path.is_file():
                 continue
             relative = str(path.relative_to(world))
+            if _temporary_path(Path(relative)):
+                excluded_temporary.append(relative)
+                continue
             if "sources" in path.parts or "__pycache__" in path.parts or path.suffix == ".pyc":
                 continue
             if relative.startswith("data/releases/"):
@@ -101,7 +124,7 @@ def package_demo(world: Path, destination: Path, *, source_root: Path | None = N
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(path, target)
     if source_root and (source_root / "docs").is_dir():
-        shutil.copytree(source_root / "docs", destination / "docs", dirs_exist_ok=True)
+        shutil.copytree(source_root / "docs", destination / "docs", dirs_exist_ok=True, ignore=_ignore_temporary)
     readme = destination / "README.md"
     if readme.is_file():
         readme.write_text(readme.read_text().replace("(../docs/", "(docs/"))
@@ -120,7 +143,8 @@ def package_demo(world: Path, destination: Path, *, source_root: Path | None = N
             "Godot editor runtime required; native executable export unavailable.",
             "Geometry measurements and authored modifications retain distinct provenance."],
         "code_license_scopes": inventory["code_license_scopes"],
-        "excluded_asset_paths": sorted(excluded)}
+        "excluded_asset_paths": sorted(excluded),
+        "excluded_temporary_paths": sorted(excluded_temporary)}
     write_json_atomic(destination / "PACKAGE.json", report, indent=1)
     return report
 

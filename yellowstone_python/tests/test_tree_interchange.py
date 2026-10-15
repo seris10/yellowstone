@@ -62,13 +62,30 @@ def test_installed_commands_offer_help_from_outside_the_checkout(tmp_path):
         assert result.returncode == 0 and 'usage:' in result.stdout, result.stdout+result.stderr
 
 
-def test_middle_lods_preserve_shoot_positions_and_report_missing_source_traits():
+def test_middle_lods_share_source_graph_and_report_missing_source_traits():
     import numpy as np
     from tools.tree_architecture import display_distribution_report
     author = authoring_module()
     levels = [author.build_tree(author.ARCHETYPES['dense'], level, 4381) for level in range(3)]
-    assert np.array_equal(levels[0][0][2].positions, levels[1][0][2].positions)
-    assert np.array_equal(levels[1][0][2].positions, levels[2][0][2].positions)
+    assert len({level[1]['source_graph_sha256'] for level in levels}) == 1
+    assert len({level[1]['architecture_shoots'] for level in levels}) == 1
+    assert levels[0][1]['needle_cards'] > levels[1][1]['needle_cards'] > levels[2][1]['needle_cards']
+    axes = []
+    for surfaces, _ in levels:
+        branches = surfaces[1]
+        centers = {}
+        for tube in branches.tubes:
+            if tube['parent'] != 'stem':
+                continue
+            start = tube['offset']
+            count = tube['rings'] * (tube['sides'] + 1)
+            rings = np.asarray(branches.positions[start:start + count]).reshape(tube['rings'], tube['sides'] + 1, 3)
+            centers[tube['identity']] = rings[:, :-1].mean(axis=1)
+        axes.append(centers)
+    assert axes[0].keys() == axes[1].keys() == axes[2].keys()
+    for identity in axes[0]:
+        np.testing.assert_allclose(axes[0][identity], axes[1][identity], atol=1e-12)
+        np.testing.assert_allclose(axes[0][identity], axes[2][identity], atol=1e-12)
     assert levels[0][1]['triangles'] > levels[1][1]['triangles'] > levels[2][1]['triangles']
     report = display_distribution_report([{'id':'small','height_m':5.,'crown_ratio':.3},
                                           {'id':'tall','height_m':18.,'variant':0}], 'runtime')

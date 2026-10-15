@@ -1,29 +1,31 @@
 # Canopy support and surface detail
 
-Residual LiDAR coverage describes canopy area and elevation. It does not enumerate
-stems. The display keeps the same residual mask and source-cell elevations. Metric
-shoot cards connect through tapered woody triangles to a compact display spine.
-The spine joins a nearby rendered bole, sampled along its transformed centerline.
-Connections use an eight meter search radius and height eligibility. Patches without
-an eligible host use a support extending to the matched ground elevation. Five
-shoots in the supported atlas share a visible base. Support dimensions and branching are authored geometry with unknown local
-uncertainty. Display-cell counts are not observed tree counts.
+Residual LiDAR coverage describes canopy area and elevation, not individual
+stems. The display preserves the same residual mask, counts and source-cell
+heights. Forty near and sixteen middle bough cards use unchanged human-made
+CC0 pine-shoot photographs assembled on authored branch supports. Their
+budgets are 208 and 88 triangles; the far proxy contains 14 triangles.
+Per-instance shader distances preserve the 45, 120 and 350 m boundaries;
+coarse batch ranges include their bounding-sphere radius. The continuous
+coverage skin retains its 180-260 m transition.
 
-Near and middle canopy representations retain 64 and 16 crossed shoot cards per
-source cell. Their respective budgets are 328 and 88 triangles, including supports.
-The far proxy contains 14 triangles. Existing 45, 120, and 350 meter boundaries and
-the 180 to 260 meter transition into the continuous measured-coverage skin remain.
-Display patch depth is capped at two meters: an observed surface cell does not
-specify a full tree crown. Near foliage samples the measured mask at each complete
-shoot center, avoiding severed atlas stems at mask boundaries. Its maximum lateral
-display support is 0.20 meters. Far coverage retains per-fragment source masking.
-Authored wood spans connect through the masks without fragment clipping.
-Coverage-preserving mipmaps retain alpha-test occupancy as needles become subpixel.
+A bounded covered-pixel anchor and guaranteed central shoot prevent empty
+foliage clusters with exposed support only. An eligible nearby bole can host
+a connection of at most 2 m horizontally. Other cells use explicitly authored
+local supports, anchored to the actual rendered core/master triangles while
+retaining measured source-ground values as provenance. The 0.48 by 0.64 m
+bough dimension, branching and support sizes are authored with unknown local
+uncertainty. See [canopy evidence and limits](CANOPY_DISPLAY.md).
 
 ## Ground and basin
 
-Forest litter and trail PBR maps retain their source physical widths of 3.15 and
-2 meters. The mineral display uses a deterministic periodic height field on a
+Human pine-needle Forest Ground 03 and trail PBR maps use their 2 meter source
+widths. The retained gravelly Forest Ground 04 substrate uses 3.15 meters
+under meadow and mineral weighting. The forest branch uses separate color,
+normal and ARM samples in the same texture arrays: up to four extra texture
+reads, unchanged samplers and terrain draws. Forest color keeps the photograph
+without the previous olive multiplier and reduces aerial canopy-green mixing.
+These authored display choices do not establish field color calibration. The mineral display uses a deterministic periodic height field on a
 4 meter tile. Its authored RMS relief is 0.0045 meters, with wavelengths from
 0.02 to 1.5 meters and a power spectrum proportional to spatial frequency raised
 to -3.4. Spectral differentiation produces surface normals in metric units.

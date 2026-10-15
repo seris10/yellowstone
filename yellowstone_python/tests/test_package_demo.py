@@ -59,3 +59,47 @@ def test_baked_texture_access_uses_the_generation_or_explicit_absence(tmp_path, 
         assert "ExtResource" not in scene and "albedo_texture = null" in scene
     assert report["scene_resource_bindings"]
     verify_package(destination)
+
+
+def test_package_drops_backups_and_os_files_but_retains_runtime_sidecars(tmp_path, project):
+    write_json_atomic(project / "data/asset_manifest.json", {"assets": []})
+    write_json_atomic(project / "data/wildlife_motion_assets.json", {"assets": []})
+    (project / "scenes").mkdir()
+    (project / "scenes/authored_world.tscn").write_text('[gd_scene format=3]\n[node name="World" type="Node3D"]\n')
+    temporary = ["scenes/.DS_Store", "scenes/._authored_world.tscn",
+                 "scenes/authored_world.tscn.pre-density-bake", "scenes/authored_world.tscn.pre-flora-bake",
+                 "scenes/authored_world.tscn.bak", "scripts/world.gd~", "scripts/world.gd.swp",
+                 "docs/report.md.tmp", "docs/cache/__pycache__/analysis.pyc"]
+    retained = ["scripts/world.gd.uid", "assets/textures/texture.png.import", "docs/pre-bake-checklist.md"]
+    for name in temporary + retained:
+        path = project / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("fixture")
+    source = tmp_path / "source"
+    (source / "docs").mkdir(parents=True)
+    (source / "docs/.DS_Store").write_text("finder metadata")
+    (source / "docs/notes.md.bak").write_text("backup")
+    (source / "docs/PORTFOLIO.md").write_text("release documentation")
+    publish_generation(build_fixture(tmp_path), project)
+    destination = tmp_path / "demo"
+    report = package_demo(project, destination, source_root=source)
+    assert set(report["excluded_temporary_paths"]) == set(temporary)
+    assert all(not (destination / name).exists() for name in temporary)
+    assert all((destination / name).is_file() for name in retained)
+    assert not (destination / "docs/.DS_Store").exists()
+    assert not (destination / "docs/notes.md.bak").exists()
+    assert (destination / "docs/PORTFOLIO.md").is_file()
+    verify_package(destination)
+
+
+def test_package_rejects_a_baked_dependency_that_hygiene_would_exclude(tmp_path, project):
+    write_json_atomic(project / "data/asset_manifest.json", {"assets": []})
+    write_json_atomic(project / "data/wildlife_motion_assets.json", {"assets": []})
+    (project / "scenes").mkdir()
+    (project / "scenes/authored_world.tscn").write_text(
+        '[gd_scene format=3]\n[ext_resource type="PackedScene" path="res://scenes/source.tscn.bak" id="backup"]\n'
+        '[node name="World" type="Node3D"]\n')
+    (project / "scenes/source.tscn.bak").write_text('[gd_scene format=3]\n')
+    publish_generation(build_fixture(tmp_path), project)
+    with pytest.raises(ValueError, match="baked resource excluded or missing: scenes/source.tscn.bak"):
+        package_demo(project, tmp_path / "demo")
