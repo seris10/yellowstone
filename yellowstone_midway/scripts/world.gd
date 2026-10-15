@@ -12,6 +12,7 @@ const SimulationPanel = preload("res://scripts/simulation_panel.gd")
 const AtmosphereController = preload("res://scripts/yellowstone_atmosphere.gd")
 const ShadowQuality = preload("res://scripts/shadow_quality.gd")
 const TerrainMaterials = preload("res://scripts/terrain_materials.gd")
+const LodgepoleLibrary = preload("res://scripts/lodgepole_library.gd")
 const WeatherSnapshotReader = preload("res://scripts/weather_snapshot_reader.gd")
 ## Optional published Python replay path.
 @export_file("*.json") var replay_path: String = ""
@@ -578,6 +579,9 @@ func collect_foliage_materials(node: Node) -> void:
 				mat = node.get_active_material(surface) if node is MeshInstance3D else mesh.surface_get_material(surface)
 			if mat is ShaderMaterial and mat.shader != null and mat.shader.resource_path.ends_with("foliage.gdshader") and not mat in foliage_materials:
 				foliage_materials.append(mat)
+			if mat is ShaderMaterial and mat.has_meta("impostor_form"):
+				if not LodgepoleLibrary.bind_billboard_batch(mat):
+					push_error("Distant tree texture binding failed")
 	for child in node.get_children():collect_foliage_materials(child)
 
 func collect_terrain_materials(node: Node) -> void:

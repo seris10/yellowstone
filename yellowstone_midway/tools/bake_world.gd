@@ -708,7 +708,7 @@ func make_vegetation() -> bool:
 						if str(architecture_asset[4]) == str(source_asset[4]):
 							asset_batches.append([architecture_asset, variant_entries, architecture_variant])
 			elif exemplar.kind in ["pine", "snag"] and str(source_asset[4]) == "Billboard":
-				var view_asset := LodgepoleLibrary.load_billboard_batch(form)
+				var view_asset := LodgepoleLibrary.load_billboard_batch(form, false)
 				if view_asset.is_empty():
 					return false
 				asset_batches.append([view_asset, entries, -2])

@@ -264,8 +264,8 @@ static func load_billboard(name: String, variant: int) -> Array:
 	_asset_cache[key] = asset
 	return asset
 
-static func load_billboard_batch(name: String) -> Array:
-	var key := "impostor_batch:" + name
+static func load_billboard_batch(name: String, build_textures: bool = true) -> Array:
+	var key := "impostor_batch:%s:%s" % [name, str(build_textures)]
 	if _asset_cache.has(key):
 		return _asset_cache[key]
 	var entries: Array = metadata().get("variant_billboards", {}).get(name, [])
@@ -278,18 +278,21 @@ static func load_billboard_batch(name: String) -> Array:
 		if entry.width_m != frame.width_m or entry.height_m != frame.height_m or entry.center_y_m != frame.center_y_m or entry.views.size() != 4:
 			push_error("Batched impostors require matching physical frames: " + name)
 			return []
-		for filename: String in entry.views:
-			var image := cutout_image(filename)
-			if image == null:
-				return []
-			images.append(image)
-	var layers := Texture2DArray.new()
-	if layers.create_from_images(images) != OK:
-		push_error("Batched impostor texture layers disagree: " + name)
-		return []
+		if build_textures:
+			for filename: String in entry.views:
+				var image := cutout_image(filename)
+				if image == null:
+					return []
+				images.append(image)
 	var material := ShaderMaterial.new()
 	material.shader = load("res://shaders/tree_impostor.gdshader")
-	material.set_shader_parameter("view_layers", layers)
+	material.set_meta("impostor_form", name)
+	if build_textures:
+		var layers := Texture2DArray.new()
+		if layers.create_from_images(images) != OK:
+			push_error("Batched impostor texture layers disagree: " + name)
+			return []
+		material.set_shader_parameter("view_layers", layers)
 	material.set_shader_parameter("use_view_layers", true)
 	var mesh := QuadMesh.new()
 	mesh.size = Vector2(float(frame.width_m), float(frame.height_m))
@@ -297,6 +300,18 @@ static func load_billboard_batch(name: String) -> Array:
 	var asset := [mesh, Transform3D(Basis.IDENTITY, Vector3(0.0, float(frame.center_y_m), 0.0)), LOD_RANGES[3][0], LOD_RANGES[3][1], "Billboard"]
 	_asset_cache[key] = asset
 	return asset
+
+static func bind_billboard_batch(material: ShaderMaterial) -> bool:
+	if not material.has_meta("impostor_form"):
+		return false
+	var bound: Texture2DArray = material.get_shader_parameter("view_layers")
+	if bound != null and bound.get_layers() == 16:
+		return true
+	var asset := load_billboard_batch(str(material.get_meta("impostor_form")))
+	if asset.is_empty():
+		return false
+	material.set_shader_parameter("view_layers", asset[0].material.get_shader_parameter("view_layers"))
+	return true
 
 static func _billboard(info: Dictionary, name: String, view: int) -> Array:
 	var entry: Variant = info.get("billboards", {}).get(name, null)

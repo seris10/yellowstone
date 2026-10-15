@@ -43,9 +43,17 @@ func run() -> void:
 		cameras.append(camera)
 		parents.append(parent)
 	for form: String in Lodgepole.ARCHETYPES:
-		var batch := Lodgepole.load_billboard_batch(form)
+		var batch := Lodgepole.load_billboard_batch(form, false)
 		if batch.is_empty():
 			failures.append("Batched asset unavailable: " + form)
+			continue
+		var path := "user://impostor_roundtrip_%s.tres" % form
+		if ResourceSaver.save(batch[0], path) != OK:
+			failures.append("Batched mesh serialization fails: " + form)
+			continue
+		batch[0] = ResourceLoader.load(path, "Mesh", ResourceLoader.CACHE_MODE_IGNORE)
+		if batch[0] == null or not Lodgepole.bind_billboard_batch(batch[0].material):
+			failures.append("Saved batched material fails to bind: " + form)
 			continue
 		var layers: Texture2DArray = batch[0].material.get_shader_parameter("view_layers")
 		if layers == null or layers.get_layers() != 16:
@@ -97,7 +105,7 @@ func run() -> void:
 						second.save_png(output.path_join("packed_%s_%d_%d.png" % [form, variant, direction]))
 			for node: MultiMeshInstance3D in nodes:
 				node.free()
-	var report := {"ok": failures.is_empty() and comparisons == 160, "comparisons": comparisons, "maximum_channel_error_255": maximum_channel_error, "tolerance_255": 1, "variants_per_archetype": 4, "directions_per_variant": 8, "dimensions_and_transforms_preserved": true, "renderer": RenderingServer.get_current_rendering_method(), "failures": failures}
+	var report := {"ok": failures.is_empty() and comparisons == 160, "comparisons": comparisons, "maximum_channel_error_255": maximum_channel_error, "tolerance_255": 1, "variants_per_archetype": 4, "directions_per_variant": 8, "dimensions_and_transforms_preserved": true, "saved_mesh_reload_checked": true, "renderer": RenderingServer.get_current_rendering_method(), "failures": failures}
 	var file := FileAccess.open(output.path_join("report.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t") + "\n")
 	print("IMPOSTOR_BATCHES ", JSON.stringify(report))

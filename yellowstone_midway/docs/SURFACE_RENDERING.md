@@ -97,7 +97,10 @@ view images occupy a texture array. A per-instance index selects the same varian
 and camera direction as the separate materials. This combines four compatible
 MultiMesh batches while preserving trees, image pixels, alpha cutoffs, dimensions,
 and all distance boundaries. Native validation compares five forms, four variants,
-and eight directions against the separate-material renderer.
+and eight directions against the separate-material renderer after mesh serialization
+and reload. Baked materials store the form identity. Runtime loads and caches the
+original coverage-preserving image layers once per form, avoiding GPU readback
+during a headless bake.
 
 ## Reproduction
 

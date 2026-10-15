@@ -48,6 +48,16 @@ func run() -> void:
 		pools.append({"name": name, "path": path, "sha256": material.get_meta("pool_ramp_sha256"), "radial_range": [low, high]})
 	check(pools.size() > 0, "No thermal pools checked")
 	check(int(overlay.primary_applied) == pools.size() and int(overlay.secondary_applied) == 0, "Runtime uses incomplete or fallback pool colors")
+	var far_batches := 0
+	var far_instances := 0
+	for node: Node in world.find_children("*", "MultiMeshInstance3D", true, false):
+		var material: Material = node.multimesh.mesh.surface_get_material(0)
+		if material is ShaderMaterial and material.has_meta("impostor_form"):
+			var layers: Texture2DArray = material.get_shader_parameter("view_layers")
+			check(layers != null and layers.get_layers() == 16, "Saved scene omits distant-tree variant layers")
+			far_batches += 1
+			far_instances += node.multimesh.instance_count
+	check(far_batches > 0 and far_instances > 0, "No saved distant-tree batches checked")
 	if not pools.is_empty():
 		var fixture := FileAccess.open("user://incompatible_ramp.json", FileAccess.WRITE)
 		fixture.store_string('{"schema":"yellowstone.pool_radiative_ramp.v1","pool_id":"wrong-pool"}')
@@ -73,7 +83,7 @@ func run() -> void:
 	check(float(states.overcast.ambient_light_energy) > float(states.clear.ambient_light_energy), "Clouds fail to increase diffuse lighting")
 	check(float(states.hazy.fog_sky_affect) > 0.0 and float(states.hazy.sky_turbidity) > float(states.clear.sky_turbidity), "Reduced visibility fails to restore haze")
 	check(float(states.night.direct_light_energy) == 0.0 and float(states.night.ambient_light_energy) > 0.0, "Night lighting response fails")
-	var report := {"ok": failures.is_empty(), "checks": checks, "release_id": ReleaseData.active.get("manifest", {}).get("release_id", ""), "pools": pools, "weather_cases": states, "failures": failures}
+	var report := {"ok": failures.is_empty(), "checks": checks, "release_id": ReleaseData.active.get("manifest", {}).get("release_id", ""), "pools": pools, "far_batches": far_batches, "far_instances": far_instances, "weather_cases": states, "failures": failures}
 	var output := "res://work/display_color_report.json"
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--out="):
