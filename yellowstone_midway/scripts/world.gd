@@ -277,6 +277,11 @@ func _published_changed(path: String) -> void:
 	if not ReleaseData.active.is_empty():
 		return
 	match path.get_file():
+		"wet_mask.i16", "flow_fraction.f32", "in_pool.i16", "outflow_network.json":
+			if _mat_surface != null and _core_terrain != null:
+				_mat_surface.load_outflow()
+				_mat_surface.apply(_core_terrain.get_mat_material())
+				_core_terrain.refresh_outflow(_mat_surface)
 		"snow_map.png":
 			var image: Image = Image.load_from_file(ProjectSettings.globalize_path(path))
 			if image != null:
@@ -392,6 +397,7 @@ func _reload_generation(pointer_path: String = "res://data/release.json") -> boo
 		_mat_surface.load_pigment()
 		_mat_surface.load_outflow_temperature()
 		_mat_surface.apply(_core_terrain.get_mat_material())
+		_core_terrain.refresh_outflow(_mat_surface)
 		_mat_pigment_mtime = ReleaseData.get_modified_time("res://data/mat_pigment.png")
 		_mat_pigment_blending = false
 	for child: Node in get_children():

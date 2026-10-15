@@ -22,6 +22,8 @@ uniform float snow_cover_fraction = 1.0;
 
 struct GroundSurface {
  vec3 albedo;
+ vec3 spatial_detail;
+ float mineral_grain;
  vec2 normal_xy;
  float roughness;
  float occlusion;
@@ -57,15 +59,18 @@ GroundSurface ground_surface(vec3 p, vec3 n) {
  vec3 forest = soil * vec3(0.59, 0.60, 0.47);
  vec3 ground = mix(forest, meadow * (soil * 1.45 + 0.38), biome.g);
  vec3 mineral = mix(vec3(0.61, 0.59, 0.48), vec3(0.84, 0.81, 0.68), variation);
- float mineral_grain = texture(detail_map, p.xz / 1.8).r;
- ground = mix(ground, mineral * (0.94 + 0.08 * mineral_grain), biome.r);
+ vec4 mineral_sample = texture(ground_normal_layers, vec3(p.xz / 4.0, 2.0));
+ vec4 mineral_meso = texture(ground_normal_layers, vec3(mat2(vec2(0.8, -0.6), vec2(0.6, 0.8)) * p.xz / 19.0, 2.0));
+ float mineral_grain = mineral_sample.b;
+ float mineral_relief = (0.86 + 0.28 * mineral_grain) * (0.76 + 0.48 * mineral_meso.b);
+ ground = mix(ground, mineral * mineral_relief, biome.r);
  float rock = 1.0 - smoothstep(0.40, 0.83, n.y);
  vec3 stone = texture(rock_albedo, p.xz / 1.8).rgb;
  ground = mix(ground, stone * 0.80, rock * 0.80);
  vec3 photo = ground_photo(p);
  float pigment = smoothstep(0.045, 0.14, photo.r - photo.b) * smoothstep(0.02, 0.09, photo.g - photo.b) * biome.r;
  photo = mix(photo, photo * vec3(1.04, 0.80, 0.76), pigment * 0.65);
- vec3 photo_detail = mix(soil * 0.65 + 0.78, vec3(0.94 + 0.08 * mineral_grain), biome.r);
+ vec3 photo_detail = mix(soil * 0.95 + 0.66, vec3(mineral_relief), biome.r);
  ground = mix(ground, photo * photo_detail, mix(macro_color_strength, 0.68, biome.r));
  float edge_detail = texture(detail_map, p.xz / 1.8).r - 0.5;
  float tread = smoothstep(0.18, 0.72, texture(trail_mask, (p.xz + vec2(2048.0)) / 4096.0).r + edge_detail * 0.06);
@@ -76,13 +81,13 @@ GroundSurface ground_surface(vec3 p, vec3 n) {
  ground = mix(ground, mix(dirt, trail, 0.82), tread);
  float wet = clamp(ground_wetness * biome.b, 0.0, 1.0);
  surface.albedo = ground * mix(1.0, 0.73, wet);
- vec2 soil_xy = (texture(ground_normal_layers, vec3(uv, 0.0)).rg * 2.0 - 1.0) * 0.45;
- vec2 trail_xy = (texture(ground_normal_layers, vec3(trail_uv, 1.0)).rg * 2.0 - 1.0) * 0.35;
- vec2 grain_uv = p.xz / 1.8;
- vec2 mineral_xy = vec2(texture(detail_map, grain_uv + vec2(0.035, 0.0)).r - texture(detail_map, grain_uv - vec2(0.035, 0.0)).r, texture(detail_map, grain_uv + vec2(0.0, 0.035)).r - texture(detail_map, grain_uv - vec2(0.0, 0.035)).r) * -0.06;
+ vec2 soil_xy = (texture(ground_normal_layers, vec3(uv, 0.0)).rg * 2.0 - 1.0) * 0.90;
+ vec2 trail_xy = (texture(ground_normal_layers, vec3(trail_uv, 1.0)).rg * 2.0 - 1.0) * 0.65;
+ vec2 mineral_xy = mineral_sample.rg * 2.0 - 1.0;
+ mineral_xy += mat2(vec2(0.8, 0.6), vec2(-0.6, 0.8)) * (mineral_meso.rg * 2.0 - 1.0) * (4.0 / 19.0);
  surface.normal_xy = mix(mix(soil_xy, mineral_xy, biome.r) * (1.0 - rock * 0.80), trail_xy, tread);
  vec3 arm = mix(soil_arm, trail_arm, tread);
- surface.roughness = mix(mix(clamp(arm.g, 0.45, 0.98), 0.92, biome.r * (1.0 - tread)), 0.47, wet);
+ surface.roughness = mix(mix(clamp(arm.g, 0.45, 0.98), mineral_sample.a, biome.r * (1.0 - tread)), 0.47, wet);
  surface.occlusion = mix(mix(1.0, arm.r, 0.55), 1.0, biome.r * (1.0 - tread));
  surface.specular = 0.25;
  float cover = texture(snow_mask, (p.xz + vec2(2048.0)) / 4096.0).r;
@@ -95,6 +100,12 @@ GroundSurface ground_surface(vec3 p, vec3 n) {
  surface.roughness = mix(surface.roughness, 0.92, surface.snow);
  surface.occlusion = mix(surface.occlusion, 1.0, surface.snow);
  surface.specular = mix(surface.specular, 0.08, surface.snow);
+ surface.spatial_detail = vec3(1.0);
+ vec2 detail_uv = (p.xz - vec2(detail_x_min_m, detail_z_min_m)) / vec2(detail_width_m, detail_height_m);
+ if (naip_detail_available > 0.5 && all(greaterThanEqual(detail_uv, vec2(0.0))) && all(lessThanEqual(detail_uv, vec2(1.0)))) {
+  surface.spatial_detail = texture(geography_layers, vec3(detail_uv, 2.0)).rgb * 2.0;
+ }
+ surface.mineral_grain = mineral_relief;
  surface.mineral = clamp(biome.r, 0.0, 1.0);
  surface.tread = tread;
  return surface;

@@ -2,6 +2,7 @@ extends SceneTree
 ## Validate residual canopy geometry, support, and failure paths.
 
 const Canopy := preload("res://scripts/canopy_surface.gd")
+const Support := preload("res://scripts/canopy_support.gd")
 var failures: Array[String] = []
 var checks := 0
 var cells := 0
@@ -23,6 +24,8 @@ func verify() -> void:
 	var data_path := ""
 	var output_path := "user://canopy_surface_validation.json"
 	var negative := "--negative" in arguments
+	var baked := "--baked" in arguments
+	validate_support_connections()
 	for index: int in range(arguments.size()):
 		if arguments[index] == "--data" and index + 1 < arguments.size():
 			data_path = arguments[index + 1]
@@ -59,9 +62,10 @@ func verify() -> void:
 		var source := Canopy.read_source(data_path)
 		check(not source.is_empty(), "Observed canopy source fails validation")
 		if not source.is_empty():
-			var observed := Node3D.new()
+			var observed: Node3D = load("res://scenes/authored_world.tscn").instantiate() if baked else Node3D.new()
 			get_root().add_child(observed)
-			check(Canopy.build(observed, data_path), "Observed canopy build fails")
+			if not baked:
+				check(Canopy.build(observed, data_path), "Observed canopy build fails")
 			var observed_group := observed.get_node_or_null("AuthoredCanopySurface")
 			if observed_group != null:
 				validate_group(observed_group, source)
@@ -89,6 +93,7 @@ func validate_group(group: Node3D, source: Dictionary) -> void:
 	check(group.get_meta("cluster_geometry_class", "") == "authored_display_geometry" and group.get_meta("cluster_rendered_coverage", "") == "unknown", "Canopy clusters require authored geometry and unknown rendered coverage")
 	check(group.get_meta("near_fade_begin_m", -1.0) == 0.0 and group.get_meta("near_fade_end_m", -1.0) == 0.0, "Source-grounded foliage must remain visible at near distances")
 	check(group.get_meta("cluster_live_crown_ratio", -1.0) == 0.70 and group.get_meta("cluster_depth_class", "") == "authored_display_volume", "Residual volume depth provenance differs")
+	check(group.get_meta("support_geometry_class", "") == "authored_display_geometry", "Reconstructed supports require explicit authored provenance")
 	var mask: Image = source.mask_image
 	var support: Image = source.support_image
 	var mask_bytes := mask.get_data()
@@ -211,17 +216,17 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 	check(material is ShaderMaterial and material.get_shader_parameter("cluster_mode") == true, "Canopy cluster material mode differs")
 	var source_indices: PackedInt32Array = node.get_meta("source_indices", PackedInt32Array())
 	var buffer := multimesh.buffer
-	check(source_indices.size() == multimesh.instance_count and buffer.size() == multimesh.instance_count * 12, "Canopy cluster source indices or saved buffer differs")
+	check(source_indices.size() == multimesh.instance_count and buffer.size() == multimesh.instance_count * 16 and multimesh.use_custom_data, "Canopy source indices or saved attachment buffer differs")
 	var shape_bounds := multimesh.mesh.get_aabb()
 	var radius: float = source.cell_size_m / sqrt(2.0)
 	var near_shoots: bool = int(Canopy.CLUSTER_LODS[lod][2]) > 0
 	check(material.get_shader_parameter("near_shoot_mode") == near_shoots, "Metric foliage material mode differs")
 	check(material.get_shader_parameter("needle_repeat_m") == 0.40, "Residual needle texture physical scale differs")
 	if not near_shoots:
-		check(absf(shape_bounds.end.y) < 0.00001 and absf(shape_bounds.position.y + Canopy.CLUSTER_UNIT_DEPTH_M) < 0.00001, "Far foliage proxy top or unit depth differs")
+		check(absf(shape_bounds.end.y) < 0.00001 and absf(shape_bounds.position.y + 1.0 / Canopy.CLUSTER_LIVE_CROWN_RATIO) < 0.00001, "Far support top or ground depth differs")
 		check(absf(shape_bounds.size.x - radius * 2.0) < 0.00001 and absf(shape_bounds.size.z - radius * sqrt(3.0)) < 0.00001, "Far foliage proxy footprint differs")
 	for instance: int in source_indices.size():
-		var at := instance * 12
+		var at := instance * 16
 		var index: int = source_indices[instance]
 		check(index >= 0 and index < source.width * source.height and source.unresolved_cells[index] == 1 and not seen.has(index), "Canopy cluster source index is inactive or duplicated")
 		var transform := Transform3D(Basis(Vector3(buffer[at], buffer[at + 4], buffer[at + 8]), Vector3(buffer[at + 1], buffer[at + 5], buffer[at + 9]), Vector3(buffer[at + 2], buffer[at + 6], buffer[at + 10])), Vector3(buffer[at + 3], buffer[at + 7], buffer[at + 11]))
@@ -230,11 +235,14 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 		var depth: float = (source.canopy_top_scene_y[index] - source.ground_scene_y[index]) * Canopy.CLUSTER_LIVE_CROWN_RATIO
 		check(world.is_finite() and absf(world.basis.x.length() - 1.0) < 0.00001 and absf(world.basis.z.length() - 1.0) < 0.00001 and absf(world.basis.y.length() - depth) < 0.00001, "Canopy volume basis changes source-grounded dimensions")
 		check(absf(world.basis.x.dot(world.basis.z)) < 0.00001 and world.basis.y.normalized().distance_to(Vector3.UP) < 0.00001, "Canopy volume orientation is tilted or nonorthogonal")
-		var bottom := world * Vector3(0.0, -Canopy.CLUSTER_UNIT_DEPTH_M, 0.0)
-		var expected_base: float = source.ground_scene_y[index] + 0.30 * (source.canopy_top_scene_y[index] - source.ground_scene_y[index])
+		var bottom := world * Vector3(0.0, -minf(depth, 2.0) / depth, 0.0)
+		var expected_base: float = source.canopy_top_scene_y[index] - minf(depth, 2.0)
 		check(absf(bottom.y - expected_base) < 0.00001 and bottom.y > source.ground_scene_y[index], "Canopy volume lower foliage is detached from its authored source-grounded crown interval")
 		check(world.origin.distance_to(position) < 0.00001, "Canopy cluster top or XY differs from its source cell")
-		var volume_bounds := AABB(Vector3(-source.cell_size_m, -1.0, -source.cell_size_m), Vector3(source.cell_size_m * 2.0, 1.0, source.cell_size_m * 2.0))
+		var root := world * Vector3(buffer[at + 12], buffer[at + 13], buffer[at + 14])
+		check(root.is_finite() and (buffer[at + 15] == 1.0 or absf(root.y - source.ground_scene_y[index] + 0.04) < 0.00004), "Unattached display support does not reach matched source ground")
+		check(multimesh.custom_aabb.grow(0.0001).has_point(root - node.position), "Woody connection exceeds batch culling bounds")
+		var volume_bounds := AABB(Vector3(-source.cell_size_m, -1.0 / Canopy.CLUSTER_LIVE_CROWN_RATIO, -source.cell_size_m), Vector3(source.cell_size_m * 2.0, 1.0 / Canopy.CLUSTER_LIVE_CROWN_RATIO, source.cell_size_m * 2.0))
 		check(multimesh.custom_aabb.grow(0.0001).encloses(transform * volume_bounds), "Shader-deformed foliage volume exceeds explicit culling bounds")
 		seen[index] = true
 	if not inspect_mesh:
@@ -244,16 +252,38 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
 	var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
 	var count: int = Canopy.CLUSTER_LODS[lod][2]
-	var quads: int = count * 2 if near_shoots else 3
-	check(vertices.size() == quads * 4 and indices.size() == quads * 6, "Foliage card count differs from its LOD budget")
-	var colors: PackedColorArray = arrays[Mesh.ARRAY_COLOR] if near_shoots else PackedColorArray()
-	check(not near_shoots or colors.size() == vertices.size(), "Metric foliage cards require height-anchor attributes")
+	var quads: int = count * 2 + 4 if near_shoots else 7
+	check(vertices.size() == (count * 11 + 16 if near_shoots else 28) and indices.size() == (count * 15 + 24 if near_shoots else 42), "Connected foliage geometry differs from its LOD budget")
+	var colors: PackedColorArray = arrays[Mesh.ARRAY_COLOR]
+	var uvs: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+	check(colors.size() == vertices.size(), "Foliage and support vertices require material attributes")
 	for vertex: int in vertices.size():
 		check(vertices[vertex].is_finite() and normals[vertex].is_finite() and absf(normals[vertex].length() - 1.0) < 0.00001, "Canopy cluster vertex or normal is invalid")
-		if near_shoots:
+		if near_shoots and colors[vertex].g < 0.5:
 			check(colors[vertex].r > 0.0 and colors[vertex].r < 1.0 and absf(vertices[vertex].y + colors[vertex].r) <= 0.203, "Metric foliage vertex differs from its authored center and physical size")
-		elif absf(vertices[vertex].y) < 0.00001:
+		elif not near_shoots and colors[vertex].g < 0.5 and absf(vertices[vertex].y) < 0.00001:
 			check(Vector2(vertices[vertex].x, vertices[vertex].z).length() <= radius * Canopy.CLUSTER_TOP_WIDTH_RATIO + 0.00001, "Canopy upper volume taper differs")
+	if near_shoots:
+		var anchors: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV2]
+		check(anchors.size() == vertices.size(), "Whole-shoot mask anchors are missing")
+		for shoot: int in count:
+			var base := shoot * 11
+			var center_xz := (Vector2(vertices[base].x, vertices[base].z) + Vector2(vertices[base + 1].x, vertices[base + 1].z)) * 0.5
+			for corner: int in 8:
+				check(anchors[base + corner].distance_to(center_xz) < 0.000001, "Canopy mask clips a shoot independently of its attachment center")
+			check(colors[base + 10].g > 0.5 and colors[base].g < 0.5, "Twig and needle material classes disagree")
+			for depth: float in [0.07, 0.7, 7.0, 21.0, 70.0]:
+				var crown_depth := minf(depth, 2.0)
+				var scale := minf(1.0, crown_depth / 0.4)
+				var center := (vertices[base + 2] + vertices[base + 3]) * 0.5
+				var fraction := colors[base].r
+				center.y = -lerpf(0.2 * scale, crown_depth - 0.2 * scale, fraction) + (center.y + fraction) * scale
+				var tip := vertices[base + 10]
+				tip.y = tip.y * crown_depth + uvs[base + 10].y * scale
+				check(center.distance_to(tip) < 0.00001, "Needle base and woody twig disconnect after nonuniform height scaling")
+			var left := vertices[base + 8]
+			var right := vertices[base + 9]
+			check(Vector2((left.x + right.x) * 0.5, (left.z + right.z) * 0.5).length() < 0.000001 and left.y >= -1.05 and left.y <= 0.0, "Twig root misses central support")
 	var edges: Dictionary = {}
 	for triangle: int in range(0, indices.size(), 3):
 		var a := vertices[indices[triangle]]
@@ -266,7 +296,21 @@ func validate_clusters(node: MultiMeshInstance3D, source: Dictionary, seen: Dict
 			edges[key] = int(edges.get(key, 0)) + 1
 	for multiplicity: int in edges.values():
 		check(multiplicity in [1, 2], "Needle card edge is nonmanifold")
-	check(edges.values().count(1) == quads * 4 and edges.values().count(2) == quads, "Needle card outer edges or diagonals differ")
+	check(edges.values().count(1) == quads * 4 + count * 3 and edges.values().count(2) == quads, "Needle, twig and support edge counts differ")
+
+func validate_support_connections() -> void:
+	var host := {"base": Vector3(1, 30, 0), "top_y": 40.0, "transform": Transform3D(Basis.IDENTITY, Vector3(1, 30, 0)), "profile": PackedVector3Array([Vector3.ZERO, Vector3(1, 10, 0)])}
+	var bins := {Vector2i.ZERO: [host]}
+	var actual := Support.connection(Vector3(3, 38, 0), 30.0, bins)
+	check(actual.attached and actual.point.distance_to(Vector3(1.578, 35.78, 0)) < 0.00001, "Canopy support misses the independently specified leaning bole")
+	actual = Support.connection(Vector3(30, 38, 0), 30.0, bins)
+	check(not actual.attached and actual.point.distance_to(Vector3(30, 29.96, 0)) < 0.00001, "Out-of-range canopy support must use matched ground")
+	actual = Support.connection(Vector3(3, 44, 0), 30.0, bins)
+	check(not actual.attached, "Short neighboring tree cannot support a higher canopy patch")
+	var rendered := Support.prepare([{"id": "support_fixture", "kind": "pine", "archetype": "dense", "position": [0, 30, 0], "yaw": 0.0, "height_m": 18.0, "dbh_m": 0.26, "crown_r_m": 2.5, "crown_ratio": 0.7}])
+	check(not rendered.is_empty(), "Rendered bole profile cannot be reconstructed")
+	actual = Support.connection(Vector3(1, 45, 0), 30.0, rendered)
+	check(actual.attached and actual.point.is_finite() and absf(actual.point.y - 42.78) < 0.00001, "Rendered bole support height or source profile is invalid")
 
 func check_corner(height: float, source: Dictionary, column: int, row: int) -> void:
 	var upper_sum := 0.0

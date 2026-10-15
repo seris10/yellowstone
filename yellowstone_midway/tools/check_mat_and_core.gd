@@ -325,7 +325,7 @@ func check_packed_fields(mat: ShaderMaterial) -> void:
 	var packed: Texture2DArray = mat.get_shader_parameter("outflow_layers")
 	var geography: Texture2DArray = mat.get_shader_parameter("geography_layers")
 	var pigment: Texture2DArray = mat.get_shader_parameter("pigment_layers")
-	if packed == null or packed.get_layers() != 5 or geography == null or geography.get_layers() != 2 or pigment == null or pigment.get_layers() != 2:
+	if packed == null or packed.get_layers() != 5 or geography == null or geography.get_layers() != 3 or pigment == null or pigment.get_layers() != 2:
 		add_finding("terrain packed layer counts disagree")
 		return
 	var image := Image.new()
@@ -340,7 +340,7 @@ func check_packed_fields(mat: ShaderMaterial) -> void:
 	_report["shader"]["packed_normal_readback"] = "verified"
 	for point: Vector2i in [Vector2i.ZERO, Vector2i(300, 300), Vector2i(600, 600)]:
 		var source: Color = image.get_pixelv(point)
-		if absf(red.get_pixelv(point).r - source.r) > 0.000001 or absf(green.get_pixelv(point).r - source.g) > 0.000001:
+		if absf(red.get_pixelv(point + Vector2i.ONE).r - source.r) > 0.000001 or absf(green.get_pixelv(point + Vector2i.ONE).r - source.g) > 0.000001:
 			add_finding("packed normal channel disagrees with the validated PNG")
 
 func _find_core_collision(core: Node) -> HeightMapShape3D:

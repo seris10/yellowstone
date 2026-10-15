@@ -105,16 +105,17 @@ POPE_FRY_PURE_WATER_ABSORPTION_M_INV = {
     "status": "literature",
     "source": POPE_FRY_1997_CITATION + " Table 2 (380-700 nm)",
 }
-AUTHORED_BACKSCATTER_M_INV = {
+AUTHORED_SCATTERING_M_INV = {
     "r_650nm": 0.0008,
     "g_550nm": 0.0015,
     "b_450nm": 0.0035,
     "status": "authored",
-    "source": "authored proxy for molecular back-scatter in pure water",
+    "source": "authored three-band total scattering proxy; equal forward and backward hemispheres",
 }
 
-AUTHORED_SCATTER_TINT_RGB = (0.12, 0.26, 0.48)
+AUTHORED_SCATTER_TINT_RGB = (1.0, 1.0, 1.0)
 AUTHORED_SURFACE_REFLECTION = 0.02
+CLEAR_SKY_IRRADIANCE_RATIO = 0.1
 
 PIGMENT_SATURATION_SW_W_M2 = 350.0
 PIGMENT_SATURATION_STATUS = "authored"
@@ -329,11 +330,11 @@ def integrate_pigment(initial_index: float,
 
 
 def _mat_rgb_for_class(name: str) -> tuple[float, float, float]:
-    """Reflectance RGB (0 to 1) for a mat class."""
+    """Linear-light proxy decoded from the authored sRGB class palette."""
     for entry in COMMUNITY_LEGEND:
         if entry["name"] == name:
             rgb = entry["rgb"]
-            return rgb[0] / 255.0, rgb[1] / 255.0, rgb[2] / 255.0
+            return tuple(_srgb_to_linear(c / 255.0) for c in rgb)
     return 0.0, 0.0, 0.0
 
 
@@ -358,10 +359,21 @@ def _absorption_rgb() -> tuple[float, float, float]:
     return tbl["r_650nm"], tbl["g_550nm"], tbl["b_450nm"]
 
 
-def _backscatter_rgb() -> tuple[float, float, float]:
-    """Rayleigh back-scatter coefficients packed as RGB in m^-1."""
-    tbl = AUTHORED_BACKSCATTER_M_INV
+def _scattering_rgb() -> tuple[float, float, float]:
+    """Authored total scattering coefficients packed as RGB in m^-1."""
+    tbl = AUTHORED_SCATTERING_M_INV
     return tbl["r_650nm"], tbl["g_550nm"], tbl["b_450nm"]
+
+
+def _srgb_to_linear(value: float) -> float:
+    """Decode one normalized IEC sRGB channel."""
+    return value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+
+
+def _linear_to_srgb(value: float) -> float:
+    """Encode one normalized linear-light channel as IEC sRGB."""
+    value = min(1.0, max(0.0, value))
+    return 12.92 * value if value <= 0.0031308 else 1.055 * value ** (1.0 / 2.4) - 0.055
 
 
 def radiative_transfer_color(
@@ -370,29 +382,25 @@ def radiative_transfer_color(
     *,
     surface_reflection: float = AUTHORED_SURFACE_REFLECTION,
     scatter_tint: tuple[float, float, float] = AUTHORED_SCATTER_TINT_RGB,
+    sky_irradiance_ratio: float = CLEAR_SKY_IRRADIANCE_RATIO,
 ) -> tuple[float, float, float]:
-    """Pool-surface color above water of depth_m with mat bottom reflectance.
-Beer-Lambert round trip plus a Rayleigh-backscatter column term."""
+    """Three-band linear-light form of the Nugent (2015) pool model.
+Integrates b/2 over attenuation 2a+b; palette and scattering values are proxies."""
     d = max(0.0, _finite("depth_m", depth_m))
     sr = max(0.0, min(1.0, _finite("surface_reflection", surface_reflection)))
-    a_r, a_g, a_b = _absorption_rgb()
-    b_r, b_g, b_b = _backscatter_rgb()
-    c_r = a_r + b_r
-    c_g = a_g + b_g
-    c_b = a_b + b_b
-    t_r = math.exp(-2.0 * c_r * d)
-    t_g = math.exp(-2.0 * c_g * d)
-    t_b = math.exp(-2.0 * c_b * d)
-    bottom_r = mat_rgb[0] * t_r
-    bottom_g = mat_rgb[1] * t_g
-    bottom_b = mat_rgb[2] * t_b
-    column_r = scatter_tint[0] * (1.0 - t_r)
-    column_g = scatter_tint[1] * (1.0 - t_g)
-    column_b = scatter_tint[2] * (1.0 - t_b)
-    r = sr + (1.0 - sr) * (bottom_r + column_r)
-    g = sr + (1.0 - sr) * (bottom_g + column_g)
-    b = sr + (1.0 - sr) * (bottom_b + column_b)
-    return (min(1.0, r), min(1.0, g), min(1.0, b))
+    sky = _finite("sky_irradiance_ratio", sky_irradiance_ratio)
+    if not 0.0 <= sky <= 1.0:
+        raise ValueError("sky_irradiance_ratio must be in [0, 1]")
+    channels = []
+    for mat, tint, a, b in zip(mat_rgb, scatter_tint, _absorption_rgb(), _scattering_rgb(), strict=True):
+        if not all(math.isfinite(c) and 0.0 <= c <= 1.0 for c in (mat, tint)):
+            raise ValueError("mat_rgb and scatter_tint must contain finite values in [0, 1]")
+        extinction = 2.0 * a + b
+        transmission = math.exp(-extinction * d)
+        integral = -math.expm1(-extinction * d) / extinction if extinction > 0.0 else d
+        column = tint * 0.5 * b * integral
+        channels.append(sr * sky + (1.0 - sr) ** 2 * (mat * transmission + column))
+    return tuple(channels)
 
 
 def pool_ramp(shell: dict,
@@ -434,10 +442,15 @@ Samples center-to-rim radii and runs the radiative-transfer model."""
             "class": class_name,
             "rgb01": [round(c, 4) for c in rgb],
             "color": "#%02x%02x%02x" % tuple(
-                min(255, max(0, int(round(c * 255.0)))) for c in rgb),
+                int(round(_linear_to_srgb(c) * 255.0)) for c in rgb),
         })
     return {
         "schema": SCHEMA_POOL_RAMP,
+        "color_space": "linear_rgb",
+        "texture_color_space": "srgb",
+        "palette_status": "authored sRGB colors decoded to linear-light reflectance proxies",
+        "method": "Nugent (2015) equations 1-3, three-band continuum approximation",
+        "local_color_uncertainty": "unknown; no site spectroradiometric calibration",
         "pool_id": shell.get("id"),
         "name": shell.get("name"),
         "samples": samples,
@@ -445,7 +458,9 @@ Samples center-to-rim radii and runs the radiative-transfer model."""
             "surface_reflection": surface_reflection,
             "scatter_tint_rgb": list(scatter_tint),
             "absorption_m_inv": POPE_FRY_PURE_WATER_ABSORPTION_M_INV,
-            "backscatter_m_inv": AUTHORED_BACKSCATTER_M_INV,
+            "scattering_m_inv": AUTHORED_SCATTERING_M_INV,
+            "sky_irradiance_ratio": CLEAR_SKY_IRRADIANCE_RATIO,
+            "sky_ratio_source": NUGENT_2015_CITATION + " Section 2, approximate clear-sky ratio",
             "ph": ph,
         },
         "sources": [POPE_FRY_1997_CITATION, MOREL_1974_CITATION,
@@ -456,7 +471,7 @@ Samples center-to-rim radii and runs the radiative-transfer model."""
 
 def write_pool_ramp_png(ramp: dict, path: str, width: int = 256,
                         height: int = 1) -> str:
-    """Render a pool depth-and-temperature ramp to a PNG."""
+    """Encode the linear-light pool ramp into an sRGB PNG."""
     from PIL import Image
     if width < 2:
         raise ValueError("ramp width must be >= 2")
@@ -474,9 +489,7 @@ def write_pool_ramp_png(ramp: dict, path: str, width: int = 256,
         r = float(np.interp(f, fractions, reds))
         g = float(np.interp(f, fractions, greens))
         b = float(np.interp(f, fractions, blues))
-        rgb = (int(round(r * 255.0)),
-               int(round(g * 255.0)),
-               int(round(b * 255.0)))
+        rgb = tuple(int(round(_linear_to_srgb(c) * 255.0)) for c in (r, g, b))
         for iy in range(height):
             px[ix, iy] = rgb
     parent = os.path.dirname(os.path.abspath(path))
@@ -504,6 +517,8 @@ class MatState:
         """Produce the mat_state.json body for this build."""
         return {
             "schema": SCHEMA_MAT_STATE,
+            "reflectance_color_space": "srgb_authoring_palette",
+            "reflectance_status": "authored display colors; no measured spectral reflectance",
             "status": status,
             "grid": {
                 "origin_xz_m": [-CORE_HALF_M, -CORE_HALF_M],

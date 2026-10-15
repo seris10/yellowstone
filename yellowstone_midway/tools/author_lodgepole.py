@@ -106,7 +106,7 @@ def needle_atlas(path: Path) -> None:
     image.resize((512, 1024), Image.Resampling.LANCZOS).save(path)
 
 
-def needle_cluster_atlas(path: Path) -> None:
+def needle_cluster_atlas(path: Path, *, connected: bool = False) -> None:
     """Draw five paired-needle shoots for middle-distance cards."""
     scale = 3
     image = Image.new("RGBA", (512 * scale, 1024 * scale), (0, 0, 0, 0))
@@ -115,6 +115,8 @@ def needle_cluster_atlas(path: Path) -> None:
     for origin, lean, height in [(105, -0.12, 520), (175, -0.10, 730), (256, 0.02, 860), (329, 0.12, 700), (402, 0.18, 530)]:
         def xy(x, y):
             return (int((origin + x + lean * (950 - y)) * scale), int(y * scale))
+        if connected:
+            draw.line([(256 * scale, 1023 * scale), xy(0, 975)], fill=(93, 82, 44, 255), width=5 * scale)
         draw.line([xy(0, 975), xy(0, 950 - height)], fill=(93, 82, 44, 255), width=4 * scale)
         for index in range(29):
             y = 940 - index * height / 29
@@ -354,6 +356,8 @@ def cutout_mip_chain(path: Path, cutoff: float = .32) -> dict:
 def export_mipmaps(output: Path, metadata: dict) -> None:
     """Bind coverage-preserving needle and impostor mip buffers to asset metadata."""
     paths = [output/"needle_shoot.png",output/"needle_cluster.png"]
+    if (output / "needle_supported.png").is_file():
+        paths.append(output / "needle_supported.png")
     paths += sorted(output.glob("*_billboard_*.png"))
     metadata["cutout_mips"] = {path.name:cutout_mip_chain(path) for path in paths}
     metadata["billboard_mips_pending"] = False
@@ -364,6 +368,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / "assets/imported/lodgepole")
     parser.add_argument("--mipmaps-only", action="store_true")
+    parser.add_argument("--supported-canopy-only", action="store_true")
     parser.add_argument("--architecture-library", type=Path)
     parser.add_argument("--variant-id", help="Canonical variant identity selected for the mesh build")
     args = parser.parse_args()
@@ -381,6 +386,13 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=True)
     old_metadata_path = args.output / "lodgepole_metadata.json"
     previous_metadata = json.loads(old_metadata_path.read_text()) if old_metadata_path.exists() else {}
+    if args.supported_canopy_only:
+        if not previous_metadata:
+            parser.error("supported canopy export requires authored asset metadata")
+        needle_cluster_atlas(args.output / "needle_supported.png", connected=True)
+        previous_metadata.setdefault("cutout_mips", {})["needle_supported.png"] = cutout_mip_chain(args.output / "needle_supported.png")
+        old_metadata_path.write_text(json.dumps(previous_metadata, indent=2) + "\n")
+        return
     if args.mipmaps_only:
         if not previous_metadata:
             parser.error("mipmap export requires authored asset metadata")
@@ -391,6 +403,7 @@ def main() -> None:
     previous_billboard_signature = previous_metadata.get("billboard_source_sha256", hashlib.sha256(b"".join(path.read_bytes() for path in billboard_inputs if path.is_file() and path.suffix != ".import")).hexdigest())
     needle_atlas(args.output / "needle_shoot.png")
     needle_cluster_atlas(args.output / "needle_cluster.png")
+    needle_cluster_atlas(args.output / "needle_supported.png", connected=True)
     reports = []
     for index, (name, spec) in enumerate(ARCHETYPES.items()):
         for lod in range(3):

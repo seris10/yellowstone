@@ -38,9 +38,8 @@ void vertex() {
 }
 
 float outflow_sample(vec2 uv, float layer) {
- vec2 t = 1.0 / vec2(textureSize(outflow_layers, 0).xy);
- uv *= outflow_source_size / vec2(textureSize(outflow_layers, 0).xy);
- return 0.4 * texture(outflow_layers, vec3(uv, layer)).r + 0.15 * (texture(outflow_layers, vec3(uv + vec2(t.x, 0.0), layer)).r + texture(outflow_layers, vec3(uv - vec2(t.x, 0.0), layer)).r + texture(outflow_layers, vec3(uv + vec2(0.0, t.y), layer)).r + texture(outflow_layers, vec3(uv - vec2(0.0, t.y), layer)).r);
+ uv = (uv * outflow_source_size + vec2(1.0)) / vec2(textureSize(outflow_layers, 0).xy);
+ return texture(outflow_layers, vec3(uv, layer)).r;
 }
 
 void fragment() {
@@ -57,7 +56,7 @@ void fragment() {
  if (pigment_available > 0.5) {
   vec2 pigment_uv = (world.xz - vec2(pigment_x_min_m, pigment_z_min_m)) / vec2(pigment_width_m, pigment_height_m);
   vec4 pigment = mix(texture(pigment_layers, vec3(pigment_uv, 0.0)), texture(pigment_layers, vec3(pigment_uv, 1.0)), clamp(mat_pigment_blend, 0.0, 1.0));
-  base = mix(base, pigment.rgb, pigment.a * thermal);
+  base = mix(base, pigment.rgb * surface.spatial_detail * surface.mineral_grain, pigment.a * thermal);
  }
  float wet_amount = clamp(max(wet, flow), 0.0, 1.0) * thermal;
  base *= 1.0 - 0.18 * wet_amount * (1.0 - pool);
@@ -67,7 +66,7 @@ void fragment() {
  if (normal_map_available > 0.5 && residual_fade > 0.0) {
   vec2 extent_uv = (world.xz - vec2(extent_x_min_m, extent_z_min_m)) / vec2(extent_width_m, extent_height_m);
   vec2 size = vec2(textureSize(outflow_layers, 0).xy);
-  vec2 normal_uv = (extent_uv * (normal_grid_size - vec2(1.0)) + vec2(0.5)) / size;
+  vec2 normal_uv = (extent_uv * (normal_grid_size - vec2(1.0)) + vec2(1.5)) / size;
   detail_xy += (vec2(texture(outflow_layers, vec3(normal_uv, 3.0)).r, texture(outflow_layers, vec3(normal_uv, 4.0)).r) * 2.0 - 1.0) * residual_fade;
  }
  float normal_length = length(detail_xy);

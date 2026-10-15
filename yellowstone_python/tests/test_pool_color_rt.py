@@ -5,7 +5,9 @@ import json
 import os
 import tempfile
 
+import numpy as np
 import pytest
+from PIL import Image
 
 import yellowstone_python.thermal_features.microbial_mats as mm
 from yellowstone_python.thermal_features.microbial_mats import pool_ramp, radiative_transfer_color, write_pool_ramp_png
@@ -83,3 +85,43 @@ def test_pool_ramp_sidecar_round_trips_json():
             back = json.load(fh)
     assert back["schema"] == mm.SCHEMA_POOL_RAMP
     assert len(back["samples"]) == 8
+
+
+@pytest.mark.parametrize("depth", [0.1, 1.0, 37.0, 100.0])
+def test_column_matches_independent_gaussian_quadrature(depth):
+    """Integrate the upward source over depth independently of its closed form."""
+    nodes, weights = np.polynomial.legendre.leggauss(96)
+    positions = (nodes + 1.0) * depth / 2.0
+    mat = (0.4, 0.3, 0.2)
+    reflection = 0.02
+    expected = []
+    for a, b, bottom in zip((0.340, 0.0565, 0.00922), (0.0008, 0.0015, 0.0035), mat):
+        column = float(np.dot(weights, 0.5 * b * np.exp(-(2.0 * a + b) * positions))) * depth / 2.0
+        expected.append(0.002 + (1.0 - reflection) ** 2 * (bottom * np.exp(-(2.0 * a + b) * depth) + column))
+    assert radiative_transfer_color(depth, mat) == pytest.approx(expected, abs=1e-12)
+
+
+def test_absorption_without_scattering_emits_no_column_light(monkeypatch):
+    monkeypatch.setattr(mm, "_scattering_rgb", lambda: (0.0, 0.0, 0.0))
+    assert radiative_transfer_color(100.0, (0.0, 0.0, 0.0), surface_reflection=0.0) == (0.0, 0.0, 0.0)
+    monkeypatch.setattr(mm, "_absorption_rgb", lambda: (0.0, 0.0, 0.0))
+    assert radiative_transfer_color(100.0, (0.1, 0.2, 0.3), surface_reflection=0.0) == (0.1, 0.2, 0.3)
+
+
+def test_ramp_texture_encodes_linear_light_once(tmp_path):
+    ramp = {"samples": [{"fraction": 0.0, "rgb01": [0.0, 0.18, 1.0]},
+                        {"fraction": 1.0, "rgb01": [1.0, 0.18, 0.0]}]}
+    path = tmp_path / "ramp.png"
+    write_pool_ramp_png(ramp, str(path), width=3)
+    with Image.open(path) as image:
+        assert image.getpixel((0, 0)) == (0, 118, 255)
+        assert image.getpixel((1, 0)) == (188, 118, 188)
+    generated = pool_ramp(_test_shell())
+    assert generated["color_space"] == "linear_rgb"
+    assert generated["texture_color_space"] == "srgb"
+
+
+@pytest.mark.parametrize("depth", [0.0, 0.01, 1.0, 50.0, 1e6])
+def test_normalized_passive_water_cannot_exceed_incident_light(depth):
+    for bottom in [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)]:
+        assert all(0.0 <= value <= 1.0 for value in radiative_transfer_color(depth, bottom))

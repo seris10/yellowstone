@@ -16,24 +16,41 @@ uniform float skin_fade_begin_m = 180.0;
 uniform float skin_fade_end_m = 260.0;
 varying vec3 world;
 varying vec3 world_normal;
+varying float wood;
+varying vec2 mask_world;
 
 void vertex() {
-	if (near_shoot_mode) {
-		float depth = length(MODEL_MATRIX[1].xyz);
-		float size_scale = min(1.0, depth / 0.40);
+	wood = cluster_mode ? COLOR.g : 0.0;
+	float depth = length(MODEL_MATRIX[1].xyz);
+	float crown_depth = min(depth, 2.0);
+	if (wood > 0.5 && COLOR.b > 0.5) {
+		vec3 axis = vec3(INSTANCE_CUSTOM.x, INSTANCE_CUSTOM.y * depth + crown_depth * 1.05, INSTANCE_CUSTOM.z);
+		vec3 across = normalize(cross(axis, abs(axis.y) < 0.9 * length(axis) ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0)));
+		if (UV.y > 0.5) across = normalize(cross(axis, across));
+		vec3 offset = across * (VERTEX.x + VERTEX.z);
+		offset.y /= depth;
+		VERTEX = mix(vec3(0.0, -crown_depth * 1.05 / depth, 0.0), INSTANCE_CUSTOM.xyz, UV.x) + offset;
+		NORMAL = normalize(cross(axis, across)) * vec3(1.0, depth, 1.0);
+	} else if (wood > 0.5) {
+		VERTEX.y = (VERTEX.y * crown_depth + UV.y * min(1.0, crown_depth / 0.40)) / depth;
+	} else if (near_shoot_mode) {
+		float size_scale = min(1.0, crown_depth / 0.40);
 		float half_card = 0.20 * size_scale;
-		float anchor = mix(half_card, depth - half_card, COLOR.r);
+		float anchor = mix(half_card, crown_depth - half_card, COLOR.r);
 		VERTEX.y = (-anchor + (VERTEX.y + COLOR.r) * size_scale) / depth;
+	} else if (cluster_mode) {
+		VERTEX.y *= crown_depth / depth;
 	}
 	world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	world_normal = normalize(mat3(MODEL_MATRIX) * NORMAL);
+	mask_world = near_shoot_mode && wood < 0.5 ? (MODEL_MATRIX * vec4(UV2.x, 0.0, UV2.y, 1.0)).xz : world.xz;
+	world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
 }
 
 void fragment() {
-	vec2 coverage_uv = (world.xz - mask_origin_m) / mask_extent_m;
+	vec2 coverage_uv = (mask_world - mask_origin_m) / mask_extent_m;
 	float coverage = texture(coverage_texture, coverage_uv).r;
 	float support = texture(support_texture, coverage_uv).r;
-	if (coverage < 0.5 || support < 0.5 || any(lessThan(coverage_uv, vec2(0.0))) || any(greaterThan(coverage_uv, vec2(1.0)))) {
+	if (wood < 0.5 && (coverage < 0.5 || support < 0.5 || any(lessThan(coverage_uv, vec2(0.0))) || any(greaterThan(coverage_uv, vec2(1.0))))) {
 		discard;
 	}
 	vec3 weights = abs(world_normal);
@@ -53,7 +70,9 @@ void fragment() {
 		discard;
 	}
 	if (!FRONT_FACING) NORMAL = -NORMAL;
-	if (cluster_mode) {
+	if (wood > 0.5) {
+		ALBEDO = vec3(0.19, 0.14, 0.085);
+	} else if (cluster_mode) {
 		if (leaf.a < 0.32) discard;
 		ALBEDO = mix(base_color, tint * leaf.rgb, 0.30);
 	} else {

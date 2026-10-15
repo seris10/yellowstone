@@ -50,7 +50,7 @@ func run() -> void:
 	root.mode = Window.MODE_WINDOWED
 	root.show()
 	root.grab_focus()
-	create_timer(900.0 if "--portfolio" in OS.get_cmdline_user_args() else 120.0).timeout.connect(func(): push_error("Terrain capture timed out."); quit(1))
+	create_timer(900.0 if "--portfolio" in OS.get_cmdline_user_args() else 300.0).timeout.connect(func(): push_error("Terrain capture timed out."); quit(1))
 	world = load("res://scenes/main.tscn").instantiate()
 	root.add_child(world)
 	current_scene = world
@@ -120,20 +120,29 @@ func run() -> void:
 	var frame_times: Array[float] = []
 	var draw_calls: Array[float] = []
 	var process_times: Array[float] = []
+	var primitives: Array[float] = []
+	var drawn_steps: Array[int] = []
 	var configured_cap: int = Engine.max_fps
 	Engine.max_fps = 0
 	for frame: int in range(180):
 		var started: int = Time.get_ticks_usec()
+		var drawn_before := Engine.get_frames_drawn()
 		camera.position = cases[0].position + Vector3(sin(float(frame) * 0.035) * 8.0, 0, cos(float(frame) * 0.035) * 6.0)
 		camera.look_at(cases[0].target)
-		await RenderingServer.frame_post_draw
+		await process_frame
 		if frame >= 60:
+			drawn_steps.append(Engine.get_frames_drawn() - drawn_before)
 			frame_times.append(float(Time.get_ticks_usec() - started) / 1000.0)
 			draw_calls.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
 			process_times.append(Performance.get_monitor(Performance.TIME_PROCESS) * 1000.0)
+			primitives.append(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
 	frame_times.sort()
 	report.moving_camera = {"sample_frames": frame_times.size(), "median_wall_frame_ms": frame_times[int(frame_times.size() / 2)], "p95_wall_frame_ms": frame_times[int(frame_times.size() * 0.95)], "process_frame_mean_ms": mean(process_times), "draw_calls_mean": mean(draw_calls), "fps_cap": Engine.max_fps, "configured_fps_cap": configured_cap, "scope": "Frozen forcing and foliage with a moving camera; wall time includes display synchronization."}
 	report["resolution"] = [root.size.x, root.size.y]
+	report.moving_camera["primitives_mean"] = mean(primitives)
+	report.moving_camera["drawn_frame_steps"] = drawn_steps
+	var canopy: Node3D = world.find_child("AuthoredCanopySurface", true, false)
+	report["feature_state"] = {"residual_canopy_visible": canopy != null and canopy.visible, "source_cells": canopy.get_meta("active_cells") if canopy != null else 0, "far_tree_lod_end_m": 3000.0}
 	report["cpu"] = OS.get_processor_name()
 	report["memory_static_peak_bytes"] = Performance.get_monitor(Performance.MEMORY_STATIC_MAX)
 	report["mode"] = "offline baked; frozen forcing during timing"

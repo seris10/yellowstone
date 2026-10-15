@@ -178,6 +178,15 @@ static func bechtold_crown_radius_m(dbh_m: float) -> float:
 static func cutout_texture(filename: String) -> Texture2D:
 	if _texture_cache.has(filename):
 		return _texture_cache[filename]
+	var image := cutout_image(filename)
+	if image == null:
+		return null
+	var texture := ImageTexture.create_from_image(image)
+	texture.resource_name = filename
+	_texture_cache[filename] = texture
+	return texture
+
+static func cutout_image(filename: String) -> Image:
 	var entry: Variant = metadata().get("cutout_mips", {}).get(filename)
 	if not entry is Dictionary or metadata().get("billboard_mips_pending", true):
 		push_error("Lodgepole coverage-preserving mips are missing: " + filename)
@@ -194,10 +203,7 @@ static func cutout_texture(filename: String) -> Texture2D:
 	if image.is_empty() or not image.has_mipmaps():
 		push_error("Lodgepole cutout image requires complete mip levels")
 		return null
-	var texture := ImageTexture.create_from_image(image)
-	texture.resource_name = filename
-	_texture_cache[filename] = texture
-	return texture
+	return image
 
 static func bind_cutout_materials(assets: Array, frozen_wind: bool = false) -> bool:
 	for asset: Array in assets:
@@ -255,6 +261,40 @@ static func load_billboard(name: String, variant: int) -> Array:
 	mesh.size = Vector2(float(entry.width_m), float(entry.height_m))
 	mesh.material = material
 	var asset := [mesh, Transform3D(Basis.IDENTITY, Vector3(0.0, float(entry.center_y_m), 0.0)), LOD_RANGES[3][0], LOD_RANGES[3][1], "Billboard"]
+	_asset_cache[key] = asset
+	return asset
+
+static func load_billboard_batch(name: String) -> Array:
+	var key := "impostor_batch:" + name
+	if _asset_cache.has(key):
+		return _asset_cache[key]
+	var entries: Array = metadata().get("variant_billboards", {}).get(name, [])
+	if entries.size() != 4:
+		push_error("Batched impostors require four complete variants: " + name)
+		return []
+	var images: Array[Image] = []
+	var frame: Dictionary = entries[0]
+	for entry: Dictionary in entries:
+		if entry.width_m != frame.width_m or entry.height_m != frame.height_m or entry.center_y_m != frame.center_y_m or entry.views.size() != 4:
+			push_error("Batched impostors require matching physical frames: " + name)
+			return []
+		for filename: String in entry.views:
+			var image := cutout_image(filename)
+			if image == null:
+				return []
+			images.append(image)
+	var layers := Texture2DArray.new()
+	if layers.create_from_images(images) != OK:
+		push_error("Batched impostor texture layers disagree: " + name)
+		return []
+	var material := ShaderMaterial.new()
+	material.shader = load("res://shaders/tree_impostor.gdshader")
+	material.set_shader_parameter("view_layers", layers)
+	material.set_shader_parameter("use_view_layers", true)
+	var mesh := QuadMesh.new()
+	mesh.size = Vector2(float(frame.width_m), float(frame.height_m))
+	mesh.material = material
+	var asset := [mesh, Transform3D(Basis.IDENTITY, Vector3(0.0, float(frame.center_y_m), 0.0)), LOD_RANGES[3][0], LOD_RANGES[3][1], "Billboard"]
 	_asset_cache[key] = asset
 	return asset
 

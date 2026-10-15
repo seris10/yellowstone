@@ -453,7 +453,7 @@ func make_water() -> void:
 				vertices.append(v)
 				normals.append(Vector3.UP)
 				uvs.append(Vector2(v.x-center.x,v.z-center.z)/100.0+Vector2(.5,.5))
-				colors.append(Color(1.0-fraction*.85,1,1))
+				colors.append(Color(1.0-fraction,1,1))
 		for i in n:
 			indices.append_array(PackedInt32Array([0,1+(i+1)%n,1+i]))
 		for k in 3:
@@ -622,11 +622,14 @@ func make_vegetation() -> bool:
 		records.append_array(data[category])
 	records.append_array(overrides.get("add",[]))
 	var bins: Dictionary = {}
+	var support_records: Array = []
 	for record: Dictionary in records:
 		var identity: String = str(record.get("id", record.get("stable_id", "")))
 		if identity in overrides.get("remove",[]):
 			continue
 		var r: Dictionary = overrides.get("replace",{}).get(identity,record)
+		if r.kind == "pine":
+			support_records.append(r)
 		var p: Array = r.position
 		var variant: int = 0 if r.kind in ["pine", "snag"] else int(r.get("variant",0))
 		var form: String = LodgepoleLibrary.archetype(r) if r.kind in ["pine", "snag"] else ""
@@ -705,17 +708,10 @@ func make_vegetation() -> bool:
 						if str(architecture_asset[4]) == str(source_asset[4]):
 							asset_batches.append([architecture_asset, variant_entries, architecture_variant])
 			elif exemplar.kind in ["pine", "snag"] and str(source_asset[4]) == "Billboard":
-				for view: int in range(4):
-					var view_entries: Array = []
-					for record: Dictionary in entries:
-						if int(LodgepoleLibrary.variation_key(record)) == view:
-							view_entries.append(record)
-					if not view_entries.is_empty():
-						var view_asset: Array = LodgepoleLibrary.load_billboard(form, view)
-						if view_asset.is_empty():
-							push_error("Required lodgepole billboard is unavailable: " + form)
-							return false
-						asset_batches.append([view_asset, view_entries, view])
+				var view_asset := LodgepoleLibrary.load_billboard_batch(form)
+				if view_asset.is_empty():
+					return false
+				asset_batches.append([view_asset, entries, -2])
 			else:
 				asset_batches.append([source_asset, entries, -1])
 		var tree_meshes: Array[MultiMeshInstance3D] = []
@@ -741,7 +737,8 @@ func make_vegetation() -> bool:
 				if not xf.is_finite():
 					push_error("Vegetation transform is nonfinite: " + str(r.get("id", r.get("stable_id", "unknown"))))
 					return false
-				append_instance(instance_buffer,xf,Color.WHITE)
+				var color := Color(float(LodgepoleLibrary.variation_key(r)) / 3.0, 1.0, 1.0, 1.0) if int(batch[2]) == -2 else Color.WHITE
+				append_instance(instance_buffer,xf,color)
 				var bounds: AABB=xf*mm.mesh.get_aabb()
 				instance_bounds=bounds if i==0 else instance_bounds.merge(bounds)
 			mm.buffer=instance_buffer
@@ -751,6 +748,8 @@ func make_vegetation() -> bool:
 			node.name=key + "_%s_%d" % [str(asset[4]), int(asset[2])] if exemplar.kind in ["pine", "snag"] else key
 			if int(batch[2]) >= 0:
 				node.name += "_variant%d" % int(batch[2]) if str(asset[4]) != "Billboard" else "_view%d" % int(batch[2])
+			if int(batch[2]) == -2:
+				node.set_meta("packed_impostor_variants", 4)
 			node.set_meta("vegetation_kind", str(exemplar.kind))
 			if exemplar.kind in ["pine", "snag"]:
 				node.set_meta("tree_archetype", form)
@@ -793,7 +792,7 @@ func make_vegetation() -> bool:
 				cylinder.height=collision_height
 				col.shape=cylinder
 				own(col,body)
-	if not CanopySurface.build(scene_root, "res://data/lidar_canopy/unresolved_render_canopy.json"):
+	if not CanopySurface.build(scene_root, "res://data/lidar_canopy/unresolved_render_canopy.json", 128.0, support_records):
 		return false
 	return ForestFloor.build(scene_root, "res://data/forest_floor.json")
 
@@ -812,6 +811,11 @@ func bake_vegetation_only(start: int) -> void:
 	if not make_vegetation():
 		quit(1)
 		return
+	if "--water" in OS.get_cmdline_user_args():
+		var water: Node = scene_root.get_node_or_null("ConnectedWater")
+		if water != null:
+			water.free()
+		make_water()
 	var packed := PackedScene.new()
 	var error: int = packed.pack(scene_root)
 	if error == OK:

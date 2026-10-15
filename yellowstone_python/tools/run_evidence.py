@@ -17,7 +17,8 @@ SOURCE_DIRECTORIES = ("yellowstone_python/yellowstone_python", "yellowstone_pyth
                       "yellowstone_python/tests", "yellowstone_python/configs",
                       "yellowstone_midway/scripts", "yellowstone_midway/shaders", "yellowstone_midway/tools")
 SOURCE_FILES = ("yellowstone_python/requirements-reference.lock", "yellowstone_python/pyproject.toml",
-                "dashboard/build_data.py", "yellowstone_midway/data/consumers.json")
+                "dashboard/build_data.py", "yellowstone_midway/data/consumers.json",
+                "yellowstone_midway/project.godot")
 SOURCE_SUFFIXES = (".py", ".gd", ".gdshader", ".gdshaderinc", ".yaml", ".json")
 
 

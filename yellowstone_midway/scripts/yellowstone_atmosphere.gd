@@ -282,7 +282,7 @@ func _install_physical_sky() -> void:
 	_environment.ambient_light_sky_contribution = 0.35
 	_environment.fog_enabled = true
 	_environment.fog_aerial_perspective = 0.12
-	_environment.fog_sky_affect = 0.65
+	_environment.fog_sky_affect = 0.0
 	_environment.fog_light_energy = 1.0
 	_environment.volumetric_fog_enabled = false # Forward+ feature.
 
@@ -790,26 +790,25 @@ func _update_environment_from_weather() -> void:
 	var humidity: float = float(_weather["relative_humidity"])
 	var visibility: float = float(_weather["visibility_m"])
 	var cloud_fraction: float = float(_weather["cloud_fraction"])
-	var haze: float = 1.0 - clampf((visibility - 1000.0) / 29000.0, 0.0, 1.0)
+	var haze: float = clampf(1.0 - visibility / maxf(clear_visibility_m, 100.0), 0.0, 1.0)
 	_physical_sky.turbidity = clampf(2.2 + haze * 5.5 + maxf(0.0, humidity - 0.7) * 1.6, 2.0, 10.0)
 	_physical_sky.mie_coefficient = lerpf(0.0025, 0.012, haze)
 	_physical_sky.energy_multiplier = lerpf(0.78, 1.0, _daylight_factor())
 
 	var daylight: float = _daylight_factor()
-	var cloud_dim: float = cloud_fraction * default_cloud_ambient_dim
 	_environment.ambient_light_color = Color(0.53, 0.61, 0.70).lerp(Color(0.68, 0.70, 0.72), haze * 0.55)
-	_environment.ambient_light_energy = lerpf(0.045, 0.48, daylight) * (1.0 - cloud_dim * 0.62)
+	_environment.ambient_light_energy = lerpf(0.045, 0.25 + cloud_fraction * default_cloud_ambient_dim * 0.48, daylight)
 	_environment.fog_light_color = Color(0.50, 0.59, 0.68).lerp(Color(0.70, 0.72, 0.72), haze * 0.6)
 	_environment.fog_density = lerpf(_environment.fog_density, lerpf(0.000035, 0.0011, pow(haze, 1.55)), _visual_weight)
 	_environment.fog_aerial_perspective = lerpf(0.08, 0.30, haze)
-	_environment.fog_sky_affect = lerpf(0.55, 0.88, haze)
+	_environment.fog_sky_affect = 0.55 * haze * haze
 
 	var sun_angle: float = _solar_elevation_deg
 	var horizon_factor: float = 1.0 - smoothstep(4.0, 28.0, maxf(0.0, sun_angle))
 	var warm_horizon: Color = Color(1.0, 0.66, 0.43)
 	var daylight_tint: Color = warm_horizon.lerp(Color(1.0, 0.96, 0.87), 1.0 - horizon_factor)
 	_sun.light_color = _sun.light_color.lerp(daylight_tint.lerp(Color(0.62, 0.70, 0.82), cloud_fraction * 0.28), _visual_weight)
-	_sun.light_energy = 0.92 * daylight * (1.0 - cloud_fraction * 0.52)
+	_sun.light_energy = 1.35 * daylight * (1.0 - cloud_fraction * 0.65)
 
 
 func _update_wetness() -> void:
@@ -955,6 +954,10 @@ func get_render_state() -> Dictionary:
 		"precipitation_rate_mm_h": float(_weather["precipitation_rate_mm_h"]),
 		"snow_fraction": float(_weather["snow_fraction"]),
 		"visibility_m": float(_weather["visibility_m"]),
+		"sky_turbidity": _physical_sky.turbidity,
+		"fog_sky_affect": _environment.fog_sky_affect,
+		"direct_light_energy": _sun.light_energy,
+		"ambient_light_energy": _environment.ambient_light_energy,
 		"star_catalog_loaded": _star_catalog_loaded,
 		"star_rebuild_epoch_unix": _star_rebuild_epoch_unix,
 		"terrain": _terrain_state.duplicate(true),

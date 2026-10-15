@@ -4,8 +4,12 @@ uniform sampler2D view_0 : source_color, filter_linear_mipmap_anisotropic, repea
 uniform sampler2D view_1 : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
 uniform sampler2D view_2 : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
 uniform sampler2D view_3 : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
+uniform sampler2DArray view_layers : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
+uniform bool use_view_layers = false;
 varying flat int direction_index;
+varying flat int variant_index;
 void vertex() {
+    variant_index = int(round(COLOR.r * 3.0));
     vec3 center = MODEL_MATRIX[3].xyz;
     vec3 toward_camera = CAMERA_POSITION_WORLD - center;
     vec3 local_direction = inverse(mat3(MODEL_MATRIX)) * toward_camera;
@@ -18,11 +22,12 @@ void vertex() {
 }
 void fragment() {
     vec4 color;
-    if (direction_index == 0) color = texture(view_0, UV);
+    if (use_view_layers) color = texture(view_layers, vec3(UV, float(variant_index * 4 + direction_index)));
+    else if (direction_index == 0) color = texture(view_0, UV);
     else if (direction_index == 1) color = texture(view_1, UV);
     else if (direction_index == 2) color = texture(view_2, UV);
     else color = texture(view_3, UV);
-    ALBEDO = color.rgb * COLOR.rgb;
+    ALBEDO = color.rgb * (use_view_layers ? vec3(1.0) : COLOR.rgb);
     ALPHA = color.a;
     ALPHA_SCISSOR_THRESHOLD = 0.32;
 }

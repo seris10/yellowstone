@@ -2,6 +2,7 @@ class_name MidwayCoreTerrain
 extends Node3D
 
 const GroundMaterials = preload("res://scripts/terrain_materials.gd")
+const OutflowFilter = preload("res://scripts/outflow_filter.gd")
 
 const CORE_JSON := "res://data/core_terrain/core_terrain.json"
 const CORE_HEIGHTFIELD := "res://data/core_terrain/core_heightfield.f32"
@@ -29,6 +30,7 @@ var _vertical_origin_m: float = 0.0
 var _heights_full: PackedFloat32Array
 var _mat_material: ShaderMaterial
 var _normal_image: Image
+var _bound_outflow_ids: Array[int] = []
 var _built: bool = false
 var _loaded_from_runtime: bool = false
 var _render_cut_complete: bool = false
@@ -448,6 +450,12 @@ func _bind_outflow_layers(mat_surface: Variant, mat: ShaderMaterial) -> bool:
 	var textures: Array = [null, null, null]
 	if mat_surface != null:
 		textures = [mat_surface.get("wet_mask_tex"), mat_surface.get("flow_fraction_tex"), mat_surface.get("in_pool_tex")]
+	var identities: Array[int] = []
+	for texture in textures:
+		identities.append(texture.get_instance_id() if texture is Texture2D else 0)
+	identities.append(_normal_image.get_instance_id() if _normal_image != null else 0)
+	if identities == _bound_outflow_ids and mat.get_shader_parameter("outflow_layers") is Texture2DArray:
+		return true
 	var source_width: int = 1
 	var source_height: int = 1
 	for texture in textures:
@@ -468,9 +476,9 @@ func _bind_outflow_layers(mat_surface: Variant, mat: ShaderMaterial) -> bool:
 				return false
 			source_image.convert(Image.FORMAT_RF)
 			image.blit_rect(source_image, Rect2i(0, 0, source_width, source_height), Vector2i.ZERO)
-		images.append(image)
+		images.append(OutflowFilter.prefilter(image))
 	for channel in 2:
-		var image := Image.create(width, height, false, Image.FORMAT_RF)
+		var image := Image.create(width + 2, height + 2, false, Image.FORMAT_RF)
 		image.fill(Color(0.5, 0.0, 0.0))
 		if _normal_image != null:
 			var bytes: PackedByteArray = _normal_image.get_data()
@@ -479,7 +487,7 @@ func _bind_outflow_layers(mat_surface: Variant, mat: ShaderMaterial) -> bool:
 			for k in values.size():
 				values[k] = float(bytes[k * 3 + channel]) / 255.0
 			var source_image := Image.create_from_data(_nx, _nz, false, Image.FORMAT_RF, values.to_byte_array())
-			image.blit_rect(source_image, Rect2i(0, 0, _nx, _nz), Vector2i.ZERO)
+			image.blit_rect(source_image, Rect2i(0, 0, _nx, _nz), Vector2i.ONE)
 		images.append(image)
 	var layers := Texture2DArray.new()
 	if layers.create_from_images(images) != OK:
@@ -487,7 +495,11 @@ func _bind_outflow_layers(mat_surface: Variant, mat: ShaderMaterial) -> bool:
 		return false
 	mat.set_shader_parameter("outflow_layers", layers)
 	mat.set_shader_parameter("outflow_source_size", Vector2(source_width, source_height))
+	_bound_outflow_ids = identities
 	return true
+
+func refresh_outflow(mat_surface: Variant) -> bool:
+	return _mat_material != null and _bind_outflow_layers(mat_surface, _mat_material)
 
 func get_mat_material() -> ShaderMaterial:
 	return _mat_material

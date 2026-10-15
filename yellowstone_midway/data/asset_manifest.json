@@ -2087,7 +2087,7 @@
         {
           "path": "assets/imported/lodgepole/lodgepole_metadata.json",
           "bytes": 334335,
-          "sha256": "bda82bdcdebb1a69a7ca698a62a0a602e04c959f5bc0fdee4ac8c16392dd7a7f"
+          "sha256": "48ab37779e9517e94dcc5f1d814d9c1c21183932df534cb2103b749ffd1b639e"
         },
         {
           "path": "assets/imported/lodgepole/needle_cluster.miprgba",
@@ -5116,6 +5116,43 @@
       "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
       "redistribution_permission": "owner_authorized_project_release",
       "geometry_rights": "owner_confirmed"
+    },
+    {
+      "asset_provenance": {
+        "evidence_class": "authored_display_and_derived_geographic_contrast",
+        "license": "Apache-2.0"
+      },
+      "files": [
+        {
+          "path": "assets/textures/mineral_surface.png",
+          "sha256": "6fafc168aa062b239f85719e8cdd98f0cc2604ce6d8398d343307701e3b3841f"
+        },
+        {
+          "path": "assets/textures/mapped_surface_detail.png",
+          "sha256": "70d7b09e7fee322cbd141063a2ee1ed8077add98cc726a776dc847b7923fb01b"
+        },
+        {
+          "path": "assets/textures/ground_detail.json",
+          "sha256": "eca60693afe9de34ec18c4bce7a2ad132fd96e8a6f8caedf0a01aa54a364bcc2"
+        },
+        {
+          "path": "assets/imported/lodgepole/needle_supported.png",
+          "sha256": "3736c8262f1f01aea304ac57f46b3a3ec201b935f99430bacb726d20482394f1"
+        },
+        {
+          "path": "assets/imported/lodgepole/needle_supported.miprgba",
+          "sha256": "79b64b36ce3d96db02c5c013f047efe42ebd968bbd594ef51abe5b8bc413a1c3"
+        }
+      ],
+      "id": "grounded_canopy_surface_detail",
+      "included": true,
+      "notes": [
+        "Deterministic band-limited metric relief and derivative normals.",
+        "Mapped contrast derives only from the existing public-domain NAIP image.",
+        "Connected needle atlas and supports are authored display geometry; no measured stem counts."
+      ],
+      "source_url": "docs/SURFACE_RENDERING.md",
+      "status": "authored"
     }
   ],
   "evaluated_not_adopted": [

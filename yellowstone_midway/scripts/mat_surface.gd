@@ -36,6 +36,10 @@ var pigment_width_m: float = 1280.0
 var pigment_height_m: float = 1280.0
 
 func load_outflow() -> bool:
+	outflow_meta.clear()
+	wet_mask_tex = null
+	flow_fraction_tex = null
+	in_pool_tex = null
 	if not ReleaseData.file_exists(OUTFLOW_JSON):
 		return false
 	var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string(OUTFLOW_JSON))

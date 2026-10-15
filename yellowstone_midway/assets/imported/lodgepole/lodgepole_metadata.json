@@ -12742,6 +12742,108 @@
       ],
       "evidence_class": "authored",
       "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level"
+    },
+    "needle_supported.png": {
+      "base_coverage": 0.2552013397216797,
+      "bytes": 2796204,
+      "cutoff": 0.32,
+      "evidence_class": "authored",
+      "height": 1024,
+      "levels": [
+        {
+          "alpha_test_coverage": 0.2552013397216797,
+          "bytes": 2097152,
+          "height": 1024,
+          "level": 0,
+          "offset": 0,
+          "width": 512
+        },
+        {
+          "alpha_test_coverage": 0.2552032470703125,
+          "bytes": 524288,
+          "height": 512,
+          "level": 1,
+          "offset": 2097152,
+          "width": 256
+        },
+        {
+          "alpha_test_coverage": 0.25518798828125,
+          "bytes": 131072,
+          "height": 256,
+          "level": 2,
+          "offset": 2621440,
+          "width": 128
+        },
+        {
+          "alpha_test_coverage": 0.2552490234375,
+          "bytes": 32768,
+          "height": 128,
+          "level": 3,
+          "offset": 2752512,
+          "width": 64
+        },
+        {
+          "alpha_test_coverage": 0.25537109375,
+          "bytes": 8192,
+          "height": 64,
+          "level": 4,
+          "offset": 2785280,
+          "width": 32
+        },
+        {
+          "alpha_test_coverage": 0.255859375,
+          "bytes": 2048,
+          "height": 32,
+          "level": 5,
+          "offset": 2793472,
+          "width": 16
+        },
+        {
+          "alpha_test_coverage": 0.2578125,
+          "bytes": 512,
+          "height": 16,
+          "level": 6,
+          "offset": 2795520,
+          "width": 8
+        },
+        {
+          "alpha_test_coverage": 0.25,
+          "bytes": 128,
+          "height": 8,
+          "level": 7,
+          "offset": 2796032,
+          "width": 4
+        },
+        {
+          "alpha_test_coverage": 0.25,
+          "bytes": 32,
+          "height": 4,
+          "level": 8,
+          "offset": 2796160,
+          "width": 2
+        },
+        {
+          "alpha_test_coverage": 0.5,
+          "bytes": 8,
+          "height": 2,
+          "level": 9,
+          "offset": 2796192,
+          "width": 1
+        },
+        {
+          "alpha_test_coverage": 0.0,
+          "bytes": 4,
+          "height": 1,
+          "level": 10,
+          "offset": 2796200,
+          "width": 1
+        }
+      ],
+      "method": "Box average of premultiplied RGB; ranked alpha-test coverage retention; quantization error below one pixel per level",
+      "path": "needle_supported.miprgba",
+      "sha256": "79b64b36ce3d96db02c5c013f047efe42ebd968bbd594ef51abe5b8bc413a1c3",
+      "source_sha256": "3736c8262f1f01aea304ac57f46b3a3ec201b935f99430bacb726d20482394f1",
+      "width": 512
     }
   },
   "billboard_mips_pending": false

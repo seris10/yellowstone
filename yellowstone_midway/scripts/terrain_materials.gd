@@ -5,9 +5,9 @@ extends RefCounted
 const ReleaseData = preload("res://scripts/release_data.gd")
 
 const LAYER_PATHS: Dictionary = {
- "geography_layers": ["res://assets/textures/midway_macro.jpg", "res://references/midway_orthophoto_detail.jpg"],
+ "geography_layers": ["res://assets/textures/midway_macro.jpg", "res://references/midway_orthophoto_detail.jpg", "res://assets/textures/mapped_surface_detail.png"],
  "ground_color_layers": ["res://assets/textures/forest_ground_04_diff_1k.jpg", "res://assets/textures/rocky_trail_diff_1k.jpg"],
- "ground_normal_layers": ["res://assets/textures/forest_ground_04_nor_gl_1k.jpg", "res://assets/textures/rocky_trail_nor_gl_1k.jpg"],
+ "ground_normal_layers": ["res://assets/textures/forest_ground_04_nor_gl_1k.jpg", "res://assets/textures/rocky_trail_nor_gl_1k.jpg", "res://assets/textures/mineral_surface.png"],
  "ground_arm_layers": ["res://assets/textures/forest_ground_04_arm_1k.jpg", "res://assets/textures/rocky_trail_arm_1k.jpg"],
 }
 const TEXTURE_PATHS: Dictionary = {
@@ -57,7 +57,7 @@ static func bind_ground_material(mat: ShaderMaterial) -> bool:
      push_error("terrain_materials: missing PBR map %s" % path)
      return false
     image.convert(Image.FORMAT_RGBA8)
-    image.generate_mipmaps(uniform_name == "ground_normal_layers")
+    image.generate_mipmaps()
     images.append(image)
    var layers := Texture2DArray.new()
    if layers.create_from_images(images) != OK:
