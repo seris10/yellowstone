@@ -1,0 +1,49 @@
+{
+  "generated_at_unix": 1792066753,
+  "schema_version": 2,
+  "simulation_time_unix": 1782079920,
+  "solar": {
+    "latitude_deg": 44.525,
+    "longitude_deg": -110.837,
+    "solar_azimuth_deg": 252.11,
+    "solar_elevation_deg": 50.12,
+    "source": "pvlib",
+    "sunrise_epoch_unix": 1782041912.348099,
+    "sunset_epoch_unix": 1782097902.450106
+  },
+  "source": {
+    "air_temperature_class": "authored",
+    "cloud_base_class": "authored",
+    "cloud_thickness_class": "authored",
+    "endpoint": "authored_defaults",
+    "forcing_mode": "synthetic_diurnal",
+    "precipitation_status": "unavailable",
+    "row_index_utc": null,
+    "snow_partition_class": "authored",
+    "snow_partition_source": "metpy_wet_bulb",
+    "visibility_class": "authored",
+    "wind_direction_class": "authored"
+  },
+  "terrain": {
+    "snow_cover_fraction": 0.0
+  },
+  "valid_time_unix": 1782079920,
+  "weather": {
+    "air_temperature_c": 21.26584774441318,
+    "cloud_base_agl_m": 1050.0,
+    "cloud_fraction": 0.16,
+    "cloud_thickness_m": 600.0,
+    "dewpoint_c": 8.855079106765515,
+    "precipitation_rate_mm_h": 0.0,
+    "relative_humidity": 0.45,
+    "snow_fraction": 0.0,
+    "snow_partition_source": "metpy_wet_bulb",
+    "visibility_m": 24000.0,
+    "wind_direction_deg": 288.434948822922,
+    "wind_speed_mps": 1.8973665961010275,
+    "wind_xz_mps": [
+      1.8,
+      0.6
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "doi": "10.5061/dryad.1pr7k",
+  "license": "CC0",
+  "acquisition": "Public Dryad dataset Download full dataset button",
+  "archive_sha256": "d774a8d73cb4a95d4dbf0aab8c3eed34d867201a3173b7d34d95d18427238cfa",
+  "files": [
+    {
+      "name": "YNP+1999+Extensive+Data+Dryad.xlsx",
+      "sha256": "eb8bda298ffbe7bcc871f839cf779af178fe23e1f4ebc573e8c43cc2c109a343",
+      "bytes": 155312
+    },
+    {
+      "name": "README_for_YNP+2012+Extensive+Data+Dryad.pdf",
+      "sha256": "5adec9c134e48189b08586b01ff0505bf663ed32c661ee2e6212074aece4201c",
+      "bytes": 293796
+    },
+    {
+      "name": "YNP+2012+Extensive+Data+Dryad.xlsx",
+      "sha256": "9b9975c11fa3ca0be8b576e5f8286d5816e32a80945e748ac52fb3d861e780cd",
+      "bytes": 192066
+    }
+  ],
+  "schema": "yellowstone.lodgepole_field_dataset.v1",
+  "status": "measured",
+  "source_url": "https://datadryad.org/dataset/doi%3A10.5061/dryad.1pr7k",
+  "subset_workbook": "YNP+2012+Extensive+Data+Dryad.xlsx",
+  "inspection": {
+    "plots": 72,
+    "plots_in_window": 0,
+    "nearest_plots": [
+      {
+        "SiteAbbrev": "FairCkTr",
+        "distance_world_center_m": 4812.82856623777
+      },
+      {
+        "SiteAbbrev": "MalCkE",
+        "distance_world_center_m": 5087.306405422322
+      },
+      {
+        "SiteAbbrev": "BiscBas",
+        "distance_world_center_m": 5502.739413721216
+      },
+      {
+        "SiteAbbrev": "FaiFalTr",
+        "distance_world_center_m": 5905.487639643297
+      },
+      {
+        "SiteAbbrev": "MalCkLak",
+        "distance_world_center_m": 6753.871542720989
+      }
+    ],
+    "columns": [
+      "SiteAbbrev",
+      "Site Full Name",
+      "New GPS 2012",
+      "PICO_dens",
+      "totANPP",
+      "PICOANPP",
+      "liveallsp",
+      "liveabla",
+      "livepial",
+      "livepien",
+      "livepsme",
+      "livepotr",
+      "standBA",
+      "HerbANPP",
+      "GramANPP",
+      "ForbANPP",
+      "ShrubANPP",
+      "Easting",
+      "Northing",
+      "Elevation",
+      "substrat",
+      "dNBR3x3_MTBSA",
+      "dunb_MTBSA",
+      "distance_world_center_m",
+      "within_lidar_window",
+      "easting_wgs84",
+      "northing_wgs84"
+    ],
+    "height_range_m": [
+      0.1,
+      12.6
+    ],
+    "dbh_range_cm": [
+      0.1,
+      19.1
+    ],
+    "height_dbh_pairs": 1296,
+    "canopy_cover_available": false,
+    "crown_width_available": false,
+    "crown_ratio_available": false,
+    "fit_total_stems_from_chm_status": "blocked_missing_canopy_covariates_no_in_window_holdout"
+  },
+  "role": "candidate calibration dataset; compatible canopy covariates unavailable"
+}

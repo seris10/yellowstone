@@ -1,0 +1,95 @@
+{
+  "retrieved_utc": "2026-10-07",
+  "bbox_utm_m": [
+    510904.5950985841,
+    4928151.044097667,
+    515000.5950985841,
+    4932247.044097667
+  ],
+  "requested_outSR": 32612,
+  "query_note": "ArcGIS spatial intersection returns whole features. Clip geometric content to project extent at authoring time. All downloads requested returnGeometry=true and outFields=*.",
+  "sources": [
+    {
+      "file": "yell_roads_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_ROADS/FeatureServer/0",
+      "feature_count": 22,
+      "sha256": "a308c092fc6dcdf6e84095e9217f2cd51688d72a87d79383707bda31f627cfbf",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    },
+    {
+      "file": "yell_trails_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_TRAILS/FeatureServer/0",
+      "feature_count": 26,
+      "sha256": "7fe2440f96ca7155da61339cfa8e95bc90733ffd15df3484f050c4ec61266a56",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    },
+    {
+      "file": "yell_hydro_rivers_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_HYDRO_RIVERS/FeatureServer/0",
+      "feature_count": 27,
+      "sha256": "9bd1394896557c59bff9a54aa23d9a502421b61285856624ee2241a2e51f5fee",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    },
+    {
+      "file": "yell_hydro_lakes_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_HYDRO_LAKES/FeatureServer/0",
+      "feature_count": 15,
+      "sha256": "4b8189e6174749dfa1086bb71d32e6ee1e4bea82ab7c621b39730257ffc65782",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    },
+    {
+      "file": "yell_points_of_interest_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_POINTS_OF_INTEREST/FeatureServer/0",
+      "feature_count": 15,
+      "sha256": "bb12e742327c8d598b27c115cf71824d363a2c5d2dadb7f0f63a68907b77460f",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    },
+    {
+      "file": "yell_veg_land_cover_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_VEG_LAND_COVER/FeatureServer/0",
+      "feature_count": 13,
+      "sha256": "9a5b8ec13e3343780ff8e5c6519207a33b78c0b77bc30d82fcb622c7e1c3c38b",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    },
+    {
+      "file": "yell_soils_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_Soil_Types/FeatureServer/4",
+      "feature_count": 25,
+      "sha256": "b7dbfe9035d4a54e4eb922650747e14ef9b0ca3349033058c866dba8a4a81fab",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    },
+    {
+      "file": "yell_trailheads_public_view_utm12.json",
+      "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_TRAILHEADS_public_view/FeatureServer/0",
+      "feature_count": 3,
+      "sha256": "268fa4053ce124b70e9c0130b9bf2add98583bf31a69c32a170f4a854e774cc5",
+      "credit": "National Park Service, Yellowstone National Park, Spatial Analysis Center",
+      "data_access": "Unrestricted/public-display attributes where present"
+    }
+  ],
+  "imagery": {
+    "files": [
+      "orthophoto.jpg",
+      "midway_orthophoto_detail.jpg"
+    ],
+    "credit": "USDA NAIP 2022, distributed by USGS The National Map; public domain. Reprojected and resampled for this project.",
+    "source_date": "2022-07-19",
+    "source_resolution_m": 0.6,
+    "tile_names": [
+      "m_4411026_se_12_060_20220719",
+      "m_4411026_sw_12_060_20220719"
+    ],
+    "agency": "USDA",
+    "vendor": "USDA-FSA-APFO",
+    "service": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer",
+    "public_domain_source": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer",
+    "source_catalog": "imagery_source_catalog.json"
+  }
+}

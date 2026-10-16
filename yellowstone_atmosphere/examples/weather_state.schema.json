@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Yellowstone Atmosphere Snapshot",
+  "type": "object",
+  "required": ["schema_version", "generated_at_unix", "weather"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "generated_at_unix": { "type": "number", "minimum": 0 },
+    "source": { "type": "object" },
+    "weather": {
+      "type": "object",
+      "required": ["air_temperature_c", "relative_humidity", "wind_speed_mps", "wind_direction_deg", "cloud_fraction", "precipitation_rate_mm_h", "snow_fraction", "visibility_m"],
+      "properties": {
+        "air_temperature_c": { "type": "number", "minimum": -70, "maximum": 60 },
+        "dewpoint_c": { "type": "number", "minimum": -80, "maximum": 45 },
+        "relative_humidity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "wind_speed_mps": { "type": "number", "minimum": 0, "maximum": 65 },
+        "wind_direction_deg": { "type": "number", "minimum": 0, "exclusiveMaximum": 360 },
+        "cloud_fraction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "cloud_base_agl_m": { "type": "number", "minimum": 100, "maximum": 10000 },
+        "cloud_thickness_m": { "type": "number", "minimum": 100, "maximum": 5000 },
+        "precipitation_rate_mm_h": { "type": "number", "minimum": 0, "maximum": 250 },
+        "snow_fraction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "visibility_m": { "type": "number", "minimum": 100, "maximum": 100000 },
+        "ground_wetness_fraction": { "type": "number", "minimum": -1, "maximum": 1 }
+      },
+      "additionalProperties": true
+    },
+    "solar": {
+      "type": "object",
+      "properties": {
+        "solar_azimuth_deg": { "type": "number", "minimum": 0, "exclusiveMaximum": 360 },
+        "solar_elevation_deg": { "type": "number", "minimum": -18, "maximum": 90 }
+      },
+      "required": ["solar_azimuth_deg", "solar_elevation_deg"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,477 @@
+{
+  "schema_version": 1,
+  "title": "Fixed authored botanical details",
+  "art_status": "Original structural art proxies made with code. Not scanned botanical assets, survey records, or a completed photoreal plant pass.",
+  "season": "Illustrative midsummer flowering state; phenology has not been calibrated to a date.",
+  "units": "metres; positions use world.json local east/south frame; y is read from current terrain at bake time.",
+  "scope": "30 individually authored clumps, entirely nonthermal. No random placement or runtime procedural population.",
+  "asset_replacement": "Replace meshes under the same placement IDs with botanically reviewed licensed models. See docs/ecology-research.md and asset research for the Rufus Rockwell lupine candidate; that third-party model is not bundled here.",
+  "source_links": [
+    "https://www.nps.gov/yell/learn/nature/wildflowers.htm",
+    "https://www.nps.gov/yell/learn/nature/wetlands.htm",
+    "https://www.nps.gov/yell/learn/nature/beaver.htm"
+  ],
+  "source_access_date": "2026-10-07",
+  "records": [
+    {
+      "id": "willow_detail_01",
+      "kind": "willow",
+      "catalogue_candidate": "willow_guild",
+      "position_xz": [
+        68,
+        -324
+      ],
+      "height_m": 1.2,
+      "yaw_radians": 0.3,
+      "variant": 0,
+      "habitat": "river_bank",
+      "evidence": "Salix spp. park-level habitat candidate; these exact shrubs are authored, not surveyed.",
+      "grounding": "Terrain triangle sample per stem base; vertical woody stems; no habitat spawning."
+    },
+    {
+      "id": "willow_detail_02",
+      "kind": "willow",
+      "catalogue_candidate": "willow_guild",
+      "position_xz": [
+        62,
+        -335
+      ],
+      "height_m": 1.48,
+      "yaw_radians": 1.1,
+      "variant": 1,
+      "habitat": "river_bank",
+      "evidence": "Salix spp. park-level habitat candidate; these exact shrubs are authored, not surveyed.",
+      "grounding": "Terrain triangle sample per stem base; vertical woody stems; no habitat spawning."
+    },
+    {
+      "id": "willow_detail_03",
+      "kind": "willow",
+      "catalogue_candidate": "willow_guild",
+      "position_xz": [
+        45,
+        -362
+      ],
+      "height_m": 1.05,
+      "yaw_radians": 2.3,
+      "variant": 2,
+      "habitat": "river_bank",
+      "evidence": "Salix spp. park-level habitat candidate; these exact shrubs are authored, not surveyed.",
+      "grounding": "Terrain triangle sample per stem base; vertical woody stems; no habitat spawning."
+    },
+    {
+      "id": "willow_detail_04",
+      "kind": "willow",
+      "catalogue_candidate": "willow_guild",
+      "position_xz": [
+        36,
+        -371
+      ],
+      "height_m": 1.28,
+      "yaw_radians": 0.8,
+      "variant": 0,
+      "habitat": "river_bank",
+      "evidence": "Salix spp. park-level habitat candidate; these exact shrubs are authored, not surveyed.",
+      "grounding": "Terrain triangle sample per stem base; vertical woody stems; no habitat spawning."
+    },
+    {
+      "id": "willow_detail_05",
+      "kind": "willow",
+      "catalogue_candidate": "willow_guild",
+      "position_xz": [
+        24,
+        -392
+      ],
+      "height_m": 1.65,
+      "yaw_radians": 1.8,
+      "variant": 1,
+      "habitat": "river_bank",
+      "evidence": "Salix spp. park-level habitat candidate; these exact shrubs are authored, not surveyed.",
+      "grounding": "Terrain triangle sample per stem base; vertical woody stems; no habitat spawning."
+    },
+    {
+      "id": "willow_detail_06",
+      "kind": "willow",
+      "catalogue_candidate": "willow_guild",
+      "position_xz": [
+        19,
+        -410
+      ],
+      "height_m": 1.16,
+      "yaw_radians": 2.8,
+      "variant": 2,
+      "habitat": "river_bank",
+      "evidence": "Salix spp. park-level habitat candidate; these exact shrubs are authored, not surveyed.",
+      "grounding": "Terrain triangle sample per stem base; vertical woody stems; no habitat spawning."
+    },
+    {
+      "id": "sedge_detail_01",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        77,
+        -317
+      ],
+      "height_m": 0.38,
+      "yaw_radians": 0.2,
+      "variant": 0,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_02",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        76.5,
+        -319.2
+      ],
+      "height_m": 0.47,
+      "yaw_radians": 1.1,
+      "variant": 1,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_03",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        72.4,
+        -324.4
+      ],
+      "height_m": 0.35,
+      "yaw_radians": 2.4,
+      "variant": 2,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_04",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        70,
+        -325.2
+      ],
+      "height_m": 0.46,
+      "yaw_radians": 0.8,
+      "variant": 0,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_05",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        64,
+        -336
+      ],
+      "height_m": 0.54,
+      "yaw_radians": 0.2,
+      "variant": 1,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_06",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        61,
+        -342
+      ],
+      "height_m": 0.4,
+      "yaw_radians": 1.1,
+      "variant": 2,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_07",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        43,
+        -362.5
+      ],
+      "height_m": 0.57,
+      "yaw_radians": 2.4,
+      "variant": 0,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_08",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        42,
+        -364.2
+      ],
+      "height_m": 0.42,
+      "yaw_radians": 0.8,
+      "variant": 1,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_09",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        34.2,
+        -371.8
+      ],
+      "height_m": 0.44,
+      "yaw_radians": 0.2,
+      "variant": 2,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_10",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        32.7,
+        -373
+      ],
+      "height_m": 0.5,
+      "yaw_radians": 1.1,
+      "variant": 0,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_11",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        22.8,
+        -391
+      ],
+      "height_m": 0.61,
+      "yaw_radians": 2.4,
+      "variant": 1,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "sedge_detail_12",
+      "kind": "sedge",
+      "catalogue_candidate": "wetland_sedge_guild",
+      "position_xz": [
+        21,
+        -396
+      ],
+      "height_m": 0.45,
+      "yaw_radians": 0.8,
+      "variant": 2,
+      "habitat": "river_bank",
+      "evidence": "Carex spp. structural guild proxy; site species and saturation not measured.",
+      "grounding": "Individual blade and culm bases meet shared terrain."
+    },
+    {
+      "id": "lupine_detail_01",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -240.5,
+        173.5
+      ],
+      "height_m": 0.53,
+      "yaw_radians": 0.4,
+      "variant": 0,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_02",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -241.3,
+        174.8
+      ],
+      "height_m": 0.47,
+      "yaw_radians": 1.5,
+      "variant": 1,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_03",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -239.4,
+        174.2
+      ],
+      "height_m": 0.59,
+      "yaw_radians": 2.6,
+      "variant": 2,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_04",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -234.8,
+        167.2
+      ],
+      "height_m": 0.62,
+      "yaw_radians": 0.1,
+      "variant": 0,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_05",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -234.1,
+        168.6
+      ],
+      "height_m": 0.5,
+      "yaw_radians": 0.4,
+      "variant": 1,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_06",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -235.7,
+        166.9
+      ],
+      "height_m": 0.55,
+      "yaw_radians": 1.5,
+      "variant": 2,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_07",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -249,
+        184
+      ],
+      "height_m": 0.57,
+      "yaw_radians": 2.6,
+      "variant": 0,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_08",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -250.3,
+        184.5
+      ],
+      "height_m": 0.48,
+      "yaw_radians": 0.1,
+      "variant": 1,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_09",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -248.2,
+        185.2
+      ],
+      "height_m": 0.64,
+      "yaw_radians": 0.4,
+      "variant": 2,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_10",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -264.8,
+        166.8
+      ],
+      "height_m": 0.49,
+      "yaw_radians": 1.5,
+      "variant": 0,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_11",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -265.6,
+        167.7
+      ],
+      "height_m": 0.56,
+      "yaw_radians": 2.6,
+      "variant": 1,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    },
+    {
+      "id": "lupine_detail_12",
+      "kind": "lupine",
+      "catalogue_candidate": "lupine",
+      "position_xz": [
+        -265.8,
+        165.6
+      ],
+      "height_m": 0.44,
+      "yaw_radians": 0.1,
+      "variant": 2,
+      "habitat": "forest_edge",
+      "evidence": "Lupinus genus-form art proxy in a light-open nonthermal patch; catalogue L. argenteus is a research candidate, not verified local identification.",
+      "grounding": "Individual stem bases meet terrain; no flattened flowerbed."
+    }
+  ],
+  "license": {
+    "original_baker_code": "MIT; see project LICENSE.",
+    "original_meshes_and_placement_records": "Project-authored original content under MIT; no third-party plant mesh is included in this scene.",
+    "reference_pages": "Research citations only. Their presence does not transfer their content into the mesh license.",
+    "external_replacement_models": "Not bundled by this botanical baker; review the separate asset manifest and exact creator terms before replacing a proxy."
+  },
+  "shared_material_dependency": {
+    "path": "res://shaders/foliage.gdshader",
+    "status": "Original project shader; no external plant texture required by the botanical detail scene."
+  }
+}

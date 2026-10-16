@@ -1,0 +1,81 @@
+[
+  {
+    "cooling_seconds": 21600.0,
+    "fish_activity": 0.6250391899368868,
+    "flow_m3s": 8.0,
+    "id": "south_boundary",
+    "lateral_sources": [],
+    "temperature_c": 17.499843240252453,
+    "temperature_source": "river_transport.flow_weighted_cells",
+    "upstream_id": "",
+    "volume_m3": 6600.0,
+    "z": 1740.0
+  },
+  {
+    "cooling_seconds": 21600.0,
+    "fish_activity": 0.6236926410516626,
+    "flow_m3s": 8.0,
+    "id": "upper_corridor",
+    "lateral_sources": [],
+    "temperature_c": 17.50522943579335,
+    "temperature_source": "river_transport.flow_weighted_cells",
+    "upstream_id": "south_boundary",
+    "volume_m3": 6800.0,
+    "z": 950.0
+  },
+  {
+    "cooling_seconds": 18000.0,
+    "fish_activity": 0.6204009563550326,
+    "flow_m3s": 8.0,
+    "id": "upstream_midway",
+    "lateral_sources": [],
+    "temperature_c": 17.51839617457987,
+    "temperature_source": "river_transport.flow_weighted_cells",
+    "upstream_id": "upper_corridor",
+    "volume_m3": 5400.0,
+    "z": 220.0
+  },
+  {
+    "cooling_seconds": 14400.0,
+    "fish_activity": 0.5919711314880276,
+    "flow_m3s": 8.029268836590475,
+    "id": "excelsior_mixing",
+    "lateral_sources": [
+      {
+        "flow_m3s": 0.26,
+        "id": "excelsior_aggregate_outflow",
+        "status": "Illustrative post-outflow river-entry boundary; see provenance.",
+        "temperature_c": 62.0
+      }
+    ],
+    "temperature_c": 17.63211547404789,
+    "temperature_source": "river_transport.flow_weighted_cells",
+    "upstream_id": "upstream_midway",
+    "volume_m3": 800.0,
+    "z": -175.0
+  },
+  {
+    "cooling_seconds": 18000.0,
+    "fish_activity": 0.36515806012863905,
+    "flow_m3s": 8.3073227842,
+    "id": "bridge_downstream",
+    "lateral_sources": [],
+    "temperature_c": 18.539367759485444,
+    "temperature_source": "river_transport.flow_weighted_cells",
+    "upstream_id": "excelsior_mixing",
+    "volume_m3": 6200.0,
+    "z": -440.0
+  },
+  {
+    "cooling_seconds": 18000.0,
+    "fish_activity": 0.34507708774582024,
+    "flow_m3s": 8.3073227842,
+    "id": "north_boundary",
+    "lateral_sources": [],
+    "temperature_c": 18.61969164901672,
+    "temperature_source": "river_transport.flow_weighted_cells",
+    "upstream_id": "bridge_downstream",
+    "volume_m3": 12400.0,
+    "z": -1390.0
+  }
+]

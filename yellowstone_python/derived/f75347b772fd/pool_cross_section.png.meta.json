@@ -1,0 +1,15 @@
+{
+  "depths_basis": "authored_illustrative_fill_not_bathymetry",
+  "pool_id": "pool_1034_0",
+  "radii_basis": "circular_equivalent_from_area_m2",
+  "radii_m": {
+    "apron": 76.2625137852879,
+    "rim": 59.0322972417107,
+    "shelf": 57.0322972417107,
+    "water": 46.2625137852879
+  },
+  "represents_mapped_outline": false,
+  "schema": "yellowstone.pool_cross_section_meta.v1",
+  "section_geometry": "radial",
+  "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment"
+}

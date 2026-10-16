@@ -1,0 +1,7 @@
+{
+  "path": "soils_service.json",
+  "bytes": 3519,
+  "content_type": "application/json; charset=utf-8",
+  "url": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/YELL_Soil_Types/FeatureServer?f=json",
+  "sha256": "c58016766fce03793472d51dc49521be48984ab5da7e29cf79335d29cc52afdb"
+}

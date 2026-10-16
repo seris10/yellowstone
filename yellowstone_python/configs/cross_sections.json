@@ -1,0 +1,39 @@
+{
+  "_provenance": {
+    "status": "authored_estimate_from_usgs_3dep_dem_not_surveyed_bathymetry",
+    "real_data_gap": "Cross-section surveys (current-meter measurements, bathymetric profiles) unavailable via USGS NWIS machine-readable API since Oct 2026 format change to JS/HTML. Integration framework defined in replay/hydraulics.py (load_usgs_cross_section).",
+    "sources": ["USGS 3DEP DEM transects (every 50m)"],
+    "what_is_real": "DEM elevation data is a real measurement; derived depth/width/area from DEM is authored interpretation, not direct bathymetric survey.",
+    "what_needs_real_data": "In-situ cross-section surveys (bank slope, bottom profile, velocity-area measurements) to calibrate Manning's n and validate trapezoidal geometry assumptions."
+  },
+  "river_5856_0": {
+    "depth_m": 0.53,
+    "status": "authored_estimate_from_usgs_3dep_dem",
+    "source": "USGS 3DEP DEM transects every 50m over 3532m; mean_area=16.6m2 mean_width=31.2m depth_std=0.05m",
+    "real_measurement_site": "06036805"
+  },
+  "river_5872_0": {
+    "depth_m": 0.529,
+    "status": "authored_estimate_from_usgs_3dep_dem",
+    "source": "USGS 3DEP DEM transects every 50m over 677m; mean_area=17.5m2 mean_width=32.6m depth_std=0.06m",
+    "real_measurement_site": "06036805"
+  },
+  "river_5913_0": {
+    "depth_m": 0.512,
+    "status": "authored_estimate_from_usgs_3dep_dem",
+    "source": "USGS 3DEP DEM transects every 50m over 770m; mean_area=16.2m2 mean_width=31.7m depth_std=0.02m",
+    "real_measurement_site": "06036805"
+  },
+  "river_5933_0": {
+    "depth_m": 0.521,
+    "status": "authored_estimate_from_usgs_3dep_dem",
+    "source": "USGS 3DEP DEM transects every 50m over 458m; mean_area=17.0m2 mean_width=32.7m depth_std=0.03m",
+    "real_measurement_site": "06036905"
+  },
+  "river_5998_0": {
+    "depth_m": 0.513,
+    "status": "authored_estimate_from_usgs_3dep_dem",
+    "source": "USGS 3DEP DEM transects every 50m over 42m; mean_area=19.5m2 mean_width=37.9m depth_std=0.01m",
+    "real_measurement_site": "06036905"
+  }
+}

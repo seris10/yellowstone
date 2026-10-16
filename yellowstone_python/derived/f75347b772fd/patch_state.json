@@ -1,0 +1,97 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "hours": 0.16666666666666666,
+    "veg_ledger": {
+      "config_grazers_ignored": "vcfg.grazers no longer feeds patch_step; grazing offtake comes from the grazer module output with a one-step lag",
+      "consumed": 0.0,
+      "consumed_by_patch": {},
+      "coupling_status": "partial",
+      "grazing_feedback_available": false,
+      "grazing_feedback_lag_steps": 1,
+      "grazing_feedback_source": "grazer_module_previous_step_consumed_by_patch (empty for single-step build)",
+      "growth": 0.00024498053750745554,
+      "nitrogen_decay_tau_s": 7776000.0,
+      "nitrogen_return_total_kg_ha": 0.0,
+      "nutrient_source": "Authored within cited ranges. Frank and McNaughton 1993 Oecologia 96, 157-161 doi:10.1007/BF00317727 (promotion of grassland production by grazers); Frank, Inouye, Huntly, Minshall, Anderson 1994 Biogeochemistry 26, 163-188 doi:10.1007/BF02182072 (N flow 8.1 to 45.6 kg/ha/yr, mean 27.0, in Yellowstone grazed range).",
+      "prev_consumed_by_patch": {},
+      "sinter_deposit_total_mm": 0.0,
+      "sinter_deposition_mm_per_s": 3.1709791983764586e-08,
+      "sinter_source": "Authored within NPS Yellowstone Cistern Spring observation of up to 12 mm/yr sinter deposition versus 12 to 25 mm/century at typical features (NPS visitor material). Thinning magnitude per unit trampling fraction is authored.",
+      "sinter_thin_total_mm": 0.0,
+      "sinter_thinning_mm_per_unit": 2.0,
+      "trampling_added_total": 0.0,
+      "trampling_recovery_tau_s": 5184000.0,
+      "trampling_source": "Authored. Direction and order of magnitude supported by the ecosystem-management ungulate literature; specific tau values are authored. Weisberg, Hobbs, Ellis, Coughenour 2002 J. Env. Manage. 65, 181-197 doi:10.1006/jema.2002.0552.",
+      "units": "dimensionless_index (not kg)"
+    }
+  },
+  "patches": [
+    {
+      "biomass": 0.8200804107973139,
+      "capacity": 1.0,
+      "center_xz": [
+        -127,
+        -450
+      ],
+      "growth_per_hour": 0.012,
+      "habitat": "dry_meadow",
+      "id": "north_meadow",
+      "insect_recovery_per_hour": 0.04,
+      "insect_resource": 0.8,
+      "moisture": 0.6,
+      "nitrogen_kg_ha": 0.0,
+      "radius_m": 75.0,
+      "sinter_crust_mm": 0.0,
+      "status": "Authored nonthermal forage patch. Species-level meadow composition and capacity uncalibrated.",
+      "trampling_damage": 0.0
+    },
+    {
+      "biomass": 0.640118545999292,
+      "capacity": 1.0,
+      "center_xz": [
+        69,
+        -315
+      ],
+      "growth_per_hour": 0.008,
+      "habitat": "river_bank",
+      "id": "bridge_riparian",
+      "insect_recovery_per_hour": 0.06,
+      "insect_resource": 0.8007717838495573,
+      "moisture": 0.85,
+      "nitrogen_kg_ha": 0.0,
+      "radius_m": 70.0,
+      "sinter_crust_mm": 0.0,
+      "status": "Authored shared relative food index for visible river insect/dipper/trout interactions, not an invertebrate census.",
+      "trampling_damage": 0.0
+    },
+    {
+      "biomass": 0.6400460237409016,
+      "capacity": 1.0,
+      "center_xz": [
+        -360,
+        260
+      ],
+      "growth_per_hour": 0.006,
+      "habitat": "forest_edge",
+      "id": "forest_edge",
+      "insect_recovery_per_hour": 0.03,
+      "insect_resource": 0.6,
+      "moisture": 0.44,
+      "nitrogen_kg_ha": 0.0,
+      "radius_m": 85.0,
+      "sinter_crust_mm": 0.0,
+      "status": "Reserved patch state; no unlisted wildlife generated.",
+      "trampling_damage": 0.0
+    }
+  ],
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/ecosystem.json",
+      "sha256": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

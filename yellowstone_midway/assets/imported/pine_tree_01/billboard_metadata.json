@@ -1,0 +1,32 @@
+{
+  "source": "https://polyhaven.com/a/pine_tree_01",
+  "source_authors": [
+    "Rico Cilliers",
+    "Rob Tuytel"
+  ],
+  "license": "CC0-1.0",
+  "source_mesh": "pine_b_compact.gltf",
+  "files": [
+    "pine_billboard_0.png",
+    "pine_billboard_1.png",
+    "pine_billboard_2.png",
+    "pine_billboard_3.png"
+  ],
+  "pixel_width": 512,
+  "pixel_height": 768,
+  "world_width_m": 10.666666666666666,
+  "world_height_m": 16,
+  "world_bottom_y_m": -0.3,
+  "camera_target_y_m": 7.7,
+  "azimuth_degrees": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "notes": [
+    "Offline technical renders of a source-derived mesh; original source species unspecified.",
+    "Baked diffuse lighting; reserve for distant foliage. Cutout alpha, no collision.",
+    "Rendered with pyrender, which may not implement every glTF texture-transform extension."
+  ]
+}

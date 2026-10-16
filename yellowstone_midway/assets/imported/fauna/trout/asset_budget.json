@@ -1,0 +1,10 @@
+{
+  "source_vertices": 100324,
+  "vertices": {
+    "brown_trout": 4468,
+    "rainbow_trout": 4468
+  },
+  "texture_max_px": 1024,
+  "texture_status": "authored illustrative species colors",
+  "geometry_source": "cutthroat-fish_swim_animated.glb"
+}

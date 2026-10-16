@@ -1,0 +1,44 @@
+{
+  "artifacts": {
+    "mapped_surface_detail.png": "70d7b09e7fee322cbd141063a2ee1ed8077add98cc726a776dc847b7923fb01b",
+    "mineral_surface.png": "6fafc168aa062b239f85719e8cdd98f0cc2604ce6d8398d343307701e3b3841f"
+  },
+  "mapped_detail": {
+    "contrast_gain": 1.6,
+    "evidence_class": "derived_display_contrast",
+    "linear_ratio_range": [
+      0.45,
+      1.7
+    ],
+    "lowpass_sigma_m": 12,
+    "pixel_spacing_m": 0.625,
+    "ratio_encoding": "srgb_of_half_linear_ratio",
+    "source": "references/midway_orthophoto_detail.jpg",
+    "source_sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+    "subpixel_geographic_features": "none inferred"
+  },
+  "mineral_surface": {
+    "evidence_class": "authored_display_parameter",
+    "height_range_m": [
+      -0.01954060722256479,
+      0.01675436567461333
+    ],
+    "height_rms_m": 0.0045,
+    "hurst_exponent": 0.7,
+    "local_measurement_status": "unavailable",
+    "physical_width_m": 4.0,
+    "pixel_spacing_m": 0.00390625,
+    "psd_slope": -3.4,
+    "seed": 991,
+    "uncertainty": "unknown",
+    "wavelength_band_m": [
+      0.02,
+      1.5
+    ]
+  },
+  "schema": "yellowstone.ground_display_detail.v1",
+  "sources": [
+    "https://www.usgs.gov/observatories/yvo/news/better-understanding-whats-under-your-feet-hydrothermal-areas-neutral",
+    "https://developer.nvidia.com/gpugems/gpugems2/part-iii-high-quality-rendering/chapter-27-advanced-high-quality-filtering"
+  ]
+}

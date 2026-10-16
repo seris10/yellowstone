@@ -1,0 +1,7 @@
+{
+  "path": "dem_source_catalog.json",
+  "bytes": 15914,
+  "content_type": "application/json;charset=UTF-8",
+  "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/query?where=Category%3D1&geometry=%7B%22x%22%3A+512952.5950985841%2C+%22y%22%3A+4930199.044097667%2C+%22spatialReference%22%3A+%7B%22wkid%22%3A+32612%7D%7D&geometryType=esriGeometryPoint&inSR=32612&spatialRel=esriSpatialRelIntersects&outFields=%2A&returnGeometry=false&f=json",
+  "sha256": "46c4184fd66b6106e7f1c148e251e8f449410676d558e0103e25af8a4714f93d"
+}

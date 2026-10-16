@@ -1,0 +1,2055 @@
+{
+  "schema": "yellowstone.wildlife_motion_assets.v1",
+  "status": "authored",
+  "scientific_acceptance": "not_yet_accepted",
+  "quantitative_uncertainty": "unknown",
+  "software_license": "MIT",
+  "integration_license": "Apache-2.0",
+  "source_files": [
+    {
+      "path": "birds/synthetic_bird_folded.rig.json",
+      "sha256": "b5069abe88229b04c1990774ea3a9a4a313fd9cf4a9c5aa061adb3e106fa8ce0",
+      "bytes": 2925
+    },
+    {
+      "path": "birds/synthetic_bird_folded_animated.glb",
+      "sha256": "283bed33be652445430b7eb05ca93498342af4c8aa7295e1ad2cb208f149841a",
+      "bytes": 1086552
+    },
+    {
+      "path": "birds/synthetic_bird_folded_animated.manifest.json",
+      "sha256": "9fff0df0bd5f2bdcdb2b8b3f3ff270ffb2694f7a7cfa5bd73b481a88f7672665",
+      "bytes": 6744
+    },
+    {
+      "path": "birds/synthetic_bird_folded_source.glb",
+      "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+      "bytes": 398880
+    },
+    {
+      "path": "birds/synthetic_bird_folded_source.manifest.json",
+      "sha256": "1df14d8fabf0081e28e049a43acff642f6d89b5035b436284b7dd51e391d1ea4",
+      "bytes": 717
+    },
+    {
+      "path": "birds/synthetic_bird_spread.rig.json",
+      "sha256": "8ff8561ddb3407a824546bec3089f725e409c4f090543723ded79aff06a85081",
+      "bytes": 2923
+    },
+    {
+      "path": "birds/synthetic_bird_spread_animated.glb",
+      "sha256": "5540f0b1b270aed511c44679fd519186bf714002c3dc10a857fac952547807cb",
+      "bytes": 1652428
+    },
+    {
+      "path": "birds/synthetic_bird_spread_animated.manifest.json",
+      "sha256": "40de5e6f2427c036add5324241a66498743b0fae9a8a2bdf8d7ef68dde537fd9",
+      "bytes": 5405
+    },
+    {
+      "path": "birds/synthetic_bird_spread_source.glb",
+      "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+      "bytes": 908640
+    },
+    {
+      "path": "birds/synthetic_bird_spread_source.manifest.json",
+      "sha256": "f54474ab0a745ac517a1d47673176b92cccd2406be00646e92655e49d0c00fe6",
+      "bytes": 718
+    },
+    {
+      "path": "birds/synthetic_surface_swim.glb",
+      "sha256": "7f3e8abacaa0ce26242f5e27ea77c384c1abfdabf435077c1da0c22e0267e7d2",
+      "bytes": 612768
+    },
+    {
+      "path": "birds/synthetic_surface_swim.manifest.json",
+      "sha256": "439dedff9d721b2ebc0ef3e1499b81010f844dc1c7bca07c192462f6cbb7d821",
+      "bytes": 4552
+    },
+    {
+      "path": "bobcat_animated_2k.glb",
+      "sha256": "8dc5972398e5180ef86d85b765d5fa045a668f882b44d263094261e1a23f835e",
+      "bytes": 13709088
+    },
+    {
+      "path": "bobcat_animated_2k.manifest.json",
+      "sha256": "cfa65b34dd77f79a31e6c6831f4b95965633b63d6da1fb9088e111d30aaf1552",
+      "bytes": 9989
+    },
+    {
+      "path": "bobcat_artistic_variant_2k.glb",
+      "sha256": "3331dae8c802953322299684efff0c41c5d7164a32791774ab2ac8dc0a47b012",
+      "bytes": 13800228
+    },
+    {
+      "path": "bobcat_artistic_variant_2k.manifest.json",
+      "sha256": "881759646e591b22913045b315e8748f027c472d8b4f8105d937fe8e002a17c3",
+      "bytes": 9547
+    },
+    {
+      "path": "grizzly_animated_2k.glb",
+      "sha256": "a7b27113d138c934994aa38ce349b4978f1c7ce20a0fb8ff2a0043d363ccc778",
+      "bytes": 13893996
+    },
+    {
+      "path": "grizzly_animated_2k.manifest.json",
+      "sha256": "758f6f880d7c70a5a837d121bdb2845db5b3b31e11c6c65125018f3613845914",
+      "bytes": 8740
+    },
+    {
+      "path": "grizzly_artistic_variant_2k.glb",
+      "sha256": "34c40c6705def9f432aecac19397cdb713321ce3ef8565ecde1bb70e3197f860",
+      "bytes": 14141192
+    },
+    {
+      "path": "grizzly_artistic_variant_2k.manifest.json",
+      "sha256": "dca4baabd0ced8498a9d1400d12abf36ef7c21596a89b312ff9812232d6f6f87",
+      "bytes": 9113
+    },
+    {
+      "path": "rigs/bobcat.rig.json",
+      "sha256": "69a1e3b420ee1b07a77b3a961cfa92c5673b03fb8dd07c54899a2f94e5b99f8a",
+      "bytes": 4598
+    },
+    {
+      "path": "rigs/grizzly.rig.json",
+      "sha256": "41bdd98894f17eea1aa99dd7a331573e3b34f2b99345e33dced213cb8ce4b23b",
+      "bytes": 4245
+    }
+  ],
+  "assets": [
+    {
+      "id": "synthetic_bird_folded_animated",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_folded_animated.glb",
+      "status": "authored",
+      "geometry_rights": "MIT",
+      "rig_status": "synthetic_fixture",
+      "physical_dimensions": "synthetic_fixture_meters",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_folded_animated.glb",
+        "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 3108,
+        "triangles": 6160,
+        "skins": [
+          {
+            "joint_count": 24,
+            "weight_sum_max_error": 0.0
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 1.3877787807814457e-17,
+            "sampled_bounds_asset_units": [
+              [
+                -0.20900000631809235,
+                1.334291453086926e-08,
+                -0.49000000953674316
+              ],
+              [
+                0.20900000631809235,
+                0.8100000191479921,
+                0.589999970048666
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.25,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 1.0408340855860843e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.21129330376160385,
+                -0.00010767357979488278,
+                -0.4900000095367433
+              ],
+              [
+                0.21129330371542182,
+                0.8100000191479921,
+                0.589999970048666
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Float",
+            "duration_s": 5.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 2.7755575615628914e-17,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2101890813182372,
+                -0.28091675827895424,
+                -0.49027462195687516
+              ],
+              [
+                0.210189081327095,
+                0.5151571336259535,
+                0.593431813242391
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Paddle",
+            "duration_s": 1.4285714626312256,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 1.6653345369377348e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.24260808661946165,
+                -0.28104991324887096,
+                -0.49027288497593025
+              ],
+              [
+                0.24246071654151066,
+                0.5151226164568982,
+                0.593431813242391
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "283bed33be652445430b7eb05ca93498342af4c8aa7295e1ad2cb208f149841a",
+      "sha256": "b6a9ba75c9e87701c689e73570299fc82962534cd345abde6744083319a3ed59",
+      "binary_views_preserved": true,
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "synthetic_bird_folded_source",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_folded_source.glb",
+      "status": "authored",
+      "geometry_rights": "MIT",
+      "rig_status": "synthetic_fixture",
+      "physical_dimensions": "synthetic_fixture_meters",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_folded_source.glb",
+        "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 3108,
+        "triangles": 6160,
+        "skins": [],
+        "images": [],
+        "clips": [],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+      "sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+      "binary_views_preserved": true,
+      "change": "container_normalization",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "synthetic_bird_spread_animated",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_spread_animated.glb",
+      "status": "authored",
+      "geometry_rights": "MIT",
+      "rig_status": "synthetic_fixture",
+      "physical_dimensions": "synthetic_fixture_meters",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_spread_animated.glb",
+        "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 7104,
+        "triangles": 14080,
+        "skins": [
+          {
+            "joint_count": 24,
+            "weight_sum_max_error": 0.0
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Flight",
+            "duration_s": 0.4000000059604645,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.8939096262929662,
+                0.10654565927284554,
+                -0.6402387378353209
+              ],
+              [
+                0.8939096262929662,
+                0.8264000192284584,
+                0.5899999886751175
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Glide",
+            "duration_s": 4.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 2.7755575615628914e-17,
+            "sampled_bounds_asset_units": [
+              [
+                -0.8705663293586914,
+                0.1393368238433759,
+                -0.49000000953674316
+              ],
+              [
+                0.8705663293586914,
+                0.8264000192284584,
+                0.589999970048666
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "5540f0b1b270aed511c44679fd519186bf714002c3dc10a857fac952547807cb",
+      "sha256": "7084f8b0700a57697c31fba5f0252ec71fd1305de479323abe5e1330983b96cc",
+      "binary_views_preserved": true,
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "synthetic_bird_spread_source",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_bird_spread_source.glb",
+      "status": "authored",
+      "geometry_rights": "MIT",
+      "rig_status": "synthetic_fixture",
+      "physical_dimensions": "synthetic_fixture_meters",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_bird_spread_source.glb",
+        "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 7104,
+        "triangles": 14080,
+        "skins": [],
+        "images": [],
+        "clips": [],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+      "sha256": "20efcc77f6ea3f97c03f700e975de66bb9dac7b84ac8f07cd8d153ab1e9c95c9",
+      "binary_views_preserved": true,
+      "change": "container_normalization",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "synthetic_surface_swim",
+      "path": "assets/imported/wildlife_motion/birds/synthetic_surface_swim.glb",
+      "status": "authored",
+      "geometry_rights": "MIT",
+      "rig_status": "synthetic_fixture",
+      "physical_dimensions": "synthetic_fixture_meters",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "synthetic_surface_swim.glb",
+        "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 3108,
+        "triangles": 6160,
+        "skins": [
+          {
+            "joint_count": 24,
+            "weight_sum_max_error": 0.0
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "SurfaceSwim",
+            "duration_s": 6.0,
+            "root_motion": true,
+            "loop": false,
+            "speed_asset_units_s": null,
+            "surface_loop_error_asset_units": 0.2679577002646198,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2285657539287464,
+                -0.2912971433255505,
+                -0.4096639877781462
+              ],
+              [
+                0.23711081551418128,
+                0.499687024414287,
+                0.8174009645405906
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "authored_surrogate_inputs_not_species_measurements"
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "7f3e8abacaa0ce26242f5e27ea77c384c1abfdabf435077c1da0c22e0267e7d2",
+      "sha256": "803da47368b998a14b0e583d6d6283d9f6072405dd702ed2ab9f5f3221df15ab",
+      "binary_views_preserved": true,
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "bobcat_animated_2k",
+      "path": "assets/imported/wildlife_motion/bobcat_animated_2k.glb",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "rig_status": "estimated_unreviewed",
+      "physical_dimensions": "unverified_asset_units",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "bobcat_animated_2k.glb",
+        "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 12998,
+        "triangles": 14725,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "d6ca04607d002c091439d39d18ff71caa65dcadbe82b6702d89fda6ac1af7d60"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "609893bacb38d7bfe04c2335f90361be8f9af12e3fcdbdd0e2a66fad41860cb3"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.404760418572849e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3955639010739273,
+                -3.001281358805032e-08,
+                -1.2073343599545232
+              ],
+              [
+                0.39321631186514405,
+                1.3809239896692826,
+                1.0841082911676114
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.9047619104385376,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5843163435138874,
+            "surface_loop_error_asset_units": 2.7755575615628914e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3956679068903407,
+                -0.00022212594202540917,
+                -1.207331661154277
+              ],
+              [
+                0.39335574846020616,
+                1.3394962694153532,
+                1.059359118560648
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Stalk",
+            "duration_s": 3.076923131942749,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.19315455759627911,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3955650061600933,
+                -1.728373990824278e-05,
+                -1.2073320167469361
+              ],
+              [
+                0.39321771457389443,
+                1.3394962694153532,
+                1.0593593313829024
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Trot",
+            "duration_s": 1.25,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 1.2488356051237688,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.3958976148222919,
+                -0.0005393376072917368,
+                -1.2073231332793024
+              ],
+              [
+                0.3934300894150348,
+                1.3394962694153532,
+                1.0593543642214849
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "8dc5972398e5180ef86d85b765d5fa045a668f882b44d263094261e1a23f835e",
+      "sha256": "57c88e339888692b677251a8e4693475801a97062835ba3ae4d11620f8a89a26",
+      "binary_views_preserved": true,
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "bobcat_artistic_variant_2k",
+      "path": "assets/imported/wildlife_motion/bobcat_artistic_variant_2k.glb",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "rig_status": "estimated_unreviewed",
+      "physical_dimensions": "unverified_asset_units",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "bobcat_artistic_variant_2k.glb",
+        "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 12998,
+        "triangles": 14725,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "d6ca04607d002c091439d39d18ff71caa65dcadbe82b6702d89fda6ac1af7d60"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "609893bacb38d7bfe04c2335f90361be8f9af12e3fcdbdd0e2a66fad41860cb3"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 4.440892098500626e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.4055994492309031,
+                2.4123405733938214e-09,
+                -1.2381911236718401
+              ],
+              [
+                0.40319228561357556,
+                1.390043271798595,
+                1.1088811510803334
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.9047619104385376,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5881750221140252,
+            "surface_loop_error_asset_units": 4.440892098500626e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.40569763729753694,
+                -0.00023035159095929902,
+                -1.238188354933753
+              ],
+              [
+                0.4033229715748583,
+                1.3483419737983056,
+                1.0838553186280742
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "3331dae8c802953322299684efff0c41c5d7164a32791774ab2ac8dc0a47b012",
+      "sha256": "c3aae73cb815e70950378274c4dbe3ef3ef65b474c0f30df841f08f6d01e8265",
+      "binary_views_preserved": true,
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "grizzly_animated_2k",
+      "path": "assets/imported/wildlife_motion/grizzly_animated_2k.glb",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "rig_status": "estimated_unreviewed",
+      "physical_dimensions": "unverified_asset_units",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "grizzly_animated_2k.glb",
+        "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 18043,
+        "triangles": 14708,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "e3169d9ecacf0e6c57cbb47faf87acb7a032307921d2e93b77f016ebf460351d"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "73f4913154ce3701060b0cc3f384c712d50767b8baa241657c3271bf42ff3640"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5028627653526683,
+                -2.9802322387695312e-08,
+                -1.1172708088457197
+              ],
+              [
+                0.6028334306586216,
+                1.3013444247228616,
+                0.9590164595039029
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.6666667461395264,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.33424972976957046,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5037727197071932,
+                -3.108125661700317e-08,
+                -1.2001031708112555
+              ],
+              [
+                0.6044724334329556,
+                1.3037962430064385,
+                0.9442235703870675
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "RunningWalk",
+            "duration_s": 1.6666666269302368,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.8296979107755295,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5040345253528322,
+                -0.0003634515607350327,
+                -1.2234557019280512
+              ],
+              [
+                0.604094724859206,
+                1.304761154830489,
+                0.9441984354815462
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "a7b27113d138c934994aa38ce349b4978f1c7ce20a0fb8ff2a0043d363ccc778",
+      "sha256": "03edc3bf4191c170445e40843bde038d275530acd28304d287bf99f5bcf4e434",
+      "binary_views_preserved": true,
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "grizzly_artistic_variant_2k",
+      "path": "assets/imported/wildlife_motion/grizzly_artistic_variant_2k.glb",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "rig_status": "estimated_unreviewed",
+      "physical_dimensions": "unverified_asset_units",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "grizzly_artistic_variant_2k.glb",
+        "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 18043,
+        "triangles": 14708,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "texture_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "e3169d9ecacf0e6c57cbb47faf87acb7a032307921d2e93b77f016ebf460351d"
+          },
+          {
+            "name": "texture_0_metallic_roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "73f4913154ce3701060b0cc3f384c712d50767b8baa241657c3271bf42ff3640"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.4935059246329529,
+                -2.7188973703605223e-08,
+                -1.0863988895197272
+              ],
+              [
+                0.5885218260842381,
+                1.2552532044404772,
+                0.9341673790964424
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.6666667461395264,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.3223832283866375,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.4954621851740502,
+                -2.7577938279589883e-08,
+                -1.16580979849268
+              ],
+              [
+                0.5901411414226359,
+                1.2576636854891532,
+                0.9196729463696508
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "source_sha256": "34c40c6705def9f432aecac19397cdb713321ce3ef8565ecde1bb70e3197f860",
+      "sha256": "24e91035db1fefdfb7f4e2386f3211003851323dc1292f46558f28df7e1adff9",
+      "binary_views_preserved": true,
+      "change": "skinned_surface_scene_root",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "wolf_authored",
+      "path": "assets/imported/wildlife_motion/wolf_authored.glb",
+      "sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63",
+      "status": "authored",
+      "geometry_rights": "Apache-2.0",
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "wolf_authored.glb",
+        "sha256": "63718c119211b649b67b99cf33d2bef164de040bcd67a1a1133585c053237f63",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 1290,
+        "triangles": 2520,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.24499999974594136,
+                -2.919804156603361e-08,
+                -1.1323736432723968
+              ],
+              [
+                0.24499999974594136,
+                1.2199999964480228,
+                1.0776208551252529
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5630769230769231,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2449999991567373,
+                -0.00011755682837825467,
+                -1.1320996576665918
+              ],
+              [
+                0.2449999991567373,
+                1.2199999964480228,
+                1.077819014030609
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 1290,
+        "original_vertices": 1290,
+        "chain_vertex_counts": {
+          "body": 453,
+          "FL": 189,
+          "FR": 186,
+          "HL": 193,
+          "HR": 191,
+          "tail": 78
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 2.2099999999999998e-07
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "deer_authored",
+      "path": "assets/imported/wildlife_motion/deer_authored.glb",
+      "sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408",
+      "status": "authored",
+      "geometry_rights": "Apache-2.0",
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "deer_authored.glb",
+        "sha256": "8117d9e21e424596680ab171193978be86361e33528cdc8ab25ff67f80a65408",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 1290,
+        "triangles": 2520,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.775570382862386e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.24437508078663672,
+                -2.311083266792593e-08,
+                -0.8054955008107594
+              ],
+              [
+                0.24451992973936124,
+                1.9800000093028545,
+                0.9844996279646441
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.5,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5430857142857143,
+            "surface_loop_error_asset_units": 4.727121472036799e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2503237301559023,
+                -0.0003969740675420705,
+                -0.8388138033933956
+              ],
+              [
+                0.24955611943008119,
+                1.9800000093028545,
+                0.9855187924440065
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 1290,
+        "original_vertices": 1290,
+        "chain_vertex_counts": {
+          "body": 479,
+          "FL": 199,
+          "FR": 191,
+          "HL": 214,
+          "HR": 207
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 1.98e-07
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "badger",
+      "path": "assets/imported/wildlife_motion/badger_animated.glb",
+      "source_sha256": "a2f4bbd0a62cb0937115b88147b775ca99495d6dfab11107d34cc35ee7c4070c",
+      "runtime_source_sha256": "3e1da3e33155edbe2113b904dcf8390fe6d861edc9781f784ab18fa38b203c5b",
+      "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "textures": "source_PBR_documented_resolution_reduction",
+      "source_texture_sha256": {
+        "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62": "2e1aa312248e8f85f0cb546da003d10a28cc3113560669b789f96f2d0de629cd",
+        "ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62": "3a4acd7b963a80af204ce75c1eddcd497ab72775aba8c32167093e6f5e6d6c38",
+        "NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62": "32708e9a6c8560292eb6bdddfa633074209712d109e33e7676026803db5c3215"
+      },
+      "texture_resizing": [
+        {
+          "image": "NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+          "before": [
+            8192,
+            8192
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "texture_resolution_evidence_class": "authored",
+      "texture_content": "source_color_normal_ORM",
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "badger_animated.glb",
+        "sha256": "83d4ba29fa5dda54eb8d17312549838d86ffbff7fc6e2eb4554f029cd27715d5",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 15915,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "e8b496f6b73be0ebdeeab5e55bb24e5ab7d8b66c82b47c78773b38ab57569172"
+          },
+          {
+            "name": "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "625c07ccb7fed05a0e38031ca3b07a6372de0b1d047a54931ba2a8edc496f4df"
+          },
+          {
+            "name": "ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "452f4e4bdc8ab4355d285112a8dffa2e14fe7690c90e3a1ae0475462d3f3316e"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 1.1102230246251565e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.21999513684713323,
+                -1.1213689195247484e-08,
+                -0.4398666146287291
+              ],
+              [
+                0.25187663044396774,
+                0.3961185645755845,
+                0.4968879986240481
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.600000023841858,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.11972610360464533,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2204364713082754,
+                -0.0004344825639943199,
+                -0.4594868807849088
+              ],
+              [
+                0.23822020313736553,
+                0.39376585909024325,
+                0.48397276809231554
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 15368,
+        "original_vertices": 15915,
+        "chain_vertex_counts": {
+          "body": 6353,
+          "FL": 2755,
+          "FR": 2495,
+          "HL": 1302,
+          "HR": 1106,
+          "tail": 1904
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 9.187756165896076e-08
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "bison_animated",
+      "path": "assets/imported/wildlife_motion/bison_animated.glb",
+      "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58",
+      "source_sha256": "bbbeb371431d0871285ba1478f68c9fe59383be1a50cbcb5be5d87e16c237587",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "rig_status": "estimated_unreviewed",
+      "scientific_acceptance": "not_yet_accepted",
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "bison_animated.glb",
+        "sha256": "c1af8bb69f9f713ad93666d2f3115822dfad5a2bdcf8896fa8c712512b9deb58",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 17889,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "NormalGL_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "sha256": "618bd227c40a917034e0ae9f88563af7c13c1d526c90fa6868edd7795a0c7a95"
+          },
+          {
+            "name": "Color_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "sha256": "8f6ad1ad38c26ecce61c5b779e4743868b8819233032154ae78b3c0ed4aafa9e"
+          },
+          {
+            "name": "ORM_e1acaf20-b1ca-4c88-b5e3-dc7ccd8fe03f",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "sha256": "09441bf91464fc333b35386489da03afdf93f19b827f8faf4a9ff635ba0a7691"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.17009616934036276,
+                -1.189453015128075e-08,
+                -0.40001453199126397
+              ],
+              [
+                0.1799453300629677,
+                0.6219258203990228,
+                0.6038297980808587
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.5,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.17058537891932896,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.1598536577946134,
+                -0.00021756564765777037,
+                -0.41975075869761275
+              ],
+              [
+                0.16992153685679487,
+                0.6219258203990228,
+                0.6019226971099187
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 17027,
+        "original_vertices": 17889,
+        "chain_vertex_counts": {
+          "body": 9343,
+          "FL": 2913,
+          "FR": 2458,
+          "HL": 1824,
+          "HR": 1351
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 9.996834807649184e-08
+      },
+      "geometry_reduction": {
+        "original_sha256": "bbbeb371431d0871285ba1478f68c9fe59383be1a50cbcb5be5d87e16c237587",
+        "reduced_source_sha256": "e72b4586e6e6e851f0033d6b3efc27d186b216aa407b03e204ddb28d18ba01e7",
+        "original_vertices": 756406,
+        "original_triangles": 1450950,
+        "runtime_vertices": 17889,
+        "runtime_triangles": 20000,
+        "texture_bytes_preserved": true,
+        "texture_sha256": [
+          "618bd227c40a917034e0ae9f88563af7c13c1d526c90fa6868edd7795a0c7a95",
+          "8f6ad1ad38c26ecce61c5b779e4743868b8819233032154ae78b3c0ed4aafa9e",
+          "09441bf91464fc333b35386489da03afdf93f19b827f8faf4a9ff635ba0a7691"
+        ],
+        "original_bounds": [
+          [
+            -0.5,
+            -0.31081467866897583,
+            -0.1592506617307663
+          ],
+          [
+            0.5,
+            0.31081467866897583,
+            0.1592506617307663
+          ]
+        ],
+        "runtime_bounds": [
+          [
+            -0.5003519654273987,
+            -0.3105331361293793,
+            -0.1587613970041275
+          ],
+          [
+            0.4995655119419098,
+            0.31139272451400757,
+            0.15799246728420258
+          ]
+        ],
+        "vertex_distance_source_to_runtime": {
+          "p95_asset_units": 0.012512287371691916,
+          "maximum_asset_units": 0.030077535974559762
+        },
+        "vertex_distance_runtime_to_source": {
+          "p95_asset_units": 0.0011826897610475947,
+          "maximum_asset_units": 0.003666349934102682
+        },
+        "distance_metric": "nearest_vertex_distances; triangle_surface_Hausdorff_unavailable",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted"
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "black_bear",
+      "path": "assets/imported/wildlife_motion/black_bear_animated.glb",
+      "sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b",
+      "source_sha256": "c88974e9bf415d537059ea1b8c72f0eba9f001bc8cf53ee59cd5fe2a9d831e94",
+      "runtime_source_sha256": "88f32cda3d886816b4f8861120dc2bf79026aaef11b4814c5ff5ac968f2c74d2",
+      "source_file": "black-bear.glb",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "source_texture_sha256": {
+        "material_0.baseColorTexture": "1a510dbca482ab57d3608b4bc5233a2ba9e0b965681cd5b78c71a457b47d73fb",
+        "material_0.metallicRoughnessTexture": "7a0081608e84225919781062cb83f7f7760d79c8c0a79e913a45d5d48f564c17",
+        "material_0.normalTexture": "80592e843dc576df44c167dd370ac1d2b966a3bc18b7626b071afb334950b7ff"
+      },
+      "texture_resizing": [
+        {
+          "image": "Image_2",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_0",
+          "before": [
+            8192,
+            8192
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_1",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "textures": "source_PBR_documented_resolution_reduction",
+      "texture_resolution_evidence_class": "authored",
+      "texture_content": "source_color_normal_ORM",
+      "rig_status": "estimated_unreviewed",
+      "tangent_frame_repair": null,
+      "scientific_acceptance": "not_yet_accepted",
+      "source_axes": {
+        "forward": "+z",
+        "up": "+y"
+      },
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "black_bear_animated.glb",
+        "sha256": "522157773f6172c36a5f793370e0f39389828603004ea8fbd67db0640211589b",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 24079,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 22,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "Image_2",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "ef0278e6791e452245cf3f12ec0e8425545557d406fc1280c8c8808facf60c41"
+          },
+          {
+            "name": "Image_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "f6385903fb4c41107c04204e4b100de50da94e0aba1aa20536495d95dd7a0c30"
+          },
+          {
+            "name": "Image_1",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "8e0dce67bc7c09c8eee5348d7695267c04f96f657dde83a8bc0d4bf4e3bfdf9e"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5210129588830409,
+                1.8307066914848646e-08,
+                -0.8768099195933362
+              ],
+              [
+                0.47986708155090835,
+                1.4112837813881443,
+                1.2514905121748574
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 2.222222328186035,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.43548183713640487,
+            "surface_loop_error_asset_units": 3.3306690738754696e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.5221747315455989,
+                -0.0007161212149509394,
+                -0.9955053459251937
+              ],
+              [
+                0.4709979874025991,
+                1.4112837813881443,
+                1.2174672365771158
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 23530,
+        "original_vertices": 24079,
+        "chain_vertex_counts": {
+          "body": 9635,
+          "FL": 4168,
+          "FR": 2422,
+          "HL": 4682,
+          "HR": 3172
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 2.092053926849261e-07
+      },
+      "geometry_reduction": {
+        "original_vertices": 2035160,
+        "original_triangles": 3776222,
+        "runtime_vertices": 24079,
+        "runtime_triangles": 20000,
+        "original_bounds": [
+          [
+            -0.7265840172767639,
+            -0.703561007976532,
+            -0.9462649822235107
+          ],
+          [
+            0.718442976474762,
+            0.7028499841690063,
+            0.9490950107574463
+          ]
+        ],
+        "runtime_bounds": [
+          [
+            -0.7250610589981079,
+            -0.7085561752319336,
+            -0.9465130567550659
+          ],
+          [
+            0.7194896340370178,
+            0.7027275562286377,
+            0.9502555131912231
+          ]
+        ],
+        "vertex_distance_source_to_runtime": {
+          "p95_asset_units": 0.020958228116317944,
+          "maximum_asset_units": 0.08206514958779737
+        },
+        "vertex_distance_runtime_to_source": {
+          "p95_asset_units": 0.004863656194593214,
+          "maximum_asset_units": 0.0228398989540443
+        },
+        "distance_metric": "nearest_vertex_distances; triangle_surface_Hausdorff_unavailable",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted"
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    {
+      "id": "canada_lynx",
+      "path": "assets/imported/wildlife_motion/canada_lynx_animated.glb",
+      "sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143",
+      "source_sha256": "d8159e22a8ae65165224dda19f8bbac8eaa9de384bf6d4fe379f63c8ffb90fb8",
+      "runtime_source_sha256": "856941fa949c8be774660dd3067598588482bddd9767bee899e568f29844c254",
+      "source_file": "canadian-lynx.glb",
+      "status": "operator_supplied",
+      "geometry_rights": "owner_confirmed",
+      "source_texture_sha256": {
+        "material_0.baseColorTexture": "f0dc6b011b72f4bac7006d568f4ba682e3d357177cb72434e3efe87c5826bf30",
+        "material_0.metallicRoughnessTexture": "c6bf95de9ff2ef1c22348fcf5be09586cb00fc1647e2b80db2a18bdb02717b28",
+        "material_0.normalTexture": "8aa39df91bbfd2994829ac3d7909a281a378e6b28e8767fdc1fbe70c52c91308"
+      },
+      "texture_resizing": [
+        {
+          "image": "Image_2",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_0",
+          "before": [
+            8192,
+            8192
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "image": "Image_1",
+          "before": [
+            4096,
+            4096
+          ],
+          "after": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "textures": "source_PBR_documented_resolution_reduction",
+      "texture_resolution_evidence_class": "authored",
+      "texture_content": "source_color_normal_ORM",
+      "rig_status": "estimated_unreviewed",
+      "tangent_frame_repair": {
+        "count": 1,
+        "method": "orthogonal_frame_for_degenerate_UV_tangent",
+        "evidence_class": "derived"
+      },
+      "scientific_acceptance": "not_yet_accepted",
+      "source_axes": {
+        "forward": "-x",
+        "up": "+y"
+      },
+      "audit": {
+        "schema": "yellowstone.wildlife_motion_audit.v1",
+        "file": "canada_lynx_animated.glb",
+        "sha256": "97f5528281b3d711a21f7f34e61bfadfe2ff5c1369a381c02248fd68858e4143",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted",
+        "quantitative_uncertainty": "unknown",
+        "vertices": 26348,
+        "triangles": 20000,
+        "skins": [
+          {
+            "joint_count": 25,
+            "weight_sum_max_error": 1.1920928955078125e-07
+          }
+        ],
+        "images": [
+          {
+            "name": "Image_2",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "a95c95e6ea71c28348cf7bc4b9d63cd72a990a778f0aa517b7ccb043620134a1"
+          },
+          {
+            "name": "Image_0",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "d3a353717c839f29034478d3470f1554ac3d12785c3b79c7a1223806baec71f3"
+          },
+          {
+            "name": "Image_1",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "sha256": "602a598f444e1b94b3595a65a20c724c742589d0baf38c3f47f4a70b34691d23"
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration_s": 10.0,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.0,
+            "surface_loop_error_asset_units": 4.440892098500626e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.2713708810693147,
+                -0.0004994236168386299,
+                -0.8185439003006282
+              ],
+              [
+                0.6067024994095033,
+                1.3371130575806183,
+                1.2527860020002428
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          },
+          {
+            "name": "Walk",
+            "duration_s": 1.9047619104385376,
+            "root_motion": false,
+            "loop": true,
+            "speed_asset_units_s": 0.5622216111243662,
+            "surface_loop_error_asset_units": 2.220446049250313e-16,
+            "sampled_bounds_asset_units": [
+              [
+                -0.27137088051913266,
+                -0.002718346612218585,
+                -0.9254141066047741
+              ],
+              [
+                0.6001596509710649,
+                1.2888460014946759,
+                1.2690375838480459
+              ]
+            ],
+            "sampled_finite": true,
+            "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements."
+          }
+        ],
+        "limitations": [
+          "Anatomical landmark accuracy is unmeasured.",
+          "Edge distortion diagnoses skinning and excludes biomechanical interpretation.",
+          "Physical dimensions require independent evidence or authored display values."
+        ]
+      },
+      "weights": {
+        "method": "region-gated capsule priors + UV-welded graph smoothing",
+        "anatomical_validation": "not established",
+        "unique_spatial_vertices": 25624,
+        "original_vertices": 26348,
+        "chain_vertex_counts": {
+          "body": 14217,
+          "FL": 3858,
+          "FR": 1541,
+          "HL": 3084,
+          "HR": 1794,
+          "tail": 1854
+        },
+        "max_weight_sum_error": 1.1920928955078125e-07,
+        "smoothed_iterations": 10,
+        "seam_weld_tolerance": 2.0489334163692203e-07
+      },
+      "geometry_reduction": {
+        "original_vertices": 988369,
+        "original_triangles": 1742008,
+        "runtime_vertices": 26348,
+        "runtime_triangles": 20000,
+        "original_bounds": [
+          [
+            -0.9518309831619263,
+            -0.6837829947471619,
+            -0.6079980134963989
+          ],
+          [
+            0.9504470229148865,
+            0.664014995098114,
+            0.5947409868240356
+          ]
+        ],
+        "runtime_bounds": [
+          [
+            -0.9535769820213318,
+            -0.6825563311576843,
+            -0.6076083183288574
+          ],
+          [
+            0.9475617408752441,
+            0.6461508274078369,
+            0.5958054065704346
+          ]
+        ],
+        "vertex_distance_source_to_runtime": {
+          "p95_asset_units": 0.0173172839784163,
+          "maximum_asset_units": 0.08924107820867493
+        },
+        "vertex_distance_runtime_to_source": {
+          "p95_asset_units": 0.0048810358773407735,
+          "maximum_asset_units": 0.01856012344252052
+        },
+        "distance_metric": "nearest_vertex_distances; triangle_surface_Hausdorff_unavailable",
+        "status": "derived_not_field_validated",
+        "scientific_acceptance": "not_yet_accepted"
+      },
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    }
+  ],
+  "wildlife_species_asset_map": {
+    "bobcat": {
+      "path": "res://assets/imported/wildlife_motion/bobcat_animated_2k.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/bobcat_animated_2k.manifest.json",
+      "art_status": "operator_supplied_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "grizzly": {
+      "path": "res://assets/imported/wildlife_motion/grizzly_animated_2k.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/grizzly_animated_2k.manifest.json",
+      "art_status": "operator_supplied_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "wolf": {
+      "path": "res://assets/imported/wildlife_motion/wolf_authored.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/wolf_authored.manifest.json",
+      "art_status": "authored_species_shape_proxy",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "deer": {
+      "path": "res://assets/imported/wildlife_motion/deer_authored.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/deer_authored.manifest.json",
+      "art_status": "authored_species_shape_proxy",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "badger": {
+      "path": "res://assets/imported/wildlife_motion/badger_animated.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/badger_animated.manifest.json",
+      "art_status": "operator_supplied_textured_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "gray_wolf": {
+      "path": "res://assets/imported/wildlife_motion/wolf_authored.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/wolf_authored.manifest.json",
+      "art_status": "authored_species_shape_proxy",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "mule_deer": {
+      "path": "res://assets/imported/wildlife_motion/deer_authored.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/deer_authored.manifest.json",
+      "art_status": "authored_species_shape_proxy",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "american_badger": {
+      "path": "res://assets/imported/wildlife_motion/badger_animated.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/badger_animated.manifest.json",
+      "art_status": "operator_supplied_textured_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "bison": {
+      "path": "res://assets/imported/wildlife_motion/bison_animated.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/bison_animated.manifest.json",
+      "art_status": "operator_supplied_reduced_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "black_bear": {
+      "path": "res://assets/imported/wildlife_motion/black_bear_animated.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/black_bear_animated.manifest.json",
+      "art_status": "operator_supplied_textured_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "canada_lynx": {
+      "path": "res://assets/imported/wildlife_motion/canada_lynx_animated.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/canada_lynx_animated.manifest.json",
+      "art_status": "operator_supplied_textured_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    },
+    "canadian_lynx": {
+      "path": "res://assets/imported/wildlife_motion/canada_lynx_animated.glb",
+      "mode": "ground",
+      "yaw": 3.141592653589793,
+      "length_axis": "z",
+      "clip_manifest": "res://assets/imported/wildlife_motion/canada_lynx_animated.manifest.json",
+      "art_status": "operator_supplied_textured_estimated_rig",
+      "geometry_rights": "owner_confirmed",
+      "geometry_owner": "KJR",
+      "ownership_evidence": "Direct owner declaration: all animal meshes belong to KJR",
+      "redistribution_permission": "owner_authorized_project_release"
+    }
+  },
+  "limitations": [
+    "Automatic joint centers lack anatomical certification.",
+    "Operator-supplied mesh and texture redistribution rights remain unknown.",
+    "Bird fixtures demonstrate motion and are excluded from wildlife species mapping.",
+    "Scene body dimensions are authored display values."
+  ],
+  "animal_geometry_ownership": {
+    "owner": "KJR",
+    "evidence": "Direct owner declaration",
+    "release_inclusion": "authorized_for_project_release",
+    "scientific_acceptance": "not_yet_accepted",
+    "scope": "All animal meshes; source method and scientific status remain per-asset records"
+  }
+}

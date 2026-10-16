@@ -1,0 +1,14 @@
+{
+  "site": {
+    "name": "Firehole River at Old Faithful, YNP",
+    "drainage_area_sqmi": 39.5,
+    "latitude": 44.459333,
+    "longitude": -110.822272,
+    "altitude_ft": 7339.88,
+    "notes": "Upstream of Midway Geyser Basin; Upper Geyser Basin inflows only"
+  },
+  "fetched_at": "2026-10-09T22:20:15.283252Z",
+  "measurements": [],
+  "discharge_iv": [],
+  "temperature_iv": []
+}

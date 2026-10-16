@@ -1,0 +1,309 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "method": "warm_ground_refuge_shift"
+  },
+  "provenance": {
+    "sources": "ground_heat.thermal_flux_mm_d_by_patch; snow_season.run_season patches2"
+  },
+  "schema": "yellowstone.winter_grazing.v1",
+  "snow_depth_by_patch": {
+    "bridge_riparian": 0.0,
+    "forest_edge": 0.0,
+    "north_meadow": 0.0
+  },
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "authored",
+  "thermal_flux_mm_d_by_patch": {
+    "bridge_riparian": 0.07760479041916168,
+    "forest_edge": 0.07760479041916168,
+    "north_meadow": 0.07760479041916168
+  },
+  "units": {
+    "thermal_flux_mm_d_by_patch": "mm/day"
+  },
+  "wildlife_grazers": [
+    {
+      "approx_dimensions_m": {
+        "length": 2.82,
+        "shoulder_height": 1.825
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "encounter_class": "authored",
+      "encounter_probability": 0.0,
+      "encounter_window_s": 300.0,
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+      "graze_seconds": 31.7,
+      "grazing_index_per_second": 1.5e-06,
+      "grazing_owner": "legacy_grazers",
+      "id": "bison_01",
+      "initial_state": "graze",
+      "intake_source": "Authored within cited ranges. Meagher (1973) NPS Scientific Monograph 1 (winter cratering in deep snow); Fortin, Fryxell and Regis (2002) Ecology 83(4) 970-982 doi:10.1890/0012-9658(2002)083[0970:TTSOFD]2.0.CO;2 (bison foraging decisions and snow); Van Soest (1994) Nutritional Ecology of the Ruminant (intake rates).",
+      "kind": "bison",
+      "mammal_guild": "grazer",
+      "medium": "land",
+      "movement_cost_factor": 1.0,
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -120,
+          -450
+        ],
+        [
+          -125,
+          -440
+        ],
+        [
+          -112,
+          -434
+        ],
+        [
+          -105,
+          -445
+        ]
+      ],
+      "phase": 0.3,
+      "rate_per_second": 0.0,
+      "rest_seconds": 18.0,
+      "route_support": {
+        "qualified": false,
+        "rejection_reason": "mineral_surface",
+        "status": "authored"
+      },
+      "scale": 1.0,
+      "snow_depth_m": 0.0,
+      "species_id": "bison_bison",
+      "timing_basis": {
+        "causal_claim": "inactive, excluded route or independent mammal allocation"
+      },
+      "walk_mps": 0.56
+    },
+    {
+      "approx_dimensions_m": {
+        "length": 2.397,
+        "shoulder_height": 1.551
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "encounter_class": "authored",
+      "encounter_probability": 0.0,
+      "encounter_window_s": 300.0,
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+      "graze_seconds": 40.9,
+      "grazing_index_per_second": 1.5e-06,
+      "grazing_owner": "legacy_grazers",
+      "id": "bison_02",
+      "initial_state": "graze",
+      "intake_source": "Authored within cited ranges. Meagher (1973) NPS Scientific Monograph 1 (winter cratering in deep snow); Fortin, Fryxell and Regis (2002) Ecology 83(4) 970-982 doi:10.1890/0012-9658(2002)083[0970:TTSOFD]2.0.CO;2 (bison foraging decisions and snow); Van Soest (1994) Nutritional Ecology of the Ruminant (intake rates).",
+      "kind": "bison",
+      "mammal_guild": "grazer",
+      "medium": "land",
+      "movement_cost_factor": 1.0,
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -142,
+          -463
+        ],
+        [
+          -150,
+          -460
+        ],
+        [
+          -148,
+          -449
+        ],
+        [
+          -140,
+          -440
+        ]
+      ],
+      "phase": 3.1,
+      "rate_per_second": 0.0,
+      "rest_seconds": 18.0,
+      "route_support": {
+        "qualified": false,
+        "rejection_reason": "mineral_surface",
+        "status": "authored"
+      },
+      "scale": 0.85,
+      "snow_depth_m": 0.0,
+      "species_id": "bison_bison",
+      "timing_basis": {
+        "causal_claim": "inactive, excluded route or independent mammal allocation"
+      },
+      "walk_mps": 0.48
+    },
+    {
+      "approx_dimensions_m": {
+        "length": 2.482,
+        "shoulder_height": 1.606
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "encounter_class": "authored",
+      "encounter_probability": 0.0,
+      "encounter_window_s": 300.0,
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+      "graze_seconds": 25.1,
+      "grazing_index_per_second": 1.5e-06,
+      "grazing_owner": "legacy_grazers",
+      "id": "bison_03",
+      "initial_state": "graze",
+      "intake_source": "Authored within cited ranges. Meagher (1973) NPS Scientific Monograph 1 (winter cratering in deep snow); Fortin, Fryxell and Regis (2002) Ecology 83(4) 970-982 doi:10.1890/0012-9658(2002)083[0970:TTSOFD]2.0.CO;2 (bison foraging decisions and snow); Van Soest (1994) Nutritional Ecology of the Ruminant (intake rates).",
+      "kind": "bison",
+      "mammal_guild": "grazer",
+      "medium": "land",
+      "movement_cost_factor": 1.0,
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -132,
+          -476
+        ],
+        [
+          -135,
+          -465
+        ],
+        [
+          -128,
+          -459
+        ],
+        [
+          -120,
+          -464
+        ]
+      ],
+      "phase": 6.0,
+      "rate_per_second": 0.0,
+      "rest_seconds": 18.0,
+      "route_support": {
+        "qualified": false,
+        "rejection_reason": "mineral_surface",
+        "status": "authored"
+      },
+      "scale": 0.88,
+      "snow_depth_m": 0.0,
+      "species_id": "bison_bison",
+      "timing_basis": {
+        "causal_claim": "inactive, excluded route or independent mammal allocation"
+      },
+      "walk_mps": 0.52
+    },
+    {
+      "approx_dimensions_m": {
+        "length": 3.0
+      },
+      "encounter_class": "authored",
+      "encounter_probability": 0.45,
+      "encounter_window_s": 300.0,
+      "grazing_owner": "mammals",
+      "ground_offset_m": 0.0,
+      "id": "mammal_encounter_bison_01",
+      "kind": "bison",
+      "mammal_guild": "grazer",
+      "medium": "land",
+      "patch_id": "forest_edge",
+      "path_xz": [
+        [
+          -178.85125598137458,
+          185.88015850221868
+        ],
+        [
+          -183.4076554262534,
+          174.498364106296
+        ],
+        [
+          -172.02586103033073,
+          169.9419646614172
+        ],
+        [
+          -167.4694615854519,
+          181.32375905733986
+        ]
+      ],
+      "population_measurement": null,
+      "position": [
+        -178.85125598137458,
+        33.4917106628418,
+        185.88015850221868
+      ],
+      "quantitative_uncertainty": "unknown",
+      "rate_per_second": 0.0,
+      "route_support": {
+        "full_segment_spacing_m": 1.0,
+        "habitat_classification": "authored mapped-mask proxy",
+        "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+        "qualified": true,
+        "status": "authored",
+        "terrain_y": "terrain.f32 surface sample"
+      },
+      "scale": 1.0,
+      "species_id": "bison_bison",
+      "timing_basis": {
+        "causal_claim": "inactive, excluded route or independent mammal allocation"
+      },
+      "walk_mps": 0.56
+    },
+    {
+      "approx_dimensions_m": {
+        "length": 2.4
+      },
+      "encounter_class": "authored",
+      "encounter_probability": 0.45,
+      "encounter_window_s": 300.0,
+      "grazing_owner": "mammals",
+      "ground_offset_m": 0.0,
+      "id": "mammal_encounter_elk_01",
+      "kind": "elk",
+      "mammal_guild": "grazer",
+      "medium": "land",
+      "patch_id": "forest_edge",
+      "path_xz": [
+        [
+          -349.6688857285343,
+          263.855352736807
+        ],
+        [
+          -357.8432845452979,
+          267.5867579834895
+        ],
+        [
+          -361.5746897919804,
+          259.41235916672593
+        ],
+        [
+          -353.4002909752168,
+          255.68095392004338
+        ]
+      ],
+      "population_measurement": null,
+      "position": [
+        -349.6688857285343,
+        73.20674133300781,
+        263.855352736807
+      ],
+      "quantitative_uncertainty": "unknown",
+      "rate_per_second": 0.0,
+      "route_support": {
+        "full_segment_spacing_m": 1.0,
+        "habitat_classification": "authored mapped-mask proxy",
+        "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+        "qualified": true,
+        "status": "authored",
+        "terrain_y": "terrain.f32 surface sample"
+      },
+      "scale": 1.0,
+      "species_id": "cervus_elaphus",
+      "timing_basis": {
+        "causal_claim": "inactive, excluded route or independent mammal allocation"
+      },
+      "walk_mps": 0.56
+    }
+  ],
+  "world_id": "yellowstone_midway"
+}

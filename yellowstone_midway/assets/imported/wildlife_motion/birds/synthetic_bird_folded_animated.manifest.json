@@ -1,0 +1,384 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+  "vertices": 3108,
+  "triangles": 6160,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "source": "synthetic_bird_folded_source.glb",
+    "mesh_index": 0,
+    "node_index": 1,
+    "scale_status": "synthetic_fixture_meters",
+    "source_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "texture_resizing": [],
+  "clips": [
+    {
+      "name": "Idle",
+      "duration_s": 10.0,
+      "frames": 301,
+      "loop": true,
+      "engine": "bird",
+      "species": "mallard",
+      "controls": {
+        "pattern": "idle",
+        "frequency_hz": 0.2,
+        "duty_factor": 0.68,
+        "stance_length_height": 0,
+        "clearance_height": 0,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "root_motion": false,
+      "wing_state": "folded",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Walk",
+      "duration_s": 1.25,
+      "frames": 39,
+      "loop": true,
+      "engine": "bird",
+      "species": "mallard",
+      "controls": {
+        "pattern": "walk",
+        "frequency_hz": 1.6,
+        "duty_factor": 0.67,
+        "stance_length_height": 0.22,
+        "clearance_height": 0.06,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "root_motion": false,
+      "wing_state": "folded",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Float",
+      "duration_s": 5.0,
+      "frames": 151,
+      "loop": true,
+      "engine": "bird",
+      "species": "mallard",
+      "controls": {
+        "pattern": "float",
+        "frequency_hz": 0.4
+      },
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "root_motion": false,
+      "wing_state": "folded",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Paddle",
+      "duration_s": 1.4285714285714286,
+      "frames": 44,
+      "loop": true,
+      "engine": "bird",
+      "species": "mallard",
+      "controls": {
+        "pattern": "paddle",
+        "frequency_hz": 1.4,
+        "power_fraction": 0.48,
+        "sweep_height": 0.24,
+        "recovery_lift_height": 0.1,
+        "left_right_phase": 0.5
+      },
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "root_motion": false,
+      "wing_state": "folded",
+      "max_ik_reach_error_asset_units": 0.0
+    }
+  ],
+  "joint_count": 24,
+  "rig": {
+    "schema": "wildlife-motion.rig/1",
+    "names": [
+      "root",
+      "pelvis",
+      "thorax",
+      "neck_0",
+      "neck_1",
+      "head",
+      "L_upper",
+      "L_middle",
+      "L_ankle",
+      "L_foot",
+      "R_upper",
+      "R_middle",
+      "R_ankle",
+      "R_foot",
+      "wing_L_shoulder",
+      "wing_L_elbow",
+      "wing_L_wrist",
+      "wing_L_tip",
+      "wing_R_shoulder",
+      "wing_R_elbow",
+      "wing_R_wrist",
+      "wing_R_tip",
+      "tail_0",
+      "tail_1"
+    ],
+    "parents": [
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      1,
+      6,
+      7,
+      8,
+      1,
+      10,
+      11,
+      12,
+      2,
+      14,
+      15,
+      16,
+      2,
+      18,
+      19,
+      20,
+      1,
+      22
+    ],
+    "rest": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.4,
+        -0.08
+      ],
+      [
+        0.0,
+        0.43,
+        0.12
+      ],
+      [
+        0.0,
+        0.48,
+        0.25
+      ],
+      [
+        0.0,
+        0.61,
+        0.29
+      ],
+      [
+        0.0,
+        0.7,
+        0.34
+      ],
+      [
+        0.1,
+        0.39,
+        -0.04
+      ],
+      [
+        0.11,
+        0.28,
+        0.04
+      ],
+      [
+        0.12,
+        0.15,
+        -0.07
+      ],
+      [
+        0.12,
+        0.045,
+        0.02
+      ],
+      [
+        -0.1,
+        0.39,
+        -0.04
+      ],
+      [
+        -0.11,
+        0.28,
+        0.04
+      ],
+      [
+        -0.12,
+        0.15,
+        -0.07
+      ],
+      [
+        -0.12,
+        0.045,
+        0.02
+      ],
+      [
+        0.13,
+        0.46,
+        0.1
+      ],
+      [
+        0.19,
+        0.45,
+        -0.03
+      ],
+      [
+        0.19,
+        0.43,
+        -0.17
+      ],
+      [
+        0.15,
+        0.41,
+        -0.3
+      ],
+      [
+        -0.13,
+        0.46,
+        0.1
+      ],
+      [
+        -0.19,
+        0.45,
+        -0.03
+      ],
+      [
+        -0.19,
+        0.43,
+        -0.17
+      ],
+      [
+        -0.15,
+        0.41,
+        -0.3
+      ],
+      [
+        0.0,
+        0.4,
+        -0.29
+      ],
+      [
+        0.0,
+        0.43,
+        -0.44
+      ]
+    ],
+    "groups": {
+      "body": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "neck": [
+        3,
+        4,
+        5
+      ],
+      "L": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "R": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "wing_L": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "wing_R": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "tail": [
+        22,
+        23
+      ]
+    },
+    "metadata": {
+      "engine": "bird",
+      "species": "mallard",
+      "review_status": "synthetic_fixture",
+      "wing_state": "folded",
+      "height": 0.82,
+      "length": 1.0,
+      "scale_status": "synthetic_fixture_meters",
+      "float_waterline": 0.3,
+      "canonical_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "parameter_status": "authored_engineering_fixture",
+      "source_sha256": "b6fbd2476fc9457c59d56f6eca73befdddec5ef4a3f01484076e737daedd8ae6",
+      "sole_offsets": {
+        "L": 0.02099999979138374,
+        "R": 0.02099999979138374
+      }
+    }
+  }
+}

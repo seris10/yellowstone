@@ -1,0 +1,72 @@
+# Frozen causal demonstration; only the mapped outflow temperature receives a pulse.
+run_mode: scenario
+wind_seed: 11
+clock_hour: 16.2
+simulation:
+  start_utc: '2026-06-21T22:12:00+00:00'
+  utc_offset_hours: -6.0
+weather:
+  use_met_bundle: false
+  night_air_c: 7.0
+  day_warming_c: 15.0
+  wind_xz_mps:
+  - 1.8
+  - 0.6
+  gust_mps: 0.45
+  humidity: 0.45
+  cloud: 0.16
+hydro:
+  boundary_m3s: 8.0
+  boundary_c: 17.5
+  simulate_seconds: 600.0
+  tributaries: {}
+  attach: {}
+  catchment:
+    area_m2: null
+vegetation:
+  grazers: null
+  proposal:
+    guild: lodgepole_pine
+    center_xz:
+    - -360
+    - 260
+    radius_m: 30
+    count: 40
+    seed: 7
+    habitat_id: forest_edge
+insects:
+  flowering_stage: 0.6
+fish:
+  food: 0.7
+  cover: 0.6
+  weights: null
+snow:
+  season: summer
+  days: 30
+  precip_mm_d: 2.0
+replay:
+  duration_s: 7200.0
+  max_cell_m: 20.0
+  depth_m: 1.1
+  dispersion_m2_s: 1.0
+  exchange_w_m2_k: 12.0
+  dt_s: 1.0
+  sample_s: 10.0
+  energy_budget: false
+  cross_sections_file: configs/cross_sections.json
+  hydraulics:
+    bank_slope_zh: 1.5
+    manning_n: 0.035
+  intervention:
+    source_id: excelsior_aggregate_outflow
+    start_s: 600.0
+    end_s: 3600.0
+    delta_c: 18.0
+overland:
+  enabled: false
+  rain_mm_h: 2.0
+  soil: sandy_loam
+  dt_s: 60.0
+  sim_s: 600.0
+  grid: 256
+  cell_m: 8.0

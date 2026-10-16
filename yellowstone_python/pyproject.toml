@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yellowstone-python"
+dynamic = ["version"]
+description = "Illustrative coupled models for Yellowstone Midway Geyser Basin"
+license = "Apache-2.0"
+license-files = ["LICENSE", "yellowstone_python/wildlife_motion/LICENSE"]
+requires-python = ">=3.11"
+authors = [{name = "KJR"}]
+dependencies = ["numpy>=1.26,<3", "scipy>=1.12,<2", "Pillow>=10,<13", "PyYAML>=6"]
+
+[project.optional-dependencies]
+science = ["matplotlib>=3.8,<4", "sympy>=1.12,<2", "pandas>=2,<4", "pint>=0.24,<1", "SALib>=1.4,<2", "pvlib>=0.11,<1", "metpy>=1.6,<2", "pyproj>=3.6,<4", "rasterio>=1.3,<2", "shapely>=2,<3", "fipy>=3.4,<4", "xarray>=2024", "netCDF4>=1.6,<2", "laspy>=2.5,<3", "lazrs>=0.6,<1"]
+fetch = ["dataretrieval>=1.0"]
+dev = ["pytest>=8", "pytest-randomly>=3", "nbstripout>=0.7", "pre-commit>=4"]
+
+[tool.setuptools.dynamic]
+version = {attr = "yellowstone_python.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["yellowstone_python*", "tools*", "tests*"]
+
+[tool.setuptools.package-data]
+yellowstone_python = ["data/*.json", "wildlife_motion/profiles/*.json", "wildlife_motion/review_template.html", "wildlife_motion/LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+  "needs_world: requires the Godot world and frozen world inputs",
+  "needs_pvlib: requires pvlib for solar geometry",
+  "needs_fipy: requires FiPy for independent transport comparisons",
+  "needs_network_inputs: requires frozen downloaded observation or imagery inputs",
+  "needs_science: requires an optional scientific dependency",
+]
