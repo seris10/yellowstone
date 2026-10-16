@@ -1,0 +1,662 @@
+{
+  "artifacts": {
+    "BUILD.json": {
+      "path": "BUILD.json",
+      "required": true,
+      "sha256": "4c94732e028e851be81a83d1483aba57e88e442b796877608abdb73160dcb10c",
+      "state": "present"
+    },
+    "CHECKS.json": {
+      "path": "CHECKS.json",
+      "required": true,
+      "sha256": "ebbf9d69b05efa3d9f335e5fe1717b25fc168e6e933e5ed84620ece9489139ab",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/": {
+      "reason": "complete directory membership for this generation",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1001_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1001_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1007_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1007_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1018_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1018_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1028_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1028_0.png",
+      "required": false,
+      "sha256": "5a5864e3055e5ec5c158c0e9168e77836d5a472b6811411a2a2cbdb95f4a496e",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1029_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1029_0.png",
+      "required": false,
+      "sha256": "0c67479f8166336923eeaf4d49612ceacc3953ea48185e9b499885700eca5189",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1030_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1030_0.png",
+      "required": false,
+      "sha256": "63d3769f7a92d7bb7345e505d366c5c9db4b67af69aafb8514e1c0a2954ff748",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1034_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1034_0.png",
+      "required": false,
+      "sha256": "cf0836f70de3cc12be38b3d0eb03f031ee745850d975949d52e73575223b4fcc",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1048_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1048_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1056_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1056_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1066_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1066_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_1071_0.png": {
+      "path": "assets/textures/pool_ramps/pool_1071_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_984_0.png": {
+      "path": "assets/textures/pool_ramps/pool_984_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_988_0.png": {
+      "path": "assets/textures/pool_ramps/pool_988_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_995_0.png": {
+      "path": "assets/textures/pool_ramps/pool_995_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/pool_996_0.png": {
+      "path": "assets/textures/pool_ramps/pool_996_0.png",
+      "required": false,
+      "sha256": "af104b55f9b737d30f10ead7153306dd02432e6e38d965efcae7f545302efe2d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1001_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1001_0.json",
+      "required": false,
+      "sha256": "5c7546d2084696688d8a8c5165f89c4f0d5be90d4a646c553ce5f448b8473904",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1001_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1001_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1007_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1007_0.json",
+      "required": false,
+      "sha256": "d97cad58c7384aa71cccb31797c96e036f3e4afabb1ec1e3c657d0127938f395",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1007_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1007_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1018_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1018_0.json",
+      "required": false,
+      "sha256": "20c74d2e20c845b7c1826b4fb666edce1d3fe612fae9b49b77300d1baab87ade",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1018_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1018_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1028_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1028_0.json",
+      "required": false,
+      "sha256": "9cf91f19201253a68c13b0b2ea1c5ef5f3314bc713d5590c860568ff31667305",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1028_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1028_0.png",
+      "required": false,
+      "sha256": "324a6a8f08569c900a4e0e9fab404a4e972d96ef7fd6544a3c19df1510363cb2",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1029_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1029_0.json",
+      "required": false,
+      "sha256": "81740535f56359c498be20eab89b78a3e8a934d649acc6b81de6f73b0d305dc7",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1029_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1029_0.png",
+      "required": false,
+      "sha256": "bd23007f5a8aadb6b3673ba22e9d17caee1c11fd21d4ab30cec846cc566a9e4e",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1030_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1030_0.json",
+      "required": false,
+      "sha256": "3fd05a9e3ea95e080b3a47f4e503d8455cde7c4f98f56db2e4303de2649f878b",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1030_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1030_0.png",
+      "required": false,
+      "sha256": "ac293466ce951fd6092757f2aedddf5fbea1c14ac1e675a7b807d49b5f5b5d6a",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1034_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1034_0.json",
+      "required": false,
+      "sha256": "378d8a33ab3553fd947de1dcf1ab191884cad1542c08f230a9a97f0e41d56730",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1034_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1034_0.png",
+      "required": false,
+      "sha256": "f1a05edf2e1e0c605b926f995f03c264ad129923d23736941ecc079b8d96f76d",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1048_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1048_0.json",
+      "required": false,
+      "sha256": "2b6764ff0e614a5f6bc686090d2579808f0b75158859d416fa3b08d43281ebcd",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1048_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1048_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1056_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1056_0.json",
+      "required": false,
+      "sha256": "15ade18f069e14c6cff8f8d6b7e3228b4ba228f4705bc9b70fbd261ff4ff558c",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1056_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1056_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1066_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1066_0.json",
+      "required": false,
+      "sha256": "702740c2bfac37050cb71846c8dd2c50e123f820b0fd3477c60180c852178747",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1066_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1066_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1071_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1071_0.json",
+      "required": false,
+      "sha256": "63b2d95b90f74271b64c09b58c1a8f401168a4b17d1fc6aa2c140e2bc296a948",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_1071_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_1071_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_984_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_984_0.json",
+      "required": false,
+      "sha256": "2457d61244096bf075b2e2989d5671124a742c7f9ab961e8ebdee312e22759ad",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_984_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_984_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_988_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_988_0.json",
+      "required": false,
+      "sha256": "d068ad1c2f105d2d6dddd7c809712c0327d4382b4ffbea949d93ccba6dbce553",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_988_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_988_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_995_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_995_0.json",
+      "required": false,
+      "sha256": "d0b7c83857f1821584376a941c820e1e7e3aa325742ce2e094d0445bb9d296ed",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_995_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_995_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_996_0.json": {
+      "path": "assets/textures/pool_ramps/ramp_pool_996_0.json",
+      "required": false,
+      "sha256": "b28da78ea873968413528e4682061ce8990016ffa449af451d0a21580d98be4c",
+      "state": "present"
+    },
+    "assets/textures/pool_ramps/ramp_pool_996_0.png": {
+      "path": "assets/textures/pool_ramps/ramp_pool_996_0.png",
+      "required": false,
+      "sha256": "f0f2aec2e8e3c8cad5aa508b44255020f13bd0e7406f925740717fe2bb828f30",
+      "state": "present"
+    },
+    "assets/textures/snow_map.png": {
+      "path": "assets/textures/snow_map.png",
+      "required": false,
+      "sha256": "5933d4c44ed2bc2f431e2698b41923a18d056b24b450540bb109e7592a547060",
+      "state": "present"
+    },
+    "data/calibration_summary.json": {
+      "path": "data/calibration_summary.json",
+      "required": false,
+      "sha256": "5c8fd951400aa47fe85bc3ca1244068170fb9d5ec69e583aca909ee1245e1944",
+      "state": "present"
+    },
+    "data/census.json": {
+      "path": "data/census.json",
+      "required": false,
+      "sha256": "d09fdb76b7c46f68971e2d9d804a728042bf75aa0937711efc1df0f79ffaa70f",
+      "state": "present"
+    },
+    "data/claims.json": {
+      "path": "data/claims.json",
+      "required": false,
+      "sha256": "dcee5a5f86c97ea417b565cec8dfefc48dd2d9e0b95c3cfec89e45f33a86b5af",
+      "state": "present"
+    },
+    "data/ecosystem.json": {
+      "path": "data/ecosystem.json",
+      "required": true,
+      "sha256": "89f0a1cf2dc1a8b690f0342656760ab6d5d2dad1e76a9658d4fcd22474d19b7c",
+      "state": "present"
+    },
+    "data/equations.json": {
+      "path": "data/equations.json",
+      "required": false,
+      "sha256": "f3af01d58262318be3179e3d77ae01a28423557f052be2d54c80b5490a34910f",
+      "state": "present"
+    },
+    "data/evapotranspiration.json": {
+      "path": "data/evapotranspiration.json",
+      "required": false,
+      "sha256": "2466597d60848de34a213d996eb5aba4ab934dd5d9cb4b7566b742454b775dcb",
+      "state": "present"
+    },
+    "data/firehole_control.json": {
+      "reason": "absent from this build",
+      "required": false,
+      "state": "unavailable"
+    },
+    "data/firehole_pulse.json": {
+      "reason": "absent from this build",
+      "required": false,
+      "state": "unavailable"
+    },
+    "data/fish.json": {
+      "path": "data/fish.json",
+      "required": false,
+      "sha256": "d35c28c4a37f00255945d5573ad732cd5961dfc912463ef05c71eea4f758f4e9",
+      "state": "present"
+    },
+    "data/forest_floor.json": {
+      "path": "data/forest_floor.json",
+      "required": false,
+      "sha256": "5f52f0b9782a5532042850a17a14e5c2231833575c15525bd53fb10e12d5fe8f",
+      "state": "present"
+    },
+    "data/geochemistry.json": {
+      "path": "data/geochemistry.json",
+      "required": false,
+      "sha256": "f3a6de46e678eb591ef44096d4845a251f0166d176c8a81dc8d02f6419c11caa",
+      "state": "present"
+    },
+    "data/grazer.json": {
+      "path": "data/grazer.json",
+      "required": false,
+      "sha256": "af1e128a38559e37bf5d6506e5ac558d19cd2e5e216910af51b2c2d0637504d7",
+      "state": "present"
+    },
+    "data/ground_heat.json": {
+      "path": "data/ground_heat.json",
+      "required": false,
+      "sha256": "5d6161d2c26e54eb214b251b2bd49ec3815832ce0e2b14d6d467073cb4b78c39",
+      "state": "present"
+    },
+    "data/groundwater_field.json": {
+      "reason": "absent from this build",
+      "required": false,
+      "state": "unavailable"
+    },
+    "data/insect_bird.json": {
+      "path": "data/insect_bird.json",
+      "required": false,
+      "sha256": "ef4d7e25baa86c5bf3ffad27480214f66bdac2be69d582ee1fd11d81024fe2c5",
+      "state": "present"
+    },
+    "data/lidar_canopy/canopy_top_scene_y.f32": {
+      "path": "data/lidar_canopy/canopy_top_scene_y.f32",
+      "required": false,
+      "sha256": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b",
+      "state": "present"
+    },
+    "data/lidar_canopy/cover_fraction.f32": {
+      "path": "data/lidar_canopy/cover_fraction.f32",
+      "required": false,
+      "sha256": "281517e9acf007dae73fdf9ced6f34293f142dd22c733feeabc970fe91b49db4",
+      "state": "present"
+    },
+    "data/lidar_canopy/ground_scene_y.f32": {
+      "path": "data/lidar_canopy/ground_scene_y.f32",
+      "required": false,
+      "sha256": "bb83028e13e51ca32bf999def952dbb70604c929c7436f18fa6d2607cf97e82f",
+      "state": "present"
+    },
+    "data/lidar_canopy/unresolved_cells.u8": {
+      "path": "data/lidar_canopy/unresolved_cells.u8",
+      "required": false,
+      "sha256": "c4acc86cc9bfff89bddd26cb051c95327736f3fe369940882e837fc2eefcc9e8",
+      "state": "present"
+    },
+    "data/lidar_canopy/unresolved_render_canopy.json": {
+      "path": "data/lidar_canopy/unresolved_render_canopy.json",
+      "required": false,
+      "sha256": "d9a68973162322b275bf21b2db268638cbbb30f2a84b90765967f4f497a4abde",
+      "state": "present"
+    },
+    "data/lidar_canopy/unresolved_render_mask.png": {
+      "path": "data/lidar_canopy/unresolved_render_mask.png",
+      "required": false,
+      "sha256": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca",
+      "state": "present"
+    },
+    "data/lidar_canopy/valid_fraction.f32": {
+      "path": "data/lidar_canopy/valid_fraction.f32",
+      "required": false,
+      "sha256": "4d3a0623298531c185c9ae05b94ec9ad56386cc32c20a906262901ecd20db30d",
+      "state": "present"
+    },
+    "data/lidar_canopy/valid_support.png": {
+      "path": "data/lidar_canopy/valid_support.png",
+      "required": false,
+      "sha256": "a1fcbf6a1d6b1a9f7175457f85a95bcca990f3c682948c187f5f187c596e0ed4",
+      "state": "present"
+    },
+    "data/mammal_catalogue.json": {
+      "path": "data/mammal_catalogue.json",
+      "required": false,
+      "sha256": "4cdadfe3e2179b69ef22529f12f9d80fbaea4dc7a8f1eab9a196453ea421b774",
+      "state": "present"
+    },
+    "data/mammals.json": {
+      "path": "data/mammals.json",
+      "required": false,
+      "sha256": "e9607bf3c22a1ad291b941b61dfc11b1b681490cb17a9461b7761eeefbb6fec4",
+      "state": "present"
+    },
+    "data/mat_community.i16": {
+      "path": "data/mat_community.i16",
+      "required": false,
+      "sha256": "287e204444b3574e3775f5ab9a6e26cab00fd43f61f71e92376f7cc698faae2b",
+      "state": "present"
+    },
+    "data/mat_pigment.png": {
+      "path": "data/mat_pigment.png",
+      "required": false,
+      "sha256": "b41dd65a189bd92928f9627e2879f42478498172e0e94d3e2f8d4f0514848311",
+      "state": "present"
+    },
+    "data/mat_state.json": {
+      "path": "data/mat_state.json",
+      "required": false,
+      "sha256": "f0a76d8086b2122825f1f8d5bc5c67429575d9103120fed80e1c602bf491073a",
+      "state": "present"
+    },
+    "data/outflow_foodweb.json": {
+      "path": "data/outflow_foodweb.json",
+      "required": false,
+      "sha256": "11acc76628808afd0c32077859df89acb3256a463a130f522c096ee94a86de17",
+      "state": "present"
+    },
+    "data/outflow_network/flow_fraction.f32": {
+      "path": "data/outflow_network/flow_fraction.f32",
+      "required": false,
+      "sha256": "b8db7e9d86fca9f5a7d1667976d140a56ff3e6d002667a7bfc43a06e87808ae0",
+      "state": "present"
+    },
+    "data/outflow_network/in_pool.i16": {
+      "path": "data/outflow_network/in_pool.i16",
+      "required": false,
+      "sha256": "57e930ac486513b5ced11e5f7d1951f682ebd1ab0929206589ab33f6ee8d5361",
+      "state": "present"
+    },
+    "data/outflow_network/outflow_network.json": {
+      "path": "data/outflow_network/outflow_network.json",
+      "required": false,
+      "sha256": "735f8069c6a4f0d8beb1a85b8bab9e7ba204e30691bf712fe38131b6f72f7c98",
+      "state": "present"
+    },
+    "data/outflow_network/wet_mask.i16": {
+      "path": "data/outflow_network/wet_mask.i16",
+      "required": false,
+      "sha256": "3af73669b6dd608c4e8df814f3b94045ba3185030ca27139952c6063e6a58288",
+      "state": "present"
+    },
+    "data/outflow_temperature.f32": {
+      "path": "data/outflow_temperature.f32",
+      "required": false,
+      "sha256": "ba10daed5e8c20cb8d6e4463f49fb38661cfd867d7e7999cee38264362c1c8df",
+      "state": "present"
+    },
+    "data/outflow_temperature.json": {
+      "path": "data/outflow_temperature.json",
+      "required": false,
+      "sha256": "e193390a20b30af173d32ca1d3afaa99e0548bce350d6edcb87988f42900d0af",
+      "state": "present"
+    },
+    "data/outflow_to_replay_lateral.json": {
+      "path": "data/outflow_to_replay_lateral.json",
+      "required": false,
+      "sha256": "306e4e17663bdc6821e698ad00bf1d660d712c8c0e1657844166c8dc60d4661d",
+      "state": "present"
+    },
+    "data/overland_field.json": {
+      "path": "data/overland_field.json",
+      "required": false,
+      "sha256": "4ef708fe544b101d9facd476350f566ac5d6b5550bbf23a461a17b60e4271d9c",
+      "state": "present"
+    },
+    "data/param_registry.json": {
+      "path": "data/param_registry.json",
+      "required": false,
+      "sha256": "aba0d8679dba412f896387a519d061e4043289ec913df10714219bfe3a6a4224",
+      "state": "present"
+    },
+    "data/periphyton.json": {
+      "path": "data/periphyton.json",
+      "required": false,
+      "sha256": "57799e4c6cc46a54912b4a9ee7bba2beb15a5bb737a6eedbdb112f78d9e1e9b4",
+      "state": "present"
+    },
+    "data/piscivores.json": {
+      "path": "data/piscivores.json",
+      "required": false,
+      "sha256": "df59ae77a34193ab6a1fc18cedcd32f3b16af50585ca3cc6acfe5886161dc3c6",
+      "state": "present"
+    },
+    "data/plume_field.json": {
+      "path": "data/plume_field.json",
+      "required": false,
+      "sha256": "19d9ac0fd0adac8d45f392b6163d5b238b8521d2ba7061586a186a89956aff68",
+      "state": "present"
+    },
+    "data/pool_ramps.json": {
+      "path": "data/pool_ramps.json",
+      "required": false,
+      "sha256": "74aa2d5307d2b629e299605844a0ba5e2e8ee019cda1d983c159b0dbb77c679e",
+      "state": "present"
+    },
+    "data/pool_shells.json": {
+      "path": "data/pool_shells.json",
+      "required": false,
+      "sha256": "69e999032126b645a5acde5d06c775d01f96197eab429efd9413ccc0242efb4b",
+      "state": "present"
+    },
+    "data/pools_state.json": {
+      "path": "data/pools_state.json",
+      "required": false,
+      "sha256": "e49b3da16cc38ce2d57294514bee685b572c2b503eba9ed6e7fecc8e45f18630",
+      "state": "present"
+    },
+    "data/portfolio_comparison.json": {
+      "path": "data/portfolio_comparison.json",
+      "required": false,
+      "sha256": "3400df34b9638862c8847d5c10851ba3e4bd5d25acd20301fa05122021de2f2c",
+      "state": "present"
+    },
+    "data/river_oxygen.json": {
+      "path": "data/river_oxygen.json",
+      "required": false,
+      "sha256": "43496dedcb53256fbfb7aadfbfe5add221b1222bd39d0200b766b9f00a9421a0",
+      "state": "present"
+    },
+    "data/river_replay.json": {
+      "path": "data/river_replay.json",
+      "required": true,
+      "sha256": "e61cb7f67373e74fb0e0d24068bc18f859358576aebdd897b6f0d505513a64f7",
+      "state": "present"
+    },
+    "data/river_shading.json": {
+      "path": "data/river_shading.json",
+      "required": false,
+      "sha256": "b5f9f61c31eaff4afab2f5198821a96917a61cd21daa0abda76ed423767679eb",
+      "state": "present"
+    },
+    "data/season.json": {
+      "path": "data/season.json",
+      "required": false,
+      "sha256": "3edcb73da585397011057c5170c69d1f12af85c9b22ad16e1a97a796b9d4770b",
+      "state": "present"
+    },
+    "data/snow_cover.json": {
+      "path": "data/snow_cover.json",
+      "required": false,
+      "sha256": "f28a2ef6398d6de43613b8ab26878d63d6d71471561a44e6e1aa28e908ef3315",
+      "state": "present"
+    },
+    "data/snow_patch_mask.png": {
+      "reason": "absent from this build",
+      "required": false,
+      "state": "unavailable"
+    },
+    "data/soil_temperature.json": {
+      "path": "data/soil_temperature.json",
+      "required": false,
+      "sha256": "3ba709d8327f4ca644b7bf37016c3d3ac1ceacef4b1921348e41aaab7b24c816",
+      "state": "present"
+    },
+    "data/solute_transport.json": {
+      "path": "data/solute_transport.json",
+      "required": false,
+      "sha256": "96d5ed7cad5eda256cb1a4628e38e7e3dd31280777b2402b92dec1528ba56b74",
+      "state": "present"
+    },
+    "data/species_catalogue.json": {
+      "reason": "absent from this build",
+      "required": false,
+      "state": "unavailable"
+    },
+    "data/steam_microclimate.json": {
+      "path": "data/steam_microclimate.json",
+      "required": false,
+      "sha256": "91cab95173a84fccfc7fbcde20b8412f556b29babe2adfc116445675c0530c07",
+      "state": "present"
+    },
+    "data/substrate_rules.json": {
+      "path": "data/substrate_rules.json",
+      "required": false,
+      "sha256": "f3ce1df80220c2e6e7a3106529904fb42b1c033ee561bfa197146b6676d70ee9",
+      "state": "present"
+    },
+    "data/weather_snapshot.json": {
+      "path": "data/weather_snapshot.json",
+      "required": false,
+      "sha256": "9b7ab223f042a2658affed7ead6c90b92df9c7127bcfdb7f18ae75153c807dc0",
+      "state": "present"
+    },
+    "data/winter_grazing.json": {
+      "path": "data/winter_grazing.json",
+      "required": false,
+      "sha256": "3ee7bc03646874525307945e159e79787a0d73eb937b4b52fdc250d9520d9d2c",
+      "state": "present"
+    },
+    "data/world.json": {
+      "path": "data/world.json",
+      "required": true,
+      "sha256": "a5e2a0cc5681463cbc990d2162724f7b5e3dd3b005b5d929fafebaaf7326dfc6",
+      "state": "present"
+    }
+  },
+  "build_id": "a855226dffc3",
+  "checks": {
+    "path": "CHECKS.json",
+    "sha256": "ebbf9d69b05efa3d9f335e5fe1717b25fc168e6e933e5ed84620ece9489139ab"
+  },
+  "model_variant_id": "mapped_fv_newton",
+  "release_id": "b20b470bd1aa1e0e374191858d7be30d6e640ceb1e0f228d1ce69d7c432588e3",
+  "run_mode": "scenario",
+  "scenario_id": "a855226dffc3",
+  "schema": "yellowstone.release.v1",
+  "source_commit": "9f81c3c873a45bb974af78cd1d58a0e90b9b0d1c",
+  "source_sha256": "a4bd1f12bf9021ae",
+  "verification": {
+    "checks_passed": true,
+    "empirical_acceptance": "not_yet_accepted",
+    "status": "numerical_and_contract_checks_passed"
+  }
+}

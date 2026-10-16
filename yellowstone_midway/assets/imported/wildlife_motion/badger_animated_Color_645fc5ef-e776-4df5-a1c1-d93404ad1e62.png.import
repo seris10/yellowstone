@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dyjtxu518q34k"
-path="res://.godot/imported/badger_animated_Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png-2471628091b674fba72f37dc45d562eb.ctex"
+path.s3tc="res://.godot/imported/badger_animated_Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png-2471628091b674fba72f37dc45d562eb.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "9a89015eb3d64fc15dd596f4984552c9"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/imported/wildlife_motion/badger_animated_Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png"
-dest_files=["res://.godot/imported/badger_animated_Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png-2471628091b674fba72f37dc45d562eb.ctex"]
+dest_files=["res://.godot/imported/badger_animated_Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62.png-2471628091b674fba72f37dc45d562eb.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +41,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

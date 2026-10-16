@@ -1,0 +1,201 @@
+{
+  "band_edges_status": "authored_from_table",
+  "carotenoid_endpoint_rgb_0_1": [
+    0.9,
+    0.45,
+    0.15
+  ],
+  "carotenoid_endpoint_status": "authored",
+  "citations": [
+    "Nugent, Shaw, Vollmer (2015) Appl. Opt. 54(4) B128, Table 1",
+    "Brock (1978) Thermophilic Microorganisms and Life at High Temperatures, Springer, upper photosynthesis limit in acidic springs",
+    "Pope and Fry (1997) Appl. Opt. 36(33) 8710 Table 2",
+    "Morel (1974) Optical properties of pure water and pure sea water",
+    "Nugent, Shaw, Vollmer (2015) Appl. Opt. 54(4) B128 Section 1, seasonal color variation driven by water temperature and UV-visible irradiance",
+    "Kasten and Czeplak (1980) Solar Energy 24(2) 177, cloud attenuation G/G_clear = 1 - 0.75 (N/8)^3.4 with N in oktas"
+  ],
+  "class_band_edges_c": [
+    {
+      "class": "brown_green_mixed_photosynthetic",
+      "status": "authored_from_table",
+      "upper_t_c": 50.0
+    },
+    {
+      "class": "orange_cyanobacteria_chromatiaceae",
+      "status": "authored_from_table",
+      "upper_t_c": 62.0
+    },
+    {
+      "class": "yellow_green_cyanobacteria_chloroflexus",
+      "status": "authored_from_table",
+      "upper_t_c": 70.0
+    },
+    {
+      "class": "yellow_cyanobacteria",
+      "status": "authored_from_table",
+      "upper_t_c": 80.0
+    },
+    {
+      "class": "pink_chemolithotroph",
+      "status": "authored_from_table",
+      "upper_t_c": 84.0
+    },
+    {
+      "class": "white_chemolithotroph",
+      "status": "authored_from_table",
+      "upper_t_c": null
+    }
+  ],
+  "daily_cloud_fraction": 0.16,
+  "daily_mean_shortwave_w_m2": 403.1650627746589,
+  "forcing_epoch_utc": 1782079920.0,
+  "grid": {
+    "cell_size_m": 1.0,
+    "nx": 1280,
+    "nz": 1280,
+    "origin_xz_m": [
+      -640.0,
+      -640.0
+    ],
+    "row_order": "north_to_south"
+  },
+  "insolation_detail": {
+    "all_sky_mean_w_m2": 403.1650627746589,
+    "altitude_m": 2240.0,
+    "clear_mean_w_m2": 403.7609904591182,
+    "cloud_factor": 0.9985240582955236,
+    "cloud_fraction": 0.16,
+    "date_source": "simulation_config_utc",
+    "date_utc": "2026-06-21",
+    "latitude_deg": 44.525,
+    "longitude_deg": -110.837,
+    "sources": [
+      "pvlib get_clearsky Ineichen Perez model",
+      "Kasten and Czeplak (1980) Solar Energy 24(2) 177, cloud attenuation G/G_clear = 1 - 0.75 (N/8)^3.4 with N in oktas"
+    ]
+  },
+  "legend": [
+    {
+      "class_id": 0,
+      "name": "sinter_dry",
+      "rgb": [
+        184,
+        168,
+        138
+      ],
+      "status": "authored"
+    },
+    {
+      "class_id": 1,
+      "name": "brown_green_mixed_photosynthetic",
+      "rgb": [
+        95,
+        110,
+        60
+      ],
+      "status": "literature",
+      "temperature_c_center": 43.0,
+      "temperature_source": "Nugent 2015 Appl. Opt. 54(4) B128 Table 1"
+    },
+    {
+      "class_id": 2,
+      "name": "orange_cyanobacteria_chromatiaceae",
+      "rgb": [
+        201,
+        115,
+        46
+      ],
+      "status": "literature",
+      "temperature_c_center": 57.0,
+      "temperature_source": "Nugent 2015 Appl. Opt. 54(4) B128 Table 1"
+    },
+    {
+      "class_id": 3,
+      "name": "yellow_green_cyanobacteria_chloroflexus",
+      "rgb": [
+        196,
+        180,
+        70
+      ],
+      "status": "literature",
+      "temperature_c_center": 68.0,
+      "temperature_source": "Nugent 2015 Appl. Opt. 54(4) B128 Table 1"
+    },
+    {
+      "class_id": 4,
+      "name": "yellow_cyanobacteria",
+      "rgb": [
+        220,
+        200,
+        90
+      ],
+      "status": "literature",
+      "temperature_c_center": 75.0,
+      "temperature_source": "Nugent 2015 Appl. Opt. 54(4) B128 Table 1"
+    },
+    {
+      "class_id": 5,
+      "name": "pink_chemolithotroph",
+      "rgb": [
+        220,
+        170,
+        170
+      ],
+      "status": "literature",
+      "temperature_c_center": 83.0,
+      "temperature_source": "Nugent 2015 Appl. Opt. 54(4) B128 Table 1"
+    },
+    {
+      "class_id": 6,
+      "name": "white_chemolithotroph",
+      "rgb": [
+        240,
+        240,
+        240
+      ],
+      "status": "literature",
+      "temperature_c_center": 85.0,
+      "temperature_source": "Nugent 2015 Appl. Opt. 54(4) B128 Table 1"
+    },
+    {
+      "class_id": 7,
+      "name": "water_hot_clear",
+      "rgb": [
+        40,
+        110,
+        160
+      ],
+      "status": "authored"
+    }
+  ],
+  "ph_assumed": 8.0,
+  "photoacclimation_direction_source": "Nugent, Shaw, Vollmer (2015) Appl. Opt. 54(4) B128 Section 1, seasonal color variation driven by water temperature and UV-visible irradiance",
+  "pigment_relaxation_tau_days": 7.0,
+  "pigment_saturation_status": "authored",
+  "pigment_saturation_sw_w_m2": 350.0,
+  "pigment_tau_status": "authored",
+  "rasters": {
+    "community": {
+      "dtype": "int16",
+      "nodata": -1,
+      "path": "mat_community.i16",
+      "sha256": "287e204444b3574e3775f5ab9a6e26cab00fd43f61f71e92376f7cc698faae2b"
+    },
+    "pigment": {
+      "dtype": "float32",
+      "nodata": "NaN",
+      "path": "mat_pigment.f32",
+      "sha256": "050a72777a833b121a78cec6964b17739f1e999daa19f606077dd3fefc575a14"
+    },
+    "reflectance_rgb": {
+      "dtype": "float32",
+      "layout": "interleaved_rgb",
+      "path": "mat_reflectance_rgb.f32",
+      "sha256": "9178ab5e4f42eff753239cf0788dc26bd60afc9726372ff4200650a12010ab48"
+    }
+  },
+  "reflectance_color_space": "srgb_authoring_palette",
+  "reflectance_status": "authored display colors; no measured spectral reflectance",
+  "schema": "yellowstone.mat_state.v1",
+  "status": "authored"
+}
