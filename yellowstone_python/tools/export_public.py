@@ -17,6 +17,11 @@ DOCUMENT_SUFFIXES = {".md", ".rst", ".txt", ".cff", ".ipynb", ".pdf", ".docx", "
 # Original third-party source documents retain their format specification and attribution.
 PUBLIC_SOURCE_DOCUMENTS = {"yellowstone_midway/references/bsc5_ReadMe.txt"}
 PUBLIC_ROOT_DOCUMENTS = {"LICENSE", "README.md", ".name-exceptions"}
+PUBLIC_PATTERN_LIBRARIES = {
+    "yellowstone_python_spec/ai-tells/library/general-code.json",
+    "yellowstone_python_spec/ai-tells/library/general-prose.json",
+    "yellowstone_python_spec/ai-tells/library/yellowstone.json",
+}
 EXCLUDED_NAMES = {"HANDOFF_TRACKER.json", ".DS_Store"}
 # Raw point clouds, bake inputs, scene backups, and the oversize authored scene stay local.
 EXCLUDED_SUFFIXES = {".laz", ".las", ".pyc", ".tmp", ".bak", ".pre-density-bake", ".pre-flora-bake"}
@@ -26,7 +31,7 @@ BAKE_INPUT_PARTS = ("yellowstone_midway", "assets", "imported")
 
 def public_path(relative: Path) -> bool:
     """Select distributable code and assets while excluding prose and local state."""
-    if relative.as_posix() in PUBLIC_ROOT_DOCUMENTS:
+    if relative.as_posix() in PUBLIC_ROOT_DOCUMENTS | PUBLIC_PATTERN_LIBRARIES:
         return True
     if not relative.parts or relative.parts[0] not in PUBLIC_ROOTS:
         return False

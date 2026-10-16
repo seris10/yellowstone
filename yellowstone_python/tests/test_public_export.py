@@ -1,9 +1,13 @@
 """Public export selection and source preservation checks."""
 import hashlib
+import os
+import shutil
+import subprocess
+import sys
 
 import pytest
 
-from tools.export_public import export_public, public_path
+from tools.export_public import PUBLIC_PATTERN_LIBRARIES, export_public, public_path
 
 
 def test_export_keeps_code_and_license_without_documents(tmp_path):
@@ -60,3 +64,34 @@ def test_export_keeps_root_readme_and_baked_assets():
     for value in ("README.md", "yellowstone_midway/assets/imported/wildlife_motion/bear.glb",
                   "yellowstone_midway/assets/meshes/fauna/bison.glb"):
         assert public_path(__import__("pathlib").Path(value))
+
+
+def test_exported_checker_loads_its_library(tmp_path, repo_root):
+    source = tmp_path / "source"
+    names = {"yellowstone_python/tools/check_ai_tells.py",
+             "yellowstone_python/tools/check_comment_style.py"} | PUBLIC_PATTERN_LIBRARIES
+    for name in names:
+        target = source / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(repo_root.parent / name, target)
+    private = source / "yellowstone_python_spec/ai-tells/library/private.json"
+    private.write_text("{}")
+    destination = tmp_path / "export"
+    manifest = export_public(source, destination)
+    assert set(manifest["files"]) == names
+    target = destination / "yellowstone_python/sample.py"
+    target.write_text("# Temperature in C.\n")
+    command = [sys.executable, str(destination / "yellowstone_python/tools/check_ai_tells.py"), str(target)]
+    env = {key: value for key, value in os.environ.items() if key != "AI_TELLS_LIBRARY"}
+    clean = subprocess.run(command, cwd=destination, env=env, capture_output=True, text=True)
+    assert clean.returncode == 0, clean.stderr
+    # ai-tells: ignore
+    target.write_text("# We clamp the value, never silently.\n")
+    bad = subprocess.run(command, cwd=destination, env=env, capture_output=True, text=True)
+    assert bad.returncode == 1
+    assert "house-first_person" in bad.stdout
+    for name in PUBLIC_PATTERN_LIBRARIES:
+        (destination / name).unlink()
+    missing = subprocess.run(command, cwd=destination, env=env, capture_output=True, text=True)
+    assert missing.returncode == 2
+    assert "library error:" in missing.stderr

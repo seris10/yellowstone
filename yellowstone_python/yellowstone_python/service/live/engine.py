@@ -401,6 +401,57 @@ class LiveEngine:
             self._baseline._restore(checkpoint["baseline"])
         self._weather_cache.clear()
 
+    @property
+    def worker_running(self) -> bool:
+        """Report whether a background worker owns advancement."""
+        return self._worker is not None
+
+    def snapshot_at_frontier(self) -> dict:
+        """Return an independent copy of the latest completed frame."""
+        with self._lock:
+            return copy.deepcopy(self._frames[-1])
+
+    def checkpoint_state(self) -> dict:
+        """Return an in-memory checkpoint of the state at the completed frontier."""
+        with self._lock:
+            return self._checkpoint()
+
+    def restore_state(self, state: dict, *, revision: int | None = None,
+                      frames: list | None = None) -> None:
+        """Restore a checkpoint and root the retained history at its time.
+
+        Frames default to a frame rebuilt from the restored state."""
+        with self._lock:
+            self._restore(state)
+            if revision is not None:
+                self.revision = revision
+            self._frames = copy.deepcopy(frames) if frames is not None else [self._frame()]
+            self._checkpoints = {self.river.time_s: self._checkpoint()}
+            self._publish_snapshot()
+
+    def trim_history(self, keep_from_s: float) -> None:
+        """Drop frames and checkpoints earlier than the given time."""
+        with self._lock:
+            self._frames = [frame for frame in self._frames if frame["t_s"] >= keep_from_s]
+            self._checkpoints = {t: value for t, value in self._checkpoints.items() if t >= keep_from_s}
+            self._publish_snapshot()
+
+    def export_state(self, state: dict, *, revision: int) -> dict:
+        """Return a versioned JSON-compatible document for a checkpoint_state result."""
+        from yellowstone_python.service.live import state_codec
+        with self._lock:
+            return state_codec.encode_state(self, state, revision)
+
+    def import_state(self, document: dict, *, accept_source_drift: bool = False) -> None:
+        """Restore the state held in an export_state document."""
+        from yellowstone_python.service.live import state_codec
+        with self._lock:
+            state, revision, history = state_codec.decode_state(
+                self, document, accept_source_drift=accept_source_drift)
+            self._integration_segments = history["integration_segments"]
+            self._forcing_catalog.update(history["forcing_catalog"])
+            self.restore_state(state, revision=revision)
+
     def _landscape(self):
         flows = self.river._face_flow_at(self.river.time_s)[1:]
         rows = [{"id": cell.id, "s_m": record.get("center_s_m", i * cell.length_m),

@@ -1,0 +1,53 @@
+{
+  "library": "yellowstone",
+  "scope": "specific",
+  "applies_when": {"path_contains": ["yellowstone"]},
+  "patterns": [
+    {
+      "id": "house-comment-style",
+      "catalog": "yellowstone_python/AGENTS.md section 2; tools/check_comment_style.py",
+      "kind": "builtin",
+      "detector": "house_comment_style",
+      "applies": ["comment"],
+      "message": "House comment style",
+      "fix": "Rewrite to the AGENTS.md section 2 style."
+    },
+    {
+      "id": "reader-address",
+      "catalog": "ai-tells-2: 00_OVERVIEW_AND_VERDICT.md, python-audit.txt",
+      "applies": ["heading", "prose"],
+      "extensions": [".md", ".txt"],
+      "pattern": "\\b(?:[Yy]ou|[Yy]our|[Yy]ours|[Yy]ourself)\\b",
+      "message": "Addresses the reader",
+      "fix": "Describe the work or data directly; drop the address.",
+      "examples": {
+        "hit": ["For your goal, start with the audit."],
+        "clean": ["Start with the audit."]
+      }
+    },
+    {
+      "id": "hand-this-to",
+      "catalog": "ai-tells-2: 00_OVERVIEW_AND_VERDICT.md",
+      "applies": ["heading", "prose"],
+      "pattern": "\\bHand this to\\b|\\bso you (?:don't|do not)\\b|\\bYou are doing\\b",
+      "message": "Directs the reader",
+      "fix": "Name the owner or the next step as a plain statement.",
+      "examples": {
+        "hit": ["Hand this to art/acquisition.", "Research you actually have (so you don't re-hunt)"],
+        "clean": ["Art and acquisition receive the list."]
+      }
+    },
+    {
+      "id": "spec-status-header",
+      "catalog": "ai-tells-2: tooling-spec files",
+      "applies": ["prose"],
+      "pattern": "^Status: spec \\(authored|^No code written; no deletions",
+      "message": "Process meta-commentary in a spec header",
+      "fix": "Drop the status line; the file history carries it.",
+      "examples": {
+        "hit": ["Status: spec (authored 2026-10-10, pycl-2).", "No code written; no deletions."],
+        "clean": ["Inputs and outputs are listed below."]
+      }
+    }
+  ]
+}

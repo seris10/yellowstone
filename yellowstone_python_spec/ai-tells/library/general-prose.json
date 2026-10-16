@@ -1,0 +1,305 @@
+{
+  "library": "general-prose",
+  "scope": "general",
+  "applies_when": {"extensions": [".md", ".txt", ".html", ".htm", ".liquid", ".json"]},
+  "patterns": [
+    {
+      "id": "em-dash",
+      "kind": "builtin",
+      "detector": "dash_characters",
+      "catalog": "ai-tells command: writing; ai-tells-3 patterns G, T",
+      "applies": ["heading", "prose"],
+      "message": "Em or en dash",
+      "fix": "Rewrite so no dash is needed: split into two sentences, or use a colon, comma, or plain hyphen.",
+      "examples": {
+        "clean": ["The plan, built for juniors.", "Open 2026-10-01 to 2026-11-30."]
+      }
+    },
+    {
+      "id": "first-person",
+      "catalog": "ai-tells-2: improvements.md, waterway-research.md",
+      "applies": ["heading", "prose"],
+      "pattern": "(?<![\\w/.-])I(?:'d|'ll|'ve|'m)?(?![\\w/.-])|\\b[Mm]y\\b",
+      "message": "First-person narration",
+      "fix": "State the fact, step, or decision directly; drop the author's voice. Keith's own words pass verbatim.",
+      "examples": {
+        "hit": ["I'd start with a small set of packages.", "My recommendation is to start now."],
+        "clean": ["Start with a small set of packages.", "Read Section I."]
+      }
+    },
+    {
+      "id": "self-recommendation",
+      "catalog": "ai-tells command: 2",
+      "applies": ["heading", "prose"],
+      "pattern": "\\(recommended\\b|(?:^|[.;:]\\s+)Recommend(?:ed)?\\b|\\bMy (?:overall |recommended )?recommendation\\b|\\bI (?:would |'d )?recommend\\b",
+      "message": "Author recommends to self",
+      "fix": "Decide and state the decision ('Use path 1'), or drop the line when the choice is obvious.",
+      "examples": {
+        "hit": ["Recommend path 1 for round 1.", "Fix the three titles (recommended for the first push)."],
+        "clean": ["The recommended dose is two tablets.", "Use path 1 for round 1."]
+      }
+    },
+    {
+      "id": "caps-emphasis",
+      "catalog": "ai-tells command: 3; ai-tells-3 pattern L",
+      "applies": ["heading", "prose"],
+      "pattern": "\\b(?:NOT|NEVER|ALWAYS|ONLY|MUST|EXACTLY|LIVE|CANNOT|IMPORTANT|CRITICAL|REQUIRED|WARNING|DO NOT|DON'T)\\b",
+      "message": "All-caps emphasis",
+      "fix": "Use regular case; let sentence structure carry the emphasis.",
+      "examples": {
+        "hit": ["Title is correct; do NOT add the prefix.", "NEVER pushed to production."],
+        "clean": ["Title is correct; do not add the prefix.", "Deadlines are listed by month."]
+      }
+    },
+    {
+      "id": "yes-opener",
+      "catalog": "ai-tells-2: improvements.md",
+      "applies": ["prose"],
+      "pattern": "^(?:Yes|Sure|Absolutely|Certainly|Great question)[.,!:]",
+      "message": "Conversational answer-opener",
+      "fix": "Open with the content; drop the opener.",
+      "examples": {
+        "hit": ["Yes. The draft is strong on provenance.", "Absolutely, here is the list."],
+        "clean": ["Yesterday the form closed."]
+      }
+    },
+    {
+      "id": "importance-signposting",
+      "catalog": "ai-tells-2: pattern This X matters",
+      "applies": ["prose"],
+      "pattern": "\\b(?:[Tt]he important (?:distinction|point|thing)|[Oo]ne important (?:detail|point|thing)|[Aa] (?:particularly |very )?important (?:distinction|point|detail)|[Ii]mportantly|[Tt]his (?:placement|part|step|section|point|choice) matters|[Ii]t(?:'s| is) (?:important|worth) (?:to note|noting|remembering)|[Nn]otably)\\b",
+      "message": "Signposts importance instead of showing it",
+      "fix": "State the distinction or detail itself; drop the announcement.",
+      "examples": {
+        "hit": ["The important distinction is that data differs from methods.", "This placement matters."],
+        "clean": ["Data differs from methods."]
+      }
+    },
+    {
+      "id": "important-heading",
+      "catalog": "ai-tells-2: python-audit.txt",
+      "applies": ["heading"],
+      "pattern": "^Important(?: (?:qualification|limitations?|issues?|implementation issues|caveats?))?$",
+      "message": "Generic 'Important' heading",
+      "fix": "Name the topic of the section instead.",
+      "examples": {
+        "hit": ["Important limitations", "Important"],
+        "clean": ["Important dates", "Limitations of the fit"]
+      }
+    },
+    {
+      "id": "hedge-would",
+      "catalog": "ai-tells-2: would make / would be",
+      "severity": "review",
+      "applies": ["heading", "prose"],
+      "pattern": "\\bwould (?:make|be|also|add|help)\\b",
+      "message": "Hedged conditional",
+      "fix": "State what to do or what is true; drop the conditional.",
+      "examples": {
+        "hit": ["What would make it more impressive is a baseline."],
+        "clean": ["A baseline makes it measurable."]
+      }
+    },
+    {
+      "id": "caveat-opener",
+      "catalog": "ai-tells-2: A caveat",
+      "severity": "review",
+      "applies": ["prose"],
+      "pattern": "^(?:A|One) (?:small |quick )?caveat\\b|^A word of caution\\b",
+      "message": "Caveat opener",
+      "fix": "State the limit as a plain sentence.",
+      "examples": {
+        "hit": ["A caveat: the tool is not a reservoir simulator."],
+        "clean": ["The tool is not a reservoir simulator."]
+      }
+    },
+    {
+      "id": "you-asked-framing",
+      "catalog": "ai-tells command: 18",
+      "applies": ["prose"],
+      "pattern": "\\b[Yy]ou asked\\b|\\bas you (?:asked|requested)\\b",
+      "message": "Announces that the request was met",
+      "fix": "Describe the thing itself; request tracking belongs in the tracker or session notes.",
+      "examples": {
+        "hit": ["You asked whether readers could listen at their own pace.", "Added, as you requested."],
+        "clean": ["Press play and the post reads itself aloud."]
+      }
+    },
+    {
+      "id": "dated-verification",
+      "catalog": "ai-tells command: 11, 16",
+      "severity": "review",
+      "applies": ["prose"],
+      "flags": "i",
+      "pattern": "\\b(?:verified|checked|confirmed|frozen|refetched)\\b[^.]{0,120}\\b20\\d\\d-\\d\\d-\\d\\d\\b|\\(verified working\\b|\\bverified via (?:curl|grep|WebSearch|a script)\\b",
+      "message": "Dated or tool-described verification claim",
+      "fix": "Keep a date only when the reader needs it, stated once in one place; otherwise state the fact.",
+      "examples": {
+        "hit": ["Verified live on storefront 2026-05-01.", "Verified via curl and grep."],
+        "clean": ["Applications open on 2026-10-01."]
+      }
+    },
+    {
+      "id": "speculative-hedge",
+      "catalog": "ai-tells command: 8",
+      "applies": ["prose"],
+      "flags": "i",
+      "pattern": "\\b(?:this|it) may already (?:be )?(?:done|live|exist)|\\bmay already be\\b|\\blooks (?:done|fine|ok) in production\\b|\\bcould go either way\\b",
+      "message": "Speculative hedge",
+      "fix": "Check and state the fact, or write 'Pending: <what is being checked>'.",
+      "examples": {
+        "hit": ["This may already be done.", "It looks done in production."],
+        "clean": ["This is done."]
+      }
+    },
+    {
+      "id": "self-directed-question",
+      "catalog": "ai-tells command: 12",
+      "severity": "review",
+      "applies": ["prose"],
+      "pattern": "^(?:Confirm|Verify|Decide)\\b(?: with| whether| if| that| on| once|:)",
+      "message": "Question or task deferred to the reader",
+      "fix": "Answer it, or state the next step with its owner.",
+      "examples": {
+        "hit": ["Confirm with the client, then delete.", "Verify whether this is a duplicate."],
+        "clean": ["The client confirmed the deletion."]
+      }
+    },
+    {
+      "id": "imperative-to-self",
+      "catalog": "ai-tells command: 1",
+      "severity": "review",
+      "applies": ["prose"],
+      "pattern": "^(?:Do not|Don't|Never|Do NOT)\\s",
+      "message": "Imperative addressed to the author's future self",
+      "fix": "State the policy or decision as a fact.",
+      "examples": {
+        "hit": ["Don't push titles in isolation."],
+        "clean": ["Title changes go to production after client approval."]
+      }
+    },
+    {
+      "id": "process-narration",
+      "catalog": "ai-tells-2: waterway-research.md; ai-tells command: 15",
+      "severity": "review",
+      "applies": ["heading", "prose"],
+      "flags": "i",
+      "pattern": "\\b(?:in this session|this round|this pass|the earlier discussion|previous (?:draft|version|iteration)|earlier draft)\\b",
+      "message": "Narrates the writing process",
+      "fix": "Describe the content; leave process history to the changelog.",
+      "examples": {
+        "hit": ["New findings this round.", "The earlier discussion of FloPy covers groundwater."],
+        "clean": ["Findings are listed by source."]
+      }
+    },
+    {
+      "id": "negative-parallelism",
+      "catalog": "ai-tells-3 pattern K",
+      "severity": "review",
+      "applies": ["heading", "prose"],
+      "flags": "i",
+      "pattern": ",\\s+not\\s+(?:a|an|the|just|only)\\b|\\bnot (?:just|only|merely|simply)\\b[^.]{0,80}\\bbut\\b|\\brather than\\b|\\binstead of\\b",
+      "message": "Defines by contrast (X, not Y)",
+      "fix": "Say what the thing is; drop what it is not.",
+      "examples": {
+        "hit": ["A reduced model, not a forecast.", "Plan it rather than guessing."],
+        "clean": ["A reduced model for study."]
+      }
+    },
+    {
+      "id": "ai-self-reference",
+      "catalog": "ai-tells-3 pattern N",
+      "applies": ["heading", "prose"],
+      "pattern": "\\b(?:as an AI|AI-generated|language model|LLM|ChatGPT|Anthropic)\\b",
+      "message": "Refers to the tool that wrote the text",
+      "fix": "Remove the reference.",
+      "examples": {
+        "hit": ["Drafted by ChatGPT.", "These are not AI-generated images."],
+        "clean": ["Drafted for review."]
+      }
+    },
+    {
+      "id": "self-compliance",
+      "catalog": "ai-tells command: 14",
+      "applies": ["prose"],
+      "flags": "i",
+      "pattern": "\\b(?:edits were surgical|no file rewrites|i have not (?:pushed|run|seen|executed|tested)|all work stays in this folder|nothing was (?:deleted|pushed|changed)|no deletions?)\\b",
+      "message": "Recites a rule that was followed",
+      "fix": "Describe what was done; the diff shows how.",
+      "examples": {
+        "hit": ["Edits were surgical (no file rewrites).", "I have not pushed anything."],
+        "clean": ["Two sections were reordered."]
+      }
+    },
+    {
+      "id": "announce-opener",
+      "catalog": "ai-tells-2: waterway-research.md",
+      "severity": "review",
+      "applies": ["prose"],
+      "pattern": "^(?:Here is|Here's|Below (?:is|are)|Attached (?:is|are))\\b",
+      "message": "Announces the content before giving it",
+      "fix": "Start with the content.",
+      "examples": {
+        "hit": ["Here is the running URL list."],
+        "clean": ["The URL list follows by source weight."]
+      }
+    },
+    {
+      "id": "either-way",
+      "catalog": "ai-tells-1: pattern B",
+      "severity": "review",
+      "applies": ["prose"],
+      "pattern": "\\beither way\\b",
+      "message": "Both-sides filler",
+      "fix": "Pick one outcome, or name the condition that decides.",
+      "examples": {
+        "hit": ["It works either way."],
+        "clean": ["Either the file or the folder."]
+      }
+    },
+    {
+      "id": "provenance-for-fact",
+      "catalog": "ai-tells command: 5",
+      "severity": "review",
+      "applies": ["prose"],
+      "pattern": "\\b(?:JSON snapshot|production snapshot|rendered HTML|live storefront|live site) (?:shows|confirms|returns)\\b",
+      "message": "Cites where the data came from instead of the data",
+      "fix": "State the fact itself; put provenance in a note when it matters.",
+      "examples": {
+        "hit": ["The production JSON snapshot shows a short title."],
+        "clean": ["The title is 'Obstetrics Cheat Sheet'."]
+      }
+    },
+    {
+      "id": "split-hook-heading",
+      "catalog": "ai-tells command: 19",
+      "kind": "builtin",
+      "detector": "split_headings",
+      "applies": ["heading"],
+      "message": "Heading joins a title to an appended half",
+      "fix": "Fold the appended element into the title's grammar, or cut it when it is only a hook."
+    },
+    {
+      "id": "recommend-density",
+      "catalog": "ai-tells command: cross-cutting observations",
+      "kind": "density",
+      "severity": "review",
+      "applies": ["prose"],
+      "min": 3,
+      "pattern": "\\bRecommend(?:ed)?\\b",
+      "message": "Repeated 'Recommend' paragraphs",
+      "fix": "Three or more suggests the whole document is machine-authored: decide each item and state it."
+    },
+    {
+      "id": "caps-density",
+      "catalog": "ai-tells command: cross-cutting observations",
+      "kind": "density",
+      "severity": "review",
+      "applies": ["heading", "prose"],
+      "min": 3,
+      "pattern": "\\b(?:NOT|NEVER|ALWAYS|ONLY|MUST|EXACTLY|LIVE|CANNOT|IMPORTANT|CRITICAL|REQUIRED|WARNING|DO NOT|DON'T)\\b",
+      "message": "Repeated all-caps emphasis",
+      "fix": "Three or more suggests machine authorship: rewrite the emphasized sentences in regular case."
+    }
+  ]
+}

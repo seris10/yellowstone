@@ -58,7 +58,7 @@ shadows/normal_bias=3.0
 
 menu={
 "deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":4194305), Object(InputEventJoypadButton,"button_index":11)]
+"events": [Object(InputEventKey,"physical_keycode":80), Object(InputEventJoypadButton,"button_index":11)]
 }
 
 field_notes={
@@ -108,7 +108,7 @@ calibration={
 
 plume={
 "deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":80), Object(InputEventJoypadButton,"button_index":1)]
+"events": [Object(InputEventKey,"physical_keycode":79), Object(InputEventJoypadButton,"button_index":1)]
 }
 
 geochemistry={

@@ -1,0 +1,61 @@
+{
+  "library": "general-code",
+  "scope": "general",
+  "patterns": [
+    {
+      "id": "contorted-literal",
+      "catalog": "ai-tells command: 17",
+      "applies": ["raw"],
+      "extensions": [".py", ".js", ".mjs", ".ts", ".gd"],
+      "pattern": "\\bchr\\(\\d+\\)\\s*\\+\\s*[\"']|[\"'][^\"'\\n]{2,}[\"']\\[::-1\\]|\\bb64decode\\(\\s*[\"']",
+      "message": "Literal split or encoded to pass a hook check",
+      "fix": "Write the plain string and allowlist the file, or load the string from an untracked file or environment variable.",
+      "examples": {
+        "hit": ["BANNED = chr(67) + \"laude\"", "token = \"edualC\"[::-1]"],
+        "clean": ["name = prefix + suffix"]
+      }
+    },
+    {
+      "id": "dev-narrative-comment",
+      "catalog": "ai-tells command: 20",
+      "applies": ["comment"],
+      "extensions": [".py", ".js", ".mjs", ".ts", ".gd", ".gdshader"],
+      "flags": "i",
+      "pattern": "\\b(?:audit fix|kept for (?:compatibility|parity)|previous implementation|written against|not exercised|never silently|fail loudly|instead of guessing)\\b",
+      "message": "Comment narrates development history or hypothetical failure",
+      "fix": "State the operation in one present-tense line.",
+      "examples": {
+        "hit": ["Audit fix: this preserves the original photos.", "Never silently drop a frame."],
+        "clean": ["Load an EXIF-oriented image as uint8 BGR pixels."]
+      }
+    },
+    {
+      "id": "legacy-reference",
+      "catalog": "ai-tells-3 pattern E",
+      "severity": "review",
+      "applies": ["comment"],
+      "extensions": [".py", ".js", ".mjs", ".ts", ".gd", ".gdshader"],
+      "flags": "i",
+      "pattern": "\\b(?:legacy|original|old) (?:behavior|path|interface|look|version|implementation|gate|mask|callers?)\\b|\\bpreserves the (?:legacy|original)\\b",
+      "message": "Refers to a legacy or original version",
+      "fix": "Describe what the code does now; leave version history out.",
+      "examples": {
+        "hit": ["Legacy callers keep the old path."],
+        "clean": ["Select local autocorrelation maxima."]
+      }
+    },
+    {
+      "id": "machine-path",
+      "catalog": "ai-tells command: 21",
+      "applies": ["raw"],
+      "extensions": [".py", ".js", ".mjs", ".ts", ".gd", ".md", ".txt", ".json", ".html", ".htm", ".yaml", ".yml", ".toml", ".css", ".ipynb"],
+      "pattern": "/Users/[A-Za-z0-9_.-]+/|/home/[A-Za-z0-9_.-]+/|\\b[A-Z]:\\\\Users\\\\",
+      "message": "Machine-specific path in a public file",
+      "fix": "Resolve from an argument, environment variable, or project-relative default.",
+      "examples": {
+        "hit": ["path = '/Users/someone/work/data'"],
+        "clean": ["path = Path(root) / 'data'"]
+      }
+    }
+  ]
+}
