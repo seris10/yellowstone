@@ -1,0 +1,29 @@
+{
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "coefficients_source": "Allen et al. 1998 FAO-56 Table 12 (crop coefficients) and Table 17 (natural vegetation and standing water). Mid-season Kc from the published bands; mapping to patch types is authored.",
+  "contract_version": "0.1.0",
+  "dt_days": 0.041666666666666664,
+  "et0_mm_d": 3.7607245090140164,
+  "et_by_patch_mm": {
+    "bridge_riparian": 0.1261,
+    "forest_edge": 0.0987,
+    "north_meadow": 0.1097
+  },
+  "method": "FAO-56 Penman-Monteith reference ET0 with Kc per patch; Ks linear from relative soil water",
+  "parameter_provenance": {
+    "method": "FAO-56 Penman-Monteith reference ET0 with Kc per patch; Ks linear from relative soil water"
+  },
+  "schema": "yellowstone.evapotranspiration.v1",
+  "soil_cap_mm": 120.0,
+  "source": "Allen, R.G., Pereira, L.S., Raes, D., Smith, M. (1998). Crop evapotranspiration: Guidelines for computing crop water requirements. FAO Irrigation and Drainage Paper 56. http://www.fao.org/3/x0490e/x0490e00.htm",
+  "source_elevation_m": 2200.0,
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "authored",
+  "total_et_mm": 0.3345,
+  "world_id": "yellowstone_midway"
+}

@@ -1,0 +1,115 @@
+{
+  "schema": "yellowstone.wildlife_motion_source.v1",
+  "source_bundle": "yellowstone_wildlife_motion",
+  "version": "0.1.0",
+  "upstream_license": "MIT",
+  "upstream_license_sha256": "a877f0180260bb806ebc5cd49e014e853cee0e80868b38a7a94bae15a6f41cc9",
+  "copyright_notice": "LICENSE",
+  "files": [
+    {
+      "path": "__init__.py",
+      "upstream_sha256": "ee97825668055402f7de897cd41a8812217a5925c66fd8f7bde69a42f105760e",
+      "integrated_sha256": "315ad279c6436d2b1f5a952fa3d6b742efdec498809695c09ce7bcb8de2bf6a7"
+    },
+    {
+      "path": "__main__.py",
+      "upstream_sha256": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+      "integrated_sha256": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4"
+    },
+    {
+      "path": "birds.py",
+      "upstream_sha256": "f7a19d411b2a31eb52c36073b314b30dfaf5d682eb42b28121d8ba9f7d6a86f9",
+      "integrated_sha256": "90f46df358b2d8ff1b1c2033955b5bdf6d9a67aca68208565f36453f905fdf1c"
+    },
+    {
+      "path": "calibration.py",
+      "upstream_sha256": "c4715a9951d581ed14ba89702663b87aa91f4e9737193fc549da78c951109229",
+      "integrated_sha256": "2a56fc1c0db3afd12968c90de6d228ae034393162a8feef040a57258309d3a32"
+    },
+    {
+      "path": "cli.py",
+      "upstream_sha256": "cb954791be4f465b74d5d52ab03da81302bf0677e2a74e3c1524a1214e809118",
+      "integrated_sha256": "b55500d85d790366510de51207d0fe3f649ecef88b64ed4b32db8b12492db455"
+    },
+    {
+      "path": "core.py",
+      "upstream_sha256": "4e0c004acf29a0f01d17fdcfa2a772a62e3e06ff2332ce4a0d5df48cfd265e2a",
+      "integrated_sha256": "d708acb32e14e63076ce3011927003f5d61bd577d488c9e403735126cf9f46ca"
+    },
+    {
+      "path": "gltf.py",
+      "upstream_sha256": "1cc661384ccc876f3575320a4219e3207423367648a7d294d8b949464e2cc03c",
+      "integrated_sha256": "7aca3780df7fb92f76a44ff8bec8e108ce10a5da4db881c5e4c68e6cd8310d07"
+    },
+    {
+      "path": "mammals.py",
+      "upstream_sha256": "35f263cd531992bed53d106c13515780d363bacb3a88286842c41b5221bb61a6",
+      "integrated_sha256": "6b3f56821d1cd5a82b3364848d4d32e1e22c82e5e1c928958734ec72f07b3111"
+    },
+    {
+      "path": "preview.py",
+      "upstream_sha256": "b91c953a851253d611e2d28b9c959544e47fc6eda4ffee3ba2f2191332bba698",
+      "integrated_sha256": "f7fe4a4d4057679c321ffc24a39f200745277a37d053353b2d17067268eea933"
+    },
+    {
+      "path": "profiles/sources.json",
+      "upstream_sha256": "578679785fc95742cc76e107ed77e31762b8e7b29f888f685318fb83d5de3e0d",
+      "integrated_sha256": "578679785fc95742cc76e107ed77e31762b8e7b29f888f685318fb83d5de3e0d"
+    },
+    {
+      "path": "profiles/species.json",
+      "upstream_sha256": "0190edc5dc5a9f958526bbbf16694b6d97edc84bc426c09de5965512145a3c76",
+      "integrated_sha256": "615e02a05da8a89ba58c92332a4a2f45c8995943f84d3ab4c64f86cddae59f96"
+    },
+    {
+      "path": "review.py",
+      "upstream_sha256": "09d51cc8d5627df1098be218236407674d73ce19605161be314f3150a9d15213",
+      "integrated_sha256": "34fa67be5de868a7b839149215dc32f1db9e3aac91ab9fe77175e7b0331258e1"
+    },
+    {
+      "path": "review_template.html",
+      "upstream_sha256": "07b32983164aa226771579ad79b0fc7f41f9832e68bdb4fe62040831adf2e28e",
+      "integrated_sha256": "07b32983164aa226771579ad79b0fc7f41f9832e68bdb4fe62040831adf2e28e"
+    },
+    {
+      "path": "rigging.py",
+      "upstream_sha256": "e38014a1c82a1b730ee41ca8f84f73d0bada3068200f7afa2b8d61239f0e1636",
+      "integrated_sha256": "fc43a93a2c75249d5b63fd953d16cec4ea157aa203121d64ab71fa7004cb69c8"
+    },
+    {
+      "path": "species.py",
+      "upstream_sha256": "4cf4dc07cd405db399ddc41c5596609aeff446b8c0481428d2ffd9ad6c327142",
+      "integrated_sha256": "035fff5927427862b38ec16d1f09a9b6172b150bdc4afa2e4d531812a75fccf4"
+    },
+    {
+      "path": "synthetic.py",
+      "upstream_sha256": "87d72e06475e47f270af29f9661d6e16c65876e3445e39e18f157a5f61ae0a85",
+      "integrated_sha256": "d87a98b42e384a6b731a98454a8de8ec8272f6f53b95fd5e501fa6320adb0dde"
+    },
+    {
+      "path": "validation.py",
+      "upstream_sha256": "ece15f4131de3f0b99152bd9e7cc6e8f36b8c60649e976f0bb811528ab397775",
+      "integrated_sha256": "fe0ecc61da22708f95c8a6faa12dee34879abf1b9770ee336d8f9a8b30bcea1e"
+    },
+    {
+      "path": "variation.py",
+      "upstream_sha256": "317993f345770d49a03fad64f0a139498350ea922de67af34bb05866c2d50094",
+      "integrated_sha256": "fb3454eff6f3961caecb29f6635b6bdc6d893cd42355f211947d5b9862277131"
+    },
+    {
+      "path": "water.py",
+      "upstream_sha256": "330db7414c9594f133360ec8c551185a00c44edee484654fff7dbaa03ee974a8",
+      "integrated_sha256": "08be5645e2422386aeb50e9d930acd5c0c1a2111e3496a95100a5e8df381aec3"
+    }
+  ],
+  "modifications": [
+    "package namespace",
+    "finite input validation",
+    "accessor layout validation",
+    "scene root normalization",
+    "tangent coordinate preservation",
+    "short surface trajectory endpoints",
+    "comment style"
+  ],
+  "scientific_acceptance": "not_yet_accepted"
+}

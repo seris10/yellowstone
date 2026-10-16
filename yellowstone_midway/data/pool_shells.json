@@ -1,0 +1,2005 @@
+{
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "outline": "mapped water polygons preserved",
+    "recipe": "RECIPES per pool name; depths/colors illustrative"
+  },
+  "pool_shells": [
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        34.7736,
+        -2027.663
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_984_0",
+      "mapped_area_m2": 6232.9,
+      "max_radius_m": 109.71,
+      "name": "FEATHER LAKE",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.444,
+      "r_apron_m": 118.70775673893802,
+      "r_rim_m": 113.70775673893802,
+      "r_shelf_m": 111.70775673893802,
+      "r_water_m": 44.54204406619603,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          32.1318,
+          -2000.0386
+        ],
+        [
+          69.3014,
+          -2009.2697
+        ],
+        [
+          108.8711,
+          -2030.081
+        ],
+        [
+          130.7909,
+          -2040.5015
+        ],
+        [
+          142.5799,
+          -2048.0
+        ],
+        [
+          -49.3066,
+          -2048.0
+        ],
+        [
+          -30.7074,
+          -2024.2771
+        ],
+        [
+          -17.8676,
+          -2004.1873
+        ],
+        [
+          -6.8778,
+          -1997.5075
+        ],
+        [
+          4.7121,
+          -1993.8778
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 984,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        -450.9849,
+        -1853.3679
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_988_0",
+      "mapped_area_m2": 98982.2,
+      "max_radius_m": 317.7,
+      "name": "GOOSE LAKE",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.569,
+      "r_apron_m": 326.702807746123,
+      "r_rim_m": 321.702807746123,
+      "r_shelf_m": 319.702807746123,
+      "r_water_m": 177.50214876508173,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          -299.3064,
+          -1653.6169
+        ],
+        [
+          -277.3866,
+          -1667.0776
+        ],
+        [
+          -259.7567,
+          -1687.2382
+        ],
+        [
+          -251.8567,
+          -1698.2285
+        ],
+        [
+          -243.3867,
+          -1726.289
+        ],
+        [
+          -243.4266,
+          -1741.5291
+        ],
+        [
+          -251.3765,
+          -1756.149
+        ],
+        [
+          -260.5563,
+          -1768.3188
+        ],
+        [
+          -274.6061,
+          -1782.3086
+        ],
+        [
+          -305.7455,
+          -1806.6179
+        ],
+        [
+          -316.1453,
+          -1818.7877
+        ],
+        [
+          -320.4352,
+          -1829.7477
+        ],
+        [
+          -321.6851,
+          -1844.3778
+        ],
+        [
+          -319.895,
+          -1859.0079
+        ],
+        [
+          -312.025,
+          -1884.0184
+        ],
+        [
+          -311.4449,
+          -1898.6585
+        ],
+        [
+          -313.3048,
+          -1909.6185
+        ],
+        [
+          -318.8147,
+          -1921.1885
+        ],
+        [
+          -332.8645,
+          -1935.1782
+        ],
+        [
+          -348.1242,
+          -1944.8979
+        ],
+        [
+          -376.8138,
+          -1958.8572
+        ],
+        [
+          -392.0636,
+          -1963.0868
+        ],
+        [
+          -429.8732,
+          -1969.0958
+        ],
+        [
+          -439.033,
+          -1976.9956
+        ],
+        [
+          -443.3229,
+          -1987.9556
+        ],
+        [
+          -446.4228,
+          -2008.6756
+        ],
+        [
+          -442.8426,
+          -2045.2661
+        ],
+        [
+          -441.4032,
+          -2048.0
+        ],
+        [
+          -702.0893,
+          -2048.0
+        ],
+        [
+          -697.6398,
+          -2036.7491
+        ],
+        [
+          -687.23,
+          -2019.6993
+        ],
+        [
+          -669.5003,
+          -1997.1896
+        ],
+        [
+          -671.9104,
+          -1982.5494
+        ],
+        [
+          -624.331,
+          -1969.2506
+        ],
+        [
+          -608.4712,
+          -1963.1909
+        ],
+        [
+          -595.6314,
+          -1947.3712
+        ],
+        [
+          -601.0615,
+          -1925.4108
+        ],
+        [
+          -615.6415,
+          -1902.2103
+        ],
+        [
+          -620.4915,
+          -1887.57
+        ],
+        [
+          -611.3018,
+          -1869.9201
+        ],
+        [
+          -582.0121,
+          -1857.7908
+        ],
+        [
+          -569.1923,
+          -1847.4611
+        ],
+        [
+          -558.7526,
+          -1813.9511
+        ],
+        [
+          -543.403,
+          -1767.0511
+        ],
+        [
+          -531.7832,
+          -1751.8414
+        ],
+        [
+          -505.5136,
+          -1725.6818
+        ],
+        [
+          -485.354,
+          -1708.6623
+        ],
+        [
+          -467.6542,
+          -1699.5627
+        ],
+        [
+          -446.2846,
+          -1683.7631
+        ],
+        [
+          -437.1248,
+          -1676.4634
+        ],
+        [
+          -404.7452,
+          -1643.6239
+        ],
+        [
+          -387.6555,
+          -1634.5143
+        ],
+        [
+          -374.2357,
+          -1631.5047
+        ],
+        [
+          -363.2658,
+          -1633.355
+        ],
+        [
+          -354.136,
+          -1640.0853
+        ],
+        [
+          -343.1959,
+          -1655.3457
+        ],
+        [
+          -311.4963,
+          -1651.7665
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 988,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        1841.2947,
+        -1911.2232
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_995_0",
+      "mapped_area_m2": 1378.9,
+      "max_radius_m": 28.11,
+      "name": " ",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.788,
+      "r_apron_m": 37.109471003204504,
+      "r_rim_m": 32.109471003204504,
+      "r_shelf_m": 30.109471003204508,
+      "r_water_m": 20.95035804130395,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          1856.2705,
+          -1903.0773
+        ],
+        [
+          1860.4906,
+          -1920.1575
+        ],
+        [
+          1849.4808,
+          -1936.5873
+        ],
+        [
+          1837.901,
+          -1937.167
+        ],
+        [
+          1816.651,
+          -1899.9362
+        ],
+        [
+          1850.8205,
+          -1884.777
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 995,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        -1728.396,
+        -1862.2065
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_996_0",
+      "mapped_area_m2": 1114.2,
+      "max_radius_m": 27.36,
+      "name": " ",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.806,
+      "r_apron_m": 36.363168463648385,
+      "r_rim_m": 31.363168463648385,
+      "r_shelf_m": 29.363168463648385,
+      "r_water_m": 18.832442092994196,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          -1734.1191,
+          -1845.9696
+        ],
+        [
+          -1714.0193,
+          -1850.2901
+        ],
+        [
+          -1701.2394,
+          -1858.8506
+        ],
+        [
+          -1717.7292,
+          -1875.2703
+        ],
+        [
+          -1735.4189,
+          -1880.7199
+        ],
+        [
+          -1746.3788,
+          -1875.8196
+        ],
+        [
+          -1746.3189,
+          -1845.9492
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 996,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 10.65,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        425.5918,
+        -1532.9066
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_1001_0",
+      "mapped_area_m2": 22969.9,
+      "max_radius_m": 98.96,
+      "name": "UNNAMED LAKE",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.938,
+      "r_apron_m": 109.60909612066757,
+      "r_rim_m": 104.60909612066757,
+      "r_shelf_m": 102.60909612066757,
+      "r_water_m": 85.50758010055631,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          464.9737,
+          -1453.6162
+        ],
+        [
+          493.6034,
+          -1465.867
+        ],
+        [
+          503.9434,
+          -1473.8174
+        ],
+        [
+          515.4833,
+          -1491.5278
+        ],
+        [
+          518.4834,
+          -1512.8681
+        ],
+        [
+          517.2335,
+          -1528.1083
+        ],
+        [
+          503.1539,
+          -1554.288
+        ],
+        [
+          486.0043,
+          -1590.8278
+        ],
+        [
+          470.7445,
+          -1598.7174
+        ],
+        [
+          421.9351,
+          -1614.4462
+        ],
+        [
+          400.6053,
+          -1614.3956
+        ],
+        [
+          370.1457,
+          -1603.3547
+        ],
+        [
+          347.6358,
+          -1585.014
+        ],
+        [
+          340.3359,
+          -1576.4638
+        ],
+        [
+          334.8759,
+          -1565.4835
+        ],
+        [
+          333.1057,
+          -1541.0932
+        ],
+        [
+          339.2655,
+          -1510.6232
+        ],
+        [
+          348.4653,
+          -1488.0932
+        ],
+        [
+          360.6851,
+          -1477.1435
+        ],
+        [
+          388.7246,
+          -1475.9943
+        ],
+        [
+          403.3745,
+          -1469.3246
+        ],
+        [
+          421.0842,
+          -1455.345
+        ],
+        [
+          446.0839,
+          -1450.5256
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1001,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        973.4447,
+        -1235.5468
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_1007_0",
+      "mapped_area_m2": 34916.7,
+      "max_radius_m": 143.1,
+      "name": "LOWER BASIN LAKE",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.804,
+      "r_apron_m": 152.0992678075259,
+      "r_rim_m": 147.0992678075259,
+      "r_shelf_m": 145.0992678075259,
+      "r_water_m": 105.42452657192045,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          1011.2754,
+          -1142.7587
+        ],
+        [
+          1030.7453,
+          -1159.8793
+        ],
+        [
+          1041.0952,
+          -1165.9997
+        ],
+        [
+          1069.725,
+          -1176.4305
+        ],
+        [
+          1103.8148,
+          -1193.5716
+        ],
+        [
+          1114.1446,
+          -1209.452
+        ],
+        [
+          1115.3348,
+          -1221.6421
+        ],
+        [
+          1109.205,
+          -1236.8721
+        ],
+        [
+          1098.8251,
+          -1244.7718
+        ],
+        [
+          1065.2556,
+          -1264.8112
+        ],
+        [
+          1051.1858,
+          -1283.6708
+        ],
+        [
+          1038.9661,
+          -1296.4506
+        ],
+        [
+          1024.9063,
+          -1314.7003
+        ],
+        [
+          1007.1966,
+          -1328.0699
+        ],
+        [
+          984.6469,
+          -1325.5793
+        ],
+        [
+          960.8771,
+          -1323.6986
+        ],
+        [
+          938.9075,
+          -1334.0081
+        ],
+        [
+          928.5376,
+          -1338.2579
+        ],
+        [
+          907.2178,
+          -1328.4472
+        ],
+        [
+          888.9978,
+          -1299.1465
+        ],
+        [
+          871.3779,
+          -1275.9458
+        ],
+        [
+          852.528,
+          -1253.9552
+        ],
+        [
+          845.848,
+          -1244.1849
+        ],
+        [
+          840.998,
+          -1228.9347
+        ],
+        [
+          839.2179,
+          -1208.8145
+        ],
+        [
+          848.3977,
+          -1194.2046
+        ],
+        [
+          876.4373,
+          -1194.2654
+        ],
+        [
+          895.347,
+          -1189.4359
+        ],
+        [
+          908.1669,
+          -1182.7562
+        ],
+        [
+          924.0666,
+          -1160.2364
+        ],
+        [
+          936.8963,
+          -1148.0767
+        ],
+        [
+          953.3661,
+          -1142.6272
+        ],
+        [
+          984.4557,
+          -1141.4779
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1007,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        -152.534,
+        -698.3644
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_1018_0",
+      "mapped_area_m2": 5497.2,
+      "max_radius_m": 73.53,
+      "name": " ",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.67,
+      "r_apron_m": 82.53191785673764,
+      "r_rim_m": 77.53191785673764,
+      "r_shelf_m": 75.53191785673764,
+      "r_water_m": 41.830767460441535,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          -129.954,
+          -637.7934
+        ],
+        [
+          -132.4539,
+          -665.8336
+        ],
+        [
+          -124.5838,
+          -692.064
+        ],
+        [
+          -124.6337,
+          -713.4042
+        ],
+        [
+          -143.0132,
+          -754.204
+        ],
+        [
+          -150.9731,
+          -766.9839
+        ],
+        [
+          -172.273,
+          -750.4732
+        ],
+        [
+          -184.4029,
+          -726.0627
+        ],
+        [
+          -181.3031,
+          -701.0725
+        ],
+        [
+          -165.3436,
+          -653.5626
+        ],
+        [
+          -151.2739,
+          -630.4328
+        ],
+        [
+          -138.454,
+          -626.1931
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1018,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.01,
+      "center_xz": [
+        -59.8721,
+        -186.3623
+      ],
+      "color_stops": [
+        {
+          "color": "#093784",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.3938095238095238,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6438095238095238,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 6.0,
+      "id": "pool_1028_0",
+      "mapped_area_m2": 219.7,
+      "max_radius_m": 14.48,
+      "name": "Turquoise Pool",
+      "outflow_bearing_deg": 120.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.681,
+      "r_apron_m": 23.483981091536954,
+      "r_rim_m": 18.483981091536954,
+      "r_shelf_m": 16.483981091536954,
+      "r_water_m": 8.362576277354894,
+      "ramp_params": {
+        "depth_f": 0.15,
+        "gradient_f": 0.73
+      },
+      "ring": [
+        [
+          -45.857,
+          -190.0178
+        ],
+        [
+          -59.4374,
+          -194.1618
+        ],
+        [
+          -71.6173,
+          -186.2114
+        ],
+        [
+          -63.6674,
+          -176.4816
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1028,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 63.0,
+      "t_edge_c": 40.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.02,
+      "center_xz": [
+        -134.8065,
+        -185.8664
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3988",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.3938095238095238,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6438095238095238,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 4.0,
+      "id": "pool_1029_0",
+      "mapped_area_m2": 102.0,
+      "max_radius_m": 10.82,
+      "name": "Opal Pool",
+      "outflow_bearing_deg": 120.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.571,
+      "r_apron_m": 19.823331695924317,
+      "r_rim_m": 14.823331695924317,
+      "r_shelf_m": 12.823331695924317,
+      "r_water_m": 5.698035485213008,
+      "ramp_params": {
+        "depth_f": 0.1,
+        "gradient_f": 0.73
+      },
+      "ring": [
+        [
+          -126.4766,
+          -186.0899
+        ],
+        [
+          -136.2465,
+          -193.9897
+        ],
+        [
+          -141.6965,
+          -177.5194
+        ]
+      ],
+      "shelf_depth_m": 0.5,
+      "source_id": 1029,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 63.0,
+      "t_edge_c": 40.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 39.4,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        15.8116,
+        -145.3024
+      ],
+      "color_stops": [
+        {
+          "color": "#093680",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.4041463414634146,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6541463414634147,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 8.0,
+      "id": "pool_1030_0",
+      "mapped_area_m2": 2917.0,
+      "max_radius_m": 36.07,
+      "name": "Excelsior Geyser Crater",
+      "outflow_bearing_deg": 95.0,
+      "outflow_channel": "authored_excelsior_outflow_01",
+      "outline_circularity": 0.87,
+      "r_apron_m": 75.47146104140919,
+      "r_rim_m": 40.089326301761474,
+      "r_shelf_m": 38.089326301761474,
+      "r_water_m": 30.471461041409178,
+      "ramp_params": {
+        "depth_f": 0.2,
+        "gradient_f": 0.902
+      },
+      "ring": [
+        [
+          30.9411,
+          -122.4438
+        ],
+        [
+          42.511,
+          -127.9542
+        ],
+        [
+          50.411,
+          -140.1646
+        ],
+        [
+          34.4814,
+          -175.4843
+        ],
+        [
+          23.5015,
+          -179.1141
+        ],
+        [
+          15.5916,
+          -170.5637
+        ],
+        [
+          -5.1182,
+          -165.0331
+        ],
+        [
+          -19.7081,
+          -148.5425
+        ],
+        [
+          -17.2383,
+          -130.8625
+        ],
+        [
+          16.9412,
+          -113.8733
+        ]
+      ],
+      "shelf_depth_m": 0.8,
+      "source_id": 1030,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 82.0,
+      "t_edge_c": 45.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 21.23,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        -94.7068,
+        -10.6082
+      ],
+      "color_stops": [
+        {
+          "color": "#041c45",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.39999999999999997,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.65,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 37.0,
+      "id": "pool_1034_0",
+      "mapped_area_m2": 6723.7,
+      "max_radius_m": 55.03,
+      "name": "Grand Prismatic Spring",
+      "outflow_bearing_deg": 100.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.935,
+      "r_apron_m": 76.2625137852879,
+      "r_rim_m": 59.0322972417107,
+      "r_shelf_m": 57.0322972417107,
+      "r_water_m": 46.2625137852879,
+      "ramp_params": {
+        "depth_f": 0.925,
+        "gradient_f": 0.833
+      },
+      "ring": [
+        [
+          -47.3787,
+          16.1195
+        ],
+        [
+          -44.3587,
+          3.3093
+        ],
+        [
+          -65.7882,
+          -36.8704
+        ],
+        [
+          -76.178,
+          -49.0403
+        ],
+        [
+          -94.4977,
+          -61.1898
+        ],
+        [
+          -113.3975,
+          -62.3693
+        ],
+        [
+          -127.9974,
+          -51.3587
+        ],
+        [
+          -137.7073,
+          -32.4383
+        ],
+        [
+          -138.2874,
+          -17.8083
+        ],
+        [
+          -135.8175,
+          -3.1782
+        ],
+        [
+          -130.2977,
+          11.4317
+        ],
+        [
+          -118.6779,
+          27.2615
+        ],
+        [
+          -96.7082,
+          37.571
+        ],
+        [
+          -82.0684,
+          39.3706
+        ]
+      ],
+      "shelf_depth_m": 1.2,
+      "source_id": 1034,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 72.0,
+      "t_edge_c": 42.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        -844.4903,
+        520.6786
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_1048_0",
+      "mapped_area_m2": 22587.7,
+      "max_radius_m": 207.09,
+      "name": "GOOSENECK LAKE",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.354,
+      "r_apron_m": 216.08922448212988,
+      "r_rim_m": 211.08922448212988,
+      "r_shelf_m": 209.08922448212988,
+      "r_water_m": 84.79320854970408,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          -822.651,
+          339.7937
+        ],
+        [
+          -817.7411,
+          354.4137
+        ],
+        [
+          -808.5015,
+          397.6738
+        ],
+        [
+          -811.5015,
+          415.964
+        ],
+        [
+          -842.4814,
+          466.0253
+        ],
+        [
+          -864.3513,
+          496.5561
+        ],
+        [
+          -889.2811,
+          524.6571
+        ],
+        [
+          -899.6211,
+          534.4374
+        ],
+        [
+          -922.7508,
+          550.3382
+        ],
+        [
+          -937.3507,
+          566.2288
+        ],
+        [
+          -940.3608,
+          580.859
+        ],
+        [
+          -936.0709,
+          593.0489
+        ],
+        [
+          -921.3613,
+          624.7088
+        ],
+        [
+          -912.1815,
+          641.1487
+        ],
+        [
+          -902.4116,
+          650.8785
+        ],
+        [
+          -883.512,
+          649.618
+        ],
+        [
+          -873.7819,
+          639.8376
+        ],
+        [
+          -868.3319,
+          623.3673
+        ],
+        [
+          -855.5321,
+          624.5569
+        ],
+        [
+          -848.7823,
+          642.2169
+        ],
+        [
+          -832.8826,
+          665.9566
+        ],
+        [
+          -824.9926,
+          650.6964
+        ],
+        [
+          -828.7124,
+          620.2262
+        ],
+        [
+          -820.8823,
+          580.5856
+        ],
+        [
+          -809.4122,
+          533.0049
+        ],
+        [
+          -798.4922,
+          506.1644
+        ],
+        [
+          -787.5722,
+          484.7939
+        ],
+        [
+          -780.3022,
+          466.4935
+        ],
+        [
+          -775.4721,
+          445.7532
+        ],
+        [
+          -765.1821,
+          411.5927
+        ],
+        [
+          -760.962,
+          392.0723
+        ],
+        [
+          -771.9918,
+          367.7225
+        ],
+        [
+          -797.6413,
+          345.8331
+        ],
+        [
+          -808.6511,
+          331.8332
+        ],
+        [
+          -824.6653,
+          314.5405
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1048,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        1082.187,
+        716.6172
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_1056_0",
+      "mapped_area_m2": 2178.2,
+      "max_radius_m": 50.13,
+      "name": " ",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.57,
+      "r_apron_m": 59.13357906972135,
+      "r_rim_m": 54.13357906972135,
+      "r_shelf_m": 52.13357906972135,
+      "r_water_m": 26.331399394744153,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          1064.9034,
+          713.9737
+        ],
+        [
+          1089.3529,
+          744.4033
+        ],
+        [
+          1105.2326,
+          755.3329
+        ],
+        [
+          1118.6325,
+          751.0425
+        ],
+        [
+          1114.9426,
+          738.8525
+        ],
+        [
+          1106.9928,
+          726.0726
+        ],
+        [
+          1088.6531,
+          704.173
+        ],
+        [
+          1067.2636,
+          678.6133
+        ],
+        [
+          1056.2937,
+          681.6837
+        ],
+        [
+          1049.6037,
+          690.844
+        ],
+        [
+          1045.9737,
+          702.4342
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1056,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        -879.3138,
+        1122.029
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_1066_0",
+      "mapped_area_m2": 5271.8,
+      "max_radius_m": 77.07,
+      "name": "UNNAMED LAKE",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.697,
+      "r_apron_m": 86.07341839428173,
+      "r_rim_m": 81.07341839428173,
+      "r_shelf_m": 79.07341839428173,
+      "r_water_m": 40.96420459356813,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          -837.295,
+          1135.3607
+        ],
+        [
+          -844.0348,
+          1118.3107
+        ],
+        [
+          -850.7647,
+          1109.1809
+        ],
+        [
+          -874.5843,
+          1089.1213
+        ],
+        [
+          -918.5535,
+          1055.6923
+        ],
+        [
+          -916.6537,
+          1083.1225
+        ],
+        [
+          -911.1139,
+          1108.7126
+        ],
+        [
+          -910.474,
+          1123.3427
+        ],
+        [
+          -906.1741,
+          1135.5226
+        ],
+        [
+          -899.4443,
+          1147.7025
+        ],
+        [
+          -887.2145,
+          1161.6924
+        ],
+        [
+          -874.3947,
+          1170.812
+        ],
+        [
+          -855.495,
+          1173.8115
+        ],
+        [
+          -840.905,
+          1153.661
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1066,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    },
+    {
+      "apron_buffer_method": "shapely_minkowski_buffer",
+      "apron_margin_m": 9.0,
+      "area_disagreement_pct": 0.0,
+      "center_xz": [
+        712.0396,
+        1331.3885
+      ],
+      "color_stops": [
+        {
+          "color": "#0a3a8a",
+          "fraction": 0.0,
+          "meaning": "deep hot center (illustrative)"
+        },
+        {
+          "color": "#1b7f79",
+          "fraction": 0.35,
+          "meaning": "teal transition (illustrative)"
+        },
+        {
+          "color": "#4d9b47",
+          "fraction": 0.6,
+          "meaning": "green microbial margin (illustrative)"
+        },
+        {
+          "color": "#c9a227",
+          "fraction": 0.8,
+          "meaning": "yellow/orange mat edge (illustrative)"
+        },
+        {
+          "color": "#b8a88a",
+          "fraction": 1.0,
+          "meaning": "wet sinter rim (illustrative)"
+        },
+        {
+          "color": "#8d8577",
+          "fraction": 1.3,
+          "meaning": "dry sinter apron (illustrative)"
+        }
+      ],
+      "depth_center_m": 3.0,
+      "id": "pool_1071_0",
+      "mapped_area_m2": 5790.2,
+      "max_radius_m": 59.99,
+      "name": " ",
+      "outflow_bearing_deg": 90.0,
+      "outflow_channel": null,
+      "outline_circularity": 0.76,
+      "r_apron_m": 68.99091849555234,
+      "r_rim_m": 63.99091849555234,
+      "r_shelf_m": 61.99091849555234,
+      "r_water_m": 42.931083179689104,
+      "ramp_params": {
+        "depth_f": 0.075,
+        "gradient_f": 0.0
+      },
+      "ring": [
+        [
+          671.8548,
+          1309.8693
+        ],
+        [
+          662.1746,
+          1339.7598
+        ],
+        [
+          664.0246,
+          1350.7297
+        ],
+        [
+          678.6944,
+          1368.3695
+        ],
+        [
+          695.7641,
+          1368.9391
+        ],
+        [
+          722.5439,
+          1349.9781
+        ],
+        [
+          732.9137,
+          1354.2279
+        ],
+        [
+          743.9135,
+          1363.3476
+        ],
+        [
+          764.6333,
+          1360.247
+        ],
+        [
+          763.9434,
+          1324.8968
+        ],
+        [
+          756.6037,
+          1314.5468
+        ],
+        [
+          742.5539,
+          1304.2172
+        ],
+        [
+          719.9942,
+          1298.7778
+        ],
+        [
+          686.4447,
+          1290.3287
+        ]
+      ],
+      "shelf_depth_m": 0.6,
+      "source_id": 1071,
+      "status": "authored shell; mapped outline preserved; depths and colors illustrative, not bathymetry or calibrated pigment",
+      "substrate": "siliceous_sinter_illustrative",
+      "t_center_c": 16.0,
+      "t_edge_c": 38.0
+    }
+  ],
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

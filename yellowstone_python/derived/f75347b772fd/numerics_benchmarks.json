@@ -1,0 +1,238 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "code_sha256": "ce3f7acce30ad13fba31b52d097a1f833b6a0eee31f5dd39832663f1f6b9081e",
+  "contract_version": "0.1.0",
+  "not_applicable": [
+    {
+      "benchmark": "lake_at_rest_over_variable_bed",
+      "reason": "requires unsteady momentum with well-balanced bed terms; declared level solves no momentum equation"
+    },
+    {
+      "benchmark": "dam_break_transient",
+      "reason": "requires conservation-law momentum plus wetting and drying; declared level uses prescribed discharge"
+    }
+  ],
+  "parameter_provenance": {
+    "build_id": "f75347b772fd",
+    "run_mode": "scenario"
+  },
+  "passed": true,
+  "results": [
+    {
+      "fresh_object_gap_c": 0.0,
+      "name": "restart_equivalence",
+      "passed": true,
+      "scope": "constant forcing; time-varying forcing needs clock-offset restart support before a matching claim",
+      "split_run_gap_c": 0.0,
+      "tolerance_c": 1e-09
+    },
+    {
+      "boundary_input_j": 0.0,
+      "drift_c": 1.0658141036401503e-14,
+      "end_volume_mean_c": 24.99999999999999,
+      "heat_relative_residual": 4.831690603168682e-16,
+      "name": "closed_thermal_system",
+      "outlet_export_j": 0.0,
+      "passed": true,
+      "start_volume_mean_c": 25.0,
+      "tolerance_c": 1e-09
+    },
+    {
+      "expected_c": 14.0,
+      "gap_c": 0.0,
+      "name": "two_stream_mixing",
+      "passed": true,
+      "scope": "equal heat capacity, no surface exchange",
+      "steady_c": 14.0,
+      "tolerance_c": 1e-09
+    },
+    {
+      "advected_m": 198.09014438360168,
+      "advection_error_pct": -0.1295522066008078,
+      "expected_m": 198.3471074380165,
+      "heat_relative_residual": 5.429695813197484e-16,
+      "name": "conservative_tracer",
+      "outlet_tail_cell_count": 2,
+      "outlet_tail_mass_fraction": 0.0034190150131879734,
+      "passed": true,
+      "pulse_off_outlet": true
+    },
+    {
+      "dt_s": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "errors_c": [
+        0.33998130845018615,
+        0.17663848258089487,
+        0.09010041701558436
+      ],
+      "expected_order": 1.0,
+      "method": "backward Euler with direct tridiagonal solve",
+      "name": "temporal_convergence",
+      "observed_rates": [
+        0.9446557480521505,
+        0.9711939953058015
+      ],
+      "passed": true,
+      "rate_tolerance": [
+        0.7,
+        1.3
+      ]
+    },
+    {
+      "errors_c": [
+        0.3299035201241125,
+        0.17187380999196478,
+        0.0877364756213197
+      ],
+      "expected_order": 1.0,
+      "method": "first-order upwind steady solve",
+      "n_cells": [
+        15,
+        30,
+        60
+      ],
+      "name": "spatial_convergence",
+      "observed_rates": [
+        0.9406944470484618,
+        0.970101065226088
+      ],
+      "passed": true,
+      "rate_tolerance": [
+        0.7,
+        1.3
+      ]
+    },
+    {
+      "cases": [
+        {
+          "decay_length_m": 1380.1342176747103,
+          "diffusive_length_m": 333.63421767471016,
+          "discharge_m3_s": 0.05,
+          "dispersion_m2_s": 1.0,
+          "errors_c": [
+            0.41596144028854276,
+            0.22882829093028967,
+            0.11997777437921897
+          ],
+          "exchange_w_m2_k": 10.0,
+          "n_cells": [
+            15,
+            30,
+            60
+          ],
+          "observed_rates": [
+            0.8621843673023578,
+            0.9314982546557786
+          ]
+        },
+        {
+          "decay_length_m": 4973.027604034377,
+          "diffusive_length_m": 787.027604034378,
+          "discharge_m3_s": 2.0,
+          "dispersion_m2_s": 85.0,
+          "errors_c": [
+            0.1601936419436818,
+            0.0830894224836527,
+            0.04230934616606419
+          ],
+          "exchange_w_m2_k": 100.0,
+          "n_cells": [
+            15,
+            30,
+            60
+          ],
+          "observed_rates": [
+            0.9470801539054489,
+            0.9736884386041939
+          ]
+        }
+      ],
+      "expected_order": 1.0,
+      "method": "first-order upwind steady solve with centered harmonic dispersion",
+      "name": "spatial_convergence_dispersive",
+      "passed": true
+    },
+    {
+      "dt_s": [
+        480.0,
+        240.0,
+        120.0
+      ],
+      "expected_spatial_order": 2.0,
+      "expected_temporal_order": 1.0,
+      "method": "backward Euler with centered harmonic dispersion",
+      "n_cells": [
+        15,
+        30,
+        60
+      ],
+      "name": "diffusive_decay",
+      "passed": true,
+      "spatial_errors_c": [
+        0.0053320586350626975,
+        0.0013812701006021832,
+        0.00038855428603135067
+      ],
+      "spatial_rates": [
+        1.9486971862715894,
+        1.829807378250147
+      ],
+      "temporal_errors_c": [
+        0.0037909280333865425,
+        0.0019243807626789788,
+        0.0009905700201748857
+      ],
+      "temporal_rates": [
+        0.9781567862671008,
+        0.9580634192625755
+      ]
+    },
+    {
+      "dt_s": [
+        1440.0,
+        720.0,
+        360.0
+      ],
+      "expected_order": 1.0,
+      "heat_relative_residual": 1.254223460670896e-13,
+      "method": "backward Euler with upwind advection, centered harmonic dispersion, and per-cell analytic source",
+      "n_cells": [
+        15,
+        30,
+        60
+      ],
+      "name": "mms_traveling_wave",
+      "passed": true,
+      "spatial_errors_c": [
+        1.626587692456889,
+        0.9442954036419415,
+        0.5151935834003005
+      ],
+      "spatial_rates": [
+        0.7845384497725366,
+        0.8741236228628868
+      ],
+      "temporal_errors_c": [
+        2.013696324853675,
+        1.2146661529446394,
+        0.7132615542907956
+      ],
+      "temporal_rates": [
+        0.7292862861012793,
+        0.768056730592604
+      ]
+    }
+  ],
+  "schema": "yellowstone.numerics_benchmarks.v1",
+  "sources": [
+    {
+      "id": "code",
+      "sha256": "0c6d2466e94b851c"
+    }
+  ],
+  "status": "numerical_verification_not_field_validation",
+  "world_id": "yellowstone_midway"
+}

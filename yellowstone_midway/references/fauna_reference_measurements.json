@@ -1,0 +1,34 @@
+{
+  "schema": "yellowstone.fauna_reference_measurements.v1",
+  "note": "Adult external measurements used to check fauna meshes. Ranges are [low, high] as published; units are in each key. A species is added only with a primary source.",
+  "species": {
+    "bison": {
+      "scientific_name": "Bison bison",
+      "source": {
+        "citation": "Meagher, M. (1986). Bison bison. Mammalian Species 266: 1-8. American Society of Mammalogists.",
+        "location": "General characters, p. 1: measurements for males and females, compiled from Hall (1981), Meagher (1973) and Seton (1929)",
+        "retrieved": "2026-10-13",
+        "url": "https://buffalofieldcampaign.org/images/get-involved/students-resource-about-bison/bison-conservation-papers/Meagher-Bison-bison-Mammalian-Species-June-16-1986.pdf"
+      },
+      "male": {
+        "total_length_mm": [3040, 3800],
+        "tail_length_mm": [330, 910],
+        "hind_foot_mm": [580, 680],
+        "shoulder_height_mm": [1670, 1860],
+        "body_mass_kg": [544, 907]
+      },
+      "female": {
+        "total_length_mm": [2130, 3180],
+        "tail_length_mm": [300, 510],
+        "hind_foot_mm": [500, 530],
+        "shoulder_height_mm": [1520, 1570],
+        "body_mass_kg": [318, 545]
+      },
+      "context": [
+        "Maximum recorded mass 1724 kg, a semidomestic bull (Meagher 1986, citing Hebbring 1978).",
+        "Hair length on shoulders and hump 65 to 160 mm, chaps 150 to 190 mm, beard about 300 mm (Meagher 1986), so a furred mesh silhouette can stand above skin-level measurements.",
+        "Condylobasal skull length 519 mm for one adult male (YNP 11661) and 460 mm for one adult female (YNP 12050); single specimens, not ranges."
+      ]
+    }
+  }
+}

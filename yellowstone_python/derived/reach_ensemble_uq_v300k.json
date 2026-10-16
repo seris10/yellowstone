@@ -1,0 +1,257 @@
+{
+ "schema": "yellowstone.reach_uq.v1",
+ "status": "fitted_not_validated_single_window",
+ "fetched_at_utc": "2026-10-10T01:02:29.154553+00:00",
+ "effective_geometry": {
+  "volume_m3": 300000.0,
+  "area_m2": 600000.0,
+  "status": "authored_illustrative_effective_mixing_volume"
+ },
+ "ridge_rule": {
+  "tol_frac": 0.1,
+  "min_members": 5,
+  "n_members": 5,
+  "fallback_to_top5": true
+ },
+ "members": [
+  {
+   "q_lat": 3.5,
+   "t_lat": 30.0,
+   "c_mult": 1.0,
+   "train_rmse": 0.4966640158449682
+  },
+  {
+   "q_lat": 4.5,
+   "t_lat": 25.0,
+   "c_mult": 0.5,
+   "train_rmse": 0.5307190734062536
+  },
+  {
+   "q_lat": 3.75,
+   "t_lat": 30.0,
+   "c_mult": 1.0,
+   "train_rmse": 0.5474140299494296
+  },
+  {
+   "q_lat": 4.75,
+   "t_lat": 25.0,
+   "c_mult": 0.5,
+   "train_rmse": 0.5814422466744983
+  },
+  {
+   "q_lat": 4.25,
+   "t_lat": 25.0,
+   "c_mult": 0.5,
+   "train_rmse": 0.5821781231421983
+  }
+ ],
+ "bands": {
+  "quantiles": [
+   0.04999999999999999,
+   0.5,
+   0.95
+  ],
+  "seed": 20261010,
+  "n_bootstrap": 1000,
+  "n_members": 5,
+  "lo_se_mean": 0.10136567525439152,
+  "hi_se_mean": 0.09520098013895978,
+  "band_width_mean": 0.5333849271248207,
+  "level": 0.9
+ },
+ "holdout_coverage": {
+  "n": 172,
+  "n_inside": 59,
+  "coverage": 0.3430232558139535,
+  "mean_width_c": 0.537562498754024,
+  "nominal": 0.9
+ },
+ "fit_oat": {
+  "baseline_holdout_rmse": 0.46616264047340583,
+  "ranking": [
+   {
+    "knob": "area_m2",
+    "value": 1200000.0,
+    "holdout_rmse": 3.8526447286303673,
+    "delta_rmse": 3.3864820881569617
+   },
+   {
+    "knob": "area_m2",
+    "value": 300000.0,
+    "holdout_rmse": 3.4008296269499083,
+    "delta_rmse": 2.9346669864765023
+   },
+   {
+    "knob": "c_mult",
+    "value": 2.0,
+    "holdout_rmse": 2.5124671684626025,
+    "delta_rmse": 2.0463045279891965
+   },
+   {
+    "knob": "t_lat",
+    "value": 35.0,
+    "holdout_rmse": 2.4015448314958245,
+    "delta_rmse": 1.9353821910224187
+   },
+   {
+    "knob": "t_lat",
+    "value": 25.0,
+    "holdout_rmse": 2.2380667112862387,
+    "delta_rmse": 1.7719040708128329
+   },
+   {
+    "knob": "c_mult",
+    "value": 0.5,
+    "holdout_rmse": 2.060484723837786,
+    "delta_rmse": 1.59432208336438
+   },
+   {
+    "knob": "volume_m3",
+    "value": 600000.0,
+    "holdout_rmse": 1.1419202991616313,
+    "delta_rmse": 0.6757576586882255
+   },
+   {
+    "knob": "volume_m3",
+    "value": 150000.0,
+    "holdout_rmse": 0.7949177548137544,
+    "delta_rmse": 0.32875511434034854
+   },
+   {
+    "knob": "q_lat",
+    "value": 3.75,
+    "holdout_rmse": 0.6815378030143275,
+    "delta_rmse": 0.2153751625409217
+   },
+   {
+    "knob": "q_lat",
+    "value": 3.5,
+    "holdout_rmse": 0.46616264047340583,
+    "delta_rmse": 0.0
+   }
+  ]
+ },
+ "reproducibility": {
+  "fresh_champion_matches_recorded": true,
+  "fresh_champion": {
+   "q_lat": 3.5,
+   "t_lat": 30.0,
+   "c_mult": 1.0,
+   "train_rmse": 0.4966640158449682,
+   "holdout_rmse": 0.46616264047340583
+  },
+  "recorded_champion": {
+   "q_lat": 3.5,
+   "t_lat": 30.0,
+   "c_mult": 1.0,
+   "train_rmse": 0.5290596745843223,
+   "holdout_rmse": 0.5882894580669131
+  }
+ },
+ "downstream_oat": {
+  "landscape_source": "derived/8b9199d0fb0a/river_replay.json time-mean (ambient)",
+  "refuge_weight": {
+   "rows": [
+    {
+     "knob": "refuge_weight",
+     "value": 0.3,
+     "refuge_s_m": 3091.282926592081,
+     "refuge_cell": "firehole_cell_00156",
+     "refuge_u": -0.024,
+     "shift_vs_default_m": 0.0
+    },
+    {
+     "knob": "refuge_weight",
+     "value": 0.6,
+     "refuge_s_m": 3091.282926592081,
+     "refuge_cell": "firehole_cell_00156",
+     "refuge_u": -0.024,
+     "shift_vs_default_m": 0.0
+    },
+    {
+     "knob": "refuge_weight",
+     "value": 0.9,
+     "refuge_s_m": 3091.282926592081,
+     "refuge_cell": "firehole_cell_00156",
+     "refuge_u": -0.024,
+     "shift_vs_default_m": 0.0
+    }
+   ],
+   "note": "no selection shift on ambient landscape; synthetic 3x-tilted landscape (22-26 C, labeled probe not a claim) also unmoved: near-tie winner cluster shifts as a block, U levels move ~0.03 across W range"
+  },
+  "ne_turnover_days": {
+   "rows": [
+    {
+     "knob": "ne_turnover_days",
+     "value": 1.0,
+     "emergence": 1027.5625,
+     "trout_s_m": 2872.5032,
+     "dipper_intake": 12.1373
+    },
+    {
+     "knob": "ne_turnover_days",
+     "value": 2.0,
+     "emergence": 1027.5625,
+     "trout_s_m": 2872.5032,
+     "dipper_intake": 13.5105
+    },
+    {
+     "knob": "ne_turnover_days",
+     "value": 4.0,
+     "emergence": 1027.5625,
+     "trout_s_m": 2872.5032,
+     "dipper_intake": 15.64
+    }
+   ],
+   "note": "cumulative emergence invariant by construction (turnover drains standing Ne, not the benthic flux); dipper intake +29% over 1->4 d; trout refuge unmoved"
+  },
+  "bank_manning": {
+   "rows": [
+    {
+     "knob": "bank_slope_zh",
+     "value": 1.0,
+     "median_consistency_ratio": 0.723,
+     "n_defined": 273,
+     "delta_vs_default": -0.013
+    },
+    {
+     "knob": "bank_slope_zh",
+     "value": 1.5,
+     "median_consistency_ratio": 0.736,
+     "n_defined": 273,
+     "delta_vs_default": 0.0
+    },
+    {
+     "knob": "bank_slope_zh",
+     "value": 2.0,
+     "median_consistency_ratio": 0.75,
+     "n_defined": 273,
+     "delta_vs_default": 0.014
+    },
+    {
+     "knob": "manning_n",
+     "value": 0.025,
+     "median_consistency_ratio": 0.525,
+     "n_defined": 273,
+     "delta_vs_default": -0.21
+    },
+    {
+     "knob": "manning_n",
+     "value": 0.035,
+     "median_consistency_ratio": 0.736,
+     "n_defined": 273,
+     "delta_vs_default": 0.0
+    },
+    {
+     "knob": "manning_n",
+     "value": 0.045,
+     "median_consistency_ratio": 0.946,
+     "n_defined": 273,
+     "delta_vs_default": 0.21
+    }
+   ],
+   "note": "median consistency ratio 0.736 at defaults (recorded 0.74); Manning n dominates (d +/-0.21) over bank z (+/-0.014); defined-cell count fixed at 273"
+  }
+ },
+ "geometry_note": "area 600000 m2 = 2xV (0.5 m effective depth, authored); recorded fit artifacts do not store area (provenance gap noted, not backfilled); mapped cells sum to 120555 m2 over 5.5 km vs 18.5 km inter-gauge reach"
+}

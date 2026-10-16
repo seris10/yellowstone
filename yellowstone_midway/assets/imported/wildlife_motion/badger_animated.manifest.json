@@ -1,0 +1,425 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "3e1da3e33155edbe2113b904dcf8390fe6d861edc9781f784ab18fa38b203c5b",
+  "vertices": 15915,
+  "triangles": 20000,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "source": "badger_runtime_source.glb",
+    "mesh_index": 0,
+    "node_index": 0,
+    "scale_status": "unverified_asset_units",
+    "source_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "canonical_transform": [
+      [
+        0.3748738938194463,
+        0.0,
+        -0.9270758133683817,
+        -0.036782388055469684
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.1971503496170044
+      ],
+      [
+        0.9270758133683817,
+        0.0,
+        0.3748738938194463,
+        0.05045740404431222
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "forward_input": "+x",
+    "up_input": "+y",
+    "heading_estimation": "paw-cluster midpoint",
+    "supplied_bbox_length_m": null,
+    "canonical_scale_factor": 1.0
+  },
+  "texture_resizing": [
+    {
+      "image": "NormalGL_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "image": "Color_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+      "before": [
+        8192,
+        8192
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "image": "ORM_645fc5ef-e776-4df5-a1c1-d93404ad1e62",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "duration_s": 10.0,
+      "frames": 301,
+      "loop": true,
+      "engine": "mammal",
+      "species": "american_badger",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "idle",
+        "frequency_hz": 0.2,
+        "duty_factor": 0.68,
+        "stance_length_height": 0,
+        "clearance_height": 0,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.0,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "idle",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Walk",
+      "duration_s": 1.6,
+      "frames": 49,
+      "loop": true,
+      "engine": "mammal",
+      "species": "american_badger",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "walk",
+        "frequency_hz": 1.25,
+        "duty_factor": 0.74,
+        "stance_length_height": 0.18,
+        "clearance_height": 0.035,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.11972610360464533,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "walk",
+      "max_ik_reach_error_asset_units": 0.0
+    }
+  ],
+  "joint_count": 25,
+  "rig": {
+    "schema": "wildlife-motion.rig/1",
+    "names": [
+      "root",
+      "pelvis",
+      "lumbar",
+      "thorax",
+      "neck",
+      "head",
+      "FL_upper",
+      "FL_middle",
+      "FL_ankle",
+      "FL_foot",
+      "FR_upper",
+      "FR_middle",
+      "FR_ankle",
+      "FR_foot",
+      "HL_upper",
+      "HL_middle",
+      "HL_ankle",
+      "HL_foot",
+      "HR_upper",
+      "HR_middle",
+      "HR_ankle",
+      "HR_foot",
+      "tail_0",
+      "tail_1",
+      "tail_2"
+    ],
+    "parents": [
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      3,
+      6,
+      7,
+      8,
+      3,
+      10,
+      11,
+      12,
+      1,
+      14,
+      15,
+      16,
+      1,
+      18,
+      19,
+      20,
+      1,
+      22,
+      23
+    ],
+    "rest": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.2520101451873779,
+        -0.09726927592115095
+      ],
+      [
+        0.0,
+        0.2536639617651701,
+        -0.017492512942222288
+      ],
+      [
+        0.0,
+        0.25594780370593073,
+        0.092675397838203
+      ],
+      [
+        0.0,
+        0.2874490718543529,
+        0.18455295949716377
+      ],
+      [
+        0.10053425354471222,
+        0.3308655396103859,
+        0.3425957717146288
+      ],
+      [
+        0.07875317037105561,
+        0.22050887703895572,
+        0.092675397838203
+      ],
+      [
+        0.11998631104231404,
+        0.12206741407513619,
+        0.042142738925774574
+      ],
+      [
+        0.16121945171357246,
+        0.05118956074118614,
+        0.3293669320095217
+      ],
+      [
+        0.16121945171357246,
+        0.018486149087548257,
+        0.36611795667310604
+      ],
+      [
+        -0.07875317037105561,
+        0.22050887703895572,
+        0.092675397838203
+      ],
+      [
+        -0.11998631104231408,
+        0.12206741407513619,
+        0.042142738925774574
+      ],
+      [
+        -0.16121945171357255,
+        0.05118956074118614,
+        -0.07970184317184317
+      ],
+      [
+        -0.16121945171357255,
+        0.017427507713437082,
+        -0.04295081850825886
+      ],
+      [
+        0.07875317037105561,
+        0.24019716963171958,
+        -0.09726927592115095
+      ],
+      [
+        0.046438151469466865,
+        0.15356868222355843,
+        -0.04621163380498369
+      ],
+      [
+        0.00694201725641393,
+        0.0590648777782917,
+        -0.1809435624463426
+      ],
+      [
+        0.00694201725641393,
+        0.01612545795738697,
+        -0.13041090353391419
+      ],
+      [
+        -0.07875317037105561,
+        0.24019716963171958,
+        -0.09726927592115095
+      ],
+      [
+        -0.04643815146946687,
+        0.15356868222355843,
+        -0.07114976624379113
+      ],
+      [
+        -0.006942017256413946,
+        0.0590648777782917,
+        -0.2432888935433612
+      ],
+      [
+        -0.006942017256413946,
+        0.01709044046700001,
+        -0.19275623463093278
+      ],
+      [
+        0.0,
+        0.28351141333580016,
+        -0.17995908141421563
+      ],
+      [
+        -0.05041059612652546,
+        0.24785025561228394,
+        -0.24227808303204246
+      ],
+      [
+        -0.10082119225305092,
+        0.21218909788876772,
+        -0.3045970846498693
+      ]
+    ],
+    "groups": {
+      "body": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "FL": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "FR": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "HL": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "HR": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "tail": [
+        22,
+        23,
+        24
+      ]
+    },
+    "metadata": {
+      "species": "american_badger",
+      "engine": "mammal",
+      "review_status": "estimated_unreviewed",
+      "source_sha256": "3e1da3e33155edbe2113b904dcf8390fe6d861edc9781f784ab18fa38b203c5b",
+      "canonical_transform": [
+        [
+          0.3748738938194463,
+          0.0,
+          -0.9270758133683817,
+          -0.036782388055469684
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.1971503496170044
+        ],
+        [
+          0.9270758133683817,
+          0.0,
+          0.3748738938194463,
+          0.05045740404431222
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scale_status": "unverified_asset_units",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "height": 0.393765851855278,
+      "length": 0.9187756165896077,
+      "foot_posture": "plantigrade",
+      "warnings": [
+        "Joint centers inferred from surface geometry, not measured skeletons.",
+        "Posed AI meshes may require joint and weight correction, particularly shoulders, hips, and feet."
+      ],
+      "sole_offsets": {
+        "FL": 0.016480199471116067,
+        "FR": 0.01455435521900654,
+        "HL": 0.01612545795738697,
+        "HR": 0.014606655314564707
+      }
+    }
+  }
+}

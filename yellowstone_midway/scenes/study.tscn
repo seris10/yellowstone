@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/thermal_probe_overlay.gd" id="2"]
+
+[node name="MidwayStudy" type="Node3D"]
+script = ExtResource("1")
+replay_path = "res://data/river_replay.json"
+replay_path_alt = ""
+
+[node name="ThermalProbes" parent="." type="Node3D"]
+script = ExtResource("2")
+ecosystem_path = NodePath("../Ecosystem")

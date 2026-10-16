@@ -1,0 +1,478 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "hydraulics": "V=Q/A_trap trapezoidal diagnostic per replay cell (solver volumes still rectangular); Manning/Froude/Fischer + travel times in river_replay.json hydraulics_summary; illustrative, not calibrated",
+  "parameter_provenance": {
+    "activity": "fish.thermal_performance feeding by species",
+    "refuge": "chainage-window argmax suitability",
+    "weights": null
+  },
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "thermal_species": {
+    "arctic_grayling": {
+      "status": "transferred_from_literature_with_ranges",
+      "t_feed_zero_c": 18.0,
+      "t_opt_hi_c": 14.0,
+      "t_opt_lo_c": 8.0,
+      "t_refuge_c": 20.0,
+      "t_uilt_c": 23.0
+    },
+    "brook_trout": {
+      "status": "transferred_from_literature_with_ranges",
+      "t_feed_zero_c": 23.4,
+      "t_opt_hi_c": 16.0,
+      "t_opt_lo_c": 13.0,
+      "t_refuge_c": 21.0,
+      "t_uilt_c": 25.3
+    },
+    "brown_trout": {
+      "status": "transferred_from_literature_with_ranges",
+      "t_feed_zero_c": 20.0,
+      "t_opt_hi_c": 16.0,
+      "t_opt_lo_c": 12.0,
+      "t_refuge_c": 24.0,
+      "t_uilt_c": 26.0
+    },
+    "rainbow_trout": {
+      "status": "transferred_from_literature_with_ranges",
+      "t_feed_zero_c": 22.0,
+      "t_opt_hi_c": 17.0,
+      "t_opt_lo_c": 13.0,
+      "t_refuge_c": 24.0,
+      "t_uilt_c": 26.0
+    },
+    "yellowstone_cutthroat": {
+      "status": "transferred_from_literature_with_ranges",
+      "t_feed_zero_c": 21.0,
+      "t_opt_hi_c": 18.3,
+      "t_opt_lo_c": 15.4,
+      "t_refuge_c": 22.0,
+      "t_uilt_c": 24.4
+    }
+  },
+  "wildlife": [
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.38
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 3,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 15.94,
+      "id": "trout_01",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "rainbow_trout",
+      "lateral_offset_m": -1.8,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 1.2,
+      "piscivore_components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "piscivore_mortality_per_day": 0.0014064678860529795,
+      "reach_id": "upper_corridor",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.53,
+      "refuge_basis": "replay_foodweb",
+      "refuge_cell_id": "firehole_cell_00065",
+      "refuge_chainage_m": 1280.2,
+      "refuge_off_polyline_m": -667.5,
+      "refuge_reason": "cell firehole_cell_00065 at s=1280 m (U -0.057, 17.53 C) selected by brown_trout literature suitability over 276 replay cells",
+      "refuge_rendered_s_m": 0.0,
+      "river_id": "river_5856_0",
+      "scale": 0.8,
+      "species": "brown_trout",
+      "species_id": "rainbow_trout",
+      "start_point_index": 0,
+      "suitability_U": -0.057,
+      "suitability_basis": "per_cell_velocity_depth",
+      "thermal_performance": {
+        "feeding": 0.6174999999999997,
+        "lethal_flag": 0,
+        "refuge_drive": 0.0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges",
+        "stress": 0.0,
+        "thermal_curve_form": "piecewise_linear"
+      },
+      "walk_mps": 0.19,
+      "water_offset_m": -0.29
+    },
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.4275
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 3,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 19.52,
+      "id": "trout_02",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "brown_trout",
+      "lateral_offset_m": 2.0,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 3.5,
+      "piscivore_components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "piscivore_mortality_per_day": 0.0014064678860529795,
+      "reach_id": "upper_corridor",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.53,
+      "refuge_basis": "replay_foodweb",
+      "refuge_cell_id": "firehole_cell_00065",
+      "refuge_chainage_m": 1280.2,
+      "refuge_off_polyline_m": -667.5,
+      "refuge_reason": "cell firehole_cell_00065 at s=1280 m (U -0.057, 17.53 C) selected by brown_trout literature suitability over 276 replay cells",
+      "refuge_rendered_s_m": 0.0,
+      "river_id": "river_5856_0",
+      "scale": 0.9,
+      "species": "brown_trout",
+      "species_id": "brown_trout",
+      "start_point_index": 0,
+      "suitability_U": -0.057,
+      "suitability_basis": "per_cell_velocity_depth",
+      "thermal_performance": {
+        "feeding": 0.6174999999999997,
+        "lethal_flag": 0,
+        "refuge_drive": 0.0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges",
+        "stress": 0.0,
+        "thermal_curve_form": "piecewise_linear"
+      },
+      "walk_mps": 0.19,
+      "water_offset_m": -0.29
+    },
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.3562
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 3,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 21.88,
+      "id": "trout_03",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "rainbow_trout",
+      "lateral_offset_m": 0.6,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 5.0,
+      "piscivore_components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "piscivore_mortality_per_day": 0.0014064678860529795,
+      "reach_id": "upper_corridor",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.53,
+      "refuge_basis": "replay_foodweb",
+      "refuge_cell_id": "firehole_cell_00065",
+      "refuge_chainage_m": 1280.2,
+      "refuge_off_polyline_m": -667.5,
+      "refuge_reason": "cell firehole_cell_00065 at s=1280 m (U -0.057, 17.53 C) selected by brown_trout literature suitability over 276 replay cells",
+      "refuge_rendered_s_m": 0.0,
+      "river_id": "river_5856_0",
+      "scale": 0.75,
+      "species": "brown_trout",
+      "species_id": "rainbow_trout",
+      "start_point_index": 0,
+      "suitability_U": -0.057,
+      "suitability_basis": "per_cell_velocity_depth",
+      "thermal_performance": {
+        "feeding": 0.6174999999999997,
+        "lethal_flag": 0,
+        "refuge_drive": 0.0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges",
+        "stress": 0.0,
+        "thermal_curve_form": "piecewise_linear"
+      },
+      "walk_mps": 0.19,
+      "water_offset_m": -0.29
+    },
+    {
+      "approx_dimensions_m": {
+        "body_length": 0.4512
+      },
+      "art_status": "Original low-detail fish proxy",
+      "end_point_index": 3,
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work.",
+      "hold_seconds": 14.38,
+      "id": "trout_04",
+      "initial_state": "hold",
+      "insect_index_per_second": 3e-06,
+      "kind": "brown_trout",
+      "lateral_offset_m": -2.4,
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "phase": 0.2,
+      "piscivore_components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "piscivore_mortality_per_day": 0.0014064678860529795,
+      "reach_id": "upper_corridor",
+      "reach_ids": [
+        "excelsior_mixing"
+      ],
+      "reach_temp_c": 17.53,
+      "refuge_basis": "replay_foodweb",
+      "refuge_cell_id": "firehole_cell_00065",
+      "refuge_chainage_m": 1280.2,
+      "refuge_off_polyline_m": -667.5,
+      "refuge_reason": "cell firehole_cell_00065 at s=1280 m (U -0.057, 17.53 C) selected by brown_trout literature suitability over 276 replay cells",
+      "refuge_rendered_s_m": 0.0,
+      "river_id": "river_5856_0",
+      "scale": 0.95,
+      "species": "brown_trout",
+      "species_id": "brown_trout",
+      "start_point_index": 0,
+      "suitability_U": -0.057,
+      "suitability_basis": "per_cell_velocity_depth",
+      "thermal_performance": {
+        "feeding": 0.6174999999999997,
+        "lethal_flag": 0,
+        "refuge_drive": 0.0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges",
+        "stress": 0.0,
+        "thermal_curve_form": "piecewise_linear"
+      },
+      "walk_mps": 0.19,
+      "water_offset_m": -0.29
+    }
+  ],
+  "world_id": "yellowstone_midway"
+}

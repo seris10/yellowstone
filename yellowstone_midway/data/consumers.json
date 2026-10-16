@@ -1,0 +1,202 @@
+{
+  "version": 1,
+  "consumers": {
+    "data/ecosystem.json": [
+      "scripts/world.gd"
+    ],
+    "data/pool_shells.json": [
+      "scripts/world.gd"
+    ],
+    "assets/textures/snow_map.png": [
+      "scripts/world.gd"
+    ],
+    "data/season.json": [
+      "scripts/world.gd"
+    ],
+    "data/plume_field.json": [
+      "scripts/world.gd"
+    ],
+    "data/geochemistry.json": [
+      "scripts/world.gd"
+    ],
+    "data/calibration_summary.json": [
+      "scripts/world.gd"
+    ],
+    "data/pools_state.json": [
+      "scripts/world.gd"
+    ],
+    "data/snow_cover.json": [
+      "scripts/world.gd"
+    ],
+    "data/overland_field.json": [
+      "scripts/world.gd"
+    ],
+    "data/groundwater_field.json": [
+      "scripts/world.gd"
+    ],
+    "data/census.json": [
+      "scripts/world.gd"
+    ],
+    "data/weather_snapshot.json": [
+      "scripts/weather_snapshot_reader.gd"
+    ],
+    "data/firehole_control.json": [
+      "scripts/python_river_replay.gd"
+    ],
+    "data/firehole_pulse.json": [
+      "scripts/python_river_replay.gd"
+    ],
+    "data/ground_heat.json": [
+      "scripts/world.gd"
+    ],
+    "data/soil_temperature.json": [
+      "scripts/world.gd"
+    ],
+    "data/evapotranspiration.json": [
+      "scripts/world.gd"
+    ],
+    "data/winter_grazing.json": [
+      "scripts/world.gd"
+    ],
+    "data/piscivores.json": [
+      "scripts/world.gd"
+    ],
+    "data/steam_microclimate.json": [
+      "scripts/world.gd"
+    ],
+    "data/river_shading.json": [
+      "scripts/world.gd"
+    ],
+    "data/river_oxygen.json": [
+      "scripts/world.gd"
+    ],
+    "data/periphyton.json": [
+      "scripts/world.gd"
+    ],
+    "data/solute_transport.json": [
+      "scripts/world.gd"
+    ],
+    "data/outflow_temperature.json": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_temperature.f32": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/mat_state.json": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/mat_community.i16": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/mat_pigment.png": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_to_replay_lateral.json": [
+      "scripts/world.gd"
+    ],
+    "data/outflow_foodweb.json": [
+      "scripts/world.gd"
+    ],
+    "data/pool_ramps.json": [
+      "scripts/world.gd"
+    ],
+    "data/world.json": [
+      "scripts/world.gd"
+    ],
+    "data/river_replay.json": [
+      "scripts/world.gd"
+    ],
+    "data/claims.json": [
+      "scripts/world.gd"
+    ],
+    "data/param_registry.json": [
+      "scripts/world.gd"
+    ],
+    "data/equations.json": [
+      "scripts/world.gd"
+    ],
+    "data/species_catalogue.json": [
+      "scripts/world.gd"
+    ],
+    "data/substrate_rules.json": [
+      "scripts/world.gd"
+    ],
+    "assets/textures/pool_ramps": [
+      "scripts/pool_overlay.gd"
+    ],
+    "data/lidar_canopy/unresolved_render_canopy.json": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/lidar_canopy/canopy_top_scene_y.f32": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/lidar_canopy/cover_fraction.f32": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/lidar_canopy/ground_scene_y.f32": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/lidar_canopy/unresolved_cells.u8": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/lidar_canopy/unresolved_render_mask.png": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/lidar_canopy/valid_fraction.f32": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/lidar_canopy/valid_support.png": [
+      "scripts/canopy_surface.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/forest_floor.json": [
+      "scripts/forest_floor.gd",
+      "tools/bake_world.gd"
+    ],
+    "data/mammals.json": [
+      "scripts/ecosystem.gd",
+      "scripts/wildlife_actor.gd"
+    ],
+    "data/mammal_catalogue.json": [
+      "scripts/ecosystem.gd"
+    ],
+    "data/wildlife_motion_assets.json": [
+      "scripts/wildlife_actor.gd"
+    ],
+    "data/insect_bird.json": [
+      "scripts/world.gd"
+    ],
+    "data/grazer.json": [
+      "scripts/world.gd"
+    ],
+    "data/fish.json": [
+      "scripts/world.gd"
+    ],
+    "data/portfolio_comparison.json": [
+      "tools/validate_terrain_render.gd",
+      "scripts/world.gd"
+    ],
+    "data/snow_patch_mask.png": [
+      "scripts/world.gd"
+    ],
+    "data/outflow_network/outflow_network.json": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_network/wet_mask.i16": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_network/flow_fraction.f32": [
+      "scripts/mat_surface.gd"
+    ],
+    "data/outflow_network/in_pool.i16": [
+      "scripts/mat_surface.gd"
+    ]
+  }
+}

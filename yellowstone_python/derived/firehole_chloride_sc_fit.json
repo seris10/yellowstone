@@ -1,0 +1,15 @@
+{
+ "schema": "yellowstone.firehole_chloride_sc_fit.v1",
+ "status": "fitted_not_validated_single_window",
+ "site_id": "USGS-06036905",
+ "n_paired": 19,
+ "slope_mg_l_per_us_cm": 0.1443548777788649,
+ "intercept_mg_l": -4.67230173559426,
+ "r_squared": 0.9406555326229988,
+ "residual_rms_mg_l": 2.7690112938132083,
+ "method": "ordinary_least_squares_chloride_on_sc",
+ "assembled_at_utc": "2026-10-13T11:17:02.814563+00:00",
+ "paired_sample_source": "derived/firehole_chem_paired_samples.json",
+ "artifact_sha256": "13d2b263474d8ebf123f5336702273e17b0278fae77da952f8e3ae456ee17c8b",
+ "artifact_sha256_scope": "canonical_json_without_hash_fields"
+}

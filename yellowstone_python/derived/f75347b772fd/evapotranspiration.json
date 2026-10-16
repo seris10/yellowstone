@@ -1,0 +1,26 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "coefficients_source": "{'dry_meadow': 1.0, 'wet_meadow': 1.15, 'river_bank': 1.15, 'cold_wetland': 1.2, 'forest_lodgepole': 0.9, 'forest_moist': 0.95, 'forest_edge': 0.9, 'sinter_dry': 0.1, 'thermal_core': 0.05, 'thermal_outflow_hot': 0.05, 'river_pool': 1.05, 'river_riffle': 1.05, 'unsuitable_matrix': 0.2}",
+  "contract_version": "0.1.0",
+  "dt_days": 0.0,
+  "et0_mm_d": 4.710432696485058,
+  "et_by_patch_mm": {},
+  "interval_end_s": 0.0,
+  "interval_start_s": 0.0,
+  "parameter_provenance": {
+    "method": "FAO-56 reference"
+  },
+  "role": "diagnostic",
+  "schema": "yellowstone.evapotranspiration.v1",
+  "source_elevation_m": 2200.0,
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "authored_reference_diagnostic",
+  "stock_owner": "snow_soil_bucket",
+  "total_et_mm": 0.0,
+  "world_id": "yellowstone_midway"
+}

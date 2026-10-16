@@ -1,0 +1,454 @@
+{
+  "schema": "yellowstone.canopy_shoot.v1",
+  "source_class": "human_made_cc0",
+  "source_url": "https://polyhaven.com/a/pine_tree_01",
+  "license": "CC0-1.0",
+  "license_url": "https://polyhaven.com/license",
+  "species_identity": "representative_pine_not_local_species_verification",
+  "sources": [
+    {
+      "path": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_diff_1k.jpg",
+      "sha256": "e649f0f9bc74d1af5f1a45eaf2fe7a29adaaddfab251f746b983da301e4b80e1"
+    },
+    {
+      "path": "assets/imported/pine_tree_01/textures/pine_tree_01_alpha_1k.png",
+      "sha256": "6f91aa99f2c27108d6f817f874954aa7df8bfbb4dea2673e9322555a6ae79d99"
+    }
+  ],
+  "selection": {
+    "alpha_threshold_u8": 82,
+    "connected_component_seed_xy": [
+      140,
+      430
+    ],
+    "atlas_region_xywh": [
+      0,
+      0,
+      256,
+      460
+    ],
+    "crop_xywh": [
+      12,
+      35,
+      256,
+      418
+    ],
+    "top_padding_px": 94,
+    "root_uv": [
+      0.5,
+      1.0
+    ]
+  },
+  "color_processing": "original shoot sRGB; bicubic rotated composition and nearest valid RGB dilation; no saturation or hue alteration",
+  "display_dimensions_m": [
+    0.48,
+    0.64
+  ],
+  "component_dimensions_m": [
+    0.18,
+    0.36
+  ],
+  "dimension_class": "authored_unknown_uncertainty",
+  "assembly": {
+    "class": "authored_connected_bough",
+    "photos": 5,
+    "root_xy_and_rotation_deg": [
+      [
+        192,
+        490,
+        35
+      ],
+      [
+        194,
+        445,
+        -38
+      ],
+      [
+        196,
+        400,
+        22
+      ],
+      [
+        198,
+        355,
+        -28
+      ],
+      [
+        200,
+        310,
+        4
+      ]
+    ],
+    "component_pixel_scale": 0.5625,
+    "support_width_m": 0.005,
+    "field_branch_claim": "none"
+  },
+  "component_mips": {
+    "path": "pine_shoot.miprgba",
+    "sha256": "6dc873f1081dcd2f6a1ae73bab0209e5bae49514df27ca6416ffa4e51f72ba55",
+    "source_sha256": "53d14260ade558446cea069e1afa4af4786e0378667eb61a5437b76851ae01bb",
+    "bytes": 699052,
+    "width": 256,
+    "height": 512,
+    "cutoff": 0.32,
+    "base_coverage": 0.16948699951171875,
+    "filtered_coverage_target": 0.17076280381944445,
+    "calibration_samples": 36864,
+    "trilinear_fractions": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "filter_address_mode": "clamp_to_edge",
+    "levels": [
+      {
+        "level": 0,
+        "width": 256,
+        "height": 512,
+        "offset": 0,
+        "bytes": 524288,
+        "alpha_test_coverage": 0.16948699951171875,
+        "alpha_scale": 1.0,
+        "calibration_mode": "unaltered_source",
+        "bilinear_coverage": 0.17076280381944445,
+        "trilinear_coverage_from_previous": []
+      },
+      {
+        "level": 1,
+        "width": 128,
+        "height": 256,
+        "offset": 524288,
+        "bytes": 131072,
+        "alpha_test_coverage": 0.1656494140625,
+        "alpha_scale": 0.7596015930175781,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.1706271701388889,
+        "trilinear_coverage_from_previous": [
+          0.1706814236111111,
+          0.1709255642361111,
+          0.17078993055555555
+        ]
+      },
+      {
+        "level": 2,
+        "width": 64,
+        "height": 128,
+        "offset": 655360,
+        "bytes": 32768,
+        "alpha_test_coverage": 0.1673583984375,
+        "alpha_scale": 0.6791322231292725,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.169189453125,
+        "trilinear_coverage_from_previous": [
+          0.1711697048611111,
+          0.1713595920138889,
+          0.17130533854166666
+        ]
+      },
+      {
+        "level": 3,
+        "width": 32,
+        "height": 64,
+        "offset": 688128,
+        "bytes": 8192,
+        "alpha_test_coverage": 0.17626953125,
+        "alpha_scale": 0.7165095806121826,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.1713324652777778,
+        "trilinear_coverage_from_previous": [
+          0.1701117621527778,
+          0.1708984375,
+          0.1706814236111111
+        ]
+      },
+      {
+        "level": 4,
+        "width": 16,
+        "height": 32,
+        "offset": 696320,
+        "bytes": 2048,
+        "alpha_test_coverage": 0.171875,
+        "alpha_scale": 0.7189614772796631,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.167236328125,
+        "trilinear_coverage_from_previous": [
+          0.17179361979166666,
+          0.1723090277777778,
+          0.17171223958333334
+        ]
+      },
+      {
+        "level": 5,
+        "width": 8,
+        "height": 16,
+        "offset": 698368,
+        "bytes": 512,
+        "alpha_test_coverage": 0.1640625,
+        "alpha_scale": 0.8484270572662354,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.17540147569444445,
+        "trilinear_coverage_from_previous": [
+          0.1674262152777778,
+          0.16853841145833334,
+          0.1716037326388889
+        ]
+      },
+      {
+        "level": 6,
+        "width": 4,
+        "height": 8,
+        "offset": 698880,
+        "bytes": 128,
+        "alpha_test_coverage": 0.21875,
+        "alpha_scale": 0.8789985179901123,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.1655815972222222,
+        "trilinear_coverage_from_previous": [
+          0.174072265625,
+          0.1732855902777778,
+          0.17078993055555555
+        ]
+      },
+      {
+        "level": 7,
+        "width": 2,
+        "height": 4,
+        "offset": 699008,
+        "bytes": 32,
+        "alpha_test_coverage": 0.25,
+        "alpha_scale": 1.1344833374023438,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.1781955295138889,
+        "trilinear_coverage_from_previous": [
+          0.16121419270833334,
+          0.16761610243055555,
+          0.1780056423611111
+        ]
+      },
+      {
+        "level": 8,
+        "width": 1,
+        "height": 2,
+        "offset": 699040,
+        "bytes": 8,
+        "alpha_test_coverage": 0.5,
+        "alpha_scale": 1.8005270957946777,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.2833116319444444,
+        "trilinear_coverage_from_previous": [
+          0.1650119357638889,
+          0.13924153645833334,
+          0.09187825520833333
+        ]
+      },
+      {
+        "level": 9,
+        "width": 1,
+        "height": 1,
+        "offset": 699048,
+        "bytes": 4,
+        "alpha_test_coverage": 1.0,
+        "alpha_scale": 2.0178356170654297,
+        "calibration_mode": "terminal_single_texel_conservative_visibility",
+        "bilinear_coverage": 1.0,
+        "trilinear_coverage_from_previous": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ],
+    "evidence_class": "authored",
+    "color_filter_space": "linear_sRGB",
+    "method": "Linear-light premultiplied RGB box filter; quantized alpha bisection against stratified bilinear and adjacent trilinear coverage",
+    "method_source": "https://www.ludicon.com/castano/blog/articles/computing-alpha-mipmaps/",
+    "limitations": [
+      "Finite UV samples approximate filtered coverage; anisotropic projected geometry requires native checks.",
+      "Very small levels cannot reproduce every spatial coverage; a nonempty 1x1 source remains visible conservatively."
+    ]
+  },
+  "mips": {
+    "path": "pine_bough.miprgba",
+    "sha256": "8ae3152cee498930a7df21320f56c3bf85e97256afca24b277307bf6be46b22b",
+    "source_sha256": "88bb78e929099e5338b0dc9f200e8cb4803987726c4a47c095b2c4b4a616d71e",
+    "bytes": 1048572,
+    "width": 384,
+    "height": 512,
+    "cutoff": 0.32,
+    "base_coverage": 0.1784515380859375,
+    "filtered_coverage_target": 0.1889377170138889,
+    "calibration_samples": 36864,
+    "trilinear_fractions": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "filter_address_mode": "clamp_to_edge",
+    "levels": [
+      {
+        "level": 0,
+        "width": 384,
+        "height": 512,
+        "offset": 0,
+        "bytes": 786432,
+        "alpha_test_coverage": 0.1784515380859375,
+        "alpha_scale": 1.0,
+        "calibration_mode": "unaltered_source",
+        "bilinear_coverage": 0.1889377170138889,
+        "trilinear_coverage_from_previous": []
+      },
+      {
+        "level": 1,
+        "width": 192,
+        "height": 256,
+        "offset": 786432,
+        "bytes": 196608,
+        "alpha_test_coverage": 0.18638102213541666,
+        "alpha_scale": 0.7283463478088379,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.1875271267361111,
+        "trilinear_coverage_from_previous": [
+          0.18910047743055555,
+          0.1892361111111111,
+          0.18986002604166666
+        ]
+      },
+      {
+        "level": 2,
+        "width": 96,
+        "height": 128,
+        "offset": 983040,
+        "bytes": 49152,
+        "alpha_test_coverage": 0.19108072916666666,
+        "alpha_scale": 0.7226889133453369,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.18855794270833334,
+        "trilinear_coverage_from_previous": [
+          0.188720703125,
+          0.18931749131944445,
+          0.18912760416666666
+        ]
+      },
+      {
+        "level": 3,
+        "width": 48,
+        "height": 64,
+        "offset": 1032192,
+        "bytes": 12288,
+        "alpha_test_coverage": 0.1845703125,
+        "alpha_scale": 0.7125918865203857,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.189208984375,
+        "trilinear_coverage_from_previous": [
+          0.1884223090277778,
+          0.18882921006944445,
+          0.1892632378472222
+        ]
+      },
+      {
+        "level": 4,
+        "width": 24,
+        "height": 32,
+        "offset": 1044480,
+        "bytes": 3072,
+        "alpha_test_coverage": 0.20572916666666666,
+        "alpha_scale": 0.7428431510925293,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.18739149305555555,
+        "trilinear_coverage_from_previous": [
+          0.1896701388888889,
+          0.1902126736111111,
+          0.1884765625
+        ]
+      },
+      {
+        "level": 5,
+        "width": 12,
+        "height": 16,
+        "offset": 1047552,
+        "bytes": 768,
+        "alpha_test_coverage": 0.19270833333333334,
+        "alpha_scale": 0.7846777439117432,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.19075520833333334,
+        "trilinear_coverage_from_previous": [
+          0.18739149305555555,
+          0.1885036892361111,
+          0.1889105902777778
+        ]
+      },
+      {
+        "level": 6,
+        "width": 6,
+        "height": 8,
+        "offset": 1048320,
+        "bytes": 192,
+        "alpha_test_coverage": 0.1875,
+        "alpha_scale": 0.8585102558135986,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.1851128472222222,
+        "trilinear_coverage_from_previous": [
+          0.1904296875,
+          0.19099934895833334,
+          0.1894802517361111
+        ]
+      },
+      {
+        "level": 7,
+        "width": 3,
+        "height": 4,
+        "offset": 1048512,
+        "bytes": 48,
+        "alpha_test_coverage": 0.25,
+        "alpha_scale": 1.0968780517578125,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.1911078559027778,
+        "trilinear_coverage_from_previous": [
+          0.18907335069444445,
+          0.1894259982638889,
+          0.1857367621527778
+        ]
+      },
+      {
+        "level": 8,
+        "width": 1,
+        "height": 2,
+        "offset": 1048560,
+        "bytes": 8,
+        "alpha_test_coverage": 0.5,
+        "alpha_scale": 1.7039909362792969,
+        "calibration_mode": "filtered_coverage_fit",
+        "bilinear_coverage": 0.3071560329861111,
+        "trilinear_coverage_from_previous": [
+          0.1760525173611111,
+          0.14903428819444445,
+          0.0813259548611111
+        ]
+      },
+      {
+        "level": 9,
+        "width": 1,
+        "height": 1,
+        "offset": 1048568,
+        "bytes": 4,
+        "alpha_test_coverage": 1.0,
+        "alpha_scale": 1.864999771118164,
+        "calibration_mode": "terminal_single_texel_conservative_visibility",
+        "bilinear_coverage": 1.0,
+        "trilinear_coverage_from_previous": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ],
+    "evidence_class": "authored",
+    "color_filter_space": "linear_sRGB",
+    "method": "Linear-light premultiplied RGB box filter; quantized alpha bisection against stratified bilinear and adjacent trilinear coverage",
+    "method_source": "https://www.ludicon.com/castano/blog/articles/computing-alpha-mipmaps/",
+    "limitations": [
+      "Finite UV samples approximate filtered coverage; anisotropic projected geometry requires native checks.",
+      "Very small levels cannot reproduce every spatial coverage; a nonempty 1x1 source remains visible conservatively."
+    ]
+  }
+}

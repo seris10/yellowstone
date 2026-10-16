@@ -1,0 +1,143 @@
+[
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/pine_tree_01/pine_tree_01_1k.gltf",
+    "file": "assets/imported/pine_tree_01/pine_tree_01_source.json",
+    "bytes": 30596,
+    "sha256": "c81e8eebbda722313f07bed37b8b9156ce520f7fa95488d83a694d02fffdb469"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/grass_medium_01/grass_medium_01_1k.gltf",
+    "file": "assets/imported/grass_medium_01/grass_medium_01_source.json",
+    "bytes": 27110,
+    "sha256": "3e5e2a314c94e16de54fd7c28e41709731fbd2b1613ab539f1544f622ddb6a85"
+  },
+  {
+    "url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-030401GeyserHillStreamOffBoardwalkBackgroundGeyserRumblesAndWindBinaural0101.mp3",
+    "file": "assets/audio/nps_geyser_hill_water.mp3",
+    "bytes": 1527527,
+    "sha256": "8c31cac7af13098fe4fa580aa8945dd49cab0d635a571f797a351b8de3e8a9ba"
+  },
+  {
+    "url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-030402GeyserHillNearSulphideSpringBirdsBinaural0101.mp3",
+    "file": "assets/audio/nps_geyser_hill_birds.mp3",
+    "bytes": 5200895,
+    "sha256": "5e8f640e9269603c6d1a40767b5601aed5b0db5adb5f7dfa2fe06e356efae78a"
+  },
+  {
+    "url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-040201LowerGeyserBasinWindInTreesBinaural01011.mp3",
+    "file": "assets/audio/nps_lower_basin_wind.mp3",
+    "bytes": 7191575,
+    "sha256": "99c01be96dea5aa960175cad7ce7ac7f0d232a6d8a6fe9c03f88e3f73fb95146"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_bark_nor_gl_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_bark_nor_gl_1k.jpg",
+    "bytes": 1016849,
+    "sha256": "05c46455531781b6cf18cae0648cf627f60ee942adaa8bcbfd1592fc2506a9e0",
+    "source_md5": "bb6e3a6eea777d992cef48fabfdc538c"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_bark_diff_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg",
+    "bytes": 725265,
+    "sha256": "5c76836b01c3536fa0e24207b67bf4f3315b53ebe2b4ecc6f08dfcf3f8d74929",
+    "source_md5": "7d3a558ed614c7e75594c7be3bf80311"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_bark_arm_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_bark_arm_1k.jpg",
+    "bytes": 801278,
+    "sha256": "336a4680cd571b6076b67afee2310b290b8900d9d126eb39ec1ae92e95be2ea9",
+    "source_md5": "21d1abd15e40951825a4f3da110b20ea"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_twig_nor_gl_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_nor_gl_1k.jpg",
+    "bytes": 797935,
+    "sha256": "2a02a482a18d20255c800845902d5e0061d2a2d14107d7c4ed0b789414153141",
+    "source_md5": "972d28f52f07ea271792b5bfbb8a3286"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_twig_diff_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_diff_1k.jpg",
+    "bytes": 510932,
+    "sha256": "e649f0f9bc74d1af5f1a45eaf2fe7a29adaaddfab251f746b983da301e4b80e1",
+    "source_md5": "b6e5f4e8c228c275e5ff75cb165c2e1f"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_twig_arm_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_twig_arm_1k.jpg",
+    "bytes": 474787,
+    "sha256": "47facef9985e8c073184a64d15ea14bd2dc3b3debfb93f3671b6d5ad0dbc163d",
+    "source_md5": "4623cfe77824b66098cdff4f2213ef10"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_trunk_b_nor_gl_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_trunk_b_nor_gl_1k.jpg",
+    "bytes": 915273,
+    "sha256": "5e498ee6fee29437196085620c978346ba6731edad8bfc2a2642868f8bf64efe",
+    "source_md5": "310666823cba305dd25d1494fbe73877"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_trunk_b_diff_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_trunk_b_diff_1k.jpg",
+    "bytes": 687662,
+    "sha256": "9d39263a9243a4b6cd669de5e3a504eae32d52f5ab48e471cad5f7e52e052508",
+    "source_md5": "00ad0c0643a4e6b34914b8ac05cc28cb"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/pine_tree_01/pine_tree_01_trunk_b_arm_1k.jpg",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_trunk_b_arm_1k.jpg",
+    "bytes": 732269,
+    "sha256": "8141cd57969269604351e366400354e47e7f25294881387e1ea307b48c37b033",
+    "source_md5": "4275bc6e1f13b5195b64e9e3b63cf5a2"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/pine_tree_01/pine_tree_01_twig_alpha_1k.png",
+    "file": "assets/imported/pine_tree_01/textures/pine_tree_01_alpha_1k.png",
+    "bytes": 351928,
+    "sha256": "6f91aa99f2c27108d6f817f874954aa7df8bfbb4dea2673e9322555a6ae79d99",
+    "source_md5": "641911a5a3f543911dad04ebb26e7bca"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/grass_medium_01/grass_medium_01_nor_gl_1k.jpg",
+    "file": "assets/imported/grass_medium_01/textures/grass_medium_01_nor_gl_1k.jpg",
+    "bytes": 956166,
+    "sha256": "cae298d3d1d7ff7c7e210ad8ac772b96706e356f9315a6b04fde373ce01ccf1e",
+    "source_md5": "fcf43dd1253f56e4c361079f34155c37"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/grass_medium_01/grass_medium_01_diff_1k.jpg",
+    "file": "assets/imported/grass_medium_01/textures/grass_medium_01_diff_1k.jpg",
+    "bytes": 395673,
+    "sha256": "71495bd6a11fddcab0aaff38246fea1a7b802a705483f1c7cbca53955daa8050",
+    "source_md5": "6b18ed50d776fd20c1304d9994bd764e"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/grass_medium_01/grass_medium_01_arm_1k.jpg",
+    "file": "assets/imported/grass_medium_01/textures/grass_medium_01_arm_1k.jpg",
+    "bytes": 679518,
+    "sha256": "9a3a30f72bc02f4398967c5b08f2d20cce30bd423a2613b42a727034296fa3ae",
+    "source_md5": "37ed2730a507b681af2e9f9f7ef3ae5e"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/grass_medium_01/grass_medium_01.bin",
+    "file": "assets/imported/grass_medium_01/grass_medium_01.bin",
+    "bytes": 1006632,
+    "sha256": "f4587cabdb96a2e96d8be644923dc954a248edfaaa717a0ff224cacb898bee1f",
+    "source_md5": "e0527a0561c2dae5b7b5c1b478d8c6bf"
+  },
+  {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/grass_medium_01/grass_medium_01_alpha_1k.png",
+    "file": "assets/imported/grass_medium_01/textures/grass_medium_01_alpha_1k.png",
+    "bytes": 648718,
+    "sha256": "711a8e49af758d6a6ce1f610db858899a27be19da6d1866bd35c13bc7b8ffeff",
+    "source_md5": "6b5b251ef1ca9a69ab9f49def66d758a"
+  },
+  {
+    "url": "https://www.nps.gov/nps-audiovideo/legacy/mp3/imr/avElement/yell-DipperandGeeseFireholeRiver.mp3",
+    "file": "assets/audio/nps_firehole_dipper_geese.mp3",
+    "bytes": 1047833,
+    "sha256": "9ebc6ad155e0f3490c7925f2679b079ce41282dfa646bd1fd9e11e1d0cb1a269"
+  }
+]

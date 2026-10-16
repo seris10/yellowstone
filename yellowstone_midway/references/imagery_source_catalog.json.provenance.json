@@ -1,0 +1,7 @@
+{
+  "path": "imagery_source_catalog.json",
+  "bytes": 26785,
+  "content_type": "application/json;charset=UTF-8",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/query?where=1%3D1&geometry=510904.5950985841%2C4928151.044097667%2C515000.5950985841%2C4932247.044097667&geometryType=esriGeometryEnvelope&inSR=32612&spatialRel=esriSpatialRelIntersects&outFields=%2A&returnGeometry=false&f=json",
+  "sha256": "f86bc0d0242d2f4decd5aa0ea9d13de5f62bbdd63e5c036d728039f713d0d4d9"
+}

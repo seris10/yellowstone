@@ -1,0 +1,24 @@
+{
+ "schema": "yellowstone.aquatic_intervention.v1",
+ "status": "illustrative_not_calibrated",
+ "landscape_window": "full-run means; short pulses are diluted \u2014 pass window_s to isolate the intervention",
+ "control": {
+  "cell_id": "firehole_cell_00145",
+  "s_m": 2872.5032418305063,
+  "temperature_c": 17.37,
+  "U": -0.025,
+  "feeding": 0.657,
+  "refuge_drive": 0.0
+ },
+ "pulse": {
+  "cell_id": "firehole_cell_00146",
+  "s_m": 2892.392304081559,
+  "temperature_c": 19.33,
+  "U": -0.269,
+  "feeding": 0.168,
+  "refuge_drive": 0.0
+ },
+ "refuge_shift_m": 19.9,
+ "emergence_change": 98.1733,
+ "dipper_intake_change": 0.1503
+}

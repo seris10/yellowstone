@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/timber.gdshader" id="1_h41mu"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_h41mu")
+shader_parameter/grain_axis = Vector3(0, 1, 0)
+shader_parameter/wood_light = null
+shader_parameter/wood_dark = null
+shader_parameter/patina = null

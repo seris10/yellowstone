@@ -1,0 +1,172 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "conditioning": {
+    "condition_number": null,
+    "identified_direction": [
+      -0.9988410237976099,
+      -0.002769573473635427,
+      0.048051416646303725
+    ],
+    "n_params": 3,
+    "null_directions": [
+      [
+        -0.007594379500823587,
+        0.9949060872346418,
+        -0.10051966466046514
+      ],
+      [
+        0.04752825032483322,
+        0.10076808545481564,
+        0.993774047947938
+      ]
+    ],
+    "param_names": [
+      "manning_n",
+      "bank_slope_zh",
+      "depth_m"
+    ],
+    "rank": 1,
+    "rank_tol": 1e-08,
+    "singular_values": [
+      24.22326359800939,
+      1.624044225894354e-11,
+      3.471684011164941e-12
+    ]
+  },
+  "contract_version": "0.1.0",
+  "dependence_policy": {
+    "held_fixed": [
+      "reach slope shared per feature",
+      "meteorology shared",
+      "width and depth from one profile"
+    ],
+    "salib_gate": "independent-input formulation above, or a dependence-aware method with documented interpretation",
+    "varied_independently": {
+      "bank_slope_zh": "authored banks; survey status unsurveyed",
+      "depth_m": "DEM-derived estimate; bathymetry absent",
+      "manning_n": "Chow (1959) literature range, authored"
+    }
+  },
+  "multistart": {
+    "max_cost": 6.946936424222868e-18,
+    "relative_spread": {
+      "bank_slope_zh": 0.8003093125109689,
+      "depth_m": 0.3534994128355101,
+      "manning_n": 0.6031786373347895
+    },
+    "runs": [
+      {
+        "cost": 6.946936424222868e-18,
+        "nfev": 5,
+        "solution": [
+          0.024567736092399907,
+          0.9567736092399904,
+          0.8556150067360335
+        ],
+        "start": [
+          0.025,
+          1.0,
+          0.7
+        ],
+        "success": true
+      },
+      {
+        "cost": 7.280424449896934e-30,
+        "nfev": 7,
+        "solution": [
+          0.042044694721368375,
+          1.6022347360684184,
+          1.2508006324557919
+        ],
+        "start": [
+          0.05,
+          2.0,
+          0.8
+        ],
+        "success": true
+      },
+      {
+        "cost": 3.0363141552828556e-26,
+        "nfev": 4,
+        "solution": [
+          0.04202783812598718,
+          2.7004639687664533,
+          1.3585152999473498
+        ],
+        "start": [
+          0.03,
+          2.5,
+          2.0
+        ],
+        "success": true
+      },
+      {
+        "cost": 2.8214873685273005e-32,
+        "nfev": 4,
+        "solution": [
+          0.05611125230671764,
+          1.2889510149557613,
+          1.4888493541190613
+        ],
+        "start": [
+          0.055,
+          0.8,
+          1.8
+        ],
+        "success": true
+      }
+    ],
+    "truth": {
+      "bank_slope_zh": 1.5,
+      "depth_m": 1.1,
+      "manning_n": 0.035
+    }
+  },
+  "numerical_settings": {
+    "finite_difference_step": 1e-06,
+    "param_bounds": {
+      "bank_slope_zh": [
+        0.5,
+        3.0
+      ],
+      "depth_m": [
+        0.4,
+        2.5
+      ],
+      "manning_n": [
+        0.02,
+        0.06
+      ]
+    },
+    "rank_tol": 1e-08,
+    "truth": {
+      "bank_slope_zh": 1.5,
+      "depth_m": 1.1,
+      "manning_n": 0.035
+    }
+  },
+  "parameter_provenance": {
+    "build_id": "f75347b772fd",
+    "run_mode": "scenario"
+  },
+  "schema": "yellowstone.identifiability.v1",
+  "sources": [
+    {
+      "id": "code",
+      "sha256": "0c6d2466e94b851c"
+    }
+  ],
+  "status": "diagnostic_not_field_validation",
+  "structural_surface": {
+    "budgets_ok": true,
+    "formulations": [
+      "newton_lumped",
+      "explicit_budget"
+    ],
+    "max_abs_gap_c": 0.04358736171849742,
+    "mean_abs_gap_c": 0.0125328906385068,
+    "n_cells": 10,
+    "status": "model_form_comparison_not_prediction_interval"
+  },
+  "world_id": "yellowstone_midway"
+}

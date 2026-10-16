@@ -1,0 +1,53 @@
+{
+  "artifact": {
+    "path": "assets/textures/trail_mask.png",
+    "sha256": "55fde8a3b20fd8039f3257d88909378ce2b7999b7a5703aff2dc1382aff50ce7"
+  },
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "code_rev_source": "git",
+  "contract_version": "0.1.0",
+  "excluded_surfaces": [
+    "Wood"
+  ],
+  "method": "subpixel mean of union coverage from metric segment distance and round caps",
+  "parameter_provenance": {
+    "edge_softness_m": {
+      "definition": "smoothstep transition centered on the route width boundary",
+      "value": 0.6,
+      "value_class": "authored_illustrative"
+    },
+    "route_width_m": "authored route widths retained from data/world.json; no minimum pixel width",
+    "supersample_per_axis": 4
+  },
+  "raster": {
+    "extent_m": [
+      -2048.0,
+      2048.0,
+      -2048.0,
+      2048.0
+    ],
+    "height": 4096,
+    "pixel_m": 1.0,
+    "registration": "pixel centers; columns increase x; rows increase z",
+    "width": 4096
+  },
+  "run_mode": "illustrative",
+  "schema": "yellowstone.trail_mask.v2",
+  "sources": [
+    {
+      "path": "data/world.json",
+      "sha256": "975a73ecdbd051b255cfd1fb7b599180e802a4b6c3f94c14f49469a64074a244"
+    },
+    {
+      "path": "../yellowstone_python/yellowstone_python/authoring/gen_trail_mask.py",
+      "sha256": "f3d7303a4564d9c6f26288f07b51bb48a6aa705e4cd21c5572bdd113596a5ac6"
+    },
+    {
+      "path": "../yellowstone_python/yellowstone_python/cli/gen_trail_mask.py",
+      "sha256": "1aec1b76c56cdeff246ad6b6d894ee1e65db1dd8d811703ffae9b441b17fe373"
+    }
+  ],
+  "status": "authored_illustrative",
+  "trail_count": 18,
+  "world_id": "yellowstone_midway"
+}

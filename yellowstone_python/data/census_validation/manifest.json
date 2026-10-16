@@ -1,0 +1,7 @@
+{
+ "census_sha256": "f637b9ec8f48b232b27fe37ab710f391e75dc825a8d7baa4c3a93e4470fc90a2",
+ "detail_sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+ "code_sha256": "2453fb88a2450e46d7dd7de3ee03643a92a5a6509155e27ccd0898bedb044ae3",
+ "n_automated": 33764,
+ "status": "frozen_before_review"
+}

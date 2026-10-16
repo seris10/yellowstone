@@ -1,0 +1,741 @@
+{
+  "alpha_filter": "premultiplied_box",
+  "base_level": "unchanged source RGBA8",
+  "color_filter_space": "linear_sRGB",
+  "entries": {
+    "assets/textures/forest_ground_04_diff_1k.jpg": {
+      "bytes": 5592404,
+      "height": 1024,
+      "levels": [
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 0,
+          "offset": 0,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 1,
+          "offset": 4194304,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 2,
+          "offset": 5242880,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 3,
+          "offset": 5505024,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 4,
+          "offset": 5570560,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 5,
+          "offset": 5586944,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 6,
+          "offset": 5591040,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 7,
+          "offset": 5592064,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 8,
+          "offset": 5592320,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 9,
+          "offset": 5592384,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 10,
+          "offset": 5592400,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/forest_ground_04_diff_1k.miprgba",
+      "sha256": "e52c2dd0a25fe25bd1f3fecca2be98d3da7c6452a4ed8ccaf43b13dc2b16a664",
+      "source_sha256": "50a4dda30875020c64385261aa7e00e2155b592302fa6794165f58fae73cbd2c",
+      "width": 1024
+    },
+    "assets/textures/forrest_ground_03_diff_1k.jpg": {
+      "bytes": 5592404,
+      "height": 1024,
+      "levels": [
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 0,
+          "offset": 0,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 1,
+          "offset": 4194304,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 2,
+          "offset": 5242880,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 3,
+          "offset": 5505024,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 4,
+          "offset": 5570560,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 5,
+          "offset": 5586944,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 6,
+          "offset": 5591040,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 7,
+          "offset": 5592064,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 8,
+          "offset": 5592320,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 9,
+          "offset": 5592384,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 10,
+          "offset": 5592400,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/forrest_ground_03_diff_1k.miprgba",
+      "sha256": "d2af5d27f52f36b2b48c357ea0cb3a007010041d6b7001f9af845890ff120f05",
+      "source_sha256": "69c3ae8a40c70eecbb312c2ca1044b5dea4f48d37f2a6f84ca7ed56b95f04a7b",
+      "width": 1024
+    },
+    "assets/textures/mapped_surface_detail.png": {
+      "bytes": 22369620,
+      "height": 2048,
+      "levels": [
+        {
+          "bytes": 16777216,
+          "height": 2048,
+          "level": 0,
+          "offset": 0,
+          "width": 2048
+        },
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 1,
+          "offset": 16777216,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 2,
+          "offset": 20971520,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 3,
+          "offset": 22020096,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 4,
+          "offset": 22282240,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 5,
+          "offset": 22347776,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 6,
+          "offset": 22364160,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 7,
+          "offset": 22368256,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 8,
+          "offset": 22369280,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 9,
+          "offset": 22369536,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 10,
+          "offset": 22369600,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 11,
+          "offset": 22369616,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/mapped_surface_detail.miprgba",
+      "sha256": "30fa678e1dc1093afe9ec7c44932bdb525f3a8eb2dd808d375b9eefaf5bbbfff",
+      "source_sha256": "70d7b09e7fee322cbd141063a2ee1ed8077add98cc726a776dc847b7923fb01b",
+      "width": 2048
+    },
+    "assets/textures/midway_macro.jpg": {
+      "bytes": 22369620,
+      "height": 2048,
+      "levels": [
+        {
+          "bytes": 16777216,
+          "height": 2048,
+          "level": 0,
+          "offset": 0,
+          "width": 2048
+        },
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 1,
+          "offset": 16777216,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 2,
+          "offset": 20971520,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 3,
+          "offset": 22020096,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 4,
+          "offset": 22282240,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 5,
+          "offset": 22347776,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 6,
+          "offset": 22364160,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 7,
+          "offset": 22368256,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 8,
+          "offset": 22369280,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 9,
+          "offset": 22369536,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 10,
+          "offset": 22369600,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 11,
+          "offset": 22369616,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/midway_macro.miprgba",
+      "sha256": "bf11e912179bc7364328810de7a7cb5dda21a8ae8808b7f99f2f10d09528b90e",
+      "source_sha256": "8e6ae25d691922a0e2d669a14bfc53145a0b1f10fc830c41b3df4e4680c69b58",
+      "width": 2048
+    },
+    "assets/textures/prismatic_apron_display.png": {
+      "bytes": 22369620,
+      "height": 2048,
+      "levels": [
+        {
+          "bytes": 16777216,
+          "height": 2048,
+          "level": 0,
+          "offset": 0,
+          "width": 2048
+        },
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 1,
+          "offset": 16777216,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 2,
+          "offset": 20971520,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 3,
+          "offset": 22020096,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 4,
+          "offset": 22282240,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 5,
+          "offset": 22347776,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 6,
+          "offset": 22364160,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 7,
+          "offset": 22368256,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 8,
+          "offset": 22369280,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 9,
+          "offset": 22369536,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 10,
+          "offset": 22369600,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 11,
+          "offset": 22369616,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/prismatic_apron_display.miprgba",
+      "sha256": "7448b1eb3716eec4069ffd7b2ce7e1920629c57697d5a8a172190133837c2a14",
+      "source_sha256": "774e71ca10cd1c85f6f6d6b06d617f7eda6949550e0c3083f4935e3b06ae1ac4",
+      "width": 2048
+    },
+    "assets/textures/rock_boulder_dry_diff_1k.jpg": {
+      "bytes": 5592404,
+      "height": 1024,
+      "levels": [
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 0,
+          "offset": 0,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 1,
+          "offset": 4194304,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 2,
+          "offset": 5242880,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 3,
+          "offset": 5505024,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 4,
+          "offset": 5570560,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 5,
+          "offset": 5586944,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 6,
+          "offset": 5591040,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 7,
+          "offset": 5592064,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 8,
+          "offset": 5592320,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 9,
+          "offset": 5592384,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 10,
+          "offset": 5592400,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/rock_boulder_dry_diff_1k.miprgba",
+      "sha256": "7543ac946847ada4bf51a0a1ededa6083c2575b71473befcbe27b2cea71c071c",
+      "source_sha256": "20f653a42fb24f42aa40641663070d578678da49af18cc1049dbdd4ed8679f3c",
+      "width": 1024
+    },
+    "assets/textures/rocky_trail_diff_1k.jpg": {
+      "bytes": 5592404,
+      "height": 1024,
+      "levels": [
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 0,
+          "offset": 0,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 1,
+          "offset": 4194304,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 2,
+          "offset": 5242880,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 3,
+          "offset": 5505024,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 4,
+          "offset": 5570560,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 5,
+          "offset": 5586944,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 6,
+          "offset": 5591040,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 7,
+          "offset": 5592064,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 8,
+          "offset": 5592320,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 9,
+          "offset": 5592384,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 10,
+          "offset": 5592400,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/rocky_trail_diff_1k.miprgba",
+      "sha256": "561d82a3eb947e730e0b3af147383d4f8cb59907bb46b22e1407696c61996bf9",
+      "source_sha256": "7f20d83cd4a67f9c38abf72f39f5a3749a962e90bdc156998be027b1227a5bd6",
+      "width": 1024
+    },
+    "references/midway_orthophoto_detail.jpg": {
+      "bytes": 22369620,
+      "height": 2048,
+      "levels": [
+        {
+          "bytes": 16777216,
+          "height": 2048,
+          "level": 0,
+          "offset": 0,
+          "width": 2048
+        },
+        {
+          "bytes": 4194304,
+          "height": 1024,
+          "level": 1,
+          "offset": 16777216,
+          "width": 1024
+        },
+        {
+          "bytes": 1048576,
+          "height": 512,
+          "level": 2,
+          "offset": 20971520,
+          "width": 512
+        },
+        {
+          "bytes": 262144,
+          "height": 256,
+          "level": 3,
+          "offset": 22020096,
+          "width": 256
+        },
+        {
+          "bytes": 65536,
+          "height": 128,
+          "level": 4,
+          "offset": 22282240,
+          "width": 128
+        },
+        {
+          "bytes": 16384,
+          "height": 64,
+          "level": 5,
+          "offset": 22347776,
+          "width": 64
+        },
+        {
+          "bytes": 4096,
+          "height": 32,
+          "level": 6,
+          "offset": 22364160,
+          "width": 32
+        },
+        {
+          "bytes": 1024,
+          "height": 16,
+          "level": 7,
+          "offset": 22368256,
+          "width": 16
+        },
+        {
+          "bytes": 256,
+          "height": 8,
+          "level": 8,
+          "offset": 22369280,
+          "width": 8
+        },
+        {
+          "bytes": 64,
+          "height": 4,
+          "level": 9,
+          "offset": 22369536,
+          "width": 4
+        },
+        {
+          "bytes": 16,
+          "height": 2,
+          "level": 10,
+          "offset": 22369600,
+          "width": 2
+        },
+        {
+          "bytes": 4,
+          "height": 1,
+          "level": 11,
+          "offset": 22369616,
+          "width": 1
+        }
+      ],
+      "path": "assets/textures/color_mips/midway_orthophoto_detail.miprgba",
+      "sha256": "3ed43bcf564c0b2d6e92291fa7d9b1851b34f24bda27df91abbc36b7a0b963f7",
+      "source_sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+      "width": 2048
+    }
+  },
+  "evidence_class": "deterministic_display_filter",
+  "format": "RGBA8",
+  "output_encoding": "sRGB RGB, linear alpha",
+  "schema": "yellowstone.color_mips.v1",
+  "scope": "Color textures only; normals, ARM, masks and scientific pigment data retain their existing treatment.",
+  "sources": [
+    "https://docs.godotengine.org/en/4.5/tutorials/shaders/shader_reference/shading_language.html#using-source-color",
+    "https://www.w3.org/TR/css-color-4/#color-conversion-code",
+    "https://developer.nvidia.com/gpugems/gpugems3/part-iv-image-effects/chapter-24-importance-being-linear"
+  ]
+}

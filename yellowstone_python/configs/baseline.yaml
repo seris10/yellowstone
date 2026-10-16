@@ -1,0 +1,77 @@
+# Baseline: reproduces shipped ecosystem.json behavior + 10-min illustrative run.
+# world_root is unset: builds use the yellowstone_midway sibling checkout,
+# or $YELLOWSTONE_WORLD when set.
+# Declared interpretation of this run. Prescribed boundary flows and
+# temperatures count as forcing; validation covers unprescribed outputs.
+run_mode: illustrative
+wind_seed: 11
+clock_hour: 16.2
+simulation:
+  start_utc: '2026-06-21T22:12:00+00:00'
+  utc_offset_hours: -6.0
+weather:
+  use_met_bundle: false
+  # AUTHORED DEFAULTS (illustrative scenario). Real weather forcing available
+  # via Open-Meteo: python tools/fetch_met_forcing.py --lat 44.459 --lon -110.822 --days 7 --out derived/met.json
+  # See yellowstone_python/microclimate.py WEATHER_PROVENANCE for full gap documentation.
+  night_air_c: 7.0
+  day_warming_c: 15.0
+  wind_xz_mps: [1.8, 0.6]
+  gust_mps: 0.45
+  humidity: 0.45
+  cloud: 0.16
+hydro:
+  boundary_m3s: 8.0
+  boundary_c: 17.5
+  simulate_seconds: 600.0
+  tributaries: {}     # defaults to 0 flow = omitted (baseline preserved)
+  attach: {}          # e.g. {upstream_midway: [fairy_creek]} once flows are set
+  catchment:
+    # Set area_m2 to let the snow ledger add a runoff increment to the
+    # boundary discharge. Null keeps snow hydrology storage-only, which is
+    # the default and leaves the shipped numbers unchanged.
+    # Measured: USGS 06036805 Firehole River at Old Faithful, 39.5 sqmi
+    # (102.3 km2, derived/usgs_06036805.json). That gauge sits downstream of
+    # the Midway chain head, so it overstates this boundary's contributing
+    # area; the value is a measured reference, not a fit to this reach.
+    area_m2: null
+vegetation:
+  grazers: null       # e.g. {bison_01: {patch_id: north_meadow, active: true, rate_per_second: 1.5e-06}}
+  proposal:
+    guild: lodgepole_pine
+    center_xz: [-360, 260]
+    radius_m: 30
+    count: 40
+    seed: 7
+    habitat_id: forest_edge
+insects:
+  flowering_stage: 0.6   # 0 = no bloom, 1 = full bloom
+fish:
+  food: 0.7
+  cover: 0.6
+  weights: null          # null = defaults {wf:0.4, wc:0.3, wt:0.5, wv:0.4, wd:0.2}
+snow:
+  season: summer
+  days: 30
+  precip_mm_d: 2.0       # rain at summer air; snow arrives with winter presets (M10)
+replay:
+  duration_s: 7200.0     # 2-hour replay window
+  max_cell_m: 20.0       # maximum cell length
+  depth_m: 1.1           # assumed mean depth (no bathymetry)
+  dispersion_m2_s: 1.0   # illustrative, not fitted
+  exchange_w_m2_k: 12.0  # Newton coefficient (used when energy_budget=false)
+  dt_s: 1.0
+  sample_s: 10.0
+  energy_budget: false   # true = explicit SW/LW/sensible/latent (illustrative coeffs)
+  cross_sections_file: configs/cross_sections.json  # DEM-derived per-feature profiles
+  hydraulics:
+    bank_slope_zh: 1.5  # authored illustrative trapezoid banks (H:V), not measured
+    manning_n: 0.035    # authored illustrative gravel-bed roughness, not calibrated
+overland:
+  enabled: false          # M12 rainfall/runoff field; off by default, baseline untouched
+  rain_mm_h: 2.0          # illustrative summer rain (mm/h), not measured
+  soil: sandy_loam
+  dt_s: 60.0
+  sim_s: 600.0
+  grid: 256               # coarse sim grid over the 1025-cell 4 m DEM
+  cell_m: 8.0             # authored sim cell size (metres)

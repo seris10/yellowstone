@@ -1,0 +1,365 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "e72b4586e6e6e851f0033d6b3efc27d186b216aa407b03e204ddb28d18ba01e7",
+  "vertices": 17889,
+  "triangles": 20000,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "source": "bison_runtime_source.glb",
+    "mesh_index": 0,
+    "node_index": 0,
+    "scale_status": "unverified_asset_units",
+    "source_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "canonical_transform": [
+      [
+        0.0072564608137831626,
+        0.0,
+        -0.9999736715416352,
+        0.0016846366565127224
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.3105331361293793
+      ],
+      [
+        0.9999736715416352,
+        0.0,
+        0.0072564608137831626,
+        0.10024629860131537
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "forward_input": "+x",
+    "up_input": "+y",
+    "heading_estimation": "paw-cluster midpoint",
+    "supplied_bbox_length_m": null,
+    "canonical_scale_factor": 1.0
+  },
+  "texture_resizing": [],
+  "clips": [
+    {
+      "name": "Idle",
+      "duration_s": 10.0,
+      "frames": 301,
+      "loop": true,
+      "engine": "mammal",
+      "species": "american_bison",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "idle",
+        "frequency_hz": 0.2,
+        "duty_factor": 0.68,
+        "stance_length_height": 0,
+        "clearance_height": 0,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.0,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "idle",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Walk",
+      "duration_s": 2.5,
+      "frames": 76,
+      "loop": true,
+      "engine": "mammal",
+      "species": "american_bison",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "walk",
+        "frequency_hz": 0.8,
+        "duty_factor": 0.7,
+        "stance_length_height": 0.24,
+        "clearance_height": 0.055,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 0.8,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.17058537891932896,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "walk",
+      "max_ik_reach_error_asset_units": 0.0
+    }
+  ],
+  "joint_count": 22,
+  "rig": {
+    "schema": "wildlife-motion.rig/1",
+    "names": [
+      "root",
+      "pelvis",
+      "lumbar",
+      "thorax",
+      "neck",
+      "head",
+      "FL_upper",
+      "FL_middle",
+      "FL_ankle",
+      "FL_foot",
+      "FR_upper",
+      "FR_middle",
+      "FR_ankle",
+      "FR_foot",
+      "HL_upper",
+      "HL_middle",
+      "HL_ankle",
+      "HL_foot",
+      "HR_upper",
+      "HR_middle",
+      "HR_ankle",
+      "HR_foot"
+    ],
+    "parents": [
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      3,
+      6,
+      7,
+      8,
+      3,
+      10,
+      11,
+      12,
+      1,
+      14,
+      15,
+      16,
+      1,
+      18,
+      19,
+      20
+    ],
+    "rest": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.3980325508117676,
+        -0.15601269467492734
+      ],
+      [
+        0.0,
+        0.4006446394264698,
+        -0.02706136645759459
+      ],
+      [
+        0.0,
+        0.40425180941820144,
+        0.151014277271103
+      ],
+      [
+        0.0,
+        0.45400587826967237,
+        0.25098262534759486
+      ],
+      [
+        0.008116592296330166,
+        0.4965515807271004,
+        0.4160809800376003
+      ],
+      [
+        0.0995081377029419,
+        0.34827848196029665,
+        0.151014277271103
+      ],
+      [
+        0.08434658840474599,
+        0.1927970167994499,
+        0.09603168582903249
+      ],
+      [
+        0.06918503910655006,
+        0.07463110327720641,
+        0.23006679199751287
+      ],
+      [
+        0.06918503910655006,
+        0.022196860760450365,
+        0.2700541312281096
+      ],
+      [
+        -0.0995081377029419,
+        0.34827848196029665,
+        0.151014277271103
+      ],
+      [
+        -0.08434658840474597,
+        0.1927970167994499,
+        0.09603168582903249
+      ],
+      [
+        -0.06918503910655005,
+        0.07463110327720641,
+        0.1419396061982374
+      ],
+      [
+        -0.06918503910655005,
+        0.022964547127485278,
+        0.18192694542883414
+      ],
+      [
+        0.0995081377029419,
+        0.37937477499246597,
+        -0.15601269467492734
+      ],
+      [
+        0.09679207298471282,
+        0.24255108565092087,
+        -0.12786094003050913
+      ],
+      [
+        0.09347243832909949,
+        0.1554814651608467,
+        -0.31556050863981305
+      ],
+      [
+        0.09347243832909949,
+        0.027474758476018907,
+        -0.26057791719774254
+      ],
+      [
+        -0.0995081377029419,
+        0.37937477499246597,
+        -0.15601269467492734
+      ],
+      [
+        -0.09679207298471282,
+        0.24255108565092087,
+        -0.10019103693509242
+      ],
+      [
+        -0.09347243832909949,
+        0.1554814651608467,
+        -0.24638575090127127
+      ],
+      [
+        -0.09347243832909949,
+        0.030094457119703294,
+        -0.19140315945920075
+      ]
+    ],
+    "groups": {
+      "body": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "FL": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "FR": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "HL": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "HR": [
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    "metadata": {
+      "species": "american_bison",
+      "engine": "mammal",
+      "review_status": "estimated_unreviewed",
+      "source_sha256": "e72b4586e6e6e851f0033d6b3efc27d186b216aa407b03e204ddb28d18ba01e7",
+      "canonical_transform": [
+        [
+          0.0072564608137831626,
+          0.0,
+          -0.9999736715416352,
+          0.0016846366565127224
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.3105331361293793
+        ],
+        [
+          0.9999736715416352,
+          0.0,
+          0.0072564608137831626,
+          0.10024629860131537
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scale_status": "unverified_asset_units",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "height": 0.6219258606433868,
+      "length": 0.9996834807649184,
+      "foot_posture": "unguligrade",
+      "warnings": [
+        "Joint centers inferred from surface geometry, not measured skeletons.",
+        "Posed AI meshes may require joint and weight correction, particularly shoulders, hips, and feet."
+      ],
+      "sole_offsets": {
+        "FL": 0.022196860760450365,
+        "FR": 0.02236113950610161,
+        "HL": 0.02246492847800255,
+        "HR": 0.022516292780637742
+      }
+    }
+  }
+}

@@ -1,0 +1,2399 @@
+{
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "contract_version": "0.1.0",
+  "encounters": {
+    "actors": [
+      {
+        "approx_dimensions_m": {
+          "length": 2.82,
+          "shoulder_height": 1.825
+        },
+        "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+        "encounter_class": "authored",
+        "encounter_probability": 0.0,
+        "encounter_window_s": 300.0,
+        "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+        "graze_seconds": 31.7,
+        "grazing_index_per_second": 1.5e-06,
+        "grazing_owner": "legacy_grazers",
+        "id": "bison_01",
+        "initial_state": "graze",
+        "intake_source": "Authored within cited ranges. Meagher (1973) NPS Scientific Monograph 1 (winter cratering in deep snow); Fortin, Fryxell and Regis (2002) Ecology 83(4) 970-982 doi:10.1890/0012-9658(2002)083[0970:TTSOFD]2.0.CO;2 (bison foraging decisions and snow); Van Soest (1994) Nutritional Ecology of the Ruminant (intake rates).",
+        "kind": "bison",
+        "mammal_guild": "grazer",
+        "medium": "land",
+        "movement_cost_factor": 1.0,
+        "patch_id": "north_meadow",
+        "path_xz": [
+          [
+            -120,
+            -450
+          ],
+          [
+            -125,
+            -440
+          ],
+          [
+            -112,
+            -434
+          ],
+          [
+            -105,
+            -445
+          ]
+        ],
+        "phase": 0.3,
+        "rate_per_second": 8.11881e-05,
+        "rest_seconds": 18.0,
+        "route_support": {
+          "qualified": false,
+          "rejection_reason": "mineral_surface",
+          "status": "authored"
+        },
+        "scale": 1.0,
+        "snow_depth_m": 0.0,
+        "species_id": "bison_bison",
+        "timing_basis": {
+          "causal_claim": "forage + snow access; predation unknown",
+          "model_context": {
+            "implemented": [
+              "forage_quality"
+            ],
+            "not_modeled": [
+              "predation_risk"
+            ],
+            "partial": [
+              "hydrology"
+            ]
+          },
+          "patch_biomass": 0.8201
+        },
+        "walk_mps": 0.56
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 2.397,
+          "shoulder_height": 1.551
+        },
+        "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+        "encounter_class": "authored",
+        "encounter_probability": 0.0,
+        "encounter_window_s": 300.0,
+        "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+        "graze_seconds": 40.9,
+        "grazing_index_per_second": 1.5e-06,
+        "grazing_owner": "legacy_grazers",
+        "id": "bison_02",
+        "initial_state": "graze",
+        "intake_source": "Authored within cited ranges. Meagher (1973) NPS Scientific Monograph 1 (winter cratering in deep snow); Fortin, Fryxell and Regis (2002) Ecology 83(4) 970-982 doi:10.1890/0012-9658(2002)083[0970:TTSOFD]2.0.CO;2 (bison foraging decisions and snow); Van Soest (1994) Nutritional Ecology of the Ruminant (intake rates).",
+        "kind": "bison",
+        "mammal_guild": "grazer",
+        "medium": "land",
+        "movement_cost_factor": 1.0,
+        "patch_id": "north_meadow",
+        "path_xz": [
+          [
+            -142,
+            -463
+          ],
+          [
+            -150,
+            -460
+          ],
+          [
+            -148,
+            -449
+          ],
+          [
+            -140,
+            -440
+          ]
+        ],
+        "phase": 3.1,
+        "rate_per_second": 8.84219e-05,
+        "rest_seconds": 18.0,
+        "route_support": {
+          "qualified": false,
+          "rejection_reason": "mineral_surface",
+          "status": "authored"
+        },
+        "scale": 0.85,
+        "snow_depth_m": 0.0,
+        "species_id": "bison_bison",
+        "timing_basis": {
+          "causal_claim": "forage + snow access; predation unknown",
+          "model_context": {
+            "implemented": [
+              "forage_quality"
+            ],
+            "not_modeled": [
+              "predation_risk"
+            ],
+            "partial": [
+              "hydrology"
+            ]
+          },
+          "patch_biomass": 0.8201
+        },
+        "walk_mps": 0.48
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 2.482,
+          "shoulder_height": 1.606
+        },
+        "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+        "encounter_class": "authored",
+        "encounter_probability": 0.0,
+        "encounter_window_s": 300.0,
+        "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+        "graze_seconds": 25.1,
+        "grazing_index_per_second": 1.5e-06,
+        "grazing_owner": "legacy_grazers",
+        "id": "bison_03",
+        "initial_state": "graze",
+        "intake_source": "Authored within cited ranges. Meagher (1973) NPS Scientific Monograph 1 (winter cratering in deep snow); Fortin, Fryxell and Regis (2002) Ecology 83(4) 970-982 doi:10.1890/0012-9658(2002)083[0970:TTSOFD]2.0.CO;2 (bison foraging decisions and snow); Van Soest (1994) Nutritional Ecology of the Ruminant (intake rates).",
+        "kind": "bison",
+        "mammal_guild": "grazer",
+        "medium": "land",
+        "movement_cost_factor": 1.0,
+        "patch_id": "north_meadow",
+        "path_xz": [
+          [
+            -132,
+            -476
+          ],
+          [
+            -135,
+            -465
+          ],
+          [
+            -128,
+            -459
+          ],
+          [
+            -120,
+            -464
+          ]
+        ],
+        "phase": 6.0,
+        "rate_per_second": 7.41211e-05,
+        "rest_seconds": 18.0,
+        "route_support": {
+          "qualified": false,
+          "rejection_reason": "mineral_surface",
+          "status": "authored"
+        },
+        "scale": 0.88,
+        "snow_depth_m": 0.0,
+        "species_id": "bison_bison",
+        "timing_basis": {
+          "causal_claim": "forage + snow access; predation unknown",
+          "model_context": {
+            "implemented": [
+              "forage_quality"
+            ],
+            "not_modeled": [
+              "predation_risk"
+            ],
+            "partial": [
+              "hydrology"
+            ]
+          },
+          "patch_biomass": 0.8201
+        },
+        "walk_mps": 0.52
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 0.65
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_badger_01",
+        "kind": "badger",
+        "mammal_guild": "carnivore",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -383.0211670006476,
+            210.38789550737852
+          ],
+          [
+            -372.244970132185,
+            214.3330458694553
+          ],
+          [
+            -376.19012049426186,
+            225.1092427379179
+          ],
+          [
+            -386.96631736272445,
+            221.1640923758411
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -383.0211670006476,
+          70.5149154663086,
+          210.38789550737852
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "taxidea_taxus",
+        "walk_mps": 0.7
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 3.0
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_bison_01",
+        "kind": "bison",
+        "mammal_guild": "grazer",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -178.85125598137458,
+            185.88015850221868
+          ],
+          [
+            -183.4076554262534,
+            174.498364106296
+          ],
+          [
+            -172.02586103033073,
+            169.9419646614172
+          ],
+          [
+            -167.4694615854519,
+            181.32375905733986
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -178.85125598137458,
+          33.4917106628418,
+          185.88015850221868
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "bison_bison",
+        "walk_mps": 0.56
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 1.6
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_black_bear_01",
+        "kind": "black_bear",
+        "mammal_guild": "omnivore",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -437.5832885967577,
+            233.24246217538794
+          ],
+          [
+            -425.9681816715965,
+            227.58459506797197
+          ],
+          [
+            -420.31031456418054,
+            239.19970199313317
+          ],
+          [
+            -431.9254214893418,
+            244.85756910054914
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -437.5832885967577,
+          71.39630126953125,
+          233.24246217538794
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "ursus_americanus",
+        "walk_mps": 0.7
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 0.82
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_bobcat_01",
+        "kind": "bobcat",
+        "mammal_guild": "carnivore",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -377.56626335835233,
+            243.46694272508773
+          ],
+          [
+            -366.3912620152778,
+            243.12834127627025
+          ],
+          [
+            -366.0526605664603,
+            254.3033426193448
+          ],
+          [
+            -377.22766190953485,
+            254.64194406816227
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -377.56626335835233,
+          67.82318878173828,
+          243.46694272508773
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "lynx_rufus",
+        "walk_mps": 0.7
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 1.6
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_deer_01",
+        "kind": "deer",
+        "mammal_guild": "browser",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -325.04793141514654,
+            256.6104200446533
+          ],
+          [
+            -332.7934941284173,
+            266.019616093303
+          ],
+          [
+            -342.202690177067,
+            258.2740533800322
+          ],
+          [
+            -334.4571274637962,
+            248.86485733138255
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -325.04793141514654,
+          69.01448822021484,
+          256.6104200446533
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "odocoileus_hemionus",
+        "walk_mps": 0.56
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 2.4
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_elk_01",
+        "kind": "elk",
+        "mammal_guild": "grazer",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -349.6688857285343,
+            263.855352736807
+          ],
+          [
+            -357.8432845452979,
+            267.5867579834895
+          ],
+          [
+            -361.5746897919804,
+            259.41235916672593
+          ],
+          [
+            -353.4002909752168,
+            255.68095392004338
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -349.6688857285343,
+          73.20674133300781,
+          263.855352736807
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "cervus_elaphus",
+        "walk_mps": 0.56
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 2.1
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_grizzly_01",
+        "kind": "grizzly",
+        "mammal_guild": "omnivore",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -386.5684831717213,
+            242.30690382284558
+          ],
+          [
+            -375.85734593940674,
+            240.1590932501729
+          ],
+          [
+            -373.7095353667341,
+            250.87023048248744
+          ],
+          [
+            -384.42067259904866,
+            253.01804105516013
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -386.5684831717213,
+          66.20779418945312,
+          242.30690382284558
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "ursus_arctos",
+        "walk_mps": 0.7
+      },
+      {
+        "approx_dimensions_m": {
+          "length": 1.2
+        },
+        "encounter_class": "authored",
+        "encounter_probability": 0.45,
+        "encounter_window_s": 300.0,
+        "grazing_owner": "mammals",
+        "ground_offset_m": 0.0,
+        "id": "mammal_encounter_wolf_01",
+        "kind": "wolf",
+        "mammal_guild": "carnivore",
+        "medium": "land",
+        "patch_id": "forest_edge",
+        "path_xz": [
+          [
+            -384.47453882188984,
+            248.77808218341153
+          ],
+          [
+            -375.58222111953535,
+            245.47673164429372
+          ],
+          [
+            -372.2808705804175,
+            254.36904934664818
+          ],
+          [
+            -381.173188282772,
+            257.670399885766
+          ]
+        ],
+        "population_measurement": null,
+        "position": [
+          -384.47453882188984,
+          66.89292907714844,
+          248.77808218341153
+        ],
+        "quantitative_uncertainty": "unknown",
+        "route_support": {
+          "full_segment_spacing_m": 1.0,
+          "habitat_classification": "authored mapped-mask proxy",
+          "patch_forcing": "existing patch environmental proxy; local transfer error unknown",
+          "qualified": true,
+          "status": "authored",
+          "terrain_y": "terrain.f32 surface sample"
+        },
+        "scale": 1.0,
+        "species_id": "canis_lupus",
+        "walk_mps": 0.7
+      }
+    ],
+    "authoring_choices": {
+      "behavior_bout_s": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 30.0
+      },
+      "candidate_attempts": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 160
+      },
+      "encounter_probability": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 0.45
+      },
+      "encounter_window_s": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 300.0
+      },
+      "forest_candidate_radius_fraction": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 1.0
+      },
+      "max_slope_deg": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 25.0
+      },
+      "meadow_channel_min": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 0.35
+      },
+      "mineral_channel_max": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 0.35
+      },
+      "patch_candidate_radius_fraction": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 0.65
+      },
+      "preferred_prismatic_distance_m": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": [
+          145.0,
+          235.0
+        ]
+      },
+      "river_clearance_m": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 6.0
+      },
+      "route_clearance_m": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 7.0
+      },
+      "route_radius_m": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": [
+          6.0,
+          16.0
+        ]
+      },
+      "route_sample_m": {
+        "status": "authored",
+        "uncertainty": "unknown",
+        "value": 1.0
+      }
+    },
+    "count_scope": "display representatives; park inventory is not local abundance",
+    "observation_method": "deterministic physical-time windows; Python ecology gates presence and behavior",
+    "preserved_source_actor_ids": [
+      "bison_01",
+      "bison_02",
+      "bison_03"
+    ],
+    "quantitative_uncertainty": "unknown",
+    "rejected_reasons": {
+      "habitat_mismatch": 53,
+      "mineral_surface": 121,
+      "open_water": 9,
+      "preserved_actor_mineral_surface": 3,
+      "steep_terrain": 19,
+      "unsupported_local_mode_canada_lynx": 1,
+      "visitor_route": 4
+    },
+    "schema": "yellowstone.mammal_encounters.v1",
+    "scientific_acceptance": "not_yet_accepted",
+    "seed": 54173,
+    "sources": {
+      "bats_page": "https://www.nps.gov/yell/learn/nature/bats.htm",
+      "mammals_page": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+      "npspecies": {
+        "retrieved_utc": "2026-10-14",
+        "source_sha256": "4848b2090d4f8b3f216e1572e622201b011b599b1f801b117bea74e05418de58",
+        "source_url": "https://irma.nps.gov/NPSpecies/Reports/SpeciesList/Species%20Full%20List/YELL"
+      }
+    },
+    "status": "authored",
+    "supplemental_mineral_mask": "bound"
+  },
+  "mammals": {
+    "actors": {
+      "bison_01": {
+        "active": false,
+        "activity_index": 0.48772019022002916,
+        "behavior": "rest",
+        "encounter_class": "authored_observation_layer",
+        "id": "bison_01",
+        "kind": "bison",
+        "patch_id": "north_meadow",
+        "population_measurement": null,
+        "predation_risk_index": 0.006384335505906609,
+        "species_id": "bison_bison",
+        "speed_multiplier": 0.0
+      },
+      "bison_02": {
+        "active": false,
+        "activity_index": 0.48772019022002916,
+        "behavior": "rest",
+        "encounter_class": "authored_observation_layer",
+        "id": "bison_02",
+        "kind": "bison",
+        "patch_id": "north_meadow",
+        "population_measurement": null,
+        "predation_risk_index": 0.006384335505906609,
+        "species_id": "bison_bison",
+        "speed_multiplier": 0.0
+      },
+      "bison_03": {
+        "active": false,
+        "activity_index": 0.48772019022002916,
+        "behavior": "rest",
+        "encounter_class": "authored_observation_layer",
+        "id": "bison_03",
+        "kind": "bison",
+        "patch_id": "north_meadow",
+        "population_measurement": null,
+        "predation_risk_index": 0.006384335505906609,
+        "species_id": "bison_bison",
+        "speed_multiplier": 0.0
+      },
+      "mammal_encounter_badger_01": {
+        "active": true,
+        "activity_index": 0.08236007301928676,
+        "behavior": "forage",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_badger_01",
+        "kind": "badger",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.0,
+        "species_id": "taxidea_taxus",
+        "speed_multiplier": 0.0
+      },
+      "mammal_encounter_bison_01": {
+        "active": false,
+        "activity_index": 0.380680269098779,
+        "behavior": "rest",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_bison_01",
+        "kind": "bison",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.006384851386152357,
+        "species_id": "bison_bison",
+        "speed_multiplier": 0.0
+      },
+      "mammal_encounter_black_bear_01": {
+        "active": false,
+        "activity_index": 0.12168264478383913,
+        "behavior": "rest",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_black_bear_01",
+        "kind": "black_bear",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.0,
+        "species_id": "ursus_americanus",
+        "speed_multiplier": 0.0
+      },
+      "mammal_encounter_bobcat_01": {
+        "active": true,
+        "activity_index": 0.08236007301928676,
+        "behavior": "forage",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_bobcat_01",
+        "kind": "bobcat",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.0,
+        "species_id": "lynx_rufus",
+        "speed_multiplier": 0.0
+      },
+      "mammal_encounter_deer_01": {
+        "active": true,
+        "activity_index": 0.380680269098779,
+        "behavior": "walk",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_deer_01",
+        "kind": "deer",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.006384851386152357,
+        "species_id": "odocoileus_hemionus",
+        "speed_multiplier": 0.380680269098779
+      },
+      "mammal_encounter_elk_01": {
+        "active": true,
+        "activity_index": 0.37699247329384716,
+        "behavior": "rest",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_elk_01",
+        "kind": "elk",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.016119462968859487,
+        "species_id": "cervus_elaphus",
+        "speed_multiplier": 0.0
+      },
+      "mammal_encounter_grizzly_01": {
+        "active": true,
+        "activity_index": 0.12168264478383913,
+        "behavior": "walk",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_grizzly_01",
+        "kind": "grizzly",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.0,
+        "species_id": "ursus_arctos",
+        "speed_multiplier": 0.12168264478383913
+      },
+      "mammal_encounter_wolf_01": {
+        "active": false,
+        "activity_index": 0.11971596349035667,
+        "behavior": "rest",
+        "encounter_class": "authored_observation_layer",
+        "id": "mammal_encounter_wolf_01",
+        "kind": "wolf",
+        "patch_id": "forest_edge",
+        "population_measurement": null,
+        "predation_risk_index": 0.0,
+        "species_id": "canis_lupus",
+        "speed_multiplier": 0.0
+      }
+    },
+    "by_patch": {
+      "bridge_riparian": {
+        "alces_alces": 0.2,
+        "antilocapra_americana": 0.0,
+        "antrozous_pallidus": 0.2,
+        "bison_bison": 0.2,
+        "canis_latrans": 0.2,
+        "canis_lupus": 0.2,
+        "castor_canadensis": 0.2,
+        "cervus_elaphus": 0.2,
+        "clethrionomys_gapperi": 0.2,
+        "corynorhinus_townsendii": 0.2,
+        "eptesicus_fuscus": 0.2,
+        "erethizon_dorsatum": 0.2,
+        "euderma_maculatum": 0.2,
+        "glaucomys_sabrinus": 0.0,
+        "gulo_gulo": 0.0,
+        "lasionycteris_noctivagans": 0.2,
+        "lasiurus_cinereus": 0.2,
+        "lemmiscus_curtatus": 0.0,
+        "lepus_americanus": 0.0,
+        "lepus_townsendii": 0.0,
+        "lutra_canadensis": 0.2,
+        "lynx_canadensis": 0.0,
+        "lynx_rufus": 0.2,
+        "marmota_flaviventris": 0.0,
+        "martes_americana": 0.0,
+        "martes_pennanti": 0.0,
+        "mephitis_mephitis": 0.2,
+        "microtus_longicaudus": 0.2,
+        "microtus_montanus": 0.2,
+        "microtus_pennsylvanicus": 0.2,
+        "microtus_richardsoni": 0.2,
+        "mus_musculus": 0.0,
+        "mustela_erminea": 0.2,
+        "mustela_frenata": 0.2,
+        "mustela_vison": 0.2,
+        "myotis_californicus": 0.2,
+        "myotis_ciliolabrum": 0.2,
+        "myotis_evotis": 0.2,
+        "myotis_lucifugus": 0.2,
+        "myotis_thysanodes": 0.2,
+        "myotis_volans": 0.2,
+        "myotis_yumanensis": 0.2,
+        "neotamias_amoenus": 0.2,
+        "neotamias_minimus": 0.2,
+        "neotamias_umbrinus": 0.2,
+        "neotoma_cinerea": 0.2,
+        "ochotona_princeps": 0.0,
+        "odocoileus_hemionus": 0.2,
+        "odocoileus_virginianus": 0.0,
+        "ondatra_zibethicus": 0.2,
+        "oreamnos_americanus": 0.0,
+        "ovis_canadensis": 0.0,
+        "peromyscus_maniculatus": 0.2,
+        "phenacomys_intermedius": 0.2,
+        "procyon_lotor": 0.2,
+        "puma_concolor": 0.2,
+        "sorex_cinereus": 0.2,
+        "sorex_hoyi": 0.0,
+        "sorex_monticolus": 0.2,
+        "sorex_nanus": 0.2,
+        "sorex_palustris": 0.2,
+        "sorex_preblei": 0.2,
+        "spermophilus_armatus": 0.2,
+        "spermophilus_lateralis": 0.2,
+        "spilogale_gracilis": 0.0,
+        "sylvilagus_audubonii": 0.0,
+        "sylvilagus_nuttallii": 0.2,
+        "tamiasciurus_hudsonicus": 0.0,
+        "taxidea_taxus": 0.2,
+        "thomomys_talpoides": 0.2,
+        "ursus_americanus": 0.0,
+        "ursus_arctos": 0.2,
+        "vulpes_vulpes": 0.2,
+        "zapus_princeps": 0.2
+      },
+      "forest_edge": {
+        "alces_alces": 0.2,
+        "antilocapra_americana": 0.0,
+        "antrozous_pallidus": 0.2,
+        "bison_bison": 0.2,
+        "canis_latrans": 0.2,
+        "canis_lupus": 0.2,
+        "castor_canadensis": 0.0,
+        "cervus_elaphus": 0.2,
+        "clethrionomys_gapperi": 0.2,
+        "corynorhinus_townsendii": 0.2,
+        "eptesicus_fuscus": 0.2,
+        "erethizon_dorsatum": 0.2,
+        "euderma_maculatum": 0.2,
+        "glaucomys_sabrinus": 0.2,
+        "gulo_gulo": 0.0,
+        "lasionycteris_noctivagans": 0.2,
+        "lasiurus_cinereus": 0.2,
+        "lemmiscus_curtatus": 0.0,
+        "lepus_americanus": 0.2,
+        "lepus_townsendii": 0.0,
+        "lutra_canadensis": 0.0,
+        "lynx_canadensis": 0.0,
+        "lynx_rufus": 0.2,
+        "marmota_flaviventris": 0.0,
+        "martes_americana": 0.2,
+        "martes_pennanti": 0.0,
+        "mephitis_mephitis": 0.2,
+        "microtus_longicaudus": 0.2,
+        "microtus_montanus": 0.2,
+        "microtus_pennsylvanicus": 0.2,
+        "microtus_richardsoni": 0.0,
+        "mus_musculus": 0.0,
+        "mustela_erminea": 0.2,
+        "mustela_frenata": 0.2,
+        "mustela_vison": 0.0,
+        "myotis_californicus": 0.2,
+        "myotis_ciliolabrum": 0.2,
+        "myotis_evotis": 0.2,
+        "myotis_lucifugus": 0.2,
+        "myotis_thysanodes": 0.2,
+        "myotis_volans": 0.2,
+        "myotis_yumanensis": 0.2,
+        "neotamias_amoenus": 0.2,
+        "neotamias_minimus": 0.2,
+        "neotamias_umbrinus": 0.2,
+        "neotoma_cinerea": 0.2,
+        "ochotona_princeps": 0.0,
+        "odocoileus_hemionus": 0.2,
+        "odocoileus_virginianus": 0.0,
+        "ondatra_zibethicus": 0.0,
+        "oreamnos_americanus": 0.0,
+        "ovis_canadensis": 0.0,
+        "peromyscus_maniculatus": 0.2,
+        "phenacomys_intermedius": 0.2,
+        "procyon_lotor": 0.2,
+        "puma_concolor": 0.2,
+        "sorex_cinereus": 0.2,
+        "sorex_hoyi": 0.0,
+        "sorex_monticolus": 0.2,
+        "sorex_nanus": 0.2,
+        "sorex_palustris": 0.0,
+        "sorex_preblei": 0.2,
+        "spermophilus_armatus": 0.2,
+        "spermophilus_lateralis": 0.2,
+        "spilogale_gracilis": 0.0,
+        "sylvilagus_audubonii": 0.0,
+        "sylvilagus_nuttallii": 0.2,
+        "tamiasciurus_hudsonicus": 0.2,
+        "taxidea_taxus": 0.2,
+        "thomomys_talpoides": 0.2,
+        "ursus_americanus": 0.2,
+        "ursus_arctos": 0.2,
+        "vulpes_vulpes": 0.2,
+        "zapus_princeps": 0.2
+      },
+      "north_meadow": {
+        "alces_alces": 0.0,
+        "antilocapra_americana": 0.0,
+        "antrozous_pallidus": 0.0,
+        "bison_bison": 0.2,
+        "canis_latrans": 0.2,
+        "canis_lupus": 0.2,
+        "castor_canadensis": 0.0,
+        "cervus_elaphus": 0.2,
+        "clethrionomys_gapperi": 0.2,
+        "corynorhinus_townsendii": 0.0,
+        "eptesicus_fuscus": 0.0,
+        "erethizon_dorsatum": 0.2,
+        "euderma_maculatum": 0.0,
+        "glaucomys_sabrinus": 0.0,
+        "gulo_gulo": 0.0,
+        "lasionycteris_noctivagans": 0.0,
+        "lasiurus_cinereus": 0.0,
+        "lemmiscus_curtatus": 0.0,
+        "lepus_americanus": 0.0,
+        "lepus_townsendii": 0.0,
+        "lutra_canadensis": 0.0,
+        "lynx_canadensis": 0.0,
+        "lynx_rufus": 0.2,
+        "marmota_flaviventris": 0.0,
+        "martes_americana": 0.0,
+        "martes_pennanti": 0.0,
+        "mephitis_mephitis": 0.2,
+        "microtus_longicaudus": 0.2,
+        "microtus_montanus": 0.2,
+        "microtus_pennsylvanicus": 0.2,
+        "microtus_richardsoni": 0.0,
+        "mus_musculus": 0.0,
+        "mustela_erminea": 0.2,
+        "mustela_frenata": 0.2,
+        "mustela_vison": 0.0,
+        "myotis_californicus": 0.0,
+        "myotis_ciliolabrum": 0.0,
+        "myotis_evotis": 0.0,
+        "myotis_lucifugus": 0.0,
+        "myotis_thysanodes": 0.0,
+        "myotis_volans": 0.0,
+        "myotis_yumanensis": 0.0,
+        "neotamias_amoenus": 0.2,
+        "neotamias_minimus": 0.2,
+        "neotamias_umbrinus": 0.2,
+        "neotoma_cinerea": 0.2,
+        "ochotona_princeps": 0.0,
+        "odocoileus_hemionus": 0.2,
+        "odocoileus_virginianus": 0.0,
+        "ondatra_zibethicus": 0.0,
+        "oreamnos_americanus": 0.0,
+        "ovis_canadensis": 0.0,
+        "peromyscus_maniculatus": 0.2,
+        "phenacomys_intermedius": 0.2,
+        "procyon_lotor": 0.2,
+        "puma_concolor": 0.2,
+        "sorex_cinereus": 0.0,
+        "sorex_hoyi": 0.0,
+        "sorex_monticolus": 0.0,
+        "sorex_nanus": 0.0,
+        "sorex_palustris": 0.0,
+        "sorex_preblei": 0.0,
+        "spermophilus_armatus": 0.2,
+        "spermophilus_lateralis": 0.2,
+        "spilogale_gracilis": 0.0,
+        "sylvilagus_audubonii": 0.0,
+        "sylvilagus_nuttallii": 0.2,
+        "tamiasciurus_hudsonicus": 0.0,
+        "taxidea_taxus": 0.2,
+        "thomomys_talpoides": 0.2,
+        "ursus_americanus": 0.0,
+        "ursus_arctos": 0.2,
+        "vulpes_vulpes": 0.2,
+        "zapus_princeps": 0.2
+      }
+    },
+    "catalogue_sha256": "2595803d7e07dc28a5b7daa6ef5cc10054313896e68f9a3321cc7dcb743b1e3e",
+    "consumption_by_patch": {
+      "bridge_riparian": 0.0,
+      "forest_edge": 0.0,
+      "north_meadow": 0.0
+    },
+    "elapsed_s": 0.0,
+    "ledger": {
+      "available_biomass_by_patch": {
+        "bridge_riparian": 0.640118545999292,
+        "forest_edge": 0.6400460237409016,
+        "north_meadow": 0.8200804107973139
+      },
+      "births": 0.0,
+      "consumption_by_patch": {
+        "bridge_riparian": 0.0,
+        "forest_edge": 0.0,
+        "north_meadow": 0.0
+      },
+      "deaths": 0.0,
+      "demand_by_patch": {
+        "bridge_riparian": 0.0,
+        "forest_edge": 0.0,
+        "north_meadow": 0.0
+      },
+      "external_legacy_grazing_ids": [],
+      "external_ownership_policy": "qualified grazer owner allocates the complete patch/species proxy stock; display counts do not add population",
+      "externally_owned_population_by_patch": {
+        "bridge_riparian": {},
+        "forest_edge": {},
+        "north_meadow": {}
+      },
+      "final_population_equivalents": 27.400000000000002,
+      "food_units": "vegetation_normalized_biomass_index",
+      "initial_population_equivalents": 27.400000000000002,
+      "ownership_evidence_class": "authored",
+      "population_residual": 0.0,
+      "population_units": "authored_population_equivalents",
+      "predation": 0.0,
+      "predation_accounting": "proxy removals only; no energetic or physical mass balance",
+      "predation_transfer_residual": 0.0,
+      "predator_intake": 0.0,
+      "predator_intake_units": "removed_prey_population_equivalents"
+    },
+    "quantitative_uncertainty": "unknown",
+    "schema": "yellowstone.mammal_ecology.v1",
+    "scientific_acceptance": "not_yet_accepted",
+    "species": {
+      "alces_alces": {
+        "activity_index": 0.38311863205156854,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "alces_alces",
+        "supported_park_occurrence": true
+      },
+      "antilocapra_americana": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "antilocapra_americana",
+        "supported_park_occurrence": true
+      },
+      "antrozous_pallidus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "antrozous_pallidus",
+        "supported_park_occurrence": true
+      },
+      "bison_bison": {
+        "activity_index": 0.48772019022002916,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "supplied_mesh_authored_motion",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.006384851386152357,
+        "species_id": "bison_bison",
+        "supported_park_occurrence": true
+      },
+      "canis_latrans": {
+        "activity_index": 0.11971596349035667,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "canis_latrans",
+        "supported_park_occurrence": true
+      },
+      "canis_lupus": {
+        "activity_index": 0.11971596349035667,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "authored_species_shape_proxy",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "canis_lupus",
+        "supported_park_occurrence": true
+      },
+      "castor_canadensis": {
+        "activity_index": 0.3830691667675269,
+        "eligible_local_patches": [
+          "bridge_riparian"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "castor_canadensis",
+        "supported_park_occurrence": true
+      },
+      "cervus_elaphus": {
+        "activity_index": 0.4817996448114171,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "authored_species_shape_proxy",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.018597843247988924,
+        "species_id": "cervus_elaphus",
+        "supported_park_occurrence": true
+      },
+      "clethrionomys_gapperi": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "clethrionomys_gapperi",
+        "supported_park_occurrence": true
+      },
+      "corynorhinus_townsendii": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "corynorhinus_townsendii",
+        "supported_park_occurrence": true
+      },
+      "eptesicus_fuscus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "eptesicus_fuscus",
+        "supported_park_occurrence": true
+      },
+      "erethizon_dorsatum": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "erethizon_dorsatum",
+        "supported_park_occurrence": true
+      },
+      "euderma_maculatum": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "euderma_maculatum",
+        "supported_park_occurrence": true
+      },
+      "glaucomys_sabrinus": {
+        "activity_index": 0.38311863205156854,
+        "eligible_local_patches": [
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "glaucomys_sabrinus",
+        "supported_park_occurrence": true
+      },
+      "gulo_gulo": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "gulo_gulo",
+        "supported_park_occurrence": true
+      },
+      "lasionycteris_noctivagans": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "lasionycteris_noctivagans",
+        "supported_park_occurrence": true
+      },
+      "lasiurus_cinereus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "lasiurus_cinereus",
+        "supported_park_occurrence": true
+      },
+      "lemmiscus_curtatus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "lemmiscus_curtatus",
+        "supported_park_occurrence": false
+      },
+      "lepus_americanus": {
+        "activity_index": 0.34794807480680684,
+        "eligible_local_patches": [
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0962914271635276,
+        "species_id": "lepus_americanus",
+        "supported_park_occurrence": true
+      },
+      "lepus_townsendii": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "lepus_townsendii",
+        "supported_park_occurrence": true
+      },
+      "lutra_canadensis": {
+        "activity_index": 0.07979129681768883,
+        "eligible_local_patches": [
+          "bridge_riparian"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "lutra_canadensis",
+        "supported_park_occurrence": true
+      },
+      "lynx_canadensis": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "supplied_mesh_authored_motion",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "lynx_canadensis",
+        "supported_park_occurrence": true
+      },
+      "lynx_rufus": {
+        "activity_index": 0.08236007301928676,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "supplied_mesh_authored_motion",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "lynx_rufus",
+        "supported_park_occurrence": true
+      },
+      "marmota_flaviventris": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "marmota_flaviventris",
+        "supported_park_occurrence": true
+      },
+      "martes_americana": {
+        "activity_index": 0.11971596349035667,
+        "eligible_local_patches": [
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "martes_americana",
+        "supported_park_occurrence": true
+      },
+      "martes_pennanti": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "martes_pennanti",
+        "supported_park_occurrence": false
+      },
+      "mephitis_mephitis": {
+        "activity_index": 0.3104671910095533,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "mephitis_mephitis",
+        "supported_park_occurrence": true
+      },
+      "microtus_longicaudus": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "microtus_longicaudus",
+        "supported_park_occurrence": true
+      },
+      "microtus_montanus": {
+        "activity_index": 0.4522811127556667,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0962914271635276,
+        "species_id": "microtus_montanus",
+        "supported_park_occurrence": true
+      },
+      "microtus_pennsylvanicus": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "microtus_pennsylvanicus",
+        "supported_park_occurrence": true
+      },
+      "microtus_richardsoni": {
+        "activity_index": 0.3830691667675269,
+        "eligible_local_patches": [
+          "bridge_riparian"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "microtus_richardsoni",
+        "supported_park_occurrence": true
+      },
+      "mus_musculus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "mus_musculus",
+        "supported_park_occurrence": true
+      },
+      "mustela_erminea": {
+        "activity_index": 0.11971596349035667,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "mustela_erminea",
+        "supported_park_occurrence": true
+      },
+      "mustela_frenata": {
+        "activity_index": 0.11971596349035667,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "mustela_frenata",
+        "supported_park_occurrence": true
+      },
+      "mustela_vison": {
+        "activity_index": 0.07979129681768883,
+        "eligible_local_patches": [
+          "bridge_riparian"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "mustela_vison",
+        "supported_park_occurrence": true
+      },
+      "myotis_californicus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "myotis_californicus",
+        "supported_park_occurrence": true
+      },
+      "myotis_ciliolabrum": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "myotis_ciliolabrum",
+        "supported_park_occurrence": true
+      },
+      "myotis_evotis": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "myotis_evotis",
+        "supported_park_occurrence": true
+      },
+      "myotis_lucifugus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "myotis_lucifugus",
+        "supported_park_occurrence": true
+      },
+      "myotis_thysanodes": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "myotis_thysanodes",
+        "supported_park_occurrence": true
+      },
+      "myotis_volans": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "myotis_volans",
+        "supported_park_occurrence": true
+      },
+      "myotis_yumanensis": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "myotis_yumanensis",
+        "supported_park_occurrence": true
+      },
+      "neotamias_amoenus": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "neotamias_amoenus",
+        "supported_park_occurrence": true
+      },
+      "neotamias_minimus": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "neotamias_minimus",
+        "supported_park_occurrence": true
+      },
+      "neotamias_umbrinus": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "neotamias_umbrinus",
+        "supported_park_occurrence": true
+      },
+      "neotoma_cinerea": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "neotoma_cinerea",
+        "supported_park_occurrence": true
+      },
+      "ochotona_princeps": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "ochotona_princeps",
+        "supported_park_occurrence": true
+      },
+      "odocoileus_hemionus": {
+        "activity_index": 0.48772019022002916,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "authored_species_shape_proxy",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.006384851386152357,
+        "species_id": "odocoileus_hemionus",
+        "supported_park_occurrence": true
+      },
+      "odocoileus_virginianus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "odocoileus_virginianus",
+        "supported_park_occurrence": true
+      },
+      "ondatra_zibethicus": {
+        "activity_index": 0.3830691667675269,
+        "eligible_local_patches": [
+          "bridge_riparian"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "ondatra_zibethicus",
+        "supported_park_occurrence": true
+      },
+      "oreamnos_americanus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "oreamnos_americanus",
+        "supported_park_occurrence": true
+      },
+      "ovis_canadensis": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "ovis_canadensis",
+        "supported_park_occurrence": true
+      },
+      "peromyscus_maniculatus": {
+        "activity_index": 0.2826028186507479,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.10602603874623473,
+        "species_id": "peromyscus_maniculatus",
+        "supported_park_occurrence": true
+      },
+      "phenacomys_intermedius": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "phenacomys_intermedius",
+        "supported_park_occurrence": true
+      },
+      "procyon_lotor": {
+        "activity_index": 0.3104671910095533,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "procyon_lotor",
+        "supported_park_occurrence": true
+      },
+      "puma_concolor": {
+        "activity_index": 0.11971596349035667,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "puma_concolor",
+        "supported_park_occurrence": true
+      },
+      "sorex_cinereus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "sorex_cinereus",
+        "supported_park_occurrence": true
+      },
+      "sorex_hoyi": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "sorex_hoyi",
+        "supported_park_occurrence": false
+      },
+      "sorex_monticolus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "sorex_monticolus",
+        "supported_park_occurrence": true
+      },
+      "sorex_nanus": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "sorex_nanus",
+        "supported_park_occurrence": true
+      },
+      "sorex_palustris": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "sorex_palustris",
+        "supported_park_occurrence": true
+      },
+      "sorex_preblei": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.4,
+        "predation_risk_index": 0.0,
+        "species_id": "sorex_preblei",
+        "supported_park_occurrence": true
+      },
+      "spermophilus_armatus": {
+        "activity_index": 0.23377313238654274,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.006588805841542942,
+        "species_id": "spermophilus_armatus",
+        "supported_park_occurrence": true
+      },
+      "spermophilus_lateralis": {
+        "activity_index": 0.2353183783777842,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "spermophilus_lateralis",
+        "supported_park_occurrence": true
+      },
+      "spilogale_gracilis": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "spilogale_gracilis",
+        "supported_park_occurrence": false
+      },
+      "sylvilagus_audubonii": {
+        "activity_index": 0.0,
+        "eligible_local_patches": [],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.0,
+        "predation_risk_index": 0.0,
+        "species_id": "sylvilagus_audubonii",
+        "supported_park_occurrence": true
+      },
+      "sylvilagus_nuttallii": {
+        "activity_index": 0.49084392040797803,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "sylvilagus_nuttallii",
+        "supported_park_occurrence": true
+      },
+      "tamiasciurus_hudsonicus": {
+        "activity_index": 0.38311863205156854,
+        "eligible_local_patches": [
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "tamiasciurus_hudsonicus",
+        "supported_park_occurrence": true
+      },
+      "taxidea_taxus": {
+        "activity_index": 0.08236007301928676,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "supplied_mesh_authored_motion",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "taxidea_taxus",
+        "supported_park_occurrence": true
+      },
+      "thomomys_talpoides": {
+        "activity_index": 0.48762073569302133,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.006588805841542942,
+        "species_id": "thomomys_talpoides",
+        "supported_park_occurrence": true
+      },
+      "ursus_americanus": {
+        "activity_index": 0.12168264478383913,
+        "eligible_local_patches": [
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "supplied_mesh_authored_motion",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.2,
+        "predation_risk_index": 0.0,
+        "species_id": "ursus_americanus",
+        "supported_park_occurrence": true
+      },
+      "ursus_arctos": {
+        "activity_index": 0.15266884677602893,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": "supplied_mesh_authored_motion",
+          "renderer": "available_reference_or_labeled_proxy"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "ursus_arctos",
+        "supported_park_occurrence": true
+      },
+      "vulpes_vulpes": {
+        "activity_index": 0.11971596349035667,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "vulpes_vulpes",
+        "supported_park_occurrence": true
+      },
+      "zapus_princeps": {
+        "activity_index": 0.1488429068595761,
+        "eligible_local_patches": [
+          "north_meadow",
+          "bridge_riparian",
+          "forest_edge"
+        ],
+        "model_availability": {
+          "ecology": "authored_guild_model",
+          "local_population_measurement": null,
+          "render_geometry_class": null,
+          "renderer": "not_available"
+        },
+        "population_equivalents": 0.6000000000000001,
+        "predation_risk_index": 0.0,
+        "species_id": "zapus_princeps",
+        "supported_park_occurrence": true
+      }
+    },
+    "status": "authored"
+  },
+  "parameter_provenance": {
+    "encounter_basis": "authored observation layer; not a field sighting frequency",
+    "population_basis": "authored relative populations; local abundance unavailable",
+    "seed": 54173
+  },
+  "sources": [
+    {
+      "file": "yellowstone_python/data/mammal_catalogue.json",
+      "sha256": "33618955f1fefedd673ce16b278c13f438d53097acef0934b6119e6486e48773"
+    }
+  ],
+  "status": "illustrative_not_calibrated",
+  "temporal_support": "initial state; time-varying states are in ecosystem.python_series and live frames",
+  "world_id": "yellowstone_midway"
+}

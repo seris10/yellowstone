@@ -1,0 +1,54 @@
+clock_hour: 16.2
+fish:
+  cover: 0.6
+  food: 0.7
+  weights: null
+hydro:
+  attach: {}
+  boundary_c: 17.5
+  boundary_m3s: 4.0
+  simulate_seconds: 600.0
+  tributaries: {}
+insects:
+  flowering_stage: 0.6
+replay:
+  cross_sections_file: configs/cross_sections.json
+  depth_m: 1.1
+  dispersion_m2_s: 1.0
+  dt_s: 1.0
+  duration_s: 7200.0
+  energy_budget: false
+  exchange_w_m2_k: 12.0
+  hydraulics:
+    bank_slope_zh: 1.5
+    manning_n: 0.035
+  max_cell_m: 20.0
+  sample_s: 10.0
+run_mode: scenario
+snow:
+  days: 30
+  precip_mm_d: 2.0
+  season: summer
+study:
+  about: 'Upstream Q halved: slower dilution, plume relatively stronger.'
+  preset: low_flow
+vegetation:
+  grazers: null
+  proposal:
+    center_xz:
+    - -360
+    - 260
+    count: 40
+    guild: lodgepole_pine
+    habitat_id: forest_edge
+    radius_m: 30
+    seed: 7
+weather:
+  cloud: 0.16
+  day_warming_c: 15.0
+  gust_mps: 0.45
+  humidity: 0.45
+  night_air_c: 7.0
+  wind_xz_mps:
+  - 1.8
+  - 0.6

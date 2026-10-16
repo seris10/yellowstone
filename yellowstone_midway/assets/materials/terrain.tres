@@ -1,0 +1,33 @@
+[gd_resource type="ShaderMaterial" load_steps=9 format=3]
+
+[ext_resource type="Shader" path="res://shaders/terrain.gdshader" id="1_dicvw"]
+[ext_resource type="Texture2D" path="res://assets/textures/habitat_mask.png" id="2_2njj2"]
+[ext_resource type="Texture2D" path="res://assets/textures/detail.png" id="3_lqqj3"]
+[ext_resource type="Texture2D" path="res://assets/textures/forest_ground_04_diff_1k.jpg" id="4_cmpb7"]
+[ext_resource type="Texture2D" path="res://assets/textures/forest_ground_04_nor_gl_1k.jpg" id="5_3eh23"]
+[ext_resource type="Texture2D" path="res://assets/textures/midway_macro.jpg" id="6_5lb2e"]
+[ext_resource type="Texture2D" path="res://assets/textures/rock_boulder_dry_diff_1k.jpg" id="7_s7gn1"]
+[ext_resource type="Texture2D" path="res://assets/textures/trail_mask.png" id="8_wldir"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_dicvw")
+shader_parameter/ground_albedo = ExtResource("4_cmpb7")
+shader_parameter/ground_normal = ExtResource("5_3eh23")
+shader_parameter/rock_albedo = ExtResource("7_s7gn1")
+shader_parameter/macro_albedo = ExtResource("6_5lb2e")
+shader_parameter/biome_map = ExtResource("2_2njj2")
+shader_parameter/detail_map = ExtResource("3_lqqj3")
+shader_parameter/ground_wetness = 0.12
+shader_parameter/snow_amount = null
+shader_parameter/snow_swe_mm = null
+shader_parameter/snow_cover_fraction = null
+shader_parameter/trail_mask = ExtResource("8_wldir")
+shader_parameter/core_cut_x_min_m = null
+shader_parameter/core_cut_x_max_m = null
+shader_parameter/core_cut_z_min_m = null
+shader_parameter/core_cut_z_max_m = null
+shader_parameter/core_cut_active = null
+shader_parameter/soil_tile_width_m = 3.15
+shader_parameter/trail_tile_width_m = 2.0
+shader_parameter/macro_color_strength = 0.28

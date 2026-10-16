@@ -1,0 +1,16 @@
+{
+  "schema": "yellowstone.forest_floor_assets.v1",
+  "license": "Apache-2.0",
+  "geometry_class": "authored",
+  "appearance_class": "illustrative_non_diagnostic",
+  "local_species_presence_claim": "none",
+  "uncertainty": "unknown",
+  "scientific_acceptance": "not_yet_accepted",
+  "files": [
+    {
+      "path": "broadleaf.png",
+      "sha256": "72a35835758307aff8bfa729d6bac7c432204a8d6c5c6f9bffe8569306f84e96",
+      "bytes": 6167
+    }
+  ]
+}

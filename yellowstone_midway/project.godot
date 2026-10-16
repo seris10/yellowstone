@@ -1,0 +1,232 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Yellowstone · Midway"
+config/description="A georeferenced, fixed landscape study of Midway Geyser Basin."
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.5", "Mobile")
+
+[audio]
+
+default_bus_layout="res://default_bus_layout.tres"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=1000
+window/size/window_width_override=1440
+window/size/window_height_override=900
+window/stretch/mode="canvas_items"
+
+[physics]
+
+3d/default_gravity=9.81
+
+[rendering]
+
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
+textures/default_filters/anisotropic_filtering_level=3
+anti_aliasing/quality/msaa_3d=2
+lights_and_shadows/directional_shadow/size=4096
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+environment/defaults/default_clear_color=Color(0.43, 0.61, 0.7, 1)
+
+[yellowstone]
+
+live_url="http://127.0.0.1:8765"
+shadows/preset="walking"
+shadows/range_override_m=0.0
+shadows/split_1=0.04
+shadows/split_2=0.14
+shadows/split_3=0.4
+shadows/blend_splits=true
+shadows/fade_start=0.82
+shadows/bias=0.03
+shadows/normal_bias=3.0
+
+[input]
+
+menu={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":80), Object(InputEventJoypadButton,"button_index":11)]
+}
+
+field_notes={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":73), Object(InputEventJoypadButton,"button_index":0)]
+}
+
+map={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":77), Object(InputEventJoypadButton,"button_index":1)]
+}
+
+photo_mode={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":70), Object(InputEventJoypadButton,"button_index":2)]
+}
+
+authoring_flight={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":4194334), Object(InputEventJoypadButton,"button_index":3)]
+}
+
+return_to_anchor={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":82), Object(InputEventJoypadButton,"button_index":12)]
+}
+
+jump_two_hours={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":84), Object(InputEventJoypadButton,"button_index":13)]
+}
+
+compare_replay={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":67), Object(InputEventJoypadButton,"button_index":14)]
+}
+
+study_scene={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":83,"ctrl_pressed":true), Object(InputEventJoypadButton,"button_index":15)]
+}
+
+calibration={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":75), Object(InputEventJoypadButton,"button_index":0)]
+}
+
+plume={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":79), Object(InputEventJoypadButton,"button_index":1)]
+}
+
+geochemistry={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":71), Object(InputEventJoypadButton,"button_index":2)]
+}
+
+census={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":85), Object(InputEventJoypadButton,"button_index":3)]
+}
+
+overland={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":74), Object(InputEventJoypadButton,"button_index":12)]
+}
+
+groundwater={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":76), Object(InputEventJoypadButton,"button_index":13)]
+}
+
+help={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":4194332), Object(InputEventJoypadButton,"button_index":6)]
+}
+
+conditions={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":4194306), Object(InputEventJoypadButton,"button_index":10)]
+}
+
+probe={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":72), Object(InputEventJoypadButton,"button_index":7)]
+}
+
+pause={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":81), Object(InputEventJoypadButton,"button_index":8)]
+}
+
+step_frame={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":46), Object(InputEventJoypadButton,"button_index":9)]
+}
+
+scale_1={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":49), Object(InputEventJoypadButton,"button_index":0)]
+}
+
+scale_60={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":50), Object(InputEventJoypadButton,"button_index":1)]
+}
+
+scale_600={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":51), Object(InputEventJoypadButton,"button_index":2)]
+}
+
+scale_3600={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":52), Object(InputEventJoypadButton,"button_index":3)]
+}
+
+intervene_shade={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":53), Object(InputEventJoypadButton,"button_index":12)]
+}
+
+intervene_outflow={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":54), Object(InputEventJoypadButton,"button_index":13)]
+}
+
+intervene_tributary={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":55), Object(InputEventJoypadButton,"button_index":14)]
+}
+
+intervene_grazing={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":56), Object(InputEventJoypadButton,"button_index":15)]
+}
+
+move_left={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":65), Object(InputEventJoypadMotion,"axis":0,"axis_value":-1.0)]
+}
+
+move_right={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":68), Object(InputEventJoypadMotion,"axis":0,"axis_value":1.0)]
+}
+
+move_forward={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":87), Object(InputEventJoypadMotion,"axis":1,"axis_value":-1.0)]
+}
+
+move_back={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":83), Object(InputEventJoypadMotion,"axis":1,"axis_value":1.0)]
+}
+
+brisk_walk={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":4194325), Object(InputEventJoypadButton,"button_index":4)]
+}
+
+jump={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":32), Object(InputEventJoypadButton,"button_index":0)]
+}
+
+fly_down={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":4194326), Object(InputEventJoypadButton,"button_index":5)]
+}

@@ -1,0 +1,24 @@
+{
+  "contract_version": "0.1.0",
+  "patches": [
+    {
+      "id": "north_meadow",
+      "snow_cover_fraction": 0.0
+    },
+    {
+      "id": "bridge_riparian",
+      "snow_cover_fraction": 0.0
+    },
+    {
+      "id": "forest_edge",
+      "snow_cover_fraction": 0.0
+    }
+  ],
+  "schema": "yellowstone.snow_cover.v1",
+  "source": "season.json::patches[].snow_cover_fraction",
+  "status": "illustrative",
+  "units": {
+    "snow_cover_fraction": "fraction in [0, 1]"
+  },
+  "world_id": "yellowstone_midway"
+}

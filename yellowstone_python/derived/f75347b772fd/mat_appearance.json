@@ -1,0 +1,106 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "grid_cells": [
+    1280,
+    1280
+  ],
+  "imagery_mat_strength": {
+    "sinter_warm_median": 2.2800900641441446,
+    "warm_top": 10.5539738174926
+  },
+  "note": "visual layer: mat geometry follows NAIP warm chroma inside the mineral and model-mat region; model flow, temperature and pigment set the color; model rasters are unchanged",
+  "palette_rgb_0_255": {
+    "dark": [
+      98,
+      62,
+      50
+    ],
+    "light_orange": [
+      221,
+      153,
+      105
+    ],
+    "orange": [
+      201,
+      113,
+      68
+    ],
+    "pale": [
+      230,
+      194,
+      148
+    ],
+    "rust": [
+      140,
+      98,
+      82
+    ],
+    "thin": [
+      182,
+      139,
+      122
+    ]
+  },
+  "palette_source": "tools/fit_mat_palette.py k=6 over two Google satellite screenshots of the Grand Prismatic apron (Airbus, Maxar), shared by KJR 2026-10-13",
+  "parameter_provenance": {
+    "pigment_ref": 1.0,
+    "png": "mat_pigment.png",
+    "upsample": 2
+  },
+  "parameters": {
+    "dem_smooth_sigma_m": 2.0,
+    "edge_sigma_m": 0.75,
+    "flow_log10_range": [
+      -9.0,
+      -1.0
+    ],
+    "luminance_window_m": 6.0,
+    "mineral_min": 0.3,
+    "pale_blend_c": [
+      60.0,
+      72.0
+    ],
+    "presence_dilation_m": 6.0,
+    "status": "authored",
+    "streak_contrast": 0.25,
+    "streamline_steps": 8,
+    "warm_margin": 2.0,
+    "warm_top_percentile": 97.0
+  },
+  "pigment_ref": 1.0,
+  "pigment_ref_basis": "steady_state_pigment_index of the clear-sky daily mean shortwave on the imagery acquisition date",
+  "pigment_ref_insolation": {
+    "all_sky_mean_w_m2": 382.25022118633746,
+    "altitude_m": 2240.0,
+    "clear_mean_w_m2": 382.25022118633746,
+    "cloud_factor": 1.0,
+    "cloud_fraction": 0.0,
+    "date_utc": "2022-07-19",
+    "latitude_deg": 44.525,
+    "longitude_deg": -110.837,
+    "sources": [
+      "pvlib get_clearsky Ineichen Perez model",
+      "Kasten and Czeplak (1980) Solar Energy 24(2) 177, cloud attenuation G/G_clear = 1 - 0.75 (N/8)^3.4 with N in oktas"
+    ]
+  },
+  "schema": "yellowstone.mat_appearance.v1",
+  "sources": [
+    {
+      "acquired": "2022-07-19",
+      "file": "yellowstone_midway/references/midway_orthophoto_detail.jpg",
+      "sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2"
+    },
+    {
+      "file": "yellowstone_midway/assets/textures/habitat_mask.png",
+      "sha256": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a"
+    },
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "fitted_from_imagery",
+  "upsample": 2,
+  "world_id": "yellowstone_midway"
+}

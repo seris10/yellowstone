@@ -1,0 +1,4785 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "foodweb": {
+    "closing_stocks": {
+      "final_benthic": 309.46273,
+      "final_emergent": 114.532466
+    },
+    "days": 14.0,
+    "dipper": {
+      "basis": "Holling intake on refuge-cell benthic+emergent; shared-foraging-ground assumption; simultaneous pro-rata competition with trout",
+      "intake_per_day": 0.965297,
+      "intake_total": 13.514158
+    },
+    "per_cell": [
+      {
+        "dipt": 0.5256,
+        "ept": 0.6292,
+        "id": "firehole_cell_00000",
+        "ne": 0.4108,
+        "s_m": 6.984475725420609,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6292,
+        "id": "firehole_cell_00001",
+        "ne": 0.4108,
+        "s_m": 20.953427176261826,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6292,
+        "id": "firehole_cell_00002",
+        "ne": 0.4108,
+        "s_m": 34.92237862710304,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6292,
+        "id": "firehole_cell_00003",
+        "ne": 0.4108,
+        "s_m": 51.863332442017686,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6292,
+        "id": "firehole_cell_00004",
+        "ne": 0.4108,
+        "s_m": 71.77628862100576,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6291,
+        "id": "firehole_cell_00005",
+        "ne": 0.4108,
+        "s_m": 91.68924479999382,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6291,
+        "id": "firehole_cell_00006",
+        "ne": 0.4108,
+        "s_m": 111.60220097898187,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6291,
+        "id": "firehole_cell_00007",
+        "ne": 0.4108,
+        "s_m": 131.51515715796995,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5256,
+        "ept": 0.6291,
+        "id": "firehole_cell_00008",
+        "ne": 0.4108,
+        "s_m": 151.428113336958,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00009",
+        "ne": 0.4108,
+        "s_m": 171.3410695159461,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00010",
+        "ne": 0.4108,
+        "s_m": 191.25402569493414,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00011",
+        "ne": 0.4108,
+        "s_m": 211.1669818739222,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00012",
+        "ne": 0.4108,
+        "s_m": 231.07993805291028,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00013",
+        "ne": 0.4109,
+        "s_m": 250.99289423189833,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00014",
+        "ne": 0.4109,
+        "s_m": 270.9058504108864,
+        "temperature_c": 17.5
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00015",
+        "ne": 0.4109,
+        "s_m": 290.8188065898745,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00016",
+        "ne": 0.4109,
+        "s_m": 310.73176276886255,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00017",
+        "ne": 0.4109,
+        "s_m": 330.64471894785066,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00018",
+        "ne": 0.4109,
+        "s_m": 350.5576751268387,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5255,
+        "ept": 0.6291,
+        "id": "firehole_cell_00019",
+        "ne": 0.4109,
+        "s_m": 370.4706313058267,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.6291,
+        "id": "firehole_cell_00020",
+        "ne": 0.4109,
+        "s_m": 390.38358748481477,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.6291,
+        "id": "firehole_cell_00021",
+        "ne": 0.4109,
+        "s_m": 410.2965436638029,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.6291,
+        "id": "firehole_cell_00022",
+        "ne": 0.4109,
+        "s_m": 430.20949984279093,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.6291,
+        "id": "firehole_cell_00023",
+        "ne": 0.4109,
+        "s_m": 450.122456021779,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.629,
+        "id": "firehole_cell_00024",
+        "ne": 0.4109,
+        "s_m": 470.0354122007671,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.629,
+        "id": "firehole_cell_00025",
+        "ne": 0.4109,
+        "s_m": 489.94836837975515,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.629,
+        "id": "firehole_cell_00026",
+        "ne": 0.4109,
+        "s_m": 509.78032115443057,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.629,
+        "id": "firehole_cell_00027",
+        "ne": 0.411,
+        "s_m": 529.5312705247934,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.629,
+        "id": "firehole_cell_00028",
+        "ne": 0.411,
+        "s_m": 549.2822198951562,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5254,
+        "ept": 0.629,
+        "id": "firehole_cell_00029",
+        "ne": 0.411,
+        "s_m": 569.033169265519,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00030",
+        "ne": 0.411,
+        "s_m": 588.7841186358818,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00031",
+        "ne": 0.411,
+        "s_m": 608.5350680062445,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00032",
+        "ne": 0.411,
+        "s_m": 628.2860173766073,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00033",
+        "ne": 0.411,
+        "s_m": 648.0369667469702,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00034",
+        "ne": 0.411,
+        "s_m": 667.787916117333,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00035",
+        "ne": 0.411,
+        "s_m": 687.5388654876958,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00036",
+        "ne": 0.411,
+        "s_m": 707.2898148580587,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00037",
+        "ne": 0.411,
+        "s_m": 727.0407642284214,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00038",
+        "ne": 0.411,
+        "s_m": 746.7917135987841,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5253,
+        "ept": 0.629,
+        "id": "firehole_cell_00039",
+        "ne": 0.411,
+        "s_m": 766.5426629691469,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.629,
+        "id": "firehole_cell_00040",
+        "ne": 0.4111,
+        "s_m": 786.2936123395098,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00041",
+        "ne": 0.4111,
+        "s_m": 806.0445617098726,
+        "temperature_c": 17.51
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00042",
+        "ne": 0.4111,
+        "s_m": 825.7955110802354,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00043",
+        "ne": 0.4111,
+        "s_m": 845.5464604505983,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00044",
+        "ne": 0.4111,
+        "s_m": 865.2974098209611,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00045",
+        "ne": 0.4111,
+        "s_m": 885.0483591913239,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00046",
+        "ne": 0.4111,
+        "s_m": 904.7993085616865,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00047",
+        "ne": 0.4111,
+        "s_m": 924.5502579320494,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5252,
+        "ept": 0.6289,
+        "id": "firehole_cell_00048",
+        "ne": 0.4111,
+        "s_m": 944.3012073024122,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00049",
+        "ne": 0.4111,
+        "s_m": 964.052156672775,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00050",
+        "ne": 0.4111,
+        "s_m": 983.8031060431379,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00051",
+        "ne": 0.4111,
+        "s_m": 1003.5540554135007,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00052",
+        "ne": 0.4112,
+        "s_m": 1023.3050047838633,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00053",
+        "ne": 0.4112,
+        "s_m": 1043.0559541542261,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00054",
+        "ne": 0.4112,
+        "s_m": 1062.806903524589,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00055",
+        "ne": 0.4112,
+        "s_m": 1082.5578528949518,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6289,
+        "id": "firehole_cell_00056",
+        "ne": 0.4112,
+        "s_m": 1102.3088022653146,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.5251,
+        "ept": 0.6288,
+        "id": "firehole_cell_00057",
+        "ne": 0.4112,
+        "s_m": 1122.0597516356775,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.525,
+        "ept": 0.6288,
+        "id": "firehole_cell_00058",
+        "ne": 0.4112,
+        "s_m": 1141.8107010060403,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.525,
+        "ept": 0.6288,
+        "id": "firehole_cell_00059",
+        "ne": 0.4112,
+        "s_m": 1161.5616503764031,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.525,
+        "ept": 0.6288,
+        "id": "firehole_cell_00060",
+        "ne": 0.4112,
+        "s_m": 1181.312599746766,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.525,
+        "ept": 0.6288,
+        "id": "firehole_cell_00061",
+        "ne": 0.4112,
+        "s_m": 1201.0635491171288,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.525,
+        "ept": 0.6288,
+        "id": "firehole_cell_00062",
+        "ne": 0.4112,
+        "s_m": 1220.8144984874916,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.525,
+        "ept": 0.6288,
+        "id": "firehole_cell_00063",
+        "ne": 0.4113,
+        "s_m": 1240.5654478578545,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.525,
+        "ept": 0.6288,
+        "id": "firehole_cell_00064",
+        "ne": 0.4113,
+        "s_m": 1260.3163972282173,
+        "temperature_c": 17.52
+      },
+      {
+        "dipt": 0.0,
+        "ept": 0.0,
+        "id": "firehole_cell_00065",
+        "ne": 0.0,
+        "s_m": 1280.1546656669748,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.627,
+        "id": "firehole_cell_00066",
+        "ne": 0.4044,
+        "s_m": 1300.080253174127,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6258,
+        "id": "firehole_cell_00067",
+        "ne": 0.4003,
+        "s_m": 1320.005840681279,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6238,
+        "id": "firehole_cell_00068",
+        "ne": 0.394,
+        "s_m": 1339.9314281884317,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5228,
+        "ept": 0.6206,
+        "id": "firehole_cell_00069",
+        "ne": 0.3846,
+        "s_m": 1359.8570156955839,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.521,
+        "ept": 0.6155,
+        "id": "firehole_cell_00070",
+        "ne": 0.3706,
+        "s_m": 1379.782603202736,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5176,
+        "ept": 0.6072,
+        "id": "firehole_cell_00071",
+        "ne": 0.3499,
+        "s_m": 1399.7081907098886,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5115,
+        "ept": 0.5937,
+        "id": "firehole_cell_00072",
+        "ne": 0.3201,
+        "s_m": 1419.6337782170408,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5001,
+        "ept": 0.572,
+        "id": "firehole_cell_00073",
+        "ne": 0.2782,
+        "s_m": 1439.559365724193,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.4793,
+        "ept": 0.5369,
+        "id": "firehole_cell_00074",
+        "ne": 0.2216,
+        "s_m": 1459.4849532313456,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.4409,
+        "ept": 0.4802,
+        "id": "firehole_cell_00075",
+        "ne": 0.1498,
+        "s_m": 1479.4105407384977,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.3703,
+        "ept": 0.3884,
+        "id": "firehole_cell_00076",
+        "ne": 0.0687,
+        "s_m": 1499.33612824565,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5248,
+        "ept": 0.6287,
+        "id": "firehole_cell_00077",
+        "ne": 0.4114,
+        "s_m": 1519.2617157528025,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5248,
+        "ept": 0.6287,
+        "id": "firehole_cell_00078",
+        "ne": 0.4114,
+        "s_m": 1539.1873032599547,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5248,
+        "ept": 0.6287,
+        "id": "firehole_cell_00079",
+        "ne": 0.4114,
+        "s_m": 1559.1128907671068,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5248,
+        "ept": 0.6287,
+        "id": "firehole_cell_00080",
+        "ne": 0.4114,
+        "s_m": 1579.0384782742592,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5248,
+        "ept": 0.6287,
+        "id": "firehole_cell_00081",
+        "ne": 0.4114,
+        "s_m": 1598.9640657814116,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6287,
+        "id": "firehole_cell_00082",
+        "ne": 0.4114,
+        "s_m": 1618.8896532885637,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6287,
+        "id": "firehole_cell_00083",
+        "ne": 0.4114,
+        "s_m": 1638.8152407957161,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6287,
+        "id": "firehole_cell_00084",
+        "ne": 0.4115,
+        "s_m": 1658.7408283028685,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6287,
+        "id": "firehole_cell_00085",
+        "ne": 0.4115,
+        "s_m": 1678.6664158100207,
+        "temperature_c": 17.53
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6286,
+        "id": "firehole_cell_00086",
+        "ne": 0.4115,
+        "s_m": 1698.592003317173,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6286,
+        "id": "firehole_cell_00087",
+        "ne": 0.4115,
+        "s_m": 1718.5175908243255,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6286,
+        "id": "firehole_cell_00088",
+        "ne": 0.4115,
+        "s_m": 1738.4431783314776,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5247,
+        "ept": 0.6286,
+        "id": "firehole_cell_00089",
+        "ne": 0.4115,
+        "s_m": 1758.3687658386298,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00090",
+        "ne": 0.4115,
+        "s_m": 1778.2943533457824,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00091",
+        "ne": 0.4115,
+        "s_m": 1798.2199408529345,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00092",
+        "ne": 0.4115,
+        "s_m": 1818.1455283600867,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00093",
+        "ne": 0.4115,
+        "s_m": 1838.0711158672393,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00094",
+        "ne": 0.4116,
+        "s_m": 1857.9967033743915,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00095",
+        "ne": 0.4116,
+        "s_m": 1877.9222908815436,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00096",
+        "ne": 0.4116,
+        "s_m": 1897.8478783886962,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5246,
+        "ept": 0.6286,
+        "id": "firehole_cell_00097",
+        "ne": 0.4116,
+        "s_m": 1917.7734658958484,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5245,
+        "ept": 0.6286,
+        "id": "firehole_cell_00098",
+        "ne": 0.4116,
+        "s_m": 1937.6990534030006,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.24,
+        "ept": 0.24,
+        "id": "firehole_cell_00099",
+        "ne": 0.0,
+        "s_m": 1957.606378282103,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5245,
+        "ept": 0.6285,
+        "id": "firehole_cell_00100",
+        "ne": 0.4116,
+        "s_m": 1977.4954405331553,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5245,
+        "ept": 0.6285,
+        "id": "firehole_cell_00101",
+        "ne": 0.4116,
+        "s_m": 1997.3845027842076,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5245,
+        "ept": 0.6285,
+        "id": "firehole_cell_00102",
+        "ne": 0.4116,
+        "s_m": 2017.2735650352597,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5245,
+        "ept": 0.6285,
+        "id": "firehole_cell_00103",
+        "ne": 0.4116,
+        "s_m": 2037.1626272863118,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5245,
+        "ept": 0.6285,
+        "id": "firehole_cell_00104",
+        "ne": 0.4117,
+        "s_m": 2057.051689537364,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6285,
+        "id": "firehole_cell_00105",
+        "ne": 0.4117,
+        "s_m": 2076.9407517884165,
+        "temperature_c": 17.54
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6285,
+        "id": "firehole_cell_00106",
+        "ne": 0.4117,
+        "s_m": 2096.829814039469,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6285,
+        "id": "firehole_cell_00107",
+        "ne": 0.4117,
+        "s_m": 2116.7188762905207,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6285,
+        "id": "firehole_cell_00108",
+        "ne": 0.4117,
+        "s_m": 2136.6079385415733,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6285,
+        "id": "firehole_cell_00109",
+        "ne": 0.4117,
+        "s_m": 2156.497000792626,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6285,
+        "id": "firehole_cell_00110",
+        "ne": 0.4117,
+        "s_m": 2176.3860630436775,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6285,
+        "id": "firehole_cell_00111",
+        "ne": 0.4117,
+        "s_m": 2196.27512529473,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5244,
+        "ept": 0.6284,
+        "id": "firehole_cell_00112",
+        "ne": 0.4117,
+        "s_m": 2216.164187545782,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6284,
+        "id": "firehole_cell_00113",
+        "ne": 0.4118,
+        "s_m": 2236.0532497968343,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6284,
+        "id": "firehole_cell_00114",
+        "ne": 0.4118,
+        "s_m": 2255.942312047887,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6284,
+        "id": "firehole_cell_00115",
+        "ne": 0.4118,
+        "s_m": 2275.831374298939,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6284,
+        "id": "firehole_cell_00116",
+        "ne": 0.4118,
+        "s_m": 2295.720436549991,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6284,
+        "id": "firehole_cell_00117",
+        "ne": 0.4118,
+        "s_m": 2315.6094988010436,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6284,
+        "id": "firehole_cell_00118",
+        "ne": 0.4118,
+        "s_m": 2335.4985610520957,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5243,
+        "ept": 0.6284,
+        "id": "firehole_cell_00119",
+        "ne": 0.4118,
+        "s_m": 2355.387623303148,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5242,
+        "ept": 0.6284,
+        "id": "firehole_cell_00120",
+        "ne": 0.4118,
+        "s_m": 2375.2766855542004,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5242,
+        "ept": 0.6284,
+        "id": "firehole_cell_00121",
+        "ne": 0.4118,
+        "s_m": 2395.1657478052525,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5242,
+        "ept": 0.6284,
+        "id": "firehole_cell_00122",
+        "ne": 0.4118,
+        "s_m": 2415.0548100563046,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5242,
+        "ept": 0.6284,
+        "id": "firehole_cell_00123",
+        "ne": 0.4119,
+        "s_m": 2434.943872307357,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5242,
+        "ept": 0.6284,
+        "id": "firehole_cell_00124",
+        "ne": 0.4119,
+        "s_m": 2454.8329345584093,
+        "temperature_c": 17.55
+      },
+      {
+        "dipt": 0.5242,
+        "ept": 0.6283,
+        "id": "firehole_cell_00125",
+        "ne": 0.4119,
+        "s_m": 2474.7219968094614,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5242,
+        "ept": 0.6283,
+        "id": "firehole_cell_00126",
+        "ne": 0.4119,
+        "s_m": 2494.611059060514,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5241,
+        "ept": 0.6283,
+        "id": "firehole_cell_00127",
+        "ne": 0.4119,
+        "s_m": 2514.5001213115656,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5241,
+        "ept": 0.6283,
+        "id": "firehole_cell_00128",
+        "ne": 0.4119,
+        "s_m": 2534.389183562618,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5241,
+        "ept": 0.6283,
+        "id": "firehole_cell_00129",
+        "ne": 0.4119,
+        "s_m": 2554.2782458136708,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5241,
+        "ept": 0.6283,
+        "id": "firehole_cell_00130",
+        "ne": 0.4119,
+        "s_m": 2574.1673080647224,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5241,
+        "ept": 0.6283,
+        "id": "firehole_cell_00131",
+        "ne": 0.4119,
+        "s_m": 2594.056370315775,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5241,
+        "ept": 0.6283,
+        "id": "firehole_cell_00132",
+        "ne": 0.412,
+        "s_m": 2613.9454325668275,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5241,
+        "ept": 0.6283,
+        "id": "firehole_cell_00133",
+        "ne": 0.412,
+        "s_m": 2633.834494817879,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.524,
+        "ept": 0.6283,
+        "id": "firehole_cell_00134",
+        "ne": 0.412,
+        "s_m": 2653.7235570689318,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.524,
+        "ept": 0.6283,
+        "id": "firehole_cell_00135",
+        "ne": 0.412,
+        "s_m": 2673.6126193199843,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.524,
+        "ept": 0.6283,
+        "id": "firehole_cell_00136",
+        "ne": 0.412,
+        "s_m": 2693.501681571036,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.524,
+        "ept": 0.6282,
+        "id": "firehole_cell_00137",
+        "ne": 0.412,
+        "s_m": 2713.3907438220886,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.524,
+        "ept": 0.6282,
+        "id": "firehole_cell_00138",
+        "ne": 0.412,
+        "s_m": 2733.2798060731407,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.524,
+        "ept": 0.6282,
+        "id": "firehole_cell_00139",
+        "ne": 0.412,
+        "s_m": 2753.1688683241928,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.524,
+        "ept": 0.6282,
+        "id": "firehole_cell_00140",
+        "ne": 0.412,
+        "s_m": 2773.0579305752453,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5239,
+        "ept": 0.6282,
+        "id": "firehole_cell_00141",
+        "ne": 0.4121,
+        "s_m": 2792.9469928262974,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5239,
+        "ept": 0.6282,
+        "id": "firehole_cell_00142",
+        "ne": 0.4121,
+        "s_m": 2812.8360550773496,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5239,
+        "ept": 0.6282,
+        "id": "firehole_cell_00143",
+        "ne": 0.4121,
+        "s_m": 2832.725117328402,
+        "temperature_c": 17.56
+      },
+      {
+        "dipt": 0.5239,
+        "ept": 0.6282,
+        "id": "firehole_cell_00144",
+        "ne": 0.4121,
+        "s_m": 2852.6141795794542,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5239,
+        "ept": 0.6282,
+        "id": "firehole_cell_00145",
+        "ne": 0.4121,
+        "s_m": 2872.5032418305063,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5239,
+        "ept": 0.6282,
+        "id": "firehole_cell_00146",
+        "ne": 0.4121,
+        "s_m": 2892.392304081559,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5239,
+        "ept": 0.6282,
+        "id": "firehole_cell_00147",
+        "ne": 0.4121,
+        "s_m": 2912.281366332611,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6282,
+        "id": "firehole_cell_00148",
+        "ne": 0.4121,
+        "s_m": 2932.170428583663,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6281,
+        "id": "firehole_cell_00149",
+        "ne": 0.4121,
+        "s_m": 2952.0594908347157,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6281,
+        "id": "firehole_cell_00150",
+        "ne": 0.4122,
+        "s_m": 2971.948553085768,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6281,
+        "id": "firehole_cell_00151",
+        "ne": 0.4122,
+        "s_m": 2991.83761533682,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6281,
+        "id": "firehole_cell_00152",
+        "ne": 0.4122,
+        "s_m": 3011.7266775878725,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6281,
+        "id": "firehole_cell_00153",
+        "ne": 0.4122,
+        "s_m": 3031.6157398389246,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5238,
+        "ept": 0.6281,
+        "id": "firehole_cell_00154",
+        "ne": 0.4122,
+        "s_m": 3051.5048020899767,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5237,
+        "ept": 0.6281,
+        "id": "firehole_cell_00155",
+        "ne": 0.4122,
+        "s_m": 3071.393864341029,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5237,
+        "ept": 0.6281,
+        "id": "firehole_cell_00156",
+        "ne": 0.4122,
+        "s_m": 3091.282926592081,
+        "temperature_c": 17.57
+      },
+      {
+        "dipt": 0.5236,
+        "ept": 0.628,
+        "id": "firehole_cell_00157",
+        "ne": 0.4123,
+        "s_m": 3111.1719888431335,
+        "temperature_c": 17.58
+      },
+      {
+        "dipt": 0.5215,
+        "ept": 0.6268,
+        "id": "firehole_cell_00158",
+        "ne": 0.414,
+        "s_m": 3131.061051094186,
+        "temperature_c": 17.66
+      },
+      {
+        "dipt": 0.4926,
+        "ept": 0.6097,
+        "id": "firehole_cell_00159",
+        "ne": 0.4365,
+        "s_m": 3151.0003030184116,
+        "temperature_c": 18.84
+      },
+      {
+        "dipt": 0.4926,
+        "ept": 0.6097,
+        "id": "firehole_cell_00160",
+        "ne": 0.4365,
+        "s_m": 3170.989744615811,
+        "temperature_c": 18.84
+      },
+      {
+        "dipt": 0.4926,
+        "ept": 0.6097,
+        "id": "firehole_cell_00161",
+        "ne": 0.4365,
+        "s_m": 3190.979186213211,
+        "temperature_c": 18.84
+      },
+      {
+        "dipt": 0.4926,
+        "ept": 0.6096,
+        "id": "firehole_cell_00162",
+        "ne": 0.4365,
+        "s_m": 3210.9686278106105,
+        "temperature_c": 18.84
+      },
+      {
+        "dipt": 0.4926,
+        "ept": 0.6096,
+        "id": "firehole_cell_00163",
+        "ne": 0.4365,
+        "s_m": 3230.95806940801,
+        "temperature_c": 18.84
+      },
+      {
+        "dipt": 0.4926,
+        "ept": 0.6096,
+        "id": "firehole_cell_00164",
+        "ne": 0.4365,
+        "s_m": 3250.94751100541,
+        "temperature_c": 18.84
+      },
+      {
+        "dipt": 0.4926,
+        "ept": 0.6096,
+        "id": "firehole_cell_00165",
+        "ne": 0.4365,
+        "s_m": 3270.9369526028095,
+        "temperature_c": 18.84
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00166",
+        "ne": 0.4365,
+        "s_m": 3290.926394200209,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00167",
+        "ne": 0.4365,
+        "s_m": 3310.9158357976085,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00168",
+        "ne": 0.4365,
+        "s_m": 3330.9052773950084,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00169",
+        "ne": 0.4366,
+        "s_m": 3350.894718992408,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00170",
+        "ne": 0.4366,
+        "s_m": 3370.884160589808,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00171",
+        "ne": 0.4366,
+        "s_m": 3390.8736021872073,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00172",
+        "ne": 0.4366,
+        "s_m": 3410.863043784607,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4925,
+        "ept": 0.6096,
+        "id": "firehole_cell_00173",
+        "ne": 0.4366,
+        "s_m": 3430.8524853820063,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00174",
+        "ne": 0.4366,
+        "s_m": 3450.841926979406,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00175",
+        "ne": 0.4366,
+        "s_m": 3470.8313685768057,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00176",
+        "ne": 0.4366,
+        "s_m": 3490.8208101742052,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00177",
+        "ne": 0.4366,
+        "s_m": 3510.810251771605,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00178",
+        "ne": 0.4366,
+        "s_m": 3530.7996933690047,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00179",
+        "ne": 0.4367,
+        "s_m": 3550.789134966404,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00180",
+        "ne": 0.4367,
+        "s_m": 3570.7785765638037,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4924,
+        "ept": 0.6095,
+        "id": "firehole_cell_00181",
+        "ne": 0.4367,
+        "s_m": 3590.768018161203,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6095,
+        "id": "firehole_cell_00182",
+        "ne": 0.4367,
+        "s_m": 3610.757459758603,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6095,
+        "id": "firehole_cell_00183",
+        "ne": 0.4367,
+        "s_m": 3630.7469013560026,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6095,
+        "id": "firehole_cell_00184",
+        "ne": 0.4367,
+        "s_m": 3650.7363429534025,
+        "temperature_c": 18.85
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6095,
+        "id": "firehole_cell_00185",
+        "ne": 0.4367,
+        "s_m": 3670.725784550802,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6095,
+        "id": "firehole_cell_00186",
+        "ne": 0.4367,
+        "s_m": 3690.7152261482015,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6095,
+        "id": "firehole_cell_00187",
+        "ne": 0.4367,
+        "s_m": 3710.704667745601,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6094,
+        "id": "firehole_cell_00188",
+        "ne": 0.4367,
+        "s_m": 3730.6941093430005,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4923,
+        "ept": 0.6094,
+        "id": "firehole_cell_00189",
+        "ne": 0.4367,
+        "s_m": 3750.6835509404004,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00190",
+        "ne": 0.4368,
+        "s_m": 3770.6729925378,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00191",
+        "ne": 0.4368,
+        "s_m": 3790.6624341352,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00192",
+        "ne": 0.4368,
+        "s_m": 3810.6518757325994,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00193",
+        "ne": 0.4368,
+        "s_m": 3830.641317329999,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00194",
+        "ne": 0.4368,
+        "s_m": 3850.6307589273983,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00195",
+        "ne": 0.4368,
+        "s_m": 3870.620200524798,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00196",
+        "ne": 0.4368,
+        "s_m": 3890.609642122198,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00197",
+        "ne": 0.4368,
+        "s_m": 3910.5990837195977,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00198",
+        "ne": 0.4368,
+        "s_m": 3930.588525316997,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4922,
+        "ept": 0.6094,
+        "id": "firehole_cell_00199",
+        "ne": 0.4368,
+        "s_m": 3950.5779669143967,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6094,
+        "id": "firehole_cell_00200",
+        "ne": 0.4368,
+        "s_m": 3970.567408511796,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6094,
+        "id": "firehole_cell_00201",
+        "ne": 0.4368,
+        "s_m": 3990.5568501091957,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6094,
+        "id": "firehole_cell_00202",
+        "ne": 0.4369,
+        "s_m": 4010.546291706595,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6094,
+        "id": "firehole_cell_00203",
+        "ne": 0.4369,
+        "s_m": 4030.535733303995,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6093,
+        "id": "firehole_cell_00204",
+        "ne": 0.4369,
+        "s_m": 4050.525174901395,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6093,
+        "id": "firehole_cell_00205",
+        "ne": 0.4369,
+        "s_m": 4070.5146164987946,
+        "temperature_c": 18.86
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6093,
+        "id": "firehole_cell_00206",
+        "ne": 0.4369,
+        "s_m": 4090.504058096194,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6093,
+        "id": "firehole_cell_00207",
+        "ne": 0.4369,
+        "s_m": 4110.493499693594,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6093,
+        "id": "firehole_cell_00208",
+        "ne": 0.4369,
+        "s_m": 4130.482941290993,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4921,
+        "ept": 0.6093,
+        "id": "firehole_cell_00209",
+        "ne": 0.4369,
+        "s_m": 4150.4723828883925,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00210",
+        "ne": 0.4369,
+        "s_m": 4170.461824485792,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00211",
+        "ne": 0.4369,
+        "s_m": 4190.451266083192,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00212",
+        "ne": 0.4369,
+        "s_m": 4210.440707680592,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00213",
+        "ne": 0.4369,
+        "s_m": 4230.430149277991,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00214",
+        "ne": 0.4369,
+        "s_m": 4250.419590875391,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00215",
+        "ne": 0.437,
+        "s_m": 4270.40903247279,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00216",
+        "ne": 0.437,
+        "s_m": 4290.39847407019,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00217",
+        "ne": 0.437,
+        "s_m": 4310.38791566759,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00218",
+        "ne": 0.437,
+        "s_m": 4330.37735726499,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00219",
+        "ne": 0.437,
+        "s_m": 4350.366798862389,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00220",
+        "ne": 0.437,
+        "s_m": 4370.356240459789,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.492,
+        "ept": 0.6093,
+        "id": "firehole_cell_00221",
+        "ne": 0.437,
+        "s_m": 4390.345682057188,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6093,
+        "id": "firehole_cell_00222",
+        "ne": 0.437,
+        "s_m": 4410.335123654588,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00223",
+        "ne": 0.437,
+        "s_m": 4430.324565251987,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00224",
+        "ne": 0.437,
+        "s_m": 4450.314006849388,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00225",
+        "ne": 0.437,
+        "s_m": 4470.303448446787,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00226",
+        "ne": 0.437,
+        "s_m": 4490.292890044187,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00227",
+        "ne": 0.437,
+        "s_m": 4510.282331641586,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00228",
+        "ne": 0.437,
+        "s_m": 4530.271773238986,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00229",
+        "ne": 0.437,
+        "s_m": 4550.261214836385,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00230",
+        "ne": 0.437,
+        "s_m": 4570.250656433785,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00231",
+        "ne": 0.437,
+        "s_m": 4590.240098031185,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00232",
+        "ne": 0.437,
+        "s_m": 4610.2295396285845,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00233",
+        "ne": 0.437,
+        "s_m": 4630.218981225984,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00234",
+        "ne": 0.4371,
+        "s_m": 4650.208422823383,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00235",
+        "ne": 0.4371,
+        "s_m": 4670.197864420783,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00236",
+        "ne": 0.4371,
+        "s_m": 4690.187306018182,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00237",
+        "ne": 0.4371,
+        "s_m": 4710.176747615583,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00238",
+        "ne": 0.4371,
+        "s_m": 4730.166189212982,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00239",
+        "ne": 0.4371,
+        "s_m": 4750.155630810382,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00240",
+        "ne": 0.4371,
+        "s_m": 4770.145072407781,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00241",
+        "ne": 0.4371,
+        "s_m": 4790.134514005181,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00242",
+        "ne": 0.4371,
+        "s_m": 4810.12395560258,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00243",
+        "ne": 0.4371,
+        "s_m": 4830.11339719998,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00244",
+        "ne": 0.4371,
+        "s_m": 4850.102838797379,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00245",
+        "ne": 0.4371,
+        "s_m": 4870.092280394779,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00246",
+        "ne": 0.4371,
+        "s_m": 4890.081721992179,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00247",
+        "ne": 0.4371,
+        "s_m": 4910.071163589579,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00248",
+        "ne": 0.4371,
+        "s_m": 4930.060605186978,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00249",
+        "ne": 0.4371,
+        "s_m": 4950.050046784378,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00250",
+        "ne": 0.4371,
+        "s_m": 4970.039488381777,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00251",
+        "ne": 0.4371,
+        "s_m": 4990.0289299791775,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00252",
+        "ne": 0.4371,
+        "s_m": 5010.018371576577,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00253",
+        "ne": 0.4371,
+        "s_m": 5030.0078131739765,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00254",
+        "ne": 0.4371,
+        "s_m": 5049.997254771376,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00255",
+        "ne": 0.4371,
+        "s_m": 5069.9866963687755,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00256",
+        "ne": 0.4371,
+        "s_m": 5089.976137966175,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00257",
+        "ne": 0.4371,
+        "s_m": 5109.9655795635745,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00258",
+        "ne": 0.4371,
+        "s_m": 5129.955021160974,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00259",
+        "ne": 0.4371,
+        "s_m": 5149.944462758373,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00260",
+        "ne": 0.4371,
+        "s_m": 5169.933904355774,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00261",
+        "ne": 0.4371,
+        "s_m": 5189.923345953173,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00262",
+        "ne": 0.4371,
+        "s_m": 5209.912787550573,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00263",
+        "ne": 0.4371,
+        "s_m": 5229.902229147972,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00264",
+        "ne": 0.4371,
+        "s_m": 5249.891670745373,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00265",
+        "ne": 0.4371,
+        "s_m": 5269.881112342772,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00266",
+        "ne": 0.4371,
+        "s_m": 5289.870553940172,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00267",
+        "ne": 0.4371,
+        "s_m": 5309.859995537571,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00268",
+        "ne": 0.4371,
+        "s_m": 5329.849437134971,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00269",
+        "ne": 0.4371,
+        "s_m": 5349.83887873237,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00270",
+        "ne": 0.4371,
+        "s_m": 5369.82832032977,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00271",
+        "ne": 0.4371,
+        "s_m": 5389.817761927169,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4918,
+        "ept": 0.6092,
+        "id": "firehole_cell_00272",
+        "ne": 0.4371,
+        "s_m": 5409.807203524569,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00273",
+        "ne": 0.4371,
+        "s_m": 5429.796645121969,
+        "temperature_c": 18.88
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00274",
+        "ne": 0.4371,
+        "s_m": 5449.7860867193685,
+        "temperature_c": 18.87
+      },
+      {
+        "dipt": 0.4919,
+        "ept": 0.6092,
+        "id": "firehole_cell_00275",
+        "ne": 0.4371,
+        "s_m": 5469.775528316768,
+        "temperature_c": 18.87
+      }
+    ],
+    "prey_totals": {
+      "dipper_eaten": 13.514158,
+      "emergence": 1034.118067,
+      "ne_turnover": 966.020718,
+      "regrowth": 1083.494079,
+      "trout_eaten": 11.164007
+    },
+    "provenance": {
+      "cover": "authored constant 0.6",
+      "diet": "trout_diet_at_temp (Kaeding & Kaya (1978) endpoints)",
+      "food": "relative: per-cell production normalized by the daily maximum (absolute starvation unrepresentable); cells carrying food_scale (tributary pockets, authored area ratio) rank on scaled production (mean scale 1.0000 over 276 cells, 0 scaled)",
+      "foraging_scope": "selected_cell_only",
+      "insects": "INSECT_GROUPS transferred structure, authored rates",
+      "limitations": "no emergent drift; no molluscs (warm food underestimated); single trout, single dipper; no mortality simulation",
+      "movement_cost": {
+        "delta_u_switch": 0.0,
+        "per_m": 0.0,
+        "status": "authored"
+      },
+      "shear_coupling": "bed_shear_pa -> disturbance ramp 0@20.0Pa to 1@2x; None shear -> 0; mean applied 0.0000 over 276 cells (3 shear-null)",
+      "thermal": "replay time-mean field (quasi-steady landscape)",
+      "thermal_curve_form": "piecewise_linear",
+      "trout": "THERMAL_SPECIES literature anchors + authored shapes",
+      "unvisited_prey": "continues local dynamics",
+      "velocity": "mapped hydraulics continuity velocity; representative fallback where absent"
+    },
+    "schema": "yellowstone.aquatic_foodweb.v1",
+    "simulated_days": 14.0,
+    "status": "illustrative_not_calibrated",
+    "steps": 14,
+    "stressor_factors_last_step": [
+      {
+        "U": -0.06727144779738904,
+        "cell_id": "firehole_cell_00000",
+        "combined_stressor_factor": 0.9985943297062227,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943297062227,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06727144779738904
+      },
+      {
+        "U": -0.06728706656091792,
+        "cell_id": "firehole_cell_00001",
+        "combined_stressor_factor": 0.9985943297062227,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943297062227,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06728706656091792
+      },
+      {
+        "U": -0.0673030182178438,
+        "cell_id": "firehole_cell_00002",
+        "combined_stressor_factor": 0.9985943297062227,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943297062227,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0673030182178438
+      },
+      {
+        "U": -0.060846430398034376,
+        "cell_id": "firehole_cell_00003",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.060846430398034376
+      },
+      {
+        "U": -0.06086921635216409,
+        "cell_id": "firehole_cell_00004",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06086921635216409
+      },
+      {
+        "U": -0.06089220306268188,
+        "cell_id": "firehole_cell_00005",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06089220306268188
+      },
+      {
+        "U": -0.06091538909159787,
+        "cell_id": "firehole_cell_00006",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06091538909159787
+      },
+      {
+        "U": -0.060938773007383304,
+        "cell_id": "firehole_cell_00007",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.060938773007383304
+      },
+      {
+        "U": -0.0609623533825772,
+        "cell_id": "firehole_cell_00008",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0609623533825772
+      },
+      {
+        "U": -0.060986128793873814,
+        "cell_id": "firehole_cell_00009",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.060986128793873814
+      },
+      {
+        "U": -0.06101009782232679,
+        "cell_id": "firehole_cell_00010",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06101009782232679
+      },
+      {
+        "U": -0.06103425905338512,
+        "cell_id": "firehole_cell_00011",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06103425905338512
+      },
+      {
+        "U": -0.06105861107690026,
+        "cell_id": "firehole_cell_00012",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06105861107690026
+      },
+      {
+        "U": -0.061083152487113615,
+        "cell_id": "firehole_cell_00013",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.061083152487113615
+      },
+      {
+        "U": -0.06110788188267334,
+        "cell_id": "firehole_cell_00014",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06110788188267334
+      },
+      {
+        "U": -0.06113279786664792,
+        "cell_id": "firehole_cell_00015",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06113279786664792
+      },
+      {
+        "U": -0.061157899046527894,
+        "cell_id": "firehole_cell_00016",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.061157899046527894
+      },
+      {
+        "U": -0.061183184034218616,
+        "cell_id": "firehole_cell_00017",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.061183184034218616
+      },
+      {
+        "U": -0.06120865144606398,
+        "cell_id": "firehole_cell_00018",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06120865144606398
+      },
+      {
+        "U": -0.061234299902854714,
+        "cell_id": "firehole_cell_00019",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.061234299902854714
+      },
+      {
+        "U": -0.061260128029798785,
+        "cell_id": "firehole_cell_00020",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.061260128029798785
+      },
+      {
+        "U": -0.06128613445605739,
+        "cell_id": "firehole_cell_00021",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06128613445605739
+      },
+      {
+        "U": -0.06131231780794859,
+        "cell_id": "firehole_cell_00022",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06131231780794859
+      },
+      {
+        "U": -0.06133867660776195,
+        "cell_id": "firehole_cell_00023",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06133867660776195
+      },
+      {
+        "U": -0.06136520777132136,
+        "cell_id": "firehole_cell_00024",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06136520777132136
+      },
+      {
+        "U": -0.06139188430487437,
+        "cell_id": "firehole_cell_00025",
+        "combined_stressor_factor": 0.9985944192251331,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985944192251331,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06139188430487437
+      },
+      {
+        "U": -0.06871904285241369,
+        "cell_id": "firehole_cell_00026",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06871904285241369
+      },
+      {
+        "U": -0.06874577899668947,
+        "cell_id": "firehole_cell_00027",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06874577899668947
+      },
+      {
+        "U": -0.06877267897287474,
+        "cell_id": "firehole_cell_00028",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06877267897287474
+      },
+      {
+        "U": -0.06879974152146721,
+        "cell_id": "firehole_cell_00029",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06879974152146721
+      },
+      {
+        "U": -0.06882696538593223,
+        "cell_id": "firehole_cell_00030",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06882696538593223
+      },
+      {
+        "U": -0.06885434931399208,
+        "cell_id": "firehole_cell_00031",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06885434931399208
+      },
+      {
+        "U": -0.06888189205759655,
+        "cell_id": "firehole_cell_00032",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06888189205759655
+      },
+      {
+        "U": -0.06890959237286225,
+        "cell_id": "firehole_cell_00033",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06890959237286225
+      },
+      {
+        "U": -0.06893744902009362,
+        "cell_id": "firehole_cell_00034",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06893744902009362
+      },
+      {
+        "U": -0.06896546076378234,
+        "cell_id": "firehole_cell_00035",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06896546076378234
+      },
+      {
+        "U": -0.06899362637261279,
+        "cell_id": "firehole_cell_00036",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06899362637261279
+      },
+      {
+        "U": -0.06902194461948512,
+        "cell_id": "firehole_cell_00037",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06902194461948512
+      },
+      {
+        "U": -0.06905041428148982,
+        "cell_id": "firehole_cell_00038",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06905041428148982
+      },
+      {
+        "U": -0.0690790341399523,
+        "cell_id": "firehole_cell_00039",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0690790341399523
+      },
+      {
+        "U": -0.06910780298040366,
+        "cell_id": "firehole_cell_00040",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06910780298040366
+      },
+      {
+        "U": -0.06913671959260857,
+        "cell_id": "firehole_cell_00041",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06913671959260857
+      },
+      {
+        "U": -0.06916578277056577,
+        "cell_id": "firehole_cell_00042",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06916578277056577
+      },
+      {
+        "U": -0.0691949913125136,
+        "cell_id": "firehole_cell_00043",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0691949913125136
+      },
+      {
+        "U": -0.06922434402093693,
+        "cell_id": "firehole_cell_00044",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06922434402093693
+      },
+      {
+        "U": -0.0692538397025683,
+        "cell_id": "firehole_cell_00045",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0692538397025683
+      },
+      {
+        "U": -0.06928347716840987,
+        "cell_id": "firehole_cell_00046",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06928347716840987
+      },
+      {
+        "U": -0.06931325523372668,
+        "cell_id": "firehole_cell_00047",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06931325523372668
+      },
+      {
+        "U": -0.06934317271804714,
+        "cell_id": "firehole_cell_00048",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06934317271804714
+      },
+      {
+        "U": -0.06937322844518116,
+        "cell_id": "firehole_cell_00049",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06937322844518116
+      },
+      {
+        "U": -0.06940342124322292,
+        "cell_id": "firehole_cell_00050",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06940342124322292
+      },
+      {
+        "U": -0.06943374994455155,
+        "cell_id": "firehole_cell_00051",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06943374994455155
+      },
+      {
+        "U": -0.06946421338585256,
+        "cell_id": "firehole_cell_00052",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06946421338585256
+      },
+      {
+        "U": -0.06949481040811188,
+        "cell_id": "firehole_cell_00053",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06949481040811188
+      },
+      {
+        "U": -0.06952553985661496,
+        "cell_id": "firehole_cell_00054",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06952553985661496
+      },
+      {
+        "U": -0.06955640058096772,
+        "cell_id": "firehole_cell_00055",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06955640058096772
+      },
+      {
+        "U": -0.0695873914350953,
+        "cell_id": "firehole_cell_00056",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0695873914350953
+      },
+      {
+        "U": -0.06961851127725165,
+        "cell_id": "firehole_cell_00057",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06961851127725165
+      },
+      {
+        "U": -0.06964975897002733,
+        "cell_id": "firehole_cell_00058",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06964975897002733
+      },
+      {
+        "U": -0.06968113338042774,
+        "cell_id": "firehole_cell_00059",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06968113338042774
+      },
+      {
+        "U": -0.06971263338092364,
+        "cell_id": "firehole_cell_00060",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06971263338092364
+      },
+      {
+        "U": -0.06974425786518566,
+        "cell_id": "firehole_cell_00061",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06974425786518566
+      },
+      {
+        "U": -0.06977600598446075,
+        "cell_id": "firehole_cell_00062",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06977600598446075
+      },
+      {
+        "U": -0.06980788070025677,
+        "cell_id": "firehole_cell_00063",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06980788070025677
+      },
+      {
+        "U": -0.06983994217890242,
+        "cell_id": "firehole_cell_00064",
+        "combined_stressor_factor": 0.9985943185626527,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985943185626527,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06983994217890242
+      },
+      {
+        "U": -0.05652898046717586,
+        "cell_id": "firehole_cell_00065",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05652898046717586
+      },
+      {
+        "U": -0.05676261014605399,
+        "cell_id": "firehole_cell_00066",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05676261014605399
+      },
+      {
+        "U": -0.05712976448446691,
+        "cell_id": "firehole_cell_00067",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05712976448446691
+      },
+      {
+        "U": -0.0577207962135978,
+        "cell_id": "firehole_cell_00068",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0577207962135978
+      },
+      {
+        "U": -0.05868858781639705,
+        "cell_id": "firehole_cell_00069",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05868858781639705
+      },
+      {
+        "U": -0.060292849052958314,
+        "cell_id": "firehole_cell_00070",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.060292849052958314
+      },
+      {
+        "U": -0.06297656545464428,
+        "cell_id": "firehole_cell_00071",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06297656545464428
+      },
+      {
+        "U": -0.06749849835745972,
+        "cell_id": "firehole_cell_00072",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.06749849835745972
+      },
+      {
+        "U": -0.07516381029109656,
+        "cell_id": "firehole_cell_00073",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.07516381029109656
+      },
+      {
+        "U": -0.08822716577518322,
+        "cell_id": "firehole_cell_00074",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.08822716577518322
+      },
+      {
+        "U": -0.11060017644611214,
+        "cell_id": "firehole_cell_00075",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.11060017644611214
+      },
+      {
+        "U": -0.14909789097983972,
+        "cell_id": "firehole_cell_00076",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.14909789097983972
+      },
+      {
+        "U": -0.056657995833324565,
+        "cell_id": "firehole_cell_00077",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.056657995833324565
+      },
+      {
+        "U": -0.056692245638221034,
+        "cell_id": "firehole_cell_00078",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.056692245638221034
+      },
+      {
+        "U": -0.05672660271318655,
+        "cell_id": "firehole_cell_00079",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05672660271318655
+      },
+      {
+        "U": -0.05676106593172506,
+        "cell_id": "firehole_cell_00080",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05676106593172506
+      },
+      {
+        "U": -0.05679563417244657,
+        "cell_id": "firehole_cell_00081",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05679563417244657
+      },
+      {
+        "U": -0.056830306319088725,
+        "cell_id": "firehole_cell_00082",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.056830306319088725
+      },
+      {
+        "U": -0.05686508126051712,
+        "cell_id": "firehole_cell_00083",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05686508126051712
+      },
+      {
+        "U": -0.05689995789072591,
+        "cell_id": "firehole_cell_00084",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05689995789072591
+      },
+      {
+        "U": -0.05693493510885975,
+        "cell_id": "firehole_cell_00085",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05693493510885975
+      },
+      {
+        "U": -0.05697001181921127,
+        "cell_id": "firehole_cell_00086",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05697001181921127
+      },
+      {
+        "U": -0.05700518693122489,
+        "cell_id": "firehole_cell_00087",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05700518693122489
+      },
+      {
+        "U": -0.05704045935951632,
+        "cell_id": "firehole_cell_00088",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05704045935951632
+      },
+      {
+        "U": -0.05707582802386399,
+        "cell_id": "firehole_cell_00089",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05707582802386399
+      },
+      {
+        "U": -0.05711129184923189,
+        "cell_id": "firehole_cell_00090",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05711129184923189
+      },
+      {
+        "U": -0.05714684976576789,
+        "cell_id": "firehole_cell_00091",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05714684976576789
+      },
+      {
+        "U": -0.05718250070880518,
+        "cell_id": "firehole_cell_00092",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05718250070880518
+      },
+      {
+        "U": -0.057218243618886416,
+        "cell_id": "firehole_cell_00093",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057218243618886416
+      },
+      {
+        "U": -0.057254077441797724,
+        "cell_id": "firehole_cell_00094",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057254077441797724
+      },
+      {
+        "U": -0.057290001129091356,
+        "cell_id": "firehole_cell_00095",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057290001129091356
+      },
+      {
+        "U": -0.05732601364584128,
+        "cell_id": "firehole_cell_00096",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05732601364584128
+      },
+      {
+        "U": -0.05736211408504546,
+        "cell_id": "firehole_cell_00097",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05736211408504546
+      },
+      {
+        "U": -0.057398303360183284,
+        "cell_id": "firehole_cell_00098",
+        "combined_stressor_factor": 0.9985945094067603,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945094067603,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057398303360183284
+      },
+      {
+        "U": -0.21561990800531097,
+        "cell_id": "firehole_cell_00099",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.21561990800531097
+      },
+      {
+        "U": -0.056692381912665374,
+        "cell_id": "firehole_cell_00100",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.056692381912665374
+      },
+      {
+        "U": -0.05672878336537532,
+        "cell_id": "firehole_cell_00101",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05672878336537532
+      },
+      {
+        "U": -0.05676526711989219,
+        "cell_id": "firehole_cell_00102",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05676526711989219
+      },
+      {
+        "U": -0.05680183217179388,
+        "cell_id": "firehole_cell_00103",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05680183217179388
+      },
+      {
+        "U": -0.05683847752192556,
+        "cell_id": "firehole_cell_00104",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05683847752192556
+      },
+      {
+        "U": -0.05687520217638911,
+        "cell_id": "firehole_cell_00105",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05687520217638911
+      },
+      {
+        "U": -0.0569120051465872,
+        "cell_id": "firehole_cell_00106",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0569120051465872
+      },
+      {
+        "U": -0.05694888544919635,
+        "cell_id": "firehole_cell_00107",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05694888544919635
+      },
+      {
+        "U": -0.05698584210617702,
+        "cell_id": "firehole_cell_00108",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05698584210617702
+      },
+      {
+        "U": -0.057022874144812,
+        "cell_id": "firehole_cell_00109",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057022874144812
+      },
+      {
+        "U": -0.05705998059767739,
+        "cell_id": "firehole_cell_00110",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05705998059767739
+      },
+      {
+        "U": -0.057097160502665695,
+        "cell_id": "firehole_cell_00111",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057097160502665695
+      },
+      {
+        "U": -0.05713441290297888,
+        "cell_id": "firehole_cell_00112",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05713441290297888
+      },
+      {
+        "U": -0.05717173684716703,
+        "cell_id": "firehole_cell_00113",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05717173684716703
+      },
+      {
+        "U": -0.057209131389100415,
+        "cell_id": "firehole_cell_00114",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057209131389100415
+      },
+      {
+        "U": -0.057246595587978844,
+        "cell_id": "firehole_cell_00115",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057246595587978844
+      },
+      {
+        "U": -0.05728412850837131,
+        "cell_id": "firehole_cell_00116",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05728412850837131
+      },
+      {
+        "U": -0.057321729220186385,
+        "cell_id": "firehole_cell_00117",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057321729220186385
+      },
+      {
+        "U": -0.057359396798680656,
+        "cell_id": "firehole_cell_00118",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057359396798680656
+      },
+      {
+        "U": -0.05739713032449986,
+        "cell_id": "firehole_cell_00119",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05739713032449986
+      },
+      {
+        "U": -0.05743492888364776,
+        "cell_id": "firehole_cell_00120",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05743492888364776
+      },
+      {
+        "U": -0.05747279156749577,
+        "cell_id": "firehole_cell_00121",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05747279156749577
+      },
+      {
+        "U": -0.057510717472822964,
+        "cell_id": "firehole_cell_00122",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057510717472822964
+      },
+      {
+        "U": -0.05754870570178519,
+        "cell_id": "firehole_cell_00123",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05754870570178519
+      },
+      {
+        "U": -0.057586755361925146,
+        "cell_id": "firehole_cell_00124",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057586755361925146
+      },
+      {
+        "U": -0.057624865566210354,
+        "cell_id": "firehole_cell_00125",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057624865566210354
+      },
+      {
+        "U": -0.057663035433003024,
+        "cell_id": "firehole_cell_00126",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057663035433003024
+      },
+      {
+        "U": -0.05770126408608425,
+        "cell_id": "firehole_cell_00127",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05770126408608425
+      },
+      {
+        "U": -0.05773955065464406,
+        "cell_id": "firehole_cell_00128",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05773955065464406
+      },
+      {
+        "U": -0.05777789427332178,
+        "cell_id": "firehole_cell_00129",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05777789427332178
+      },
+      {
+        "U": -0.057816294082176756,
+        "cell_id": "firehole_cell_00130",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057816294082176756
+      },
+      {
+        "U": -0.05785474922669667,
+        "cell_id": "firehole_cell_00131",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05785474922669667
+      },
+      {
+        "U": -0.057893258857836444,
+        "cell_id": "firehole_cell_00132",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057893258857836444
+      },
+      {
+        "U": -0.057931822131988914,
+        "cell_id": "firehole_cell_00133",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.057931822131988914
+      },
+      {
+        "U": -0.05797043821099199,
+        "cell_id": "firehole_cell_00134",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05797043821099199
+      },
+      {
+        "U": -0.058009106262169624,
+        "cell_id": "firehole_cell_00135",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058009106262169624
+      },
+      {
+        "U": -0.058047825458296926,
+        "cell_id": "firehole_cell_00136",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058047825458296926
+      },
+      {
+        "U": -0.05808659497762694,
+        "cell_id": "firehole_cell_00137",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05808659497762694
+      },
+      {
+        "U": -0.058125414003880105,
+        "cell_id": "firehole_cell_00138",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058125414003880105
+      },
+      {
+        "U": -0.058164281726282824,
+        "cell_id": "firehole_cell_00139",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058164281726282824
+      },
+      {
+        "U": -0.058203197339537854,
+        "cell_id": "firehole_cell_00140",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058203197339537854
+      },
+      {
+        "U": -0.058242160043833285,
+        "cell_id": "firehole_cell_00141",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058242160043833285
+      },
+      {
+        "U": -0.05828116904488004,
+        "cell_id": "firehole_cell_00142",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05828116904488004
+      },
+      {
+        "U": -0.058320223553881695,
+        "cell_id": "firehole_cell_00143",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058320223553881695
+      },
+      {
+        "U": -0.05835932278754255,
+        "cell_id": "firehole_cell_00144",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05835932278754255
+      },
+      {
+        "U": -0.05839846596810608,
+        "cell_id": "firehole_cell_00145",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05839846596810608
+      },
+      {
+        "U": -0.05843765232332285,
+        "cell_id": "firehole_cell_00146",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05843765232332285
+      },
+      {
+        "U": -0.058476881086461735,
+        "cell_id": "firehole_cell_00147",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.058476881086461735
+      },
+      {
+        "U": -0.05851615149635406,
+        "cell_id": "firehole_cell_00148",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05851615149635406
+      },
+      {
+        "U": -0.05855546279750548,
+        "cell_id": "firehole_cell_00149",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05855546279750548
+      },
+      {
+        "U": -0.05859481424214624,
+        "cell_id": "firehole_cell_00150",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05859481424214624
+      },
+      {
+        "U": -0.05863420512023099,
+        "cell_id": "firehole_cell_00151",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05863420512023099
+      },
+      {
+        "U": -0.05867363519817345,
+        "cell_id": "firehole_cell_00152",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05867363519817345
+      },
+      {
+        "U": -0.05871311114497013,
+        "cell_id": "firehole_cell_00153",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05871311114497013
+      },
+      {
+        "U": -0.0587527406472271,
+        "cell_id": "firehole_cell_00154",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.0587527406472271
+      },
+      {
+        "U": -0.05879411078748109,
+        "cell_id": "firehole_cell_00155",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05879411078748109
+      },
+      {
+        "U": -0.05886047528112387,
+        "cell_id": "firehole_cell_00156",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05886047528112387
+      },
+      {
+        "U": -0.05929240660599666,
+        "cell_id": "firehole_cell_00157",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.05929240660599666
+      },
+      {
+        "U": -0.065077267674608,
+        "cell_id": "firehole_cell_00158",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.065077267674608
+      },
+      {
+        "U": -0.16286493022164017,
+        "cell_id": "firehole_cell_00159",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16286493022164017
+      },
+      {
+        "U": -0.1629058011348201,
+        "cell_id": "firehole_cell_00160",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1629058011348201
+      },
+      {
+        "U": -0.1629465285539665,
+        "cell_id": "firehole_cell_00161",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1629465285539665
+      },
+      {
+        "U": -0.1629871085234391,
+        "cell_id": "firehole_cell_00162",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1629871085234391
+      },
+      {
+        "U": -0.1630275370274384,
+        "cell_id": "firehole_cell_00163",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1630275370274384
+      },
+      {
+        "U": -0.1630678100052672,
+        "cell_id": "firehole_cell_00164",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1630678100052672
+      },
+      {
+        "U": -0.1631079233576372,
+        "cell_id": "firehole_cell_00165",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1631079233576372
+      },
+      {
+        "U": -0.16314787294667457,
+        "cell_id": "firehole_cell_00166",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16314787294667457
+      },
+      {
+        "U": -0.16318765459563409,
+        "cell_id": "firehole_cell_00167",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16318765459563409
+      },
+      {
+        "U": -0.16322726408864555,
+        "cell_id": "firehole_cell_00168",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16322726408864555
+      },
+      {
+        "U": -0.16326669717050937,
+        "cell_id": "firehole_cell_00169",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16326669717050937
+      },
+      {
+        "U": -0.16330594954644873,
+        "cell_id": "firehole_cell_00170",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16330594954644873
+      },
+      {
+        "U": -0.16334501688186434,
+        "cell_id": "firehole_cell_00171",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16334501688186434
+      },
+      {
+        "U": -0.1633838948021431,
+        "cell_id": "firehole_cell_00172",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1633838948021431
+      },
+      {
+        "U": -0.16342257889241188,
+        "cell_id": "firehole_cell_00173",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16342257889241188
+      },
+      {
+        "U": -0.16346106469733823,
+        "cell_id": "firehole_cell_00174",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16346106469733823
+      },
+      {
+        "U": -0.16349934772089567,
+        "cell_id": "firehole_cell_00175",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16349934772089567
+      },
+      {
+        "U": -0.16353742342619013,
+        "cell_id": "firehole_cell_00176",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16353742342619013
+      },
+      {
+        "U": -0.16357528723524128,
+        "cell_id": "firehole_cell_00177",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16357528723524128
+      },
+      {
+        "U": -0.1636129345287735,
+        "cell_id": "firehole_cell_00178",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1636129345287735
+      },
+      {
+        "U": -0.163650360646056,
+        "cell_id": "firehole_cell_00179",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.163650360646056
+      },
+      {
+        "U": -0.16368756088469483,
+        "cell_id": "firehole_cell_00180",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16368756088469483
+      },
+      {
+        "U": -0.16372453050046737,
+        "cell_id": "firehole_cell_00181",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16372453050046737
+      },
+      {
+        "U": -0.16376126470712588,
+        "cell_id": "firehole_cell_00182",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16376126470712588
+      },
+      {
+        "U": -0.16379775867626237,
+        "cell_id": "firehole_cell_00183",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16379775867626237
+      },
+      {
+        "U": -0.16383400753712923,
+        "cell_id": "firehole_cell_00184",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16383400753712923
+      },
+      {
+        "U": -0.16387000637647098,
+        "cell_id": "firehole_cell_00185",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16387000637647098
+      },
+      {
+        "U": -0.16390575023840698,
+        "cell_id": "firehole_cell_00186",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16390575023840698
+      },
+      {
+        "U": -0.16394123412426406,
+        "cell_id": "firehole_cell_00187",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16394123412426406
+      },
+      {
+        "U": -0.1639764529924574,
+        "cell_id": "firehole_cell_00188",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1639764529924574
+      },
+      {
+        "U": -0.1640114017583393,
+        "cell_id": "firehole_cell_00189",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1640114017583393
+      },
+      {
+        "U": -0.16404607529410897,
+        "cell_id": "firehole_cell_00190",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16404607529410897
+      },
+      {
+        "U": -0.16408046842868376,
+        "cell_id": "firehole_cell_00191",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16408046842868376
+      },
+      {
+        "U": -0.16411457594757822,
+        "cell_id": "firehole_cell_00192",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16411457594757822
+      },
+      {
+        "U": -0.1641483925928372,
+        "cell_id": "firehole_cell_00193",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1641483925928372
+      },
+      {
+        "U": -0.1641819130629233,
+        "cell_id": "firehole_cell_00194",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1641819130629233
+      },
+      {
+        "U": -0.16421513201264867,
+        "cell_id": "firehole_cell_00195",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16421513201264867
+      },
+      {
+        "U": -0.16424804405308252,
+        "cell_id": "firehole_cell_00196",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16424804405308252
+      },
+      {
+        "U": -0.16428064375151044,
+        "cell_id": "firehole_cell_00197",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16428064375151044
+      },
+      {
+        "U": -0.1643129256313586,
+        "cell_id": "firehole_cell_00198",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1643129256313586
+      },
+      {
+        "U": -0.16434488417217039,
+        "cell_id": "firehole_cell_00199",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16434488417217039
+      },
+      {
+        "U": -0.16437651380955112,
+        "cell_id": "firehole_cell_00200",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16437651380955112
+      },
+      {
+        "U": -0.16440780893514917,
+        "cell_id": "firehole_cell_00201",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16440780893514917
+      },
+      {
+        "U": -0.16443876389664577,
+        "cell_id": "firehole_cell_00202",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16443876389664577
+      },
+      {
+        "U": -0.1644693729977312,
+        "cell_id": "firehole_cell_00203",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1644693729977312
+      },
+      {
+        "U": -0.16449963049813351,
+        "cell_id": "firehole_cell_00204",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16449963049813351
+      },
+      {
+        "U": -0.1645295306136159,
+        "cell_id": "firehole_cell_00205",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1645295306136159
+      },
+      {
+        "U": -0.16455906751602598,
+        "cell_id": "firehole_cell_00206",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16455906751602598
+      },
+      {
+        "U": -0.16458823533332076,
+        "cell_id": "firehole_cell_00207",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16458823533332076
+      },
+      {
+        "U": -0.16461702814962448,
+        "cell_id": "firehole_cell_00208",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16461702814962448
+      },
+      {
+        "U": -0.1646454400052989,
+        "cell_id": "firehole_cell_00209",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1646454400052989
+      },
+      {
+        "U": -0.16467346489701964,
+        "cell_id": "firehole_cell_00210",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16467346489701964
+      },
+      {
+        "U": -0.16470109677785635,
+        "cell_id": "firehole_cell_00211",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16470109677785635
+      },
+      {
+        "U": -0.16472832955740846,
+        "cell_id": "firehole_cell_00212",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16472832955740846
+      },
+      {
+        "U": -0.16475515710191163,
+        "cell_id": "firehole_cell_00213",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16475515710191163
+      },
+      {
+        "U": -0.1647815732343734,
+        "cell_id": "firehole_cell_00214",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1647815732343734
+      },
+      {
+        "U": -0.16480757173472876,
+        "cell_id": "firehole_cell_00215",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16480757173472876
+      },
+      {
+        "U": -0.16483314634001,
+        "cell_id": "firehole_cell_00216",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16483314634001
+      },
+      {
+        "U": -0.1648582907445277,
+        "cell_id": "firehole_cell_00217",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1648582907445277
+      },
+      {
+        "U": -0.16488299860005534,
+        "cell_id": "firehole_cell_00218",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16488299860005534
+      },
+      {
+        "U": -0.16490726351607207,
+        "cell_id": "firehole_cell_00219",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16490726351607207
+      },
+      {
+        "U": -0.16493107905997173,
+        "cell_id": "firehole_cell_00220",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16493107905997173
+      },
+      {
+        "U": -0.16495443875730076,
+        "cell_id": "firehole_cell_00221",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16495443875730076
+      },
+      {
+        "U": -0.1649773360920089,
+        "cell_id": "firehole_cell_00222",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1649773360920089
+      },
+      {
+        "U": -0.1649997645066937,
+        "cell_id": "firehole_cell_00223",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1649997645066937
+      },
+      {
+        "U": -0.1650217174028261,
+        "cell_id": "firehole_cell_00224",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1650217174028261
+      },
+      {
+        "U": -0.16504318814099694,
+        "cell_id": "firehole_cell_00225",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16504318814099694
+      },
+      {
+        "U": -0.16506417004107188,
+        "cell_id": "firehole_cell_00226",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16506417004107188
+      },
+      {
+        "U": -0.16508465638228806,
+        "cell_id": "firehole_cell_00227",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16508465638228806
+      },
+      {
+        "U": -0.1651046404032263,
+        "cell_id": "firehole_cell_00228",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1651046404032263
+      },
+      {
+        "U": -0.16512411530158433,
+        "cell_id": "firehole_cell_00229",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16512411530158433
+      },
+      {
+        "U": -0.16514307423365251,
+        "cell_id": "firehole_cell_00230",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16514307423365251
+      },
+      {
+        "U": -0.1651615103133449,
+        "cell_id": "firehole_cell_00231",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1651615103133449
+      },
+      {
+        "U": -0.16517941661056948,
+        "cell_id": "firehole_cell_00232",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16517941661056948
+      },
+      {
+        "U": -0.16519678614871436,
+        "cell_id": "firehole_cell_00233",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16519678614871436
+      },
+      {
+        "U": -0.1652136119007768,
+        "cell_id": "firehole_cell_00234",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1652136119007768
+      },
+      {
+        "U": -0.16522988678368444,
+        "cell_id": "firehole_cell_00235",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16522988678368444
+      },
+      {
+        "U": -0.16524560365009772,
+        "cell_id": "firehole_cell_00236",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16524560365009772
+      },
+      {
+        "U": -0.16526075527677855,
+        "cell_id": "firehole_cell_00237",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16526075527677855
+      },
+      {
+        "U": -0.1652753343484196,
+        "cell_id": "firehole_cell_00238",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1652753343484196
+      },
+      {
+        "U": -0.1652893334353562,
+        "cell_id": "firehole_cell_00239",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1652893334353562
+      },
+      {
+        "U": -0.1653027449633602,
+        "cell_id": "firehole_cell_00240",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1653027449633602
+      },
+      {
+        "U": -0.1653155611731966,
+        "cell_id": "firehole_cell_00241",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1653155611731966
+      },
+      {
+        "U": -0.16532777406713756,
+        "cell_id": "firehole_cell_00242",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16532777406713756
+      },
+      {
+        "U": -0.1653393753390914,
+        "cell_id": "firehole_cell_00243",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1653393753390914
+      },
+      {
+        "U": -0.1653503562844295,
+        "cell_id": "firehole_cell_00244",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1653503562844295
+      },
+      {
+        "U": -0.16536070768500372,
+        "cell_id": "firehole_cell_00245",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16536070768500372
+      },
+      {
+        "U": -0.16537041966429508,
+        "cell_id": "firehole_cell_00246",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16537041966429508
+      },
+      {
+        "U": -0.16537948150714088,
+        "cell_id": "firehole_cell_00247",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16537948150714088
+      },
+      {
+        "U": -0.1653878814381978,
+        "cell_id": "firehole_cell_00248",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1653878814381978
+      },
+      {
+        "U": -0.1653956063530014,
+        "cell_id": "firehole_cell_00249",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1653956063530014
+      },
+      {
+        "U": -0.1654026414957306,
+        "cell_id": "firehole_cell_00250",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1654026414957306
+      },
+      {
+        "U": -0.16540897007817132,
+        "cell_id": "firehole_cell_00251",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16540897007817132
+      },
+      {
+        "U": -0.1654145728353273,
+        "cell_id": "firehole_cell_00252",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1654145728353273
+      },
+      {
+        "U": -0.16541942751438912,
+        "cell_id": "firehole_cell_00253",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16541942751438912
+      },
+      {
+        "U": -0.1654235082958641,
+        "cell_id": "firehole_cell_00254",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1654235082958641
+      },
+      {
+        "U": -0.1654267851481658,
+        "cell_id": "firehole_cell_00255",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1654267851481658
+      },
+      {
+        "U": -0.165429223120126,
+        "cell_id": "firehole_cell_00256",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.165429223120126
+      },
+      {
+        "U": -0.16543078157967558,
+        "cell_id": "firehole_cell_00257",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16543078157967558
+      },
+      {
+        "U": -0.16543141341119152,
+        "cell_id": "firehole_cell_00258",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16543141341119152
+      },
+      {
+        "U": -0.16543106418867623,
+        "cell_id": "firehole_cell_00259",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16543106418867623
+      },
+      {
+        "U": -0.16542967134679087,
+        "cell_id": "firehole_cell_00260",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16542967134679087
+      },
+      {
+        "U": -0.16542716337660993,
+        "cell_id": "firehole_cell_00261",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16542716337660993
+      },
+      {
+        "U": -0.16542345907757747,
+        "cell_id": "firehole_cell_00262",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16542345907757747
+      },
+      {
+        "U": -0.1654184669009505,
+        "cell_id": "firehole_cell_00263",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1654184669009505
+      },
+      {
+        "U": -0.1654120844231638,
+        "cell_id": "firehole_cell_00264",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1654120844231638
+      },
+      {
+        "U": -0.16540419798928535,
+        "cell_id": "firehole_cell_00265",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16540419798928535
+      },
+      {
+        "U": -0.165394682566772,
+        "cell_id": "firehole_cell_00266",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.165394682566772
+      },
+      {
+        "U": -0.1653834018482177,
+        "cell_id": "firehole_cell_00267",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1653834018482177
+      },
+      {
+        "U": -0.16537020863803853,
+        "cell_id": "firehole_cell_00268",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16537020863803853
+      },
+      {
+        "U": -0.16535494555244276,
+        "cell_id": "firehole_cell_00269",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16535494555244276
+      },
+      {
+        "U": -0.16533744605689782,
+        "cell_id": "firehole_cell_00270",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16533744605689782
+      },
+      {
+        "U": -0.16531753589455134,
+        "cell_id": "firehole_cell_00271",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16531753589455134
+      },
+      {
+        "U": -0.16529503549672198,
+        "cell_id": "firehole_cell_00272",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16529503549672198
+      },
+      {
+        "U": -0.1652697716404837,
+        "cell_id": "firehole_cell_00273",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.1652697716404837
+      },
+      {
+        "U": -0.16524171372782573,
+        "cell_id": "firehole_cell_00274",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.16524171372782573
+      },
+      {
+        "U": -0.165212836317404,
+        "cell_id": "firehole_cell_00275",
+        "combined_stressor_factor": 0.9985945207263661,
+        "do_factor": 1.0,
+        "predation_factor": 0.9985945207263661,
+        "solute_factor": 1.0,
+        "thermal_only_U": -0.165212836317404
+      }
+    ],
+    "stressor_sources": {
+      "do": "yellowstone_python.aquatic.river_oxygen.fish_suitability",
+      "predation": "yellowstone_python.aquatic.piscivores.refuge_predation_risk via fish.predation_survival_factor",
+      "solute": "yellowstone_python.river.solute_transport.solute_habitat_multiplier"
+    },
+    "trout": {
+      "U": -0.057,
+      "cell_id": "firehole_cell_00065",
+      "combined_stressor_factor": 0.9985945094067603,
+      "do_factor": 1.0,
+      "feeding": 0.619,
+      "predation_factor": 0.9985945094067603,
+      "refuge_drive": 0.0,
+      "refuge_reason": "cell firehole_cell_00065 at s=1280 m (U -0.057, 17.53 C) selected by brown_trout literature suitability over 276 replay cells",
+      "s_m": 1280.1546656669748,
+      "solute_factor": 1.0,
+      "temperature_c": 17.53,
+      "thermal_only_U": -0.057,
+      "thermal_performance": {
+        "feeding": 0.6174999999999997,
+        "lethal_flag": 0,
+        "refuge_drive": 0.0,
+        "species": "brown_trout",
+        "status": "transferred_from_literature_with_ranges",
+        "stress": 0.0,
+        "thermal_curve_form": "piecewise_linear"
+      },
+      "trout_eaten_cumulative": 11.164007
+    },
+    "trout_species": "brown_trout"
+  },
+  "parameter_provenance": {
+    "method": "14-day insect/trout/dipper food web on replay time-mean thermal landscape",
+    "status": "illustrative, not calibrated",
+    "trout_species": "brown_trout"
+  },
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

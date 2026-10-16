@@ -1,0 +1,3514 @@
+{
+  "schema": "yellowstone.core_terrain.v1",
+  "status": "fitted_not_validated",
+  "generated_utc": "2026-10-13T13:48:27Z",
+  "grid": {
+    "cell_m": 1.0,
+    "x_min_m": -340.0,
+    "x_max_m": 260.0,
+    "z_min_m": -380.0,
+    "z_max_m": 220.0,
+    "nx": 601,
+    "nz": 601
+  },
+  "vertical_origin_m": 2200.0,
+  "vertical_datum": "NAVD88",
+  "frame": {
+    "crs": "EPSG:32612",
+    "origin_utm_m": [
+      512952.5950985841,
+      4930199.044097667
+    ]
+  },
+  "layers": {
+    "core_heightfield_m": {
+      "path": "core_heightfield.f32",
+      "sha256": "da2b9bb902bce0459c3a67aa3bff579165a4b2127fb517872110103dc7bdf856",
+      "dtype": "<f4",
+      "shape": [
+        601,
+        601
+      ],
+      "contents": "existing_core_heightfield_plus_authored_master_stitch_correction"
+    },
+    "core_microrelief_m": {
+      "path": "core_microrelief.f32",
+      "sha256": "e0acec0eb1d8935e33f3d9b8aa957ca97dd0e351e71e2dfd738068ff4db2a37a",
+      "dtype": "<f4",
+      "shape": [
+        601,
+        601
+      ],
+      "contents": "authored_from_imagery",
+      "amplitude_m": 0.08,
+      "length_scale_m": 3.0,
+      "status": "authored_from_imagery",
+      "range_m": [
+        0.0,
+        0.07999999821186066
+      ]
+    },
+    "core_normal": {
+      "path": "core_normal.png",
+      "sha256": "c4bff90f375fae7ad289f92db519739851a72b23ad6cdac3c349f674269e6ef0",
+      "contents": "fine_surface_relative_to_rendered_mesh_frame",
+      "contract": "tangent_residual_mesh_frame.v1",
+      "flat_rgb": [
+        128,
+        128,
+        255
+      ],
+      "mesh_decimation": 2,
+      "target_spacing_m": 1.0,
+      "channels": [
+        "east_projected_tangent",
+        "south_binormal_cross_tangent_normal",
+        "surface_normal"
+      ],
+      "frame_sampling": "mesh_vertex_tbn_barycentric_diagonal_b_c",
+      "channel_ranges": [
+        [
+          76,
+          211
+        ],
+        [
+          64,
+          184
+        ],
+        [
+          211,
+          255
+        ]
+      ],
+      "status": "authored_residual_detail"
+    }
+  },
+  "channel_incision": {
+    "width_to_depth_ratio": 20.0,
+    "bank_blend_m": 1.5,
+    "ratio_status": "authored",
+    "segments": [
+      {
+        "id": "seg_0000",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0001",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0002",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0003",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0004",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0005",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0006",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0007",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0008",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0009",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0010",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0011",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0012",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0013",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0014",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0015",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0016",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0017",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0018",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0019",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0020",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0021",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0022",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0023",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0024",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0025",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0026",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0027",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0028",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0029",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0030",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0031",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0032",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0033",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0038",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0041",
+        "depth_m": 0.425,
+        "width_m": 8.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0045",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0046",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0052",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0054",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0055",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0061",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0064",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0066",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0072",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0073",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0074",
+        "depth_m": 0.45,
+        "width_m": 9.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0077",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0083",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0086",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0090",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0093",
+        "depth_m": 0.55,
+        "width_m": 11.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0094",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0096",
+        "depth_m": 0.55,
+        "width_m": 11.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0098",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0100",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0102",
+        "depth_m": 0.5,
+        "width_m": 10.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0103",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0107",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0110",
+        "depth_m": 0.5,
+        "width_m": 10.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0112",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0115",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0116",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0120",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0124",
+        "depth_m": 0.425,
+        "width_m": 8.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0127",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0130",
+        "depth_m": 0.3,
+        "width_m": 6.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0133",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0135",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0139",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0141",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0143",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0147",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0148",
+        "depth_m": 0.225,
+        "width_m": 4.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0151",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0153",
+        "depth_m": 0.15,
+        "width_m": 3.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0154",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0156",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0157",
+        "depth_m": 0.15,
+        "width_m": 3.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0160",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0163",
+        "depth_m": 0.15,
+        "width_m": 3.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0168",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0169",
+        "depth_m": 0.175,
+        "width_m": 3.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0170",
+        "depth_m": 0.275,
+        "width_m": 5.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0174",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0175",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0179",
+        "depth_m": 0.125,
+        "width_m": 2.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0182",
+        "depth_m": 0.2,
+        "width_m": 4.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0183",
+        "depth_m": 0.4,
+        "width_m": 8.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0184",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0186",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0188",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 0
+      },
+      {
+        "id": "seg_0193",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0194",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0195",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0196",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0197",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0198",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0199",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0200",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0201",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0202",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0203",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0204",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0205",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0206",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0207",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0208",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0209",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0210",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0211",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0212",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0213",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0214",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0215",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0217",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0218",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0219",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0220",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0221",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0222",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0227",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0228",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0230",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0231",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0235",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0236",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0239",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0242",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0245",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0246",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0247",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0252",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0255",
+        "depth_m": 0.4,
+        "width_m": 8.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0256",
+        "depth_m": 0.4,
+        "width_m": 8.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0259",
+        "depth_m": 0.5,
+        "width_m": 10.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0263",
+        "depth_m": 0.225,
+        "width_m": 4.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0265",
+        "depth_m": 0.175,
+        "width_m": 3.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0267",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0270",
+        "depth_m": 0.2,
+        "width_m": 4.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0271",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0277",
+        "depth_m": 0.425,
+        "width_m": 8.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0279",
+        "depth_m": 0.15,
+        "width_m": 3.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0281",
+        "depth_m": 0.225,
+        "width_m": 4.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0286",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0288",
+        "depth_m": 0.225,
+        "width_m": 4.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0290",
+        "depth_m": 0.125,
+        "width_m": 2.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0292",
+        "depth_m": 0.125,
+        "width_m": 2.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0294",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0296",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0298",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0301",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0305",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0307",
+        "depth_m": 0.3,
+        "width_m": 6.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0310",
+        "depth_m": 0.4,
+        "width_m": 8.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0311",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0314",
+        "depth_m": 0.475,
+        "width_m": 9.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0317",
+        "depth_m": 0.475,
+        "width_m": 9.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0320",
+        "depth_m": 0.125,
+        "width_m": 2.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0322",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0324",
+        "depth_m": 0.375,
+        "width_m": 7.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0326",
+        "depth_m": 0.375,
+        "width_m": 7.5,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0328",
+        "depth_m": 0.45,
+        "width_m": 9.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0330",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0332",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 1
+      },
+      {
+        "id": "seg_0335",
+        "depth_m": 0.225,
+        "width_m": 4.5,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0336",
+        "depth_m": 0.25,
+        "width_m": 5.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0337",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0338",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0339",
+        "depth_m": 0.25,
+        "width_m": 5.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0340",
+        "depth_m": 0.15,
+        "width_m": 3.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0341",
+        "depth_m": 0.25,
+        "width_m": 5.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0343",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0344",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0345",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0346",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0347",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0348",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0349",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0350",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0351",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0352",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0353",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0354",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0355",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0356",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0357",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0358",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0359",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0360",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0361",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0362",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0363",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0364",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0365",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0366",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0367",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0368",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0371",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0372",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0374",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0375",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0377",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0378",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0379",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0383",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0384",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0385",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0387",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0388",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0389",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0390",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0391",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0392",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0393",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0394",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0395",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0397",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0398",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0399",
+        "depth_m": 0.175,
+        "width_m": 3.5,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0401",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0404",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0406",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0409",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0411",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0413",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0415",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0417",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0418",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0424",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0426",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0428",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0429",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0431",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0433",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0435",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0437",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0439",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0441",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0443",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0445",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0447",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0449",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0451",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0456",
+        "depth_m": 0.3,
+        "width_m": 6.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0458",
+        "depth_m": 0.3,
+        "width_m": 6.0,
+        "spring_index": 2
+      },
+      {
+        "id": "seg_0464",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0465",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0466",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0467",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0468",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0469",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0470",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0471",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0472",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0473",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0474",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0475",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0476",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0477",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0478",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0479",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0480",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0481",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0484",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0487",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0489",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0491",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0493",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0495",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0497",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0498",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0503",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0504",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0506",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0507",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0508",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0510",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0511",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0513",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0515",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0517",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0518",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0519",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0521",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0522",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0523",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0524",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0526",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0528",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0529",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0530",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0531",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0532",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0534",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0535",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0536",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0538",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0539",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0540",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0541",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0542",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0544",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0546",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0548",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0550",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0552",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0553",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0556",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0558",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0560",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0564",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0565",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0568",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0572",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0573",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0574",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0575",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0578",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0580",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0582",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0583",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0584",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0586",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0588",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0589",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0590",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0591",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0592",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0594",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0596",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0597",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0598",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0600",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0602",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0603",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0605",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0606",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0608",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0609",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0610",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0612",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0613",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0614",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0616",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0618",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0620",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0622",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0624",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0625",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0626",
+        "depth_m": 0.375,
+        "width_m": 7.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0627",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0628",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0630",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0632",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0640",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0641",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0642",
+        "depth_m": 0.375,
+        "width_m": 7.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0643",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0646",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0647",
+        "depth_m": 0.35,
+        "width_m": 7.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0649",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0650",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0654",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0655",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0656",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0664",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0672",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0673",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0674",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0676",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0678",
+        "depth_m": 0.55,
+        "width_m": 11.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0679",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0680",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0684",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0687",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0690",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0691",
+        "depth_m": 0.5,
+        "width_m": 10.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0692",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0696",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0697",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0699",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0704",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0705",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0708",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0711",
+        "depth_m": 0.55,
+        "width_m": 11.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0712",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0715",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0716",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0719",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0720",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0722",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0724",
+        "depth_m": 0.475,
+        "width_m": 9.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0728",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0730",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0732",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0734",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0735",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0737",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0739",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0742",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0744",
+        "depth_m": 0.2,
+        "width_m": 4.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0745",
+        "depth_m": 0.3,
+        "width_m": 6.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0758",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0760",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0765",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0773",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0774",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0776",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0777",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0778",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0781",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0782",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0784",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0786",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0788",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0790",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0792",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0794",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0796",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0798",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0800",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0802",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0804",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0806",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0808",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0811",
+        "depth_m": 0.575,
+        "width_m": 11.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0812",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0815",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0817",
+        "depth_m": 0.55,
+        "width_m": 11.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0819",
+        "depth_m": 0.475,
+        "width_m": 9.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0821",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0822",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0826",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0830",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0831",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0833",
+        "depth_m": 0.5,
+        "width_m": 10.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0835",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0838",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0839",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0841",
+        "depth_m": 0.6,
+        "width_m": 12.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0843",
+        "depth_m": 0.525,
+        "width_m": 10.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0848",
+        "depth_m": 0.475,
+        "width_m": 9.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0849",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0854",
+        "depth_m": 0.45,
+        "width_m": 9.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0856",
+        "depth_m": 0.475,
+        "width_m": 9.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0857",
+        "depth_m": 0.5,
+        "width_m": 10.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0859",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0864",
+        "depth_m": 0.175,
+        "width_m": 3.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0865",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0868",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0870",
+        "depth_m": 0.15,
+        "width_m": 3.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0871",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0873",
+        "depth_m": 0.225,
+        "width_m": 4.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0877",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0881",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0883",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0885",
+        "depth_m": 0.2,
+        "width_m": 4.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0887",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0888",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0890",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0892",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0893",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0894",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0897",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0898",
+        "depth_m": 0.4,
+        "width_m": 8.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0900",
+        "depth_m": 0.4,
+        "width_m": 8.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0901",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0904",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0908",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0909",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0912",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0913",
+        "depth_m": 0.025,
+        "width_m": 0.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0914",
+        "depth_m": 0.325,
+        "width_m": 6.5,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0920",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0921",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0922",
+        "depth_m": 0.1,
+        "width_m": 2.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0923",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0927",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0930",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0931",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0932",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0935",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0936",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0938",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0943",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0944",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0947",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0949",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0953",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0955",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0959",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0962",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0963",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0965",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0966",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0969",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0970",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0972",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0975",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0976",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0979",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0980",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0982",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0985",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0986",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0987",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0990",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0995",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0996",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0997",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_0999",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1000",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1001",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1004",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1008",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1009",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1010",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1011",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1018",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1020",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1021",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1022",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1025",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1027",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1028",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1030",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1031",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1032",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1041",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1045",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1047",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1048",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1049",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1052",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1053",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1056",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1058",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1060",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1062",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1065",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1066",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1067",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1068",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1071",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1074",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1075",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1077",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1079",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1082",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1084",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1086",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1087",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1090",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1094",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1096",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1098",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1100",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      },
+      {
+        "id": "seg_1102",
+        "depth_m": 0.05,
+        "width_m": 1.0,
+        "spring_index": 3
+      }
+    ]
+  },
+  "outflow_network_status": "linked",
+  "sources": [
+    {
+      "path": "yellowstone_midway/references/dem_1m_core.tif",
+      "sha256": "5b4f01e57cdbbfe593e17d3475536d99adda604bfef6bc8b56f5378f93c3582f",
+      "role": "lidar_1m_dem"
+    },
+    {
+      "path": "yellowstone_midway/references/midway_orthophoto_detail.jpg",
+      "sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+      "role": "naip_imagery"
+    },
+    {
+      "path": "yellowstone_midway/data/outflow_network/outflow_network.json",
+      "sha256": "69263beeb2605433b52a011ddadec371ea4b65092a666d8ae4378c4f75894250",
+      "role": "outflow_network"
+    }
+  ],
+  "detail_refresh": {
+    "imagery_registration": {
+      "path": "yellowstone_midway/references/midway_orthophoto_detail.jpg",
+      "sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+      "sidecar": "yellowstone_midway/references/midway_orthophoto_detail.json",
+      "sidecar_sha256": "bb214662d87f025e895851b1c0fbda1970ed8f806676bd51e1b051370e741e56",
+      "source_extent_xz_m": [
+        -640,
+        -640,
+        640,
+        640
+      ],
+      "source_shape": [
+        2048,
+        2048
+      ],
+      "sampling": "bilinear_pixel_centers_to_world_grid_vertices"
+    },
+    "relief_support": {
+      "spring_radius_m": 90.0,
+      "mineral_mask": "yellowstone_midway/assets/textures/habitat_mask.png",
+      "sha256": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a",
+      "border_taper_m": 12.0
+    },
+    "relief_status": "authored_from_imagery",
+    "generated_utc": "2026-10-14T00:02:08Z"
+  },
+  "stitch_refresh": {
+    "status": "authored_border_correction",
+    "input_core_sha256": "5f5c678f18f371ed378a0fbf6e7a94116283b5ad62c8f0198ecfad36d70a5b40",
+    "master_source": {
+      "path": "yellowstone_midway/data/terrain.f32",
+      "sha256": "8f5ca1bf65ebc0cdbd6f9e136ca0696d12c0cb00da09559fc09b41ff804b8520",
+      "role": "rendered_master_terrain_4m",
+      "vertical_units": "local_m"
+    },
+    "blend": {
+      "margin_m": 12.0,
+      "status": "authored",
+      "master_sampling": "rendered_triangle_diagonal_b_c"
+    },
+    "delta_range_m": [
+      -3.245884895324707,
+      0.2751331329345703
+    ],
+    "changed_cells": 26031,
+    "interior_unchanged": true,
+    "generated_utc": "2026-10-14T00:02:05Z"
+  }
+}

@@ -1,0 +1,3 @@
+[gd_scene format=3]
+[node name="HandcraftedDetails" type="Node3D"]
+metadata/instructions = "Place MidwayAuthoredPlacement nodes here. This scene is never overwritten by bake_world.gd. All units are metres."

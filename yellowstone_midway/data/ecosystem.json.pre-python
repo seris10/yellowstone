@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "status": "Illustrative, dimensioned observational model. This is not calibrated hydrology, wildlife abundance or a biological forecast.",
+  "geography": "Fixed Midway scene; x east, z south, y elevation minus 2200m. Routes refer to retained NPS Firehole polyline point indices.",
+  "physical_time": "One simulation second per physical second. day_rate changes clock/lighting phase only; transport and biomass retain physical seconds.",
+  "clock_hour": 16.2,
+  "day_rate": 1.0,
+  "humidity": 0.45,
+  "cloud": 0.16,
+  "boundary_m3s": 8.0,
+  "boundary_c": 17.5,
+  "weather": {
+    "night_air_c": 7.0,
+    "day_warming_c": 15.0,
+    "wind_xz_mps": [
+      1.8,
+      0.6
+    ],
+    "gust_mps": 0.45,
+    "calibrated": false,
+    "note": "Chosen summer artistic conditions; no date-specific weather claim."
+  },
+  "parameter_provenance": {
+    "all_reach_volumes": "Illustrative lumped compartments; not bathymetric measurements.",
+    "boundary_m3s": "Illustrative constant upstream inflow, not a USGS gauge measurement.",
+    "boundary_c": "Illustrative upstream temperature; gauge-data calibration is future work.",
+    "cooling_seconds": "Illustrative Newton heat-exchange time constants; no vapor mass, chemistry or full surface-energy solver.",
+    "excelsior_flow": "0.26m3/s chosen illustrative source; NPS describes >4000US gal/min, equivalent to >0.25236m3/s. This is not an exact source observation.",
+    "excelsior_source_c": "Illustrative 62C after outflow cooling at the river entry; not pool/vent temperature and not measured at an outlet.",
+    "biomass_and_insect_resources": "Dimensionless relative indices; growth and consumption rates are artistic simulation coefficients, not kg or organism counts.",
+    "species_counts": "Authored representative proxies, not an estimate of abundance.",
+    "river_topology": "One serial Firehole chain. All actual tributaries other than the authored Excelsior heat source are folded into the uncalibrated boundary or omitted; no cold-refuge claim."
+  },
+  "sources": [
+    {
+      "id": "NPS_EXCELSIOR",
+      "url": "https://www.nps.gov/places/000/excelsior-geyser-crater.htm",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "USGS_OLD_FAITHFUL_GAUGE",
+      "url": "https://waterdata.usgs.gov/monitoring-location/USGS-06036805/",
+      "use": "Future calibration source only; no time series ingested."
+    },
+    {
+      "id": "USGS_LOWER_FIREHOLE_GAUGE",
+      "url": "https://waterdata.usgs.gov/monitoring-location/USGS-06036905/",
+      "use": "Future calibration source only; not a Midway measurement."
+    }
+  ],
+  "river_reaches": [
+    {
+      "id": "south_boundary",
+      "upstream_id": "",
+      "z": 1740.0,
+      "volume_m3": 6600.0,
+      "temperature_c": 17.5,
+      "cooling_seconds": 21600.0,
+      "lateral_sources": []
+    },
+    {
+      "id": "upper_corridor",
+      "upstream_id": "south_boundary",
+      "z": 950.0,
+      "volume_m3": 6800.0,
+      "temperature_c": 17.6,
+      "cooling_seconds": 21600.0,
+      "lateral_sources": []
+    },
+    {
+      "id": "upstream_midway",
+      "upstream_id": "upper_corridor",
+      "z": 220.0,
+      "volume_m3": 5400.0,
+      "temperature_c": 17.8,
+      "cooling_seconds": 18000.0,
+      "lateral_sources": []
+    },
+    {
+      "id": "excelsior_mixing",
+      "upstream_id": "upstream_midway",
+      "z": -175.0,
+      "volume_m3": 800.0,
+      "temperature_c": 19.1,
+      "cooling_seconds": 14400.0,
+      "lateral_sources": [
+        {
+          "id": "excelsior_aggregate_outflow",
+          "flow_m3s": 0.26,
+          "temperature_c": 62.0,
+          "status": "Illustrative post-outflow river-entry boundary; see provenance."
+        }
+      ]
+    },
+    {
+      "id": "bridge_downstream",
+      "upstream_id": "excelsior_mixing",
+      "z": -440.0,
+      "volume_m3": 6200.0,
+      "temperature_c": 19.0,
+      "cooling_seconds": 18000.0,
+      "lateral_sources": []
+    },
+    {
+      "id": "north_boundary",
+      "upstream_id": "bridge_downstream",
+      "z": -1390.0,
+      "volume_m3": 12400.0,
+      "temperature_c": 18.8,
+      "cooling_seconds": 18000.0,
+      "lateral_sources": []
+    }
+  ],
+  "patches": [
+    {
+      "id": "north_meadow",
+      "habitat": "dry_meadow",
+      "center_xz": [
+        -127,
+        -450
+      ],
+      "radius_m": 75.0,
+      "biomass": 0.82,
+      "capacity": 1.0,
+      "moisture": 0.6,
+      "growth_per_hour": 0.012,
+      "insect_resource": 0.8,
+      "insect_recovery_per_hour": 0.04,
+      "status": "Authored nonthermal forage patch. Species-level meadow composition and capacity uncalibrated."
+    },
+    {
+      "id": "bridge_riparian",
+      "habitat": "river_bank",
+      "center_xz": [
+        69,
+        -315
+      ],
+      "radius_m": 70.0,
+      "biomass": 0.64,
+      "capacity": 1.0,
+      "moisture": 0.85,
+      "growth_per_hour": 0.008,
+      "insect_resource": 0.8,
+      "insect_recovery_per_hour": 0.06,
+      "status": "Authored shared relative food index for visible river insect/dipper/trout interactions, not an invertebrate census."
+    },
+    {
+      "id": "forest_edge",
+      "habitat": "forest_edge",
+      "center_xz": [
+        -360,
+        260
+      ],
+      "radius_m": 85.0,
+      "biomass": 0.64,
+      "capacity": 1.0,
+      "moisture": 0.44,
+      "growth_per_hour": 0.006,
+      "insect_resource": 0.6,
+      "insect_recovery_per_hour": 0.03,
+      "status": "Reserved patch state; no unlisted wildlife generated."
+    }
+  ],
+  "wildlife": [
+    {
+      "id": "bison_01",
+      "kind": "bison",
+      "species_id": "bison",
+      "medium": "land",
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -120,
+          -450
+        ],
+        [
+          -125,
+          -440
+        ],
+        [
+          -112,
+          -434
+        ],
+        [
+          -105,
+          -445
+        ]
+      ],
+      "scale": 1.0,
+      "phase": 0.3,
+      "initial_state": "graze",
+      "graze_seconds": 24,
+      "rest_seconds": 18,
+      "walk_mps": 0.56,
+      "grazing_index_per_second": 1.5e-06,
+      "approx_dimensions_m": {
+        "length": 2.82,
+        "shoulder_height": 1.825
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives."
+    },
+    {
+      "id": "bison_02",
+      "kind": "bison",
+      "species_id": "bison",
+      "medium": "land",
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -142,
+          -463
+        ],
+        [
+          -150,
+          -460
+        ],
+        [
+          -148,
+          -449
+        ],
+        [
+          -140,
+          -440
+        ]
+      ],
+      "scale": 0.85,
+      "phase": 3.1,
+      "initial_state": "graze",
+      "graze_seconds": 31,
+      "rest_seconds": 18,
+      "walk_mps": 0.48,
+      "grazing_index_per_second": 1.5e-06,
+      "approx_dimensions_m": {
+        "length": 2.397,
+        "shoulder_height": 1.551
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives."
+    },
+    {
+      "id": "bison_03",
+      "kind": "bison",
+      "species_id": "bison",
+      "medium": "land",
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -132,
+          -476
+        ],
+        [
+          -135,
+          -465
+        ],
+        [
+          -128,
+          -459
+        ],
+        [
+          -120,
+          -464
+        ]
+      ],
+      "scale": 0.88,
+      "phase": 6.0,
+      "initial_state": "graze",
+      "graze_seconds": 19,
+      "rest_seconds": 18,
+      "walk_mps": 0.52,
+      "grazing_index_per_second": 1.5e-06,
+      "approx_dimensions_m": {
+        "length": 2.482,
+        "shoulder_height": 1.606
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives."
+    },
+    {
+      "id": "goose_01",
+      "kind": "goose",
+      "species_id": "canada_goose",
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "river_id": "river_5856_0",
+      "start_point_index": 421,
+      "end_point_index": 427,
+      "lateral_offset_m": 2.0,
+      "water_offset_m": 0.015,
+      "scale": 1.0,
+      "phase": 1.0,
+      "initial_state": "float",
+      "walk_mps": 0.14,
+      "rest_seconds": 8.0,
+      "approx_dimensions_m": {
+        "body_length": 0.94,
+        "head_height_over_water": 0.65
+      },
+      "art_status": "Original shape proxy",
+      "evidence_scope": "NPS Firehole recording confirms species; routes are authored approximations."
+    },
+    {
+      "id": "goose_02",
+      "kind": "goose",
+      "species_id": "canada_goose",
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "river_id": "river_5856_0",
+      "start_point_index": 424,
+      "end_point_index": 430,
+      "lateral_offset_m": -1.4,
+      "water_offset_m": 0.015,
+      "scale": 1.0,
+      "phase": 3.0,
+      "initial_state": "float",
+      "walk_mps": 0.14,
+      "rest_seconds": 8.0,
+      "approx_dimensions_m": {
+        "body_length": 0.94,
+        "head_height_over_water": 0.65
+      },
+      "art_status": "Original shape proxy",
+      "evidence_scope": "NPS Firehole recording confirms species; routes are authored approximations."
+    },
+    {
+      "id": "dipper_01",
+      "kind": "dipper",
+      "species_id": "american_dipper",
+      "medium": "river_bank",
+      "patch_id": "bridge_riparian",
+      "river_id": "river_5856_0",
+      "start_point_index": 404,
+      "end_point_index": 405,
+      "lateral_offset_m": 12.8,
+      "perch_stone_height_m": 0.22,
+      "phase": 0.7,
+      "initial_state": "perch",
+      "perch_seconds": 10.0,
+      "forage_seconds": 17.0,
+      "walk_mps": 0.2,
+      "insect_index_per_second": 8e-06,
+      "approx_dimensions_m": {
+        "body_length": 0.2,
+        "standing_height": 0.13
+      },
+      "art_status": "Original shape proxy and authored small perch stone",
+      "evidence_scope": "NPS Firehole recording confirms species; exact perch is authored, not a location observation."
+    },
+    {
+      "id": "raven_01",
+      "kind": "raven",
+      "species_id": "common_raven",
+      "medium": "land",
+      "patch_id": "bridge_riparian",
+      "path_xz": [
+        [
+          104,
+          -295
+        ],
+        [
+          108,
+          -293
+        ],
+        [
+          107,
+          -299
+        ]
+      ],
+      "perch_stone_height_m": 0.3,
+      "scale": 1.0,
+      "phase": 2.4,
+      "initial_state": "perch",
+      "perch_seconds": 18.0,
+      "forage_seconds": 22.0,
+      "walk_mps": 0.28,
+      "approx_dimensions_m": {
+        "body_length": 0.55,
+        "standing_height": 0.32
+      },
+      "art_status": "Original shape proxy and authored small perch stone",
+      "evidence_scope": "Park-level presence; specific Midway placement is a habitat-based authored candidate."
+    },
+    {
+      "id": "trout_01",
+      "kind": "rainbow_trout",
+      "species_id": "rainbow_trout",
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "river_id": "river_5856_0",
+      "start_point_index": 403,
+      "end_point_index": 406,
+      "lateral_offset_m": -1.8,
+      "water_offset_m": -0.29,
+      "scale": 0.8,
+      "phase": 1.2,
+      "initial_state": "hold",
+      "hold_seconds": 10.2,
+      "walk_mps": 0.19,
+      "insect_index_per_second": 3e-06,
+      "approx_dimensions_m": {
+        "body_length": 0.38
+      },
+      "art_status": "Original low-detail fish proxy",
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work."
+    },
+    {
+      "id": "trout_02",
+      "kind": "brown_trout",
+      "species_id": "brown_trout",
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "river_id": "river_5856_0",
+      "start_point_index": 408,
+      "end_point_index": 411,
+      "lateral_offset_m": 2.0,
+      "water_offset_m": -0.29,
+      "scale": 0.9,
+      "phase": 3.5,
+      "initial_state": "hold",
+      "hold_seconds": 12.5,
+      "walk_mps": 0.19,
+      "insect_index_per_second": 3e-06,
+      "approx_dimensions_m": {
+        "body_length": 0.4275
+      },
+      "art_status": "Original low-detail fish proxy",
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work."
+    },
+    {
+      "id": "trout_03",
+      "kind": "rainbow_trout",
+      "species_id": "rainbow_trout",
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "river_id": "river_5856_0",
+      "start_point_index": 418,
+      "end_point_index": 421,
+      "lateral_offset_m": 0.6,
+      "water_offset_m": -0.29,
+      "scale": 0.75,
+      "phase": 5.0,
+      "initial_state": "hold",
+      "hold_seconds": 14.0,
+      "walk_mps": 0.19,
+      "insect_index_per_second": 3e-06,
+      "approx_dimensions_m": {
+        "body_length": 0.3562
+      },
+      "art_status": "Original low-detail fish proxy",
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work."
+    },
+    {
+      "id": "trout_04",
+      "kind": "brown_trout",
+      "species_id": "brown_trout",
+      "medium": "river",
+      "patch_id": "bridge_riparian",
+      "river_id": "river_5856_0",
+      "start_point_index": 422,
+      "end_point_index": 425,
+      "lateral_offset_m": -2.4,
+      "water_offset_m": -0.29,
+      "scale": 0.95,
+      "phase": 0.2,
+      "initial_state": "hold",
+      "hold_seconds": 9.2,
+      "walk_mps": 0.19,
+      "insect_index_per_second": 3e-06,
+      "approx_dimensions_m": {
+        "body_length": 0.4512
+      },
+      "art_status": "Original low-detail fish proxy",
+      "evidence_scope": "Introduced Firehole trout. No thermal-pool access. Temperature modulates activity; actual refuge seeking is future work."
+    },
+    {
+      "id": "river_insects_01",
+      "kind": "insects",
+      "species_id": "aquatic_insect_guild",
+      "medium": "land",
+      "patch_id": "bridge_riparian",
+      "path_xz": [
+        [
+          78,
+          -317
+        ]
+      ],
+      "initial_state": "hover",
+      "phase": 0.0,
+      "individual_offsets_m": [
+        [
+          0,
+          0.75,
+          0
+        ],
+        [
+          0.3,
+          0.85,
+          -0.2
+        ],
+        [
+          -0.3,
+          0.65,
+          0.1
+        ],
+        [
+          0.45,
+          0.95,
+          0.1
+        ],
+        [
+          -0.5,
+          0.95,
+          -0.15
+        ],
+        [
+          0.1,
+          0.55,
+          0.45
+        ],
+        [
+          0.45,
+          0.6,
+          -0.4
+        ],
+        [
+          -0.2,
+          1.0,
+          0.35
+        ]
+      ],
+      "approx_dimensions_m": {
+        "individual_body_length": 0.006,
+        "wing_span": 0.012
+      },
+      "art_status": "Eight original tiny insect proxies at recorded offsets; no named species claim.",
+      "evidence_scope": "Functional aquatic-insect guild; exact composition unverified. Activity follows shared patch resource and weather."
+    }
+  ]
+}

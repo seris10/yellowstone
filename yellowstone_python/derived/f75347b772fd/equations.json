@@ -1,0 +1,338 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "components": [
+    {
+      "assumptions": "three authored representative visible-water indices; secondary radiance divided by angular solid-angle width; local forcing drives remote cylindrical curtain; liquid history and cloud transmission gate illumination",
+      "component": "rainbow geometric display",
+      "equations": "cos(i)^2=(n^2-1)/((k+1)^2-1); r=asin(sin(i)/n); D=k*pi+2*i-2*(k+1)*r; radius=abs(pi-D); energy=mean((1-Rs)^2*Rs^k,(1-Rp)^2*Rp^k); tau_next=target+(tau-target)*exp(-dt/timescale)",
+      "limits": "no calibrated frequency, measured regional rain field, full Mie scattering, nonspherical droplets or terrain shadows at remote curtain; display Gaussian and radiance gain authored",
+      "model_level": "spherical-drop stationary ray geometry and authored finite rain curtain",
+      "module": "../../yellowstone_midway/scripts/atmosphere_optics.gd",
+      "units": "angles rad; time s; dimensionless optical depth",
+      "validation_status": "native_independent_Snell_sweep_history_and_negative_cases_tested_not_field_validated",
+      "variables": "n: refractive index; k: internal reflection count; Rs,Rp: Fresnel power reflectance; tau: rain-curtain optical-depth proxy"
+    },
+    {
+      "assumptions": "horizontal layer; analytic height intersections rendered at sky depth; weather supplies base, thickness, cover and drift; camera far plane does not bound cloud altitude",
+      "component": "cloud slab display",
+      "equations": "tau=3.4*density*mean(body*vertical_profile)/max(ray_y,0.15); alpha=(1-exp(-tau))*opacity*horizon_fade; body=thresholded_cached_three_octave_Simplex_noise",
+      "limits": "no cloud microphysics or multiple scattering; shape and radiance authored; sky-depth layer assumes terrain below cloud base",
+      "model_level": "four-sample authored cloud-layer optical column",
+      "module": "../../yellowstone_midway/shaders/yellowstone_cloud_shell.gdshader",
+      "units": "cloud geometry m; optical depth dimensionless",
+      "validation_status": "native_cloud_visibility_and_sun_occlusion_checks_not_field_validated",
+      "variables": "body: authored cloud density; ray_y: view elevation sine; vertical_profile: softened slab edges; tau: optical-depth proxy"
+    },
+    {
+      "assumptions": "image samples have unknown camera response and illumination; ring stops and terrace wavelengths authored; no terrain rescaling",
+      "component": "spring image-informed display",
+      "equations": "E(r)=lerp(sRGBdecode(c_i),sRGBdecode(c_j)); terrace relief is an eight-harmonic softened sawtooth plus 17 m low-amplitude waviness",
+      "limits": "display-only lookup does not validate pigment species, optical radiometry, measured band widths or subpixel terrain; published scientific fields unchanged",
+      "model_level": "authored image-informed radial color profile and band-limited terrace relief",
+      "module": "../../yellowstone_midway/data/display/prismatic.json",
+      "units": "linear RGB; m",
+      "validation_status": "analytic_gradient_and_transform_checks_not_field_validated",
+      "variables": "r: normalized mapped polygon radius; c_i: supplied image color; terrace spacing 6.5 m and height scale 0.065 m"
+    },
+    {
+      "assumptions": "Rayleigh reference spectrum from Bruneton atmospheric reference; 8000 m molecular scale height; 2200 m elevation; effective lower scattering slab with incident sunlight attenuated by the upper ozone column; authored aerosol column and display exposure",
+      "component": "daylight sky display",
+      "equations": "I=(exp(-tau/mu_s)-exp(-tau/mu))/(1-mu/mu_s); limit at mu=mu_s is tau/mu*exp(-tau/mu); phase_R=3*(1+cos(theta)^2)/(16*pi); Henyey-Greenstein aerosol phase",
+      "limits": "multiple scattering, curved horizon, and measured local aerosol spectrum absent; grazing angle clamped; display radiance normalized by luminance; no photometric calibration",
+      "model_level": "three-band plane-parallel single scattering with Rayleigh, aerosol, and ozone optical depths",
+      "module": "../../yellowstone_midway/shaders/physical_daylight.gdshader",
+      "units": "dimensionless optical depth; scattering 1/m; representative wavelengths 680, 550, 440 nm",
+      "validation_status": "native_blue_zenith_weather_and_day_night_checks_not_field_validated",
+      "variables": "mu: viewing elevation sine; mu_s: solar elevation sine; tau: total vertical optical depth; tau_R: molecular scattering; tau_M: aerosol scattering; tau_O: ozone absorption"
+    },
+    {
+      "assumptions": "equal forward/backward scattering; Lambertian bottom; no direct sun glint; Grand Prismatic yellow bottom and conical optical depth per Nugent Section 3A; authored sRGB palette decoded before transport; one sRGB encoding for texture storage",
+      "component": "pool optical display",
+      "equations": "k=2a+b; T=exp(-k*z); E/Esun=Rw*Esky/Esun+(1-Rw)^2*(Rmat*T+(b/2)*(1-T)/k)",
+      "limits": "three representative wavelengths; authored scattering and palette; no local spectral or viewing-angle calibration",
+      "model_level": "three-band continuum approximation of Nugent et al. (2015), doi:10.1364/AO.54.00B128",
+      "module": "thermal_features/microbial_mats.py",
+      "units": "a and b 1/m; z m; reflectance and normalized irradiance dimensionless",
+      "validation_status": "analytical_limits_and_independent_quadrature_tested_not_field_validated",
+      "variables": "a: absorption; b: total scattering; z: equal down/up depth; Rw: surface reflectance; Rmat: linear-light bottom reflectance proxy"
+    },
+    {
+      "assumptions": "each reach fully mixed; volumes fixed; lateral sources prescribed; rho and cp constant",
+      "component": "six-reach mixing chain",
+      "equations": "rho*cp*d(V_i*T_i)/dt = rho*cp*(Q_in*T_in - Q_out*T_i) + rho*cp*sum(Q_l*T_l - Q_l*T_i) + A_i*h_i*(T_air - T_i); Q_out = Q_in + sum(Q_l)",
+      "limits": "uniform-flow resistance; backwater, jumps, floodplain exchange excluded",
+      "model_level": "quasi-steady reach network with constant volumes",
+      "module": "river/reach_reference.py",
+      "units": "time s; temperature C; discharge m3/s; volume m3; coefficient W/m2/K; area m2",
+      "validation_status": "numerical_mixing_tested_not_field_validated",
+      "variables": "V_i: reach volume m3; T_i: reach temperature C; Q_in, Q_out, Q_l: discharges m3/s; T_in, T_l: upstream and lateral temperatures C; A_i: reach surface area m2; h_i: Newton coefficient W/m2/K; T_air: air temperature C"
+    },
+    {
+      "assumptions": "prescribed upstream Q/T series; DEM-derived depths; authored roughness; rho and cp constant",
+      "component": "1-D advection-dispersion replay",
+      "equations": "rho*cp*V_i*dT_i/dt = rho*cp*(F_in,i - F_out,i) + rho*cp*sum(Q_l*T_l) + A_surface,i*Phi_surface,i + P_cell,i; F_j = Q_j*T_upwind + G_j*(T_left - T_right); G_j = harmonic dispersion conductance; backward Euler, tridiagonal solve",
+      "limits": "depths estimated from DEM transects; submerged bathymetry unmeasured",
+      "model_level": "1-D advection-dispersion on chainage cells, no momentum equation",
+      "module": "river/river_transport.py",
+      "units": "time s; temperature C; discharge m3/s; conductance m3/s; flux W/m2; power W; area m2; volume m3",
+      "validation_status": "numerical_conservation_tested_not_field_validated",
+      "variables": "V_i: cell water volume m3; Q_j: face discharge m3/s; G_j: face dispersive conductance m3/s; Phi_surface: surface heat flux W/m2; P_cell: cell heat power W; A_surface,i: cell surface area m2"
+    },
+    {
+      "assumptions": "explicit-budget coefficients illustrative; ice-free surface",
+      "component": "surface heat exchange",
+      "equations": "Newton: Phi = h(Tair - T); explicit: Phi = SW + LW + H + LE with scaled turbulent coefficients c_h, c_e; nonlinear closure solved by damped Newton iteration",
+      "limits": "winter ice cover outside scope; radiation and transfer coefficients require local calibration; convergence is numerical, not validation",
+      "model_level": "lumped Newton exchange by default; explicit nonlinear surface budget solved by damped Newton iteration",
+      "module": "river/surface_flux.py",
+      "units": "temperature C; flux W/m2; coefficient W/m2/K",
+      "validation_status": "numerical_only_not_field_validated",
+      "variables": "Phi: surface heat flux W/m2; T, Tair: surface and air temperatures C; h: Newton coefficient W/m2/K; SW, LW, H, LE: shortwave, longwave, sensible, latent fluxes W/m2"
+    },
+    {
+      "assumptions": "map overlay for field notes; velocity and diffusivities prescribed",
+      "component": "2-D plume field",
+      "equations": "u dT/dz = Dx d2T/dx2 + Dz d2T/dz2 - k(T - ambient); implicit upwind/centered solve, source cells fixed",
+      "limits": "no calibration; cross-channel mixing unresolved",
+      "model_level": "steady 2-D advection-diffusion solve on a fixed grid",
+      "module": "thermal_features/plume.py plume_field via river/plume2d.py",
+      "units": "velocity m/s; diffusivity m2/s; rate 1/s; temperature C",
+      "validation_status": "illustrative_overlay_not_validated",
+      "variables": "u: streamwise velocity m/s; Dx, Dz: diffusivities m2/s; k: relaxation to ambient 1/s; T, ambient: temperatures C"
+    },
+    {
+      "assumptions": "pigment stops authored; mapped outline preserved",
+      "component": "pool radial temperature",
+      "equations": "T(r) = T_edge + (T_center - T_edge)*(1-(r/r_water)^2) for 0 <= r <= r_water; T = T_edge for r > r_water; pigment bands authored",
+      "limits": "no universal temperature-to-color relation; bathymetry unmeasured",
+      "model_level": "diagnostic radial profile, no heat PDE",
+      "module": "thermal_features/pool_crust.py",
+      "units": "radius m; temperature C",
+      "validation_status": "authored_profile_not_validated",
+      "variables": "r: radial coordinate m; r_water: water edge radius m; T_center, T_edge: center and edge temperatures C"
+    },
+    {
+      "assumptions": "patch-mean moisture and light; suitability coefficients authored",
+      "component": "patch biomass",
+      "equations": "dB/dt = r f_light f_water B(1 - B/K) - G",
+      "limits": "no organism counts; K and r uncalibrated",
+      "model_level": "lumped logistic growth with grazing debit per patch",
+      "module": "land/vegetation.py",
+      "units": "biomass kg/m2; capacity kg/m2; rate 1/s; grazing kg/m2/s",
+      "validation_status": "illustrative_not_validated",
+      "variables": "B: biomass kg/m2; K: carrying capacity kg/m2; r: intrinsic growth rate 1/s; f_light, f_water: modifiers dimensionless; G: grazing debit kg/m2/s"
+    },
+    {
+      "assumptions": "hourly substeps; shared foraging ground at refuge cell",
+      "component": "insect compartments",
+      "equations": "C(N) = aN/(1 + ahN); benthic degree-day development to emergence flux",
+      "limits": "molluscs unmodeled; warm-cell food underestimated",
+      "model_level": "three-compartment prey with Holling-II depletion",
+      "module": "insects_birds.py",
+      "units": "density dimensionless; time s; temperature C",
+      "validation_status": "illustrative_not_validated",
+      "variables": "N: prey density dimensionless; a: attack rate; h: handling time; degree_days: accumulated TAVG above base C*day"
+    },
+    {
+      "assumptions": "literature anchors for thermal terms; weights authored; uniform depth 1.1 m",
+      "component": "trout suitability and refuge",
+      "equations": "Ui = wf Fi + wc Ci - wt phi(Ti) - wv Vi - wd Di; refuge by argmax in swim range",
+      "limits": "shelter positioning, no mortality; sub-cell refuges unresolved",
+      "model_level": "nondimensional suitability over chainage window",
+      "module": "aquatic/fish.py",
+      "units": "temperature C; depth m; velocity m/s; weights dimensionless",
+      "validation_status": "illustrative_not_validated",
+      "variables": "Fi, Ci, Ti, Vi, Di: food, cover, temperature penalty, velocity, depth terms; w_*: authored weights; U_i: nondimensional suitability"
+    },
+    {
+      "assumptions": "replay food web selects the refuge cell; placement clamps to the polyline when the refuge lies off it",
+      "component": "trout placement at replay refuge",
+      "equations": "i = argmin_i |chainage_i - (s_m - chainage_offset_m)|; start = clip(i - width//2, 0, N-1-width); reach_temp_c = selection.temperature_c",
+      "limits": "one refuge per trout; sub-cell position unresolved; no displacement dynamics",
+      "model_level": "deterministic placement of each trout at the replay food-web refuge cell",
+      "module": "aquatic/fish.py place_trout_at_chainage",
+      "units": "chainage m; temperature C",
+      "validation_status": "deterministic_placement_not_validated",
+      "variables": "s_m: refuge chainage from replay, m; chainage_offset_m: polyline-to-replay offset, m; width: trout segment span, points; chainage_i: polyline chainage at point i, m; N: polyline length, points"
+    },
+    {
+      "assumptions": "thermal, water, cliff exclusion masks; sparse authored loops",
+      "component": "grazer routing",
+      "equations": "Euclidean-heuristic shortest path with full-segment blocked checks",
+      "limits": "no abundance model; corridor re-walk covers the authored route",
+      "model_level": "8-connected A* on eligibility grid, no movement dynamics",
+      "module": "land/grazers.py",
+      "units": "length m; grid spacing m",
+      "validation_status": "authored_route_check_only",
+      "variables": "waypoints: (x, z) m; cell_m: grid spacing m; eligibility: boolean mask"
+    },
+    {
+      "assumptions": "chloride and boron conservative; arsenic conservative in scope",
+      "component": "replay solute transport",
+      "equations": "V_i dC_i/dt = Q_j C_upwind - Q_{j+1} C_i + G_j (C_left - C_right) + sum(Q_l C_l)",
+      "limits": "no photochemistry, no pH-driven sorption cycling",
+      "model_level": "1-D advection-dispersion on chainage cells, backward Euler, three conservative solutes",
+      "module": "river/solute_transport.py",
+      "units": "concentration mg/L or ug/L; discharge m3/s",
+      "validation_status": "fitted_not_validated_single_window",
+      "variables": "C_i: cell concentration mg/L or ug/L; Q: face discharge m3/s; G: dispersive conductance m3/s; Q_l C_l: lateral source mass flux"
+    },
+    {
+      "assumptions": "ice free surface; Covar regime selects formula",
+      "component": "river dissolved oxygen",
+      "equations": "V_i dC_i/dt = Q (C_up - C_i) + V_i k2 (C_sat - C_i) + V_i (GPP - R); C_sat Benson Krause 1984",
+      "limits": "no sediment oxygen demand; no reactive transport",
+      "model_level": "implicit upwind reach with Covar reaeration regime",
+      "module": "aquatic/river_oxygen.py",
+      "units": "concentration mg/L; rate 1/day; metabolism mg/L/s",
+      "validation_status": "illustrative_not_validated",
+      "variables": "C_i: DO mg/L; k2: reaeration 1/day; GPP, R: periphyton metabolism mg O2 per L per s"
+    },
+    {
+      "assumptions": "photosynthetic quotient 1.2; Eppley slope 0.0633 per C",
+      "component": "periphyton biomass",
+      "equations": "dB/dt = (P_max tanh(I/Ik) f_T(T) f_shade(B) - R(T, B) - G(B, grazer)) B",
+      "limits": "no nutrient dynamics beyond authored factor; no sloughing event",
+      "model_level": "logistic biomass with Platt-Jassby light response and Eppley temperature factor",
+      "module": "aquatic/periphyton.py",
+      "units": "biomass mg C/m2; light W/m2; rates 1/day",
+      "validation_status": "illustrative_not_validated",
+      "variables": "B: biomass mg C/m2; P_max: specific GPP 1/day; Ik: saturation light W/m2; I: PAR W/m2"
+    },
+    {
+      "assumptions": "0.8 direct 0.2 diffuse clear-sky midday split (Reindl 1990)",
+      "component": "river shading",
+      "equations": "shortwave_multiplier = 0.8 direct_beam_fraction + 0.2 sky_view_factor",
+      "limits": "aerosol and multiple scattering absent",
+      "model_level": "DEM horizon sampling with canopy direct beam blocking",
+      "module": "aquatic/river_shading.py",
+      "units": "dimensionless multipliers",
+      "validation_status": "illustrative_not_validated",
+      "variables": "sky view factor: hemispherical integral of blocked sky; direct beam fraction: canopy transmissivity along sun bearing"
+    },
+    {
+      "assumptions": "steady state; boiling cap at FAO-56 Eq 7 pressure",
+      "component": "ground heat flux and soil temperature",
+      "equations": "T(z) = T_surface + Q z / k capped at local boiling point; melt_mm_d = Q / (rho_water L_f) in mm/day",
+      "limits": "no transient heat storage; no fumarole venting",
+      "model_level": "mask-selected heat flux with steady conductive profile",
+      "module": "thermal_features/ground_heat.py",
+      "units": "flux W/m2; conductivity W/m/K; depth m; melt mm/day",
+      "validation_status": "authored_profile_not_validated",
+      "variables": "Q: ground heat flux W/m2; k: sinter conductivity W/m/K; z: depth m; L_f: latent heat of fusion J/kg"
+    },
+    {
+      "assumptions": "short grass reference; Kc authored per patch type",
+      "component": "reference evapotranspiration",
+      "equations": "ET0 = (0.408 Delta (Rn - G) + gamma 900/(T+273) u2 (es - ea)) / (Delta + gamma (1 + 0.34 u2))",
+      "limits": "no stress formulation beyond relative soil water scaling",
+      "model_level": "FAO-56 Penman-Monteith reference and Kc crop coefficients",
+      "module": "land/evapotranspiration.py",
+      "units": "ET0 mm/day; temperature C; radiation MJ/m2/day; wind m/s",
+      "validation_status": "fao56_example_18_match",
+      "variables": "Delta: slope svp kPa/C; gamma: psychrometric kPa/C; Rn: net radiation MJ/m2/day; es, ea: svp and vapor pressure kPa; u2: wind at 2 m m/s"
+    },
+    {
+      "assumptions": "authored illustrative densities; exponential depth refuge",
+      "component": "piscivore predation",
+      "equations": "mortality = sum_i density_i intake_i(N) share_i exp(-depth / depth_scale_i) / N",
+      "limits": "no spatial pursuit; no diel visitation",
+      "model_level": "per predator Holling II with depth refuge factor",
+      "module": "aquatic/piscivores.py",
+      "units": "mortality 1/day; density 1/m; depth m",
+      "validation_status": "illustrative_not_validated",
+      "variables": "density: per m river; intake: per capita per day; share: size class fraction; depth_scale: m"
+    },
+    {
+      "assumptions": "swallow bat and riparian spider diet shares authored",
+      "component": "aerial insectivores",
+      "equations": "C(N) = aN/(1 + ahN) with per-consumer attack and handling",
+      "limits": "no breeding phenology; no colony-size dynamics",
+      "model_level": "Holling II offtake on emergent prey compartment",
+      "module": "insects_birds.py AERIAL_INSECTIVORE_DIETS",
+      "units": "density dimensionless; time days",
+      "validation_status": "illustrative_not_validated",
+      "variables": "N: emergent prey density; a: attack rate; h: handling time per capita"
+    },
+    {
+      "assumptions": "Paracoenia and Ephydra windows below 40 C",
+      "component": "outflow food web",
+      "equations": "dN/dt = r_max N (1 - N/K) - m(flow_cv) N - sum predators Holling II; K from fly window and mat",
+      "limits": "no spatial propagation; no sediment feedback",
+      "model_level": "logistic brine fly recruitment with mite parasitism and Holling II predators",
+      "module": "thermal_features/outflow_foodweb.py",
+      "units": "density 1/m2; rate 1/day",
+      "validation_status": "transferred_structure_authored_rates",
+      "variables": "N: fly density per m2; m: mite parasitism rate 1/day; flow_cv: outflow discharge CV; K: carrying density"
+    },
+    {
+      "assumptions": "ice-free; flat terrain; shared surface flux defaults",
+      "component": "steam microclimate plume",
+      "equations": "Phi_s = rho c_h |U| (T_s - T_a); Phi_e = rho L c_e |U| (q_s - q_a); h_i = A z0 (fetch/z0)^B",
+      "limits": "no three dimensional advection; no convective plume",
+      "model_level": "bulk aerodynamic plume with internal boundary layer",
+      "module": "atmosphere/steam_microclimate.py",
+      "units": "flux W/m2; temperature C; humidity dimensionless; fetch m; roughness m",
+      "validation_status": "transferred_structure_authored_rates",
+      "variables": "Phi_s, Phi_e: sensible and latent fluxes W/m2; h_i: internal boundary layer m; A, B: authored power-law coefficients"
+    },
+    {
+      "assumptions": "Davis 1975 DO anchors; Mackey 1977 chironomid envelope",
+      "component": "invertebrate taxa foodweb",
+      "equations": "B_new = B exp(-decay dt) + emergence(T, dd); survival = ramp(DO, lethal, sensitive); grazer competition = 1 + weight mudsnail density",
+      "limits": "no life stage structure; no drift",
+      "model_level": "per taxon degree day emergence with DO survival ramp",
+      "module": "aquatic/aquatic_foodweb.py run_taxon_foodweb",
+      "units": "biomass dimensionless; time days; DO mg/L",
+      "validation_status": "illustrative_not_validated",
+      "variables": "B: taxon biomass; dd: degree days above tbase; DO: oxygen mg/L; mudsnail density: competitor state"
+    },
+    {
+      "assumptions": "daily TAVG forcing; precipitation is liquid-equivalent daily accumulation; habitat modifiers authored; thermal ground carries melt flux",
+      "component": "snow and soil water",
+      "equations": "SWE_{t+1} = max(0, SWE_t + P_t - M_t); M_t = k_melt*max(0, TAVG_t - T_base) + ground_energy_mm_d; soil_{t+1} = clip(soil_t + infiltration - ET - drainage)",
+      "limits": "TAVG forcing misses plateau melt energy; soil moisture unvalidated",
+      "model_level": "degree-day accumulation/melt with soil bucket",
+      "module": "land/snow_season.py",
+      "units": "SWE mm; precipitation mm/day; melt mm/day; temperature C; soil mm",
+      "validation_status": "degree_day_fit_tested_not_locked",
+      "variables": "SWE: snow water equivalent mm; P: precipitation liquid-equivalent daily accumulation mm/day; M: daily melt mm/day; k_melt: mm/C/day; TAVG: daily mean air temperature C; T_base: 0 C; ground_energy_mm_d: mm/day; soil: soil water mm"
+    },
+    {
+      "assumptions": "primary park occurrence records constrain roster; habitat traits, local populations, resource conversion, hazards and display encounter probabilities are authored",
+      "component": "mammal guild ecology",
+      "equations": "activity = food*water_access*thermal_response*snow_access*season*diel; birth = N*(1-N)*(1-exp(-birth_rate*activity*dt/year)); mortality and predation remove bounded fractions using exponential hazards; forage_consumed = min(available_stock, authored_demand)",
+      "limits": "no field-fitted local abundance, mortality, energy transfer or sighting frequencies; observation encounters are separate from ecological populations; unconfirmed and unsuitable local taxa are gated",
+      "model_level": "bounded authored population equivalents with habitat, resource, weather and predator-prey response",
+      "module": "land/mammals.py",
+      "units": "time s; hazard 1/year; population and vegetation relative indices",
+      "validation_status": "bounded_response_and_checkpoint_replay_tested_not_field_validated",
+      "variables": "N: authored population equivalent per species and patch; activity: relative index; dt: physical elapsed seconds; rates: authored per-year hazards; forage: normalized vegetation biomass index"
+    },
+    {
+      "assumptions": "Bechtold (2004) Table 3 Equation 3 transfers regional stand-grown lodgepole relationships; original LiDAR core and source DBH/CR are retained separately",
+      "component": "lodgepole branch architecture",
+      "equations": "LCW_ft = -1.1994 + 1.5154*D_in - 0.0232*D_in^2; radius_m = 0.3048*LCW_ft/2; branch stations and shoots sampled from explicit bounded authored distributions",
+      "limits": "crown equation only within DBH 5.0 to 62.2 in; unknown local error; photographs have unknown scale and camera pose; branch survival, foliage volume, leaf area and biomass are not locally calibrated",
+      "model_level": "rooted geometric branch graph with constrained stochastic lateral growth units",
+      "module": "authoring/tree_architecture.py",
+      "units": "length m; DBH in; source crown diameter ft",
+      "validation_status": "graph_connectivity_and_repeatability_tested_not_field_validated",
+      "variables": "D_in: DBH in inches; LCW_ft: mean horizontal crown diameter in feet; graph axes and shoot vectors in meters"
+    }
+  ],
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "build_id": "f75347b772fd",
+    "run_mode": "scenario"
+  },
+  "schema": "yellowstone.equations.v1",
+  "sources": [
+    {
+      "id": "code",
+      "sha256": "0c6d2466e94b851c"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

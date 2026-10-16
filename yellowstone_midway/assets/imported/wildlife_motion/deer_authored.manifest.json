@@ -1,0 +1,340 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "e8d7914cc4203fd8e1e05460a0a496b373a335aa1bbde24c5e441b07b9531b19",
+  "vertices": 1290,
+  "triangles": 2520,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "mesh_index": 0,
+    "source": "authored_deer_shape",
+    "scale_status": "unverified_asset_units",
+    "canonical_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        -0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        -0.015495495495495504
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "status": "authored",
+    "scientific_acceptance": "not_yet_accepted",
+    "forward_input": "+z",
+    "up_input": "+y",
+    "heading_estimation": "paw-cluster midpoint",
+    "supplied_bbox_length_m": null,
+    "canonical_scale_factor": 1.0
+  },
+  "texture_resizing": [],
+  "clips": [
+    {
+      "name": "Idle",
+      "duration_s": 10.0,
+      "frames": 301,
+      "loop": true,
+      "engine": "mammal",
+      "species": "mule_deer",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "idle",
+        "frequency_hz": 0.2,
+        "duty_factor": 0.68,
+        "stance_length_height": 0,
+        "clearance_height": 0,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.0,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "idle",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Walk",
+      "duration_s": 2.5,
+      "frames": 76,
+      "loop": true,
+      "engine": "mammal",
+      "species": "mule_deer",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "walk",
+        "frequency_hz": 0.8,
+        "duty_factor": 0.7,
+        "stance_length_height": 0.24,
+        "clearance_height": 0.055,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 0.8,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.5430857142857143,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "walk",
+      "max_ik_reach_error_asset_units": 0.0013449432701577724
+    }
+  ],
+  "joint_count": 22,
+  "rig": {
+    "schema": "wildlife-motion.rig/1",
+    "names": [
+      "root",
+      "pelvis",
+      "lumbar",
+      "thorax",
+      "neck",
+      "head",
+      "FL_upper",
+      "FL_middle",
+      "FL_ankle",
+      "FL_foot",
+      "FR_upper",
+      "FR_middle",
+      "FR_ankle",
+      "FR_foot",
+      "HL_upper",
+      "HL_middle",
+      "HL_ankle",
+      "HL_foot",
+      "HR_upper",
+      "HR_middle",
+      "HR_ankle",
+      "HR_foot"
+    ],
+    "parents": [
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      3,
+      6,
+      7,
+      8,
+      3,
+      10,
+      11,
+      12,
+      1,
+      14,
+      15,
+      16,
+      1,
+      18,
+      19,
+      20
+    ],
+    "rest": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.2672,
+        -0.3046999999999997
+      ],
+      [
+        0.0,
+        1.2755159999999999,
+        -0.052510999999999725
+      ],
+      [
+        0.0,
+        1.287,
+        0.2957500000000002
+      ],
+      [
+        0.0,
+        1.4454,
+        0.4747500000000002
+      ],
+      [
+        2.1089341823968347e-18,
+        1.655649711574556,
+        0.6545045045045046
+      ],
+      [
+        0.3168,
+        1.1088,
+        0.2957500000000002
+      ],
+      [
+        0.23840000000000006,
+        0.6138,
+        0.1973000000000002
+      ],
+      [
+        0.1600000000000001,
+        0.23759999999999998,
+        0.3584000000000002
+      ],
+      [
+        0.1600000000000001,
+        0.07196421636210495,
+        0.4300000000000002
+      ],
+      [
+        -0.3168,
+        1.1088,
+        0.2957500000000002
+      ],
+      [
+        -0.23840000000000006,
+        0.6138,
+        0.1973000000000002
+      ],
+      [
+        -0.1600000000000001,
+        0.23759999999999998,
+        0.3584000000000002
+      ],
+      [
+        -0.1600000000000001,
+        0.07196421636210495,
+        0.4300000000000002
+      ],
+      [
+        0.3168,
+        1.2078,
+        -0.3046999999999997
+      ],
+      [
+        0.24624000000000007,
+        0.7722,
+        -0.22951999999999967
+      ],
+      [
+        0.1600000000000001,
+        0.495,
+        -0.5284499999999998
+      ],
+      [
+        0.1600000000000001,
+        0.07196421636210495,
+        -0.4299999999999997
+      ],
+      [
+        -0.3168,
+        1.2078,
+        -0.3046999999999997
+      ],
+      [
+        -0.24624000000000007,
+        0.7722,
+        -0.22951999999999967
+      ],
+      [
+        -0.1600000000000001,
+        0.495,
+        -0.5284499999999998
+      ],
+      [
+        -0.1600000000000001,
+        0.07196421636210495,
+        -0.4299999999999997
+      ]
+    ],
+    "groups": {
+      "body": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "FL": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "FR": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "HL": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "HR": [
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    "metadata": {
+      "species": "mule_deer",
+      "engine": "mammal",
+      "review_status": "estimated_unreviewed",
+      "source_sha256": "e8d7914cc4203fd8e1e05460a0a496b373a335aa1bbde24c5e441b07b9531b19",
+      "canonical_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          -0.015495495495495504
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scale_status": "unverified_asset_units",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "height": 1.98,
+      "length": 1.79,
+      "foot_posture": "unguligrade",
+      "warnings": [
+        "Joint centers inferred from surface geometry, not measured skeletons.",
+        "Posed AI meshes may require joint and weight correction, particularly shoulders, hips, and feet."
+      ],
+      "sole_offsets": {
+        "FL": 0.07196421636210495,
+        "FR": 0.07196421636210495,
+        "HL": 0.07196421636210495,
+        "HR": 0.07196421636210495
+      }
+    }
+  }
+}

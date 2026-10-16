@@ -1,0 +1,6147 @@
+{
+ "schema": "yellowstone.sinter_grass_cull.v1",
+ "status": "illustrative_not_calibrated",
+ "date": "2026-10-09",
+ "method": "NAIP 2022-07-19 detail ortho (0.625 m/px). Green evidence = ExG>0.05 & not-water, dilated 1.5 m. Grass placement removed iff no green evidence AND ground brightness >= 0.60 (bare sinter/mineral/road). Dark-ground no-evidence records (riparian shadow / wet bank) reviewed and KEPT, listed under kept_dark.",
+ "source_image_sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+ "evidence_radius_m": 1.5,
+ "brightness_gate": 0.6,
+ "n_removed": 554,
+ "removed": [
+  {
+   "id": "prop_meadow_grass_101_038_001",
+   "x": -139.78,
+   "z": -518.56,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_040_001",
+   "x": -136.73,
+   "z": -518.07,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_038_002",
+   "x": -139.99,
+   "z": -516.69,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_041_002",
+   "x": -135.1,
+   "z": -516.68,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_044_004",
+   "x": -131.27,
+   "z": -513.94,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_044_005",
+   "x": -131.06,
+   "z": -512.35,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_045_005",
+   "x": -129.15,
+   "z": -512.33,
+   "ground_light": 0.784
+  },
+  {
+   "id": "prop_meadow_grass_101_036_006",
+   "x": -142.62,
+   "z": -511.12,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_037_006",
+   "x": -141.18,
+   "z": -510.6,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_meadow_grass_101_046_007",
+   "x": -127.67,
+   "z": -509.54,
+   "ground_light": 0.767
+  },
+  {
+   "id": "prop_meadow_grass_101_048_007",
+   "x": -125.01,
+   "z": -509.55,
+   "ground_light": 0.744
+  },
+  {
+   "id": "prop_meadow_grass_101_037_008",
+   "x": -141.58,
+   "z": -508.3,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_038_008",
+   "x": -139.64,
+   "z": -507.89,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_047_008",
+   "x": -126.59,
+   "z": -508.11,
+   "ground_light": 0.762
+  },
+  {
+   "id": "prop_meadow_grass_101_037_009",
+   "x": -141.5,
+   "z": -506.77,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_038_009",
+   "x": -139.98,
+   "z": -506.07,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_040_009",
+   "x": -136.9,
+   "z": -506.47,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_039_010",
+   "x": -138.6,
+   "z": -504.8,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_040_010",
+   "x": -136.92,
+   "z": -504.56,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_038_011",
+   "x": -139.79,
+   "z": -503.76,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_041_011",
+   "x": -135.22,
+   "z": -503.07,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_043_011",
+   "x": -132.85,
+   "z": -503.06,
+   "ground_light": 0.771
+  },
+  {
+   "id": "prop_meadow_grass_101_038_012",
+   "x": -139.86,
+   "z": -501.64,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_039_012",
+   "x": -138.19,
+   "z": -502.15,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_043_012",
+   "x": -132.21,
+   "z": -501.55,
+   "ground_light": 0.756
+  },
+  {
+   "id": "prop_meadow_grass_101_040_013",
+   "x": -136.68,
+   "z": -500.79,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_041_013",
+   "x": -135.19,
+   "z": -500.91,
+   "ground_light": 0.784
+  },
+  {
+   "id": "prop_meadow_grass_101_038_014",
+   "x": -139.71,
+   "z": -498.76,
+   "ground_light": 0.813
+  },
+  {
+   "id": "prop_meadow_grass_101_040_014",
+   "x": -137.02,
+   "z": -498.82,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_041_014",
+   "x": -135.51,
+   "z": -498.77,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_042_014",
+   "x": -134.09,
+   "z": -499.27,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_043_014",
+   "x": -132.19,
+   "z": -498.77,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_048_014",
+   "x": -124.75,
+   "z": -498.74,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_060_014",
+   "x": -106.62,
+   "z": -498.68,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_039_015",
+   "x": -138.35,
+   "z": -497.31,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_042_015",
+   "x": -133.68,
+   "z": -497.15,
+   "ground_light": 0.795
+  },
+  {
+   "id": "prop_meadow_grass_101_044_015",
+   "x": -131.07,
+   "z": -497.34,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_034_016",
+   "x": -145.85,
+   "z": -495.74,
+   "ground_light": 0.745
+  },
+  {
+   "id": "prop_meadow_grass_101_036_016",
+   "x": -142.8,
+   "z": -496.03,
+   "ground_light": 0.801
+  },
+  {
+   "id": "prop_meadow_grass_101_037_016",
+   "x": -141.09,
+   "z": -495.94,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_039_016",
+   "x": -138.58,
+   "z": -495.57,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_040_016",
+   "x": -136.81,
+   "z": -496.21,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_043_016",
+   "x": -132.19,
+   "z": -495.63,
+   "ground_light": 0.795
+  },
+  {
+   "id": "prop_meadow_grass_101_045_016",
+   "x": -129.22,
+   "z": -495.62,
+   "ground_light": 0.786
+  },
+  {
+   "id": "prop_meadow_grass_101_049_016",
+   "x": -123.83,
+   "z": -495.68,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_051_016",
+   "x": -120.61,
+   "z": -495.98,
+   "ground_light": 0.745
+  },
+  {
+   "id": "prop_meadow_grass_101_062_016",
+   "x": -104.11,
+   "z": -496.1,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_035_017",
+   "x": -144.93,
+   "z": -494.25,
+   "ground_light": 0.778
+  },
+  {
+   "id": "prop_meadow_grass_101_036_017",
+   "x": -143.13,
+   "z": -494.5,
+   "ground_light": 0.801
+  },
+  {
+   "id": "prop_meadow_grass_101_038_017",
+   "x": -140.09,
+   "z": -494.56,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_041_017",
+   "x": -135.73,
+   "z": -494.77,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_042_017",
+   "x": -134.24,
+   "z": -494.31,
+   "ground_light": 0.795
+  },
+  {
+   "id": "prop_meadow_grass_101_044_017",
+   "x": -130.89,
+   "z": -494.66,
+   "ground_light": 0.795
+  },
+  {
+   "id": "prop_meadow_grass_101_046_017",
+   "x": -128.44,
+   "z": -494.08,
+   "ground_light": 0.767
+  },
+  {
+   "id": "prop_meadow_grass_101_047_017",
+   "x": -126.34,
+   "z": -494.72,
+   "ground_light": 0.79
+  },
+  {
+   "id": "prop_meadow_grass_101_048_017",
+   "x": -124.56,
+   "z": -494.2,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_064_017",
+   "x": -101.14,
+   "z": -494.25,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_034_018",
+   "x": -146.34,
+   "z": -492.8,
+   "ground_light": 0.767
+  },
+  {
+   "id": "prop_meadow_grass_101_037_018",
+   "x": -141.88,
+   "z": -492.81,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_038_018",
+   "x": -139.9,
+   "z": -492.87,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_039_018",
+   "x": -138.42,
+   "z": -493.11,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_040_018",
+   "x": -136.74,
+   "z": -492.64,
+   "ground_light": 0.757
+  },
+  {
+   "id": "prop_meadow_grass_101_041_018",
+   "x": -135.05,
+   "z": -492.76,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_043_018",
+   "x": -132.65,
+   "z": -493.23,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_044_018",
+   "x": -130.77,
+   "z": -492.85,
+   "ground_light": 0.795
+  },
+  {
+   "id": "prop_meadow_grass_101_062_018",
+   "x": -103.97,
+   "z": -492.83,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_035_019",
+   "x": -144.34,
+   "z": -491.85,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_041_019",
+   "x": -135.4,
+   "z": -491.1,
+   "ground_light": 0.782
+  },
+  {
+   "id": "prop_meadow_grass_101_043_019",
+   "x": -132.17,
+   "z": -491.63,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_045_019",
+   "x": -129.29,
+   "z": -491.73,
+   "ground_light": 0.814
+  },
+  {
+   "id": "prop_meadow_grass_101_046_019",
+   "x": -127.74,
+   "z": -491.78,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_065_019",
+   "x": -99.72,
+   "z": -491.64,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_038_020",
+   "x": -140.37,
+   "z": -490.07,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_042_020",
+   "x": -133.95,
+   "z": -490.0,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_044_020",
+   "x": -131.08,
+   "z": -490.37,
+   "ground_light": 0.763
+  },
+  {
+   "id": "prop_meadow_grass_101_045_020",
+   "x": -129.65,
+   "z": -489.66,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_046_020",
+   "x": -128.1,
+   "z": -489.84,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_067_020",
+   "x": -96.26,
+   "z": -489.58,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_037_021",
+   "x": -141.6,
+   "z": -488.6,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_043_021",
+   "x": -132.59,
+   "z": -488.82,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_044_021",
+   "x": -131.26,
+   "z": -488.11,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_065_021",
+   "x": -99.2,
+   "z": -488.23,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_036_022",
+   "x": -142.59,
+   "z": -487.12,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_043_022",
+   "x": -132.16,
+   "z": -486.6,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_048_022",
+   "x": -124.82,
+   "z": -486.56,
+   "ground_light": 0.805
+  },
+  {
+   "id": "prop_meadow_grass_101_058_022",
+   "x": -110.41,
+   "z": -487.24,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_059_022",
+   "x": -108.87,
+   "z": -486.57,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_047_023",
+   "x": -126.18,
+   "z": -485.46,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_073_023",
+   "x": -87.33,
+   "z": -485.51,
+   "ground_light": 0.749
+  },
+  {
+   "id": "prop_meadow_grass_101_041_024",
+   "x": -135.84,
+   "z": -483.57,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_042_024",
+   "x": -134.19,
+   "z": -483.65,
+   "ground_light": 0.801
+  },
+  {
+   "id": "prop_meadow_grass_101_043_024",
+   "x": -132.35,
+   "z": -483.58,
+   "ground_light": 0.79
+  },
+  {
+   "id": "prop_meadow_grass_101_046_024",
+   "x": -128.06,
+   "z": -483.85,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_047_024",
+   "x": -126.31,
+   "z": -483.64,
+   "ground_light": 0.775
+  },
+  {
+   "id": "prop_meadow_grass_101_058_024",
+   "x": -110.29,
+   "z": -484.23,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_059_024",
+   "x": -108.26,
+   "z": -483.94,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_061_024",
+   "x": -105.38,
+   "z": -483.93,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_043_025",
+   "x": -132.93,
+   "z": -482.12,
+   "ground_light": 0.79
+  },
+  {
+   "id": "prop_meadow_grass_101_058_025",
+   "x": -109.63,
+   "z": -482.17,
+   "ground_light": 0.83
+  },
+  {
+   "id": "prop_meadow_grass_101_060_025",
+   "x": -107.41,
+   "z": -482.18,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_034_026",
+   "x": -146.33,
+   "z": -480.8,
+   "ground_light": 0.759
+  },
+  {
+   "id": "prop_meadow_grass_101_041_026",
+   "x": -135.7,
+   "z": -480.65,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_056_026",
+   "x": -112.56,
+   "z": -480.79,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_059_026",
+   "x": -108.12,
+   "z": -480.58,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_meadow_grass_101_035_027",
+   "x": -144.77,
+   "z": -479.06,
+   "ground_light": 0.77
+  },
+  {
+   "id": "prop_meadow_grass_101_037_027",
+   "x": -141.26,
+   "z": -479.54,
+   "ground_light": 0.79
+  },
+  {
+   "id": "prop_meadow_grass_101_038_027",
+   "x": -139.69,
+   "z": -479.61,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_039_027",
+   "x": -138.07,
+   "z": -479.94,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_058_027",
+   "x": -109.61,
+   "z": -479.54,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_065_027",
+   "x": -99.89,
+   "z": -479.22,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_meadow_grass_101_066_027",
+   "x": -97.97,
+   "z": -479.62,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_067_027",
+   "x": -96.34,
+   "z": -479.44,
+   "ground_light": 0.773
+  },
+  {
+   "id": "prop_meadow_grass_101_078_027",
+   "x": -80.27,
+   "z": -479.1,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_036_028",
+   "x": -143.22,
+   "z": -477.83,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_038_028",
+   "x": -139.75,
+   "z": -478.01,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_040_028",
+   "x": -137.1,
+   "z": -477.7,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_041_028",
+   "x": -135.43,
+   "z": -477.84,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_054_028",
+   "x": -116.0,
+   "z": -477.59,
+   "ground_light": 0.813
+  },
+  {
+   "id": "prop_meadow_grass_101_056_028",
+   "x": -113.4,
+   "z": -477.62,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_057_028",
+   "x": -111.52,
+   "z": -477.89,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_059_028",
+   "x": -108.88,
+   "z": -477.66,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_063_028",
+   "x": -102.74,
+   "z": -478.15,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_066_028",
+   "x": -97.89,
+   "z": -477.92,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_067_028",
+   "x": -96.3,
+   "z": -477.8,
+   "ground_light": 0.753
+  },
+  {
+   "id": "prop_meadow_grass_101_076_028",
+   "x": -82.72,
+   "z": -477.93,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_035_029",
+   "x": -144.13,
+   "z": -476.54,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_037_029",
+   "x": -141.48,
+   "z": -476.63,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_038_029",
+   "x": -139.76,
+   "z": -476.29,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_059_029",
+   "x": -108.7,
+   "z": -476.13,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_060_029",
+   "x": -106.81,
+   "z": -476.2,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_061_029",
+   "x": -105.05,
+   "z": -476.53,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_063_029",
+   "x": -102.88,
+   "z": -476.48,
+   "ground_light": 0.784
+  },
+  {
+   "id": "prop_meadow_grass_101_064_029",
+   "x": -101.1,
+   "z": -476.51,
+   "ground_light": 0.795
+  },
+  {
+   "id": "prop_meadow_grass_101_066_029",
+   "x": -98.17,
+   "z": -476.43,
+   "ground_light": 0.729
+  },
+  {
+   "id": "prop_meadow_grass_101_077_029",
+   "x": -81.44,
+   "z": -476.32,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_082_029",
+   "x": -74.39,
+   "z": -476.53,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_035_030",
+   "x": -144.06,
+   "z": -474.93,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_037_030",
+   "x": -141.47,
+   "z": -474.68,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_040_030",
+   "x": -137.09,
+   "z": -474.83,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_045_030",
+   "x": -129.3,
+   "z": -475.31,
+   "ground_light": 0.766
+  },
+  {
+   "id": "prop_meadow_grass_101_055_030",
+   "x": -114.1,
+   "z": -474.69,
+   "ground_light": 0.838
+  },
+  {
+   "id": "prop_meadow_grass_101_057_030",
+   "x": -111.47,
+   "z": -475.23,
+   "ground_light": 0.814
+  },
+  {
+   "id": "prop_meadow_grass_101_061_030",
+   "x": -105.7,
+   "z": -474.89,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_062_030",
+   "x": -104.16,
+   "z": -474.61,
+   "ground_light": 0.769
+  },
+  {
+   "id": "prop_meadow_grass_101_063_030",
+   "x": -102.3,
+   "z": -474.6,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_068_030",
+   "x": -94.8,
+   "z": -474.86,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_070_030",
+   "x": -92.22,
+   "z": -474.77,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_081_030",
+   "x": -75.16,
+   "z": -474.7,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_082_030",
+   "x": -73.68,
+   "z": -475.09,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_038_031",
+   "x": -139.71,
+   "z": -473.63,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_058_031",
+   "x": -109.71,
+   "z": -473.35,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_059_031",
+   "x": -108.17,
+   "z": -473.26,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_069_031",
+   "x": -93.37,
+   "z": -473.06,
+   "ground_light": 0.776
+  },
+  {
+   "id": "prop_meadow_grass_101_082_031",
+   "x": -73.6,
+   "z": -473.05,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_084_031",
+   "x": -70.84,
+   "z": -473.71,
+   "ground_light": 0.69
+  },
+  {
+   "id": "prop_meadow_grass_101_038_032",
+   "x": -140.43,
+   "z": -472.2,
+   "ground_light": 0.79
+  },
+  {
+   "id": "prop_meadow_grass_101_039_032",
+   "x": -138.07,
+   "z": -472.43,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_052_032",
+   "x": -118.71,
+   "z": -471.7,
+   "ground_light": 0.83
+  },
+  {
+   "id": "prop_meadow_grass_101_054_032",
+   "x": -116.26,
+   "z": -472.44,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_055_032",
+   "x": -114.25,
+   "z": -472.08,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_057_032",
+   "x": -111.21,
+   "z": -472.42,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_060_032",
+   "x": -106.86,
+   "z": -471.98,
+   "ground_light": 0.773
+  },
+  {
+   "id": "prop_meadow_grass_101_063_032",
+   "x": -102.11,
+   "z": -471.61,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_070_032",
+   "x": -92.19,
+   "z": -471.77,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_071_032",
+   "x": -90.25,
+   "z": -471.91,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_033_033",
+   "x": -147.28,
+   "z": -470.25,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_053_033",
+   "x": -117.88,
+   "z": -470.43,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_054_033",
+   "x": -116.0,
+   "z": -470.73,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_meadow_grass_101_056_033",
+   "x": -113.39,
+   "z": -470.43,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_057_033",
+   "x": -111.77,
+   "z": -470.41,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_meadow_grass_101_058_033",
+   "x": -109.96,
+   "z": -470.41,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_068_033",
+   "x": -94.94,
+   "z": -470.33,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_072_033",
+   "x": -88.74,
+   "z": -470.8,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_040_034",
+   "x": -136.86,
+   "z": -468.6,
+   "ground_light": 0.766
+  },
+  {
+   "id": "prop_meadow_grass_101_052_034",
+   "x": -118.65,
+   "z": -468.69,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_055_034",
+   "x": -114.8,
+   "z": -469.38,
+   "ground_light": 0.814
+  },
+  {
+   "id": "prop_meadow_grass_101_063_034",
+   "x": -102.12,
+   "z": -468.84,
+   "ground_light": 0.778
+  },
+  {
+   "id": "prop_meadow_grass_101_068_034",
+   "x": -95.36,
+   "z": -468.8,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_069_034",
+   "x": -93.29,
+   "z": -468.63,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_071_034",
+   "x": -90.31,
+   "z": -469.03,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_072_034",
+   "x": -88.76,
+   "z": -468.94,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_053_035",
+   "x": -117.3,
+   "z": -467.39,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_055_035",
+   "x": -114.29,
+   "z": -467.33,
+   "ground_light": 0.814
+  },
+  {
+   "id": "prop_meadow_grass_101_057_035",
+   "x": -111.81,
+   "z": -467.94,
+   "ground_light": 0.843
+  },
+  {
+   "id": "prop_meadow_grass_101_058_035",
+   "x": -109.96,
+   "z": -467.73,
+   "ground_light": 0.83
+  },
+  {
+   "id": "prop_meadow_grass_101_062_035",
+   "x": -103.66,
+   "z": -467.55,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_067_035",
+   "x": -96.16,
+   "z": -467.5,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_070_035",
+   "x": -92.08,
+   "z": -467.59,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_072_035",
+   "x": -89.4,
+   "z": -467.23,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_meadow_grass_101_073_035",
+   "x": -87.69,
+   "z": -467.65,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_074_035",
+   "x": -86.17,
+   "z": -467.74,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_075_035",
+   "x": -84.53,
+   "z": -467.93,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_077_035",
+   "x": -81.34,
+   "z": -467.52,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_044_036",
+   "x": -130.78,
+   "z": -465.58,
+   "ground_light": 0.672
+  },
+  {
+   "id": "prop_meadow_grass_101_052_036",
+   "x": -118.56,
+   "z": -466.27,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_054_036",
+   "x": -116.02,
+   "z": -465.57,
+   "ground_light": 0.83
+  },
+  {
+   "id": "prop_meadow_grass_101_056_036",
+   "x": -113.18,
+   "z": -465.68,
+   "ground_light": 0.805
+  },
+  {
+   "id": "prop_meadow_grass_101_057_036",
+   "x": -111.12,
+   "z": -465.83,
+   "ground_light": 0.817
+  },
+  {
+   "id": "prop_meadow_grass_101_059_036",
+   "x": -108.76,
+   "z": -465.63,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_062_036",
+   "x": -104.19,
+   "z": -466.1,
+   "ground_light": 0.782
+  },
+  {
+   "id": "prop_meadow_grass_101_063_036",
+   "x": -102.55,
+   "z": -466.4,
+   "ground_light": 0.776
+  },
+  {
+   "id": "prop_meadow_grass_101_074_036",
+   "x": -86.21,
+   "z": -466.08,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_075_036",
+   "x": -84.6,
+   "z": -465.8,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_meadow_grass_101_076_036",
+   "x": -82.99,
+   "z": -465.64,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_041_037",
+   "x": -135.19,
+   "z": -464.8,
+   "ground_light": 0.748
+  },
+  {
+   "id": "prop_meadow_grass_101_043_037",
+   "x": -132.84,
+   "z": -464.54,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_051_037",
+   "x": -120.88,
+   "z": -464.56,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_052_037",
+   "x": -118.64,
+   "z": -464.46,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_058_037",
+   "x": -109.74,
+   "z": -464.14,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_062_037",
+   "x": -104.43,
+   "z": -464.6,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_072_037",
+   "x": -88.56,
+   "z": -464.73,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_077_037",
+   "x": -81.29,
+   "z": -464.64,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_meadow_grass_101_041_038",
+   "x": -135.66,
+   "z": -463.22,
+   "ground_light": 0.744
+  },
+  {
+   "id": "prop_meadow_grass_101_042_038",
+   "x": -133.77,
+   "z": -462.73,
+   "ground_light": 0.767
+  },
+  {
+   "id": "prop_meadow_grass_101_051_038",
+   "x": -120.65,
+   "z": -462.93,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_meadow_grass_101_053_038",
+   "x": -117.33,
+   "z": -463.4,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_054_038",
+   "x": -115.81,
+   "z": -463.05,
+   "ground_light": 0.838
+  },
+  {
+   "id": "prop_meadow_grass_101_055_038",
+   "x": -114.16,
+   "z": -463.41,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_057_038",
+   "x": -111.33,
+   "z": -463.18,
+   "ground_light": 0.821
+  },
+  {
+   "id": "prop_meadow_grass_101_060_038",
+   "x": -106.8,
+   "z": -463.18,
+   "ground_light": 0.817
+  },
+  {
+   "id": "prop_meadow_grass_101_072_038",
+   "x": -88.84,
+   "z": -462.73,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_073_038",
+   "x": -87.24,
+   "z": -462.74,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_075_038",
+   "x": -84.72,
+   "z": -462.81,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_077_038",
+   "x": -81.35,
+   "z": -462.94,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_080_038",
+   "x": -77.11,
+   "z": -462.72,
+   "ground_light": 0.825
+  },
+  {
+   "id": "prop_meadow_grass_101_052_039",
+   "x": -119.17,
+   "z": -461.53,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_053_039",
+   "x": -117.44,
+   "z": -461.22,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_054_039",
+   "x": -115.79,
+   "z": -461.14,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_056_039",
+   "x": -112.77,
+   "z": -461.58,
+   "ground_light": 0.837
+  },
+  {
+   "id": "prop_meadow_grass_101_071_039",
+   "x": -90.36,
+   "z": -461.27,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_074_039",
+   "x": -85.77,
+   "z": -461.28,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_076_039",
+   "x": -83.28,
+   "z": -461.66,
+   "ground_light": 0.847
+  },
+  {
+   "id": "prop_meadow_grass_101_042_040",
+   "x": -134.16,
+   "z": -460.44,
+   "ground_light": 0.77
+  },
+  {
+   "id": "prop_meadow_grass_101_051_040",
+   "x": -120.68,
+   "z": -460.31,
+   "ground_light": 0.793
+  },
+  {
+   "id": "prop_meadow_grass_101_055_040",
+   "x": -114.11,
+   "z": -460.4,
+   "ground_light": 0.842
+  },
+  {
+   "id": "prop_meadow_grass_101_057_040",
+   "x": -111.78,
+   "z": -459.94,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_073_040",
+   "x": -87.07,
+   "z": -460.44,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_075_040",
+   "x": -84.68,
+   "z": -459.84,
+   "ground_light": 0.843
+  },
+  {
+   "id": "prop_meadow_grass_101_050_041",
+   "x": -122.3,
+   "z": -458.55,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_051_041",
+   "x": -120.45,
+   "z": -458.16,
+   "ground_light": 0.801
+  },
+  {
+   "id": "prop_meadow_grass_101_052_041",
+   "x": -118.76,
+   "z": -458.23,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_055_041",
+   "x": -114.4,
+   "z": -458.81,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_056_041",
+   "x": -112.67,
+   "z": -458.6,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_058_041",
+   "x": -109.98,
+   "z": -458.63,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_073_041",
+   "x": -87.6,
+   "z": -458.38,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_051_042",
+   "x": -120.67,
+   "z": -456.64,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_053_042",
+   "x": -117.2,
+   "z": -456.56,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_meadow_grass_101_054_042",
+   "x": -115.67,
+   "z": -456.85,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_056_042",
+   "x": -112.68,
+   "z": -456.7,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_059_042",
+   "x": -108.56,
+   "z": -457.1,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_071_042",
+   "x": -90.47,
+   "z": -456.77,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_073_042",
+   "x": -87.54,
+   "z": -456.8,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_074_042",
+   "x": -85.66,
+   "z": -457.18,
+   "ground_light": 0.847
+  },
+  {
+   "id": "prop_meadow_grass_101_050_043",
+   "x": -122.12,
+   "z": -455.54,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_meadow_grass_101_052_043",
+   "x": -119.0,
+   "z": -455.11,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_054_043",
+   "x": -116.03,
+   "z": -455.1,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_055_043",
+   "x": -114.36,
+   "z": -455.35,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_057_043",
+   "x": -111.91,
+   "z": -455.19,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_070_043",
+   "x": -91.66,
+   "z": -455.62,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_071_043",
+   "x": -90.09,
+   "z": -455.27,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_073_043",
+   "x": -87.3,
+   "z": -455.19,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_074_043",
+   "x": -85.57,
+   "z": -455.58,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_039_044",
+   "x": -138.13,
+   "z": -453.65,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_047_044",
+   "x": -126.53,
+   "z": -453.82,
+   "ground_light": 0.805
+  },
+  {
+   "id": "prop_meadow_grass_101_053_044",
+   "x": -117.21,
+   "z": -454.07,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_055_044",
+   "x": -114.52,
+   "z": -453.67,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_056_044",
+   "x": -112.96,
+   "z": -453.6,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_069_044",
+   "x": -93.39,
+   "z": -454.1,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_070_044",
+   "x": -91.75,
+   "z": -453.79,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_072_044",
+   "x": -88.89,
+   "z": -453.93,
+   "ground_light": 0.844
+  },
+  {
+   "id": "prop_meadow_grass_101_075_044",
+   "x": -84.79,
+   "z": -454.29,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_meadow_grass_101_078_044",
+   "x": -79.85,
+   "z": -454.3,
+   "ground_light": 0.775
+  },
+  {
+   "id": "prop_meadow_grass_101_039_045",
+   "x": -138.67,
+   "z": -452.1,
+   "ground_light": 0.778
+  },
+  {
+   "id": "prop_meadow_grass_101_052_045",
+   "x": -118.71,
+   "z": -452.91,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_meadow_grass_101_056_045",
+   "x": -113.19,
+   "z": -452.05,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_057_045",
+   "x": -111.68,
+   "z": -452.29,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_068_045",
+   "x": -94.79,
+   "z": -452.27,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_070_045",
+   "x": -92.04,
+   "z": -452.05,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_071_045",
+   "x": -90.46,
+   "z": -452.71,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_072_045",
+   "x": -88.73,
+   "z": -452.07,
+   "ground_light": 0.805
+  },
+  {
+   "id": "prop_meadow_grass_101_074_045",
+   "x": -85.64,
+   "z": -452.91,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_076_045",
+   "x": -83.02,
+   "z": -452.34,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_053_046",
+   "x": -117.3,
+   "z": -450.61,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_055_046",
+   "x": -114.47,
+   "z": -450.87,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_057_046",
+   "x": -111.52,
+   "z": -450.69,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_069_046",
+   "x": -93.5,
+   "z": -450.94,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_073_046",
+   "x": -87.33,
+   "z": -451.04,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_074_046",
+   "x": -85.74,
+   "z": -450.93,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_075_046",
+   "x": -84.16,
+   "z": -450.64,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_052_047",
+   "x": -118.61,
+   "z": -449.76,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_054_047",
+   "x": -115.67,
+   "z": -449.8,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_070_047",
+   "x": -91.95,
+   "z": -449.08,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_072_047",
+   "x": -89.13,
+   "z": -449.43,
+   "ground_light": 0.818
+  },
+  {
+   "id": "prop_meadow_grass_101_052_048",
+   "x": -118.64,
+   "z": -447.61,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_053_048",
+   "x": -117.08,
+   "z": -447.62,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_055_048",
+   "x": -114.9,
+   "z": -448.36,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_056_048",
+   "x": -113.08,
+   "z": -448.4,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_057_048",
+   "x": -111.77,
+   "z": -447.58,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_048_049",
+   "x": -124.68,
+   "z": -446.44,
+   "ground_light": 0.809
+  },
+  {
+   "id": "prop_meadow_grass_101_053_049",
+   "x": -117.87,
+   "z": -446.06,
+   "ground_light": 0.809
+  },
+  {
+   "id": "prop_meadow_grass_101_055_049",
+   "x": -114.14,
+   "z": -446.79,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_069_049",
+   "x": -93.54,
+   "z": -446.21,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_070_049",
+   "x": -91.7,
+   "z": -446.37,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_071_049",
+   "x": -90.19,
+   "z": -446.64,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_075_049",
+   "x": -84.51,
+   "z": -446.44,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_048_050",
+   "x": -125.23,
+   "z": -444.89,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_054_050",
+   "x": -116.23,
+   "z": -444.92,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_055_050",
+   "x": -114.49,
+   "z": -444.92,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_075_050",
+   "x": -84.24,
+   "z": -444.88,
+   "ground_light": 0.813
+  },
+  {
+   "id": "prop_meadow_grass_101_046_051",
+   "x": -127.72,
+   "z": -443.13,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_meadow_grass_101_048_051",
+   "x": -124.64,
+   "z": -443.25,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_050_051",
+   "x": -122.12,
+   "z": -443.34,
+   "ground_light": 0.813
+  },
+  {
+   "id": "prop_meadow_grass_101_051_051",
+   "x": -120.5,
+   "z": -443.07,
+   "ground_light": 0.805
+  },
+  {
+   "id": "prop_meadow_grass_101_052_051",
+   "x": -118.76,
+   "z": -443.68,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_054_051",
+   "x": -115.74,
+   "z": -443.34,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_062_051",
+   "x": -103.65,
+   "z": -443.27,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_064_051",
+   "x": -101.39,
+   "z": -443.36,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_068_051",
+   "x": -94.71,
+   "z": -443.93,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_070_051",
+   "x": -91.8,
+   "z": -443.11,
+   "ground_light": 0.817
+  },
+  {
+   "id": "prop_meadow_grass_101_071_051",
+   "x": -90.27,
+   "z": -443.46,
+   "ground_light": 0.809
+  },
+  {
+   "id": "prop_meadow_grass_101_075_051",
+   "x": -84.52,
+   "z": -443.39,
+   "ground_light": 0.801
+  },
+  {
+   "id": "prop_meadow_grass_101_046_052",
+   "x": -127.93,
+   "z": -441.61,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_047_052",
+   "x": -126.34,
+   "z": -442.35,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_049_052",
+   "x": -123.29,
+   "z": -441.66,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_053_052",
+   "x": -117.12,
+   "z": -441.76,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_055_052",
+   "x": -114.16,
+   "z": -441.76,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_058_052",
+   "x": -109.65,
+   "z": -441.75,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_063_052",
+   "x": -102.45,
+   "z": -442.2,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_064_052",
+   "x": -100.69,
+   "z": -441.95,
+   "ground_light": 0.79
+  },
+  {
+   "id": "prop_meadow_grass_101_066_052",
+   "x": -97.57,
+   "z": -441.74,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_068_052",
+   "x": -95.04,
+   "z": -442.35,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_071_052",
+   "x": -90.42,
+   "z": -441.73,
+   "ground_light": 0.809
+  },
+  {
+   "id": "prop_meadow_grass_101_050_053",
+   "x": -121.9,
+   "z": -440.38,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_066_053",
+   "x": -98.39,
+   "z": -440.36,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_068_053",
+   "x": -94.58,
+   "z": -440.75,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_070_053",
+   "x": -91.91,
+   "z": -440.52,
+   "ground_light": 0.805
+  },
+  {
+   "id": "prop_meadow_grass_101_072_053",
+   "x": -89.06,
+   "z": -440.63,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_051_054",
+   "x": -120.28,
+   "z": -439.14,
+   "ground_light": 0.83
+  },
+  {
+   "id": "prop_meadow_grass_101_067_054",
+   "x": -96.76,
+   "z": -438.57,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_069_054",
+   "x": -93.85,
+   "z": -438.71,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_070_054",
+   "x": -92.35,
+   "z": -438.97,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_071_054",
+   "x": -90.57,
+   "z": -439.05,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_049_055",
+   "x": -123.12,
+   "z": -437.37,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_051_055",
+   "x": -120.85,
+   "z": -437.32,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_066_055",
+   "x": -97.91,
+   "z": -437.49,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_067_055",
+   "x": -96.41,
+   "z": -437.11,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_068_055",
+   "x": -95.02,
+   "z": -437.68,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_037_056",
+   "x": -141.94,
+   "z": -435.79,
+   "ground_light": 0.767
+  },
+  {
+   "id": "prop_meadow_grass_101_047_056",
+   "x": -126.61,
+   "z": -436.24,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_049_056",
+   "x": -123.44,
+   "z": -435.72,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_059_056",
+   "x": -108.35,
+   "z": -436.04,
+   "ground_light": 0.729
+  },
+  {
+   "id": "prop_meadow_grass_101_061_056",
+   "x": -105.69,
+   "z": -436.22,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_064_056",
+   "x": -100.88,
+   "z": -435.6,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_066_056",
+   "x": -97.95,
+   "z": -435.62,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_068_056",
+   "x": -94.77,
+   "z": -435.98,
+   "ground_light": 0.809
+  },
+  {
+   "id": "prop_meadow_grass_101_069_056",
+   "x": -93.3,
+   "z": -435.69,
+   "ground_light": 0.821
+  },
+  {
+   "id": "prop_meadow_grass_101_071_056",
+   "x": -90.83,
+   "z": -435.68,
+   "ground_light": 0.809
+  },
+  {
+   "id": "prop_meadow_grass_101_072_056",
+   "x": -88.92,
+   "z": -436.32,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_050_057",
+   "x": -122.04,
+   "z": -434.85,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_051_057",
+   "x": -120.48,
+   "z": -434.23,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_057_057",
+   "x": -111.33,
+   "z": -434.26,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_058_057",
+   "x": -109.77,
+   "z": -434.58,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_060_057",
+   "x": -107.31,
+   "z": -434.21,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_061_057",
+   "x": -105.55,
+   "z": -434.19,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_062_057",
+   "x": -103.94,
+   "z": -434.22,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_063_057",
+   "x": -102.09,
+   "z": -434.16,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_067_057",
+   "x": -96.22,
+   "z": -434.06,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_070_057",
+   "x": -92.33,
+   "z": -434.21,
+   "ground_light": 0.813
+  },
+  {
+   "id": "prop_meadow_grass_101_072_057",
+   "x": -89.39,
+   "z": -434.38,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_031_058",
+   "x": -150.07,
+   "z": -433.43,
+   "ground_light": 0.752
+  },
+  {
+   "id": "prop_meadow_grass_101_033_058",
+   "x": -147.86,
+   "z": -433.36,
+   "ground_light": 0.706
+  },
+  {
+   "id": "prop_meadow_grass_101_049_058",
+   "x": -123.5,
+   "z": -433.01,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_064_058",
+   "x": -100.56,
+   "z": -432.99,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_066_058",
+   "x": -98.26,
+   "z": -433.13,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_068_058",
+   "x": -94.63,
+   "z": -432.62,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_071_058",
+   "x": -90.38,
+   "z": -433.04,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_075_058",
+   "x": -84.15,
+   "z": -433.21,
+   "ground_light": 0.767
+  },
+  {
+   "id": "prop_meadow_grass_101_050_059",
+   "x": -121.59,
+   "z": -431.9,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_059_059",
+   "x": -108.17,
+   "z": -431.78,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_060_059",
+   "x": -106.6,
+   "z": -431.65,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_062_059",
+   "x": -103.75,
+   "z": -431.22,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_064_059",
+   "x": -101.4,
+   "z": -431.39,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_065_059",
+   "x": -99.45,
+   "z": -431.68,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_066_059",
+   "x": -97.77,
+   "z": -431.67,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_069_059",
+   "x": -93.46,
+   "z": -431.5,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_070_059",
+   "x": -91.88,
+   "z": -431.23,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_072_059",
+   "x": -88.8,
+   "z": -431.34,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_075_059",
+   "x": -84.19,
+   "z": -431.64,
+   "ground_light": 0.773
+  },
+  {
+   "id": "prop_meadow_grass_101_049_060",
+   "x": -123.56,
+   "z": -430.22,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_063_060",
+   "x": -102.78,
+   "z": -429.94,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_064_060",
+   "x": -100.98,
+   "z": -429.65,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_065_060",
+   "x": -99.12,
+   "z": -429.98,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_067_060",
+   "x": -96.42,
+   "z": -429.81,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_068_060",
+   "x": -94.63,
+   "z": -429.86,
+   "ground_light": 0.843
+  },
+  {
+   "id": "prop_meadow_grass_101_071_060",
+   "x": -90.58,
+   "z": -430.2,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_076_060",
+   "x": -83.0,
+   "z": -429.77,
+   "ground_light": 0.637
+  },
+  {
+   "id": "prop_meadow_grass_101_033_061",
+   "x": -147.24,
+   "z": -428.07,
+   "ground_light": 0.759
+  },
+  {
+   "id": "prop_meadow_grass_101_036_061",
+   "x": -142.84,
+   "z": -428.07,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_meadow_grass_101_050_061",
+   "x": -121.6,
+   "z": -428.19,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_101_054_061",
+   "x": -116.02,
+   "z": -428.14,
+   "ground_light": 0.707
+  },
+  {
+   "id": "prop_meadow_grass_101_065_061",
+   "x": -99.09,
+   "z": -428.3,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_069_061",
+   "x": -93.07,
+   "z": -428.44,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_035_062",
+   "x": -144.71,
+   "z": -427.04,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_049_062",
+   "x": -123.07,
+   "z": -426.91,
+   "ground_light": 0.834
+  },
+  {
+   "id": "prop_meadow_grass_101_061_062",
+   "x": -105.32,
+   "z": -426.66,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_063_062",
+   "x": -102.93,
+   "z": -427.13,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_064_062",
+   "x": -101.14,
+   "z": -426.79,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_066_062",
+   "x": -97.8,
+   "z": -427.1,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_068_062",
+   "x": -94.8,
+   "z": -426.89,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_033_063",
+   "x": -147.12,
+   "z": -425.55,
+   "ground_light": 0.771
+  },
+  {
+   "id": "prop_meadow_grass_101_036_063",
+   "x": -142.58,
+   "z": -425.36,
+   "ground_light": 0.761
+  },
+  {
+   "id": "prop_meadow_grass_101_047_063",
+   "x": -126.81,
+   "z": -425.36,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_048_063",
+   "x": -124.57,
+   "z": -425.43,
+   "ground_light": 0.814
+  },
+  {
+   "id": "prop_meadow_grass_101_050_063",
+   "x": -122.21,
+   "z": -425.49,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_052_063",
+   "x": -119.1,
+   "z": -425.54,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_059_063",
+   "x": -108.45,
+   "z": -425.61,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_063_063",
+   "x": -102.17,
+   "z": -425.6,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_065_063",
+   "x": -99.31,
+   "z": -425.5,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_067_063",
+   "x": -96.45,
+   "z": -425.53,
+   "ground_light": 0.843
+  },
+  {
+   "id": "prop_meadow_grass_101_069_063",
+   "x": -93.67,
+   "z": -425.15,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_070_063",
+   "x": -92.06,
+   "z": -425.58,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_049_064",
+   "x": -123.6,
+   "z": -424.1,
+   "ground_light": 0.842
+  },
+  {
+   "id": "prop_meadow_grass_101_051_064",
+   "x": -120.42,
+   "z": -423.77,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_059_064",
+   "x": -108.08,
+   "z": -424.1,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_061_064",
+   "x": -105.31,
+   "z": -423.58,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_064_064",
+   "x": -101.1,
+   "z": -423.79,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_066_064",
+   "x": -98.16,
+   "z": -424.41,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_067_064",
+   "x": -96.62,
+   "z": -423.99,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_068_064",
+   "x": -94.98,
+   "z": -424.41,
+   "ground_light": 0.821
+  },
+  {
+   "id": "prop_meadow_grass_101_070_064",
+   "x": -92.18,
+   "z": -423.75,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_048_065",
+   "x": -124.72,
+   "z": -422.24,
+   "ground_light": 0.842
+  },
+  {
+   "id": "prop_meadow_grass_101_062_065",
+   "x": -103.56,
+   "z": -422.17,
+   "ground_light": 0.816
+  },
+  {
+   "id": "prop_meadow_grass_101_065_065",
+   "x": -99.67,
+   "z": -422.17,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_meadow_grass_101_066_065",
+   "x": -97.8,
+   "z": -422.92,
+   "ground_light": 0.827
+  },
+  {
+   "id": "prop_meadow_grass_101_067_065",
+   "x": -96.24,
+   "z": -422.06,
+   "ground_light": 0.813
+  },
+  {
+   "id": "prop_meadow_grass_101_069_065",
+   "x": -93.7,
+   "z": -422.66,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_101_035_066",
+   "x": -144.07,
+   "z": -420.56,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_037_066",
+   "x": -141.59,
+   "z": -420.75,
+   "ground_light": 0.774
+  },
+  {
+   "id": "prop_meadow_grass_101_056_066",
+   "x": -112.9,
+   "z": -420.98,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_064_066",
+   "x": -101.2,
+   "z": -420.97,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_065_066",
+   "x": -99.49,
+   "z": -420.58,
+   "ground_light": 0.838
+  },
+  {
+   "id": "prop_meadow_grass_101_055_067",
+   "x": -114.52,
+   "z": -419.54,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_056_067",
+   "x": -112.73,
+   "z": -419.47,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_101_063_067",
+   "x": -102.2,
+   "z": -419.11,
+   "ground_light": 0.843
+  },
+  {
+   "id": "prop_meadow_grass_101_069_067",
+   "x": -93.09,
+   "z": -419.14,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_meadow_grass_101_035_068",
+   "x": -144.95,
+   "z": -417.99,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_054_068",
+   "x": -116.45,
+   "z": -418.31,
+   "ground_light": 0.786
+  },
+  {
+   "id": "prop_meadow_grass_101_055_068",
+   "x": -114.78,
+   "z": -417.69,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_056_069",
+   "x": -113.17,
+   "z": -416.47,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_101_063_069",
+   "x": -102.53,
+   "z": -416.58,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_048_070",
+   "x": -124.88,
+   "z": -414.62,
+   "ground_light": 0.81
+  },
+  {
+   "id": "prop_meadow_grass_101_055_070",
+   "x": -114.54,
+   "z": -415.42,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_062_070",
+   "x": -103.65,
+   "z": -414.94,
+   "ground_light": 0.839
+  },
+  {
+   "id": "prop_meadow_grass_101_064_071",
+   "x": -100.93,
+   "z": -413.12,
+   "ground_light": 0.771
+  },
+  {
+   "id": "prop_meadow_grass_101_047_072",
+   "x": -126.14,
+   "z": -411.84,
+   "ground_light": 0.793
+  },
+  {
+   "id": "prop_meadow_grass_101_061_072",
+   "x": -105.06,
+   "z": -411.7,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_065_072",
+   "x": -99.4,
+   "z": -412.25,
+   "ground_light": 0.748
+  },
+  {
+   "id": "prop_meadow_grass_101_067_072",
+   "x": -96.93,
+   "z": -412.08,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_046_073",
+   "x": -127.89,
+   "z": -410.56,
+   "ground_light": 0.784
+  },
+  {
+   "id": "prop_meadow_grass_101_066_073",
+   "x": -98.04,
+   "z": -410.36,
+   "ground_light": 0.778
+  },
+  {
+   "id": "prop_meadow_grass_101_061_074",
+   "x": -105.18,
+   "z": -408.61,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_033_075",
+   "x": -147.54,
+   "z": -407.08,
+   "ground_light": 0.741
+  },
+  {
+   "id": "prop_meadow_grass_101_046_075",
+   "x": -127.89,
+   "z": -407.75,
+   "ground_light": 0.753
+  },
+  {
+   "id": "prop_meadow_grass_101_046_076",
+   "x": -128.05,
+   "z": -405.76,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_052_076",
+   "x": -118.95,
+   "z": -405.64,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_058_076",
+   "x": -109.88,
+   "z": -405.75,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_059_076",
+   "x": -108.31,
+   "z": -405.57,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_061_076",
+   "x": -105.19,
+   "z": -405.61,
+   "ground_light": 0.82
+  },
+  {
+   "id": "prop_meadow_grass_101_051_077",
+   "x": -120.42,
+   "z": -404.35,
+   "ground_light": 0.799
+  },
+  {
+   "id": "prop_meadow_grass_101_053_077",
+   "x": -117.19,
+   "z": -404.28,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_055_077",
+   "x": -114.23,
+   "z": -404.33,
+   "ground_light": 0.786
+  },
+  {
+   "id": "prop_meadow_grass_101_060_077",
+   "x": -106.95,
+   "z": -404.16,
+   "ground_light": 0.831
+  },
+  {
+   "id": "prop_meadow_grass_101_030_078",
+   "x": -151.91,
+   "z": -402.64,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_052_078",
+   "x": -119.27,
+   "z": -402.63,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_101_054_078",
+   "x": -116.1,
+   "z": -402.82,
+   "ground_light": 0.762
+  },
+  {
+   "id": "prop_meadow_grass_101_058_078",
+   "x": -109.84,
+   "z": -402.63,
+   "ground_light": 0.8
+  },
+  {
+   "id": "prop_meadow_grass_101_059_078",
+   "x": -108.3,
+   "z": -403.05,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_101_061_078",
+   "x": -105.12,
+   "z": -403.27,
+   "ground_light": 0.847
+  },
+  {
+   "id": "prop_meadow_grass_101_034_079",
+   "x": -145.98,
+   "z": -401.54,
+   "ground_light": 0.741
+  },
+  {
+   "id": "prop_meadow_grass_101_053_079",
+   "x": -117.62,
+   "z": -401.67,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_055_079",
+   "x": -114.56,
+   "z": -401.7,
+   "ground_light": 0.791
+  },
+  {
+   "id": "prop_meadow_grass_101_059_079",
+   "x": -108.57,
+   "z": -401.57,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_meadow_grass_101_060_079",
+   "x": -107.07,
+   "z": -401.51,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_101_061_079",
+   "x": -105.4,
+   "z": -401.79,
+   "ground_light": 0.843
+  },
+  {
+   "id": "prop_meadow_grass_101_053_080",
+   "x": -117.48,
+   "z": -399.84,
+   "ground_light": 0.817
+  },
+  {
+   "id": "prop_meadow_grass_101_054_080",
+   "x": -115.67,
+   "z": -400.41,
+   "ground_light": 0.725
+  },
+  {
+   "id": "prop_meadow_grass_101_061_080",
+   "x": -105.64,
+   "z": -399.7,
+   "ground_light": 0.846
+  },
+  {
+   "id": "prop_meadow_grass_101_036_081",
+   "x": -143.04,
+   "z": -398.74,
+   "ground_light": 0.756
+  },
+  {
+   "id": "prop_meadow_grass_101_052_081",
+   "x": -119.17,
+   "z": -398.44,
+   "ground_light": 0.784
+  },
+  {
+   "id": "prop_meadow_grass_101_054_081",
+   "x": -115.73,
+   "z": -398.41,
+   "ground_light": 0.762
+  },
+  {
+   "id": "prop_meadow_grass_101_055_081",
+   "x": -114.12,
+   "z": -398.57,
+   "ground_light": 0.79
+  },
+  {
+   "id": "prop_meadow_grass_101_035_082",
+   "x": -144.68,
+   "z": -396.62,
+   "ground_light": 0.778
+  },
+  {
+   "id": "prop_meadow_grass_101_036_082",
+   "x": -142.98,
+   "z": -397.2,
+   "ground_light": 0.756
+  },
+  {
+   "id": "prop_meadow_grass_101_050_082",
+   "x": -121.84,
+   "z": -396.92,
+   "ground_light": 0.786
+  },
+  {
+   "id": "prop_meadow_grass_101_052_082",
+   "x": -119.43,
+   "z": -396.92,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_101_053_082",
+   "x": -117.7,
+   "z": -396.61,
+   "ground_light": 0.792
+  },
+  {
+   "id": "prop_meadow_grass_101_054_082",
+   "x": -116.01,
+   "z": -396.73,
+   "ground_light": 0.784
+  },
+  {
+   "id": "prop_meadow_grass_101_059_082",
+   "x": -108.09,
+   "z": -396.68,
+   "ground_light": 0.838
+  },
+  {
+   "id": "prop_meadow_grass_102_041_002",
+   "x": 65.56,
+   "z": -376.82,
+   "ground_light": 0.635
+  },
+  {
+   "id": "prop_meadow_grass_102_040_004",
+   "x": 64.03,
+   "z": -373.87,
+   "ground_light": 0.693
+  },
+  {
+   "id": "prop_meadow_grass_102_035_010",
+   "x": 56.3,
+   "z": -364.9,
+   "ground_light": 0.752
+  },
+  {
+   "id": "prop_meadow_grass_102_060_023",
+   "x": 93.62,
+   "z": -345.93,
+   "ground_light": 0.736
+  },
+  {
+   "id": "prop_meadow_grass_102_056_045",
+   "x": 88.05,
+   "z": -312.46,
+   "ground_light": 0.737
+  },
+  {
+   "id": "prop_meadow_grass_102_057_046",
+   "x": 89.19,
+   "z": -311.02,
+   "ground_light": 0.656
+  },
+  {
+   "id": "prop_meadow_grass_102_056_047",
+   "x": 88.27,
+   "z": -309.76,
+   "ground_light": 0.664
+  },
+  {
+   "id": "prop_meadow_grass_103_097_006",
+   "x": -216.12,
+   "z": 58.42,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_meadow_grass_103_098_007",
+   "x": -214.79,
+   "z": 59.5,
+   "ground_light": 0.826
+  },
+  {
+   "id": "prop_meadow_grass_103_100_007",
+   "x": -212.41,
+   "z": 59.81,
+   "ground_light": 0.807
+  },
+  {
+   "id": "prop_meadow_grass_103_096_010",
+   "x": -218.24,
+   "z": 63.98,
+   "ground_light": 0.793
+  },
+  {
+   "id": "prop_meadow_grass_103_102_012",
+   "x": -208.57,
+   "z": 67.22,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_103_086_013",
+   "x": -232.82,
+   "z": 68.92,
+   "ground_light": 0.795
+  },
+  {
+   "id": "prop_meadow_grass_103_098_014",
+   "x": -214.89,
+   "z": 70.23,
+   "ground_light": 0.817
+  },
+  {
+   "id": "prop_meadow_grass_103_100_014",
+   "x": -211.94,
+   "z": 70.31,
+   "ground_light": 0.782
+  },
+  {
+   "id": "prop_meadow_grass_103_091_015",
+   "x": -225.6,
+   "z": 71.71,
+   "ground_light": 0.83
+  },
+  {
+   "id": "prop_meadow_grass_103_105_015",
+   "x": -204.31,
+   "z": 71.75,
+   "ground_light": 0.804
+  },
+  {
+   "id": "prop_meadow_grass_103_091_016",
+   "x": -225.33,
+   "z": 73.33,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_meadow_grass_103_100_016",
+   "x": -212.12,
+   "z": 72.58,
+   "ground_light": 0.776
+  },
+  {
+   "id": "prop_meadow_grass_103_099_018",
+   "x": -213.9,
+   "z": 76.42,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_103_100_018",
+   "x": -212.0,
+   "z": 76.12,
+   "ground_light": 0.787
+  },
+  {
+   "id": "prop_meadow_grass_103_100_020",
+   "x": -212.09,
+   "z": 79.01,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_103_102_021",
+   "x": -208.55,
+   "z": 80.79,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_103_104_021",
+   "x": -205.72,
+   "z": 80.38,
+   "ground_light": 0.808
+  },
+  {
+   "id": "prop_meadow_grass_103_117_022",
+   "x": -186.27,
+   "z": 82.4,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_meadow_grass_103_119_022",
+   "x": -183.66,
+   "z": 82.08,
+   "ground_light": 0.783
+  },
+  {
+   "id": "prop_meadow_grass_103_118_023",
+   "x": -185.2,
+   "z": 83.49,
+   "ground_light": 0.761
+  },
+  {
+   "id": "prop_meadow_grass_103_116_024",
+   "x": -188.41,
+   "z": 85.4,
+   "ground_light": 0.788
+  },
+  {
+   "id": "prop_corr_grass_22_0958_1",
+   "x": -426.96,
+   "z": -239.69,
+   "ground_light": 0.656
+  },
+  {
+   "id": "prop_corr_grass_24_0002_-1",
+   "x": -429.1,
+   "z": -235.16,
+   "ground_light": 0.61
+  },
+  {
+   "id": "prop_corr_grass_24_0004_-1",
+   "x": -433.12,
+   "z": -233.63,
+   "ground_light": 0.634
+  },
+  {
+   "id": "prop_corr_grass_26_0038_-1",
+   "x": 74.44,
+   "z": -450.82,
+   "ground_light": 0.614
+  },
+  {
+   "id": "prop_corr_grass_27_0002_1",
+   "x": 53.95,
+   "z": -518.82,
+   "ground_light": 0.728
+  },
+  {
+   "id": "prop_corr_grass_27_0036_-1",
+   "x": 48.69,
+   "z": -451.39,
+   "ground_light": 0.669
+  },
+  {
+   "id": "prop_corr_grass_27_0042_-1",
+   "x": 49.61,
+   "z": -439.5,
+   "ground_light": 0.626
+  },
+  {
+   "id": "prop_corr_grass_27_0052_-1",
+   "x": 47.57,
+   "z": -419.96,
+   "ground_light": 0.663
+  },
+  {
+   "id": "prop_corr_grass_27_0070_-1",
+   "x": 57.7,
+   "z": -386.46,
+   "ground_light": 0.638
+  },
+  {
+   "id": "prop_corr_grass_28_0004_-1",
+   "x": 64.46,
+   "z": -374.69,
+   "ground_light": 0.688
+  },
+  {
+   "id": "prop_corr_grass_32_0036_-1",
+   "x": 8.41,
+   "z": -226.21,
+   "ground_light": 0.761
+  },
+  {
+   "id": "prop_corr_grass_32_0058_-1",
+   "x": 17.79,
+   "z": -267.67,
+   "ground_light": 0.78
+  },
+  {
+   "id": "prop_corr_grass_32_0062_-1",
+   "x": 17.99,
+   "z": -275.65,
+   "ground_light": 0.821
+  },
+  {
+   "id": "prop_corr_grass_32_0062_1",
+   "x": 27.19,
+   "z": -275.86,
+   "ground_light": 0.812
+  },
+  {
+   "id": "prop_corr_grass_32_0070_-1",
+   "x": 18.16,
+   "z": -289.82,
+   "ground_light": 0.694
+  },
+  {
+   "id": "prop_corr_grass_32_0072_-1",
+   "x": 15.4,
+   "z": -292.61,
+   "ground_light": 0.779
+  },
+  {
+   "id": "prop_corr_grass_35_0020_-1",
+   "x": -63.58,
+   "z": -164.94,
+   "ground_light": 0.824
+  },
+  {
+   "id": "prop_corr_grass_35_0022_-1",
+   "x": -67.52,
+   "z": -165.66,
+   "ground_light": 0.835
+  },
+  {
+   "id": "prop_corr_grass_35_0030_1",
+   "x": -81.35,
+   "z": -175.13,
+   "ground_light": 0.803
+  },
+  {
+   "id": "prop_corr_grass_35_0062_-1",
+   "x": -126.39,
+   "z": -157.83,
+   "ground_light": 0.822
+  },
+  {
+   "id": "prop_corr_grass_36_0366_-1",
+   "x": 140.12,
+   "z": 380.94,
+   "ground_light": 0.61
+  },
+  {
+   "id": "prop_corr_grass_36_0402_1",
+   "x": 90.85,
+   "z": 326.95,
+   "ground_light": 0.796
+  },
+  {
+   "id": "prop_corr_grass_36_0406_1",
+   "x": 84.64,
+   "z": 321.66,
+   "ground_light": 0.769
+  },
+  {
+   "id": "prop_corr_grass_36_0434_1",
+   "x": 42.82,
+   "z": 282.88,
+   "ground_light": 0.617
+  },
+  {
+   "id": "prop_corr_grass_36_0798_-1",
+   "x": -427.89,
+   "z": -221.09,
+   "ground_light": 0.604
+  },
+  {
+   "id": "prop_corr_grass_36_0802_-1",
+   "x": -428.46,
+   "z": -229.35,
+   "ground_light": 0.613
+  },
+  {
+   "id": "prop_corr_grass_36_0804_-1",
+   "x": -430.48,
+   "z": -233.37,
+   "ground_light": 0.605
+  },
+  {
+   "id": "prop_corr_grass_36_0806_-1",
+   "x": -428.63,
+   "z": -237.39,
+   "ground_light": 0.616
+  }
+ ],
+ "n_kept_dark_no_evidence": 468,
+ "kept_dark": [
+  {
+   "id": "grass_00684",
+   "x": -407.98,
+   "z": -434.23,
+   "ground_light": 0.533
+  },
+  {
+   "id": "grass_00697",
+   "x": -418.0,
+   "z": -411.51,
+   "ground_light": 0.476
+  },
+  {
+   "id": "grass_01263",
+   "x": -417.69,
+   "z": -226.84,
+   "ground_light": 0.374
+  },
+  {
+   "id": "grass_02443",
+   "x": 63.12,
+   "z": -313.8,
+   "ground_light": 0.275
+  },
+  {
+   "id": "grass_02459",
+   "x": 87.58,
+   "z": -286.14,
+   "ground_light": 0.272
+  },
+  {
+   "id": "grass_02462",
+   "x": 81.98,
+   "z": -289.25,
+   "ground_light": 0.275
+  },
+  {
+   "id": "grass_02577",
+   "x": 281.08,
+   "z": 581.54,
+   "ground_light": 0.204
+  },
+  {
+   "id": "grass_02583",
+   "x": 278.9,
+   "z": 578.92,
+   "ground_light": 0.318
+  },
+  {
+   "id": "grass_02586",
+   "x": 278.18,
+   "z": 574.28,
+   "ground_light": 0.333
+  },
+  {
+   "id": "grass_02594",
+   "x": 270.99,
+   "z": 572.65,
+   "ground_light": 0.297
+  },
+  {
+   "id": "grass_02595",
+   "x": 270.92,
+   "z": 576.4,
+   "ground_light": 0.285
+  },
+  {
+   "id": "grass_02599",
+   "x": 274.51,
+   "z": 584.18,
+   "ground_light": 0.224
+  },
+  {
+   "id": "grass_02600",
+   "x": 275.39,
+   "z": 564.55,
+   "ground_light": 0.319
+  },
+  {
+   "id": "grass_02605",
+   "x": 272.1,
+   "z": 561.97,
+   "ground_light": 0.349
+  },
+  {
+   "id": "grass_02610",
+   "x": 266.9,
+   "z": 559.85,
+   "ground_light": 0.284
+  },
+  {
+   "id": "grass_02612",
+   "x": 262.03,
+   "z": 563.7,
+   "ground_light": 0.324
+  },
+  {
+   "id": "grass_02648",
+   "x": 247.69,
+   "z": 476.16,
+   "ground_light": 0.59
+  },
+  {
+   "id": "grass_02651",
+   "x": 245.81,
+   "z": 480.28,
+   "ground_light": 0.405
+  },
+  {
+   "id": "grass_04104",
+   "x": -311.87,
+   "z": 60.3,
+   "ground_light": 0.159
+  },
+  {
+   "id": "prop_meadow_grass_101_049_000",
+   "x": -123.84,
+   "z": -519.55,
+   "ground_light": 0.302
+  },
+  {
+   "id": "prop_meadow_grass_101_050_000",
+   "x": -122.23,
+   "z": -519.83,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_048_001",
+   "x": -125.34,
+   "z": -518.51,
+   "ground_light": 0.293
+  },
+  {
+   "id": "prop_meadow_grass_101_051_001",
+   "x": -120.56,
+   "z": -518.47,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_052_001",
+   "x": -118.57,
+   "z": -518.32,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_054_001",
+   "x": -115.84,
+   "z": -518.7,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_101_056_001",
+   "x": -113.11,
+   "z": -518.21,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_101_049_002",
+   "x": -123.6,
+   "z": -517.11,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_050_002",
+   "x": -121.76,
+   "z": -516.84,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_053_002",
+   "x": -117.55,
+   "z": -516.86,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_055_002",
+   "x": -114.25,
+   "z": -516.62,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_101_057_002",
+   "x": -111.4,
+   "z": -516.65,
+   "ground_light": 0.258
+  },
+  {
+   "id": "prop_meadow_grass_101_058_002",
+   "x": -109.79,
+   "z": -516.72,
+   "ground_light": 0.258
+  },
+  {
+   "id": "prop_meadow_grass_101_059_002",
+   "x": -108.11,
+   "z": -516.87,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_101_052_003",
+   "x": -119.33,
+   "z": -515.72,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_101_054_003",
+   "x": -116.05,
+   "z": -515.17,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_056_003",
+   "x": -113.12,
+   "z": -515.27,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_101_058_003",
+   "x": -110.33,
+   "z": -515.19,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_061_003",
+   "x": -105.71,
+   "z": -515.66,
+   "ground_light": 0.261
+  },
+  {
+   "id": "prop_meadow_grass_101_062_003",
+   "x": -104.16,
+   "z": -515.68,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_101_063_003",
+   "x": -102.39,
+   "z": -515.37,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_101_052_004",
+   "x": -119.14,
+   "z": -513.68,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_101_053_004",
+   "x": -117.13,
+   "z": -513.76,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_101_055_004",
+   "x": -114.69,
+   "z": -514.06,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_057_004",
+   "x": -111.32,
+   "z": -513.73,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_059_004",
+   "x": -108.79,
+   "z": -514.0,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_101_060_004",
+   "x": -107.06,
+   "z": -514.09,
+   "ground_light": 0.256
+  },
+  {
+   "id": "prop_meadow_grass_101_062_004",
+   "x": -103.72,
+   "z": -513.79,
+   "ground_light": 0.25
+  },
+  {
+   "id": "prop_meadow_grass_101_064_004",
+   "x": -101.02,
+   "z": -514.3,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_065_004",
+   "x": -99.37,
+   "z": -513.78,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_052_005",
+   "x": -118.65,
+   "z": -512.08,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_101_056_005",
+   "x": -113.1,
+   "z": -512.16,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_meadow_grass_101_059_005",
+   "x": -108.4,
+   "z": -512.46,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_061_005",
+   "x": -105.29,
+   "z": -512.36,
+   "ground_light": 0.242
+  },
+  {
+   "id": "prop_meadow_grass_101_066_005",
+   "x": -98.23,
+   "z": -512.22,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_101_067_005",
+   "x": -96.6,
+   "z": -512.63,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_101_053_006",
+   "x": -117.22,
+   "z": -511.42,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_101_054_006",
+   "x": -115.81,
+   "z": -510.61,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_057_006",
+   "x": -111.73,
+   "z": -510.93,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_101_058_006",
+   "x": -109.75,
+   "z": -510.78,
+   "ground_light": 0.289
+  },
+  {
+   "id": "prop_meadow_grass_101_060_006",
+   "x": -107.23,
+   "z": -511.42,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_062_006",
+   "x": -103.95,
+   "z": -510.58,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_101_064_006",
+   "x": -100.89,
+   "z": -511.22,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_101_067_006",
+   "x": -96.67,
+   "z": -511.03,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_101_068_006",
+   "x": -95.16,
+   "z": -510.65,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_069_006",
+   "x": -93.54,
+   "z": -511.25,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_101_056_007",
+   "x": -112.89,
+   "z": -509.17,
+   "ground_light": 0.305
+  },
+  {
+   "id": "prop_meadow_grass_101_058_007",
+   "x": -109.97,
+   "z": -509.24,
+   "ground_light": 0.293
+  },
+  {
+   "id": "prop_meadow_grass_101_060_007",
+   "x": -107.26,
+   "z": -509.48,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_101_061_007",
+   "x": -105.72,
+   "z": -509.85,
+   "ground_light": 0.302
+  },
+  {
+   "id": "prop_meadow_grass_101_063_007",
+   "x": -102.26,
+   "z": -509.34,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_101_065_007",
+   "x": -99.21,
+   "z": -509.78,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_067_007",
+   "x": -96.06,
+   "z": -509.21,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_070_007",
+   "x": -92.4,
+   "z": -509.12,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_101_059_008",
+   "x": -108.51,
+   "z": -508.16,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_101_061_008",
+   "x": -105.27,
+   "z": -507.62,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_063_008",
+   "x": -102.78,
+   "z": -507.7,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_064_008",
+   "x": -100.98,
+   "z": -507.63,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_101_066_008",
+   "x": -98.31,
+   "z": -508.26,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_068_008",
+   "x": -94.74,
+   "z": -507.71,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_101_071_008",
+   "x": -90.08,
+   "z": -507.62,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_101_073_008",
+   "x": -87.48,
+   "z": -507.58,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_059_009",
+   "x": -108.09,
+   "z": -506.41,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_101_062_009",
+   "x": -104.24,
+   "z": -506.46,
+   "ground_light": 0.248
+  },
+  {
+   "id": "prop_meadow_grass_101_065_009",
+   "x": -99.43,
+   "z": -506.63,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_101_066_009",
+   "x": -97.9,
+   "z": -506.66,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_101_067_009",
+   "x": -96.14,
+   "z": -506.9,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_101_069_009",
+   "x": -93.33,
+   "z": -506.13,
+   "ground_light": 0.252
+  },
+  {
+   "id": "prop_meadow_grass_101_070_009",
+   "x": -91.74,
+   "z": -506.38,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_072_009",
+   "x": -89.05,
+   "z": -506.36,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_101_074_009",
+   "x": -85.98,
+   "z": -506.13,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_060_010",
+   "x": -107.14,
+   "z": -505.08,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_061_010",
+   "x": -105.36,
+   "z": -505.26,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_062_010",
+   "x": -103.76,
+   "z": -504.59,
+   "ground_light": 0.289
+  },
+  {
+   "id": "prop_meadow_grass_101_064_010",
+   "x": -101.19,
+   "z": -505.05,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_101_065_010",
+   "x": -99.23,
+   "z": -504.95,
+   "ground_light": 0.244
+  },
+  {
+   "id": "prop_meadow_grass_101_066_010",
+   "x": -97.61,
+   "z": -504.84,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_068_010",
+   "x": -95.32,
+   "z": -504.78,
+   "ground_light": 0.303
+  },
+  {
+   "id": "prop_meadow_grass_101_071_010",
+   "x": -90.38,
+   "z": -504.72,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_101_074_010",
+   "x": -85.92,
+   "z": -504.62,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_075_010",
+   "x": -84.38,
+   "z": -505.14,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_064_011",
+   "x": -101.2,
+   "z": -503.31,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_101_065_011",
+   "x": -99.51,
+   "z": -503.39,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_066_011",
+   "x": -97.88,
+   "z": -503.05,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_101_069_011",
+   "x": -93.62,
+   "z": -503.36,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_101_070_011",
+   "x": -91.86,
+   "z": -503.63,
+   "ground_light": 0.251
+  },
+  {
+   "id": "prop_meadow_grass_101_072_011",
+   "x": -88.67,
+   "z": -503.35,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_076_011",
+   "x": -82.81,
+   "z": -503.78,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_065_012",
+   "x": -99.19,
+   "z": -501.74,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_101_067_012",
+   "x": -96.09,
+   "z": -502.26,
+   "ground_light": 0.255
+  },
+  {
+   "id": "prop_meadow_grass_101_068_012",
+   "x": -94.63,
+   "z": -501.57,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_101_071_012",
+   "x": -90.15,
+   "z": -502.28,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_101_072_012",
+   "x": -88.55,
+   "z": -501.58,
+   "ground_light": 0.252
+  },
+  {
+   "id": "prop_meadow_grass_101_074_012",
+   "x": -86.03,
+   "z": -501.64,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_076_012",
+   "x": -83.28,
+   "z": -501.69,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_077_012",
+   "x": -81.53,
+   "z": -501.94,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_101_078_012",
+   "x": -79.73,
+   "z": -501.61,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_101_066_013",
+   "x": -97.87,
+   "z": -500.66,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_101_069_013",
+   "x": -93.32,
+   "z": -500.21,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_070_013",
+   "x": -91.67,
+   "z": -500.54,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_101_074_013",
+   "x": -86.43,
+   "z": -500.1,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_075_013",
+   "x": -84.39,
+   "z": -500.61,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_079_013",
+   "x": -78.56,
+   "z": -500.5,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_101_069_014",
+   "x": -93.53,
+   "z": -498.69,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_070_014",
+   "x": -91.89,
+   "z": -498.75,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_071_014",
+   "x": -90.17,
+   "z": -498.91,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_101_072_014",
+   "x": -88.68,
+   "z": -499.14,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_075_014",
+   "x": -84.77,
+   "z": -498.55,
+   "ground_light": 0.299
+  },
+  {
+   "id": "prop_meadow_grass_101_076_014",
+   "x": -83.21,
+   "z": -498.61,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_078_014",
+   "x": -79.57,
+   "z": -498.83,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_101_080_014",
+   "x": -77.31,
+   "z": -499.27,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_101_072_015",
+   "x": -88.75,
+   "z": -497.38,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_meadow_grass_101_073_015",
+   "x": -87.1,
+   "z": -497.72,
+   "ground_light": 0.294
+  },
+  {
+   "id": "prop_meadow_grass_101_075_015",
+   "x": -84.16,
+   "z": -497.07,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_101_077_015",
+   "x": -81.3,
+   "z": -497.6,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_101_080_015",
+   "x": -76.63,
+   "z": -497.16,
+   "ground_light": 0.299
+  },
+  {
+   "id": "prop_meadow_grass_101_071_016",
+   "x": -90.15,
+   "z": -495.94,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_101_073_016",
+   "x": -87.79,
+   "z": -495.73,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_074_016",
+   "x": -85.94,
+   "z": -495.91,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_meadow_grass_101_076_016",
+   "x": -83.15,
+   "z": -495.92,
+   "ground_light": 0.248
+  },
+  {
+   "id": "prop_meadow_grass_101_077_016",
+   "x": -81.06,
+   "z": -495.92,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_079_016",
+   "x": -78.9,
+   "z": -495.6,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_101_082_016",
+   "x": -74.28,
+   "z": -495.95,
+   "ground_light": 0.248
+  },
+  {
+   "id": "prop_meadow_grass_101_075_017",
+   "x": -84.12,
+   "z": -494.37,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_079_017",
+   "x": -78.4,
+   "z": -494.13,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_101_081_017",
+   "x": -75.17,
+   "z": -494.32,
+   "ground_light": 0.258
+  },
+  {
+   "id": "prop_meadow_grass_101_082_017",
+   "x": -73.64,
+   "z": -494.25,
+   "ground_light": 0.294
+  },
+  {
+   "id": "prop_meadow_grass_101_073_018",
+   "x": -87.49,
+   "z": -493.42,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_101_076_018",
+   "x": -83.36,
+   "z": -492.8,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_077_018",
+   "x": -81.85,
+   "z": -493.41,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_meadow_grass_101_078_018",
+   "x": -80.01,
+   "z": -493.07,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_101_080_018",
+   "x": -77.36,
+   "z": -492.7,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_101_081_018",
+   "x": -75.5,
+   "z": -492.64,
+   "ground_light": 0.255
+  },
+  {
+   "id": "prop_meadow_grass_101_083_018",
+   "x": -72.63,
+   "z": -493.03,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_077_019",
+   "x": -81.32,
+   "z": -491.33,
+   "ground_light": 0.255
+  },
+  {
+   "id": "prop_meadow_grass_101_079_019",
+   "x": -78.45,
+   "z": -491.62,
+   "ground_light": 0.256
+  },
+  {
+   "id": "prop_meadow_grass_101_082_019",
+   "x": -74.1,
+   "z": -491.15,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_084_019",
+   "x": -71.09,
+   "z": -491.42,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_076_020",
+   "x": -83.41,
+   "z": -489.94,
+   "ground_light": 0.308
+  },
+  {
+   "id": "prop_meadow_grass_101_078_020",
+   "x": -79.55,
+   "z": -490.33,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_meadow_grass_101_080_020",
+   "x": -77.12,
+   "z": -490.39,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_101_081_020",
+   "x": -75.2,
+   "z": -490.1,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_083_020",
+   "x": -72.77,
+   "z": -490.0,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_101_084_020",
+   "x": -70.93,
+   "z": -489.58,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_101_078_021",
+   "x": -80.03,
+   "z": -488.66,
+   "ground_light": 0.315
+  },
+  {
+   "id": "prop_meadow_grass_101_079_021",
+   "x": -78.5,
+   "z": -488.67,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_101_082_021",
+   "x": -73.76,
+   "z": -488.76,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_101_083_021",
+   "x": -72.13,
+   "z": -488.64,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_101_085_021",
+   "x": -69.25,
+   "z": -488.86,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_079_022",
+   "x": -78.14,
+   "z": -487.0,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_101_084_022",
+   "x": -71.02,
+   "z": -486.65,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_086_022",
+   "x": -67.87,
+   "z": -486.93,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_084_023",
+   "x": -71.22,
+   "z": -485.15,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_085_023",
+   "x": -69.07,
+   "z": -485.3,
+   "ground_light": 0.297
+  },
+  {
+   "id": "prop_meadow_grass_101_080_024",
+   "x": -76.6,
+   "z": -483.65,
+   "ground_light": 0.297
+  },
+  {
+   "id": "prop_meadow_grass_101_082_024",
+   "x": -73.8,
+   "z": -483.75,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_101_086_024",
+   "x": -68.42,
+   "z": -483.62,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_101_087_024",
+   "x": -66.75,
+   "z": -483.88,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_084_025",
+   "x": -70.8,
+   "z": -482.67,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_087_025",
+   "x": -66.61,
+   "z": -482.18,
+   "ground_light": 0.252
+  },
+  {
+   "id": "prop_meadow_grass_101_083_026",
+   "x": -72.43,
+   "z": -480.84,
+   "ground_light": 0.248
+  },
+  {
+   "id": "prop_meadow_grass_101_085_026",
+   "x": -69.37,
+   "z": -481.02,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_101_086_026",
+   "x": -67.56,
+   "z": -480.92,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_101_088_026",
+   "x": -65.12,
+   "z": -481.4,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_084_027",
+   "x": -71.26,
+   "z": -479.37,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_101_086_027",
+   "x": -67.58,
+   "z": -479.18,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_101_088_027",
+   "x": -65.38,
+   "z": -479.7,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_085_028",
+   "x": -69.89,
+   "z": -477.61,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_086_028",
+   "x": -67.98,
+   "z": -477.59,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_101_087_028",
+   "x": -66.34,
+   "z": -477.6,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_088_028",
+   "x": -64.68,
+   "z": -477.76,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_101_084_029",
+   "x": -71.02,
+   "z": -476.07,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_101_089_029",
+   "x": -63.68,
+   "z": -476.29,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_101_085_030",
+   "x": -69.28,
+   "z": -475.11,
+   "ground_light": 0.259
+  },
+  {
+   "id": "prop_meadow_grass_101_086_030",
+   "x": -67.66,
+   "z": -474.98,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_101_088_030",
+   "x": -65.39,
+   "z": -475.37,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_101_090_030",
+   "x": -61.99,
+   "z": -474.62,
+   "ground_light": 0.259
+  },
+  {
+   "id": "prop_meadow_grass_101_087_031",
+   "x": -66.15,
+   "z": -473.82,
+   "ground_light": 0.307
+  },
+  {
+   "id": "prop_meadow_grass_101_089_031",
+   "x": -63.66,
+   "z": -473.42,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_101_088_032",
+   "x": -64.71,
+   "z": -471.96,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_101_090_032",
+   "x": -62.44,
+   "z": -471.76,
+   "ground_light": 0.255
+  },
+  {
+   "id": "prop_meadow_grass_101_002_033",
+   "x": -193.83,
+   "z": -470.5,
+   "ground_light": 0.439
+  },
+  {
+   "id": "prop_meadow_grass_101_003_033",
+   "x": -192.29,
+   "z": -470.53,
+   "ground_light": 0.456
+  },
+  {
+   "id": "prop_meadow_grass_101_005_033",
+   "x": -189.69,
+   "z": -470.49,
+   "ground_light": 0.557
+  },
+  {
+   "id": "prop_meadow_grass_101_006_033",
+   "x": -187.56,
+   "z": -470.69,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_101_079_045",
+   "x": -78.46,
+   "z": -452.77,
+   "ground_light": 0.318
+  },
+  {
+   "id": "prop_meadow_grass_102_042_001",
+   "x": 67.23,
+   "z": -378.23,
+   "ground_light": 0.595
+  },
+  {
+   "id": "prop_meadow_grass_102_054_002",
+   "x": 84.99,
+   "z": -377.19,
+   "ground_light": 0.556
+  },
+  {
+   "id": "prop_meadow_grass_102_049_003",
+   "x": 77.74,
+   "z": -375.12,
+   "ground_light": 0.579
+  },
+  {
+   "id": "prop_meadow_grass_102_015_011",
+   "x": 26.64,
+   "z": -363.57,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_102_014_012",
+   "x": 24.87,
+   "z": -362.43,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_015_012",
+   "x": 26.6,
+   "z": -361.56,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_102_013_013",
+   "x": 23.66,
+   "z": -360.7,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_102_011_014",
+   "x": 20.92,
+   "z": -358.67,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_102_014_014",
+   "x": 24.67,
+   "z": -359.28,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_102_015_014",
+   "x": 26.85,
+   "z": -359.35,
+   "ground_light": 0.302
+  },
+  {
+   "id": "prop_meadow_grass_102_011_015",
+   "x": 20.35,
+   "z": -357.27,
+   "ground_light": 0.293
+  },
+  {
+   "id": "prop_meadow_grass_102_012_015",
+   "x": 22.35,
+   "z": -357.43,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_014_015",
+   "x": 25.1,
+   "z": -357.35,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_102_010_016",
+   "x": 18.81,
+   "z": -355.69,
+   "ground_light": 0.298
+  },
+  {
+   "id": "prop_meadow_grass_102_013_016",
+   "x": 23.32,
+   "z": -355.83,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_014_016",
+   "x": 24.96,
+   "z": -355.57,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_011_017",
+   "x": 20.23,
+   "z": -354.42,
+   "ground_light": 0.318
+  },
+  {
+   "id": "prop_meadow_grass_102_015_017",
+   "x": 26.48,
+   "z": -354.88,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_016_017",
+   "x": 28.39,
+   "z": -354.3,
+   "ground_light": 0.243
+  },
+  {
+   "id": "prop_meadow_grass_102_019_017",
+   "x": 32.06,
+   "z": -354.59,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_010_018",
+   "x": 19.26,
+   "z": -353.16,
+   "ground_light": 0.307
+  },
+  {
+   "id": "prop_meadow_grass_102_012_018",
+   "x": 21.69,
+   "z": -353.04,
+   "ground_light": 0.299
+  },
+  {
+   "id": "prop_meadow_grass_102_013_018",
+   "x": 23.56,
+   "z": -352.7,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_102_014_018",
+   "x": 25.45,
+   "z": -352.83,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_016_018",
+   "x": 27.74,
+   "z": -352.66,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_018_018",
+   "x": 30.72,
+   "z": -353.41,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_009_019",
+   "x": 17.54,
+   "z": -351.14,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_102_010_019",
+   "x": 19.17,
+   "z": -351.23,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_014_019",
+   "x": 25.25,
+   "z": -351.31,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_017_019",
+   "x": 29.93,
+   "z": -351.18,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_102_011_020",
+   "x": 20.72,
+   "z": -350.22,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_102_012_020",
+   "x": 22.29,
+   "z": -349.73,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_102_014_020",
+   "x": 25.03,
+   "z": -349.63,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_016_020",
+   "x": 28.01,
+   "z": -350.2,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_018_020",
+   "x": 30.95,
+   "z": -349.84,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_102_007_021",
+   "x": 14.27,
+   "z": -348.13,
+   "ground_light": 0.31
+  },
+  {
+   "id": "prop_meadow_grass_102_008_021",
+   "x": 16.21,
+   "z": -348.74,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_010_021",
+   "x": 18.73,
+   "z": -348.82,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_102_013_021",
+   "x": 23.36,
+   "z": -348.43,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_102_015_021",
+   "x": 26.67,
+   "z": -348.16,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_102_017_021",
+   "x": 29.15,
+   "z": -348.24,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_102_018_021",
+   "x": 31.34,
+   "z": -348.26,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_006_022",
+   "x": 12.58,
+   "z": -346.7,
+   "ground_light": 0.256
+  },
+  {
+   "id": "prop_meadow_grass_102_008_022",
+   "x": 16.11,
+   "z": -346.7,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_102_009_022",
+   "x": 17.66,
+   "z": -347.42,
+   "ground_light": 0.318
+  },
+  {
+   "id": "prop_meadow_grass_102_010_022",
+   "x": 19.33,
+   "z": -347.22,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_011_022",
+   "x": 20.88,
+   "z": -346.86,
+   "ground_light": 0.299
+  },
+  {
+   "id": "prop_meadow_grass_102_014_022",
+   "x": 25.14,
+   "z": -346.71,
+   "ground_light": 0.303
+  },
+  {
+   "id": "prop_meadow_grass_102_019_022",
+   "x": 32.45,
+   "z": -346.85,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_102_007_023",
+   "x": 14.51,
+   "z": -345.12,
+   "ground_light": 0.243
+  },
+  {
+   "id": "prop_meadow_grass_102_008_023",
+   "x": 16.35,
+   "z": -345.05,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_102_010_023",
+   "x": 18.98,
+   "z": -345.36,
+   "ground_light": 0.303
+  },
+  {
+   "id": "prop_meadow_grass_102_012_023",
+   "x": 22.28,
+   "z": -345.62,
+   "ground_light": 0.303
+  },
+  {
+   "id": "prop_meadow_grass_102_014_023",
+   "x": 24.85,
+   "z": -345.16,
+   "ground_light": 0.307
+  },
+  {
+   "id": "prop_meadow_grass_102_015_023",
+   "x": 26.69,
+   "z": -345.6,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_016_023",
+   "x": 28.38,
+   "z": -345.24,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_102_018_023",
+   "x": 30.58,
+   "z": -345.92,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_020_023",
+   "x": 34.17,
+   "z": -345.38,
+   "ground_light": 0.234
+  },
+  {
+   "id": "prop_meadow_grass_102_006_024",
+   "x": 12.73,
+   "z": -343.82,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_102_011_024",
+   "x": 20.28,
+   "z": -343.76,
+   "ground_light": 0.254
+  },
+  {
+   "id": "prop_meadow_grass_102_012_024",
+   "x": 21.95,
+   "z": -343.63,
+   "ground_light": 0.297
+  },
+  {
+   "id": "prop_meadow_grass_102_015_024",
+   "x": 26.22,
+   "z": -343.98,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_102_016_024",
+   "x": 27.83,
+   "z": -343.55,
+   "ground_light": 0.299
+  },
+  {
+   "id": "prop_meadow_grass_102_017_024",
+   "x": 29.58,
+   "z": -344.2,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_102_019_024",
+   "x": 32.51,
+   "z": -343.7,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_021_024",
+   "x": 35.18,
+   "z": -343.94,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_081_024",
+   "x": 125.23,
+   "z": -344.08,
+   "ground_light": 0.536
+  },
+  {
+   "id": "prop_meadow_grass_102_007_025",
+   "x": 14.51,
+   "z": -342.46,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_009_025",
+   "x": 17.61,
+   "z": -342.53,
+   "ground_light": 0.251
+  },
+  {
+   "id": "prop_meadow_grass_102_013_025",
+   "x": 23.3,
+   "z": -342.25,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_014_025",
+   "x": 25.12,
+   "z": -342.71,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_102_017_025",
+   "x": 29.91,
+   "z": -342.49,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_meadow_grass_102_019_025",
+   "x": 32.35,
+   "z": -342.15,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_102_022_025",
+   "x": 36.94,
+   "z": -342.83,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_010_026",
+   "x": 18.72,
+   "z": -340.97,
+   "ground_light": 0.247
+  },
+  {
+   "id": "prop_meadow_grass_102_011_026",
+   "x": 20.3,
+   "z": -340.77,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_102_014_026",
+   "x": 25.12,
+   "z": -341.1,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_015_026",
+   "x": 26.76,
+   "z": -340.93,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_102_017_026",
+   "x": 29.95,
+   "z": -340.98,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_102_019_026",
+   "x": 32.95,
+   "z": -340.56,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_021_026",
+   "x": 35.38,
+   "z": -340.63,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_102_023_026",
+   "x": 38.86,
+   "z": -341.0,
+   "ground_light": 0.251
+  },
+  {
+   "id": "prop_meadow_grass_102_009_027",
+   "x": 17.94,
+   "z": -339.28,
+   "ground_light": 0.247
+  },
+  {
+   "id": "prop_meadow_grass_102_012_027",
+   "x": 21.75,
+   "z": -339.45,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_013_027",
+   "x": 23.64,
+   "z": -339.3,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_016_027",
+   "x": 28.32,
+   "z": -339.46,
+   "ground_light": 0.31
+  },
+  {
+   "id": "prop_meadow_grass_102_020_027",
+   "x": 34.01,
+   "z": -339.15,
+   "ground_light": 0.306
+  },
+  {
+   "id": "prop_meadow_grass_102_022_027",
+   "x": 36.81,
+   "z": -339.24,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_023_027",
+   "x": 38.66,
+   "z": -339.17,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_024_027",
+   "x": 40.07,
+   "z": -339.71,
+   "ground_light": 0.251
+  },
+  {
+   "id": "prop_meadow_grass_102_010_028",
+   "x": 19.28,
+   "z": -338.16,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_011_028",
+   "x": 20.79,
+   "z": -338.28,
+   "ground_light": 0.247
+  },
+  {
+   "id": "prop_meadow_grass_102_014_028",
+   "x": 25.19,
+   "z": -338.45,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_102_015_028",
+   "x": 26.59,
+   "z": -337.73,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_017_028",
+   "x": 29.42,
+   "z": -338.06,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_102_021_028",
+   "x": 35.47,
+   "z": -337.78,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_023_028",
+   "x": 38.68,
+   "z": -337.55,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_009_029",
+   "x": 17.73,
+   "z": -336.59,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_011_029",
+   "x": 20.35,
+   "z": -336.71,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_013_029",
+   "x": 23.47,
+   "z": -336.69,
+   "ground_light": 0.246
+  },
+  {
+   "id": "prop_meadow_grass_102_014_029",
+   "x": 25.02,
+   "z": -336.63,
+   "ground_light": 0.293
+  },
+  {
+   "id": "prop_meadow_grass_102_016_029",
+   "x": 28.06,
+   "z": -336.23,
+   "ground_light": 0.294
+  },
+  {
+   "id": "prop_meadow_grass_102_019_029",
+   "x": 32.43,
+   "z": -336.91,
+   "ground_light": 0.294
+  },
+  {
+   "id": "prop_meadow_grass_102_020_029",
+   "x": 33.78,
+   "z": -336.09,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_021_029",
+   "x": 35.3,
+   "z": -336.23,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_102_022_029",
+   "x": 37.35,
+   "z": -336.76,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_011_030",
+   "x": 20.86,
+   "z": -335.02,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_014_030",
+   "x": 25.44,
+   "z": -334.93,
+   "ground_light": 0.235
+  },
+  {
+   "id": "prop_meadow_grass_102_021_030",
+   "x": 35.1,
+   "z": -334.64,
+   "ground_light": 0.294
+  },
+  {
+   "id": "prop_meadow_grass_102_022_030",
+   "x": 37.3,
+   "z": -334.99,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_011_031",
+   "x": 20.76,
+   "z": -333.13,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_102_012_031",
+   "x": 22.31,
+   "z": -333.4,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_102_015_031",
+   "x": 26.23,
+   "z": -333.14,
+   "ground_light": 0.256
+  },
+  {
+   "id": "prop_meadow_grass_102_019_031",
+   "x": 32.46,
+   "z": -333.24,
+   "ground_light": 0.434
+  },
+  {
+   "id": "prop_meadow_grass_102_021_031",
+   "x": 35.53,
+   "z": -333.18,
+   "ground_light": 0.341
+  },
+  {
+   "id": "prop_meadow_grass_102_022_031",
+   "x": 37.42,
+   "z": -333.19,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_026_031",
+   "x": 42.67,
+   "z": -333.72,
+   "ground_light": 0.258
+  },
+  {
+   "id": "prop_meadow_grass_102_014_032",
+   "x": 25.07,
+   "z": -331.84,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_020_032",
+   "x": 34.33,
+   "z": -332.24,
+   "ground_light": 0.383
+  },
+  {
+   "id": "prop_meadow_grass_102_022_032",
+   "x": 37.1,
+   "z": -331.6,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_027_032",
+   "x": 44.82,
+   "z": -332.18,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_102_013_033",
+   "x": 23.78,
+   "z": -330.55,
+   "ground_light": 0.306
+  },
+  {
+   "id": "prop_meadow_grass_102_015_033",
+   "x": 26.74,
+   "z": -330.37,
+   "ground_light": 0.278
+  },
+  {
+   "id": "prop_meadow_grass_102_020_033",
+   "x": 34.23,
+   "z": -330.46,
+   "ground_light": 0.308
+  },
+  {
+   "id": "prop_meadow_grass_102_023_033",
+   "x": 38.35,
+   "z": -330.13,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_024_033",
+   "x": 40.06,
+   "z": -330.7,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_102_027_033",
+   "x": 44.92,
+   "z": -330.64,
+   "ground_light": 0.272
+  },
+  {
+   "id": "prop_meadow_grass_102_014_034",
+   "x": 24.67,
+   "z": -328.58,
+   "ground_light": 0.294
+  },
+  {
+   "id": "prop_meadow_grass_102_015_034",
+   "x": 26.86,
+   "z": -328.87,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_102_019_034",
+   "x": 32.55,
+   "z": -328.72,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_102_021_034",
+   "x": 35.11,
+   "z": -328.59,
+   "ground_light": 0.302
+  },
+  {
+   "id": "prop_meadow_grass_102_022_034",
+   "x": 36.95,
+   "z": -328.99,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_024_034",
+   "x": 40.0,
+   "z": -328.87,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_102_028_034",
+   "x": 46.26,
+   "z": -328.61,
+   "ground_light": 0.265
+  },
+  {
+   "id": "prop_meadow_grass_102_016_035",
+   "x": 27.7,
+   "z": -327.2,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_021_035",
+   "x": 35.19,
+   "z": -327.1,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_102_022_035",
+   "x": 37.08,
+   "z": -327.34,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_025_035",
+   "x": 41.88,
+   "z": -327.45,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_027_035",
+   "x": 44.93,
+   "z": -327.43,
+   "ground_light": 0.259
+  },
+  {
+   "id": "prop_meadow_grass_102_029_035",
+   "x": 47.25,
+   "z": -327.12,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_017_036",
+   "x": 29.63,
+   "z": -326.0,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_019_036",
+   "x": 32.85,
+   "z": -326.05,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_023_036",
+   "x": 38.17,
+   "z": -326.31,
+   "ground_light": 0.324
+  },
+  {
+   "id": "prop_meadow_grass_102_024_036",
+   "x": 39.75,
+   "z": -325.97,
+   "ground_light": 0.297
+  },
+  {
+   "id": "prop_meadow_grass_102_026_036",
+   "x": 42.58,
+   "z": -326.02,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_028_036",
+   "x": 45.79,
+   "z": -325.74,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_018_037",
+   "x": 30.6,
+   "z": -324.32,
+   "ground_light": 0.255
+  },
+  {
+   "id": "prop_meadow_grass_102_020_037",
+   "x": 33.59,
+   "z": -324.26,
+   "ground_light": 0.349
+  },
+  {
+   "id": "prop_meadow_grass_102_021_037",
+   "x": 35.81,
+   "z": -324.62,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_102_023_037",
+   "x": 38.05,
+   "z": -324.76,
+   "ground_light": 0.258
+  },
+  {
+   "id": "prop_meadow_grass_102_025_037",
+   "x": 41.54,
+   "z": -324.72,
+   "ground_light": 0.327
+  },
+  {
+   "id": "prop_meadow_grass_102_029_037",
+   "x": 47.15,
+   "z": -324.48,
+   "ground_light": 0.235
+  },
+  {
+   "id": "prop_meadow_grass_102_031_037",
+   "x": 50.23,
+   "z": -324.19,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_102_017_038",
+   "x": 29.77,
+   "z": -322.63,
+   "ground_light": 0.289
+  },
+  {
+   "id": "prop_meadow_grass_102_020_038",
+   "x": 33.85,
+   "z": -322.63,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_022_038",
+   "x": 37.23,
+   "z": -323.1,
+   "ground_light": 0.261
+  },
+  {
+   "id": "prop_meadow_grass_102_023_038",
+   "x": 38.89,
+   "z": -323.2,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_025_038",
+   "x": 41.75,
+   "z": -322.81,
+   "ground_light": 0.301
+  },
+  {
+   "id": "prop_meadow_grass_102_027_038",
+   "x": 44.55,
+   "z": -322.83,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_102_029_038",
+   "x": 47.76,
+   "z": -322.89,
+   "ground_light": 0.235
+  },
+  {
+   "id": "prop_meadow_grass_102_083_038",
+   "x": 128.72,
+   "z": -323.2,
+   "ground_light": 0.559
+  },
+  {
+   "id": "prop_meadow_grass_102_021_039",
+   "x": 35.94,
+   "z": -321.64,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_024_039",
+   "x": 39.85,
+   "z": -321.42,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_102_028_039",
+   "x": 45.81,
+   "z": -321.3,
+   "ground_light": 0.237
+  },
+  {
+   "id": "prop_meadow_grass_102_020_040",
+   "x": 33.77,
+   "z": -320.07,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_022_040",
+   "x": 37.34,
+   "z": -320.15,
+   "ground_light": 0.285
+  },
+  {
+   "id": "prop_meadow_grass_102_025_040",
+   "x": 41.32,
+   "z": -320.31,
+   "ground_light": 0.306
+  },
+  {
+   "id": "prop_meadow_grass_102_027_040",
+   "x": 44.54,
+   "z": -319.89,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_102_029_040",
+   "x": 47.63,
+   "z": -319.71,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_meadow_grass_102_024_041",
+   "x": 39.61,
+   "z": -318.62,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_026_041",
+   "x": 43.4,
+   "z": -318.21,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_102_028_041",
+   "x": 45.74,
+   "z": -318.86,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_031_041",
+   "x": 50.56,
+   "z": -318.2,
+   "ground_light": 0.243
+  },
+  {
+   "id": "prop_meadow_grass_102_024_042",
+   "x": 39.7,
+   "z": -316.8,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_025_042",
+   "x": 41.49,
+   "z": -316.72,
+   "ground_light": 0.284
+  },
+  {
+   "id": "prop_meadow_grass_102_030_042",
+   "x": 49.43,
+   "z": -317.07,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_032_042",
+   "x": 52.28,
+   "z": -316.73,
+   "ground_light": 0.261
+  },
+  {
+   "id": "prop_meadow_grass_102_035_042",
+   "x": 56.16,
+   "z": -316.63,
+   "ground_light": 0.28
+  },
+  {
+   "id": "prop_meadow_grass_102_025_043",
+   "x": 41.41,
+   "z": -315.12,
+   "ground_light": 0.288
+  },
+  {
+   "id": "prop_meadow_grass_102_026_043",
+   "x": 43.39,
+   "z": -315.82,
+   "ground_light": 0.289
+  },
+  {
+   "id": "prop_meadow_grass_102_031_043",
+   "x": 50.18,
+   "z": -315.59,
+   "ground_light": 0.292
+  },
+  {
+   "id": "prop_meadow_grass_102_032_043",
+   "x": 51.82,
+   "z": -315.09,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_035_043",
+   "x": 56.75,
+   "z": -315.16,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_038_043",
+   "x": 60.99,
+   "z": -315.36,
+   "ground_light": 0.267
+  },
+  {
+   "id": "prop_meadow_grass_102_039_043",
+   "x": 62.49,
+   "z": -315.55,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_102_026_044",
+   "x": 43.29,
+   "z": -313.98,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_031_044",
+   "x": 50.88,
+   "z": -313.64,
+   "ground_light": 0.261
+  },
+  {
+   "id": "prop_meadow_grass_102_033_044",
+   "x": 53.18,
+   "z": -314.44,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_034_044",
+   "x": 55.17,
+   "z": -314.03,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_102_040_044",
+   "x": 63.71,
+   "z": -314.21,
+   "ground_light": 0.271
+  },
+  {
+   "id": "prop_meadow_grass_102_025_045",
+   "x": 41.69,
+   "z": -312.09,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_102_027_045",
+   "x": 44.83,
+   "z": -312.1,
+   "ground_light": 0.294
+  },
+  {
+   "id": "prop_meadow_grass_102_030_045",
+   "x": 49.15,
+   "z": -312.57,
+   "ground_light": 0.26
+  },
+  {
+   "id": "prop_meadow_grass_102_032_045",
+   "x": 52.45,
+   "z": -312.39,
+   "ground_light": 0.25
+  },
+  {
+   "id": "prop_meadow_grass_102_034_045",
+   "x": 54.6,
+   "z": -312.32,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_035_045",
+   "x": 56.58,
+   "z": -312.58,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_037_045",
+   "x": 59.23,
+   "z": -312.1,
+   "ground_light": 0.311
+  },
+  {
+   "id": "prop_meadow_grass_102_038_045",
+   "x": 61.31,
+   "z": -312.08,
+   "ground_light": 0.293
+  },
+  {
+   "id": "prop_meadow_grass_102_040_045",
+   "x": 64.26,
+   "z": -312.13,
+   "ground_light": 0.251
+  },
+  {
+   "id": "prop_meadow_grass_102_034_046",
+   "x": 55.27,
+   "z": -310.92,
+   "ground_light": 0.277
+  },
+  {
+   "id": "prop_meadow_grass_102_039_046",
+   "x": 62.92,
+   "z": -311.15,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_034_047",
+   "x": 54.81,
+   "z": -309.22,
+   "ground_light": 0.298
+  },
+  {
+   "id": "prop_meadow_grass_102_036_047",
+   "x": 57.91,
+   "z": -309.42,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_037_047",
+   "x": 59.68,
+   "z": -309.07,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_039_047",
+   "x": 62.77,
+   "z": -309.44,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_meadow_grass_102_035_048",
+   "x": 56.59,
+   "z": -307.71,
+   "ground_light": 0.286
+  },
+  {
+   "id": "prop_meadow_grass_102_038_048",
+   "x": 60.85,
+   "z": -307.74,
+   "ground_light": 0.273
+  },
+  {
+   "id": "prop_meadow_grass_102_029_049",
+   "x": 47.59,
+   "z": -306.93,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_102_036_049",
+   "x": 57.91,
+   "z": -306.77,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_037_049",
+   "x": 59.79,
+   "z": -306.34,
+   "ground_light": 0.301
+  },
+  {
+   "id": "prop_meadow_grass_102_039_049",
+   "x": 62.67,
+   "z": -306.69,
+   "ground_light": 0.281
+  },
+  {
+   "id": "prop_meadow_grass_102_036_050",
+   "x": 58.37,
+   "z": -304.87,
+   "ground_light": 0.276
+  },
+  {
+   "id": "prop_meadow_grass_102_038_050",
+   "x": 61.08,
+   "z": -305.26,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_039_050",
+   "x": 62.77,
+   "z": -304.58,
+   "ground_light": 0.248
+  },
+  {
+   "id": "prop_meadow_grass_102_032_051",
+   "x": 51.61,
+   "z": -303.43,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_102_033_051",
+   "x": 53.37,
+   "z": -303.11,
+   "ground_light": 0.268
+  },
+  {
+   "id": "prop_meadow_grass_102_037_051",
+   "x": 59.46,
+   "z": -303.42,
+   "ground_light": 0.306
+  },
+  {
+   "id": "prop_meadow_grass_102_038_051",
+   "x": 61.28,
+   "z": -303.16,
+   "ground_light": 0.264
+  },
+  {
+   "id": "prop_meadow_grass_102_040_051",
+   "x": 64.06,
+   "z": -303.48,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_034_052",
+   "x": 55.03,
+   "z": -302.22,
+   "ground_light": 0.29
+  },
+  {
+   "id": "prop_meadow_grass_102_040_052",
+   "x": 63.9,
+   "z": -301.62,
+   "ground_light": 0.263
+  },
+  {
+   "id": "prop_meadow_grass_102_076_052",
+   "x": 117.7,
+   "z": -302.05,
+   "ground_light": 0.229
+  },
+  {
+   "id": "prop_meadow_grass_102_032_053",
+   "x": 52.15,
+   "z": -300.76,
+   "ground_light": 0.282
+  },
+  {
+   "id": "prop_meadow_grass_102_034_053",
+   "x": 54.88,
+   "z": -300.27,
+   "ground_light": 0.275
+  },
+  {
+   "id": "prop_meadow_grass_102_044_053",
+   "x": 69.82,
+   "z": -300.36,
+   "ground_light": 0.307
+  },
+  {
+   "id": "prop_corr_grass_22_0780_1",
+   "x": -398.99,
+   "z": -594.15,
+   "ground_light": 0.527
+  },
+  {
+   "id": "prop_corr_grass_22_0788_1",
+   "x": -397.09,
+   "z": -578.05,
+   "ground_light": 0.48
+  },
+  {
+   "id": "prop_corr_grass_22_0794_1",
+   "x": -398.61,
+   "z": -566.22,
+   "ground_light": 0.476
+  },
+  {
+   "id": "prop_corr_grass_22_0824_1",
+   "x": -403.62,
+   "z": -506.56,
+   "ground_light": 0.501
+  },
+  {
+   "id": "prop_corr_grass_22_0828_1",
+   "x": -404.66,
+   "z": -498.46,
+   "ground_light": 0.51
+  },
+  {
+   "id": "prop_corr_grass_22_0830_1",
+   "x": -405.83,
+   "z": -494.17,
+   "ground_light": 0.542
+  },
+  {
+   "id": "prop_corr_grass_22_0834_1",
+   "x": -404.76,
+   "z": -486.2,
+   "ground_light": 0.583
+  },
+  {
+   "id": "prop_corr_grass_22_0892_1",
+   "x": -417.01,
+   "z": -371.25,
+   "ground_light": 0.566
+  },
+  {
+   "id": "prop_corr_grass_22_0896_1",
+   "x": -417.11,
+   "z": -362.94,
+   "ground_light": 0.512
+  },
+  {
+   "id": "prop_corr_grass_22_0898_-1",
+   "x": -408.2,
+   "z": -358.28,
+   "ground_light": 0.593
+  },
+  {
+   "id": "prop_corr_grass_22_0898_1",
+   "x": -416.22,
+   "z": -358.88,
+   "ground_light": 0.525
+  },
+  {
+   "id": "prop_corr_grass_22_0900_1",
+   "x": -417.51,
+   "z": -355.21,
+   "ground_light": 0.519
+  },
+  {
+   "id": "prop_corr_grass_22_0904_1",
+   "x": -417.93,
+   "z": -347.26,
+   "ground_light": 0.508
+  },
+  {
+   "id": "prop_corr_grass_22_0906_1",
+   "x": -418.01,
+   "z": -343.3,
+   "ground_light": 0.512
+  },
+  {
+   "id": "prop_corr_grass_22_0924_1",
+   "x": -421.28,
+   "z": -307.17,
+   "ground_light": 0.531
+  },
+  {
+   "id": "prop_corr_grass_22_0942_1",
+   "x": -423.68,
+   "z": -271.63,
+   "ground_light": 0.563
+  },
+  {
+   "id": "prop_corr_grass_24_0006_-1",
+   "x": -437.29,
+   "z": -234.83,
+   "ground_light": 0.557
+  },
+  {
+   "id": "prop_corr_grass_24_0060_1",
+   "x": -532.09,
+   "z": -195.89,
+   "ground_light": 0.511
+  },
+  {
+   "id": "prop_corr_grass_24_0062_1",
+   "x": -534.62,
+   "z": -195.35,
+   "ground_light": 0.539
+  },
+  {
+   "id": "prop_corr_grass_26_0012_-1",
+   "x": 88.57,
+   "z": -398.81,
+   "ground_light": 0.569
+  },
+  {
+   "id": "prop_corr_grass_26_0024_-1",
+   "x": 77.5,
+   "z": -421.49,
+   "ground_light": 0.559
+  },
+  {
+   "id": "prop_corr_grass_26_0038_1",
+   "x": 85.67,
+   "z": -450.46,
+   "ground_light": 0.565
+  },
+  {
+   "id": "prop_corr_grass_27_0000_-1",
+   "x": 62.49,
+   "z": -519.92,
+   "ground_light": 0.456
+  },
+  {
+   "id": "prop_corr_grass_27_0002_-1",
+   "x": 62.55,
+   "z": -515.52,
+   "ground_light": 0.535
+  },
+  {
+   "id": "prop_corr_grass_27_0014_-1",
+   "x": 55.43,
+   "z": -493.85,
+   "ground_light": 0.595
+  },
+  {
+   "id": "prop_corr_grass_27_0060_-1",
+   "x": 49.4,
+   "z": -404.43,
+   "ground_light": 0.527
+  },
+  {
+   "id": "prop_corr_grass_31_0016_-1",
+   "x": 79.05,
+   "z": -293.12,
+   "ground_light": 0.269
+  },
+  {
+   "id": "prop_corr_grass_31_0018_-1",
+   "x": 77.0,
+   "z": -289.05,
+   "ground_light": 0.295
+  },
+  {
+   "id": "prop_corr_grass_31_0020_-1",
+   "x": 74.9,
+   "z": -285.2,
+   "ground_light": 0.259
+  },
+  {
+   "id": "prop_corr_grass_36_0254_-1",
+   "x": 276.95,
+   "z": 547.83,
+   "ground_light": 0.575
+  },
+  {
+   "id": "prop_corr_grass_36_0256_-1",
+   "x": 276.82,
+   "z": 543.42,
+   "ground_light": 0.58
+  },
+  {
+   "id": "prop_corr_grass_36_0274_-1",
+   "x": 265.16,
+   "z": 510.35,
+   "ground_light": 0.591
+  },
+  {
+   "id": "prop_corr_grass_36_0298_-1",
+   "x": 241.35,
+   "z": 471.28,
+   "ground_light": 0.464
+  },
+  {
+   "id": "prop_corr_grass_36_0372_1",
+   "x": 135.0,
+   "z": 367.64,
+   "ground_light": 0.528
+  },
+  {
+   "id": "prop_corr_grass_36_0378_-1",
+   "x": 121.38,
+   "z": 364.8,
+   "ground_light": 0.587
+  },
+  {
+   "id": "prop_corr_grass_36_0412_-1",
+   "x": 70.45,
+   "z": 319.63,
+   "ground_light": 0.559
+  },
+  {
+   "id": "prop_corr_grass_36_0422_1",
+   "x": 60.53,
+   "z": 299.04,
+   "ground_light": 0.59
+  },
+  {
+   "id": "prop_corr_grass_36_0424_1",
+   "x": 58.92,
+   "z": 298.58,
+   "ground_light": 0.595
+  }
+ ]
+}

@@ -1,0 +1,6672 @@
+{
+ "quantitative_uncertainty": "unknown",
+ "raw_occurrence_records": [
+  {
+   "order_family": "Artiodactyla/Antilocapridae",
+   "raw_values": [
+    "antelope, pronghorn",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Antilocapra americana",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Bovidae",
+   "raw_values": [
+    "bison, buffalo",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Bison bison",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Bovidae",
+   "raw_values": [
+    "Mountain Goat, Rocky Mountain goat",
+    "Present",
+    "Uncommon",
+    "Non-native"
+   ],
+   "scientific_name": "Oreamnos americanus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Bovidae",
+   "raw_values": [
+    "Bighorn Sheep",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Ovis canadensis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Cervidae",
+   "raw_values": [
+    "Eurasian Elk, Moose",
+    "Present",
+    "Uncommon",
+    "Unknown"
+   ],
+   "scientific_name": "Alces alces",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Cervidae",
+   "raw_values": [
+    "Yellowstone moose",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Alces alces shirasi",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Cervidae",
+   "raw_values": [
+    "Rocky Mountain Elk",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Cervus elaphus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Cervidae",
+   "raw_values": [
+    "Mule Deer",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Odocoileus hemionus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Artiodactyla/Cervidae",
+   "raw_values": [
+    "White-tailed Deer",
+    "Present",
+    "Uncommon",
+    "Unknown"
+   ],
+   "scientific_name": "Odocoileus virginianus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Canidae",
+   "raw_values": [
+    "Coyote",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Canis latrans",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Canidae",
+   "raw_values": [
+    "Gray Wolf, Wolf",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Canis lupus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Canidae",
+   "raw_values": [
+    "Cross Fox, Red Fox, Silver Fox",
+    "Present",
+    "Common",
+    "Unknown"
+   ],
+   "scientific_name": "Vulpes vulpes",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Felidae",
+   "raw_values": [
+    "Canada lynx, Canadian Lynx, lynx",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Lynx canadensis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Felidae",
+   "raw_values": [
+    "Bobcat",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Lynx rufus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Felidae",
+   "raw_values": [
+    "Catamount, Cougar, Mountain Lion, Puma",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Puma concolor",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mephitidae",
+   "raw_values": [
+    "Striped Skunk",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Mephitis mephitis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "Wolverine",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Gulo gulo",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "River Otter",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Lutra canadensis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "Pine Marten",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Martes americana",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "ermine, short tailed weasel",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Mustela erminea",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "Long-tailed Weasel",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Mustela frenata",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "American Mink",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Mustela vison",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "American Badger, Badger",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Taxidea taxus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Procyonidae",
+   "raw_values": [
+    "common raccoon, Northern Raccoon, Raccoon",
+    "Present",
+    "Uncommon",
+    "Unknown"
+   ],
+   "scientific_name": "Procyon lotor",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Ursidae",
+   "raw_values": [
+    "American Black Bear, black bear",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Ursus americanus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Ursidae",
+   "raw_values": [
+    "Grizzly Bear",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Ursus arctos horribilis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "mule-eared bat, Pacific Townsend's big-eared bat, Townsend's Big-eared Bat, western big-eared bat, western long-eared bat, western lump-nosed bat",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Corynorhinus townsendii",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Big Brown Bat",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Eptesicus fuscus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Black Bat, Silver-black Bat, Silver-haired Bat",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Lasionycteris noctivagans",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Hoary Bat, Northern Hoary Bat",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Lasiurus cinereus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "California Myotis, Californian Myotis",
+    "Present",
+    "Unknown",
+    "Unknown"
+   ],
+   "scientific_name": "Myotis californicus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Long-eared Myotis, Western Long-eared Bat",
+    "Probably Present",
+    "Native"
+   ],
+   "scientific_name": "Myotis evotis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Little Brown Bat, Little Brown Myotis",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Myotis lucifugus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Fringed Myotis",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Myotis thysanodes",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Long-legged Myotis",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Myotis volans",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Yuma Myotis",
+    "Probably Present",
+    "Native"
+   ],
+   "scientific_name": "Myotis yumanensis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Eulipotyphla/Soricidae",
+   "raw_values": [
+    "Cinereus Shrew, common shrew, Masked Shrew",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Sorex cinereus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Eulipotyphla/Soricidae",
+   "raw_values": [
+    "dusky shrew",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Sorex monticolus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Eulipotyphla/Soricidae",
+   "raw_values": [
+    "Dwarf Shrew, Rocky Mountain dwarf shrew",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Sorex nanus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Eulipotyphla/Soricidae",
+   "raw_values": [
+    "American Water Shrew, northern water shrew, Water Shrew",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Sorex palustris",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Eulipotyphla/Soricidae",
+   "raw_values": [
+    "malheur shrew, Preble's Shrew",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Sorex preblei",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Lagomorpha/Leporidae",
+   "raw_values": [
+    "Snowshoe Hare, Varying Hare",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Lepus americanus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Lagomorpha/Leporidae",
+   "raw_values": [
+    "White-tailed Jack Rabbit, White-tailed Jackrabbit",
+    "Present",
+    "Unknown",
+    "Native"
+   ],
+   "scientific_name": "Lepus townsendii",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Lagomorpha/Leporidae",
+   "raw_values": [
+    "Audubon's Cottontail, Desert Cottontail",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Sylvilagus audubonii",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Lagomorpha/Leporidae",
+   "raw_values": [
+    "mountain cottontail",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Sylvilagus nuttallii",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Lagomorpha/Ochotonidae",
+   "raw_values": [
+    "American Pika, Cony, Hay-maker, Little Chief Hare, Mouse Hare, Piping Hare, Rock Rabbit, Southern Pika, Whistling Hare",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Ochotona princeps",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Castoridae",
+   "raw_values": [
+    "American Beaver, North American Beaver",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Castor canadensis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Southern Red-backed Vole",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Clethrionomys gapperi",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Coronation Island vole, Long-tailed Vole",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Microtus longicaudus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Montane Vole",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Microtus montanus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Meadow Vole",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Microtus pennsylvanicus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Richardson water vole",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Microtus richardsoni",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Bushy-tailed Woodrat",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Neotoma cinerea",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Common Muskrat, Muskbeaver, Muskrat",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Ondatra zibethicus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Deer Mouse, North American Deermouse",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Peromyscus maniculatus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Heather Vole, Western Heather Vole",
+    "Present",
+    "Rare",
+    "Native"
+   ],
+   "scientific_name": "Phenacomys intermedius",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Dipodidae",
+   "raw_values": [
+    "Western Jumping Mouse",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Zapus princeps",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Erethizontidae",
+   "raw_values": [
+    "common porcupine, porcupine",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Erethizon dorsatum",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Geomyidae",
+   "raw_values": [
+    "Northern Pocket Gopher",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Thomomys talpoides",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Muridae",
+   "raw_values": [
+    "House Mouse",
+    "Present",
+    "Unknown",
+    "Non-native"
+   ],
+   "scientific_name": "Mus musculus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Northern Flying Squirrel",
+    "Present",
+    "Uncommon",
+    "Native"
+   ],
+   "scientific_name": "Glaucomys sabrinus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Yellow-bellied Marmot",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Marmota flaviventris",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "yellow pine chipmunk",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Neotamias amoenus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Least chipmunk",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Neotamias minimus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Uinta chipmunk",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Neotamias umbrinus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Uinta Ground Squirrel",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Spermophilus armatus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Golden-mantled Ground Squirrel",
+    "Present",
+    "Common",
+    "Native"
+   ],
+   "scientific_name": "Spermophilus lateralis",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Red Squirrel",
+    "Present",
+    "Abundant",
+    "Native"
+   ],
+   "scientific_name": "Tamiasciurus hudsonicus",
+   "section": "main_list"
+  },
+  {
+   "order_family": "Carnivora/Mephitidae",
+   "raw_values": [
+    "Western Spotted Skunk",
+    "Unconfirmed",
+    "Unknown"
+   ],
+   "scientific_name": "Spilogale gracilis",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Carnivora/Mustelidae",
+   "raw_values": [
+    "Fisher",
+    "Unconfirmed",
+    "Unknown"
+   ],
+   "scientific_name": "Martes pennanti",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Pallid Bat",
+    "Unconfirmed",
+    "Native"
+   ],
+   "scientific_name": "Antrozous pallidus",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Pinto Bat, Spotted Bat",
+    "Unconfirmed",
+    "Native"
+   ],
+   "scientific_name": "Euderma maculatum",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Chiroptera/Vespertilionidae",
+   "raw_values": [
+    "Small-footed Myotis, western small-footed bat, Western Small-footed Myotis",
+    "Unconfirmed",
+    "Native"
+   ],
+   "scientific_name": "Myotis ciliolabrum",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Eulipotyphla/Soricidae",
+   "raw_values": [
+    "American Pygmy Shrew, Pygmy Shrew",
+    "Unconfirmed",
+    "Unknown"
+   ],
+   "scientific_name": "Sorex hoyi",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Rodentia/Cricetidae",
+   "raw_values": [
+    "Sagebrush Vole",
+    "Unconfirmed",
+    "Unknown"
+   ],
+   "scientific_name": "Lemmiscus curtatus",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Yellow-pine Chipmunk"
+   ],
+   "scientific_name": "Tamias amoenus",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Least Chipmunk"
+   ],
+   "scientific_name": "Tamias minimus",
+   "section": "in_review"
+  },
+  {
+   "order_family": "Rodentia/Sciuridae",
+   "raw_values": [
+    "Uinta Chipmunk"
+   ],
+   "scientific_name": "Tamias umbrinus",
+   "section": "in_review"
+  }
+ ],
+ "reconciliation": {
+  "alias_crosswalk_class": "authored_primary_record_crosswalk",
+  "alias_evidence": "matching specific epithet and common name in primary NPS occurrence records",
+  "chipmunk_aliases": {
+   "Tamias amoenus": "Neotamias amoenus",
+   "Tamias minimus": "Neotamias minimus",
+   "Tamias umbrinus": "Neotamias umbrinus"
+  },
+  "count_discrepancy": "headline67 differs from main inventory plus three bats confirmed on NPS bat page",
+  "subspecies_rule": "group the first two scientific-name tokens; retain the recorded subspecies"
+ },
+ "schema": "yellowstone.mammal_catalogue.v1",
+ "scientific_acceptance": "not_yet_accepted",
+ "source_counts": {
+  "canonical_species": 74,
+  "headline": 67,
+  "raw_occurrence_records": 78,
+  "supported_species": 70,
+  "unconfirmed_supplemental_species": 4
+ },
+ "sources": {
+  "bats_page": "https://www.nps.gov/yell/learn/nature/bats.htm",
+  "mammals_page": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+  "npspecies": {
+   "retrieved_utc": "2026-10-14",
+   "source_sha256": "4848b2090d4f8b3f216e1572e622201b011b599b1f801b117bea74e05418de58",
+   "source_url": "https://irma.nps.gov/NPSpecies/Reports/SpeciesList/Species%20Full%20List/YELL"
+  }
+ },
+ "species": [
+  {
+   "common_names": [
+    "Eurasian Elk",
+    "Moose",
+    "Yellowstone moose"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Cervidae",
+     "raw_values": [
+      "Eurasian Elk, Moose",
+      "Present",
+      "Uncommon",
+      "Unknown"
+     ],
+     "scientific_name": "Alces alces",
+     "section": "main_list"
+    },
+    {
+     "order_family": "Artiodactyla/Cervidae",
+     "raw_values": [
+      "Yellowstone moose",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Alces alces shirasi",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Cervidae",
+   "preferred_recorded_name": "Alces alces",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Alces alces",
+   "species_id": "alces_alces",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "browser",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 1e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "antelope",
+    "pronghorn"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Antilocapridae",
+     "raw_values": [
+      "antelope, pronghorn",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Antilocapra americana",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Antilocapridae",
+   "preferred_recorded_name": "Antilocapra americana",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Antilocapra americana",
+   "species_id": "antilocapra_americana",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "northern_range",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "dry_sagebrush",
+     "sage_steppe"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "browser",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 1e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Pallid Bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Pallid Bat",
+      "Unconfirmed",
+      "Native"
+     ],
+     "scientific_name": "Antrozous pallidus",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Antrozous pallidus",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Antrozous pallidus",
+   "species_id": "antrozous_pallidus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "bison",
+    "buffalo"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "supplied_mesh_authored_motion",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Bovidae",
+     "raw_values": [
+      "bison, buffalo",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Bison bison",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Bovidae",
+   "preferred_recorded_name": "Bison bison",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "bison",
+   "scientific_name": "Bison bison",
+   "species_id": "bison_bison",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 3.0,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "dry_meadow",
+     "forest_edge",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "grazer",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bison.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.6,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Coyote"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Canidae",
+     "raw_values": [
+      "Coyote",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Canis latrans",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Canidae",
+   "preferred_recorded_name": "Canis latrans",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Canis latrans",
+   "species_id": "canis_latrans",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Gray Wolf",
+    "Wolf"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "authored_species_shape_proxy",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Canidae",
+     "raw_values": [
+      "Gray Wolf, Wolf",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Canis lupus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Canidae",
+   "preferred_recorded_name": "Canis lupus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "wolf",
+   "scientific_name": "Canis lupus",
+   "species_id": "canis_lupus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 1.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "cervus_elaphus",
+     "odocoileus_hemionus",
+     "bison_bison"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/wolf.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "American Beaver",
+    "North American Beaver"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Castoridae",
+     "raw_values": [
+      "American Beaver, North American Beaver",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Castor canadensis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Castoridae",
+   "preferred_recorded_name": "Castor canadensis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Castor canadensis",
+   "species_id": "castor_canadensis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Rocky Mountain Elk"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "authored_species_shape_proxy",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Cervidae",
+     "raw_values": [
+      "Rocky Mountain Elk",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Cervus elaphus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Cervidae",
+   "preferred_recorded_name": "Cervus elaphus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "elk",
+   "scientific_name": "Cervus elaphus",
+   "species_id": "cervus_elaphus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 2.4,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "dry_meadow",
+     "forest_edge",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "grazer",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/elk.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.4,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Southern Red-backed Vole"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Southern Red-backed Vole",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Clethrionomys gapperi",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Clethrionomys gapperi",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Clethrionomys gapperi",
+   "species_id": "clethrionomys_gapperi",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Pacific Townsend's big-eared bat",
+    "Townsend's Big-eared Bat",
+    "mule-eared bat",
+    "western big-eared bat",
+    "western long-eared bat",
+    "western lump-nosed bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "mule-eared bat, Pacific Townsend's big-eared bat, Townsend's Big-eared Bat, western big-eared bat, western long-eared bat, western lump-nosed bat",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Corynorhinus townsendii",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Corynorhinus townsendii",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Corynorhinus townsendii",
+   "species_id": "corynorhinus_townsendii",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Big Brown Bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Big Brown Bat",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Eptesicus fuscus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Eptesicus fuscus",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Eptesicus fuscus",
+   "species_id": "eptesicus_fuscus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "common porcupine",
+    "porcupine"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Erethizontidae",
+     "raw_values": [
+      "common porcupine, porcupine",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Erethizon dorsatum",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Erethizontidae",
+   "preferred_recorded_name": "Erethizon dorsatum",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Erethizon dorsatum",
+   "species_id": "erethizon_dorsatum",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Pinto Bat",
+    "Spotted Bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Pinto Bat, Spotted Bat",
+      "Unconfirmed",
+      "Native"
+     ],
+     "scientific_name": "Euderma maculatum",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Euderma maculatum",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Euderma maculatum",
+   "species_id": "euderma_maculatum",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Northern Flying Squirrel"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Northern Flying Squirrel",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Glaucomys sabrinus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Glaucomys sabrinus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Glaucomys sabrinus",
+   "species_id": "glaucomys_sabrinus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Wolverine"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "Wolverine",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Gulo gulo",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Gulo gulo",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Gulo gulo",
+   "species_id": "gulo_gulo",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "alpine",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "alpine_talus",
+     "cold_conifer_forest"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "marmota_flaviventris",
+     "ochotona_princeps",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/wolverine.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Black Bat",
+    "Silver-black Bat",
+    "Silver-haired Bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Black Bat, Silver-black Bat, Silver-haired Bat",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Lasionycteris noctivagans",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Lasionycteris noctivagans",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Lasionycteris noctivagans",
+   "species_id": "lasionycteris_noctivagans",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Hoary Bat",
+    "Northern Hoary Bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Hoary Bat, Northern Hoary Bat",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Lasiurus cinereus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Lasiurus cinereus",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Lasiurus cinereus",
+   "species_id": "lasiurus_cinereus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Sagebrush Vole"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "unconfirmed_primary_inventory_record",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Sagebrush Vole",
+      "Unconfirmed",
+      "Unknown"
+     ],
+     "scientific_name": "Lemmiscus curtatus",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Lemmiscus curtatus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Lemmiscus curtatus",
+   "species_id": "lemmiscus_curtatus",
+   "supported_park_occurrence": false,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Snowshoe Hare",
+    "Varying Hare"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Lagomorpha/Leporidae",
+     "raw_values": [
+      "Snowshoe Hare, Varying Hare",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Lepus americanus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Lagomorpha/Leporidae",
+   "preferred_recorded_name": "Lepus americanus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Lepus americanus",
+   "species_id": "lepus_americanus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "cold_conifer_forest",
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "White-tailed Jack Rabbit",
+    "White-tailed Jackrabbit"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Lagomorpha/Leporidae",
+     "raw_values": [
+      "White-tailed Jack Rabbit, White-tailed Jackrabbit",
+      "Present",
+      "Unknown",
+      "Native"
+     ],
+     "scientific_name": "Lepus townsendii",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Lagomorpha/Leporidae",
+   "preferred_recorded_name": "Lepus townsendii",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Lepus townsendii",
+   "species_id": "lepus_townsendii",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "northern_range",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "dry_sagebrush",
+     "sage_steppe"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "River Otter"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "River Otter",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Lutra canadensis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Lutra canadensis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Lutra canadensis",
+   "species_id": "lutra_canadensis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Canada lynx",
+    "Canadian Lynx",
+    "lynx"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "supplied_mesh_authored_motion",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Felidae",
+     "raw_values": [
+      "Canada lynx, Canadian Lynx, lynx",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Lynx canadensis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Felidae",
+   "preferred_recorded_name": "Lynx canadensis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "canada_lynx",
+   "scientific_name": "Lynx canadensis",
+   "species_id": "lynx_canadensis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "alpine",
+     "park_reference"
+    ],
+    "approx_length_m": 0.75,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "cold_conifer_forest"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/canada-lynx.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Bobcat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "supplied_mesh_authored_motion",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Felidae",
+     "raw_values": [
+      "Bobcat",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Lynx rufus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Felidae",
+   "preferred_recorded_name": "Lynx rufus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "bobcat",
+   "scientific_name": "Lynx rufus",
+   "species_id": "lynx_rufus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.82,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bobcat.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Yellow-bellied Marmot"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Yellow-bellied Marmot",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Marmota flaviventris",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Marmota flaviventris",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Marmota flaviventris",
+   "species_id": "marmota_flaviventris",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "alpine",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "alpine_talus",
+     "rock_talus"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Pine Marten"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "Pine Marten",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Martes americana",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Martes americana",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Martes americana",
+   "species_id": "martes_americana",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Fisher"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "unconfirmed_primary_inventory_record",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "Fisher",
+      "Unconfirmed",
+      "Unknown"
+     ],
+     "scientific_name": "Martes pennanti",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Martes pennanti",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Martes pennanti",
+   "species_id": "martes_pennanti",
+   "supported_park_occurrence": false,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Striped Skunk"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mephitidae",
+     "raw_values": [
+      "Striped Skunk",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Mephitis mephitis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mephitidae",
+   "preferred_recorded_name": "Mephitis mephitis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Mephitis mephitis",
+   "species_id": "mephitis_mephitis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "omnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "omnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 8e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Coronation Island vole",
+    "Long-tailed Vole"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Coronation Island vole, Long-tailed Vole",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Microtus longicaudus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Microtus longicaudus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Microtus longicaudus",
+   "species_id": "microtus_longicaudus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Montane Vole"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Montane Vole",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Microtus montanus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Microtus montanus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Microtus montanus",
+   "species_id": "microtus_montanus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Meadow Vole"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Meadow Vole",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Microtus pennsylvanicus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Microtus pennsylvanicus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Microtus pennsylvanicus",
+   "species_id": "microtus_pennsylvanicus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Richardson water vole"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Richardson water vole",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Microtus richardsoni",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Microtus richardsoni",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Microtus richardsoni",
+   "species_id": "microtus_richardsoni",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "House Mouse"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Muridae",
+     "raw_values": [
+      "House Mouse",
+      "Present",
+      "Unknown",
+      "Non-native"
+     ],
+     "scientific_name": "Mus musculus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Muridae",
+   "preferred_recorded_name": "Mus musculus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Mus musculus",
+   "species_id": "mus_musculus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "developed_area",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "human_structure"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "ermine",
+    "short tailed weasel"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "ermine, short tailed weasel",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Mustela erminea",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Mustela erminea",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Mustela erminea",
+   "species_id": "mustela_erminea",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Long-tailed Weasel"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "Long-tailed Weasel",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Mustela frenata",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Mustela frenata",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Mustela frenata",
+   "species_id": "mustela_frenata",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "American Mink"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "American Mink",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Mustela vison",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Mustela vison",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Mustela vison",
+   "species_id": "mustela_vison",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "California Myotis",
+    "Californian Myotis"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "California Myotis, Californian Myotis",
+      "Present",
+      "Unknown",
+      "Unknown"
+     ],
+     "scientific_name": "Myotis californicus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Myotis californicus",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Myotis californicus",
+   "species_id": "myotis_californicus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Small-footed Myotis",
+    "Western Small-footed Myotis",
+    "western small-footed bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Small-footed Myotis, western small-footed bat, Western Small-footed Myotis",
+      "Unconfirmed",
+      "Native"
+     ],
+     "scientific_name": "Myotis ciliolabrum",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Myotis ciliolabrum",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Myotis ciliolabrum",
+   "species_id": "myotis_ciliolabrum",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Long-eared Myotis",
+    "Western Long-eared Bat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Long-eared Myotis, Western Long-eared Bat",
+      "Probably Present",
+      "Native"
+     ],
+     "scientific_name": "Myotis evotis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Myotis evotis",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Myotis evotis",
+   "species_id": "myotis_evotis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Little Brown Bat",
+    "Little Brown Myotis"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Little Brown Bat, Little Brown Myotis",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Myotis lucifugus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Myotis lucifugus",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Myotis lucifugus",
+   "species_id": "myotis_lucifugus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Fringed Myotis"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Fringed Myotis",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Myotis thysanodes",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Myotis thysanodes",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Myotis thysanodes",
+   "species_id": "myotis_thysanodes",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Long-legged Myotis"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Long-legged Myotis",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Myotis volans",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Myotis volans",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Myotis volans",
+   "species_id": "myotis_volans",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Yuma Myotis"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Chiroptera/Vespertilionidae",
+     "raw_values": [
+      "Yuma Myotis",
+      "Probably Present",
+      "Native"
+     ],
+     "scientific_name": "Myotis yumanensis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Chiroptera/Vespertilionidae",
+   "preferred_recorded_name": "Myotis yumanensis",
+   "qualitative_bat_confirmation": true,
+   "render_kind": null,
+   "scientific_name": "Myotis yumanensis",
+   "species_id": "myotis_yumanensis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.15,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bats.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Yellow-pine Chipmunk",
+    "yellow pine chipmunk"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "yellow pine chipmunk",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Neotamias amoenus",
+     "section": "main_list"
+    },
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Yellow-pine Chipmunk"
+     ],
+     "scientific_name": "Tamias amoenus",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Neotamias amoenus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Neotamias amoenus",
+   "species_id": "neotamias_amoenus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Least Chipmunk",
+    "Least chipmunk"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Least chipmunk",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Neotamias minimus",
+     "section": "main_list"
+    },
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Least Chipmunk"
+     ],
+     "scientific_name": "Tamias minimus",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Neotamias minimus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Neotamias minimus",
+   "species_id": "neotamias_minimus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Uinta Chipmunk",
+    "Uinta chipmunk"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Uinta chipmunk",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Neotamias umbrinus",
+     "section": "main_list"
+    },
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Uinta Chipmunk"
+     ],
+     "scientific_name": "Tamias umbrinus",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Neotamias umbrinus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Neotamias umbrinus",
+   "species_id": "neotamias_umbrinus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Bushy-tailed Woodrat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Bushy-tailed Woodrat",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Neotoma cinerea",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Neotoma cinerea",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Neotoma cinerea",
+   "species_id": "neotoma_cinerea",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "American Pika",
+    "Cony",
+    "Hay-maker",
+    "Little Chief Hare",
+    "Mouse Hare",
+    "Piping Hare",
+    "Rock Rabbit",
+    "Southern Pika",
+    "Whistling Hare"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Lagomorpha/Ochotonidae",
+     "raw_values": [
+      "American Pika, Cony, Hay-maker, Little Chief Hare, Mouse Hare, Piping Hare, Rock Rabbit, Southern Pika, Whistling Hare",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Ochotona princeps",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Lagomorpha/Ochotonidae",
+   "preferred_recorded_name": "Ochotona princeps",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Ochotona princeps",
+   "species_id": "ochotona_princeps",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "alpine",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "alpine_talus",
+     "rock_talus"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Mule Deer"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "authored_species_shape_proxy",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Cervidae",
+     "raw_values": [
+      "Mule Deer",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Odocoileus hemionus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Cervidae",
+   "preferred_recorded_name": "Odocoileus hemionus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "deer",
+   "scientific_name": "Odocoileus hemionus",
+   "species_id": "odocoileus_hemionus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 1.6,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "browser",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 1e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mule-deer.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "White-tailed Deer"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Cervidae",
+     "raw_values": [
+      "White-tailed Deer",
+      "Present",
+      "Uncommon",
+      "Unknown"
+     ],
+     "scientific_name": "Odocoileus virginianus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Cervidae",
+   "preferred_recorded_name": "Odocoileus virginianus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Odocoileus virginianus",
+   "species_id": "odocoileus_virginianus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "northern_range",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "browser",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 1e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/white-tailed-deer.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Common Muskrat",
+    "Muskbeaver",
+    "Muskrat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Common Muskrat, Muskbeaver, Muskrat",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Ondatra zibethicus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Ondatra zibethicus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Ondatra zibethicus",
+   "species_id": "ondatra_zibethicus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Mountain Goat",
+    "Rocky Mountain goat"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Bovidae",
+     "raw_values": [
+      "Mountain Goat, Rocky Mountain goat",
+      "Present",
+      "Uncommon",
+      "Non-native"
+     ],
+     "scientific_name": "Oreamnos americanus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Bovidae",
+   "preferred_recorded_name": "Oreamnos americanus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Oreamnos americanus",
+   "species_id": "oreamnos_americanus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "alpine",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "alpine_talus",
+     "rock_talus"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "browser",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 1e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Bighorn Sheep"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Artiodactyla/Bovidae",
+     "raw_values": [
+      "Bighorn Sheep",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Ovis canadensis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Artiodactyla/Bovidae",
+   "preferred_recorded_name": "Ovis canadensis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Ovis canadensis",
+   "species_id": "ovis_canadensis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "alpine",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "alpine_talus",
+     "rock_talus"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "browser",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 1e-05,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Deer Mouse",
+    "North American Deermouse"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Deer Mouse, North American Deermouse",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Peromyscus maniculatus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Peromyscus maniculatus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Peromyscus maniculatus",
+   "species_id": "peromyscus_maniculatus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "omnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Heather Vole",
+    "Western Heather Vole"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Cricetidae",
+     "raw_values": [
+      "Heather Vole, Western Heather Vole",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Phenacomys intermedius",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Cricetidae",
+   "preferred_recorded_name": "Phenacomys intermedius",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Phenacomys intermedius",
+   "species_id": "phenacomys_intermedius",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Northern Raccoon",
+    "Raccoon",
+    "common raccoon"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Procyonidae",
+     "raw_values": [
+      "common raccoon, Northern Raccoon, Raccoon",
+      "Present",
+      "Uncommon",
+      "Unknown"
+     ],
+     "scientific_name": "Procyon lotor",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Procyonidae",
+   "preferred_recorded_name": "Procyon lotor",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Procyon lotor",
+   "species_id": "procyon_lotor",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "omnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "omnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 8e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Catamount",
+    "Cougar",
+    "Mountain Lion",
+    "Puma"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Felidae",
+     "raw_values": [
+      "Catamount, Cougar, Mountain Lion, Puma",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Puma concolor",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Felidae",
+   "preferred_recorded_name": "Puma concolor",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Puma concolor",
+   "species_id": "puma_concolor",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Cinereus Shrew",
+    "Masked Shrew",
+    "common shrew"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Eulipotyphla/Soricidae",
+     "raw_values": [
+      "Cinereus Shrew, common shrew, Masked Shrew",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Sorex cinereus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Eulipotyphla/Soricidae",
+   "preferred_recorded_name": "Sorex cinereus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sorex cinereus",
+   "species_id": "sorex_cinereus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "American Pygmy Shrew",
+    "Pygmy Shrew"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "unconfirmed_primary_inventory_record",
+   "occurrence_records": [
+    {
+     "order_family": "Eulipotyphla/Soricidae",
+     "raw_values": [
+      "American Pygmy Shrew, Pygmy Shrew",
+      "Unconfirmed",
+      "Unknown"
+     ],
+     "scientific_name": "Sorex hoyi",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Eulipotyphla/Soricidae",
+   "preferred_recorded_name": "Sorex hoyi",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sorex hoyi",
+   "species_id": "sorex_hoyi",
+   "supported_park_occurrence": false,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "dusky shrew"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Eulipotyphla/Soricidae",
+     "raw_values": [
+      "dusky shrew",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Sorex monticolus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Eulipotyphla/Soricidae",
+   "preferred_recorded_name": "Sorex monticolus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sorex monticolus",
+   "species_id": "sorex_monticolus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Dwarf Shrew",
+    "Rocky Mountain dwarf shrew"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Eulipotyphla/Soricidae",
+     "raw_values": [
+      "Dwarf Shrew, Rocky Mountain dwarf shrew",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Sorex nanus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Eulipotyphla/Soricidae",
+   "preferred_recorded_name": "Sorex nanus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sorex nanus",
+   "species_id": "sorex_nanus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "American Water Shrew",
+    "Water Shrew",
+    "northern water shrew"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Eulipotyphla/Soricidae",
+     "raw_values": [
+      "American Water Shrew, northern water shrew, Water Shrew",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Sorex palustris",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Eulipotyphla/Soricidae",
+   "preferred_recorded_name": "Sorex palustris",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sorex palustris",
+   "species_id": "sorex_palustris",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Preble's Shrew",
+    "malheur shrew"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Eulipotyphla/Soricidae",
+     "raw_values": [
+      "malheur shrew, Preble's Shrew",
+      "Present",
+      "Rare",
+      "Native"
+     ],
+     "scientific_name": "Sorex preblei",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Eulipotyphla/Soricidae",
+   "preferred_recorded_name": "Sorex preblei",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sorex preblei",
+   "species_id": "sorex_preblei",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "insectivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "riparian",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Uinta Ground Squirrel"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Uinta Ground Squirrel",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Spermophilus armatus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Spermophilus armatus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Spermophilus armatus",
+   "species_id": "spermophilus_armatus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Golden-mantled Ground Squirrel"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Golden-mantled Ground Squirrel",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Spermophilus lateralis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Spermophilus lateralis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Spermophilus lateralis",
+   "species_id": "spermophilus_lateralis",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  },
+  {
+   "common_names": [
+    "Western Spotted Skunk"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "unconfirmed_primary_inventory_record",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mephitidae",
+     "raw_values": [
+      "Western Spotted Skunk",
+      "Unconfirmed",
+      "Unknown"
+     ],
+     "scientific_name": "Spilogale gracilis",
+     "section": "in_review"
+    }
+   ],
+   "order_family": "Carnivora/Mephitidae",
+   "preferred_recorded_name": "Spilogale gracilis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Spilogale gracilis",
+   "species_id": "spilogale_gracilis",
+   "supported_park_occurrence": false,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "omnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "omnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 8e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Audubon's Cottontail",
+    "Desert Cottontail"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Lagomorpha/Leporidae",
+     "raw_values": [
+      "Audubon's Cottontail, Desert Cottontail",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Sylvilagus audubonii",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Lagomorpha/Leporidae",
+   "preferred_recorded_name": "Sylvilagus audubonii",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sylvilagus audubonii",
+   "species_id": "sylvilagus_audubonii",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "northern_range",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "dry_sagebrush",
+     "sage_steppe"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "mountain cottontail"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Lagomorpha/Leporidae",
+     "raw_values": [
+      "mountain cottontail",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Sylvilagus nuttallii",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Lagomorpha/Leporidae",
+   "preferred_recorded_name": "Sylvilagus nuttallii",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Sylvilagus nuttallii",
+   "species_id": "sylvilagus_nuttallii",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Red Squirrel"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Sciuridae",
+     "raw_values": [
+      "Red Squirrel",
+      "Present",
+      "Abundant",
+      "Native"
+     ],
+     "scientific_name": "Tamiasciurus hudsonicus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Sciuridae",
+   "preferred_recorded_name": "Tamiasciurus hudsonicus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Tamiasciurus hudsonicus",
+   "species_id": "tamiasciurus_hudsonicus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "American Badger",
+    "Badger"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "supplied_mesh_authored_motion",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Mustelidae",
+     "raw_values": [
+      "American Badger, Badger",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Taxidea taxus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Mustelidae",
+   "preferred_recorded_name": "Taxidea taxus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "badger",
+   "scientific_name": "Taxidea taxus",
+   "species_id": "taxidea_taxus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.65,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "nocturnal",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "dry_meadow",
+     "forest_edge",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "spermophilus_armatus",
+     "thomomys_talpoides"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/badger.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Northern Pocket Gopher"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Geomyidae",
+     "raw_values": [
+      "Northern Pocket Gopher",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Thomomys talpoides",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Geomyidae",
+   "preferred_recorded_name": "Thomomys talpoides",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Thomomys talpoides",
+   "species_id": "thomomys_talpoides",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "herbivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "American Black Bear",
+    "black bear"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "supplied_mesh_authored_motion",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Ursidae",
+     "raw_values": [
+      "American Black Bear, black bear",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Ursus americanus",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Ursidae",
+   "preferred_recorded_name": "Ursus americanus",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "black_bear",
+   "scientific_name": "Ursus americanus",
+   "species_id": "ursus_americanus",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 1.6,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "omnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "omnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 8e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bear.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "denning"
+   }
+  },
+  {
+   "common_names": [
+    "Grizzly Bear"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": "supplied_mesh_authored_motion",
+    "renderer": "available_reference_or_labeled_proxy"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Ursidae",
+     "raw_values": [
+      "Grizzly Bear",
+      "Present",
+      "Common",
+      "Native"
+     ],
+     "scientific_name": "Ursus arctos horribilis",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Ursidae",
+   "preferred_recorded_name": "Ursus arctos horribilis",
+   "qualitative_bat_confirmation": false,
+   "render_kind": "grizzly",
+   "scientific_name": "Ursus arctos",
+   "species_id": "ursus_arctos",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 2.1,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "omnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "omnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 8e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "cervus_elaphus",
+     "peromyscus_maniculatus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/bear.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "denning"
+   }
+  },
+  {
+   "common_names": [
+    "Cross Fox",
+    "Red Fox",
+    "Silver Fox"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Carnivora/Canidae",
+     "raw_values": [
+      "Cross Fox, Red Fox, Silver Fox",
+      "Present",
+      "Common",
+      "Unknown"
+     ],
+     "scientific_name": "Vulpes vulpes",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Carnivora/Canidae",
+   "preferred_recorded_name": "Vulpes vulpes",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Vulpes vulpes",
+   "species_id": "vulpes_vulpes",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 0.3,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "carnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "carnivore",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 0.0,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "active"
+   }
+  },
+  {
+   "common_names": [
+    "Western Jumping Mouse"
+   ],
+   "model_availability": {
+    "ecology": "authored_guild_model",
+    "local_population_measurement": null,
+    "render_geometry_class": null,
+    "renderer": "not_available"
+   },
+   "occurrence_evidence_class": "primary_park_inventory",
+   "occurrence_records": [
+    {
+     "order_family": "Rodentia/Dipodidae",
+     "raw_values": [
+      "Western Jumping Mouse",
+      "Present",
+      "Uncommon",
+      "Native"
+     ],
+     "scientific_name": "Zapus princeps",
+     "section": "main_list"
+    }
+   ],
+   "order_family": "Rodentia/Dipodidae",
+   "preferred_recorded_name": "Zapus princeps",
+   "qualitative_bat_confirmation": false,
+   "render_kind": null,
+   "scientific_name": "Zapus princeps",
+   "species_id": "zapus_princeps",
+   "supported_park_occurrence": true,
+   "traits": {
+    "allowed_local_modes": [
+     "midway",
+     "park_reference"
+    ],
+    "approx_length_m": 0.2,
+    "birth_rate_per_year": 1.5,
+    "cold_scale_c": 30.0,
+    "diel_proxy": "mixed",
+    "diet_proxy": "omnivore",
+    "guild_basis": "family_and_primary_qualitative_context",
+    "habitats": [
+     "conifer_forest",
+     "dry_meadow",
+     "forest_edge",
+     "forest_lodgepole",
+     "forest_moist",
+     "grassland",
+     "river_bank",
+     "wet_meadow"
+    ],
+    "heat_scale_c": 12.0,
+    "heat_start_c": 26.0,
+    "mammal_guild": "small_mammal",
+    "mortality_rate_per_year": 0.05,
+    "negative_gates": [
+     "unconfirmed_occurrence",
+     "unsupported_local_mode",
+     "habitat_mismatch",
+     "mapped_pool_apron",
+     "mineral_surface",
+     "open_water",
+     "visitor_route"
+    ],
+    "plant_food_units_per_hour": 2e-06,
+    "predation_rate_per_year": 0.8,
+    "prey_species_ids": [
+     "microtus_montanus",
+     "peromyscus_maniculatus",
+     "lepus_americanus"
+    ],
+    "qualitative_source": "https://www.nps.gov/yell/learn/nature/mammals.htm",
+    "quantitative_uncertainty": "unknown",
+    "snow_half_m": 0.25,
+    "soil_exclusion_c": 50.0,
+    "soil_heat_scale_c": 10.0,
+    "soil_heat_start_c": 32.0,
+    "trait_evidence_class": "authored",
+    "winter_proxy": "torpor"
+   }
+  }
+ ],
+ "status": "authored"
+}

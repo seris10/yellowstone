@@ -1,0 +1,448 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "7cea7837bc20da1fa16e6647eda3d5f43b069be0a17977ba50b6ea89855fbcd7",
+  "vertices": 12998,
+  "triangles": 14725,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "source": "bobcat-remesh.glb",
+    "mesh_index": 0,
+    "node_index": 0,
+    "scale_status": "unverified_asset_units",
+    "source_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "canonical_transform": [
+      [
+        0.869558014852813,
+        0.0,
+        -0.4938307997738041,
+        0.029585654103952905
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.6909440159797668
+      ],
+      [
+        0.4938307997738041,
+        0.0,
+        0.869558014852813,
+        -0.021744440781687524
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "forward_input": "+z",
+    "up_input": "+y",
+    "heading_estimation": "paw-cluster midpoint",
+    "supplied_bbox_length_m": null,
+    "canonical_scale_factor": 1.0,
+    "variant": {
+      "size": 1.0253702027701688,
+      "body_width": 1.0155177927812333,
+      "body_depth": 0.9843299069587884,
+      "head_size": 0.9797293389838945,
+      "leg_length": 0.9696815157904083,
+      "tail_length": 1.0004241110295322,
+      "coat_tint": [
+        0.9403940469213494,
+        0.9282023776249546,
+        0.9985092584818206
+      ],
+      "seed": 17,
+      "status": "artistic_randomization_not_biological_population_sampling",
+      "demographic_metadata": null
+    }
+  },
+  "texture_resizing": [
+    {
+      "image": "texture_0",
+      "before": [
+        8192,
+        8192
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "image": "texture_0_metallic_roughness",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "duration_s": 10.0,
+      "frames": 301,
+      "loop": true,
+      "engine": "mammal",
+      "species": "bobcat",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "idle",
+        "frequency_hz": 0.2,
+        "duty_factor": 0.68,
+        "stance_length_height": 0,
+        "clearance_height": 0,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.0,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "idle",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Walk",
+      "duration_s": 1.9047619047619047,
+      "frames": 58,
+      "loop": true,
+      "engine": "mammal",
+      "species": "bobcat",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "walk",
+        "frequency_hz": 1.05,
+        "duty_factor": 0.67,
+        "stance_length_height": 0.27,
+        "clearance_height": 0.055,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5,
+        "body_lowering_height": 0.03
+      },
+      "speed_asset_units_s": 0.5881750221140252,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "walk",
+      "max_ik_reach_error_asset_units": 0.0
+    }
+  ],
+  "joint_count": 25,
+  "rig": {
+    "schema": "wildlife-motion.rig/1",
+    "names": [
+      "root",
+      "pelvis",
+      "lumbar",
+      "thorax",
+      "neck",
+      "head",
+      "FL_upper",
+      "FL_middle",
+      "FL_ankle",
+      "FL_foot",
+      "FR_upper",
+      "FR_middle",
+      "FR_ankle",
+      "FR_foot",
+      "HL_upper",
+      "HL_middle",
+      "HL_ankle",
+      "HL_foot",
+      "HR_upper",
+      "HR_middle",
+      "HR_ankle",
+      "HR_foot",
+      "tail_0",
+      "tail_1",
+      "tail_2"
+    ],
+    "parents": [
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      3,
+      6,
+      7,
+      8,
+      3,
+      10,
+      11,
+      12,
+      1,
+      14,
+      15,
+      16,
+      1,
+      18,
+      19,
+      20,
+      1,
+      22,
+      23
+    ],
+    "rest": [
+      [
+        9.256932238351005e-30,
+        1.095876922562404e-28,
+        8.854354485624178e-29
+      ],
+      [
+        8.201396173900835e-27,
+        0.8847195285617445,
+        -0.4952626164778029
+      ],
+      [
+        4.715671773017539e-10,
+        0.890573364313826,
+        -0.08411509240369228
+      ],
+      [
+        0.0007146291394269231,
+        0.9005565699392333,
+        0.48704784462529316
+      ],
+      [
+        0.0018475133634248348,
+        1.0146632195118037,
+        0.7201933730498099
+      ],
+      [
+        0.10025141536802293,
+        1.1662147047739149,
+        0.9589154878724175
+      ],
+      [
+        0.22962330297695113,
+        0.7746076707840696,
+        0.485336902792707
+      ],
+      [
+        0.24309946718299405,
+        0.42526255375149835,
+        0.35603242956741105
+      ],
+      [
+        0.25934623113899813,
+        0.16692395703345755,
+        0.39648684549017277
+      ],
+      [
+        0.2593462311414314,
+        0.051755360985089274,
+        0.48930739164344467
+      ],
+      [
+        -0.2295962852601944,
+        0.7737875873660474,
+        0.484347401325865
+      ],
+      [
+        -0.24309957467888704,
+        0.4252618612458318,
+        0.3560318713177146
+      ],
+      [
+        -0.2593462305693821,
+        0.16692395863554838,
+        0.7332692070758813
+      ],
+      [
+        -0.2593462311398045,
+        0.06032562909761095,
+        0.826089752879402
+      ],
+      [
+        0.23006893689457525,
+        0.8429064252751712,
+        -0.4952626164778029
+      ],
+      [
+        0.25765490592640306,
+        0.5360830944161898,
+        -0.4597258436163404
+      ],
+      [
+        0.2920443476945543,
+        0.3436864466907744,
+        -0.9401388247549713
+      ],
+      [
+        0.2920443476945543,
+        0.06924305816432796,
+        -0.8125105737823828
+      ],
+      [
+        -0.23006893689457525,
+        0.8429064252751712,
+        -0.4952626164778029
+      ],
+      [
+        -0.2576549059264034,
+        0.5360830944161898,
+        -0.335876242399312
+      ],
+      [
+        -0.292044347694555,
+        0.3436864466907744,
+        -0.6305148217124007
+      ],
+      [
+        -0.292044347694555,
+        0.05825772907447845,
+        -0.502886570739812
+      ],
+      [
+        2.6992378976674776e-41,
+        0.9975524292316522,
+        -0.7041088453420388
+      ],
+      [
+        -0.030479370294036492,
+        1.0015937297135564,
+        -0.9696688938855246
+      ],
+      [
+        -0.060958740588072984,
+        1.0043037382897482,
+        -1.2352289424290102
+      ]
+    ],
+    "groups": {
+      "body": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "FL": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "FR": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "HL": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "HR": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "tail": [
+        22,
+        23,
+        24
+      ]
+    },
+    "metadata": {
+      "species": "bobcat",
+      "engine": "mammal",
+      "review_status": "estimated_unreviewed",
+      "source_sha256": "7cea7837bc20da1fa16e6647eda3d5f43b069be0a17977ba50b6ea89855fbcd7",
+      "canonical_transform": [
+        [
+          0.869558014852813,
+          0.0,
+          -0.4938307997738041,
+          0.029585654103952905
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.6909440159797668
+        ],
+        [
+          0.4938307997738041,
+          0.0,
+          0.869558014852813,
+          -0.021744440781687524
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scale_status": "unverified_asset_units",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "height": 1.3900432621389658,
+      "length": 2.3183820170142333,
+      "foot_posture": "digitigrade",
+      "warnings": [
+        "Joint centers inferred from surface geometry, not measured skeletons.",
+        "Posed AI meshes may require joint and weight correction, particularly shoulders, hips, and feet."
+      ],
+      "review_note": "Automatically estimated rig, reviewed visually for gross placement only. Hidden joint centers and motion remain unmeasured.",
+      "variant": {
+        "size": 1.0253702027701688,
+        "body_width": 1.0155177927812333,
+        "body_depth": 0.9843299069587884,
+        "head_size": 0.9797293389838945,
+        "leg_length": 0.9696815157904083,
+        "tail_length": 1.0004241110295322,
+        "coat_tint": [
+          0.9403940469213494,
+          0.9282023776249546,
+          0.9985092584818206
+        ],
+        "seed": 17,
+        "status": "artistic_randomization_not_biological_population_sampling",
+        "demographic_metadata": null
+      },
+      "sole_offsets": {
+        "FL": 0.05175536098508896,
+        "FR": 0.05343979316469459,
+        "HL": 0.051628112501740944,
+        "HR": 0.052034374803012526
+      }
+    }
+  }
+}

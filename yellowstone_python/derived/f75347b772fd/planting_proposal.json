@@ -1,0 +1,943 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "guild": "lodgepole_pine",
+    "n_accepted": 21,
+    "n_rejected": 100,
+    "seed": 7
+  },
+  "proposals": [
+    {
+      "author_note": "reviewed proposal; suitability 0.34; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.14,
+      "slope_deg": 7.5,
+      "stable_id": "prop_lodgepole_pine_7_005_000",
+      "suitability": 0.342,
+      "variation_key": 1,
+      "x": -361.726,
+      "y": 71.602,
+      "yaw": 4.105,
+      "z": 230.237
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.18; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 0.878,
+      "slope_deg": 15.6,
+      "stable_id": "prop_lodgepole_pine_7_003_001",
+      "suitability": 0.184,
+      "variation_key": 1,
+      "x": -372.07,
+      "y": 69.579,
+      "yaw": 0.014,
+      "z": 236.44
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.35; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 0.895,
+      "slope_deg": 7.1,
+      "stable_id": "prop_lodgepole_pine_7_005_001",
+      "suitability": 0.35,
+      "variation_key": 0,
+      "x": -358.35,
+      "y": 72.081,
+      "yaw": 1.681,
+      "z": 236.198
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.19; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.06,
+      "slope_deg": 15.3,
+      "stable_id": "prop_lodgepole_pine_7_007_001",
+      "suitability": 0.189,
+      "variation_key": 2,
+      "x": -349.73,
+      "y": 73.693,
+      "yaw": 3.866,
+      "z": 236.284
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.14; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.158,
+      "slope_deg": 17.8,
+      "stable_id": "prop_lodgepole_pine_7_008_001",
+      "suitability": 0.14,
+      "variation_key": 2,
+      "x": -341.126,
+      "y": 75.848,
+      "yaw": 0.423,
+      "z": 236.708
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.24; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.098,
+      "slope_deg": 12.9,
+      "stable_id": "prop_lodgepole_pine_7_002_002",
+      "suitability": 0.237,
+      "variation_key": 1,
+      "x": -377.734,
+      "y": 67.758,
+      "yaw": 3.051,
+      "z": 240.622
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.24; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.135,
+      "slope_deg": 12.7,
+      "stable_id": "prop_lodgepole_pine_7_004_002",
+      "suitability": 0.239,
+      "variation_key": 2,
+      "x": -366.155,
+      "y": 70.119,
+      "yaw": 4.104,
+      "z": 241.952
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.18; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.178,
+      "slope_deg": 15.6,
+      "stable_id": "prop_lodgepole_pine_7_005_002",
+      "suitability": 0.183,
+      "variation_key": 1,
+      "x": -358.69,
+      "y": 70.39,
+      "yaw": 0.641,
+      "z": 243.127
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.20; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.183,
+      "slope_deg": 14.5,
+      "stable_id": "prop_lodgepole_pine_7_006_002",
+      "suitability": 0.205,
+      "variation_key": 2,
+      "x": -352.587,
+      "y": 71.398,
+      "yaw": 1.39,
+      "z": 243.227
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.32; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 0.879,
+      "slope_deg": 8.8,
+      "stable_id": "prop_lodgepole_pine_7_001_003",
+      "suitability": 0.317,
+      "variation_key": 0,
+      "x": -383.246,
+      "y": 66.851,
+      "yaw": 2.433,
+      "z": 246.584
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.29; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.066,
+      "slope_deg": 10.4,
+      "stable_id": "prop_lodgepole_pine_7_003_003",
+      "suitability": 0.286,
+      "variation_key": 2,
+      "x": -371.292,
+      "y": 69.538,
+      "yaw": 4.712,
+      "z": 246.342
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.16; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.15,
+      "slope_deg": 16.8,
+      "stable_id": "prop_lodgepole_pine_7_009_003",
+      "suitability": 0.16,
+      "variation_key": 0,
+      "x": -336.352,
+      "y": 71.08,
+      "yaw": 0.734,
+      "z": 249.618
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.16; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.088,
+      "slope_deg": 16.7,
+      "stable_id": "prop_lodgepole_pine_7_001_004",
+      "suitability": 0.162,
+      "variation_key": 1,
+      "x": -384.694,
+      "y": 67.803,
+      "yaw": 5.29,
+      "z": 252.782
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.21; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.174,
+      "slope_deg": 14.2,
+      "stable_id": "prop_lodgepole_pine_7_003_004",
+      "suitability": 0.212,
+      "variation_key": 0,
+      "x": -371.839,
+      "y": 70.889,
+      "yaw": 4.078,
+      "z": 253.302
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.34; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.001,
+      "slope_deg": 7.8,
+      "stable_id": "prop_lodgepole_pine_7_005_004",
+      "suitability": 0.335,
+      "variation_key": 0,
+      "x": -359.332,
+      "y": 70.449,
+      "yaw": 3.535,
+      "z": 253.842
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.37; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.126,
+      "slope_deg": 6.0,
+      "stable_id": "prop_lodgepole_pine_7_006_004",
+      "suitability": 0.371,
+      "variation_key": 2,
+      "x": -353.288,
+      "y": 70.584,
+      "yaw": 4.135,
+      "z": 254.1
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.44; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 0.847,
+      "slope_deg": 2.3,
+      "stable_id": "prop_lodgepole_pine_7_008_004",
+      "suitability": 0.443,
+      "variation_key": 0,
+      "x": -343.148,
+      "y": 71.114,
+      "yaw": 5.037,
+      "z": 254.668
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.23; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.107,
+      "slope_deg": 13.4,
+      "stable_id": "prop_lodgepole_pine_7_010_004",
+      "suitability": 0.227,
+      "variation_key": 1,
+      "x": -331.487,
+      "y": 69.841,
+      "yaw": 4.454,
+      "z": 255.088
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.29; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.117,
+      "slope_deg": 10.3,
+      "stable_id": "prop_lodgepole_pine_7_007_005",
+      "suitability": 0.288,
+      "variation_key": 0,
+      "x": -348.156,
+      "y": 71.806,
+      "yaw": 0.287,
+      "z": 259.263
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.19; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 1.008,
+      "slope_deg": 15.3,
+      "stable_id": "prop_lodgepole_pine_7_008_005",
+      "suitability": 0.189,
+      "variation_key": 0,
+      "x": -340.581,
+      "y": 72.534,
+      "yaw": 5.991,
+      "z": 261.014
+    },
+    {
+      "author_note": "reviewed proposal; suitability 0.19; review against NAIP + habitat forest_edge; seed 7",
+      "evidence_class": "habitat-based authored candidate",
+      "guild": "lodgepole_pine",
+      "habitat": "forest_edge",
+      "scale": 0.96,
+      "slope_deg": 15.4,
+      "stable_id": "prop_lodgepole_pine_7_004_007",
+      "suitability": 0.188,
+      "variation_key": 1,
+      "x": -364.364,
+      "y": 78.273,
+      "yaw": 1.596,
+      "z": 273.508
+    }
+  ],
+  "review": "merge reviewed rows into placement_overrides.json::{add}; never overwrite placements.json",
+  "review_log": [
+    {
+      "cell": "0:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "2:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "3:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "4:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "5:0",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_005_000"
+    },
+    {
+      "cell": "6:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "7:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "8:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "9:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "10:0",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:1",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:1",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "2:1",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "3:1",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_003_001"
+    },
+    {
+      "cell": "4:1",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "5:1",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_005_001"
+    },
+    {
+      "cell": "6:1",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "7:1",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_007_001"
+    },
+    {
+      "cell": "8:1",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_008_001"
+    },
+    {
+      "cell": "9:1",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "10:1",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:2",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:2",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "2:2",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_002_002"
+    },
+    {
+      "cell": "3:2",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "4:2",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_004_002"
+    },
+    {
+      "cell": "5:2",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_005_002"
+    },
+    {
+      "cell": "6:2",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_006_002"
+    },
+    {
+      "cell": "7:2",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "8:2",
+      "decision": "reject",
+      "reason": "suitability 0.076 < 0.12"
+    },
+    {
+      "cell": "9:2",
+      "decision": "reject",
+      "reason": "suitability 0.079 < 0.12"
+    },
+    {
+      "cell": "10:2",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:3",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:3",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_001_003"
+    },
+    {
+      "cell": "2:3",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "3:3",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_003_003"
+    },
+    {
+      "cell": "4:3",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "5:3",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "6:3",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "7:3",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "8:3",
+      "decision": "reject",
+      "reason": "suitability 0.087 < 0.12"
+    },
+    {
+      "cell": "9:3",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_009_003"
+    },
+    {
+      "cell": "10:3",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:4",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:4",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_001_004"
+    },
+    {
+      "cell": "2:4",
+      "decision": "reject",
+      "reason": "suitability 0.087 < 0.12"
+    },
+    {
+      "cell": "3:4",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_003_004"
+    },
+    {
+      "cell": "4:4",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "5:4",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_005_004"
+    },
+    {
+      "cell": "6:4",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_006_004"
+    },
+    {
+      "cell": "7:4",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "8:4",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_008_004"
+    },
+    {
+      "cell": "9:4",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "10:4",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_010_004"
+    },
+    {
+      "cell": "0:5",
+      "decision": "reject",
+      "reason": "suitability 0.083 < 0.12"
+    },
+    {
+      "cell": "1:5",
+      "decision": "reject",
+      "reason": "suitability 0.032 < 0.12"
+    },
+    {
+      "cell": "2:5",
+      "decision": "reject",
+      "reason": "suitability 0.050 < 0.12"
+    },
+    {
+      "cell": "3:5",
+      "decision": "reject",
+      "reason": "suitability 0.081 < 0.12"
+    },
+    {
+      "cell": "4:5",
+      "decision": "reject",
+      "reason": "suitability 0.118 < 0.12"
+    },
+    {
+      "cell": "5:5",
+      "decision": "reject",
+      "reason": "suitability 0.025 < 0.12"
+    },
+    {
+      "cell": "6:5",
+      "decision": "reject",
+      "reason": "suitability 0.079 < 0.12"
+    },
+    {
+      "cell": "7:5",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_007_005"
+    },
+    {
+      "cell": "8:5",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_008_005"
+    },
+    {
+      "cell": "9:5",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "10:5",
+      "decision": "reject",
+      "reason": "suitability 0.101 < 0.12"
+    },
+    {
+      "cell": "0:6",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:6",
+      "decision": "reject",
+      "reason": "suitability 0.051 < 0.12"
+    },
+    {
+      "cell": "2:6",
+      "decision": "reject",
+      "reason": "suitability 0.054 < 0.12"
+    },
+    {
+      "cell": "3:6",
+      "decision": "reject",
+      "reason": "suitability 0.059 < 0.12"
+    },
+    {
+      "cell": "4:6",
+      "decision": "reject",
+      "reason": "suitability 0.063 < 0.12"
+    },
+    {
+      "cell": "5:6",
+      "decision": "reject",
+      "reason": "suitability 0.014 < 0.12"
+    },
+    {
+      "cell": "6:6",
+      "decision": "reject",
+      "reason": "suitability 0.016 < 0.12"
+    },
+    {
+      "cell": "7:6",
+      "decision": "reject",
+      "reason": "suitability 0.092 < 0.12"
+    },
+    {
+      "cell": "8:6",
+      "decision": "reject",
+      "reason": "suitability 0.091 < 0.12"
+    },
+    {
+      "cell": "9:6",
+      "decision": "reject",
+      "reason": "suitability 0.074 < 0.12"
+    },
+    {
+      "cell": "10:6",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:7",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:7",
+      "decision": "reject",
+      "reason": "suitability 0.068 < 0.12"
+    },
+    {
+      "cell": "2:7",
+      "decision": "reject",
+      "reason": "suitability 0.060 < 0.12"
+    },
+    {
+      "cell": "3:7",
+      "decision": "reject",
+      "reason": "suitability 0.093 < 0.12"
+    },
+    {
+      "cell": "4:7",
+      "decision": "accept",
+      "stable_id": "prop_lodgepole_pine_7_004_007"
+    },
+    {
+      "cell": "5:7",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "6:7",
+      "decision": "reject",
+      "reason": "suitability 0.026 < 0.12"
+    },
+    {
+      "cell": "7:7",
+      "decision": "reject",
+      "reason": "suitability 0.026 < 0.12"
+    },
+    {
+      "cell": "8:7",
+      "decision": "reject",
+      "reason": "suitability 0.017 < 0.12"
+    },
+    {
+      "cell": "9:7",
+      "decision": "reject",
+      "reason": "suitability 0.016 < 0.12"
+    },
+    {
+      "cell": "10:7",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:8",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:8",
+      "decision": "reject",
+      "reason": "suitability 0.035 < 0.12"
+    },
+    {
+      "cell": "2:8",
+      "decision": "reject",
+      "reason": "suitability 0.057 < 0.12"
+    },
+    {
+      "cell": "3:8",
+      "decision": "reject",
+      "reason": "suitability 0.088 < 0.12"
+    },
+    {
+      "cell": "4:8",
+      "decision": "reject",
+      "reason": "separation < 6.0 m"
+    },
+    {
+      "cell": "5:8",
+      "decision": "reject",
+      "reason": "suitability 0.086 < 0.12"
+    },
+    {
+      "cell": "6:8",
+      "decision": "reject",
+      "reason": "suitability 0.004 < 0.12"
+    },
+    {
+      "cell": "7:8",
+      "decision": "reject",
+      "reason": "suitability 0.000 < 0.12"
+    },
+    {
+      "cell": "8:8",
+      "decision": "reject",
+      "reason": "suitability 0.000 < 0.12"
+    },
+    {
+      "cell": "9:8",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "10:8",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:9",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:9",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "2:9",
+      "decision": "reject",
+      "reason": "suitability 0.038 < 0.12"
+    },
+    {
+      "cell": "3:9",
+      "decision": "reject",
+      "reason": "suitability 0.062 < 0.12"
+    },
+    {
+      "cell": "4:9",
+      "decision": "reject",
+      "reason": "suitability 0.056 < 0.12"
+    },
+    {
+      "cell": "5:9",
+      "decision": "reject",
+      "reason": "suitability 0.100 < 0.12"
+    },
+    {
+      "cell": "6:9",
+      "decision": "reject",
+      "reason": "suitability 0.000 < 0.12"
+    },
+    {
+      "cell": "7:9",
+      "decision": "reject",
+      "reason": "suitability 0.000 < 0.12"
+    },
+    {
+      "cell": "8:9",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "9:9",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "10:9",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "0:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "1:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "2:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "3:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "4:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "5:10",
+      "decision": "reject",
+      "reason": "suitability 0.000 < 0.12"
+    },
+    {
+      "cell": "6:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "7:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "8:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "9:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    },
+    {
+      "cell": "10:10",
+      "decision": "reject",
+      "reason": "outside review radius"
+    }
+  ],
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/placements.json",
+      "sha256": "d4c529f995b4d823526ab830eda0c137bdaad25bf37d84c701ef482b21db9a9f"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "world_id": "yellowstone_midway"
+}

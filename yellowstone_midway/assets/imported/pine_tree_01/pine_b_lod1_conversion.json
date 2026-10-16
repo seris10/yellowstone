@@ -1,0 +1,43 @@
+{
+  "source": "https://polyhaven.com/a/pine_tree_01",
+  "source_variant": "b",
+  "source_tree_triangles": 4234432,
+  "lod": 1,
+  "woody_triangles": 5169,
+  "woody_geometry_unchanged": false,
+  "foliage_cards": 1008,
+  "foliage_triangles": 2016,
+  "total_triangles": 7185,
+  "runtime_mesh_bytes": 319788,
+  "source_height_m": 14.794495582580566,
+  "canopy_bounds_m": [
+    [
+      -3.540931463241577,
+      4.585156440734863,
+      -3.5275497436523438
+    ],
+    [
+      3.68281888961792,
+      14.794495582580566,
+      4.069476127624512
+    ]
+  ],
+  "pivot": "Ground-centered; vertical Y in meters; no root transform",
+  "limitations": [
+    "Pine species unspecified by creator; not certified Pinus contorta.",
+    "Foliage is a derived approximation of the original measured canopy.",
+    "LOD0 retains original woody geometry; LOD1/2 simplify it and LOD2 omits fine dead branches."
+  ],
+  "derived_bounds_m": [
+    [
+      -3.540931463241577,
+      -0.08231906592845917,
+      -3.5275497436523438
+    ],
+    [
+      3.68281888961792,
+      14.794495582580566,
+      4.069476127624512
+    ]
+  ]
+}

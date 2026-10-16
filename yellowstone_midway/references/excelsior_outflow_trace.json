@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "name": "Excelsior representative northwestern outflow",
+  "authorship": "Hand traced against USDA NAIP aerial imagery acquired 2022-07-19",
+  "reference_image": "midway_orthophoto_detail.jpg",
+  "reference_map": "midway_outflow_reference.png",
+  "horizontal_crs": "EPSG:32612 with project origin subtracted; x east and z south",
+  "polyline_local_xz_m": [[22.0, -173.0], [24.0, -184.0], [28.0, -201.0], [31.0, -218.0], [25.0, -236.0], [39.0, -254.0], [54.0, -269.0], [65.0, -276.0], [73.0, -280.0]],
+  "geometry_status": "Representative authored alignment; the actual drainage has several branches. Steam obscures some of the pool margin. The final point is snapped to the imported Firehole centerline during authoring.",
+  "water_level_status": "Start pinned to authored Excelsior pool level and end pinned to the shared Firehole water profile. Intermediate level follows a bounded, monotone fit to the DEM.",
+  "visual_width_m": 2.4,
+  "visual_max_depth_m": 0.15,
+  "temperature_c": 82.0,
+  "aggregate_discharge_m3_s": 0.252,
+  "parameter_status": "Illustrative scenario values. The NPS reports more than 4000 US gallons per minute for all Excelsior outflow, not a measured discharge for this individual branch.",
+  "physical_reference": "https://www.nps.gov/places/000/excelsior-geyser-crater.htm",
+  "future_refinement": "Digitize every distributary and measured channel cross-section; partition total flow and solve mass/heat transport before claiming calibrated water behavior."
+}

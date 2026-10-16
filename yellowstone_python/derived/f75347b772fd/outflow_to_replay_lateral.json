@@ -1,0 +1,81 @@
+{
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "excelsior_lateral_override": {
+    "flow_m3s": 0.30732278420000003,
+    "provenance": {
+      "per_spring": [
+        {
+          "discharge_m3_s": 0.01,
+          "mean_t_c": 36.59150193285623,
+          "pool_id": "pool_1028_0",
+          "river_inflow_fraction": 1.0,
+          "share_m3_s": 0.01,
+          "spring_index": 0,
+          "wet_cell_count": 15335
+        },
+        {
+          "discharge_m3_s": 0.01,
+          "mean_t_c": 36.00191230685204,
+          "pool_id": "pool_1029_0",
+          "river_inflow_fraction": 1.0,
+          "share_m3_s": 0.01,
+          "spring_index": 1,
+          "wet_cell_count": 11609
+        },
+        {
+          "discharge_m3_s": 0.2524,
+          "mean_t_c": 46.26726929473448,
+          "pool_id": "pool_1030_0",
+          "river_inflow_fraction": 1.0,
+          "share_m3_s": 0.2524,
+          "spring_index": 2,
+          "wet_cell_count": 8905
+        },
+        {
+          "discharge_m3_s": 0.0353,
+          "mean_t_c": 35.060804996337716,
+          "pool_id": "pool_1034_0",
+          "river_inflow_fraction": 0.989314,
+          "share_m3_s": 0.0349227842,
+          "spring_index": 3,
+          "wet_cell_count": 97263
+        }
+      ],
+      "source": "WP-A outflow_network river_inflow_fraction times spring_discharges.json, weighted by WP-B outflow temperature mean over each spring's wet cells"
+    },
+    "status": "outflow_chain_override",
+    "temperature_c": 44.34495110614532
+  },
+  "note": "replay lateral is overridden in-place when outflow_chain runs; see excelsior_lateral_override.",
+  "parameter_provenance": {
+    "source": "WP-A outflow_network springs"
+  },
+  "river_inflow_fraction_by_pool": {
+    "pool_1028_0": 1.0,
+    "pool_1029_0": 1.0,
+    "pool_1030_0": 1.0,
+    "pool_1034_0": 0.989314
+  },
+  "schema": "yellowstone.outflow_to_replay_lateral.v1",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "spring_discharges_m3_s": {
+    "pool_1028_0": 0.01,
+    "pool_1029_0": 0.01,
+    "pool_1030_0": 0.2524,
+    "pool_1034_0": 0.0353
+  },
+  "spring_temps_c": {
+    "pool_1028_0": 62.0,
+    "pool_1029_0": 60.0,
+    "pool_1030_0": 88.7,
+    "pool_1034_0": 70.0
+  },
+  "status": "outflow_chain_override",
+  "world_id": "yellowstone_midway"
+}

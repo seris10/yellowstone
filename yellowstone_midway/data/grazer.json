@@ -1,0 +1,173 @@
+{
+  "code_rev": "yellowstone_python-0.1.0",
+  "contract_version": "0.1.0",
+  "parameter_provenance": {
+    "causal_claim": "none_single",
+    "note": "sparse authored loops; not abundance"
+  },
+  "planner_corridor": {
+    "from": [
+      -120,
+      -450
+    ],
+    "length_m": 40.3,
+    "note": "planner re-walk on apron grid over the authored route; records not altered",
+    "planner_ok": true,
+    "to": [
+      -105,
+      -445
+    ],
+    "waypoints": 12
+  },
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/ecosystem.json",
+      "sha256": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "wildlife": [
+    {
+      "approx_dimensions_m": {
+        "length": 2.82,
+        "shoulder_height": 1.825
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+      "graze_seconds": 31.7,
+      "grazing_index_per_second": 1.5e-06,
+      "id": "bison_01",
+      "initial_state": "graze",
+      "kind": "bison",
+      "medium": "land",
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -120,
+          -450
+        ],
+        [
+          -125,
+          -440
+        ],
+        [
+          -112,
+          -434
+        ],
+        [
+          -105,
+          -445
+        ]
+      ],
+      "phase": 0.3,
+      "rest_seconds": 18.0,
+      "scale": 1.0,
+      "species_id": "bison",
+      "timing_basis": {
+        "causal_claim": "none_single; forage basis only, predation/hydrology unknowns listed",
+        "hypotheses": [
+          "forage_quality",
+          "predation_risk",
+          "hydrology"
+        ],
+        "patch_biomass": 0.8201
+      },
+      "walk_mps": 0.56
+    },
+    {
+      "approx_dimensions_m": {
+        "length": 2.397,
+        "shoulder_height": 1.551
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+      "graze_seconds": 40.9,
+      "grazing_index_per_second": 1.5e-06,
+      "id": "bison_02",
+      "initial_state": "graze",
+      "kind": "bison",
+      "medium": "land",
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -142,
+          -463
+        ],
+        [
+          -150,
+          -460
+        ],
+        [
+          -148,
+          -449
+        ],
+        [
+          -140,
+          -440
+        ]
+      ],
+      "phase": 3.1,
+      "rest_seconds": 18.0,
+      "scale": 0.85,
+      "species_id": "bison",
+      "timing_basis": {
+        "causal_claim": "none_single; forage basis only, predation/hydrology unknowns listed",
+        "hypotheses": [
+          "forage_quality",
+          "predation_risk",
+          "hydrology"
+        ],
+        "patch_biomass": 0.8201
+      },
+      "walk_mps": 0.48
+    },
+    {
+      "approx_dimensions_m": {
+        "length": 2.482,
+        "shoulder_height": 1.606
+      },
+      "art_status": "Original articulated geometric silhouette; replace with licensed species-correct rig for final realism.",
+      "evidence_scope": "Firehole corridor presence; these individual locations and counts are authored representatives.",
+      "graze_seconds": 25.1,
+      "grazing_index_per_second": 1.5e-06,
+      "id": "bison_03",
+      "initial_state": "graze",
+      "kind": "bison",
+      "medium": "land",
+      "patch_id": "north_meadow",
+      "path_xz": [
+        [
+          -132,
+          -476
+        ],
+        [
+          -135,
+          -465
+        ],
+        [
+          -128,
+          -459
+        ],
+        [
+          -120,
+          -464
+        ]
+      ],
+      "phase": 6.0,
+      "rest_seconds": 18.0,
+      "scale": 0.88,
+      "species_id": "bison",
+      "timing_basis": {
+        "causal_claim": "none_single; forage basis only, predation/hydrology unknowns listed",
+        "hypotheses": [
+          "forage_quality",
+          "predation_risk",
+          "hydrology"
+        ],
+        "patch_biomass": 0.8201
+      },
+      "walk_mps": 0.52
+    }
+  ],
+  "world_id": "yellowstone_midway"
+}

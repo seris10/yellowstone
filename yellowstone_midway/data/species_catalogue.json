@@ -1,0 +1,3018 @@
+{
+  "schema_version": 1,
+  "title": "Midway Geyser Basin / Firehole ecological authoring catalogue",
+  "research_accessed_utc": "2026-10-07",
+  "geographic_scope": "Meter-scale authored Midway segment and explicitly labeled future Yellowstone extensions.",
+  "status": "Research catalogue and implementation plan. Entries are not a runtime spawn list or a claim that assets and behavior are implemented.",
+  "world_contract": {
+    "one_godot_unit_m": 1.0,
+    "runtime_world_generation": false,
+    "placement": "Every final transform, habitat polygon, perch, route and water connection is authored or explicitly approved and serialized.",
+    "runtime_randomness_allowed": "Only bounded behavior variation of persistent authored entities, never new terrain, habitat polygons or species placement.",
+    "local_observation_required_for_exact_claims": true,
+    "catalogue_entry_count_is_not_biodiversity_measure": true
+  },
+  "evidence_classes": {
+    "documented_site": "Source explicitly names Midway or a particular feature. Does not locate every individual.",
+    "documented_corridor": "Source establishes Firehole river/drainage use; exact local patch unknown.",
+    "documented_park": "Yellowstone presence; local suitability and occurrence must be reviewed.",
+    "habitat_inference": "Functional guild or proposed relationship inferred from habitat. Not a species-level locality record.",
+    "documented_elsewhere": "Evidence concerns a different Yellowstone site or research system; expansion only.",
+    "dated_nondetection": "Defined site survey did not detect organism at a particular time; not permanent absence."
+  },
+  "habitats": [
+    {
+      "id": "thermal_core",
+      "description": "Named hot-pool water and vent zone",
+      "medium": "water",
+      "ordinary_biota_may_be_eligible": false,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "water_temperature_c",
+        "hydroperiod",
+        "connected_reach_id"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "thermal_outflow_hot",
+      "description": "Connected hot shallow outflow",
+      "medium": "water",
+      "ordinary_biota_may_be_eligible": false,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "water_temperature_c",
+        "hydroperiod",
+        "connected_reach_id"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "thermal_outflow_cool",
+      "description": "Verified cooler thermal drainage; still not ordinary cold-water habitat",
+      "medium": "water",
+      "ordinary_biota_may_be_eligible": false,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "water_temperature_c",
+        "hydroperiod",
+        "connected_reach_id"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "sinter_dry",
+      "description": "Exposed mineral sinter above active water",
+      "medium": "surface",
+      "ordinary_biota_may_be_eligible": false,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "thermal_margin_dry",
+      "description": "Open relatively dry slightly heated substrate",
+      "medium": "soil",
+      "ordinary_biota_may_be_eligible": false,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "forest_lodgepole",
+      "description": "Authored lodgepole stand",
+      "medium": "soil",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "forest_moist",
+      "description": "Verified moist conifer patch",
+      "medium": "soil",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "forest_edge",
+      "description": "Forest/open-ground ecotone",
+      "medium": "soil",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "dry_meadow",
+      "description": "Well-drained nonthermal herbaceous patch",
+      "medium": "soil",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "wet_meadow",
+      "description": "Seasonally saturated nonboiling meadow",
+      "medium": "soil",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "cold_wetland",
+      "description": "Verified quiet suitably cool wetland with specified hydroperiod",
+      "medium": "water",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "water_temperature_c",
+        "hydroperiod",
+        "connected_reach_id"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "river_riffle",
+      "description": "Connected shallow Firehole reach with known bed",
+      "medium": "water",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "water_temperature_c",
+        "hydroperiod",
+        "connected_reach_id"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "river_pool",
+      "description": "Connected deeper Firehole reach or eddy",
+      "medium": "water",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "water_temperature_c",
+        "hydroperiod",
+        "connected_reach_id"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "river_bank",
+      "description": "Banks and bars linked to river stage",
+      "medium": "surface",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "disturbed_verge",
+      "description": "Authored road or trail disturbance",
+      "medium": "soil",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "substrate_class",
+        "season",
+        "source_confidence",
+        "soil_moisture_index",
+        "root_zone_temperature_c",
+        "canopy_openness"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    },
+    {
+      "id": "airspace",
+      "description": "Foraging/transit airspace linked to suitable habitat",
+      "medium": "air",
+      "ordinary_biota_may_be_eligible": true,
+      "authored_geometry_required": true,
+      "fields_required": [
+        "source_habitat_id",
+        "perch_or_roost_id",
+        "season"
+      ],
+      "note": "Eligibility is species-specific; no habitat flag guarantees presence."
+    }
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "url": "https://www.nps.gov/places/000/grand-prismatic-spring.htm",
+      "description": "NPS, Grand Prismatic Spring, updated 2026-08-15. Feature size, spring behavior, microbial interpretation.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S02",
+      "url": "https://www.nps.gov/places/000/excelsior-geyser-crater.htm",
+      "description": "NPS, Excelsior Geyser Crater. Crater dimensions and continual Firehole discharge.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S03",
+      "url": "https://www.nps.gov/yell/learn/nature/forests.htm",
+      "description": "NPS, Forests, updated 2025-04-18. Forest types, lodgepole form, selected understory.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S04",
+      "url": "https://www.nps.gov/yell/learn/nature/ecosystemgeology.htm",
+      "description": "NPS, Influence of Geology. Substrate and vegetation relationships.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S05",
+      "url": "https://www.nps.gov/yell/learn/nature/ecological-consequences-of-fire.htm",
+      "description": "NPS, Ecological Consequences of Fire. Lodgepole regeneration and landscape history.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S06",
+      "url": "https://www.nps.gov/yell/learn/nature/wetlands.htm",
+      "description": "NPS, Wetlands, updated 2025-04-18. Wetland distinctions; Firehole Lake Road observations.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S07",
+      "url": "https://www.nps.gov/yell/learn/nature/hydrothermal-plant-communities.htm",
+      "description": "NPS, Hydrothermal Plant Communities, updated 2025-04-18. Thermal shifts and vegetation.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S08",
+      "url": "https://www.nps.gov/yell/learn/nature/yellowstone-sulphur-flower.htm",
+      "description": "NPS, Yellowstone Sulphur Flower, updated 2025-04-18. Explicit Midway presence and suitable ground.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S09",
+      "url": "https://www.nps.gov/yell/learn/nature/ross-s-bentgrass.htm",
+      "description": "NPS, Ross's Bentgrass, updated 2025-04-18. Distribution, calendar, and qualified dispersal hypothesis.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S10",
+      "url": "https://www.nps.gov/yell/learn/nature/wildflowers.htm",
+      "description": "NPS, Wildflowers. Broad habitat and flowering guidance.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S11",
+      "url": "https://www.nps.gov/yell/learn/nature/bison.htm",
+      "description": "NPS, Bison Ecology. Diet, behavior, movements, and grazing interactions.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S12",
+      "url": "https://www.nps.gov/features/yell/ofvec/exhibits/ecology/wildlife/bison.htm",
+      "description": "NPS Old Faithful Virtual Visitor Center, Bison. Firehole/Madison winter use; historical interpretation.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S13",
+      "url": "https://www.usgs.gov/observatories/yvo/news/wildlife-yellowstone-national-parks-thermal-basins",
+      "description": "USGS YVO, Wildlife in Yellowstone National Park's Thermal Basins, 2024-12-16. Thermal biota and Firehole elk context.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S14",
+      "url": "https://www.nps.gov/yell/learn/nature/elk.htm",
+      "description": "NPS, Elk. Park species and broader ecological context.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S15",
+      "url": "https://www.nps.gov/yell/learn/nature/american-dipper.htm",
+      "description": "NPS, American Dipper, updated 2025-04-17. Aquatic-insect foraging.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S16",
+      "url": "https://www.nps.gov/yell/learn/photosmultimedia/sounds-dipper.htm",
+      "description": "NPS/MSU Acoustic Atlas, American Dipper & Canada Geese, recording dated 2014-02-26. Explicit Firehole observation.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S17",
+      "url": "https://www.nps.gov/yell/learn/nature/birds.htm",
+      "description": "NPS, Birds, updated 2026-02-04. Park presence, seasons, and habitat differences.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S18",
+      "url": "https://www.nps.gov/yell/learn/nature/raven.htm",
+      "description": "NPS, Raven. Park corvid reference.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S19",
+      "url": "https://www.nps.gov/yell/learn/nature/red-squirrel.htm",
+      "description": "NPS, Red Squirrel, updated 2025-04-17. Conifer habitat and midden behavior.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S20",
+      "url": "https://www.nps.gov/yell/learn/nature/montane-vole.htm",
+      "description": "NPS, Montane Vole, updated 2025-04-18. Meadow habitat and prey role.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S21",
+      "url": "https://www.nps.gov/yell/learn/nature/coyote.htm",
+      "description": "NPS, Coyote. Small-mammal feeding and habitat.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S22",
+      "url": "https://www.nps.gov/yell/learn/nature/fish-ecology.htm",
+      "description": "NPS, Fish Ecology, updated 2026-02-02. Native versus introduced fish and Firehole context.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S23",
+      "url": "https://academic.oup.com/naja/article-abstract/39/1/37/7878932",
+      "description": "Kaya, Kaeding & Burkhalter, Use of a Cold-Water Refuge by Rainbow and Brown Trout in a Geothermally Heated Stream, 1977. Historical Sentinel Creek field evidence; publisher abstract available.",
+      "accessed_utc": "2026-10-07",
+      "kind": "primary_scientific_paper"
+    },
+    {
+      "id": "S24",
+      "url": "https://www.nps.gov/yell/learn/nature/boreal-chorus-frog.htm",
+      "description": "NPS, Boreal Chorus Frog, updated 2025-04-29. Quiet breeding water and calling season.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S25",
+      "url": "https://www.nps.gov/yell/learn/nature/columbia-spotted-frog.htm",
+      "description": "NPS, Columbia Spotted Frog, updated 2025-04-29. Habitat and life stage.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S26",
+      "url": "https://www.nps.gov/yell/learn/nature/terrestrial-gartersnake.htm",
+      "description": "NPS, Terrestrial Gartersnake, updated 2025-04-29. Habitat and diet.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S27",
+      "url": "https://www.nps.gov/yell/learn/nature/thermophilic-eukarya.htm",
+      "description": "NPS, Thermophilic Eukarya, updated 2025-04-18. Thermal flies and plant/fungal examples.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S28",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10816054/",
+      "description": "Willemssens et al., Habitat Characteristics, Distribution, and Abundance of Cicindelidia haemorrhagica in Yellowstone National Park, *Insects* 15:15, 2024, DOI 10.3390/insects15010015. Tables distinguish detections from 2016 nondetections.",
+      "accessed_utc": "2026-10-07",
+      "kind": "primary_scientific_paper"
+    },
+    {
+      "id": "S29",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10893860/",
+      "description": "Adams et al., Heavy metal movement through insect food chains in pristine thermal springs of Yellowstone National Park, *PeerJ*, 2024, DOI 10.7717/peerj.16827. Rabbit Creek and Dragon–Beowulf study context.",
+      "accessed_utc": "2026-10-07",
+      "kind": "primary_scientific_paper"
+    },
+    {
+      "id": "S30",
+      "url": "https://www.nps.gov/yell/learn/nature/bats.htm",
+      "description": "NPS, Bats, updated 2025-04-18. Insectivory, roosting, and seasonal activity.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S31",
+      "url": "https://www.nps.gov/yell/learn/nature/beaver.htm",
+      "description": "NPS, Beaver. Habitat engineering, gradients, food, and bank dens.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S32",
+      "url": "https://www.nps.gov/yell/learn/nature/river-otter.htm",
+      "description": "NPS, River Otter, updated 2025-04-18. Water association and behavior.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S33",
+      "url": "https://www.usgs.gov/observatories/yvo/news/where-pigment-ends-photosynthetic-fringe-and-upper-temperature-limit",
+      "description": "USGS YVO, Where the pigment ends, 2021-12-27. Temperature, chemistry, and photosynthetic limits.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S34",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12095910/",
+      "description": "Willemssens et al., Hot springs, cool beetles, *Annals of the Entomological Society of America* 118:237–243, 2025. Heat-reflection and physiology study.",
+      "accessed_utc": "2026-10-07",
+      "kind": "primary_scientific_paper"
+    },
+    {
+      "id": "S35",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/17255511/",
+      "description": "Márquez et al., A virus in a fungus in a plant: three-way symbiosis required for thermal tolerance, *Science* 315:513–515, 2007, DOI 10.1126/science.1136237. Experimental symbiosis reference.",
+      "accessed_utc": "2026-10-07",
+      "kind": "primary_scientific_paper"
+    },
+    {
+      "id": "S36",
+      "url": "https://waterdata.usgs.gov/monitoring-location/USGS-06036805/",
+      "description": "USGS station 06036805, Firehole River at Old Faithful. Calibration-data discovery point; not Midway measurement.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_monitoring_station"
+    },
+    {
+      "id": "S37",
+      "url": "https://waterdata.usgs.gov/monitoring-location/USGS-06036905/",
+      "description": "USGS station 06036905, Firehole River near West Yellowstone. Calibration-data discovery point; not Midway measurement.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_monitoring_station"
+    },
+    {
+      "id": "S38",
+      "url": "https://www.nps.gov/yell/learn/news/26015.htm",
+      "description": "NPS 2026 river fishing-temperature restriction updates. Contemporary evidence of heat stress; page incorporates several dated updates.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S39",
+      "url": "https://www.nps.gov/articles/pollinator-hotshot-crews.htm",
+      "description": "NPS, Research Report: Pollinator Hotshot Crews, updated 2017-08-24. Observation variables and research approach.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S40",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3574379/",
+      "description": "Marshall, Hobbs & Cooper, Stream hydrology limits recovery of riparian ecosystems after wolf reintroduction, *Proceedings B* 280:20122977, 2013, DOI 10.1098/rspb.2012.2977. Northern-range experiment; geographical transfer requires caution.",
+      "accessed_utc": "2026-10-07",
+      "kind": "primary_scientific_paper"
+    },
+    {
+      "id": "S41",
+      "url": "https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/1051-0761(2006)016%5B1121:EHSPOI%5D2.0.CO;2",
+      "description": "Hall, Dybdahl & VanderLoop, Extremely high secondary production of introduced snails in rivers, *Ecological Applications* 16:1121–1131, 2006. Firehole included; abstract-level food-web finding.",
+      "accessed_utc": "2026-10-07",
+      "kind": "primary_scientific_paper"
+    },
+    {
+      "id": "S42",
+      "url": "https://www.nps.gov/yell/learn/nature/hydrothermal-systems.htm",
+      "description": "NPS, Hydrothermal Systems, updated 2025-04-18. Dynamic features and 2024 Biscuit Basin event.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S43",
+      "url": "https://www.nps.gov/yell/learn/nature/sagebrush-steppe.htm",
+      "description": "NPS, Sagebrush-steppe. Regional extension habitat distinctions.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S44",
+      "url": "https://www.nps.gov/yell/learn/nature/amphibians.htm",
+      "description": "NPS Amphibians; Yellowstone presence and widespread species; exact Midway sites unspecified.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S45",
+      "url": "https://www.nps.gov/yell/learn/nature/trumpeter-swan.htm",
+      "description": "NPS Trumpeter Swan; park species reference; does not establish a Midway nest.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    },
+    {
+      "id": "S46",
+      "url": "https://www.nps.gov/articles/insects-as-a-vital-sign-in-the-gye.htm",
+      "description": "NPS Insects as a Vital Sign in the GYE; pollination guilds and phenology.",
+      "accessed_utc": "2026-10-07",
+      "kind": "government_interpretation_or_observation"
+    }
+  ],
+  "species": [
+    {
+      "id": "lodgepole_pine",
+      "common_name": "Lodgepole pine",
+      "scientific_name_or_group": "Pinus contorta var. latifolia",
+      "taxon_resolution": "species",
+      "group": "tree",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Yellowstone caldera forest context; individual Midway stems require imagery",
+        "source_ids": [
+          "S03",
+          "S04"
+        ],
+        "note": "Primary tree target; stand structure must be traced, not inferred from a broad land-cover polygon."
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole",
+        "forest_edge",
+        "forest_moist"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "mature_closed_stand",
+        "open_grown",
+        "sapling_cohort",
+        "snag",
+        "fallen_log"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "engelmann_spruce",
+      "common_name": "Engelmann spruce",
+      "scientific_name_or_group": "Picea engelmannii",
+      "taxon_resolution": "species",
+      "group": "tree",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone moist/conifer forest; no exact Midway patch verified",
+        "source_ids": [
+          "S03"
+        ],
+        "note": "Do not mix uniformly through lodgepole stands."
+      },
+      "allowed_habitat_candidates": [
+        "forest_moist"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "mature",
+        "sapling"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "subalpine_fir",
+      "common_name": "Subalpine fir",
+      "scientific_name_or_group": "Abies lasiocarpa",
+      "taxon_resolution": "species",
+      "group": "tree",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone forest context; local patch unverified",
+        "source_ids": [
+          "S03"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_moist"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "mature",
+        "sapling"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "elk_sedge",
+      "common_name": "Elk sedge",
+      "scientific_name_or_group": "Carex geyeri",
+      "taxon_resolution": "species",
+      "group": "graminoid",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone lodgepole understory; exact Midway coverage unverified",
+        "source_ids": [
+          "S03"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "short_clump",
+        "dry_litter"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "grouse_whortleberry",
+      "common_name": "Grouse whortleberry",
+      "scientific_name_or_group": "Vaccinium scoparium",
+      "taxon_resolution": "species",
+      "group": "shrub",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone lodgepole understory; exact patch unverified",
+        "source_ids": [
+          "S03"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole",
+        "forest_moist"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "low_patch",
+        "seasonal_leaf_color"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "pinegrass",
+      "common_name": "Pinegrass",
+      "scientific_name_or_group": "Calamagrostis rubescens",
+      "taxon_resolution": "species",
+      "group": "graminoid",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone forest understory; local patch unverified",
+        "source_ids": [
+          "S03"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_moist",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "patch",
+        "dry_stems"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "wetland_sedge_guild",
+      "common_name": "Wetland sedges",
+      "scientific_name_or_group": "Carex spp.",
+      "taxon_resolution": "genus_guild",
+      "group": "graminoid",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "habitat_inference",
+        "geographic_scope": "Yellowstone wetland guild; local species unresolved",
+        "source_ids": [
+          "S06"
+        ],
+        "note": "Identify sedge species from local material before making a species-level claim."
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow",
+        "cold_wetland",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "tussock",
+        "short_grazed_patch",
+        "dry_seedheads"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "wetland_rush_guild",
+      "common_name": "Wetland rushes",
+      "scientific_name_or_group": "Juncaceae, species unresolved",
+      "taxon_resolution": "family_guild",
+      "group": "graminoid",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "habitat_inference",
+        "geographic_scope": "Yellowstone wetland guild; patch and species unresolved",
+        "source_ids": [
+          "S06"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow",
+        "cold_wetland"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "erect_stems",
+        "seasonal_litter"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "willow_guild",
+      "common_name": "Willows",
+      "scientific_name_or_group": "Salix spp.",
+      "taxon_resolution": "genus_guild",
+      "group": "shrub",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Central-plateau moist meadows; local Midway shrub patches require verification",
+        "source_ids": [
+          "S11",
+          "S31"
+        ],
+        "note": "Do not create a continuous willow belt solely from distance to water."
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow",
+        "river_bank",
+        "cold_wetland"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "low_shrub",
+        "browse_limited",
+        "leaf_off"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "yellowstone_sulphur_flower",
+      "common_name": "Yellowstone sulphur flower",
+      "scientific_name_or_group": "Eriogonum umbellatum var. cladophorum",
+      "taxon_resolution": "species",
+      "group": "forb",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_site",
+        "geographic_scope": "Upper, Midway, and Lower geyser basins; exact plant patches unspecified",
+        "source_ids": [
+          "S08"
+        ],
+        "note": "Local endemic target on open slightly heated ground; individual positions need reference."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_margin_dry"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "vegetative_cushion",
+        "yellow_flowers",
+        "dry_flower_heads"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "ross_bentgrass",
+      "common_name": "Ross’s bentgrass",
+      "scientific_name_or_group": "Agrostis rossiae",
+      "taxon_resolution": "species",
+      "group": "graminoid",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Firehole-drainage geyser basins and Shoshone Geyser Basin",
+        "source_ids": [
+          "S09"
+        ],
+        "note": "Rare warm-moist pockets; do not blanket the basin. Hoof dispersal is a qualified hypothesis."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_margin_dry"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "seasonal_conditional",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "Winter germination; main bloom late May/early June; normally dead and inconspicuous by July.",
+      "proposed_visible_states": [
+        "winter_green",
+        "spring_flowering",
+        "summer_dry_or_absent"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "arnica",
+      "common_name": "Heartleaf arnica candidate",
+      "scientific_name_or_group": "Arnica cordifolia",
+      "taxon_resolution": "species",
+      "group": "forb",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone forest wildflower context; Midway patch unverified",
+        "source_ids": [
+          "S10"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "leaves",
+        "flowering",
+        "senescent"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "lupine",
+      "common_name": "Silvery lupine candidate",
+      "scientific_name_or_group": "Lupinus argenteus",
+      "taxon_resolution": "species",
+      "group": "forb",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone canopy/meadow wildflower context; local occurrence unverified",
+        "source_ids": [
+          "S10"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_edge",
+        "dry_meadow"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "leaf_rosette",
+        "flower_spike",
+        "seedpods"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "yellow_monkeyflower",
+      "common_name": "Yellow monkeyflower group",
+      "scientific_name_or_group": "Mimulus/Erythranthe spp.; species unresolved",
+      "taxon_resolution": "common_name_group",
+      "group": "forb",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone thermal areas, bogs, and creeks; exact taxon unresolved",
+        "source_ids": [
+          "S10"
+        ],
+        "note": "A cool-rooted verified patch is required; the genus name is not thermal tolerance data."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_outflow_cool",
+        "wet_meadow",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "vegetative",
+        "flowering"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "fringed_gentian",
+      "common_name": "Fringed gentian",
+      "scientific_name_or_group": "Gentianopsis thermalis",
+      "taxon_resolution": "species",
+      "group": "forb",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone meadows and geyser-basin wetlands; local patch unverified",
+        "source_ids": [
+          "S06",
+          "S10"
+        ],
+        "note": "Use matched local flowering references; NPS pages give broad overlapping seasonal ranges."
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow",
+        "thermal_margin_dry"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "vegetative",
+        "blue_flower",
+        "closed_flower"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "elephants_head",
+      "common_name": "Elephant’s-head flower group",
+      "scientific_name_or_group": "Pedicularis spp.; exact species to verify",
+      "taxon_resolution": "common_name_group",
+      "group": "forb",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_elsewhere",
+        "geographic_scope": "Firehole Lake Road entrance wetland explicitly mentioned by NPS",
+        "source_ids": [
+          "S06",
+          "S10"
+        ],
+        "note": "Do not relocate the documented northern wetland to the Midway boardwalk."
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "vegetative",
+        "flowering"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "fireweed",
+      "common_name": "Fireweed group",
+      "scientific_name_or_group": "Chamerion/Chamaenerion spp.; taxonomic name to verify",
+      "taxon_resolution": "common_name_group",
+      "group": "forb",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone wildflower; exact species and Midway patch unresolved",
+        "source_ids": [
+          "S10",
+          "S05"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_edge",
+        "disturbed_verge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "vegetative",
+        "flowering",
+        "dry_seedheads"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "thermal_moss_guild",
+      "common_name": "Mosses of suitable thermal margins",
+      "scientific_name_or_group": "Bryophyta, species unresolved",
+      "taxon_resolution": "functional_guild",
+      "group": "bryophyte",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_elsewhere",
+        "geographic_scope": "NPS thermal-plant example at Fountain Paint Pots",
+        "source_ids": [
+          "S07"
+        ],
+        "note": "Example is not proof of a matching Grand Prismatic patch."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_margin_dry",
+        "thermal_outflow_cool"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "moist_surface_patch",
+        "dry_surface_patch"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "whitebark_pine",
+      "common_name": "Whitebark pine",
+      "scientific_name_or_group": "Pinus albicaulis",
+      "taxon_resolution": "species",
+      "group": "tree",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_elsewhere",
+        "geographic_scope": "Yellowstone higher-elevation communities",
+        "source_ids": [
+          "S03"
+        ],
+        "note": "Reserve for researched high-elevation extension; not a default Midway diversity tree."
+      },
+      "allowed_habitat_candidates": [
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "mature",
+        "krummholz"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "photosynthetic_mat",
+      "common_name": "Photosynthetic microbial mat community",
+      "scientific_name_or_group": "Mixed phototrophic Bacteria; taxa unresolved by appearance",
+      "taxon_resolution": "community",
+      "group": "microbial_community",
+      "origin_in_yellowstone": "indigenous_community",
+      "evidence": {
+        "class": "documented_site",
+        "geographic_scope": "Grand Prismatic margins and outflow",
+        "source_ids": [
+          "S01",
+          "S33"
+        ],
+        "note": "Approximate 72°C photosynthetic upper limit applies to neutral/alkaline systems, not all chemistry. Above that limit other microbes can persist."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_outflow_hot",
+        "thermal_outflow_cool"
+      ],
+      "excluded_habitats": [],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "thin_active_mat",
+        "thicker_cooler_mat",
+        "inactive_dry_surface"
+      ],
+      "required_dependencies": [
+        "temperature_c",
+        "chemistry_class",
+        "light",
+        "authored_mat_mask"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "hot_nonphotosynthetic_microbes",
+      "common_name": "Hot-water nonphotosynthetic microbial community",
+      "scientific_name_or_group": "Bacteria/Archaea; species unresolved",
+      "taxon_resolution": "community",
+      "group": "microbial_community",
+      "origin_in_yellowstone": "indigenous_community",
+      "evidence": {
+        "class": "documented_site",
+        "geographic_scope": "Hot Yellowstone spring water; community taxonomy unresolved",
+        "source_ids": [
+          "S01",
+          "S33"
+        ],
+        "note": "Presence is represented by environment metadata; do not render oversized individual microbes."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "excluded_habitats": [],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "community_metadata_only"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "thermal_grass_symbiosis",
+      "common_name": "Thermal grass–fungus–virus association",
+      "scientific_name_or_group": "Dichanthelium lanuginosum / Curvularia protuberata / Curvularia thermal tolerance virus",
+      "taxon_resolution": "multi_taxon_association",
+      "group": "symbiosis",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_elsewhere",
+        "geographic_scope": "Experimental thermal-tolerance system; exact Midway host patch unverified",
+        "source_ids": [
+          "S27",
+          "S35"
+        ],
+        "note": "Three-way symbiosis is not a trait of every grass in the park."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_margin_dry"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "research_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "optional_microscopic_interpretation"
+      ],
+      "required_dependencies": [
+        "verified_host_patch"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "ephydrid_flies",
+      "common_name": "Ephydrid shore flies",
+      "scientific_name_or_group": "Ephydra spp.; local identification unresolved",
+      "taxon_resolution": "genus_guild",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Yellowstone thermal food webs; exact Midway locations unresolved",
+        "source_ids": [
+          "S27",
+          "S13"
+        ],
+        "note": "Use small populations in suitable margins; temperature of source pool is not insect body temperature."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_outflow_cool",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "larvae_on_mat",
+        "adult_landing",
+        "short_flight"
+      ],
+      "required_dependencies": [
+        "suitable_mat",
+        "water_temperature_c"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "wetsalts_tiger_beetle",
+      "common_name": "Wetsalts tiger beetle",
+      "scientific_name_or_group": "Cicindelidia haemorrhagica / C. hemorrhagica (source spelling varies)",
+      "taxon_resolution": "species",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_site",
+        "geographic_scope": "Rabbit Creek thermal study site near Midway; not confirmed at visitor pools",
+        "source_ids": [
+          "S28",
+          "S29",
+          "S34"
+        ],
+        "note": "Grand Prismatic, Excelsior, Opal and Turquoise had dated nondetections in July 2016; see exclusion evidence."
+      },
+      "allowed_habitat_candidates": [
+        "thermal_outflow_cool",
+        "thermal_margin_dry"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "pause",
+        "short_run",
+        "prey_capture"
+      ],
+      "required_dependencies": [
+        "verified_rabbit_creek_patch",
+        "ephydrid_flies",
+        "surface_and_body_temperature_separation"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "new_zealand_mudsnail",
+      "common_name": "New Zealand mudsnail",
+      "scientific_name_or_group": "Potamopyrgus antipodarum",
+      "taxon_resolution": "species",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "introduced",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Firehole included in published invaded-river study",
+        "source_ids": [
+          "S41"
+        ],
+        "note": "Historical river-level evidence; abundance is not a current Midway estimate."
+      },
+      "allowed_habitat_candidates": [
+        "river_riffle",
+        "river_pool"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "research_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "benthic_grazer"
+      ],
+      "required_dependencies": [
+        "periphyton_resource"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "aquatic_insect_guild",
+      "common_name": "Emergent aquatic-insect guild",
+      "scientific_name_or_group": "Ephemeroptera / Trichoptera / Diptera; composition unresolved",
+      "taxon_resolution": "functional_guild",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "habitat_inference",
+        "geographic_scope": "Firehole fish and aquatic-insect research context; local assemblage to resolve",
+        "source_ids": [
+          "S15",
+          "S22",
+          "S23"
+        ],
+        "note": "Guild placeholder; do not claim a named mayfly hatch without species and date evidence."
+      },
+      "allowed_habitat_candidates": [
+        "river_riffle",
+        "river_pool",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "benthic_larvae",
+        "surface_emergence",
+        "adult_flight"
+      ],
+      "required_dependencies": [
+        "river_temperature",
+        "reach_id",
+        "season"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "dragonfly_guild",
+      "common_name": "Dragonflies and damselflies",
+      "scientific_name_or_group": "Odonata, species unresolved",
+      "taxon_resolution": "order_guild",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone wetlands; exact Midway breeding site unverified",
+        "source_ids": [
+          "S06",
+          "S27"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "cold_wetland",
+        "wet_meadow",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "perching",
+        "short_flight",
+        "larval_metadata"
+      ],
+      "required_dependencies": [
+        "verified_wetland_hydroperiod"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "bee_pollinator_guild",
+      "common_name": "Wild bee pollinator guild",
+      "scientific_name_or_group": "Anthophila, species unresolved",
+      "taxon_resolution": "functional_guild",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "habitat_inference",
+        "geographic_scope": "Yellowstone pollinator research; local taxa unresolved",
+        "source_ids": [
+          "S39",
+          "S10"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "dry_meadow",
+        "forest_edge",
+        "thermal_margin_dry",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "flower_visit",
+        "transit"
+      ],
+      "required_dependencies": [
+        "compatible_flowering_patch",
+        "weather"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "flower_fly_guild",
+      "common_name": "Flower-visiting fly guild",
+      "scientific_name_or_group": "Diptera, species unresolved",
+      "taxon_resolution": "functional_guild",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "habitat_inference",
+        "geographic_scope": "Greater Yellowstone pollination context; local taxa unresolved",
+        "source_ids": [
+          "S46"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow",
+        "forest_edge",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "flower_visit",
+        "transit"
+      ],
+      "required_dependencies": [
+        "compatible_flowering_patch"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "butterfly_guild",
+      "common_name": "Meadow butterfly candidates",
+      "scientific_name_or_group": "Lepidoptera, species unresolved",
+      "taxon_resolution": "functional_guild",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "habitat_inference",
+        "geographic_scope": "Greater Yellowstone montane meadow research; exact Midway species unverified",
+        "source_ids": [
+          "S46"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "dry_meadow",
+        "forest_edge",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "nectar_visit",
+        "rest",
+        "flight"
+      ],
+      "required_dependencies": [
+        "verified_host_plant",
+        "season"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "mountain_pine_beetle",
+      "common_name": "Mountain pine beetle",
+      "scientific_name_or_group": "Dendroctonus ponderosae",
+      "taxon_resolution": "species",
+      "group": "invertebrate",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone pine-host disturbance; local current infestation unverified",
+        "source_ids": [
+          "S03"
+        ],
+        "note": "Prefer authored historical damage evidence first; do not turn all snags into a current outbreak."
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "research_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "bark_evidence",
+        "hidden_larval_state"
+      ],
+      "required_dependencies": [
+        "host_tree",
+        "cohort_age",
+        "weather_history"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "bison",
+      "common_name": "American bison",
+      "scientific_name_or_group": "Bison bison",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Firehole and Madison thermal wintering/movement corridor",
+        "source_ids": [
+          "S11",
+          "S12"
+        ],
+        "note": "Group size and density are uncalibrated; physical swimming ability is not authorization for thermal-pool routes."
+      },
+      "allowed_habitat_candidates": [
+        "dry_meadow",
+        "wet_meadow",
+        "forest_edge",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "Seasonal corridor use; summer group composition requires selected-date reference.",
+      "proposed_visible_states": [
+        "graze",
+        "walk",
+        "rest",
+        "ruminate",
+        "look"
+      ],
+      "required_dependencies": [
+        "forage_patch",
+        "nonthermal_navigation",
+        "persistent_individual_id"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "elk",
+      "common_name": "Elk",
+      "scientific_name_or_group": "Cervus canadensis",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Firehole thermally influenced resident-herd context",
+        "source_ids": [
+          "S13",
+          "S14"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow",
+        "dry_meadow",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "graze",
+        "browse",
+        "rest",
+        "walk"
+      ],
+      "required_dependencies": [
+        "forage_patch",
+        "cover",
+        "persistent_individual_id"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "red_squirrel",
+      "common_name": "American red squirrel",
+      "scientific_name_or_group": "Tamiasciurus hudsonicus",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone conifer forests; Midway individuals unverified",
+        "source_ids": [
+          "S19"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole",
+        "forest_moist"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "climb",
+        "cone_handling",
+        "midden_visit",
+        "call"
+      ],
+      "required_dependencies": [
+        "authored_tree_routes",
+        "cone_resource"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "montane_vole",
+      "common_name": "Montane vole",
+      "scientific_name_or_group": "Microtus montanus",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone moist meadows and riparian vegetation",
+        "source_ids": [
+          "S20"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "wet_meadow",
+        "dry_meadow",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "hidden_burrow_state",
+        "brief_ground_movement"
+      ],
+      "required_dependencies": [
+        "grass_cover",
+        "forage_patch"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "coyote",
+      "common_name": "Coyote",
+      "scientific_name_or_group": "Canis latrans",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone meadows and grasslands; specific Midway individual unverified",
+        "source_ids": [
+          "S21"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "dry_meadow",
+        "wet_meadow",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "travel",
+        "listen",
+        "pounce_attempt",
+        "rest"
+      ],
+      "required_dependencies": [
+        "prey_resource",
+        "long_range_exit_route"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "river_otter",
+      "common_name": "North American river otter",
+      "scientific_name_or_group": "Lontra canadensis",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone waterways; regular Midway use not established",
+        "source_ids": [
+          "S32"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "river_pool",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "swim",
+        "dive",
+        "bank_travel"
+      ],
+      "required_dependencies": [
+        "connected_water",
+        "fish_resource",
+        "den_or_exit_route"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "beaver",
+      "common_name": "North American beaver",
+      "scientific_name_or_group": "Castor canadensis",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone suitable waterways; no Midway colony verified",
+        "source_ids": [
+          "S31"
+        ],
+        "note": "Do not add a dam to the Firehole to showcase the system; bank dens and colony evidence need separate review."
+      },
+      "allowed_habitat_candidates": [
+        "cold_wetland",
+        "river_bank",
+        "wet_meadow"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "swim",
+        "browse",
+        "bank_den_visit"
+      ],
+      "required_dependencies": [
+        "verified_colony",
+        "woody_food",
+        "channel_gradient",
+        "water_storage_model"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "little_brown_bat",
+      "common_name": "Little brown bat candidate",
+      "scientific_name_or_group": "Myotis lucifugus",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Park monitoring confirms species; exact Midway roost not established",
+        "source_ids": [
+          "S30"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "Warm-season dusk/night candidate; local phenology not calibrated.",
+      "proposed_visible_states": [
+        "forage_flight",
+        "roost_abstract"
+      ],
+      "required_dependencies": [
+        "insect_resource",
+        "weather",
+        "roost_or_map_exit"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "gray_wolf",
+      "common_name": "Gray wolf",
+      "scientific_name_or_group": "Canis lupus",
+      "taxon_resolution": "species",
+      "group": "mammal",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_elsewhere",
+        "geographic_scope": "Yellowstone broader predator system; no resident pack inferred inside Midway segment",
+        "source_ids": [
+          "S40",
+          "S14"
+        ],
+        "note": "Landscape-scale research extension; not a local abundance claim or automatic willow-growth multiplier."
+      },
+      "allowed_habitat_candidates": [
+        "dry_meadow",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "long_range_transit"
+      ],
+      "required_dependencies": [
+        "regional_prey_model",
+        "territory_scale",
+        "multiple_predators_and_hydrology"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "american_dipper",
+      "common_name": "American dipper",
+      "scientific_name_or_group": "Cinclus mexicanus",
+      "taxon_resolution": "species",
+      "group": "bird",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "NPS Firehole River recording",
+        "source_ids": [
+          "S15",
+          "S16"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "river_riffle",
+        "river_bank",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "perch",
+        "bob",
+        "dive",
+        "preen",
+        "call"
+      ],
+      "required_dependencies": [
+        "authored_perch",
+        "safe_foraging_water",
+        "aquatic_insect_guild"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "canada_goose",
+      "common_name": "Canada goose",
+      "scientific_name_or_group": "Branta canadensis",
+      "taxon_resolution": "species",
+      "group": "bird",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "NPS Firehole River recording",
+        "source_ids": [
+          "S16",
+          "S17"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "river_pool",
+        "river_bank",
+        "wet_meadow",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "float",
+        "bank_rest",
+        "graze",
+        "occasional_call"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "common_raven",
+      "common_name": "Common raven",
+      "scientific_name_or_group": "Corvus corax",
+      "taxon_resolution": "species",
+      "group": "bird",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone bird accounts; Midway individuals unverified",
+        "source_ids": [
+          "S17",
+          "S18"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "airspace",
+        "forest_edge",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "perch",
+        "transit",
+        "ground_search",
+        "occasional_call"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "black_billed_magpie",
+      "common_name": "Black-billed magpie",
+      "scientific_name_or_group": "Pica hudsonia",
+      "taxon_resolution": "species",
+      "group": "bird",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone accounts; optional bison association",
+        "source_ids": [
+          "S17",
+          "S11"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_edge",
+        "dry_meadow",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "perch",
+        "ground_search",
+        "brief_bison_association"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "mountain_chickadee",
+      "common_name": "Mountain chickadee",
+      "scientific_name_or_group": "Poecile gambeli",
+      "taxon_resolution": "species",
+      "group": "bird",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "NPS Yellowstone year-round bird list; exact local stand unverified",
+        "source_ids": [
+          "S17"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole",
+        "forest_moist",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "perch",
+        "short_canopy_flight"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "red_breasted_nuthatch",
+      "common_name": "Red-breasted nuthatch",
+      "scientific_name_or_group": "Sitta canadensis",
+      "taxon_resolution": "species",
+      "group": "bird",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "NPS Yellowstone year-round bird list; local individuals unverified",
+        "source_ids": [
+          "S17"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "forest_lodgepole",
+        "forest_moist",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "trunk_movement",
+        "perch"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "trumpeter_swan",
+      "common_name": "Trumpeter swan",
+      "scientific_name_or_group": "Cygnus buccinator",
+      "taxon_resolution": "species",
+      "group": "bird",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone waterways; no Midway nesting site inferred",
+        "source_ids": [
+          "S45",
+          "S17"
+        ],
+        "note": "Do not add a resident pair or nest without seasonal site evidence."
+      },
+      "allowed_habitat_candidates": [
+        "river_pool",
+        "cold_wetland",
+        "airspace"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "float",
+        "feed",
+        "transit"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "boreal_chorus_frog",
+      "common_name": "Boreal chorus frog",
+      "scientific_name_or_group": "Pseudacris maculata",
+      "taxon_resolution": "species",
+      "group": "amphibian",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone moist forest/meadow and quiet breeding water",
+        "source_ids": [
+          "S24"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "cold_wetland",
+        "wet_meadow"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "Late-spring breeding; calling generally April to early July depending on elevation/weather.",
+      "proposed_visible_states": [
+        "hidden_calling",
+        "rest",
+        "brief_hop",
+        "tadpole_metadata"
+      ],
+      "required_dependencies": [
+        "verified_cool_wetland",
+        "hydroperiod",
+        "breeding_season"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "columbia_spotted_frog",
+      "common_name": "Columbia spotted frog",
+      "scientific_name_or_group": "Rana luteiventris",
+      "taxon_resolution": "species",
+      "group": "amphibian",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone suitable wetlands; exact Midway site unverified",
+        "source_ids": [
+          "S25"
+        ],
+        "note": ""
+      },
+      "allowed_habitat_candidates": [
+        "cold_wetland",
+        "wet_meadow",
+        "river_bank"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "bank_rest",
+        "short_swim",
+        "tadpole_metadata"
+      ],
+      "required_dependencies": [
+        "quiet_breeding_water",
+        "hydroperiod"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "western_tiger_salamander",
+      "common_name": "Western tiger salamander",
+      "scientific_name_or_group": "Ambystoma mavortium",
+      "taxon_resolution": "species",
+      "group": "amphibian",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone widespread amphibian; exact Midway pond unverified",
+        "source_ids": [
+          "S44"
+        ],
+        "note": "Only after local breeding-site and taxonomic review."
+      },
+      "allowed_habitat_candidates": [
+        "cold_wetland",
+        "wet_meadow"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "hidden_terrestrial",
+        "larval_metadata"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "western_toad",
+      "common_name": "Western/boreal toad",
+      "scientific_name_or_group": "Anaxyrus boreas",
+      "taxon_resolution": "species",
+      "group": "amphibian",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone amphibian presence; local site unverified",
+        "source_ids": [
+          "S44"
+        ],
+        "note": "Do not infer high local abundance from a park-wide species list."
+      },
+      "allowed_habitat_candidates": [
+        "cold_wetland",
+        "wet_meadow",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "terrestrial_rest",
+        "short_movement"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "terrestrial_gartersnake",
+      "common_name": "Terrestrial gartersnake",
+      "scientific_name_or_group": "Thamnophis elegans",
+      "taxon_resolution": "species",
+      "group": "reptile",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_park",
+        "geographic_scope": "Yellowstone water-associated reptile; exact Midway site unverified",
+        "source_ids": [
+          "S26"
+        ],
+        "note": "Warm-water thermoregulation observed elsewhere does not justify hot-core access here."
+      },
+      "allowed_habitat_candidates": [
+        "river_bank",
+        "wet_meadow",
+        "forest_edge"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "conditional_local_review",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "bask",
+        "short_travel",
+        "cover_rest"
+      ],
+      "required_dependencies": [
+        "nonlethal_surface_temperature",
+        "cover",
+        "prey"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "rainbow_trout",
+      "common_name": "Rainbow trout",
+      "scientific_name_or_group": "Oncorhynchus mykiss",
+      "taxon_resolution": "species",
+      "group": "fish",
+      "origin_in_yellowstone": "introduced",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Firehole River historical and contemporary sources",
+        "source_ids": [
+          "S22",
+          "S23",
+          "S38"
+        ],
+        "note": "Introduced; preserve connected refuge options and reduced local presence during thermal stress."
+      },
+      "allowed_habitat_candidates": [
+        "river_riffle",
+        "river_pool"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot",
+        "thermal_outflow_cool",
+        "sinter_dry",
+        "thermal_margin_dry",
+        "cold_wetland"
+      ],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "hold_station",
+        "drift_feed",
+        "refuge_movement"
+      ],
+      "required_dependencies": [
+        "connected_river",
+        "water_temperature_c",
+        "aquatic_insect_guild",
+        "thermal_exposure_history"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "brown_trout",
+      "common_name": "Brown trout",
+      "scientific_name_or_group": "Salmo trutta",
+      "taxon_resolution": "species",
+      "group": "fish",
+      "origin_in_yellowstone": "introduced",
+      "evidence": {
+        "class": "documented_corridor",
+        "geographic_scope": "Firehole River historical and contemporary sources",
+        "source_ids": [
+          "S22",
+          "S23",
+          "S38"
+        ],
+        "note": "Introduced; greater relative heat tolerance is not immunity to high-temperature mortality."
+      },
+      "allowed_habitat_candidates": [
+        "river_riffle",
+        "river_pool"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot",
+        "thermal_outflow_cool",
+        "sinter_dry",
+        "thermal_margin_dry",
+        "cold_wetland"
+      ],
+      "recommended_stage": "core_reference",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "hold_station",
+        "drift_feed",
+        "refuge_movement"
+      ],
+      "required_dependencies": [
+        "connected_river",
+        "water_temperature_c",
+        "aquatic_insect_guild"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "yellowstone_cutthroat_trout",
+      "common_name": "Yellowstone cutthroat trout",
+      "scientific_name_or_group": "Oncorhynchus virginialis bouvieri (NPS 2026); historically O. clarkii bouvieri",
+      "taxon_resolution": "species",
+      "group": "fish",
+      "origin_in_yellowstone": "native_or_native_group",
+      "evidence": {
+        "class": "documented_elsewhere",
+        "geographic_scope": "Native Yellowstone/Snake/Fall drainages; not assumed at Midway",
+        "source_ids": [
+          "S22"
+        ],
+        "note": "Use a separately researched native-range expansion; do not mix into Midway for diversity."
+      },
+      "allowed_habitat_candidates": [
+        "river_pool",
+        "river_riffle"
+      ],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "future_region_only"
+      ],
+      "required_dependencies": [],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    },
+    {
+      "id": "lake_trout",
+      "common_name": "Lake trout",
+      "scientific_name_or_group": "Salvelinus namaycush",
+      "taxon_resolution": "species",
+      "group": "fish",
+      "origin_in_yellowstone": "introduced",
+      "evidence": {
+        "class": "documented_elsewhere",
+        "geographic_scope": "Yellowstone, Lewis, Shoshone and Heart lake context",
+        "source_ids": [
+          "S22"
+        ],
+        "note": "Requires a newly researched lake habitat definition; excluded from the Midway river and pools."
+      },
+      "allowed_habitat_candidates": [],
+      "excluded_habitats": [
+        "thermal_core",
+        "thermal_outflow_hot"
+      ],
+      "recommended_stage": "geographic_expansion",
+      "placement_mode": "author_approved_persistent_transforms_or_patch",
+      "local_coordinates": null,
+      "abundance_estimate": null,
+      "seasonal_notes": "No local phenology calibration supplied; resolve reference date before placement.",
+      "proposed_visible_states": [
+        "future_lake_region_only"
+      ],
+      "required_dependencies": [
+        "new_verified_lake_habitat",
+        "deep_water_model"
+      ],
+      "runtime_implementation": "not_asserted_by_this_research_catalogue"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "grazing",
+      "actors": [
+        "bison",
+        "wetland_sedge_guild"
+      ],
+      "relationship": "herbivory",
+      "source_ids": [
+        "S11"
+      ],
+      "scope": "Firehole-corridor eligible meadow patches",
+      "visible_outcome": "Grazing/rest transitions and subtle forage-height differences.",
+      "state_contract": "Debit forage only on completed feeding; keep forage quality distinct from biomass.",
+      "calibration": "No local consumption rate or abundance supplied."
+    },
+    {
+      "id": "meadow_predation",
+      "actors": [
+        "montane_vole",
+        "coyote"
+      ],
+      "relationship": "predation",
+      "source_ids": [
+        "S20",
+        "S21"
+      ],
+      "scope": "Habitat-based Midway candidate, not a reported local event",
+      "visible_outcome": "Occasional search, listening and possible failed pounce.",
+      "state_contract": "A successful event removes one represented prey unit exactly once.",
+      "calibration": "Encounter rates illustrative."
+    },
+    {
+      "id": "cone_cache",
+      "actors": [
+        "lodgepole_pine",
+        "red_squirrel"
+      ],
+      "relationship": "seed_consumption_and_caching",
+      "source_ids": [
+        "S19"
+      ],
+      "scope": "Verified forest candidate",
+      "visible_outcome": "Cone handling and a persistent authored midden.",
+      "state_contract": "Cache and consumed seed amounts must not be double counted.",
+      "calibration": "Local cone crop and cache size unknown."
+    },
+    {
+      "id": "thermal_mat_flies",
+      "actors": [
+        "photosynthetic_mat",
+        "ephydrid_flies"
+      ],
+      "relationship": "grazing",
+      "source_ids": [
+        "S27",
+        "S13"
+      ],
+      "scope": "Suitable cooler thermal margins; exact patches require review",
+      "visible_outcome": "Minute localized landing and feeding activity.",
+      "state_contract": "Consumer eligibility checks local water/body temperature separately from vent temperature.",
+      "calibration": "No local biomass or density estimate supplied."
+    },
+    {
+      "id": "thermal_flies_beetles",
+      "actors": [
+        "ephydrid_flies",
+        "wetsalts_tiger_beetle"
+      ],
+      "relationship": "predation",
+      "source_ids": [
+        "S28",
+        "S29"
+      ],
+      "scope": "Documented Rabbit Creek expansion only until further site evidence",
+      "visible_outcome": "Short beetle runs with pauses and occasional prey capture.",
+      "state_contract": "Maintain dated nondetection exclusions at visitor pools.",
+      "calibration": "No current local encounter rate supplied."
+    },
+    {
+      "id": "river_insects_fish",
+      "actors": [
+        "aquatic_insect_guild",
+        "rainbow_trout",
+        "brown_trout"
+      ],
+      "relationship": "predation",
+      "source_ids": [
+        "S22",
+        "S23"
+      ],
+      "scope": "Connected suitable Firehole water",
+      "visible_outcome": "Station holding and occasional feeding aligned to drift.",
+      "state_contract": "Reach temperature and food use the same state as water rendering.",
+      "calibration": "Guild composition and emergence schedule unresolved."
+    },
+    {
+      "id": "river_insects_dipper",
+      "actors": [
+        "aquatic_insect_guild",
+        "american_dipper"
+      ],
+      "relationship": "predation",
+      "source_ids": [
+        "S15",
+        "S16"
+      ],
+      "scope": "Firehole corridor",
+      "visible_outcome": "Repeated perch/dive/return sequences at valid water and stones.",
+      "state_contract": "Perch and dive point track river stage; successful consumption debits resource.",
+      "calibration": "Local territory size and individual counts unknown."
+    },
+    {
+      "id": "pollination",
+      "actors": [
+        "yellowstone_sulphur_flower",
+        "bee_pollinator_guild",
+        "flower_fly_guild"
+      ],
+      "relationship": "candidate_pollination",
+      "source_ids": [
+        "S39",
+        "S46"
+      ],
+      "scope": "General pollinator model; this precise local pairing is unverified",
+      "visible_outcome": "Flower visitation only during compatible phenology and weather.",
+      "state_contract": "Do not equate a visit with successful pollination without compatibility evidence.",
+      "calibration": "No species-pair success rate supplied."
+    },
+    {
+      "id": "bat_insect_foraging",
+      "actors": [
+        "little_brown_bat",
+        "aquatic_insect_guild"
+      ],
+      "relationship": "candidate_predation",
+      "source_ids": [
+        "S30"
+      ],
+      "scope": "Warm dusk/night airspace; exact local prey association unverified",
+      "visible_outcome": "Limited foraging flights near source habitat.",
+      "state_contract": "Requires roost or map-exit route and weather eligibility.",
+      "calibration": "No local abundance or call classification supplied."
+    },
+    {
+      "id": "beaver_hydrology",
+      "actors": [
+        "beaver",
+        "willow_guild"
+      ],
+      "relationship": "ecosystem_engineering",
+      "source_ids": [
+        "S31",
+        "S40"
+      ],
+      "scope": "Future verified colony/reach; not assumed in Midway",
+      "visible_outcome": "Pond and wet-ground changes if a validated dam exists.",
+      "state_contract": "Modify channel storage, stage, groundwater and navigation together.",
+      "calibration": "Northern-range experiments cannot be copied as Midway coefficients."
+    }
+  ],
+  "dated_nondetections": [
+    {
+      "species_id": "wetsalts_tiger_beetle",
+      "locations": [
+        "Grand Prismatic Spring",
+        "Excelsior Geyser Basin",
+        "Opal Pool",
+        "Turquoise Pool"
+      ],
+      "survey_date": "2016-07",
+      "effort": "At least 15 minutes per inspected site in late July 2016, per study Table 2.",
+      "source_ids": [
+        "S28"
+      ],
+      "interpretation": "Do not claim present at these specific features from this study; nondetection does not prove permanent absence.",
+      "placement_policy": "Exclude as a routine baseline occupant; require new site evidence to override."
+    }
+  ],
+  "hard_rules": [
+    {
+      "id": "no_fish_in_named_hot_pools",
+      "rule": "No fish in Grand Prismatic, Excelsior, Opal or Turquoise hot-pool habitats; fish route graphs are river-only."
+    },
+    {
+      "id": "no_species_from_color_only",
+      "rule": "Do not identify a microbial species, temperature or toxicity from visible color alone."
+    },
+    {
+      "id": "no_invented_refuge",
+      "rule": "Do not invent a cold tributary at Midway to implement Sentinel Creek refuge behavior; use verified connected water or allow fish to leave."
+    },
+    {
+      "id": "no_all_species_all_seasons",
+      "rule": "Every patch checks phenology and life stage; Ross’s bentgrass is not a lush default July plant."
+    },
+    {
+      "id": "no_procedural_species_population",
+      "rule": "The catalogue never causes every listed taxon to spawn; accepted authored placements are separate data."
+    },
+    {
+      "id": "no_local_beaver_claim_without_evidence",
+      "rule": "No automatic Midway beaver colony, dam, frog pond or swan nest."
+    },
+    {
+      "id": "no_wolves_to_trees_shortcut",
+      "rule": "A future trophic cascade model must include habitat, browsing, hydrology, time scale and multiple interacting drivers."
+    },
+    {
+      "id": "no_thermal_surface_body_conflation",
+      "rule": "Store surface, water, root-zone and animal-body temperatures as distinct quantities."
+    }
+  ],
+  "reference_parameters": [
+    {
+      "id": "excelsior_discharge_reference",
+      "value": 4000,
+      "comparator": ">",
+      "unit": "US gal/min",
+      "derived_value": 0.2523607856,
+      "derived_unit": "m3/s",
+      "status": "NPS descriptive reference, not current per-outlet measurement",
+      "source_ids": [
+        "S02"
+      ]
+    },
+    {
+      "id": "neutral_alkaline_photosynthesis_upper_temperature",
+      "value": 72,
+      "unit": "degC",
+      "status": "Approximate contextual boundary; chemistry dependent; not a total-life limit",
+      "source_ids": [
+        "S33"
+      ]
+    },
+    {
+      "id": "trout_thermal_stress_reference",
+      "value": 20,
+      "unit": "degC",
+      "status": "NPS management-context heat-stress reference; not universal instant death threshold",
+      "source_ids": [
+        "S38"
+      ]
+    }
+  ],
+  "illustrative_software_parameters": [
+    {
+      "id": "near_animal_decision_interval",
+      "range": [
+        0.25,
+        1.0
+      ],
+      "unit": "simulation seconds",
+      "calibrated": false,
+      "note": "Software scheduling range only, not an animal behavior measurement."
+    },
+    {
+      "id": "reach_update_interval",
+      "range": [
+        1.0,
+        10.0
+      ],
+      "unit": "simulation seconds",
+      "calibrated": false,
+      "note": "Choose numerical solver and stability limits before selecting interval."
+    }
+  ],
+  "calibration_required": [
+    "Exact local plant identification and canopy/ground-cover composition.",
+    "Reference season/year, local phenology and disturbance history.",
+    "Current thermal outflow connections, temperatures, chemistry and discharge split.",
+    "River depth, cross sections, stage/discharge relations and upstream boundary conditions.",
+    "Fish presence by reach and temperature; local cold-refuge connectivity.",
+    "Wetland hydroperiod and documented amphibian breeding occupancy.",
+    "Local insect taxa, thermal tolerances and emergence schedules.",
+    "Animal territory/route evidence, abundance, and species-specific assets.",
+    "Audio locality, date, attribution and actual media reuse license."
+  ]
+}

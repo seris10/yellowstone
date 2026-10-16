@@ -1,0 +1,20 @@
+{
+  "schema": "yellowstone.spring_display.v1",
+  "run_mode": "illustrative",
+  "pool_id": "pool_1034_0",
+  "value_class": "authored_image_informed_display",
+  "uncertainty": "unknown",
+  "color_space": "sRGB",
+  "illumination": "sunlit reference; exact illumination and camera processing unknown",
+  "scientific_radiometry": "unchanged; published radiative-transfer ramps remain independently available",
+  "steam_samples": {"least_steam": "#2371a9", "some_steam": "#588ccb", "more_steam": "#7fabde"},
+  "ordered_reference_colors": ["#318eb9", "#389dc2", "#13989f", "#15a3a1", "#1ca893", "#69be80", "#bbb252", "#dbbc40", "#e9cc58", "#f6c68c", "#ab715d", "#d68974", "#e3825c", "#dd7947", "#f78d46", "#f18233", "#6f6274", "#45465d", "#8d8384", "#c8c1bc", "#f0ede2", "#dfd2c1"],
+  "water_profile": [[0.0,"#2371a9"],[0.25,"#318eb9"],[0.72,"#389dc2"],[0.84,"#13989f"],[0.89,"#15a3a1"],[0.935,"#1ca893"],[0.956,"#69be80"],[0.974,"#bbb252"],[0.985,"#dbbc40"],[1.0,"#e9cc58"]],
+  "apron_profile_m": [[0.0,"#e9cc58"],[0.7,"#f6c68c"],[1.7,"#ab715d"],[2.5,"#d68974"],[4.0,"#e3825c"],[7.0,"#f78d46"],[11.0,"#f18233"],[18.0,"#6f6274"],[25.0,"#45465d"],[35.0,"#8d8384"],[60.0,"#c8c1bc"],[95.0,"#dfd2c1"]],
+  "profile_position_class": "authored normalized polygon radius and shoreline distance; not measured band widths",
+  "terrace_height_m": 0.065,
+  "terrace_spacing_m": 6.5,
+  "terrace_ridge_width_m": 0.8,
+  "terrace_class": "authored flow-oriented microrelief; no inferred subpixel geographic geometry",
+  "sources": ["https://www.montana.edu/jshaw/documents/YNP%20pool%20colors%20-%20Nugent%20et%20al%20-%20AO2015.pdf", "https://www.nps.gov/places/000/grand-prismatic-spring.htm"]
+}

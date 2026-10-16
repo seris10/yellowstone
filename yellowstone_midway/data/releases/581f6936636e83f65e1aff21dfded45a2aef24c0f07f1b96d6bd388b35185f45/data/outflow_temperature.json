@@ -1,0 +1,68 @@
+{
+  "discharges_m3_s": {
+    "pool_1028_0": 0.01,
+    "pool_1029_0": 0.01,
+    "pool_1030_0": 0.2524,
+    "pool_1034_0": 0.0353
+  },
+  "dry_cell_count": 55088,
+  "fill_method": "graph_energy_sweep_mfd_wp_a_injection",
+  "flow_fraction_verify_max_abs_diff": 1.1920928955078125e-07,
+  "flow_fraction_verify_source": "WP-A world.json pool rings + outflow_network.polygon_mask + rim_mask + weir_rim_injection + fill_depressions + mfd_weights + propagate_discharge + flow_fraction_raster",
+  "flow_fraction_verify_tolerance": 1e-06,
+  "forcing_epoch_utc": 1782079920.0,
+  "grid": {
+    "cell_size_m": 1.0,
+    "nx": 1280,
+    "nz": 1280,
+    "origin_xz_m": [
+      -640.0,
+      -640.0
+    ],
+    "row_order": "north_to_south"
+  },
+  "met": {
+    "air_c": 21.265847744427305,
+    "cloud": 0.16,
+    "rh": 0.45,
+    "shortwave_w_m2": 870.2559514095842,
+    "wind_mps": 1.8973665961010275
+  },
+  "mfd_exponent": 1.1,
+  "min_film_depth_m": 0.001,
+  "min_film_depth_status": "authored",
+  "nodata": "NaN",
+  "raster_path": "outflow_temperature.f32",
+  "rim_injection_convention": "weir",
+  "schema": "yellowstone.outflow_temperature.v1",
+  "segment_profiles_status": "segment_temperature profiles are diagnostic only; the raster comes from graph_energy_sweep",
+  "sha256": "ba10daed5e8c20cb8d6e4463f49fb38661cfd867d7e7999cee38264362c1c8df",
+  "shortwave_forcing": {
+    "all_sky_w_m2": 870.2559514095842,
+    "altitude_m": 2240.0,
+    "clear_ghi_w_m2": 871.5422970329904,
+    "cloud_factor": 0.9985240582955236,
+    "cloud_fraction": 0.16,
+    "cloud_source": "weather.cloud at the simulation start",
+    "epoch_source": "simulation_config_utc",
+    "epoch_utc": "2026-06-21T22:12:00+00:00",
+    "epoch_utc_s": 1782079920.0,
+    "latitude_deg": 44.525,
+    "longitude_deg": -110.837,
+    "sources": [
+      "pvlib get_clearsky Ineichen Perez model",
+      "Kasten and Czeplak (1980) Solar Energy 24(2) 177, cloud attenuation G/G_clear = 1 - 0.75 (N/8)^3.4 with N in oktas"
+    ]
+  },
+  "spring_temps_c": {
+    "pool_1028_0": 62.0,
+    "pool_1029_0": 60.0,
+    "pool_1030_0": 88.7,
+    "pool_1034_0": 70.0
+  },
+  "status": "fitted_not_validated",
+  "t_equilibrium_c": 34.965881123021234,
+  "t_hot_c": 88.7,
+  "units": "degC",
+  "wet_cell_count": 280950
+}

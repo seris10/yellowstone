@@ -1,0 +1,53 @@
+{
+  "schema": "ysg.index.v1",
+  "title": "Yellowstone Species Generator - trait dataset index",
+  "created": "2026-10-09",
+  "spec": "../00_RESEARCH_SPEC.md",
+  "files": [
+    {"path": "traits_mammals.json", "group": "Mammalia", "entries": 35},
+    {"path": "traits_birds.json", "group": "Aves", "entries": 71},
+    {"path": "traits_fish.json", "group": "Osteichthyes", "entries": 11},
+    {"path": "traits_herps.json", "group": "Amphibia+Reptilia", "entries": 12},
+    {"path": "traits_invertebrates.json", "group": "Invertebrata", "entries": 36},
+    {"path": "traits_plants.json", "group": "Tracheophyta", "entries": 63},
+    {"path": "traits_fungi_lichens.json", "group": "Fungi+Lichenes", "entries": 29},
+    {"path": "traits_microbes.json", "group": "Bacteria+Archaea", "entries": 13}
+  ],
+  "total_entries": 270,
+  "status_legend": {
+    "native": "documented native in YNP",
+    "introduced": "non-native established",
+    "native_historical": "native, declined/rare now",
+    "native_migrant": "transient/migrant",
+    "extirpated_native": "native, extirpated (e.g., Arctic grayling upper Madison)",
+    "hypothetical": "unconfirmed in park - labeled, never spawn",
+    "not_in_park": "wrong side of divide or excluded - reference only"
+  },
+  "site_fit_legend": {
+    "midway_actor_ok": "ecologically eligible for Midway Geyser Basin scene (still subject to catalogue review)",
+    "regional_expansion_only": "YNP-documented but needs its own geography (per existing exclusion rules)",
+    "not_in_park": "not eligible anywhere in park scene"
+  },
+  "gen_modes": {
+    "parametric_mesh": "code-built primitives driven by trait samples (existing wildlife_actor.gd approach)",
+    "deform_base": "verified open-license base mesh + parametric reshape/retexture",
+    "billboard": "hero mesh -> impostor (render_pine_billboards.py pattern)",
+    "particle_volume": "swarms/mats/emergences - density fields, never meshes",
+    "audio_only": "sound layer only"
+  },
+  "sampling_contract": "sex -> age (survivorship) -> growth(size) -> allometric proportions -> morph loci -> condition axes -> pattern -> seasonal overlay -> HSV jitter; deterministic per seed",
+  "hard_rules_carried": [
+    "no fish in hot pools",
+    "no species ID from mat color alone",
+    "no invented refuge",
+    "no all-species-all-seasons",
+    "no procedural spawning into scene (this dataset is a library, not a spawn list)",
+    "no local beaver claim",
+    "no wolves-to-trees shortcut",
+    "no thermal surface/body temperature conflation",
+    "no silent estimates (heuristic SDs flagged)",
+    "hypothetical/wrong-divide taxa labeled, never spawned",
+    "morph frequencies cite source+year; stale flagged",
+    "clonal plants vary by genet, not ramet"
+  ]
+}

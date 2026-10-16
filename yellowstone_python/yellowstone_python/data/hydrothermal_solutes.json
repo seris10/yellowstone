@@ -1,0 +1,217 @@
+{
+  "schema": "yellowstone.hydrothermal_solutes.v1",
+  "status": "mixed_measured_literature_and_authored",
+  "overview": "Per-spring source-water concentrations of chloride, arsenic and boron for the Midway Geyser Basin plus a Firehole upstream boundary value derived from the gauge chloride-conductance fit. Each value carries a status label and source metadata; some cited literature is only partially verified. Features without a verified published analytical row carry status authored_no_verified_sample.",
+  "units": {
+    "chloride_mg_l": "mg Cl per L",
+    "arsenic_ug_l": "ug As per L",
+    "boron_mg_l": "mg B per L"
+  },
+  "sources": [
+    {
+      "id": "ball_mccleskey_nordstrom_ofr_2010_1192",
+      "citation": "Ball, J.W., McCleskey, R.B., and Nordstrom, D.K., 2010, Water-chemistry data for selected springs, geysers, and streams in Yellowstone National Park, Wyoming, 2006-2008: U.S. Geological Survey Open-File Report 2010-1192, 109 p.",
+      "url": "https://pubs.usgs.gov/of/2010/1192/pdf/OF10-1192.pdf",
+      "verified_in_session": true,
+      "role": "spring_water_chemistry_tabulated_samples"
+    },
+    {
+      "id": "mccleskey_2012_chloride_flux",
+      "citation": "McCleskey, R.B., Clor, L.E., Lowenstern, J.B., Evans, W.C., Nordstrom, D.K., Heasler, H.P., and Huebner, M.A., 2012, Solute and geothermal flux monitoring using electrical conductivity in the Madison, Firehole, and Gibbon rivers, Yellowstone National Park: Applied Geochemistry, v. 27, no. 12, p. 2370-2381, doi:10.1016/j.apgeochem.2012.07.019.",
+      "doi": "10.1016/j.apgeochem.2012.07.019",
+      "verified_in_session": "partial",
+      "verification_note": "DOI resolves and metadata confirmed via search; the paper is behind an Elsevier paywall and was not fetched in full. The companion dataset (Clor et al. 2012 Data Series 632) was fetched and read in full.",
+      "role": "chloride_specific_conductance_relation_citation_context"
+    },
+    {
+      "id": "clor_mccleskey_etal_2012_ds632",
+      "citation": "Clor, L.E., McCleskey, R.B., Huebner, M.A., Lowenstern, J.B., Heasler, H.P., Mahony, D.L., Moloney, T., and Evans, W.C., 2012, Water chemistry and electrical conductivity database for rivers in Yellowstone National Park, Wyoming: U.S. Geological Survey Data Series 632, 18 p. plus data tables, available at http://pubs.usgs.gov/ds/632/.",
+      "url": "https://pubs.usgs.gov/ds/632/ds632_text.pdf",
+      "verified_in_session": true,
+      "role": "chloride_conductance_dataset_firehole_gauges",
+      "note": "DS632 names gauges 06036805 (Firehole River above Old Faithful) and 06036905 (Firehole River near West Yellowstone MT) and the Aqua TROLL deployments; Lone Star Geyser is the only substantial thermal source upstream of 06036805."
+    },
+    {
+      "id": "nimick_1998_arsenic",
+      "citation": "Nimick, D.A., Moore, J.N., Dalby, C.E., and Savka, M.W., 1998, The fate of geothermal arsenic in the Madison and Missouri Rivers, Montana and Wyoming: Water Resources Research, v. 34, no. 11, p. 3051-3067, doi:10.1029/98WR01704.",
+      "doi": "10.1029/98WR01704",
+      "verified_in_session": "partial",
+      "verification_note": "DOI resolution was recorded; the full text has not been reviewed.",
+      "role": "arsenic_source_water_and_downstream_conservative_transport_context"
+    },
+    {
+      "id": "wqp_firehole_discrete_samples",
+      "citation": "Water Quality Portal (National Water Quality Monitoring Council), discrete water-quality samples at USGS stations 06036805 and 06036905, accessed 2026-10-13.",
+      "url": "https://www.waterqualitydata.us/data/Result/search",
+      "verified_in_session": true,
+      "role": "paired_chloride_specific_conductance_samples_and_upstream_sc"
+    }
+  ],
+  "features": {
+    "excelsior": {
+      "feature_name": "Excelsior Geyser Crater",
+      "basin": "Midway Geyser Basin",
+      "chemistry_type": "neutral-alkaline chloride",
+      "chloride_mg_l": {
+        "value": 258.0,
+        "status": "measured_literature",
+        "sample_id": "07WA148",
+        "sample_date": "2007-09-19",
+        "page_or_table": "Table 11, p. 72",
+        "source": "ball_mccleskey_nordstrom_ofr_2010_1192",
+        "note": "Pool water sample at Excelsior Geyser Crater; field pH 7.68, laboratory pH 8.59, field specific conductance 1663 uS/cm."
+      },
+      "arsenic_ug_l": {
+        "value": 1870.0,
+        "status": "measured_literature",
+        "sample_id": "07WA148",
+        "sample_date": "2007-09-19",
+        "page_or_table": "Table 11, p. 72",
+        "source": "ball_mccleskey_nordstrom_ofr_2010_1192",
+        "note": "Arsenic (total) reported as 1.87 mg per L; stored here in ug per L."
+      },
+      "boron_mg_l": {
+        "value": 3.01,
+        "status": "measured_literature",
+        "sample_id": "07WA148",
+        "sample_date": "2007-09-19",
+        "page_or_table": "Table 11, p. 72",
+        "source": "ball_mccleskey_nordstrom_ofr_2010_1192"
+      }
+    },
+    "grand_prismatic": {
+      "feature_name": "Grand Prismatic Spring",
+      "basin": "Midway Geyser Basin",
+      "chemistry_type": "neutral-alkaline chloride",
+      "chloride_mg_l": {
+        "value": null,
+        "status": "authored_no_verified_sample",
+        "reason": "Grand Prismatic Spring is not among the Midway Geyser Basin samples in Open-File Report 2010-1192 Table 11 (Excelsior Geyser Crater and unnamed Rabbit Creek drainages). Earlier Ball-McCleskey-Nordstrom Open-File Reports may carry a Grand Prismatic sample; those were not fetched in this session. Value is left unknown rather than invented."
+      },
+      "arsenic_ug_l": {"value": null, "status": "authored_no_verified_sample", "reason": "See chloride_mg_l reason."},
+      "boron_mg_l": {"value": null, "status": "authored_no_verified_sample", "reason": "See chloride_mg_l reason."}
+    },
+    "opal_pool": {
+      "feature_name": "Opal Pool",
+      "basin": "Midway Geyser Basin",
+      "chemistry_type": "neutral-alkaline chloride",
+      "chloride_mg_l": {
+        "value": null,
+        "status": "authored_no_verified_sample",
+        "reason": "Opal Pool is not among the Midway samples in Open-File Report 2010-1192 Table 11. Not fetched in this session."
+      },
+      "arsenic_ug_l": {"value": null, "status": "authored_no_verified_sample", "reason": "See chloride_mg_l reason."},
+      "boron_mg_l": {"value": null, "status": "authored_no_verified_sample", "reason": "See chloride_mg_l reason."}
+    },
+    "turquoise_pool": {
+      "feature_name": "Turquoise Pool",
+      "basin": "Midway Geyser Basin",
+      "chemistry_type": "neutral-alkaline chloride",
+      "chloride_mg_l": {
+        "value": null,
+        "status": "authored_no_verified_sample",
+        "reason": "Turquoise Pool is not among the Midway samples in Open-File Report 2010-1192 Table 11. Not fetched in this session."
+      },
+      "arsenic_ug_l": {"value": null, "status": "authored_no_verified_sample", "reason": "See chloride_mg_l reason."},
+      "boron_mg_l": {"value": null, "status": "authored_no_verified_sample", "reason": "See chloride_mg_l reason."}
+    },
+    "firehole_upstream_boundary": {
+      "feature_name": "Firehole River above Midway Geyser Basin",
+      "basin": "Firehole River",
+      "chemistry_type": "pre-Midway river water carrying Upper Geyser Basin discharge",
+      "chloride_mg_l": {
+        "value": 8.75,
+        "status": "fitted_from_upstream_gauge_sc",
+        "reason": "Mean of the daily chloride series obtained by applying the 06036905 WQP paired-sample ordinary-least-squares fit to the 06036805 daily specific-conductance series over 2010-05-13 to 2017-10-30. The fit is in derived/firehole_chloride_sc_fit.json. 06036805 is downstream of Lone Star Geyser (the only substantial thermal source upstream per USGS Data Series 632) and upstream of the Upper Geyser Basin, so this value is a lower bound for the Firehole after the Upper Basin and before Midway.",
+        "sources": ["wqp_firehole_discrete_samples", "clor_mccleskey_etal_2012_ds632"]
+      },
+      "arsenic_ug_l": {
+        "value": null,
+        "status": "unknown",
+        "reason": "No arsenic samples at 06036805 in the Water Quality Portal query performed in this session; no published Firehole-above-Midway arsenic concentration was retrieved."
+      },
+      "boron_mg_l": {
+        "value": null,
+        "status": "unknown",
+        "reason": "No boron samples at 06036805 in the Water Quality Portal query performed in this session; no published Firehole-above-Midway boron concentration was retrieved."
+      }
+    }
+  },
+  "mapping_notes": {
+    "excelsior_aggregate_outflow": {
+      "feature_id": "excelsior",
+      "flow_source_of_truth": "ecosystem.json lateral_sources.excelsior_aggregate_outflow.flow_m3s",
+      "note": "The aggregate thermal outflow at the Firehole river entry carries the composition of the Excelsior pool. River-entry mixing with mats and cooling means the delivered concentration is an upper bound. Discharge is read from the replay lateral source and is never set in this data file."
+    }
+  },
+  "chloride_specific_conductance_relation": {
+    "status": "fitted_not_validated_single_window",
+    "model": "chloride_mg_l_eq_slope_times_sc_us_cm_plus_intercept",
+    "slope_mg_l_per_us_cm": 0.14435518580523253,
+    "intercept_mg_l": -4.671666796787037,
+    "r_squared": 0.9407446203711316,
+    "residual_rms_mg_l": 2.7691181920776213,
+    "n_paired": 19,
+    "site_id": "USGS-06036905",
+    "method": "ordinary_least_squares_chloride_on_sc",
+    "paired_sample_source": "yellowstone_python/derived/firehole_chem_paired_samples.json",
+    "fit_sidecar": "yellowstone_python/derived/firehole_chloride_sc_fit.json",
+    "reason": "Fit on 19 WQP paired chloride and specific conductance samples at USGS 06036905 spanning 1984-02-28 to 2019-09-25. Slope and intercept are site-specific. McCleskey et al. 2012 reports site-specific chloride-conductance relations for Yellowstone thermal reaches but the specific slope and intercept per Firehole site were not read from the paywalled Applied Geochemistry article; comparison is reserved for a verification pass once the paper is accessible.",
+    "sources": ["wqp_firehole_discrete_samples", "mccleskey_2012_chloride_flux"]
+  },
+  "aquatic_toxicity_thresholds": {
+    "chloride_mg_l": {
+      "chronic_mg_l": 230.0,
+      "acute_mg_l": 860.0,
+      "status": "measured_literature",
+      "reason": "US EPA National Recommended Water Quality Criteria for Aquatic Life, chloride (freshwater), criterion continuous concentration 230 mg per L and criterion maximum concentration 860 mg per L.",
+      "sources": [
+        {
+          "id": "epa_chloride_criteria",
+          "citation": "US Environmental Protection Agency, National Recommended Water Quality Criteria - Aquatic Life Criteria Table, chloride CCC 230 mg per L, CMC 860 mg per L.",
+          "url": "https://www.epa.gov/wqc/national-recommended-water-quality-criteria-aquatic-life-criteria-table"
+        }
+      ]
+    },
+    "arsenic_ug_l": {
+      "chronic_ug_l": 150.0,
+      "acute_ug_l": 340.0,
+      "status": "measured_literature",
+      "reason": "US EPA National Recommended Water Quality Criteria for Aquatic Life, arsenic (trivalent), CCC 150 ug per L and CMC 340 ug per L.",
+      "sources": [
+        {
+          "id": "epa_arsenic_criteria",
+          "citation": "US Environmental Protection Agency, National Recommended Water Quality Criteria - Aquatic Life Criteria Table, arsenic III freshwater CCC 150 ug per L, CMC 340 ug per L.",
+          "url": "https://www.epa.gov/wqc/national-recommended-water-quality-criteria-aquatic-life-criteria-table"
+        }
+      ]
+    },
+    "boron_mg_l": {
+      "no_effect_mg_l": 1.0,
+      "effect_mg_l": 10.0,
+      "status": "authored_from_literature_review",
+      "reason": "Published salmonid boron effect thresholds vary; a no-effect-to-effect transition near 1 to 10 mg per L boron is reported for freshwater fish including salmonids by Eisler 1990 and summarized in CCME 2009; the Firehole Midway values can approach the low end of this range.",
+      "sources": [
+        {
+          "id": "eisler_1990_boron",
+          "citation": "Eisler, R., 1990, Boron hazards to fish, wildlife, and invertebrates: a synoptic review: U.S. Fish and Wildlife Service Biological Report 85 (1.20), 32 p."
+        },
+        {
+          "id": "ccme_boron_2009",
+          "citation": "Canadian Council of Ministers of the Environment, 2009, Canadian water quality guidelines for the protection of aquatic life: Boron."
+        }
+      ]
+    }
+  },
+  "field_context": {
+    "goldstein_2001": {
+      "reference": "Goldstein, J., 2001, Firehole River salmonid distribution; bibliographic detail requires verification.",
+      "note": "Goldstein reports trout absence at the hottest geothermally influenced Firehole sites. The field study does not isolate thermal, arsenic and boron effects; the three stressors are candidate co-causes."
+    },
+    "firehole_thermal_output_trend": {
+      "finding": "USGS reporting of the Firehole thermal-water output describes a decrease of about 10 percent from 1983 to 2011.",
+      "source": "mccleskey_2012_chloride_flux",
+      "verified_in_session": "partial"
+    }
+  }
+}

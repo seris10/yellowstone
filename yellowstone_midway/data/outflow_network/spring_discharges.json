@@ -1,0 +1,32 @@
+{
+  "schema": "yellowstone.spring_discharges.v1",
+  "status": "sourced_or_authored",
+  "unit": "m3/s",
+  "note": "Shared discharge inputs for the weir rim-overflow injection; the same values WP-B uses.",
+  "springs": {
+    "pool_1030_0": {
+      "name": "Excelsior Geyser Crater",
+      "discharge_m3_s": 0.2524,
+      "status": "literature",
+      "citation": "National Park Service, Excelsior Geyser Crater: more than 4000 US gallons per minute discharge, https://www.nps.gov/places/000/excelsior-geyser-crater.htm; 4000 US gpm converted at 1 US gpm = 6.309e-5 m3/s gives 0.2524 m3/s."
+    },
+    "pool_1034_0": {
+      "name": "Grand Prismatic Spring",
+      "discharge_m3_s": 0.0353,
+      "status": "authored",
+      "note": "No published measured discharge; shared with WP-B as an authored value for the Midway run."
+    },
+    "pool_1028_0": {
+      "name": "Turquoise Pool",
+      "discharge_m3_s": 0.01,
+      "status": "authored",
+      "note": "Small pool; authored discharge shared with WP-B."
+    },
+    "pool_1029_0": {
+      "name": "Opal Pool",
+      "discharge_m3_s": 0.01,
+      "status": "authored",
+      "note": "Small pool; authored discharge shared with WP-B."
+    }
+  }
+}

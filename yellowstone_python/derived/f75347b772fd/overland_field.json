@@ -1,0 +1,24 @@
+{
+  "contract_version": "0.1.0",
+  "enabled": false,
+  "overland_flow_role": "diagnostic_not_wired_to_river",
+  "overland_module_status": "illustrative_not_calibrated",
+  "provenance": "overland disabled; set overland.enabled true to compute it",
+  "rainfall_source": null,
+  "schema": "yellowstone.overland_field.v1",
+  "status": "synthetic_catchment_predicted_not_validated",
+  "surface_runoff": {
+    "carries_runoff_signal": false,
+    "max_depth_m": 0.0,
+    "nonzero_cells": 0,
+    "note": "module disabled; no field computed",
+    "outflow_m3": 0.0
+  },
+  "units": {
+    "max_depth_m": "m",
+    "outflow_m3": "m3",
+    "surface_runoff.max_depth_m": "m",
+    "surface_runoff.outflow_m3": "m3"
+  },
+  "world_id": "yellowstone_midway"
+}

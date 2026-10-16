@@ -1,0 +1,79 @@
+{
+ "array_layout": "row-major little-endian float32; uint8 active-cell mask",
+ "artifacts": {
+  "canopy_top_scene_y": {
+   "bytes": 1638400,
+   "path": "canopy_top_scene_y.f32",
+   "sha256": "77821b91c650bd56b81d8f1b706d193385b42d512c004458e55c87f6b061b04b"
+  },
+  "cover_fraction": {
+   "bytes": 1638400,
+   "path": "cover_fraction.f32",
+   "sha256": "281517e9acf007dae73fdf9ced6f34293f142dd22c733feeabc970fe91b49db4"
+  },
+  "ground_scene_y": {
+   "bytes": 1638400,
+   "path": "ground_scene_y.f32",
+   "sha256": "bb83028e13e51ca32bf999def952dbb70604c929c7436f18fa6d2607cf97e82f"
+  },
+  "unresolved_cells": {
+   "bytes": 409600,
+   "path": "unresolved_cells.u8",
+   "sha256": "c4acc86cc9bfff89bddd26cb051c95327736f3fe369940882e837fc2eefcc9e8"
+  },
+  "unresolved_render_mask": {
+   "bytes": 474017,
+   "path": "unresolved_render_mask.png",
+   "sha256": "2001424e5ee56538f501caaa25d9c12a6d33edb9fec708376dd9b271ff348dca"
+  },
+  "valid_fraction": {
+   "bytes": 1638400,
+   "path": "valid_fraction.f32",
+   "sha256": "4d3a0623298531c185c9ae05b94ec9ad56386cc32c20a906262901ecd20db30d"
+  },
+  "valid_support": {
+   "bytes": 177063,
+   "path": "valid_support.png",
+   "sha256": "a1fcbf6a1d6b1a9f7175457f85a95bcca990f3c682948c187f5f187c596e0ed4"
+  }
+ },
+ "cell_size_m": 2.0,
+ "column_step_x_m": 2.0,
+ "conservation_residual_m2": 0.0,
+ "core_circle_area_on_observed_pixels_m2": 166042.0,
+ "core_exclusion": "union detected conservative core equivalent-radius circles",
+ "extent_m": [
+  -640,
+  -640,
+  640,
+  640
+ ],
+ "first_cell_x_m": -639.0,
+ "first_cell_z_m": -639.0,
+ "ground_elevation_offset_m": 2200.0,
+ "height": 640,
+ "height_aggregation": {
+  "rule": "2m cell mean measured residual surface elevation",
+  "status": "authored"
+ },
+ "highres_mask_cell_size_m": 0.5,
+ "image_layout": "row zero north; columns+x; rows+z south",
+ "observed_canopy_area_m2": 495981.0,
+ "producer_sha256": "cfbf8a604bd17a65f2a1577db21eca4e9e8f574bc063ba21ba1427787603058f",
+ "quantity": "observed surface area; no tree or stem count",
+ "row_step_z_m": 2.0,
+ "schema": "yellowstone.unresolved_canopy_render.v1",
+ "scientific_acceptance": "not_yet_accepted",
+ "source_pixel_size_m": 0.5,
+ "source_sha256": {
+  "detector": "91c87fec0daf76763e69563ec79043b67b54d5d93f2084e37504ad72420eb5bf",
+  "habitat_mask": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a",
+  "raw_canopy_height": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9",
+  "world": "ee15ef84b106a8291e6c0f6984bfc21c990b95edefd26b808974cb3d917231f0"
+ },
+ "status": "derived_not_field_validated",
+ "total_stem_density": null,
+ "unresolved_canopy_area_m2": 329939.0,
+ "unsupported_cells": "source NoData preserved in support mask; inactive topY is NaN",
+ "width": 640
+}

@@ -1,0 +1,33 @@
+{
+  "width": 1025,
+  "height": 1025,
+  "spacing_m": 4,
+  "byte_order": "little",
+  "dtype": "float32",
+  "row_order": "north_to_south",
+  "elevation_units": "metres",
+  "values": "absolute source elevation; subtract vertical_origin_m in world",
+  "vertical_origin_m": 2200.0,
+  "horizontal_crs": "EPSG:32612",
+  "origin_wgs84": {
+    "longitude": -110.837,
+    "latitude": 44.525
+  },
+  "origin_utm_m": [
+    512952.5950985841,
+    4930199.044097667
+  ],
+  "sample_bounds_local_xz_m": [
+    -2048,
+    -2048,
+    2048,
+    2048
+  ],
+  "min_elevation_m": 2193.3701171875,
+  "max_elevation_m": 2438.130126953125,
+  "source_geotiff": "dem.tif",
+  "sha256": "ecd0ba29c110eaadbea4732b93af474fb0227e8b5bae1aa7f70ff1497756ccba",
+  "note": "4 m is resampled grid spacing, not yet asserted native source resolution.",
+  "vertical_datum": "NAVD88",
+  "native_source_note": "USGS catalog identifies contiguous native1m WY_YellowstoneNP_2020_D20 tiles x51y493 and x51y494. The center pixel matches explicitly locked1m output exactly. The saved full export uses the default3DEP mosaic; retain service metadata rather than assuming every future export chooses identical rasters."
+}

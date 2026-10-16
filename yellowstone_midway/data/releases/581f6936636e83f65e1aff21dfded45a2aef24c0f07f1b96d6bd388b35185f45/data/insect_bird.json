@@ -1,0 +1,108 @@
+{
+  "activity": 0.15507076988937274,
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "compartments": {
+    "consumed_total": {
+      "bat": 0.025906,
+      "dipper": 0.062102,
+      "raven": 0.020771,
+      "riparian_spider": 0.015076,
+      "swallow": 0.029028,
+      "trout": 0.040058
+    },
+    "emergence_total": 0.000959,
+    "final": {
+      "Nb": 0.421745,
+      "Ne": 0.122027,
+      "Nt": 0.45803
+    },
+    "forcing_cell_id": "firehole_cell_00275",
+    "forcing_disturbance": 0.0,
+    "forcing_shear_disturb_pa": 20.0,
+    "forcing_shear_pa": 15.0787,
+    "forcing_source": "foodweb_shear_to_disturbance_shared",
+    "forcing_water_c": 18.874
+  },
+  "contract_version": "0.1.0",
+  "flowering_stage": 0.6,
+  "parameter_provenance": {
+    "note": "bird cadence from Holling intake + legacy activity gate",
+    "threshold": 0.035
+  },
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/ecosystem.json",
+      "sha256": "88f9e011ea3b169468558fb1c9a09050f1317b964e5c2801b92c02437e1c4645"
+    }
+  ],
+  "state": "hover",
+  "status": "illustrative, not calibrated",
+  "wildlife": [
+    {
+      "activity_basis": 0.1551,
+      "approx_dimensions_m": {
+        "body_length": 0.2,
+        "standing_height": 0.13
+      },
+      "art_status": "Original shape proxy and authored small perch stone",
+      "end_point_index": 405,
+      "evidence_scope": "NPS Firehole recording confirms species; exact perch is authored, not a location observation.",
+      "forage_seconds": 7.36,
+      "id": "dipper_01",
+      "initial_state": "perch",
+      "insect_index_per_second": 8e-06,
+      "intake_basis": "replay_foodweb",
+      "intake_basis_prey_per_h": 0.0402,
+      "kind": "dipper",
+      "lateral_offset_m": 12.8,
+      "medium": "river_bank",
+      "patch_id": "bridge_riparian",
+      "perch_seconds": 18.01,
+      "perch_stone_height_m": 0.22,
+      "phase": 0.7,
+      "river_id": "river_5856_0",
+      "species_id": "american_dipper",
+      "start_point_index": 404,
+      "walk_mps": 0.2
+    },
+    {
+      "activity_basis": 0.1551,
+      "approx_dimensions_m": {
+        "body_length": 0.55,
+        "standing_height": 0.32
+      },
+      "art_status": "Original shape proxy and authored small perch stone",
+      "evidence_scope": "Park-level presence; specific Midway placement is a habitat-based authored candidate.",
+      "forage_seconds": 14.39,
+      "id": "raven_01",
+      "initial_state": "perch",
+      "intake_basis": "insect_compartments",
+      "intake_basis_prey_per_h": 0.1246,
+      "kind": "raven",
+      "medium": "land",
+      "patch_id": "bridge_riparian",
+      "path_xz": [
+        [
+          104,
+          -295
+        ],
+        [
+          108,
+          -293
+        ],
+        [
+          107,
+          -299
+        ]
+      ],
+      "perch_seconds": 24.25,
+      "perch_stone_height_m": 0.3,
+      "phase": 2.4,
+      "scale": 1.0,
+      "species_id": "common_raven",
+      "walk_mps": 0.28
+    }
+  ],
+  "wind_mps": 1.8973665961010275,
+  "world_id": "yellowstone_midway"
+}

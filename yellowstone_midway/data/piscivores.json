@@ -1,0 +1,329 @@
+{
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "contract_version": "0.1.0",
+  "method": "sum over piscivores of density * intake * share * exp(-depth/scale)",
+  "parameter_provenance": {
+    "n_trout": 4
+  },
+  "provenance": {
+    "source": "piscivores.predation_over_refuge"
+  },
+  "reports": [
+    {
+      "components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "depth_m": 0.53,
+      "depth_refuge_sources": [
+        "Power 1987 Predator avoidance by grazing fishes in temperate and tropical streams. In: Kerfoot and Sih eds. Predation: direct and indirect impacts on aquatic communities, University Press of New England (shallow habitats favor aerial piscivore attack on stream fishes)",
+        "Harvey and Stewart 1991 Fish size and habitat depth relationships in headwater streams. Oecologia 87:336 doi:10.1007/BF00634588",
+        "Lonzarich and Quinn 1995 Experimental evidence for the effect of depth and structure on the distribution growth and survival of stream fishes. Canadian Journal of Zoology 73:2223 doi:10.1139/z95-263"
+      ],
+      "mortality_rate_per_day": 0.0014064678860529795,
+      "schema": "yellowstone.piscivore_predation.v1",
+      "size_class": "adult",
+      "size_class_mean_mass_kg": 0.5477225575051662,
+      "status": "authored_illustrative_not_calibrated",
+      "trout_biomass_kg_per_m2_wetted": 0.10954451150103324,
+      "trout_biomass_kg_per_m_river": 2.4099792530227315,
+      "trout_density_per_m2_wetted": 0.2,
+      "trout_density_per_m_river": 4.4,
+      "trout_id": "trout_01",
+      "wetted_width_m": 22.0
+    },
+    {
+      "components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "depth_m": 0.53,
+      "depth_refuge_sources": [
+        "Power 1987 Predator avoidance by grazing fishes in temperate and tropical streams. In: Kerfoot and Sih eds. Predation: direct and indirect impacts on aquatic communities, University Press of New England (shallow habitats favor aerial piscivore attack on stream fishes)",
+        "Harvey and Stewart 1991 Fish size and habitat depth relationships in headwater streams. Oecologia 87:336 doi:10.1007/BF00634588",
+        "Lonzarich and Quinn 1995 Experimental evidence for the effect of depth and structure on the distribution growth and survival of stream fishes. Canadian Journal of Zoology 73:2223 doi:10.1139/z95-263"
+      ],
+      "mortality_rate_per_day": 0.0014064678860529795,
+      "schema": "yellowstone.piscivore_predation.v1",
+      "size_class": "adult",
+      "size_class_mean_mass_kg": 0.5477225575051662,
+      "status": "authored_illustrative_not_calibrated",
+      "trout_biomass_kg_per_m2_wetted": 0.10954451150103324,
+      "trout_biomass_kg_per_m_river": 2.4099792530227315,
+      "trout_density_per_m2_wetted": 0.2,
+      "trout_density_per_m_river": 4.4,
+      "trout_id": "trout_02",
+      "wetted_width_m": 22.0
+    },
+    {
+      "components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "depth_m": 0.53,
+      "depth_refuge_sources": [
+        "Power 1987 Predator avoidance by grazing fishes in temperate and tropical streams. In: Kerfoot and Sih eds. Predation: direct and indirect impacts on aquatic communities, University Press of New England (shallow habitats favor aerial piscivore attack on stream fishes)",
+        "Harvey and Stewart 1991 Fish size and habitat depth relationships in headwater streams. Oecologia 87:336 doi:10.1007/BF00634588",
+        "Lonzarich and Quinn 1995 Experimental evidence for the effect of depth and structure on the distribution growth and survival of stream fishes. Canadian Journal of Zoology 73:2223 doi:10.1139/z95-263"
+      ],
+      "mortality_rate_per_day": 0.0014064678860529795,
+      "schema": "yellowstone.piscivore_predation.v1",
+      "size_class": "adult",
+      "size_class_mean_mass_kg": 0.5477225575051662,
+      "status": "authored_illustrative_not_calibrated",
+      "trout_biomass_kg_per_m2_wetted": 0.10954451150103324,
+      "trout_biomass_kg_per_m_river": 2.4099792530227315,
+      "trout_density_per_m2_wetted": 0.2,
+      "trout_density_per_m_river": 4.4,
+      "trout_id": "trout_03",
+      "wetted_width_m": 22.0
+    },
+    {
+      "components": [
+        {
+          "accessibility": 0.4690045274631699,
+          "attack_rate_m_per_day": 50.0,
+          "density_per_m_river": 0.0008,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.857142857142857,
+          "id": "osprey",
+          "kg_removed_per_m_river_per_day": 0.0002757309307806707,
+          "max_per_predator_kg_per_day": 0.35,
+          "rate_per_day": 0.00011441215953823398,
+          "size_class_share": 0.4
+        },
+        {
+          "accessibility": 0.4134026037672293,
+          "attack_rate_m_per_day": 30.0,
+          "density_per_m_river": 0.0003,
+          "foraging_mode": "aerial_plunge",
+          "handling_time_days_per_kg": 2.0,
+          "id": "bald_eagle",
+          "kg_removed_per_m_river_per_day": 0.00014623639232179086,
+          "max_per_predator_kg_per_day": 0.5,
+          "rate_per_day": 6.0679523335469774e-05,
+          "size_class_share": 0.65
+        },
+        {
+          "accessibility": 0.7449453310437427,
+          "attack_rate_m_per_day": 80.0,
+          "density_per_m_river": 0.005,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 3.3333333333333335,
+          "id": "common_merganser",
+          "kg_removed_per_m_river_per_day": 0.00148449604106505,
+          "max_per_predator_kg_per_day": 0.3,
+          "rate_per_day": 0.0006159787638018509,
+          "size_class_share": 0.2
+        },
+        {
+          "accessibility": 0.2658029590889266,
+          "density_per_m_river": 0.006,
+          "id": "belted_kingfisher",
+          "rate_per_day": 0.0,
+          "size_class_share": 0.0
+        },
+        {
+          "accessibility": 0.8089646975664998,
+          "attack_rate_m_per_day": 100.0,
+          "density_per_m_river": 0.0015,
+          "foraging_mode": "pursuit_dive",
+          "handling_time_days_per_kg": 1.0,
+          "id": "river_otter",
+          "kg_removed_per_m_river_per_day": 0.0014830950612629082,
+          "max_per_predator_kg_per_day": 1.0,
+          "rate_per_day": 0.0006153974393774249,
+          "size_class_share": 0.45
+        }
+      ],
+      "depth_m": 0.53,
+      "depth_refuge_sources": [
+        "Power 1987 Predator avoidance by grazing fishes in temperate and tropical streams. In: Kerfoot and Sih eds. Predation: direct and indirect impacts on aquatic communities, University Press of New England (shallow habitats favor aerial piscivore attack on stream fishes)",
+        "Harvey and Stewart 1991 Fish size and habitat depth relationships in headwater streams. Oecologia 87:336 doi:10.1007/BF00634588",
+        "Lonzarich and Quinn 1995 Experimental evidence for the effect of depth and structure on the distribution growth and survival of stream fishes. Canadian Journal of Zoology 73:2223 doi:10.1139/z95-263"
+      ],
+      "mortality_rate_per_day": 0.0014064678860529795,
+      "schema": "yellowstone.piscivore_predation.v1",
+      "size_class": "adult",
+      "size_class_mean_mass_kg": 0.5477225575051662,
+      "status": "authored_illustrative_not_calibrated",
+      "trout_biomass_kg_per_m2_wetted": 0.10954451150103324,
+      "trout_biomass_kg_per_m_river": 2.4099792530227315,
+      "trout_density_per_m2_wetted": 0.2,
+      "trout_density_per_m_river": 4.4,
+      "trout_id": "trout_04",
+      "wetted_width_m": 22.0
+    }
+  ],
+  "schema": "yellowstone.piscivore_predation.v1",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "status": "authored_illustrative_not_calibrated",
+  "units": {
+    "mortality_rate_per_day": "1/day"
+  },
+  "world_id": "yellowstone_midway"
+}

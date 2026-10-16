@@ -1,0 +1,320 @@
+{
+ "processes": {
+  "mixing": {
+   "summary": "A reference model mixes water and heat within a small chain of river reaches.",
+   "display": "python",
+   "formulation": "physical approximation"
+  },
+  "transport": {
+   "summary": "River flow carries heat downstream. Mixing, lateral inflows, and exchange with the surroundings change water temperature.",
+   "display": "rendered",
+   "formulation": "physical approximation"
+  },
+  "surface": {
+   "summary": "The river exchanges heat with the atmosphere through radiation, evaporation, and direct heat transfer.",
+   "display": "python",
+   "formulation": "physical approximation"
+  },
+  "plume": {
+   "summary": "A steady temperature field represents the spread of heat away from a thermal source.",
+   "display": "rendered",
+   "formulation": "physical approximation"
+  },
+  "pool": {
+   "summary": "Mapped pool outlines contain authored temperature profiles and color bands.",
+   "display": "rendered",
+   "formulation": "authored profile"
+  },
+  "vegetation": {
+   "summary": "Plant biomass grows according to available light, water, and carrying capacity, with losses to grazing.",
+   "display": "rendered",
+   "formulation": "simplified ecological model"
+  },
+  "insects": {
+   "summary": "Aquatic insects develop with accumulated warmth, emerge into the air, and provide food for consumers.",
+   "display": "rendered",
+   "formulation": "simplified ecological model"
+  },
+  "fish": {
+   "summary": "Trout habitat suitability combines water temperature, food, cover, depth, and flow conditions.",
+   "display": "rendered",
+   "formulation": "authored response model"
+  },
+  "grazers": {
+   "summary": "Grazing routes avoid water, cliffs, and thermal exclusions. The routes represent authored animal movement.",
+   "display": "rendered",
+   "formulation": "authored route model"
+  },
+  "solutes": {
+   "summary": "The river transports dissolved chloride, arsenic, and boron with flowing and mixing water.",
+   "display": "python",
+   "formulation": "physical approximation"
+  },
+  "oxygen": {
+   "summary": "Dissolved oxygen responds to transport, exchange with air, and biological production and respiration.",
+   "display": "python",
+   "formulation": "physical approximation"
+  },
+  "periphyton": {
+   "summary": "Attached algae grow with light and temperature and contribute to the river's oxygen balance.",
+   "display": "python",
+   "formulation": "simplified ecological model"
+  },
+  "shading": {
+   "summary": "Terrain and canopy reduce the sunlight available to the river.",
+   "display": "python",
+   "formulation": "geometric approximation"
+  },
+  "ground": {
+   "summary": "Prescribed geothermal heat flux warms the ground and contributes energy to snowmelt.",
+   "display": "python",
+   "formulation": "authored heat field"
+  },
+  "et": {
+   "summary": "Reference evapotranspiration estimates atmospheric water demand. The soil-water model owns the actual water loss.",
+   "display": "python",
+   "formulation": "reference diagnostic"
+  },
+  "predation": {
+   "summary": "An authored predator population applies a depth-dependent predation pressure to modeled trout habitat.",
+   "display": "python",
+   "formulation": "simplified ecological model"
+  },
+  "aerial": {
+   "summary": "Swallows, bats, and riparian spiders consume a modeled stock of emerging insects.",
+   "display": "python",
+   "formulation": "simplified ecological model"
+  },
+  "outflow": {
+   "summary": "Thermal outflow temperature and microbial mats influence the modeled food resources available to flies and their consumers.",
+   "display": "python",
+   "formulation": "simplified ecological model"
+  },
+  "steam": {
+   "summary": "Warm pools and outflows transfer heat and water vapor into the nearby air.",
+   "display": "python",
+   "formulation": "physical approximation"
+  },
+  "taxa": {
+   "summary": "Benthic invertebrates respond to temperature, oxygen, development, and competition.",
+   "display": "python",
+   "formulation": "simplified ecological model"
+  },
+  "snow": {
+   "summary": "Snow stores water, melt releases it, and a soil bucket tracks infiltration, water loss, and drainage.",
+   "display": "rendered",
+   "formulation": "physical approximation"
+  },
+  "mammals": {
+   "summary": "Authored mammal population indices respond to habitat, forage, water access, weather, and season.",
+   "display": "rendered",
+   "formulation": "authored ecological model"
+  },
+  "boundary": {
+   "summary": "Upstream flow and temperature are supplied to the model as scenario inputs.",
+   "display": "python",
+   "formulation": "prescribed input"
+  },
+  "tributaries": {
+   "summary": "Lateral inflows add water and heat at specified locations along the river.",
+   "display": "python",
+   "formulation": "prescribed input"
+  },
+  "outlet": {
+   "summary": "The modeled river exports water and heat through its downstream boundary.",
+   "display": "python",
+   "formulation": "physical boundary"
+  }
+ },
+ "exchanges": {
+  "boundary_water": "Water enters the river at a prescribed flow rate. The scenario supplies this upstream discharge.",
+  "boundary_heat": "Incoming water carries heat. Its temperature and flow set the upstream thermal input.",
+  "lateral_water": "Tributaries and thermal outflows add water at specified locations along the river.",
+  "lateral_heat": "Lateral inflows add heat. Flowing and mixing water distribute that heat downstream.",
+  "outlet_export": "River flow carries water and heat out of the modeled reach.",
+  "surface_newton": "Water gains or loses heat according to the difference between air and water temperature. A single coefficient combines surface effects.",
+  "surface_budget": "Sunlight, thermal radiation, evaporation, and direct heat transfer contribute separately to the surface energy balance.",
+  "landscape_temperature": "Local water temperature and flow conditions become inputs to trout habitat suitability.",
+  "snow_runoff_discharge": "Liquid drainage from snow and soil can increase river inflow when a contributing catchment area is specified.",
+  "shear_disturbance": "Bed shear changes a modeled disturbance factor for aquatic insect development. Missing shear values receive zero disturbance in this formulation.",
+  "solute_habitat_multiplier": "Modeled solute concentrations modify fish suitability using authored response thresholds.",
+  "oxygen_do_fish_multiplier": "Low dissolved oxygen reduces modeled fish habitat suitability.",
+  "oxygen_do_insect_multiplier": "Dissolved oxygen changes the modeled survival of sensitive aquatic insect groups.",
+  "periphyton_oxygen_metabolism": "Periphyton adds oxygen through photosynthesis and removes oxygen through respiration.",
+  "shortwave_shading_multiplier": "Terrain and canopy shade reduce the sunlight reaching the river surface.",
+  "piscivore_predation": "Predator density and water depth modify the modeled survival factor used in trout refuge selection.",
+  "aerial_insectivore_consumption": "Emerging insects provide food for modeled swallows, bats, and riparian spiders.",
+  "ground_heat_snow_melt": "Geothermal heat supplies energy for melting snow. The conversion uses the latent heat of fusion.",
+  "ground_heat_tree_suitability": "A steady soil-temperature estimate reduces lodgepole suitability where the ground is too warm.",
+  "snow_depth_grazer_cost": "Deeper snow increases modeled movement cost and reduces grazing access.",
+  "warm_ground_grazer_refuge": "Under deep snow, the routing model can direct grazers toward warmer ground.",
+  "grazer_nutrient_return": "Grazing returns nitrogen to the modeled patch stock. The conversion from intake is authored.",
+  "grazer_trampling_crust": "Trampling reduces modeled sinter-crust thickness using an authored disturbance rate.",
+  "reference_et_soil_water": "Soil water scales a reference evapotranspiration diagnostic. The snow and soil bucket accounts for water removal.",
+  "steam_plume_microclimate": "Warm pools and outflows raise modeled downwind air temperature and humidity.",
+  "outflow_foodweb_mat": "Outflow temperature and microbial mat biomass set modeled food-web conditions for thermal-area flies."
+ },
+ "research": [
+  {
+   "id": "dynamic_flow",
+   "domain": "river",
+   "label": "Dynamic flow routing",
+   "summary": "A momentum-based river model would represent changing discharge and water levels. The selected model prescribes inflow and uses fixed channel volumes.",
+   "target": "transport"
+  },
+  {
+   "id": "winter_ice",
+   "domain": "river",
+   "label": "Winter ice cover",
+   "summary": "An ice-cover energy balance would extend river heat exchange into frozen conditions. The selected surface formulation is ice-free.",
+   "target": "surface"
+  },
+  {
+   "id": "reactive_chemistry",
+   "domain": "thermal",
+   "label": "Reactive chemistry",
+   "summary": "Reactive transport would represent chemical reactions, sorption, and mineral change. The selected solute model transports conservative constituents.",
+   "target": "solutes"
+  },
+  {
+   "id": "snow_assimilation",
+   "domain": "snow",
+   "label": "Snow-data assimilation",
+   "summary": "Assimilating spatial snow observations could constrain snow storage. The selected scenario uses authored forcing and a snow-soil model.",
+   "target": "snow"
+  },
+  {
+   "id": "canopy_interception",
+   "domain": "land",
+   "label": "Canopy interception",
+   "summary": "A canopy water store would separate intercepted precipitation, evaporation, and drip. That store is absent from the selected snow-soil formulation.",
+   "target": "snow"
+  },
+  {
+   "id": "measured_bathymetry",
+   "domain": "river",
+   "label": "Surveyed channel depths",
+   "summary": "Submerged channel surveys could replace authored depth estimates and constrain velocity and thermal residence time.",
+   "target": "transport"
+  }
+ ],
+ "supporting_nodes": [
+  {
+   "id": "weather",
+   "domain": "atmosphere",
+   "label": "Weather forcing",
+   "artifact": "weather_snapshot.json",
+   "kind": "prescribed",
+   "display": "rendered",
+   "formulation": "prescribed forcing",
+   "summary": "Air temperature, humidity, wind, cloud, and sunlight supply the atmospheric conditions used by the scenario.",
+   "model_level": "Authored meteorological forcing with a shared simulation epoch and computed solar geometry.",
+   "assumptions": "Air temperature follows an authored daily cycle. Wind, humidity, and cloud are scenario inputs.",
+   "limits": "The selected weather is not a record of observed conditions.",
+   "units": "C; m/s; relative humidity; solar angles in degrees"
+  },
+  {
+   "id": "mat",
+   "domain": "aquatic",
+   "label": "Microbial mats",
+   "artifact": "mat_state.json",
+   "kind": "process",
+   "display": "rendered",
+   "formulation": "authored community model",
+   "summary": "Temperature, substrate, and light shape modeled microbial mat communities and their appearance.",
+   "model_level": "Spatial community and biomass representation with temperature and substrate gates.",
+   "assumptions": "Community response and pigment appearance combine literature relationships with authored values.",
+   "limits": "Local biomass and color have no completed field evaluation. Color alone does not determine water temperature.",
+   "units": "Community classes; model biomass and appearance fields"
+  },
+  {
+   "id": "outflow_cooling",
+   "domain": "thermal",
+   "label": "Outflow cooling",
+   "artifact": "outflow_temperature.json",
+   "kind": "process",
+   "display": "rendered",
+   "formulation": "physical approximation",
+   "summary": "Hot water cools along mapped outflow paths as its surface exchanges energy with the surroundings.",
+   "model_level": "Steady energy balance over a routed thin water film.",
+   "assumptions": "Spring temperatures, discharges, and minimum film depth are authored.",
+   "limits": "Film depths and local outflow temperatures are unmeasured.",
+   "units": "Temperature C; flow m3/s; heat flux W/m2"
+  },
+  {
+   "id": "canopy",
+   "domain": "land",
+   "label": "Canopy structure",
+   "artifact": "census.json",
+   "kind": "process",
+   "display": "rendered",
+   "formulation": "derived geometric estimate",
+   "summary": "LiDAR-derived canopy estimates provide spatial structure and influence vegetation suitability.",
+   "model_level": "Derived crown census and canopy coverage estimates from frozen point-cloud inputs.",
+   "assumptions": "Segmentation and donor-tree relationships introduce authored and transferred values.",
+   "limits": "Crown estimates do not establish stem counts, species identity, or locally validated crown geometry.",
+   "units": "Crown dimensions m; canopy fraction"
+  },
+  {
+   "id": "hyporheic",
+   "domain": "river",
+   "label": "Channel-bed heat exchange",
+   "artifact": "river_replay.json",
+   "kind": "process",
+   "display": "python",
+   "formulation": "physical approximation",
+   "summary": "Heat moves between river water and a represented subsurface water store according to their temperature difference.",
+   "model_level": "Analytic exchange between coupled channel and storage-zone heat reservoirs.",
+   "assumptions": "Storage volumes and exchange rates are authored.",
+   "limits": "Local hyporheic flow paths and exchange rates are unmeasured.",
+   "units": "Stored heat J; temperature C"
+  }
+ ],
+ "supporting_edges": [
+  {
+   "id": "weather_surface",
+   "from": "weather",
+   "to": "surface",
+   "label": "meteorological forcing",
+   "summary": "Air temperature, humidity, wind, and radiation supply conditions for surface heat exchange.",
+   "units": "C; m/s; W/m2",
+   "method": "Shared scenario meteorology"
+  },
+  {
+   "id": "weather_snow",
+   "from": "weather",
+   "to": "snow",
+   "label": "snow and soil forcing",
+   "summary": "Air temperature and precipitation control the modeled accumulation and melting of snow and water entering the soil.",
+   "units": "C; mm/day",
+   "method": "Daily forcing for snow and soil integration"
+  },
+  {
+   "id": "pool_outflow",
+   "from": "pool",
+   "to": "outflow_cooling",
+   "label": "hot outflow source",
+   "summary": "Authored spring temperatures and discharges supply hot water to the outflow cooling calculation.",
+   "units": "C; m3/s",
+   "method": "Prescribed spring source conditions"
+  },
+  {
+   "id": "outflow_mat",
+   "from": "outflow_cooling",
+   "to": "mat",
+   "label": "outflow temperature and mat response",
+   "summary": "Local outflow temperature helps select the modeled microbial community and its biomass response.",
+   "units": "C; community class",
+   "method": "Temperature and substrate response"
+  },
+  {
+   "id": "canopy_vegetation",
+   "from": "canopy",
+   "to": "vegetation",
+   "label": "canopy influence on vegetation",
+   "summary": "Estimated canopy coverage modifies light availability and vegetation suitability.",
+   "units": "Canopy fraction",
+   "method": "Spatial canopy fraction supplied to vegetation suitability"
+  }
+ ]
+}

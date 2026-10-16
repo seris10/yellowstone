@@ -1,0 +1,21 @@
+{
+ "design": "SRSWOR whole-image cells (plots never used for tuning)",
+ "population_cells": 64,
+ "sample_cells": 12,
+ "cell_px": 256,
+ "seed": 42,
+ "selected": [
+  "P0004",
+  "P0005",
+  "P0104",
+  "P0300",
+  "P0401",
+  "P0404",
+  "P0501",
+  "P0601",
+  "P0700",
+  "P0703",
+  "P0705",
+  "P0706"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+  "artifacts": {
+    "prismatic_apron_display.png": "774e71ca10cd1c85f6f6d6b06d617f7eda6949550e0c3083f4935e3b06ae1ac4",
+    "prismatic_terrace_detail.png": "ff34400b446042a51660592c90820b9afa7523ff7b913bbbcd1a32d3859a863d",
+    "prismatic_water_display.png": "88f52d39b361c5d1387b50728ceca9de1eba6d5ffd4a5c29166648f81a5b2cab"
+  },
+  "config_sha256": "edb851fc40df0cc38ef1b63a3ff1b5e6ffbc4a13b44e8f81247d44d7a010e60a",
+  "interpretation": "Authored image-informed display profiles; mapped NAIP chroma preserves runoff support. Terrace relief is procedural and unmeasured. Scientific radiative-transfer and microbial pigment outputs remain unchanged.",
+  "local_extent_xz_m": [
+    -640,
+    -640,
+    640,
+    640
+  ],
+  "mapped_source_sha256": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+  "pixel_spacing_m": [
+    0.625,
+    0.625
+  ],
+  "run_mode": "illustrative",
+  "schema": "yellowstone.spring_display_assets.v1",
+  "terrace_height_range_m": [
+    -0.028164507075886976,
+    0.028164423312619192
+  ],
+  "terrace_max_gradient": 0.04306977624028591,
+  "uncertainty": "unknown",
+  "value_class": "authored_image_informed_display",
+  "water_green_radius_fraction": [
+    0.84,
+    0.974
+  ],
+  "water_yellow_radius_fraction": [
+    0.974,
+    1.0
+  ],
+  "world_source_sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+}

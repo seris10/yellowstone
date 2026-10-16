@@ -1,0 +1,81 @@
+{
+  "schema": "wildlife-motion.sources/1",
+  "sources": {
+    "shine2015": {
+      "citation": "Shine CL et al. (2015). Grizzly bear locomotion: gaits and ground reaction forces. J Exp Biol 218:3102\u20133109. https://doi.org/10.1242/jeb.121806",
+      "url": "https://doi.org/10.1242/jeb.121806"
+    },
+    "brown2018": {
+      "citation": "Brown NP et al. (2018). A three dimensional multiplane kinematic model for bilateral hind limb gait analysis in cats. PLOS ONE 13:e0197837. https://doi.org/10.1371/journal.pone.0197837",
+      "url": "https://doi.org/10.1371/journal.pone.0197837"
+    },
+    "usherwood2017": {
+      "citation": "Usherwood JR (2017). Work minimization accounts for footfall phasing in slow quadrupedal gaits. eLife 6:e29495. https://doi.org/10.7554/eLife.29495",
+      "url": "https://doi.org/10.7554/eLife.29495"
+    },
+    "biancardi2012": {
+      "citation": "Biancardi CM, Minetti AE (2012). Biomechanical determinants of transverse and rotary gallop in cursorial mammals. J Exp Biol 215:4144\u20134156. https://doi.org/10.1242/jeb.073031",
+      "url": "https://doi.org/10.1242/jeb.073031"
+    },
+    "lee2018": {
+      "citation": "Lee et al. (2018). Linking Gait Dynamics to Mechanical Cost of Legged Locomotion. Frontiers in Robotics and AI. https://doi.org/10.3389/frobt.2018.00111",
+      "url": "https://doi.org/10.3389/frobt.2018.00111"
+    },
+    "canid2017": {
+      "citation": "Bryce CM, Williams TM (2017). Comparative locomotor costs of domestic dogs reveal energetic economy of wolf-like breeds. J Exp Biol 220:312\u2013321. https://journals.biologists.com/jeb/article/220/2/312/18618/",
+      "url": "https://journals.biologists.com/jeb/article/220/2/312/18618/"
+    },
+    "gong2022": {
+      "citation": "Gong H et al. (2022). Discrete element models for understanding the biomechanics of fossorial animals. Ecology and Evolution 12:e9331. https://doi.org/10.1002/ece3.9331 . Consult the associated corrigendum before quantitative replication.",
+      "url": "https://doi.org/10.1002/ece3.9331"
+    },
+    "fish1995": {
+      "citation": "Fish FE (1995). Kinematics of ducklings swimming in formation: consequences of position. Journal of Experimental Zoology. https://doi.org/10.1002/jez.1402730102",
+      "url": "https://doi.org/10.1002/jez.1402730102"
+    },
+    "han2023": {
+      "citation": "Han D et al. (2023). Effects of the speed on the webbed foot kinematics of mallard (Anas platyrhynchos). PeerJ 11:e15362. https://doi.org/10.7717/peerj.15362",
+      "url": "https://doi.org/10.7717/peerj.15362"
+    },
+    "csillag2025": {
+      "citation": "Csillag H et al. (2025). Underwater paddling kinematics and hydrodynamics in a surface swimming duck versus a diving duck. J Exp Biol 228:jeb249274. https://doi.org/10.1242/jeb.249274",
+      "url": "https://doi.org/10.1242/jeb.249274"
+    },
+    "yuan2021": {
+      "citation": "Yuan ZM et al. (2021). Wave-riding and wave-passing by ducklings in formation swimming. J Fluid Mech 928:R2. https://doi.org/10.1017/jfm.2021.820",
+      "url": "https://doi.org/10.1017/jfm.2021.820"
+    },
+    "birdflight2020": {
+      "citation": "Ducci G, Colognesi V, Vitucci G, Chatelain P, Ronsse R (2020 version consulted). Stability and sensitivity analysis of bird flapping flight. https://arxiv.org/abs/2009.00398",
+      "url": "https://arxiv.org/abs/2009.00398"
+    },
+    "sleap2022": {
+      "citation": "Pereira TD et al. (2022). SLEAP: A deep learning system for multi-animal pose tracking. Nature Methods 19:486\u2013495. https://doi.org/10.1038/s41592-022-01426-1",
+      "url": "https://doi.org/10.1038/s41592-022-01426-1"
+    },
+    "deeplabcut3d": {
+      "citation": "DeepLabCut documentation, Overview of 3D. https://deeplabcut.github.io/DeepLabCut/docs/Overviewof3D.html",
+      "url": "https://deeplabcut.github.io/DeepLabCut/docs/Overviewof3D.html"
+    },
+    "nps_bears": {
+      "citation": "Yellowstone National Park, Bears. https://www.nps.gov/yell/learn/nature/bear.htm",
+      "url": "https://www.nps.gov/yell/learn/nature/bear.htm"
+    },
+    "nps_lynx": {
+      "citation": "Yellowstone National Park, Canada Lynx. https://www.nps.gov/yell/learn/nature/canada-lynx.htm",
+      "url": "https://www.nps.gov/yell/learn/nature/canada-lynx.htm"
+    },
+    "nps_badger": {
+      "citation": "Yellowstone National Park, Badger. https://www.nps.gov/yell/learn/nature/badger.htm",
+      "url": "https://www.nps.gov/yell/learn/nature/badger.htm"
+    },
+    "gltf2": {
+      "citation": "Khronos Group, glTF 2.0 specification. https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html",
+      "url": "https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html"
+    },
+    "godot": {
+      "citation": "Godot documentation, Available 3D formats. https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/available_formats.html",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/available_formats.html"
+    }
+  }
+}

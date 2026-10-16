@@ -1,0 +1,10 @@
+{
+  "path": "bsc5_catalog.gz",
+  "bytes": 573921,
+  "content_type": "application/gzip",
+  "url": "https://cdsarc.cds.unistra.fr/ftp/V/50/catalog.gz",
+  "sha256": "3dc44b1e90be8fbe5bcc7656032560f51275f985c7e3f783c9028e1838ec7bed",
+  "retrieved_utc": "2026-10-13",
+  "catalog": "CDS V/50, Bright Star Catalogue 5th Revised Ed. (Hoffleit and Warren 1991, NASA ADC)",
+  "terms": "Distributed by CDS; cite Hoffleit, D. and Warren Jr., W. H. (1991). Download approved by KJR 2026-10-13."
+}

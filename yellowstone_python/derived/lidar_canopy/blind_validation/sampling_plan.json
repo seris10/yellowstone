@@ -1,0 +1,98 @@
+{
+ "cell_px": 128,
+ "density_boundaries_per_ha": [
+  600,
+  2200
+ ],
+ "density_boundary_rule": "under 600; 600 through 2200 inclusive; over 2200",
+ "density_class_quantity": "visible dominant crowns per ha",
+ "design": "SRSWOR within detector-density proxy classes",
+ "epoch_limitation": "Lidar and review imagery acquisition epochs can differ; crown changes affect matching",
+ "extent_m": [
+  -640.0,
+  -640.0,
+  640.0,
+  640.0
+ ],
+ "freeze_state": "frozen_before_review",
+ "image_dims_px": [
+  2048,
+  2048
+ ],
+ "imagery_metadata": {
+  "acquisition_date": "2022-07-19",
+  "acquisition_year": 2022,
+  "source": "NAIP detail orthophoto"
+ },
+ "main_tolerance_m": 4.0,
+ "model_overlays": false,
+ "pixel_size_xz_m": [
+  0.625,
+  0.625
+ ],
+ "plots_per_class": 3,
+ "population_plots": 256,
+ "reference_coordinates": "whole-image pixel_x right and pixel_y down; half-open crop bounds",
+ "reference_target": "visible dominant crown centers",
+ "sample_plots": 6,
+ "schema": "yellowstone.lidar_blind_sampling.v1",
+ "seed": 0,
+ "selected": [
+  "L00070000",
+  "L00080001",
+  "L00100001",
+  "L00130006",
+  "L00150007",
+  "L00150008"
+ ],
+ "selection_basis": "detector proxy classes select crops; submitted labels define evaluation classes",
+ "selection_proxy_strata": {
+  "600_to_2200": {
+   "population_plots": 4,
+   "selected_plots": 3
+  },
+  "over_2200": {
+   "population_plots": 0,
+   "selected_plots": 0
+  },
+  "under_600": {
+   "population_plots": 252,
+   "selected_plots": 3
+  }
+ },
+ "source_hashes": {
+  "census_object": "fd535691432e3469a3611de0a0b0673aec38f96e64c37a21a063a2db526a771a",
+  "chm_metadata": "0adec7fd19106f5d872e350179c3a39e05a5d328e42b1d7012f4eb35f8399042",
+  "detector_module": "91c87fec0daf76763e69563ec79043b67b54d5d93f2084e37504ad72420eb5bf",
+  "raw_chm": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9",
+  "review_image": "578a9fb7c557e8ab28a857e0732d5f49a899d26693c7889096aa71a9642954f2",
+  "validation_module": "e122467e998368b64406cf533f6c368b6eeaceef2df7a5bc8df155d3d4ea5415"
+ },
+ "source_metadata": {
+  "acquisition_end": "2020-10-09",
+  "acquisition_start": "2020-09-29",
+  "acquisition_year": 2020,
+  "agency": "USGS 3DEP",
+  "extent_m": [
+   -640,
+   -640,
+   640,
+   640
+  ],
+  "input_sha256": {
+   "detector": "91c87fec0daf76763e69563ec79043b67b54d5d93f2084e37504ad72420eb5bf",
+   "habitat_mask": "e3f31d7a576f3d1db130621e2babe132cb266d48227818333eff35c43d7b4f3a",
+   "raw_canopy_height": "c1f94e62ef574361f5f77c869fe59a16c16e6268f3fe2c738aabdc295646d7a9",
+   "world": "ee15ef84b106a8291e6c0f6984bfc21c990b95edefd26b808974cb3d917231f0"
+  },
+  "px_m": 0.5
+ },
+ "status": "derived_not_field_validated",
+ "subcanopy_stem_density_status": "unknown",
+ "tolerances_frozen_m": [
+  2.0,
+  4.0,
+  6.0
+ ],
+ "total_stem_density_status": "unknown"
+}

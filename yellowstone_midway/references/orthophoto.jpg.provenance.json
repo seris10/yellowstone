@@ -1,0 +1,7 @@
+{
+  "path": "orthophoto.jpg",
+  "bytes": 2162633,
+  "content_type": "image/jpeg",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage?bbox=510904.5950985841%2C4928151.044097667%2C515000.5950985841%2C4932247.044097667&bboxSR=32612&imageSR=32612&size=2048%2C2048&format=jpg&f=image&compressionQuality=92&bandIds=0%2C1%2C2",
+  "sha256": "d6c81690f66355b4f2fde17d9278406c714e02463d9b39bafe7b266e8eca1a25"
+}

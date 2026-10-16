@@ -1,0 +1,41 @@
+{
+  "authored_inputs": {
+    "mat_biomass_g_per_m2": 100.0,
+    "mat_biomass_status": "authored",
+    "note": "authored because no measured discharge variance or mat biomass density is available for the baseline window",
+    "outflow_discharge_cv": 0.2,
+    "outflow_discharge_cv_status": "authored"
+  },
+  "cell_area_m2": 1.0,
+  "code_rev": "18f456de029bb528f23bd38a9f90125bcbb48bea",
+  "contract_version": "0.1.0",
+  "flow_cv": 0.2,
+  "fly_stock_count": 153889668.42495576,
+  "inputs": {
+    "cell_size_m": 1.0,
+    "mat_state_json": "mat_state.json",
+    "mat_state_sha256": "6a77698cd7c8115bd0ee452c61154ddc57ad0bfa4a7e1e3c1df958dfad897ef1",
+    "nx": 1280,
+    "nz": 1280,
+    "outflow_temperature_json": "outflow_temperature.json",
+    "outflow_temperature_sha256": "e193390a20b30af173d32ca1d3afaa99e0548bce350d6edcb87988f42900d0af"
+  },
+  "mite_parasitism_total_per_day": 1005721.5108848042,
+  "occupied_cells": 280950,
+  "parameter_provenance": {
+    "source": "outflow_foodweb.outflow_foodweb_from_files"
+  },
+  "predation_total_per_day": 4697478.571693805,
+  "recruitment_total_per_day": 5703200.082580707,
+  "schema": "yellowstone.outflow_foodweb.v1",
+  "sources": [
+    {
+      "file": "yellowstone_midway/data/world.json",
+      "sha256": "727c2764c6860a0e5ebc0b4d5177eebb34c20c28aff8d147089b6a928633dc2f"
+    }
+  ],
+  "species": "paracoenia_turbida",
+  "status": "transferred_structure_authored_rates",
+  "total_mat_m2": 280950.0,
+  "world_id": "yellowstone_midway"
+}

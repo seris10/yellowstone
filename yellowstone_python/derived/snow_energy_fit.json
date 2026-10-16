@@ -1,0 +1,123 @@
+{
+ "schema": "yellowstone.snow_energy_fit.v1",
+ "status": "fitted_not_validated_single_window",
+ "bundle": "derived/snotel_obs.json",
+ "bundle_fetched_at_utc": "2026-10-10T06:31:26.679106+00:00",
+ "window": {
+  "begin": "2025-10-01",
+  "end": "2026-07-31"
+ },
+ "split_date": "2026-03-01",
+ "provenance": {
+  "forcing_swe_depth_tmax_tmin": "measured_NRCS_AWDB_daily",
+  "toa_insolation": "deterministic_solar_geometry",
+  "s_rad_c_turb": "fitted_single_window_WY2026_joint_grid",
+  "accumulation_phase_split_canopy_wind": "shared_with_degree_day_snow_season",
+  "albedo_c0_cloud_shape": "authored_stated_in_snow_energy",
+  "soil_moisture": "not_validated_no_observations"
+ },
+ "sites": {
+  "609:MT:SNTL": {
+   "triplet": "609:MT:SNTL",
+   "n_days": 304,
+   "train_n": 151,
+   "holdout_n": 153,
+   "forcing_gaps": {
+    "tavg_filled": 0,
+    "prcp_zeroed": 1,
+    "tmax_tmin_filled": 0
+   },
+   "fitted": {
+    "s_rad": 0.54,
+    "c_turb_w_m2_k": 2.0,
+    "provenance": "fitted_single_window_WY2026_joint_grid",
+    "wind_loss_effective": 0.0,
+    "wind_provenance": "transferred_degree_day_fit_zero",
+    "c0_w_m2": -10.0,
+    "c0_provenance": "authored_net_longwave_deficit",
+    "albedo_provenance": "authored_reset_and_decay",
+    "dtr_provenance": "authored_diurnal_range_cloud_shape",
+    "game_default_untouched": true,
+    "train_rmse_mm": 9.68
+   },
+   "holdout_swe_mm": {
+    "n": 153.0,
+    "rmse": 61.94,
+    "bias": -40.17,
+    "mae": 40.17,
+    "max_abs": 147.42
+   },
+   "train_swe_mm": {
+    "n": 151.0,
+    "rmse": 9.68,
+    "bias": 0.15,
+    "mae": 8.02,
+    "max_abs": 23.11
+   },
+   "null_persistence_rmse_mm": 293.29,
+   "null_nomelt_rmse_mm": 471.58,
+   "degree_day_holdout_rmse_mm": 112.02,
+   "degree_day_fitted": {
+    "k_melt": 1.0,
+    "wind_loss": 0.0,
+    "train_rmse_mm": 10.52
+   },
+   "beats_both_nulls": true,
+   "beats_degree_day": true,
+   "peak_timing_error_days": 1,
+   "depth_check_rmse_mm": 110.55,
+   "status": "fitted_not_validated_single_window"
+  },
+  "924:MT:SNTL": {
+   "triplet": "924:MT:SNTL",
+   "n_days": 304,
+   "train_n": 151,
+   "holdout_n": 153,
+   "forcing_gaps": {
+    "tavg_filled": 1,
+    "prcp_zeroed": 0,
+    "tmax_tmin_filled": 1
+   },
+   "fitted": {
+    "s_rad": 0.0,
+    "c_turb_w_m2_k": 8.0,
+    "provenance": "fitted_single_window_WY2026_joint_grid",
+    "wind_loss_effective": 0.0,
+    "wind_provenance": "transferred_degree_day_fit_zero",
+    "c0_w_m2": -10.0,
+    "c0_provenance": "authored_net_longwave_deficit",
+    "albedo_provenance": "authored_reset_and_decay",
+    "dtr_provenance": "authored_diurnal_range_cloud_shape",
+    "game_default_untouched": true,
+    "train_rmse_mm": 8.19
+   },
+   "holdout_swe_mm": {
+    "n": 153.0,
+    "rmse": 13.5,
+    "bias": -1.56,
+    "mae": 6.71,
+    "max_abs": 55.76
+   },
+   "train_swe_mm": {
+    "n": 151.0,
+    "rmse": 8.19,
+    "bias": 1.95,
+    "mae": 5.92,
+    "max_abs": 21.51
+   },
+   "null_persistence_rmse_mm": 179.04,
+   "null_nomelt_rmse_mm": 194.36,
+   "degree_day_holdout_rmse_mm": 45.04,
+   "degree_day_fitted": {
+    "k_melt": 0.75,
+    "wind_loss": 0.0,
+    "train_rmse_mm": 7.88
+   },
+   "beats_both_nulls": true,
+   "beats_degree_day": true,
+   "peak_timing_error_days": 2,
+   "depth_check_rmse_mm": 66.29,
+   "status": "fitted_not_validated_single_window"
+  }
+ }
+}

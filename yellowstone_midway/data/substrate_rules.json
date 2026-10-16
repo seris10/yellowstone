@@ -1,0 +1,71 @@
+{
+  "code_rev": "92e1706103ac3a630a0b7f73abf9cae36704f8f0",
+  "contract_version": "0.1.0",
+  "midway_pools": [
+    "pool_1028_0",
+    "pool_1029_0",
+    "pool_1030_0",
+    "pool_1034_0"
+  ],
+  "parameter_provenance": {
+    "midway": "siliceous only; travertine refused"
+  },
+  "rule": "substrate is authored from fluid chemistry per basin; never copy a palette across mineral systems",
+  "sources": [
+    {
+      "id": "NPS_G4",
+      "url": "https://www.nps.gov/yell/learn/nature/hydrothermal-features.htm"
+    }
+  ],
+  "status": "illustrative, not calibrated",
+  "systems": {
+    "acid_sulfate": {
+      "chemistry": "acid-sulfate, low silica, mud alteration",
+      "features": [
+        "mudpot",
+        "fumarole_clay"
+      ],
+      "midway_use": false,
+      "palette": [
+        "grey_mud",
+        "ochre_clay",
+        "sulfur_rind"
+      ],
+      "setting": "mud pots / fumarole fields (NOT Midway core)"
+    },
+    "siliceous_sinter": {
+      "chemistry": "neutral-alkaline chloride, high dissolved silica",
+      "features": [
+        "geyser",
+        "hot_spring",
+        "fumarole",
+        "sinter_apron"
+      ],
+      "midway_use": true,
+      "palette": [
+        "deep_blue",
+        "teal",
+        "green_mat",
+        "ochre_mat",
+        "wet_sinter",
+        "dry_sinter"
+      ],
+      "setting": "rhyolite-hosted geyser basins (Midway, Upper, Lower)"
+    },
+    "travertine": {
+      "chemistry": "calcium-carbonate from limestone, CO2 degassing",
+      "features": [
+        "travertine_terrace",
+        "rimstone_pool"
+      ],
+      "midway_use": false,
+      "palette": [
+        "white_calcite",
+        "cream",
+        "pale_terrace_grey"
+      ],
+      "setting": "Mammoth Hot Springs terraces ONLY"
+    }
+  },
+  "world_id": "yellowstone_midway"
+}

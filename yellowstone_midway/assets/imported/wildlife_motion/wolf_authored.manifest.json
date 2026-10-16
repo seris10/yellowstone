@@ -1,0 +1,366 @@
+{
+  "schema": "wildlife-motion.asset/1",
+  "source_sha256": "c84d0a070194bf0b7dbf64a6c303b9c94ba1cb137c94292e20127f86bdce8237",
+  "vertices": 1290,
+  "triangles": 2520,
+  "coordinate_system": "+Y up, +Z forward, +X anatomical left",
+  "metadata": {
+    "mesh_index": 0,
+    "source": "authored_wolf_shape",
+    "scale_status": "unverified_asset_units",
+    "canonical_transform": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        -0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        -0.012373737373737564
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "status": "authored",
+    "scientific_acceptance": "not_yet_accepted",
+    "forward_input": "+z",
+    "up_input": "+y",
+    "heading_estimation": "paw-cluster midpoint",
+    "supplied_bbox_length_m": null,
+    "canonical_scale_factor": 1.0
+  },
+  "texture_resizing": [],
+  "clips": [
+    {
+      "name": "Idle",
+      "duration_s": 10.0,
+      "frames": 301,
+      "loop": true,
+      "engine": "mammal",
+      "species": "gray_wolf",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "idle",
+        "frequency_hz": 0.2,
+        "duty_factor": 0.68,
+        "stance_length_height": 0,
+        "clearance_height": 0,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.0,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "idle",
+      "max_ik_reach_error_asset_units": 0.0
+    },
+    {
+      "name": "Walk",
+      "duration_s": 2.0,
+      "frames": 61,
+      "loop": true,
+      "engine": "mammal",
+      "species": "gray_wolf",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "controls": {
+        "pattern": "walk",
+        "frequency_hz": 1.0,
+        "duty_factor": 0.65,
+        "stance_length_height": 0.3,
+        "clearance_height": 0.055,
+        "body_bob_height": 0.005,
+        "body_roll_deg": 1.0,
+        "head_yaw_deg": 1.5
+      },
+      "speed_asset_units_s": 0.5630769230769231,
+      "root_motion": false,
+      "scale_status": "unverified_asset_units",
+      "gait_pattern": "walk",
+      "max_ik_reach_error_asset_units": 0.0
+    }
+  ],
+  "joint_count": 25,
+  "rig": {
+    "schema": "wildlife-motion.rig/1",
+    "names": [
+      "root",
+      "pelvis",
+      "lumbar",
+      "thorax",
+      "neck",
+      "head",
+      "FL_upper",
+      "FL_middle",
+      "FL_ankle",
+      "FL_foot",
+      "FR_upper",
+      "FR_middle",
+      "FR_ankle",
+      "FR_foot",
+      "HL_upper",
+      "HL_middle",
+      "HL_ankle",
+      "HL_foot",
+      "HR_upper",
+      "HR_middle",
+      "HR_ankle",
+      "HR_foot",
+      "tail_0",
+      "tail_1",
+      "tail_2"
+    ],
+    "parents": [
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      3,
+      6,
+      7,
+      8,
+      3,
+      10,
+      11,
+      12,
+      1,
+      14,
+      15,
+      16,
+      1,
+      18,
+      19,
+      20,
+      1,
+      22,
+      23
+    ],
+    "rest": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.7808000000000002,
+        -0.25029999999999997
+      ],
+      [
+        0.0,
+        0.7859240000000001,
+        -0.04468900000000009
+      ],
+      [
+        0.0,
+        0.7930000000000001,
+        0.2392499999999997
+      ],
+      [
+        0.0,
+        0.8906000000000002,
+        0.4602499999999997
+      ],
+      [
+        3.5148903039947235e-18,
+        0.9810050506338834,
+        0.67585400919822
+      ],
+      [
+        0.19520000000000004,
+        0.6832000000000001,
+        0.2392499999999997
+      ],
+      [
+        0.18260000000000004,
+        0.37820000000000004,
+        0.11769999999999971
+      ],
+      [
+        0.17000000000000007,
+        0.14640000000000003,
+        0.31659999999999966
+      ],
+      [
+        0.17000000000000007,
+        0.046125421036992104,
+        0.4049999999999997
+      ],
+      [
+        -0.19520000000000004,
+        0.6832000000000001,
+        0.2392499999999997
+      ],
+      [
+        -0.18260000000000004,
+        0.37820000000000004,
+        0.11769999999999971
+      ],
+      [
+        -0.17000000000000007,
+        0.14640000000000003,
+        0.31659999999999966
+      ],
+      [
+        -0.17000000000000007,
+        0.046125421036992104,
+        0.4049999999999997
+      ],
+      [
+        0.19520000000000004,
+        0.7442000000000001,
+        -0.25029999999999997
+      ],
+      [
+        0.18386000000000005,
+        0.4758000000000001,
+        -0.15748
+      ],
+      [
+        0.17000000000000007,
+        0.30500000000000005,
+        -0.52655
+      ],
+      [
+        0.17000000000000007,
+        0.046125421036992104,
+        -0.40499999999999997
+      ],
+      [
+        -0.19520000000000004,
+        0.7442000000000001,
+        -0.25029999999999997
+      ],
+      [
+        -0.18386000000000005,
+        0.4758000000000001,
+        -0.15748
+      ],
+      [
+        -0.17000000000000007,
+        0.30500000000000005,
+        -0.52655
+      ],
+      [
+        -0.17000000000000007,
+        0.046125421036992104,
+        -0.40499999999999997
+      ],
+      [
+        0.0,
+        0.8784000000000001,
+        -0.44919999999999993
+      ],
+      [
+        -2.6361677279960426e-18,
+        0.7650133742881209,
+        -0.679669886512585
+      ],
+      [
+        -5.272335455992085e-18,
+        0.6516267485762416,
+        -0.9101397730251699
+      ]
+    ],
+    "groups": {
+      "body": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "FL": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "FR": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "HL": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "HR": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "tail": [
+        22,
+        23,
+        24
+      ]
+    },
+    "metadata": {
+      "species": "gray_wolf",
+      "engine": "mammal",
+      "review_status": "estimated_unreviewed",
+      "source_sha256": "c84d0a070194bf0b7dbf64a6c303b9c94ba1cb137c94292e20127f86bdce8237",
+      "canonical_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          -0.012373737373737564
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scale_status": "unverified_asset_units",
+      "parameter_status": "All numeric animation/rigging defaults are authored engineering controls, not fitted species measurements.",
+      "height": 1.2200000000000002,
+      "length": 2.21,
+      "foot_posture": "digitigrade",
+      "warnings": [
+        "Joint centers inferred from surface geometry, not measured skeletons.",
+        "Posed AI meshes may require joint and weight correction, particularly shoulders, hips, and feet."
+      ],
+      "sole_offsets": {
+        "FL": 0.046125421036992104,
+        "FR": 0.046125421036992104,
+        "HL": 0.046125421036992104,
+        "HR": 0.046125421036992104
+      }
+    }
+  }
+}

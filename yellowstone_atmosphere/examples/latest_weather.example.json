@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "generated_at_unix": 1791763200,
+  "source": {
+    "analysis": "RTMA",
+    "forecast": "HRRR",
+    "station_correction": "optional Yellowstone/SNOTEL observations",
+    "note": "Example structure only. Replace every value with live or validated model output."
+  },
+  "weather": {
+    "air_temperature_c": 6.5,
+    "dewpoint_c": 1.2,
+    "relative_humidity": 0.68,
+    "wind_speed_mps": 4.4,
+    "wind_direction_deg": 245.0,
+    "cloud_fraction": 0.74,
+    "cloud_base_agl_m": 820.0,
+    "cloud_thickness_m": 760.0,
+    "precipitation_rate_mm_h": 1.8,
+    "snow_fraction": 0.0,
+    "visibility_m": 11500.0,
+    "ground_wetness_fraction": -1.0
+  },
+  "solar": {
+    "solar_azimuth_deg": 221.4,
+    "solar_elevation_deg": 32.8
+  }
+}

@@ -1,0 +1,1 @@
+"""Authoring model components."""

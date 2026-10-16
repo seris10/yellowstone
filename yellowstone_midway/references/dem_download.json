@@ -1,0 +1,8 @@
+{
+  "label": "dem",
+  "path": "/workspace/scratch/f7e4d4710cf4/yellowstone_midway/references/dem.tif",
+  "bytes": 5310185,
+  "sha256": "ff82ceb01a9d75c98a32d93077b479f3a5cc01484daf51b687913234a618565e",
+  "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?bbox=510902.5950985841%2C4928149.044097667%2C515002.5950985841%2C4932249.044097667&bboxSR=32612&imageSR=32612&size=1025%2C1025&format=tiff&pixelType=F32&f=image&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D",
+  "content_type": "image/tiff"
+}
