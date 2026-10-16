@@ -1,0 +1,2238 @@
+{
+  "biological_acceptance": "not_yet_accepted",
+  "human_visual_acceptance": "unassessed",
+  "pairs": [
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a0_d18_lod0.png",
+          "sha256": "065fcbab2d4a82b6fcfc0ff59e5f2078d1d1d1d1caf3dca3c8363b2783deab44"
+        },
+        {
+          "path": "dense_v0_a0_d18_lod1.png",
+          "sha256": "a24a0f3c86a704640f864684b35664c212da3293789acb1198487a578573976c"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        13138,
+        15820
+      ],
+      "silhouette_iou": 0.6254841425764804,
+      "occupancy_ratio": 1.2041406606789467,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a0_d65_lod1.png",
+          "sha256": "3af886f849630352f56870583cf9098c5e075c4e8349637bad52de2ea73f677d"
+        },
+        {
+          "path": "dense_v0_a0_d65_lod2.png",
+          "sha256": "de984500e3343d0c3a6c5fd3517dd87e019b19159fc1e9de54f9cbfeb04fd8c1"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        535,
+        1308
+      ],
+      "silhouette_iou": 0.3413391557496361,
+      "occupancy_ratio": 2.444859813084112,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a0_d180_lod2.png",
+          "sha256": "7eb6cac5ef84faa75522d592dee0b85d0e3a37b4a836c037de537d27644d1acd"
+        },
+        {
+          "path": "dense_v0_a0_d180_lod3.png",
+          "sha256": "1fd027ee2ac8cf33d5b4af214d2d89dd4dec832208d30e75506d7cb7bcfd156e"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        61,
+        189
+      ],
+      "silhouette_iou": 0.2376237623762376,
+      "occupancy_ratio": 3.098360655737705,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a1_d18_lod0.png",
+          "sha256": "804846f6c28083a158a5a57e6696d4efaf0c7796463daaa5279f88145f561fef"
+        },
+        {
+          "path": "dense_v0_a1_d18_lod1.png",
+          "sha256": "e5199d3b015d78872b6d75a1d1bb5d000efc806d650575fe153a1e26cc9396ea"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        13543,
+        16336
+      ],
+      "silhouette_iou": 0.6387319695058411,
+      "occupancy_ratio": 1.2062320017721333,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a1_d65_lod1.png",
+          "sha256": "ff678dc846f4c298b25704c9ae7f0969d5f1d046d66d75ab0689042e104fbb27"
+        },
+        {
+          "path": "dense_v0_a1_d65_lod2.png",
+          "sha256": "44b1087650f4b3b7fc7d7c659a7418ac83af5b9f75726b391ce51426a1ab44a2"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        560,
+        1367
+      ],
+      "silhouette_iou": 0.3475524475524476,
+      "occupancy_ratio": 2.4410714285714286,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a1_d180_lod2.png",
+          "sha256": "9732cda563ecbc814d337cea6fc57b48bca667b5afe876d341e5dbe0239411f2"
+        },
+        {
+          "path": "dense_v0_a1_d180_lod3.png",
+          "sha256": "1fde72e4a4e1b3b926293abca4216a6d5bc5c99cb93f3f1173ee3f369e64ed36"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        63,
+        198
+      ],
+      "silhouette_iou": 0.21395348837209302,
+      "occupancy_ratio": 3.142857142857143,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a2_d18_lod0.png",
+          "sha256": "d0351a21bcc28e08aa38cd86d97333ae03f293fa7623c6ecb502b255c82ac327"
+        },
+        {
+          "path": "dense_v0_a2_d18_lod1.png",
+          "sha256": "c8f13858c53281c3cbc3276f880d52d69e782e4c6f931db13a10525914c8666c"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        13152,
+        15692
+      ],
+      "silhouette_iou": 0.6409147798384344,
+      "occupancy_ratio": 1.1931265206812651,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a2_d65_lod1.png",
+          "sha256": "d3b2d7d661eb6c56a93b9725a66ebbb3cceb26e8bfa1619c9aa920fa92d456d8"
+        },
+        {
+          "path": "dense_v0_a2_d65_lod2.png",
+          "sha256": "ce75569b4fc9208156e1a1e9e2197f22587434098d605abe8025731b4d82113d"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        550,
+        1306
+      ],
+      "silhouette_iou": 0.35474452554744523,
+      "occupancy_ratio": 2.3745454545454545,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a2_d180_lod2.png",
+          "sha256": "f61f603e0bd87bfbb1ab8817f9676ba4d6bef8c42b6c4bd8fd4a350663947099"
+        },
+        {
+          "path": "dense_v0_a2_d180_lod3.png",
+          "sha256": "b1073e6837bf7b4028d199f529f1e43b9419c7f2200301f4be7aaaafbf668439"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        63,
+        188
+      ],
+      "silhouette_iou": 0.23645320197044334,
+      "occupancy_ratio": 2.984126984126984,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v0_a3_d18_lod0.png",
+          "sha256": "646578d9b11b3b61836b478317fda9671f6c3c48c0b3cb8876a0df91bb7321a8"
+        },
+        {
+          "path": "dense_v0_a3_d18_lod1.png",
+          "sha256": "fa3e625698dd3b877688a9dde1b430a803a68d3d659130af6ca297c9d7b71e4a"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        13259,
+        15942
+      ],
+      "silhouette_iou": 0.6469825155104343,
+      "occupancy_ratio": 1.2023531186363978,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v0_a3_d65_lod1.png",
+          "sha256": "0a2fa45727ba3f26ce98bdc97c7291cbbbb44524cfb98ab02fe32e8e6952241d"
+        },
+        {
+          "path": "dense_v0_a3_d65_lod2.png",
+          "sha256": "525b4c5e2dc19aec9876b9460199292e124c8a8eb2218244ec01c4665a83f8f4"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        577,
+        1339
+      ],
+      "silhouette_iou": 0.35694050991501414,
+      "occupancy_ratio": 2.320623916811092,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v0_a3_d180_lod2.png",
+          "sha256": "d4f18d559a983f6196c8a88b4418a4291791f6238b9ba37e022a86be0551f79e"
+        },
+        {
+          "path": "dense_v0_a3_d180_lod3.png",
+          "sha256": "bc108e9f9453072175064057571560dd0a444c838736e7cd1a58f1c21a609ceb"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        58,
+        198
+      ],
+      "silhouette_iou": 0.19626168224299065,
+      "occupancy_ratio": 3.413793103448276,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a0_d18_lod0.png",
+          "sha256": "12e70814875c295fc4694a6fe7cb33bf486d9142416c16852d3dce809802e2f8"
+        },
+        {
+          "path": "dense_v3_a0_d18_lod1.png",
+          "sha256": "f6e51c64deb25ff928c10fe8433e600d9842f22ca95fe2e99853143a1ee8d7ca"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        10737,
+        13118
+      ],
+      "silhouette_iou": 0.6030508702372153,
+      "occupancy_ratio": 1.2217565427959394,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a0_d65_lod1.png",
+          "sha256": "9a97a534739c3de2934952da316bf4ab7757e4a77d2df22e70bce055b16230e5"
+        },
+        {
+          "path": "dense_v3_a0_d65_lod2.png",
+          "sha256": "a776ff42ae35d5533a3a110c522443cf3f7625e8c71150389953419afc5a1bf2"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        464,
+        1126
+      ],
+      "silhouette_iou": 0.32610508757297746,
+      "occupancy_ratio": 2.4267241379310347,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a0_d180_lod2.png",
+          "sha256": "62be2f959f659c1ec7deddbf291ba9aa6cb113b36a6291a68add365cee4d1285"
+        },
+        {
+          "path": "dense_v3_a0_d180_lod3.png",
+          "sha256": "0c7f2c47f8066484e4a9077d6d9db24502dfd42bc8e3556ee898b304472638b9"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        47,
+        172
+      ],
+      "silhouette_iou": 0.1711229946524064,
+      "occupancy_ratio": 3.6595744680851063,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a1_d18_lod0.png",
+          "sha256": "8dfaa9f033b6d11e6b6a69e13b1f74fd7e294c5f2a86d9ac49c0a32decf7d84b"
+        },
+        {
+          "path": "dense_v3_a1_d18_lod1.png",
+          "sha256": "3849ba17e60cb64806c3f4d011818afbcf7de5f9aef1e59a5e69d57e15b4b025"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        11185,
+        13642
+      ],
+      "silhouette_iou": 0.6057822909255546,
+      "occupancy_ratio": 1.219669199821189,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a1_d65_lod1.png",
+          "sha256": "c5de542656ccb7fe48cf5afb2150df6a09a6905d008093723eafca6684647cb2"
+        },
+        {
+          "path": "dense_v3_a1_d65_lod2.png",
+          "sha256": "7710838d1fa3b25c172e96ff3d00ba112ad37c25cecb9b0346907c8bd27da9b2"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        503,
+        1166
+      ],
+      "silhouette_iou": 0.33626901521216973,
+      "occupancy_ratio": 2.3180914512922466,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a1_d180_lod2.png",
+          "sha256": "abe2f085966418aa4ac54375bc522175a68fbca7f54a6817db3a34521458be18"
+        },
+        {
+          "path": "dense_v3_a1_d180_lod3.png",
+          "sha256": "bb13a53fee570a8406b74c31451cbdc84dec1c16079e72cd85f6871c226e4bbf"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        47,
+        169
+      ],
+      "silhouette_iou": 0.16129032258064516,
+      "occupancy_ratio": 3.595744680851064,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a2_d18_lod0.png",
+          "sha256": "588594c29a947d8a173777703b092e6edf2001633d7148d2ca30fe82947723a5"
+        },
+        {
+          "path": "dense_v3_a2_d18_lod1.png",
+          "sha256": "5aea7f011ca687c1603e1dd99e235bfd8e3e48d7d6d3b7ad4809d079312f4f5c"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        10969,
+        13266
+      ],
+      "silhouette_iou": 0.6090160669233834,
+      "occupancy_ratio": 1.2094083325736165,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a2_d65_lod1.png",
+          "sha256": "e4cf7dc8413e5f38db62d9b5bbefb95d21aa4569d954d8d0d3b3d4d4a6173103"
+        },
+        {
+          "path": "dense_v3_a2_d65_lod2.png",
+          "sha256": "bd8d7639437614b12e64cf0158c89ea7eefeade30443f28cfa428c5766081d5c"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        457,
+        1145
+      ],
+      "silhouette_iou": 0.3283582089552239,
+      "occupancy_ratio": 2.5054704595185995,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a2_d180_lod2.png",
+          "sha256": "45738a5e3c0425fe1922c5e61261c473619340190fe8663108d678b1c2b0c31b"
+        },
+        {
+          "path": "dense_v3_a2_d180_lod3.png",
+          "sha256": "e20f0a7c35928374870255e27be82ee781f7eb906a95ebeff538b1eb2e202048"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        49,
+        171
+      ],
+      "silhouette_iou": 0.1702127659574468,
+      "occupancy_ratio": 3.489795918367347,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "dense_v3_a3_d18_lod0.png",
+          "sha256": "a46895b687a4b206646eae6a31136e9156ed540303518a3ddc7ad00368520ec3"
+        },
+        {
+          "path": "dense_v3_a3_d18_lod1.png",
+          "sha256": "d632eed3104412a52bdef179405d587a91d84eff69cdc15a6a7d5c445303caf4"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        11320,
+        13925
+      ],
+      "silhouette_iou": 0.5988979669390082,
+      "occupancy_ratio": 1.2301236749116609,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "dense_v3_a3_d65_lod1.png",
+          "sha256": "2e4d6a3e9034a01d1e888c2fdfcfe185cad9e048f10c104b3dc272e9f24ed85a"
+        },
+        {
+          "path": "dense_v3_a3_d65_lod2.png",
+          "sha256": "d949844b2c193804c4ec57164ef046128a60b2cf78e5a69a921c07f65f55af5c"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        494,
+        1182
+      ],
+      "silhouette_iou": 0.34726688102893893,
+      "occupancy_ratio": 2.3927125506072873,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "dense",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "dense_v3_a3_d180_lod2.png",
+          "sha256": "05465cc26682266ee803ffaf7140f98ea38451217bef13afa08c08f504090ee8"
+        },
+        {
+          "path": "dense_v3_a3_d180_lod3.png",
+          "sha256": "42d989e3da59ce4f13b8a8fab17e06d8070bcbb7a2c4be77b55c44858cb60d1c"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        53,
+        168
+      ],
+      "silhouette_iou": 0.1945945945945946,
+      "occupancy_ratio": 3.169811320754717,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a0_d18_lod0.png",
+          "sha256": "72d7164743e711c971324285826a8979e2b95fe2f83f10454c3f05b6b6671c96"
+        },
+        {
+          "path": "open_v0_a0_d18_lod1.png",
+          "sha256": "c3101607607230e146d40382f68800700bc1ee4a8ee7ed85440ae3c7611d8181"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        16409,
+        19967
+      ],
+      "silhouette_iou": 0.6294570865436302,
+      "occupancy_ratio": 1.2168322262173197,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a0_d65_lod1.png",
+          "sha256": "2f9b7acbe5ea2e5a6dc80cc9e1754f1632c43355a16012dd6461d40533b9c72c"
+        },
+        {
+          "path": "open_v0_a0_d65_lod2.png",
+          "sha256": "c39088a29dfe388fb95f6f56ed7953c0658152088218a4bfeb5b8c0675413420"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        752,
+        1731
+      ],
+      "silhouette_iou": 0.3748615725359911,
+      "occupancy_ratio": 2.3018617021276597,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a0_d180_lod2.png",
+          "sha256": "54c3564844fbe4255dd1114c6ede74ebf9fed74fec1bf0272df90648354d626d"
+        },
+        {
+          "path": "open_v0_a0_d180_lod3.png",
+          "sha256": "f982dffbb0c32763903bed8c39d9d286104ff8ea2cb001f58af8273abff5667c"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        129,
+        246
+      ],
+      "silhouette_iou": 0.3888888888888889,
+      "occupancy_ratio": 1.9069767441860466,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a1_d18_lod0.png",
+          "sha256": "3a75131566b1618cc79d79137a7ead2ac5fda6f3d7d055d3f79c4bf32285f790"
+        },
+        {
+          "path": "open_v0_a1_d18_lod1.png",
+          "sha256": "125c4312e5c1e13ce717ab61d9abaaa702369636a0602e50fc45c2add37352bd"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        16465,
+        20365
+      ],
+      "silhouette_iou": 0.6326078283611862,
+      "occupancy_ratio": 1.2368660795627089,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a1_d65_lod1.png",
+          "sha256": "4b77dff619aa601473bbf7b8d27316074d67721a0f60ca50738bbef81ad121f1"
+        },
+        {
+          "path": "open_v0_a1_d65_lod2.png",
+          "sha256": "9511d688a3a169d9972bab59b51ae93a3fd9749a0092603bf96a43a0ffda607f"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        828,
+        1776
+      ],
+      "silhouette_iou": 0.40528872099298435,
+      "occupancy_ratio": 2.1449275362318843,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a1_d180_lod2.png",
+          "sha256": "52f9461f79aa53d0fd77066f92479e9a5e73f000741f7b3c470b1ad8ca1d95a1"
+        },
+        {
+          "path": "open_v0_a1_d180_lod3.png",
+          "sha256": "1a617e8c5f7760687ce7f20be4468c0104e29c5c704b5113a88b3b5b017ebaf1"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        136,
+        245
+      ],
+      "silhouette_iou": 0.4111111111111111,
+      "occupancy_ratio": 1.8014705882352942,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a2_d18_lod0.png",
+          "sha256": "903c7ed29e9e7d95a9f36af705c1106ab3ffe7d617a9c056a23ea5d87d8ab340"
+        },
+        {
+          "path": "open_v0_a2_d18_lod1.png",
+          "sha256": "53b151ad17f75fb50ce68129e1cb6f66b618ad26f511b00599743b5017194510"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        16677,
+        20440
+      ],
+      "silhouette_iou": 0.6239499474973749,
+      "occupancy_ratio": 1.2256401031360555,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a2_d65_lod1.png",
+          "sha256": "e7e6e21a33943810953c6485bd7b0f11c9f123b05df5510ef5a73eb37481085a"
+        },
+        {
+          "path": "open_v0_a2_d65_lod2.png",
+          "sha256": "554943207a0d27dcd0f9531c5915e611dd3ad7a16348687c230e74242e9fe72e"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        792,
+        1766
+      ],
+      "silhouette_iou": 0.39324618736383443,
+      "occupancy_ratio": 2.2297979797979797,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a2_d180_lod2.png",
+          "sha256": "a8d41f09dcce91061a1e8a9152be3932149dffec16738ce88083c2ae364c0561"
+        },
+        {
+          "path": "open_v0_a2_d180_lod3.png",
+          "sha256": "64cb8b08ea9657be50efae54e8b19850eaea22c1738e31c2af65660c5f799891"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        133,
+        245
+      ],
+      "silhouette_iou": 0.3897058823529412,
+      "occupancy_ratio": 1.8421052631578947,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v0_a3_d18_lod0.png",
+          "sha256": "13112299036c4c8392be9f86e134a65202767953cd2d3d6758698f8e96efc8c0"
+        },
+        {
+          "path": "open_v0_a3_d18_lod1.png",
+          "sha256": "3c4d57b99e3ffb3bda6433cf006ea1d10ea172887ffcd5314fab5e546522bb05"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        16539,
+        20335
+      ],
+      "silhouette_iou": 0.6308712958867758,
+      "occupancy_ratio": 1.2295181087127396,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v0_a3_d65_lod1.png",
+          "sha256": "ea25d72ea30a95fae52789e7934cf4c8acf7c1b056a19b14b332c512c71b99c6"
+        },
+        {
+          "path": "open_v0_a3_d65_lod2.png",
+          "sha256": "a51a3aa6fdfd007c0fb7915ddf59a83714fe6e5f523d4e167d19e9e8b8f71b4b"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        829,
+        1769
+      ],
+      "silhouette_iou": 0.3990306946688207,
+      "occupancy_ratio": 2.1338962605548852,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v0_a3_d180_lod2.png",
+          "sha256": "10cbea8d36f9dbafefd70e00bfe23edca6984ada1fd0fbc0cbe2042a35245a5c"
+        },
+        {
+          "path": "open_v0_a3_d180_lod3.png",
+          "sha256": "556e9dad83f004145df21403e6e6fd93833a5a83bc34fb8cfba8a823e4616aed"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        128,
+        246
+      ],
+      "silhouette_iou": 0.36996336996337,
+      "occupancy_ratio": 1.921875,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a0_d18_lod0.png",
+          "sha256": "53127f02527946ee42428cc59325e90cfb1f492e8020b13b9996eb8e96fbf98e"
+        },
+        {
+          "path": "open_v3_a0_d18_lod1.png",
+          "sha256": "86dca9300f5f25c867ea824e53985b9d7199819dff479c56f380d4eb999987de"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        16361,
+        19980
+      ],
+      "silhouette_iou": 0.6298605193523792,
+      "occupancy_ratio": 1.2211967483650144,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a0_d65_lod1.png",
+          "sha256": "1b598ee604159d3c25a4f3d8db4fb50a3fe540b37d249a3c6de96554729b42e2"
+        },
+        {
+          "path": "open_v3_a0_d65_lod2.png",
+          "sha256": "06b20ac972ab294497e33bf91c0c6078eedf0164e7ae6d964d1976bbcb7e7685"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        776,
+        1718
+      ],
+      "silhouette_iou": 0.39174107142857145,
+      "occupancy_ratio": 2.213917525773196,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a0_d180_lod2.png",
+          "sha256": "800cff496dd7b2b4f940ed76cd0a502861d0df94988022bee156adc28b023de8"
+        },
+        {
+          "path": "open_v3_a0_d180_lod3.png",
+          "sha256": "6a479700b65f1d4e6dc1110a62f8a7c1ffa96c86bc5a7049338c8c1b4b95c1d9"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        123,
+        248
+      ],
+      "silhouette_iou": 0.3843283582089552,
+      "occupancy_ratio": 2.016260162601626,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a1_d18_lod0.png",
+          "sha256": "567be7c1cad1f223cb8f16f48f798759d9e3f5c59a2ecd02427cf89a1fdab2c8"
+        },
+        {
+          "path": "open_v3_a1_d18_lod1.png",
+          "sha256": "86bc1547546c2ecba35014d3add5cb73402e76f886f8e04f1bab266dcefa6287"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        16380,
+        20261
+      ],
+      "silhouette_iou": 0.6308808474651711,
+      "occupancy_ratio": 1.236935286935287,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a1_d65_lod1.png",
+          "sha256": "44d40c6831cdb61d28ace1f073381cbbe146e052becb9646f1162213510fd2ed"
+        },
+        {
+          "path": "open_v3_a1_d65_lod2.png",
+          "sha256": "f3731dc815f1882df568e84d71ee1276e17a25602dc9cf82325daa58d9a8b1d1"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        825,
+        1789
+      ],
+      "silhouette_iou": 0.39264784230154504,
+      "occupancy_ratio": 2.1684848484848485,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a1_d180_lod2.png",
+          "sha256": "48ed92b4f14cf9c0704d0e59eb050439f9c0e59e8588f32af9833d800d6f85dd"
+        },
+        {
+          "path": "open_v3_a1_d180_lod3.png",
+          "sha256": "a21add4b041e4e79083d01d42a1abbb186cb028a3dcbbec039c7a121442851d9"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        125,
+        247
+      ],
+      "silhouette_iou": 0.39325842696629215,
+      "occupancy_ratio": 1.976,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a2_d18_lod0.png",
+          "sha256": "2d2dfc2ba5fd8d328732b7b3f306db7ac4745f3c225bbd0093b5bd23ff3a9c4c"
+        },
+        {
+          "path": "open_v3_a2_d18_lod1.png",
+          "sha256": "a45853529134edf4cadec3c9a464bccca6f8933d69af10610ccd1d38848f1a8d"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        16278,
+        19871
+      ],
+      "silhouette_iou": 0.6331887593747176,
+      "occupancy_ratio": 1.2207273620837942,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a2_d65_lod1.png",
+          "sha256": "bb4ec30dd695b7d6559659141f53d12e0ceac8f67ed52648eb177a467ec3ea2e"
+        },
+        {
+          "path": "open_v3_a2_d65_lod2.png",
+          "sha256": "53e899427b8d49c559677f8134b108abd7ab5914cac5dc83505ecff4487988a8"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        764,
+        1732
+      ],
+      "silhouette_iou": 0.3843594009983361,
+      "occupancy_ratio": 2.2670157068062826,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a2_d180_lod2.png",
+          "sha256": "b59dfbafea6e28ac8902d3906db6e44d8adc11b15e755da8ed83924bfdb620a7"
+        },
+        {
+          "path": "open_v3_a2_d180_lod3.png",
+          "sha256": "6a38c1014457188362f7273f5a5d071764798cd10e2f63dfb634baba04b3489b"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        127,
+        249
+      ],
+      "silhouette_iou": 0.3925925925925926,
+      "occupancy_ratio": 1.9606299212598426,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "open_v3_a3_d18_lod0.png",
+          "sha256": "54adf43aecf3ec81cdec02a73b2a3859d881ac257927e563f0e865575e261063"
+        },
+        {
+          "path": "open_v3_a3_d18_lod1.png",
+          "sha256": "d4986a5d0182239c3fd97246115389e544f0253bbe27cdf01161be1daf3ddefc"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        16599,
+        20443
+      ],
+      "silhouette_iou": 0.6320218531083404,
+      "occupancy_ratio": 1.231580215675643,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "open_v3_a3_d65_lod1.png",
+          "sha256": "e728d9126f04761cbef89205138420f17e7554982033c17a2653f8b79140da58"
+        },
+        {
+          "path": "open_v3_a3_d65_lod2.png",
+          "sha256": "50aab3e6624c32f8d9e95ba13b3df17a09867e772314ca79b8d8e7261c06aa62"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        824,
+        1790
+      ],
+      "silhouette_iou": 0.39487726787620064,
+      "occupancy_ratio": 2.1723300970873787,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "open",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "open_v3_a3_d180_lod2.png",
+          "sha256": "893053ef9d97643d99bd3cfd8ff3501f7a9d887e9b6a03312871031f53894473"
+        },
+        {
+          "path": "open_v3_a3_d180_lod3.png",
+          "sha256": "c8529781a27245a4cdcd15366d91b42c82680ee9e2b7fbe6f83e2f5b322608bd"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        131,
+        245
+      ],
+      "silhouette_iou": 0.3925925925925926,
+      "occupancy_ratio": 1.8702290076335877,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a0_d18_lod0.png",
+          "sha256": "9cfa85e263727bbc2fe735f3ac9f6847871f5f541497a80153654138c9571f2a"
+        },
+        {
+          "path": "sapling_v0_a0_d18_lod1.png",
+          "sha256": "2a335466e502b493a4a92a2b0d4cb80ca05ec56e7ec2370758e5e675177a3236"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1507,
+        1782
+      ],
+      "silhouette_iou": 0.6901336073997945,
+      "occupancy_ratio": 1.1824817518248176,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a0_d65_lod1.png",
+          "sha256": "e9c2c0c7966ddeae66e9c0b7d5bb7fd3c41c314968fc9fe144735aef483341f6"
+        },
+        {
+          "path": "sapling_v0_a0_d65_lod2.png",
+          "sha256": "471ceb826b067e88c48e024edfdd67c75489e4d75ee2f0747df9ca23a1523b1b"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        33,
+        124
+      ],
+      "silhouette_iou": 0.16296296296296298,
+      "occupancy_ratio": 3.757575757575758,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a0_d180_lod2.png",
+          "sha256": "8802c4bf9a0226b20da26f81336c7b26ffa24b91f3e9b691c7796cb69aaeac03"
+        },
+        {
+          "path": "sapling_v0_a0_d180_lod3.png",
+          "sha256": "6fa4d1a3344cc6a48064671b3a599bf3f08b18e5b424c3a197b756b431779590"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        0,
+        25
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a1_d18_lod0.png",
+          "sha256": "8070d4e4e2c7a3c985480bf1dc6b8071ff124a5c62d54021b0fed83c7ba7d643"
+        },
+        {
+          "path": "sapling_v0_a1_d18_lod1.png",
+          "sha256": "aa4faec28e74afb3096727297d84a97694427fd642294b73bec1515c3ff77831"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1625,
+        1871
+      ],
+      "silhouette_iou": 0.6831969186326432,
+      "occupancy_ratio": 1.1513846153846155,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a1_d65_lod1.png",
+          "sha256": "0682396d8f76a3add174f00d5e9d320db7062b0f9b3cc5693eb4f229fc399372"
+        },
+        {
+          "path": "sapling_v0_a1_d65_lod2.png",
+          "sha256": "091e17a56c555d761ac8d0c9629a676e1fb7a34df054d21af6a62441fcd42a83"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        26,
+        124
+      ],
+      "silhouette_iou": 0.11940298507462686,
+      "occupancy_ratio": 4.769230769230769,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a1_d180_lod2.png",
+          "sha256": "cc9ca7d4057b60af026a1f46011763f179809241c7ee797cc1daefd607a96b74"
+        },
+        {
+          "path": "sapling_v0_a1_d180_lod3.png",
+          "sha256": "1638eaf714ef525fdf9f389b32ba00d7380dab030a91e5dcfe2c566531196ec5"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        0,
+        27
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a2_d18_lod0.png",
+          "sha256": "e0fa858b647c195de8155390df1b49f897ed0269214a3d724f18d3669980a16a"
+        },
+        {
+          "path": "sapling_v0_a2_d18_lod1.png",
+          "sha256": "eecf4a824d2e19d364f071e39972deeb8d47cca15b38de1cd91739c638fd2000"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1551,
+        1798
+      ],
+      "silhouette_iou": 0.6991374936580416,
+      "occupancy_ratio": 1.1592520954223082,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a2_d65_lod1.png",
+          "sha256": "56de25c3b29ece384140f7b5f7716602a8e7bedc3ff655831013b76feb5c04c3"
+        },
+        {
+          "path": "sapling_v0_a2_d65_lod2.png",
+          "sha256": "a9be5763f0e9493417310f93c4c56d20e4f6edfcf549c1a76c82e38883a51ed4"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        38,
+        126
+      ],
+      "silhouette_iou": 0.17142857142857143,
+      "occupancy_ratio": 3.3157894736842106,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a2_d180_lod2.png",
+          "sha256": "8ee36e3fadc18089b561aada20669087c04926710b05c1cbd25715b4f9161864"
+        },
+        {
+          "path": "sapling_v0_a2_d180_lod3.png",
+          "sha256": "9acab15de658cd3b72afcf8263c9422cdf4d8676a5e84e04765cb719714f6db4"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        0,
+        25
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v0_a3_d18_lod0.png",
+          "sha256": "dbbf96b21e30f5b8da6fed2edc7c2300522f7791140819da6ca8769f0c8fb255"
+        },
+        {
+          "path": "sapling_v0_a3_d18_lod1.png",
+          "sha256": "d567d12d4b913b7e5389db3e7fef0dd9996aaa9726310b76fcc90f88d6121558"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1613,
+        1859
+      ],
+      "silhouette_iou": 0.6846191169335274,
+      "occupancy_ratio": 1.152510849349039,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v0_a3_d65_lod1.png",
+          "sha256": "d2174b19da355620cc4f24a0b297dc5da2a424d89363dfdd09cdd1d6a49ba924"
+        },
+        {
+          "path": "sapling_v0_a3_d65_lod2.png",
+          "sha256": "7b0c88c936fae027b9e9f80f1e6875d606ef7620abf22d0be6765e53f2c1e40c"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        33,
+        125
+      ],
+      "silhouette_iou": 0.1366906474820144,
+      "occupancy_ratio": 3.787878787878788,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v0_a3_d180_lod2.png",
+          "sha256": "ed20349daeb3db30c912743f6d24edc6fb13c413037787818a6e96dfff414467"
+        },
+        {
+          "path": "sapling_v0_a3_d180_lod3.png",
+          "sha256": "ea7134b6ca56817e4e40b99016267a5e4253f7e7b52930d5b411373ac8d34fb3"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        0,
+        27
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a0_d18_lod0.png",
+          "sha256": "05e3bd80d24cef55f2c9504d50e5c87b637832cfd26ed2f3c3b18e9f259f5641"
+        },
+        {
+          "path": "sapling_v3_a0_d18_lod1.png",
+          "sha256": "6a382b1d557dfed12d0deb29d09ce615a31897cb80caa9de7930178219535a9e"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1489,
+        1738
+      ],
+      "silhouette_iou": 0.6677002583979328,
+      "occupancy_ratio": 1.1672263263935527,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a0_d65_lod1.png",
+          "sha256": "4a9440f63beff87c2f48c92ce3548dfb94f9f9ff3e527833052efe9cb623b3a3"
+        },
+        {
+          "path": "sapling_v3_a0_d65_lod2.png",
+          "sha256": "89bce64e99fab61378f41bb95f157b2a5a5e8e3d8abfd92e7d3b68e491a27cfb"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        32,
+        123
+      ],
+      "silhouette_iou": 0.183206106870229,
+      "occupancy_ratio": 3.84375,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a0_d180_lod2.png",
+          "sha256": "8802c4bf9a0226b20da26f81336c7b26ffa24b91f3e9b691c7796cb69aaeac03"
+        },
+        {
+          "path": "sapling_v3_a0_d180_lod3.png",
+          "sha256": "8a7e32cbb6fbd44e1c3b84cb53c3c0e8dda15365ce2fad8d28ff46bfcdbe80fc"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        0,
+        23
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a1_d18_lod0.png",
+          "sha256": "330e995b20ca51ce598c64a4abd4bb8d2517f6917fd415882fcf42b2e1dc3d83"
+        },
+        {
+          "path": "sapling_v3_a1_d18_lod1.png",
+          "sha256": "3bae9cb5ec095906b34dbe9858a8abea199cc36cb72ffbc3861be96c795ec39e"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1478,
+        1718
+      ],
+      "silhouette_iou": 0.6972915560276155,
+      "occupancy_ratio": 1.162381596752368,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a1_d65_lod1.png",
+          "sha256": "da2980ba52bb146bbe48bc946db96b3b0d8595185788504be4737c174147b5d5"
+        },
+        {
+          "path": "sapling_v3_a1_d65_lod2.png",
+          "sha256": "fb36b9349592c1810de980534a38cc48703e24b453c44f1b012f35f845cd7b03"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        27,
+        128
+      ],
+      "silhouette_iou": 0.15671641791044777,
+      "occupancy_ratio": 4.7407407407407405,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a1_d180_lod2.png",
+          "sha256": "decb39d1c1ef338b774a8200f05b0d5b41d2f84b84b7c539e2ca8d0544a27cb5"
+        },
+        {
+          "path": "sapling_v3_a1_d180_lod3.png",
+          "sha256": "cf950181bf4ddbf199c034f5936a460a31998994e79b96c75340a7387366dcd5"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        0,
+        25
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a2_d18_lod0.png",
+          "sha256": "bc333a71693ae04c22b07bf9896e953698d41963c5383b86817083372928bdc3"
+        },
+        {
+          "path": "sapling_v3_a2_d18_lod1.png",
+          "sha256": "76bc9e711fc714debda026d9114b2762451087933efa1c7fa7affb5878da9c84"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1467,
+        1748
+      ],
+      "silhouette_iou": 0.6675311203319502,
+      "occupancy_ratio": 1.1915473755964554,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a2_d65_lod1.png",
+          "sha256": "5599ea4a50cb792901f19fa6f5b842a9edd07c1c18398b2cbdfd637af3fa9739"
+        },
+        {
+          "path": "sapling_v3_a2_d65_lod2.png",
+          "sha256": "72515ff7f855495a68cdbd0da2862e07896d9639706d8f3a7442e8936a87c48a"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        24,
+        123
+      ],
+      "silhouette_iou": 0.10526315789473684,
+      "occupancy_ratio": 5.125,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a2_d180_lod2.png",
+          "sha256": "8c9a3ab0045db60d8df786aac013a73448803989b4379964f07d135c6e8bd1c7"
+        },
+        {
+          "path": "sapling_v3_a2_d180_lod3.png",
+          "sha256": "b26eb73e4beabdf1e50447e3a82f069899d9c8fe06442c2d748c3d73b7813ce5"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        0,
+        23
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "sapling_v3_a3_d18_lod0.png",
+          "sha256": "52ecfbcd999ad2cc66bcffd6dd8d0d8ded9c9d016b7df3b697e9eb1b594129a5"
+        },
+        {
+          "path": "sapling_v3_a3_d18_lod1.png",
+          "sha256": "1a4a2d4138e15334d72ac13c77ff1c59ad0a4eafd8b2de1ff5793667532b2cd9"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1476,
+        1685
+      ],
+      "silhouette_iou": 0.6958154506437768,
+      "occupancy_ratio": 1.14159891598916,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "sapling_v3_a3_d65_lod1.png",
+          "sha256": "0e80f53ddba69fbdec2345641c92334cdb8a5e87cfb1802feeda1e68c7b66029"
+        },
+        {
+          "path": "sapling_v3_a3_d65_lod2.png",
+          "sha256": "cf020e0076e32e0b7d976f5588e6c4c13b83cbb6625133c5a270e6388736877b"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        26,
+        124
+      ],
+      "silhouette_iou": 0.171875,
+      "occupancy_ratio": 4.769230769230769,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "sapling",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "sapling_v3_a3_d180_lod2.png",
+          "sha256": "ed20349daeb3db30c912743f6d24edc6fb13c413037787818a6e96dfff414467"
+        },
+        {
+          "path": "sapling_v3_a3_d180_lod3.png",
+          "sha256": "9c51f1f95a21327fbf27f5e681df9d49a175b542000d9eb17179475d7d1ce832"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        0,
+        25
+      ],
+      "silhouette_iou": 0.0,
+      "occupancy_ratio": null,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a0_d18_lod0.png",
+          "sha256": "41ee974e1e9086b11a06d129dcd3aab4350263292d28a4d52fc17d2c6fb1379b"
+        },
+        {
+          "path": "snag_v0_a0_d18_lod1.png",
+          "sha256": "1f2f58a9d2d5ed1be28582e43e2d07c9614e161e11eb3756f028d34f1b2c6c13"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1552,
+        1435
+      ],
+      "silhouette_iou": 0.9221364221364221,
+      "occupancy_ratio": 0.9246134020618557,
+      "passed": true
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a0_d65_lod1.png",
+          "sha256": "68f9fa94a733e60c83592f7f8cedb9d8105fc9d5aac8349f21e100b977d12971"
+        },
+        {
+          "path": "snag_v0_a0_d65_lod2.png",
+          "sha256": "606bf77c656391900f5dce9f0f02456bc9e7772fa421fb5421c62c2261a684b9"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        130,
+        141
+      ],
+      "silhouette_iou": 0.9219858156028369,
+      "occupancy_ratio": 1.0846153846153845,
+      "passed": true
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a0_d180_lod2.png",
+          "sha256": "dfbdf36877b9a5175d315276b4394808ec100f682a7b18dd0f55a0685b4d5c09"
+        },
+        {
+          "path": "snag_v0_a0_d180_lod3.png",
+          "sha256": "0e9d105a53f12a12414bf58f331e9114ea92e06eb0a4108f06c8173ce2388c7b"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        6,
+        6
+      ],
+      "silhouette_iou": 0.3333333333333333,
+      "occupancy_ratio": 1.0,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a1_d18_lod0.png",
+          "sha256": "1b1ce69c6ea42e13b2f6ee6579f38f0e307c4bb22c3db0f0879527196b9a1c8a"
+        },
+        {
+          "path": "snag_v0_a1_d18_lod1.png",
+          "sha256": "2c84b51c62e761d0b7c4d8778205254d44d2dec0f1a61f23861a9418d915d8b9"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1623,
+        1601
+      ],
+      "silhouette_iou": 0.9815611555009219,
+      "occupancy_ratio": 0.9864448552064079,
+      "passed": true
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a1_d65_lod1.png",
+          "sha256": "9df9af7d7fd6587e9a6bbb731989fabed16958e4b731e9db18043cf4a1ca5e0b"
+        },
+        {
+          "path": "snag_v0_a1_d65_lod2.png",
+          "sha256": "d09363ede8339e80259940717778e3d94eb92692da05d09d92e15bd68bc64757"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        146,
+        148
+      ],
+      "silhouette_iou": 0.9864864864864865,
+      "occupancy_ratio": 1.0136986301369864,
+      "passed": true
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a1_d180_lod2.png",
+          "sha256": "565373336080249f3bc5dbebea12ffd52695f679c362d673403db61f7865a357"
+        },
+        {
+          "path": "snag_v0_a1_d180_lod3.png",
+          "sha256": "4abc9300adcd2754bdbbe2067da9cbdaba16ce4a570f5d93ba53ac939e4eef88"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        4,
+        9
+      ],
+      "silhouette_iou": 0.4444444444444444,
+      "occupancy_ratio": 2.25,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a2_d18_lod0.png",
+          "sha256": "85ad1b61eadb08eaaa6c72333f25657fc556f94ccb6439ce2b5460549b7bbe75"
+        },
+        {
+          "path": "snag_v0_a2_d18_lod1.png",
+          "sha256": "1b1d59192d76f8e1e10f5f3e723d0bc8a660173926a338a35ecf8b732a1d4092"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1546,
+        1422
+      ],
+      "silhouette_iou": 0.917312661498708,
+      "occupancy_ratio": 0.9197930142302717,
+      "passed": true
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a2_d65_lod1.png",
+          "sha256": "6dcc80e9f7e5d555fde774c8fa4b8d0dedc1c411e2822980c2dae3bd4ab6dbe5"
+        },
+        {
+          "path": "snag_v0_a2_d65_lod2.png",
+          "sha256": "0708bbdf3080a0989ceec5ff29246343222cba377ba8e7a6d2e60821b6e13f3f"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        130,
+        142
+      ],
+      "silhouette_iou": 0.9154929577464789,
+      "occupancy_ratio": 1.0923076923076922,
+      "passed": true
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a2_d180_lod2.png",
+          "sha256": "cf0e2d04b4d25a37315953af226dfcf0b43ddc3fcbe11ea7f228db08dc844852"
+        },
+        {
+          "path": "snag_v0_a2_d180_lod3.png",
+          "sha256": "2aa49f4de59e77e19e86632797a174eaf77716c9c8d47bce88077ba953dc4cfa"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        4,
+        6
+      ],
+      "silhouette_iou": 0.42857142857142855,
+      "occupancy_ratio": 1.5,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v0_a3_d18_lod0.png",
+          "sha256": "f01e1e3db4395d59d66c7e202cfbbba9be839d5086bbd9a95a67ddd3b6ec306c"
+        },
+        {
+          "path": "snag_v0_a3_d18_lod1.png",
+          "sha256": "7d40346e6327bf45032a4ef5340eeeec78189adb1381918de8178d90501dbff1"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        1613,
+        1599
+      ],
+      "silhouette_iou": 0.983940704138357,
+      "occupancy_ratio": 0.9913205207687539,
+      "passed": true
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v0_a3_d65_lod1.png",
+          "sha256": "6e76464092ff9be2ea1d79e24de46ffc9d6e0a9449bb4e5fdedeacdd412d38c3"
+        },
+        {
+          "path": "snag_v0_a3_d65_lod2.png",
+          "sha256": "5ab934428e4d095c25c7945b6f78c2fa0adaa60848ba6c8df7d992173d6316a4"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        146,
+        149
+      ],
+      "silhouette_iou": 0.9798657718120806,
+      "occupancy_ratio": 1.0205479452054795,
+      "passed": true
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v0_a3_d180_lod2.png",
+          "sha256": "8a67d1990ec1271b163571224578e779513a55ae9ccbadfa26beae5f1e2b489c"
+        },
+        {
+          "path": "snag_v0_a3_d180_lod3.png",
+          "sha256": "ef35ddea30e1d5daf140756d1f1d46c368f17537c05a4ea21c86e366155e249a"
+        }
+      ],
+      "variant": 0,
+      "pixels": [
+        4,
+        9
+      ],
+      "silhouette_iou": 0.3,
+      "occupancy_ratio": 2.25,
+      "passed": false
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a0_d18_lod0.png",
+          "sha256": "de8f280f5001597903c08efbe8f6e710d1431c14fe4972dd7a8a900e0cdec4fb"
+        },
+        {
+          "path": "snag_v3_a0_d18_lod1.png",
+          "sha256": "54faa41bfe29835877800b470fb5a9fc7b752889779a228259822e6d42d5f8f7"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1525,
+        1417
+      ],
+      "silhouette_iou": 0.9228758169934641,
+      "occupancy_ratio": 0.9291803278688524,
+      "passed": true
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a0_d65_lod1.png",
+          "sha256": "efb8b90bf281cbd1e433ec346430979adef0281ea698f756dba0994afde5ce3c"
+        },
+        {
+          "path": "snag_v3_a0_d65_lod2.png",
+          "sha256": "8a79f683bd14c452740dab020c25d5860be543f0ed38bfa7832a647275dea962"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        131,
+        142
+      ],
+      "silhouette_iou": 0.9225352112676056,
+      "occupancy_ratio": 1.083969465648855,
+      "passed": true
+    },
+    {
+      "angle_degrees": 0,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a0_d180_lod2.png",
+          "sha256": "f6a6a643610e05bea01dcb196f5797999add2f540fb9a8779fcffc9d207deb82"
+        },
+        {
+          "path": "snag_v3_a0_d180_lod3.png",
+          "sha256": "923e5e6f2d542cf64f82242d8eef27da7095dae0f0a3a18e476d638b93dd86f6"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        5,
+        8
+      ],
+      "silhouette_iou": 0.3,
+      "occupancy_ratio": 1.6,
+      "passed": false
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a1_d18_lod0.png",
+          "sha256": "29d0053fe623fabfda17a631f86fe260a60dde843959a5852a4916af11346826"
+        },
+        {
+          "path": "snag_v3_a1_d18_lod1.png",
+          "sha256": "f8e2b76f9d3216fe779fc0c36e6e586dc54340fa07ef76cebc7a372628f52d3a"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1641,
+        1619
+      ],
+      "silhouette_iou": 0.9781553398058253,
+      "occupancy_ratio": 0.9865935405240707,
+      "passed": true
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a1_d65_lod1.png",
+          "sha256": "7635ce8f33e3d417eea85b5d277de2162a0d53ca058600308bd93bd3f23635aa"
+        },
+        {
+          "path": "snag_v3_a1_d65_lod2.png",
+          "sha256": "7cc42c95aaba53c4ffe90203c833024f6a39568037d7d9a19f010dc7c714ec90"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        146,
+        145
+      ],
+      "silhouette_iou": 0.9795918367346939,
+      "occupancy_ratio": 0.9931506849315068,
+      "passed": true
+    },
+    {
+      "angle_degrees": 90,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a1_d180_lod2.png",
+          "sha256": "0decfd282af27bb3f564465752d52810d35a9e663e068adfa3d8a4d9c5ab6cb5"
+        },
+        {
+          "path": "snag_v3_a1_d180_lod3.png",
+          "sha256": "816065bfab9f06261d2b6e4ef6fdf424d6d4e6054ecb6b18a4cad79838919ec8"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        6,
+        8
+      ],
+      "silhouette_iou": 0.2727272727272727,
+      "occupancy_ratio": 1.3333333333333333,
+      "passed": false
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a2_d18_lod0.png",
+          "sha256": "c2f10c6dac9b4d0b4662b52ba2800bac5e7997e166a9f0970de944ade0f14984"
+        },
+        {
+          "path": "snag_v3_a2_d18_lod1.png",
+          "sha256": "11d4f3fe23346ea1f49e321b7305ef2caf10febeae1789049fdbb9b5d273b713"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1543,
+        1422
+      ],
+      "silhouette_iou": 0.9178525226390686,
+      "occupancy_ratio": 0.9215813350615684,
+      "passed": true
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a2_d65_lod1.png",
+          "sha256": "f5ca6eca30a60c1c81fcd82d59384c4034d29c2cdef9884a212f41c75737e022"
+        },
+        {
+          "path": "snag_v3_a2_d65_lod2.png",
+          "sha256": "5582a7df86b322313e941c2194ddfd18591947ab4e7cb1fdef0b39a8919d9c28"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        129,
+        141
+      ],
+      "silhouette_iou": 0.9148936170212766,
+      "occupancy_ratio": 1.0930232558139534,
+      "passed": true
+    },
+    {
+      "angle_degrees": 180,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a2_d180_lod2.png",
+          "sha256": "60c3ac82c19301f9e1c07515beb08eecc76f2cec444a7ef3f5d1e18d943c24a0"
+        },
+        {
+          "path": "snag_v3_a2_d180_lod3.png",
+          "sha256": "03ef0f68e9da1d49cf5fa3eb9434a106f5d7ff141c29cb3163f8ecfe152027e8"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        4,
+        8
+      ],
+      "silhouette_iou": 0.3333333333333333,
+      "occupancy_ratio": 2.0,
+      "passed": false
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 18.0,
+      "images": [
+        {
+          "path": "snag_v3_a3_d18_lod0.png",
+          "sha256": "ca9d10f5826c43506672e22ac1183072be8e529678873e785448a833b94fe608"
+        },
+        {
+          "path": "snag_v3_a3_d18_lod1.png",
+          "sha256": "737bd59279dd8b2c8822822d7d817005970ab80dd43e3b83892bb54ce7059af2"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        1637,
+        1620
+      ],
+      "silhouette_iou": 0.9775349119611415,
+      "occupancy_ratio": 0.9896151496640195,
+      "passed": true
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 65.0,
+      "images": [
+        {
+          "path": "snag_v3_a3_d65_lod1.png",
+          "sha256": "a1e6c4da13a8cd00d4804e9db5ae512a2420257cf964c8c3bc69717aac556af1"
+        },
+        {
+          "path": "snag_v3_a3_d65_lod2.png",
+          "sha256": "21693a76a74dfc536bd5db4d10c7766ec1df0378ad75a6ff1c5ee583d9fc50f0"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        147,
+        148
+      ],
+      "silhouette_iou": 0.9932432432432432,
+      "occupancy_ratio": 1.0068027210884354,
+      "passed": true
+    },
+    {
+      "angle_degrees": 270,
+      "archetype": "snag",
+      "distance_m": 180.0,
+      "images": [
+        {
+          "path": "snag_v3_a3_d180_lod2.png",
+          "sha256": "552fce3d97a2db8c0c2ddab2ea51580ad6a6528d1f9be78097140facb14cb0d2"
+        },
+        {
+          "path": "snag_v3_a3_d180_lod3.png",
+          "sha256": "7a5d665a92b3ce6970dc5624d46e3e361f57dcec899e9b1bc09da5e18bc6c833"
+        }
+      ],
+      "variant": 3,
+      "pixels": [
+        4,
+        8
+      ],
+      "silhouette_iou": 0.3333333333333333,
+      "occupancy_ratio": 2.0,
+      "passed": false
+    }
+  ],
+  "predeclared_budgets": {
+    "18": {
+      "occupancy_ratio_max": 1.15,
+      "occupancy_ratio_min": 0.85,
+      "silhouette_iou_min": 0.8
+    },
+    "180": {
+      "occupancy_ratio_max": 1.2,
+      "occupancy_ratio_min": 0.8,
+      "silhouette_iou_min": 0.7
+    },
+    "65": {
+      "occupancy_ratio_max": 1.15,
+      "occupancy_ratio_min": 0.85,
+      "silhouette_iou_min": 0.75
+    }
+  },
+  "schema": "yellowstone.tree_lod_capture.v1",
+  "scope": "actual bake cutout materials and mip buffers; fixed poses; runtime wind frozen; equal camera distance per pair",
+  "source_graph_library_sha256": "453f7785fe0c3351c212fc0bb10a330f196ea8514afb34841b448c19b73d18f9",
+  "source_metadata_sha256": "8a5390f7b7fe62c164272b664c81866f547952c2f8aaa72ab7426f787d5f3adc",
+  "passed": false,
+  "metric": "alpha>=128 fixed-camera silhouette IoU and foreground pixel area ratio",
+  "captures_manifest_sha256": "68d3d40f16e962d42983dd35140514902fa1e600f0e39b5fc38efd25a715ee44"
+}
