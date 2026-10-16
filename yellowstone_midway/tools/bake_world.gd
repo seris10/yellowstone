@@ -209,6 +209,161 @@ func ribbon(points: PackedVector3Array, width: float, mat: Material, closed := f
 			indices.append_array(PackedInt32Array([a,a+2,a+1,a+1,a+2,a+3]))
 	return make_mesh(vertices,normals,uvs,indices,mat,colors)
 
+# --- River surface ---
+const WATER_MARGIN_FRACTION := 0.23
+const WATER_MARGIN_MIN_M := 0.8
+const WATER_MARGIN_MAX_M := 5.0
+const WATER_END_FADE_M := 8.0
+const WATER_JUNCTION_TOLERANCE_M := 1.5
+const WATER_SMOOTH_PASSES := 4
+const WATER_FOLD_SAFETY := 0.85
+const WATER_CAP_SEGMENTS := 20
+
+func water_margin_m(width: float) -> float:
+	return clampf(width * WATER_MARGIN_FRACTION, WATER_MARGIN_MIN_M, WATER_MARGIN_MAX_M)
+
+func river_end_is_free(rivers: Array, self_index: int, point: Vector3) -> bool:
+	# A river end that meets another river's vertex is a junction and stays solid.
+	var limit := WATER_JUNCTION_TOLERANCE_M * WATER_JUNCTION_TOLERANCE_M
+	for other_index: int in rivers.size():
+		if other_index == self_index:
+			continue
+		for other: Array in rivers[other_index].points:
+			var dx: float = float(other[0]) - point.x
+			var dz: float = float(other[2]) - point.z
+			if dx * dx + dz * dz <= limit:
+				return false
+	return true
+
+func smooth_plan_view(points: PackedVector3Array) -> PackedVector3Array:
+	# Binomial smoothing of x and z removes survey kinks; ends and heights are unchanged.
+	var result := points.duplicate()
+	for pass_index: int in WATER_SMOOTH_PASSES:
+		var source := result.duplicate()
+		for i: int in range(1, points.size() - 1):
+			result[i] = Vector3((source[i - 1].x + 2.0 * source[i].x + source[i + 1].x) * 0.25, source[i].y,
+				(source[i - 1].z + 2.0 * source[i].z + source[i + 1].z) * 0.25)
+	return result
+
+func river_ribbon(points_in: PackedVector3Array, width: float, mat: Material, free_start: bool, free_end: bool) -> ArrayMesh:
+	var points := smooth_plan_view(points_in)
+	var visual_half := width * 0.5 + water_margin_m(width)
+	var count := points.size()
+	var directions := PackedVector3Array()
+	var curvature := PackedFloat32Array()
+	var curvature_minus := PackedFloat32Array()
+	var arcs := PackedFloat32Array()
+	directions.resize(count)
+	curvature.resize(count)
+	curvature_minus.resize(count)
+	arcs.resize(count)
+	var arc := 0.0
+	for i: int in count:
+		var before := maxi(i - 1, 0)
+		var after := mini(i + 1, count - 1)
+		var flat := Vector3(points[after].x - points[before].x, 0.0, points[after].z - points[before].z).normalized()
+		directions[i] = flat
+		if i > 0:
+			arc += points[i].distance_to(points[i - 1])
+		arcs[i] = arc
+	# Signed plan-view curvature in 1/m; positive bends toward the +side offset.
+	var raw := PackedFloat32Array()
+	raw.resize(count)
+	for i: int in range(1, count - 1):
+		var a := Vector2(points[i].x - points[i - 1].x, points[i].z - points[i - 1].z)
+		var b := Vector2(points[i + 1].x - points[i].x, points[i + 1].z - points[i].z)
+		var mean_length := 0.5 * (a.length() + b.length())
+		if mean_length > 0.0001 and a.length() > 0.0001 and b.length() > 0.0001:
+			raw[i] = asin(clampf(a.normalized().cross(b.normalized()), -1.0, 1.0)) / mean_length
+	for i: int in count:
+		var strongest_plus := 0.0
+		var strongest_minus := 0.0
+		for k: int in range(-3, 4):
+			var j := clampi(i + k, 0, count - 1)
+			strongest_plus = maxf(strongest_plus, raw[j])
+			strongest_minus = maxf(strongest_minus, -raw[j])
+		curvature[i] = strongest_plus
+		curvature_minus[i] = strongest_minus
+	var vertices := PackedVector3Array()
+	var normals := PackedVector3Array()
+	var uvs := PackedVector2Array()
+	var colors := PackedColorArray()
+	var tangents := PackedFloat32Array()
+	var indices := PackedInt32Array()
+	var total_arc := arcs[count - 1]
+	for i: int in count:
+		var direction := directions[i]
+		var side := Vector3(-direction.z, 0.0, direction.x)
+		var before := maxi(i - 1, 0)
+		var after := mini(i + 1, count - 1)
+		var sloped := (points[after] - points[before]).normalized()
+		var normal := side.cross(sloped).normalized()
+		var reach_plus := visual_half
+		var reach_minus := visual_half
+		if curvature[i] > 0.0001:
+			reach_plus = minf(reach_plus, WATER_FOLD_SAFETY / curvature[i])
+		if curvature_minus[i] > 0.0001:
+			reach_minus = minf(reach_minus, WATER_FOLD_SAFETY / curvature_minus[i])
+		var fade := 1.0
+		if free_start:
+			fade = minf(fade, arcs[i] / WATER_END_FADE_M)
+		if free_end:
+			fade = minf(fade, (total_arc - arcs[i]) / WATER_END_FADE_M)
+		for s: int in 2:
+			vertices.append(points[i] + side * (reach_plus if s == 1 else -reach_minus))
+			normals.append(normal)
+			uvs.append(Vector2(float(s), arcs[i]))
+			colors.append(Color(1.0, 1.0, clampf(fade, 0.0, 1.0)))
+			tangents.append_array(PackedFloat32Array([direction.x, 0.0, direction.z, 1.0]))
+		if i > 0:
+			var a := (i - 1) * 2
+			indices.append_array(PackedInt32Array([a, a + 2, a + 1, a + 1, a + 2, a + 3]))
+	# Round caps close the wedge where reaches meet at a bend.
+	var cap_ends: Array[int] = []
+	if not free_start:
+		cap_ends.append(0)
+	if not free_end:
+		cap_ends.append(count - 1)
+	for end_index: int in cap_ends:
+		var hub := vertices.size()
+		var cap_tangent := PackedFloat32Array([directions[end_index].x, 0.0, directions[end_index].z, 1.0])
+		vertices.append(points[end_index])
+		normals.append(Vector3.UP)
+		uvs.append(Vector2(0.5, arcs[end_index]))
+		colors.append(Color(1.0, 1.0, 1.0))
+		tangents.append_array(cap_tangent)
+		for step: int in WATER_CAP_SEGMENTS:
+			var angle := TAU * float(step) / float(WATER_CAP_SEGMENTS)
+			vertices.append(points[end_index] + Vector3(cos(angle), 0.0, sin(angle)) * visual_half)
+			normals.append(Vector3.UP)
+			uvs.append(Vector2(1.0, arcs[end_index]))
+			colors.append(Color(1.0, 1.0, 1.0))
+			tangents.append_array(cap_tangent)
+		for step: int in WATER_CAP_SEGMENTS:
+			indices.append_array(PackedInt32Array([hub, hub + 1 + step, hub + 1 + (step + 1) % WATER_CAP_SEGMENTS]))
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_TANGENT] = tangents
+	arrays[Mesh.ARRAY_COLOR] = colors
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_INDEX] = indices
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	mesh.surface_set_material(0, mat)
+	return mesh
+
+func river_material(width: float, flow_mps: float) -> ShaderMaterial:
+	var m := ShaderMaterial.new()
+	m.shader = load("res://shaders/river_water.gdshader")
+	m.set_shader_parameter("ripple", load("res://assets/textures/water_normal.png"))
+	m.set_shader_parameter("flow_speed", flow_mps)
+	m.set_shader_parameter("width_m", (width * 0.5 + water_margin_m(width)) * 2.0)
+	m.set_shader_parameter("core_width_m", width)
+	m.set_shader_parameter("channel_depth_m", 1.1 if width > 8.0 else 0.45)
+	return m
+
 func add_geometry(mesh: Mesh, name: String, parent: Node, collision := false) -> MeshInstance3D:
 	var node := MeshInstance3D.new()
 	node.mesh = mesh
@@ -415,7 +570,19 @@ func make_water() -> void:
 	var group := Node3D.new()
 	group.name = "ConnectedWater"
 	own(group)
-	for r: Dictionary in spec.rivers:
+	for river_index: int in spec.rivers.size():
+		var r: Dictionary = spec.rivers[river_index]
+		if not bool(r.get("thermal",false)) and str(r.get("id","")) != "authored_excelsior_outflow_01":
+			var river_points := points_of(r.points)
+			var river_mat := river_material(float(r.width), float(r.flow_mps))
+			var surface := add_geometry(river_ribbon(river_points, float(r.width), river_mat,
+				river_end_is_free(spec.rivers, river_index, river_points[0]),
+				river_end_is_free(spec.rivers, river_index, river_points[river_points.size() - 1])), r.id, group)
+			surface.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			surface.add_to_group("river_surfaces",true)
+			surface.set_meta("river_name",r.name)
+			surface.set_meta("sample_z",r.points[r.points.size()/2][2])
+			continue
 		var mat := water_material(bool(r.get("thermal",false)))
 		mat.set_shader_parameter("flow_speed",r.flow_mps)
 		mat.set_shader_parameter("width_m",float(r.width))

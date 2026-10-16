@@ -14,6 +14,7 @@ const ShadowQuality = preload("res://scripts/shadow_quality.gd")
 const TerrainMaterials = preload("res://scripts/terrain_materials.gd")
 const LodgepoleLibrary = preload("res://scripts/lodgepole_library.gd")
 const TreeSubmission = preload("res://scripts/tree_submission.gd")
+const PerfProbe = preload("res://scripts/perf_probe.gd")
 const CanopySurface = preload("res://scripts/canopy_surface.gd")
 const WeatherSnapshotReader = preload("res://scripts/weather_snapshot_reader.gd")
 ## Optional published Python replay path.
@@ -163,6 +164,7 @@ func _ready() -> void:
 	tree_submission.name = "TreeSubmission"
 	add_child(tree_submission)
 	tree_submission.configure(find_child("AuthoredVegetation", true, false))
+	add_child(PerfProbe.new())
 	atmosphere_controller = AtmosphereController.new()
 	atmosphere_controller.name = "YellowstoneAtmosphere"
 	add_child(atmosphere_controller)

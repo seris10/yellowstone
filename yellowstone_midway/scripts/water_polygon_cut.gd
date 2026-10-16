@@ -265,11 +265,29 @@ static func cut(source: ArrayMesh, transform: Transform3D, pools: Array) -> Dict
 	var stored: Variant = source.get("_surfaces")
 	if stored is Array and stored.size() == 1 and stored[0].get("lods") != null:
 		return {"ok": false, "reason": "Water cut requires source LODs to be clipped separately"}
+	var result := cut_arrays(source.surface_get_arrays(0), transform, pools)
+	if not result.ok:
+		return result
+	var mesh := ArrayMesh.new()
+	if not result.arrays.is_empty():
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, result.arrays)
+		mesh.surface_set_material(0, source.surface_get_material(0))
+	var shoreline_mesh := ArrayMesh.new()
+	if not result.shoreline_arrays.is_empty():
+		shoreline_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, result.shoreline_arrays)
+		shoreline_mesh.surface_set_material(0, source.surface_get_material(0))
+	result.erase("arrays")
+	result.erase("shoreline_arrays")
+	result["mesh"] = mesh
+	result["shoreline_mesh"] = shoreline_mesh
+	return result
+
+## Raw-array form of cut() that creates no resource objects, so a worker thread can run it.
+static func cut_arrays(arrays: Array, transform: Transform3D, pools: Array) -> Dictionary:
 	if not transform.origin.is_finite() or not transform.basis.x.is_finite() or not transform.basis.y.is_finite() or not transform.basis.z.is_finite():
 		return {"ok": false, "reason": "Water cut transform is non-finite"}
 	if absf(transform.basis.determinant()) < 0.000000001:
 		return {"ok": false, "reason": "Water cut transform is singular"}
-	var arrays := source.surface_get_arrays(0)
 	var projected := PackedVector2Array()
 	for vertex: Vector3 in arrays[Mesh.ARRAY_VERTEX]:
 		var world: Vector3 = transform * vertex
@@ -350,18 +368,11 @@ static func cut(source: ArrayMesh, transform: Transform3D, pools: Array) -> Dict
 					else:
 						builder.indices.append_array(PackedInt32Array([mapped[0], mapped[index], mapped[index + 1]]))
 					retained_area += piece_area
-	var mesh := ArrayMesh.new()
-	if not builder.indices.is_empty():
-		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, builder.output())
-		mesh.surface_set_material(0, source.surface_get_material(0))
-	var shoreline_mesh := ArrayMesh.new()
-	if not shoreline.indices.is_empty():
-		shoreline_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, shoreline.output())
-		shoreline_mesh.surface_set_material(0, source.surface_get_material(0))
 	var shoreline_length := 0.0
 	for length: float in shoreline_segments.values():
 		shoreline_length += length
-	return {"ok": true, "mesh": mesh, "shoreline_mesh": shoreline_mesh,
+	return {"ok": true, "arrays": builder.output() if not builder.indices.is_empty() else [],
+		"shoreline_arrays": shoreline.output() if not shoreline.indices.is_empty() else [],
 		"shoreline_closure_length_m": shoreline_length,
 		"shoreline_closure_segments": shoreline_segments.size(), "shoreline_closure_triangles": int(shoreline.indices.size()/3),
 		"shoreline_closure_scope": "authored vertical render interface between interpolated source edge and mapped flat water elevation; no bathymetry or collision modification",
