@@ -26,7 +26,7 @@ def model(tmp_path):
     documents = {
         "equations.json": {"components": [component]},
         "coupling.json": {"exchanges": []},
-        "river_replay.json": {"replay": {"cells": [{"center_s_m": 10, "position_xyz": [1, 0, 2]}],
+        "river_replay.json": {"replay": {"cells": [{"id":"cell_001", "center_s_m": 10, "position_xyz": [1, 0, 2], "start_s_m":0, "end_s_m":20, "river_id":"channel", "width_m":10, "depth_m":0.5}],
                                           "frames": [{"t_s": 0, "temperature_c": [17.5234567]},
                                                      {"t_s": 600, "temperature_c": [18.654321]}],
                                           "mapping": {"length_m": 20}}},
@@ -47,7 +47,7 @@ def test_export_preserves_model_time_and_temperature(model):
     root, build, _ = model
     public = builder.public_snapshot(build, root)
     assert public["river"]["frames"] == [
-        {"t": 0, "temperature": [17.5235]}, {"t": 600, "temperature": [18.6543]}]
+        {"t": 0, "temperature": [17.5234567]}, {"t": 600, "temperature": [18.654321]}]
     assert public["river"]["cells"] == [{"s": 10, "x": 1, "z": 2}]
     assert public["nodes"][0]["equations"] == "Phi = h(Tair - T)"
 
@@ -94,15 +94,25 @@ def test_package_contains_only_public_assets(model):
     root, build, _ = model
     destination = root / "site"
     builder.package_site(destination, builder.public_snapshot(build, root))
-    assert {str(p.relative_to(destination)) for p in destination.rglob("*") if p.is_file()} == {
+    expected = {
         "dashboard/index.html", "dashboard/explorer.js", "dashboard/explorer.css", "dashboard/snapshot.json",
         "dashboard/coverage.js", "dashboard/science.js", "dashboard/systems/index.html",
-        "dashboard/results/index.html", "dashboard/methods/index.html",
+        "dashboard/results/index.html", "dashboard/methods/index.html", "dashboard/workspace.js",
+        "dashboard/workspace-model.js", "dashboard/workspace.css",
+        "dashboard/data-model.js", "dashboard/workbench.js", "dashboard/workbench.css", "dashboard/analyze/index.html",
+        "dashboard/analysis.js", "dashboard/analysis.css", "dashboard/systems-model.js",
+        "dashboard/systems-workbench.js", "dashboard/systems-workbench.css",
         "404.html", "_headers", "_redirects", "_worker.js"}
+    expected.update(f"dashboard/systems/{slug}/index.html" for slug in builder.DOMAIN_SLUGS.values())
+    assert {str(p.relative_to(destination)) for p in destination.rglob("*") if p.is_file()} == expected
     for route, identity in [("", "overview"), ("systems/", "systems"), ("results/", "results"), ("methods/", "methods")]:
         html = (destination / "dashboard" / route / "index.html").read_text()
         assert f'<body data-page="{identity}">' in html
-        assert '<a href="/dashboard/" data-page="overview">' in html
+        assert '<a href="/dashboard/" data-page="overview"' in html
+    for domain in builder.DOMAINS:
+        html = (destination / "dashboard/systems" / domain["slug"] / "index.html").read_text()
+        assert f'data-page="systems" data-domain="{domain["id"]}"' in html
+        assert f'{domain["label"]} | Yellowstone' in html
     with pytest.raises(ValueError, match="must be empty"):
         builder.package_site(destination, {})
 
@@ -115,12 +125,23 @@ def test_generation_pointer_cannot_escape_release_directory(tmp_path):
         builder.selected_build(tmp_path)
 
 
+def test_map_raster_rejects_terrain_from_another_build(model):
+    root, build, manifest = model
+    terrain = root / "yellowstone_midway/data/terrain.f32"
+    terrain.parent.mkdir(parents=True)
+    terrain.write_bytes(b"changed terrain")
+    manifest["input_datasets"] = {"terrain": {"sha256": "different"}}
+    (build / "BUILD.json").write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="Terrain input hash differs"):
+        builder.map_assets(build, root / "site", root)
+
+
 def test_world_selected_snapshot_matches_checked_river_frames():
     build = builder.selected_build(builder.ROOT)
     snapshot = builder.public_snapshot(build)
     frames = {frame["t_s"]: frame for frame in builder.read_json(build / "river_replay.json")["replay"]["frames"]}
     for frame in snapshot["river"]["frames"]:
-        assert frame["temperature"] == [round(value, 4) for value in frames[frame["t"]]["temperature_c"]]
+        assert frame["temperature"] == frames[frame["t"]]["temperature_c"]
     ids = {node["id"] for node in snapshot["nodes"]}
     assert all(edge["from"] in ids and edge["to"] in ids for edge in snapshot["edges"])
     assert any(edge["condition"] for edge in snapshot["edges"])
@@ -131,3 +152,61 @@ def test_world_selected_snapshot_matches_checked_river_frames():
     assert abs(residual) < 1e-8
     assert len(snapshot["ecology"]["oxygen"]) == len(snapshot["river"]["cells"])
     assert snapshot["coverage"]["extent"] == 4096
+
+
+def test_linked_analytics_match_checked_artifacts():
+    build = builder.selected_build(builder.ROOT)
+    snapshot = builder.public_snapshot(build)
+    analytics = snapshot["analytics"]
+    weather = builder.read_json(build / "weather.json")
+    assert [row["t"] for row in analytics["weather"]["trace"]] == [row["t"] for row in weather["wind_trace_60s"]]
+    assert [row["air"] for row in analytics["weather"]["trace"]] == [row["air_c"] for row in weather["wind_trace_60s"]]
+    assert len(analytics["shading"]) == len(snapshot["river"]["cells"])
+    assert all(0 <= value <= 1 for value in analytics["shading"])
+    assert analytics["reference_et_mm_day"] == builder.read_json(build / "evapotranspiration.json")["et0_mm_d"]
+    assert analytics["pools"]
+
+
+def test_native_dataset_retains_support_and_source_precision(model):
+    root, build, manifest = model
+    native = builder.river_dataset(build)
+    assert native["river"]["cells"][0]["id"] == "cell_001"
+    assert native["river"]["cells"][0]["bounds_m"] == [0, 20]
+    assert native["river"]["frames"][0]["temperature"] == [17.5234567]
+    assert native["source_sha256"] == manifest["output_artifact_hashes"]["river_replay.json"]
+    snapshot = builder.public_snapshot(build, root)
+    path, payload = builder.attach_river_dataset(snapshot, native)
+    site = root / "native-site"
+    builder.package_site(site, snapshot, {path: payload})
+    assert builder.digest(site / "dashboard" / path) == snapshot["datasets"]["river"]["sha256"]
+    worker = (site / "_worker.js").read_text()
+    assert snapshot["datasets"]["river"]["url"] in worker
+    assert "/dashboard/analyze/" in worker
+    assert "/dashboard/build_public.py" not in worker
+
+
+def test_optional_diagnostics_export_independently(model):
+    root, build, manifest = model
+    doc = {"do_mg_l_by_cell":{"cell_001":7.123456789}, "dt_s":5}
+    (build / "river_oxygen.json").write_text(json.dumps(doc))
+    manifest["output_artifact_hashes"]["river_oxygen.json"] = builder.digest(build / "river_oxygen.json")
+    (build / "BUILD.json").write_text(json.dumps(manifest))
+    public = builder.public_snapshot(build, root)
+    assert public["ecology"]["oxygen"] == [7.123456789]
+    assert "periphyton" not in public["ecology"]
+    (build / "river_oxygen.json").write_text("{}")
+    with pytest.raises(ValueError, match="Artifact hash mismatch"):
+        builder.public_snapshot(build, root)
+
+
+def test_native_selected_build_has_all_saved_samples():
+    build = builder.selected_build(builder.ROOT)
+    native = builder.river_dataset(build)
+    source = builder.read_json(build / "river_replay.json")["replay"]
+    assert len(native["river"]["frames"]) == len(source["frames"])
+    assert [c["id"] for c in native["river"]["cells"]] == [c["id"] for c in source["cells"]]
+    for frame, original in zip(native["river"]["frames"], source["frames"]):
+        assert frame["temperature"] == original["temperature_c"]
+        assert frame["t"] == original["t_s"]
+    text = json.dumps(native).lower()
+    assert all(token not in text for token in ["fixes-", "/users/", ".py\"", "execution_evidence"])

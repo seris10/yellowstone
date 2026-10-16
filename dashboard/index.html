@@ -546,7 +546,6 @@ footer code { font-size: 14px; }
     }).join("")}</tr>`).join("")
   }</tbody></table>`;
 
-  // Fixes queue
   document.getElementById("fix-legend").innerHTML = D.verdicts.map((v) => `<span class="key"><span class="sw" style="background:${css(VERDICT[v].color)}"></span>${esc(VERDICT[v].label)} ${vt[v] || 0}</span>`).join("");
   const areas = {};
   D.docs.forEach((d) => { (areas[d.area] = areas[d.area] || []).push(d); });

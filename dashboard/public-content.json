@@ -215,7 +215,7 @@
   },
   {
    "id": "mat",
-   "domain": "thermal",
+   "domain": "aquatic",
    "label": "Microbial mats",
    "artifact": "mat_state.json",
    "kind": "process",

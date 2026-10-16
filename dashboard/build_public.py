@@ -18,14 +18,20 @@ DOMAINS = [
     {"id": "snow", "label": "Cryosphere & soil", "color": "#b8b4e9", "x": -390, "y": -155, "radius": 158,
      "description": "Snow accumulation and melt, soil storage, and evapotranspiration."},
     {"id": "thermal", "label": "Geosphere", "color": "#efa774", "x": 390, "y": -155, "radius": 174,
-     "description": "Pool temperature, ground heat, thermal plumes, and outflow ecology."},
+     "description": "Geothermal heat, thermal pools, ground temperature, and hot-water outflow processes."},
     {"id": "river", "label": "Hydrosphere", "color": "#77b9e6", "x": 0, "y": 70, "radius": 195,
      "description": "Water and heat transport along the mapped Firehole channel, with prescribed inflows."},
-    {"id": "land", "label": "Terrestrial biosphere", "color": "#b4cb83", "x": -390, "y": 285, "radius": 174,
+    {"id": "land", "label": "Terrestrial biosphere", "color": "#8ed5aa", "x": -390, "y": 285, "radius": 174,
      "description": "Vegetation stocks, canopy structure, grazing, and mammal guild responses."},
     {"id": "aquatic", "label": "Aquatic biosphere", "color": "#e2b6d1", "x": 390, "y": 300, "radius": 190,
      "description": "Temperature, oxygen, food resources, and habitat suitability in the river."},
 ]
+DOMAIN_SLUGS = {
+    "atmosphere": "atmosphere", "snow": "cryosphere", "thermal": "geosphere",
+    "river": "hydrosphere", "land": "terrestrial-biosphere", "aquatic": "aquatic-biosphere",
+}
+for domain in DOMAINS:
+    domain["slug"] = DOMAIN_SLUGS[domain["id"]]
 
 COMPONENTS = {
     "six-reach mixing chain": ("mixing", "river", "Reach mixing"),
@@ -45,7 +51,7 @@ COMPONENTS = {
     "reference evapotranspiration": ("et", "snow", "Reference ET"),
     "piscivore predation": ("predation", "aquatic", "Piscivores"),
     "aerial insectivores": ("aerial", "aquatic", "Aerial insectivores"),
-    "outflow food web": ("outflow", "thermal", "Outflow food web"),
+    "outflow food web": ("outflow", "aquatic", "Outflow food web"),
     "steam microclimate plume": ("steam", "atmosphere", "Steam microclimate"),
     "invertebrate taxa foodweb": ("taxa", "aquatic", "Benthic food web"),
     "snow and soil water": ("snow", "snow", "Snow & soil storage"),
@@ -102,11 +108,12 @@ def checked_document(build: Path, manifest: dict, name: str) -> dict:
 
 def geography_snapshot(build: Path, manifest: dict) -> dict | None:
     """Extract mapped features and authored habitat patches."""
-    if "world.runtime.json" not in manifest["output_artifact_hashes"]:
+    if not all(name in manifest["output_artifact_hashes"] for name in ["world.runtime.json", "patch_state.json", "outflow_temperature.json", "ground_heat.json"]):
         return None
     world = checked_document(build, manifest, "world.runtime.json")
     patches = checked_document(build, manifest, "patch_state.json")
     thermal = checked_document(build, manifest, "outflow_temperature.json")
+    heat = checked_document(build, manifest, "ground_heat.json")
     def line(points):
         indexes = sorted(set(range(0, len(points), 5)) | {len(points) - 1})
         return [[round(points[i][0], 2), round(points[i][2], 2)] for i in indexes]
@@ -124,28 +131,33 @@ def geography_snapshot(build: Path, manifest: dict) -> dict | None:
         "patches": [{"label": p["id"].replace("_", " ").title(), "center": p["center_xz"], "radius": p["radius_m"]}
                     for p in patches["patches"]],
         "thermal_extent": {key: thermal["grid"][key] for key in ["nx", "nz", "cell_size_m", "origin_xz_m"]},
+        "heat": {"grid": heat["grid"], "parameters": heat["parameters"], "values": heat["values_w_m2"]},
     }
 
 
 def ecological_snapshot(build: Path, manifest: dict, cells: list) -> dict | None:
     """Extract spatial diagnostics and water stocks with their integration windows."""
-    if "river_oxygen.json" not in manifest["output_artifact_hashes"]:
-        return None
-    oxygen_doc = checked_document(build, manifest, "river_oxygen.json")
-    algae_doc = checked_document(build, manifest, "periphyton.json")
-    oxygen = oxygen_doc["do_mg_l_by_cell"]
-    algae = algae_doc["biomass_mg_c_m2_by_cell"]
-    season = checked_document(build, manifest, "season.json")
-    patch = checked_document(build, manifest, "patch_state.json")
-    food = checked_document(build, manifest, "aquatic_foodweb.json")["foodweb"]
-    water = season["ledger"]
-    return {"oxygen": [oxygen.get(c["id"]) for c in cells], "periphyton": [algae.get(c["id"]) for c in cells],
-            "oxygen_dt_s": oxygen_doc.get("dt_s"), "periphyton_dt_s": algae_doc.get("dt_s"),
-            "foodweb_days": food["simulated_days"],
-            "trout": {key: food["trout"][key] for key in ["s_m", "temperature_c", "U", "feeding"]},
-            "water": {key: water[key] for key in ["initial_mm", "final_mm", "rain_mm", "accum_mm", "et_mm", "drainage_mm", "runoff_mm", "snow_export_mm", "water_residual_mm", "days", "modeled_patch_count"]},
-            "patches": [{"label": p["id"].replace("_", " ").title(), "biomass": p["biomass"], "capacity": p["capacity"], "moisture": p["moisture"]} for p in patch["patches"]],
-            "snow": [{"label": p["id"].replace("_", " ").title(), "snow_mm": p["snow_mm"], "snow_depth_m": p["snow_depth_m"]} for p in season["patches"]]}
+    result = {}
+    hashes = manifest["output_artifact_hashes"]
+    for name, key, field in [("river_oxygen.json", "oxygen", "do_mg_l_by_cell"),
+                             ("periphyton.json", "periphyton", "biomass_mg_c_m2_by_cell")]:
+        if name in hashes:
+            doc = checked_document(build, manifest, name)
+            result[key] = [doc[field].get(c["id"]) for c in cells]
+            result[key + "_dt_s"] = doc.get("dt_s")
+    if "season.json" in hashes:
+        season = checked_document(build, manifest, "season.json")
+        water = season["ledger"]
+        result["water"] = {key: water[key] for key in ["initial_mm", "final_mm", "rain_mm", "accum_mm", "et_mm", "drainage_mm", "runoff_mm", "snow_export_mm", "water_residual_mm", "days", "modeled_patch_count"]}
+        result["snow"] = [{"id": p["id"], "label": p["id"].replace("_", " ").title(), "snow_mm": p["snow_mm"], "snow_depth_m": p["snow_depth_m"]} for p in season["patches"]]
+    if "patch_state.json" in hashes:
+        patch = checked_document(build, manifest, "patch_state.json")
+        result["patches"] = [{"id": p["id"], "label": p["id"].replace("_", " ").title(), "biomass": p["biomass"], "capacity": p["capacity"], "moisture": p["moisture"]} for p in patch["patches"]]
+    if "aquatic_foodweb.json" in hashes:
+        food = checked_document(build, manifest, "aquatic_foodweb.json")["foodweb"]
+        result["foodweb_days"] = food["simulated_days"]
+        result["trout"] = {key: food["trout"][key] for key in ["s_m", "temperature_c", "U", "feeding"]}
+    return result or None
 
 
 def selected_build(root: Path) -> Path:
@@ -167,6 +179,32 @@ def selected_build(root: Path) -> Path:
     return build
 
 
+def analytics_snapshot(build: Path, manifest: dict, cells: list) -> dict | None:
+    """Extract bounded scientific diagnostics for linked interactive views."""
+    result = {}
+    hashes = manifest["output_artifact_hashes"]
+    if all(name in hashes for name in ["weather.json", "weather_snapshot.json"]):
+        weather = checked_document(build, manifest, "weather_snapshot.json")
+        trace = checked_document(build, manifest, "weather.json")["wind_trace_60s"]
+        result["weather"] = {"initial": {key: weather["weather"][key] for key in ["air_temperature_c", "relative_humidity", "wind_speed_mps", "cloud_fraction"]},
+                             "trace": [{"t": row["t"], "air": row["air_c"], "wind": math.hypot(row["wind_x"], row["wind_z"])} for row in trace],
+                             "basis": "Authored diurnal forcing and seeded wind; no local meteorological observations."}
+    if all(name in hashes for name in ["pools_state.json", "world.runtime.json"]):
+        pools = checked_document(build, manifest, "pools_state.json")["pools"]
+        world = checked_document(build, manifest, "world.runtime.json")
+        thermal_ids = {p["id"] for p in world["pools"] if p.get("thermal")}
+        result["pools"] = [{"label": p["name"].strip().title(), "center": p["t_center_c"], "edge": p["t_edge_c"]} for p in pools if p["id"] in thermal_ids and p["name"].strip()]
+    if "river_shading.json" in hashes:
+        shade = checked_document(build, manifest, "river_shading.json")
+        result["shading"] = [shade["multiplier_by_cell"].get(c["id"]) for c in cells]
+        result["shading_basis"] = shade["provenance"]["method"]
+    if "steam_microclimate.json" in hashes:
+        result["steam"] = {key: checked_document(build, manifest, "steam_microclimate.json")["report"][key] for key in ["delta_air_c", "downwind_air_c", "downwind_rh"]}
+    if "evapotranspiration.json" in hashes:
+        result["reference_et_mm_day"] = checked_document(build, manifest, "evapotranspiration.json")["et0_mm_d"]
+    return result or None
+
+
 def public_snapshot(build: Path, root: Path = ROOT) -> dict:
     """Extract scientific fields from hash-verified model outputs."""
     manifest = read_json(build / "BUILD.json")
@@ -180,6 +218,11 @@ def public_snapshot(build: Path, root: Path = ROOT) -> dict:
         documents[name] = read_json(build / name)
     if documents["CHECKS.json"].get("passed") is not True:
         raise ValueError("Model checks failed")
+    for name in ["river_oxygen.json", "periphyton.json", "season.json", "patch_state.json", "aquatic_foodweb.json",
+                 "weather.json", "weather_snapshot.json", "pools_state.json", "river_shading.json",
+                 "steam_microclimate.json", "evapotranspiration.json", "world.runtime.json", "outflow_temperature.json", "ground_heat.json"]:
+        if name in manifest["output_artifact_hashes"]:
+            checked_document(build, manifest, name)
     nodes = []
     for component in documents["equations.json"]["components"]:
         if component["component"] not in COMPONENTS:
@@ -261,18 +304,26 @@ def public_snapshot(build: Path, root: Path = ROOT) -> dict:
     source_frames = replay["frames"]
     step = max(1, math.ceil((len(source_frames) - 1) / 120))
     chosen = sorted(set(range(0, len(source_frames), step)) | {len(source_frames) - 1})
-    frames = [{"t": frame["t_s"], "temperature": [round(v, 4) for v in frame["temperature_c"]]}
+    frames = [{"t": frame["t_s"], "temperature": frame["temperature_c"]}
               for frame in (source_frames[i] for i in chosen)]
     if any(len(frame["temperature"]) != len(cells) for frame in frames):
         raise ValueError("River frame and cell dimensions differ")
+    temperature_values = (v for frame in source_frames for v in frame["temperature_c"] if isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v))
+    domain_min, domain_max = math.inf, -math.inf
+    for value in temperature_values:
+        domain_min, domain_max = min(domain_min, value), max(domain_max, value)
     return {
         "schema": "yellowstone.public.v1", "snapshot": manifest["build_id"],
         "run_mode": manifest["run_mode"], "epoch": config["simulation"]["start_utc"],
         "scientific_acceptance": "Field validation remains incomplete.",
         "domains": DOMAINS, "nodes": nodes, "edges": edges,
         "coverage": geography_snapshot(build, manifest), "ecology": ecological_snapshot(build, manifest, cells),
+        "analytics": analytics_snapshot(build, manifest, cells),
         "river": {"length_m": replay["mapping"]["length_m"],
-                  "cells": [{"s": round(c["center_s_m"], 2), "x": c["position_xyz"][0], "z": c["position_xyz"][2]}
+                  "temperature_domain": [domain_min, domain_max] if math.isfinite(domain_min) else None,
+                  "preview": {"source_frames": len(source_frames), "display_frames": len(frames),
+                              "reduction": "Every Nth saved frame and final frame; source numeric precision retained."},
+                  "cells": [{"s": c["center_s_m"], "x": c["position_xyz"][0], "z": c["position_xyz"][2]}
                             for c in cells], "frames": frames,
                   "boundary_flow": config["hydro"]["boundary_m3s"],
                   "boundary_temperature": config["hydro"]["boundary_c"],
@@ -281,20 +332,97 @@ def public_snapshot(build: Path, root: Path = ROOT) -> dict:
     }
 
 
-def package_site(destination: Path, snapshot: dict) -> None:
+def river_dataset(build: Path) -> dict:
+    """Extract native river samples and support from the checked artifact."""
+    manifest = read_json(build / "BUILD.json")
+    replay = checked_document(build, manifest, "river_replay.json")["replay"]
+    cells = [{"id": c["id"], "s": c["center_s_m"], "bounds_m": [c["start_s_m"], c["end_s_m"]],
+              "x": c["position_xyz"][0], "z": c["position_xyz"][2], "river_id": c["river_id"],
+              "width_m": c["width_m"], "depth_m": c["depth_m"]} for c in replay["cells"]]
+    frames = [{"t": f["t_s"], "temperature": f["temperature_c"]} for f in replay["frames"]]
+    if not cells or len({c["id"] for c in cells}) != len(cells):
+        raise ValueError("Native river cell identities are invalid")
+    for i, cell in enumerate(cells):
+        lo, hi = cell["bounds_m"]
+        if not (lo <= cell["s"] <= hi and lo < hi and (i == 0 or cell["s"] > cells[i - 1]["s"])):
+            raise ValueError("Native river support is invalid")
+    for i, frame in enumerate(frames):
+        if len(frame["temperature"]) != len(cells):
+            raise ValueError("Native river frame dimensions differ")
+        if not math.isfinite(frame["t"]) or (i and frame["t"] <= frames[i - 1]["t"]):
+            raise ValueError("Native river times must increase")
+        if any(v is not None and (isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v)) for v in frame["temperature"]):
+            raise ValueError("Native river temperature is invalid")
+    if not frames:
+        raise ValueError("Native river frames are unavailable")
+    return {"schema": "yellowstone.river.v1", "snapshot": manifest["build_id"],
+            "source_sha256": manifest["output_artifact_hashes"]["river_replay.json"],
+            "run_mode": manifest["run_mode"], "epoch": manifest["config"]["simulation"]["start_utc"],
+            "river": {"cells": cells, "frames": frames, "length_m": replay["mapping"]["length_m"]},
+            "support": {"space": "Finite-volume cell bounds along horizontal channel chainage.",
+                        "time": "Instantaneous saved states at elapsed seconds from the UTC start.",
+                        "display": "Piecewise constant cells; nearest-sample time display regions. No interpolation.",
+                        "uncertainty": "Unknown; no uncertainty interval supplied.", "units": "C",
+                        "coordinates": "Local meters: x east, z south; y up.",
+                        "geometry": "Mapped centerline; authored widths and submerged depth estimates."},
+            "sources": [{"id": c["source_id"], "cell_id": c["receiving_cell_id"], "s_m": c["s_m"],
+                         "flow_m3_s": c["ecosystem_flow_m3_s"], "temperature_c": c["ecosystem_entry_c"]}
+                        for c in replay.get("source_connections", [])]}
+
+
+def attach_river_dataset(snapshot: dict, dataset: dict) -> tuple[str, bytes]:
+    """Bind the public catalog to the exact exported dataset bytes."""
+    payload = (json.dumps(dataset, separators=(",", ":"), allow_nan=False) + "\n").encode()
+    sha = hashlib.sha256(payload).hexdigest()
+    path = f"data/river-{sha}.json"
+    snapshot["datasets"] = {"river": {"url": "/dashboard/" + path, "sha256": sha,
+                                      "source_sha256": dataset["source_sha256"],
+                                      "cells": len(dataset["river"]["cells"]),
+                                      "frames": len(dataset["river"]["frames"]), "bytes": len(payload)}}
+    return path, payload
+
+
+def public_worker(destination: Path) -> None:
+    """Generate the request allowlist from approved staged files."""
+    paths = []
+    for file in sorted((destination / "dashboard").rglob("*")):
+        if file.is_file():
+            path = "/" + file.relative_to(destination).as_posix()
+            paths.append(path)
+            if path.endswith("/index.html"):
+                paths.append(path[:-10])
+    worker = (HERE / "public/worker.js").read_text().replace("/* PUBLIC_PATHS */ []", json.dumps(paths))
+    (destination / "_worker.js").write_text(worker)
+
+
+def package_site(destination: Path, snapshot: dict, datasets: dict | None = None) -> None:
     """Stage the public assets and explicit unavailable routes."""
     if destination.exists() and any(destination.iterdir()):
         raise ValueError("Site destination must be empty")
     page = destination / "dashboard"
     page.mkdir(parents=True)
     template = (HERE / "public/index.html").read_text()
-    for route, identity, title in [("", "overview", "Geographic overview"), ("systems", "systems", "Earth systems"),
-                                    ("results", "results", "Model results"), ("methods", "methods", "Science and scope")]:
+    routes = [("", "overview", "Ecosystem explorer", ""), ("systems", "systems", "Earth systems", ""),
+              ("results", "results", "Model results", ""), ("methods", "methods", "Science and scope", ""),
+              ("analyze", "analyze", "Earth systems analysis", "")]
+    routes.extend((f"systems/{domain['slug']}", "systems", domain["label"], domain["id"]) for domain in DOMAINS)
+    for route, identity, title, domain in routes:
         target = page / route
         target.mkdir(exist_ok=True)
-        (target / "index.html").write_text(template.replace('<body data-page="overview"', f'<body data-page="{identity}"')
-                                          .replace("Yellowstone | Ecosystem explorer", f"{title} | Yellowstone"))
-    for name in ["explorer.css", "explorer.js", "coverage.js", "science.js"]:
+        html = template.replace('<body data-page="overview"', f'<body data-page="{identity}"')
+        if domain:
+            html = html.replace(f'data-page="{identity}">', f'data-page="{identity}" data-domain="{domain}">', 1)
+        html = html.replace("Yellowstone | Ecosystem explorer", f"{title} | Yellowstone")
+        for selected, section in [("systems", "system-view"), ("results", "river-view")]:
+            if identity == selected:
+                html = html.replace(f'<section id="{section}" hidden', f'<section id="{section}"')
+        if identity == "methods":
+            html = html.replace('<section id="methods-view" class="science-page" hidden',
+                                '<section id="methods-view" class="science-page"')
+        (target / "index.html").write_text(html)
+    for name in ["explorer.css", "explorer.js", "coverage.js", "science.js", "workspace.css", "workspace.js", "workspace-model.js",
+                 "data-model.js", "workbench.js", "workbench.css", "analysis.js", "analysis.css",
+                 "systems-model.js", "systems-workbench.js", "systems-workbench.css"]:
         shutil.copyfile(HERE / "public" / name, page / name)
     (page / "snapshot.json").write_text(json.dumps(snapshot, separators=(",", ":"), allow_nan=False) + "\n")
     (destination / "_redirects").write_text("/ /dashboard/ 302\n")
@@ -306,7 +434,13 @@ def package_site(destination: Path, snapshot: dict) -> None:
         "  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
         "img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'\n"
         "/dashboard/*\n  Cache-Control: public, no-cache, no-transform\n")
-    shutil.copyfile(HERE / "public/worker.js", destination / "_worker.js")
+    for name, payload in (datasets or {}).items():
+        target = page / name
+        if not target.resolve().is_relative_to((page / "data").resolve()):
+            raise ValueError("Dataset path is outside the public data directory")
+        target.parent.mkdir(exist_ok=True)
+        target.write_bytes(payload)
+    public_worker(destination)
 
 
 def map_assets(build: Path, destination: Path, root: Path = ROOT) -> None:
@@ -323,6 +457,14 @@ def map_assets(build: Path, destination: Path, root: Path = ROOT) -> None:
     dz, dx = np.gradient(terrain, world["georeference"]["grid_step_m"])
     relief = np.clip(((-.5 * dx - .5 * dz + .707) / np.sqrt(dx * dx + dz * dz + 1)) * 85 + 12, 9, 100).astype("uint8")
     Image.fromarray(relief).save(destination / "terrain.png")
+    heat = checked_document(build, manifest, "ground_heat.json")
+    values = np.asarray(heat["values_w_m2"]).reshape(heat["grid"]["nz"], heat["grid"]["nx"])
+    colors = np.zeros((*values.shape, 4), dtype="uint8")
+    colors[:] = [90, 135, 190, 30]
+    colors[values >= heat["parameters"]["apron_w_m2"]] = [240, 160, 68, 145]
+    colors[values >= heat["parameters"]["pool_w_m2"]] = [240, 84, 68, 210]
+    colors[~np.isfinite(values)] = [0, 0, 0, 0]
+    Image.fromarray(colors).save(destination / "ground-heat.png")
     shutil.copyfile(root / "docs/portfolio-overlook.png", destination / "landscape.png")
 
 
@@ -334,8 +476,13 @@ def main() -> None:
     args = parser.parse_args()
     build = args.build or selected_build(ROOT)
     snapshot = public_snapshot(build)
-    package_site(args.out, snapshot)
+    path, payload = attach_river_dataset(snapshot, river_dataset(build))
+    from domain_data import export_systems, attach_system_datasets
+    datasets = {path: payload}
+    datasets.update(attach_system_datasets(snapshot, export_systems(build)))
+    package_site(args.out, snapshot, datasets)
     map_assets(build, args.out / "dashboard")
+    public_worker(args.out)
     print(f"Public snapshot {snapshot['snapshot']}: {len(snapshot['nodes'])} components, {len(snapshot['edges'])} relationships")
 
 

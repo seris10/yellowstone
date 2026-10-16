@@ -14,12 +14,15 @@ window.YSCoverage = {
     const svg = $("coverage-map"), world = $("coverage-world");
     let width = 1200, height = 700, camera = { x: 0, y: 0, k: .3 }, target = { ...camera }, dragging = null, moved = false, full = false;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const layers = new Map(), labels = [];
+    const layers = new Map(), labels = [], pointers = new Map();
     const extent = geo.extent, half = extent / 2;
     const line = points => points.map((p, i) => `${i ? "L" : "M"}${p[0]},${p[1]}`).join(" ");
     const layer = name => { const group = make("g", { "data-geo-layer": name }); world.append(group); layers.set(name, group); return group; };
     const terrain = layer("terrain");
     terrain.append(make("image", { href: "/dashboard/terrain.png", x: -half, y: -half, width: extent, height: extent, opacity: .7 }));
+    const heat = layer("heat"), heatGrid = geo.heat.grid;
+    heat.append(make("image", { href: "/dashboard/ground-heat.png", x: heatGrid.origin_xz_m[0], y: heatGrid.origin_xz_m[1], width: heatGrid.nx*heatGrid.cell_m, height:heatGrid.nz*heatGrid.cell_m, class:"ground-heat-image", "pointer-events":"none" }));
+    heat.style.display = "none";
     const footprint = layer("coverage");
     footprint.append(make("rect", { x: -half, y: -half, width: extent, height: extent, class: "coverage-footprint" }));
     const core = geo.thermal_extent;
@@ -39,7 +42,7 @@ window.YSCoverage = {
       const box = $("coverage-detail-content"); box.replaceChildren(html("p", "eyebrow", info.type.toUpperCase()), html("h2", "", info.label), html("p", "", info.description));
       if (info.value) box.append(html("div", "value", info.value));
       if (info.limit) box.append(html("p", "", info.limit));
-      if (info.process) { const link = html("a", "", "Explore the scientific process ↗"); link.href = `/dashboard/systems/#${info.process}`; box.append(link); }
+      if (info.process) { const link = html("a", "", "Analyze this process →"); link.href = `/dashboard/systems/#${info.process}`; link.addEventListener("click",event=>{if(window.YSExplore){event.preventDefault();window.YSExplore.openProcess(info.process);}}); box.append(link); }
       $("coverage-detail").hidden = false; $("coverage-tooltip").hidden = true;
     }
     function interactive(node, info) {
@@ -101,17 +104,39 @@ window.YSCoverage = {
     $("coverage-fit").addEventListener("click", () => fit(true)); $("basin-view").addEventListener("click", () => fit(false));
     $("coverage-plus").addEventListener("click", () => zoom(1.5)); $("coverage-minus").addEventListener("click", () => zoom(1 / 1.5));
     $("close-coverage-detail").addEventListener("click", () => { $("coverage-detail").hidden = true; });
-    document.querySelectorAll("[data-layer]").forEach(input => input.addEventListener("change", () => { layers.get(input.dataset.layer).style.display = input.checked ? "" : "none"; }));
-    $("show-landscape").addEventListener("click", () => $("landscape-dialog").showModal()); $("close-landscape").addEventListener("click", () => $("landscape-dialog").close());
-    svg.addEventListener("wheel", event => { event.preventDefault(); const r = svg.getBoundingClientRect(); zoom(Math.exp(-event.deltaY * .002), event.clientX - r.left, event.clientY - r.top); }, { passive: false });
-    svg.addEventListener("pointerdown", e => { dragging = { x: e.clientX, y: e.clientY, id: e.pointerId }; moved = false; });
-    svg.addEventListener("pointermove", e => {
-      if (!dragging || dragging.id !== e.pointerId) return;
-      const dx = e.clientX - dragging.x, dy = e.clientY - dragging.y;
-      if (Math.abs(dx) + Math.abs(dy) > 2) { moved = true; svg.setPointerCapture(e.pointerId); svg.classList.add("dragging"); }
-      target.x += dx; target.y += dy; camera = { ...target }; dragging.x = e.clientX; dragging.y = e.clientY; $("coverage-tooltip").hidden = true;
+    document.querySelectorAll("[data-layer]").forEach(input => input.addEventListener("change", () => {
+      layers.get(input.dataset.layer).style.display = input.checked ? "" : "none";
+      if (input.dataset.layer === "heat") { $("heat-legend").hidden = !input.checked; $("heat-probe").hidden = !input.checked; }
+    }));
+    const parameters = geo.heat.parameters;
+    $("heat-legend").textContent = `Authored heat flux · W/m²\nBackground ${parameters.background_w_m2} · Apron ${parameters.apron_w_m2} · Pool ${parameters.pool_w_m2}`;
+    svg.addEventListener("pointermove",event => {
+      if (!document.querySelector('[data-layer="heat"]').checked || dragging) return;
+      const rect = svg.getBoundingClientRect(), x = (event.clientX-rect.left-camera.x)/camera.k, z = (event.clientY-rect.top-camera.y)/camera.k;
+      const column = Math.floor((x-heatGrid.origin_xz_m[0])/heatGrid.cell_m), row = Math.floor((z-heatGrid.origin_xz_m[1])/heatGrid.cell_m);
+      if (column<0 || row<0 || column>=heatGrid.nx || row>=heatGrid.nz) { $("heat-probe").textContent="Outside ground-heat field"; return; }
+      const values = geo.heat.values, value = Array.isArray(values[0]) ? values[row][column] : values[row*heatGrid.nx+column];
+      $("heat-probe").textContent=`Authored ground heat: ${value} W/m² · ${heatGrid.cell_m} m cell`;
     });
-    ["pointerup", "pointercancel"].forEach(name => svg.addEventListener(name, () => { dragging = null; svg.classList.remove("dragging"); }));
+    if (innerWidth < 721) document.querySelector(".map-layers").open = false;
+    $("show-landscape").addEventListener("click", () => $("landscape-dialog").showModal()); $("close-landscape").addEventListener("click", () => $("landscape-dialog").close());
+    document.querySelectorAll('.exploration-links a').forEach(link=>link.addEventListener("click",event=>{if(link.getAttribute("href")==="/dashboard/systems/"&&window.YSExplore){event.preventDefault();window.YSExplore.setMode("systems");}}));
+    svg.addEventListener("wheel", event => { event.preventDefault(); const r = svg.getBoundingClientRect(); zoom(Math.exp(-event.deltaY * .002), event.clientX - r.left, event.clientY - r.top); }, { passive: false });
+    svg.addEventListener("pointerdown", e => { pointers.set(e.pointerId,{ x: e.clientX, y: e.clientY }); dragging = true; moved = false; });
+    svg.addEventListener("pointermove", e => {
+      if (!dragging || !pointers.has(e.pointerId)) return;
+      const previous = pointers.get(e.pointerId), dx = e.clientX - previous.x, dy = e.clientY - previous.y;
+      if (Math.abs(dx) + Math.abs(dy) > 2) { moved = true; svg.setPointerCapture(e.pointerId); svg.classList.add("dragging"); }
+      if (pointers.size === 2) {
+        const other = [...pointers.entries()].find(([id]) => id !== e.pointerId)[1];
+        const before = Math.hypot(previous.x-other.x,previous.y-other.y), after = Math.hypot(e.clientX-other.x,e.clientY-other.y);
+        const rect = svg.getBoundingClientRect();
+        if (before > 5) zoom(after/before,(previous.x+other.x)/2-rect.left,(previous.y+other.y)/2-rect.top);
+        target.x += dx/2; target.y += dy/2;
+      } else { target.x += dx; target.y += dy; }
+      pointers.set(e.pointerId,{ x:e.clientX,y:e.clientY }); camera = { ...target }; $("coverage-tooltip").hidden = true;
+    });
+    ["pointerup", "pointercancel"].forEach(name => svg.addEventListener(name, event => { pointers.delete(event.pointerId); if (!pointers.size) { dragging = null; svg.classList.remove("dragging"); } }));
     svg.addEventListener("keydown", e => {
       if (!["+", "=", "-", "0", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) return;
       e.preventDefault(); if (["+", "="].includes(e.key)) zoom(1.4); if (e.key === "-") zoom(1 / 1.4); if (e.key === "0") fit(true);

@@ -1,7 +1,4 @@
-"""Assemble dashboard data from the component inventories and the fixes ledger.
-
-Writes data/dashboard-data.js, which index.html loads as a plain script.
-"""
+"""Dashboard inventory aggregation."""
 
 from __future__ import annotations
 
@@ -53,7 +50,7 @@ def split_row(line: str) -> list[str]:
 
 
 def ledger_counts(text: str) -> tuple[dict, int]:
-    """Count verdicts from table rows; the Summary line is the fallback."""
+    """Count verdicts from table rows or summary totals."""
     counts = {verdict: 0 for verdict in VERDICTS}
     rows = 0
     verdict_col = None
@@ -206,7 +203,7 @@ def tally(items: list, key: str, keys: list) -> dict:
 
 
 def receipt_status(receipt: dict, root: Path = ROOT) -> str:
-    """Resolve execution evidence against current source and fixture bytes."""
+    """Check receipt source and fixture hashes."""
     if not receipt.get("source_hashes"):
         return "unavailable"
     if receipt.get("complete_source_inventory"):
