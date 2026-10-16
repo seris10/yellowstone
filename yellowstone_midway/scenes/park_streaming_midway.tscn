@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/park_runtime/streaming_demo.gd" id="1"]
+[node name="ParkStreamingMidway" type="Node3D"]
+script = ExtResource("1")
+catalog_path = "res://data/park/catalog.json"
+title = "PARK RUNTIME / MIDWAY MASTER DEM, STREAMED"
+start_position = Vector3(-242, 70, 160)
