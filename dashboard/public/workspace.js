@@ -12,14 +12,14 @@ window.YSWorkspace = {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const state = { domain: null, process: null, research: false, conditional: true, status: "all", direction: "all", tab: "data",
       metric: "temperature", frame: 0, cell: 0, first: 0, last: data.river.cells.length - 1, timeFirst: 0, timeLast: data.river.frames.length - 1,
-      local: false, compare: false, mode: "systems", panel: false, expanded: false, traceFirst: 0, traceLast: Infinity, arrange: false };
+      local: false, compare: false, mode: "systems", panel: false, expanded: false, traceFirst: 0, traceLast: Infinity, arrange: false, network: false };
     const temperatureExtent=data.river.temperature_domain||window.YSData.extent((function*(){for(const frame of data.river.frames)yield* frame.temperature;})())||[0,1], [temperatureMin,temperatureMax]=temperatureExtent;
     let width = 1200, height = 700, camera = {x:0,y:0,k:1}, target = {...camera}, base = 1, cards = [], sceneEdges = [];
     let playElapsed = 0;
     let hovered = null, skipClick = false, dragLength = 0, exchange = null, panelWidth = 400, playing = false, lastTick = 0, nodeDragging = null;
     const pointers = new Map();
     let plot = null, chartSeries = null, brush = null, miniMap = null, fieldImage = null, urlTimer = null, inlineCard = null;
-    let overviewCamera = {...camera}, overviewEdges = [], detailEdges = [], sceneReady = false, restored = false, renderedFilters = "", semanticDirty = true;
+    let overviewCamera = {...camera}, overviewEdges = [], detailEdges = [], sceneReady = false, restored = false, renderedFilters = "", semanticDirty = true, netMix = 0;
     const panel = $("analysis-panel"), panelHome = panel.parentElement;
     const colorLegend=html("div","workspace-color-legend");colorLegend.setAttribute("aria-label","Process colors");panelHome.append(colorLegend);
     const titles = {temperature:"River temperature · distance",history:"River temperature · time",field:"Temperature · distance × time",oxygen:"Dissolved oxygen",periphyton:"Periphyton biomass",shading:"Shortwave transmission",air:"Air temperature · 60 s",wind:"Wind speed · 60 s",pools:"Pool center and edge temperatures",heat:"Ground heat field",water:"Snow storage by patch", "water-sum":"Summed-depth accounting diagnostic",snow:"Patch snow storage",biomass:"Vegetation biomass",moisture:"Patch soil moisture"};
@@ -55,7 +55,7 @@ window.YSWorkspace = {
       clearTimeout(urlTimer);
       urlTimer = setTimeout(() => {
       if(document.body.dataset.analysisActive==="true")return;
-      const p = new URLSearchParams(); p.set("view",state.mode);
+      const p = new URLSearchParams(); p.set("view",state.mode); if (state.network) p.set("network","1");
       if (state.domain) p.set("domain",state.domain); if (state.process) p.set("process",state.process);
       if (state.research) p.set("research","1");
       if (state.local) p.set("scale","local");if(state.compare)p.set("compare","1");
@@ -77,14 +77,14 @@ window.YSWorkspace = {
     }
     function selectDomain(id, save = true, move = true) {
       if (!domains.has(id)) return;
-      state.domain = id; state.process = null; state.panel = false; state.expanded = false; exchange = null; state.tab = "data"; playing = false;
+      state.network = false; state.domain = id; state.process = null; state.panel = false; state.expanded = false; exchange = null; state.tab = "data"; playing = false;
       if (!domainMetrics[id].filter(metric=>model.available(data,metric)).includes(state.metric)) state.metric = domainMetrics[id].find(metric=>model.available(data,metric)) || "";
       setMode("systems",false); header(); if(move)fit(); if (save) writeURL(); announce(`${domains.get(id).label}. Processes inside the sphere.`);
     }
     function selectProcess(id, save = true, move = true) {
       const node = nodes.get(id); if (!node) return;
       const previous=state.process;
-      state.domain = node.domain; state.process = id; state.panel = true; state.expanded = false; exchange = null;
+      state.network = false; state.domain = node.domain; state.process = id; state.panel = true; state.expanded = false; exchange = null;
       if (node.implementation === "research") { state.research = true; $("show-research").checked = true; }
       if(sceneReady&&!cards.some(c=>c.kind==="process"&&c.item.id===id))renderScene(false);
       const choices = metrics(); if (!choices.includes(state.metric)) state.metric = choices[0] || "";
@@ -94,6 +94,12 @@ window.YSWorkspace = {
     function ecosystem(save = true, move = true) {
       state.domain = null; state.process = null; state.panel = false; state.expanded = false; exchange = null; playing = false;
       header(); if(move)fit(); if (save) writeURL(); announce("Ecosystem overview. Six connected Earth systems.");
+    }
+    function setNetwork(on, save = true) {
+      if (on === state.network) return;
+      state.network = on;
+      if (on) ecosystem(false); else header();
+      if (save) writeURL(); announce(on ? "Full network. Every process and exchange in one view." : "Domain overview.");
     }
     function parent() { if (state.process) selectDomain(state.domain); else if (state.domain) ecosystem(); else fit(); }
     function addBreadcrumb(label, action, current) {
@@ -110,7 +116,8 @@ window.YSWorkspace = {
       $("workspace-count").textContent = `${selected.nodes.length} visible components · ${selected.edges.length} exchanges · 6 systems`;
       $("open-system-workbench").href=workbenchAddress();$("open-system-workbench").textContent="Analyze Earth systems ↗";
       $("domain-page-link").hidden = true;
-      $("workspace-hint").textContent = n ? "Probe the chart · Scroll outside the data to zoom · Escape moves out" : d ? "Scroll into a process · Drag to pan · Escape moves out" : "Scroll into a sphere · Hover a connection · Drag to pan";
+      $("workspace-hint").textContent = n ? "Probe the chart · Scroll outside the data to zoom · Escape moves out" : d ? "Scroll into a process · Drag to pan · Escape moves out" : state.network ? "Hover a process to trace its exchanges · Scroll to zoom · Drag to pan" : "Scroll into a sphere · Hover a connection · Drag to pan";
+      const networkToggle = $("network-toggle"); networkToggle.parentElement.hidden = depth() > 0; networkToggle.setAttribute("aria-pressed",String(state.network)); document.body.classList.toggle("network-view",state.network);
       document.body.dataset.depth = String(depth()); document.body.classList.remove("analysis-open","analysis-expanded");
       document.body.style.setProperty("--analysis-width",`${panelWidth}px`);
       $("analysis-resize").setAttribute("aria-valuemin","320");$("analysis-resize").setAttribute("aria-valuemax","650");$("analysis-resize").setAttribute("aria-valuenow",String(Math.round(panelWidth)));
@@ -157,13 +164,16 @@ window.YSWorkspace = {
       const sphere=svg("circle",{r:radius,class:"ws-sphere"});
       hit.append(sphere);group.append(hit);
       const summary=svg("g",{class:"ws-circle-summary",transform:`scale(${radius/110})`,"pointer-events":"none"});
+      let tag=null,names=null,netNames=null;
       if(kind==="domain"){
         group.append(svg("circle",{r:radius-5,class:"ws-orbit"}));
+        tag=svg("g",{class:"ws-network-tag","pointer-events":"none"});tag.append(svg("text",{class:"ws-network-label","text-anchor":"end"},d.label));group.append(tag);
         wrapped(summary,d.label,0,-9,20,"ws-domain-title",21,2);
         summary.append(svg("text",{y:43,class:"ws-domain-count"},`${model.visible(data,state).nodes.filter(n=>n.domain===d.id).length} PROCESSES`),svg("text",{y:64,class:"ws-enter-label"},"SCROLL TO EXPLORE"));
       }else{
         summary.append(svg("text",{y:-47,class:"ws-node-type","text-anchor":"middle"},`${marker(item)} ${type(item).toUpperCase()}`));
-        wrapped(summary,item.label,0,-20,17,"ws-domain-title ws-process-name",24,3);
+        names=svg("g",{class:"ws-names"});wrapped(names,item.label,0,-20,17,"ws-domain-title ws-process-name",24,3);summary.append(names);
+        netNames=svg("g",{class:"ws-net-names",opacity:0});wrapped(netNames,item.label,0,-20,11,"ws-domain-title ws-net-name",24,4);summary.append(netNames);
         const measure=(processMetrics[item.id]||[]).find(metric=>model.available(data,metric)),values=measure&&model.series(data,measure,state.frame,state.cell);
         if(values?.type==="line"){
           const ys=values.points.map(p=>p.y).filter(Number.isFinite),lo=Math.min(...ys),hi=Math.max(...ys),points=values.points.filter((_,i)=>i%Math.max(1,Math.floor(values.points.length/45))===0);
@@ -172,12 +182,12 @@ window.YSWorkspace = {
         if(item.implementation==="research")group.classList.add("ws-research");
       }
       group.append(summary);
-      const c={key,item,x,y,localX,localY,r:radius,w:radius*2,h:radius*2,kind,parent,group,summary,hit};cards.push(c);
+      const c={key,item,x,y,localX,localY,r:radius,w:radius*2,h:radius*2,kind,parent,group,summary,hit,tag,names,netNames};cards.push(c);
       const open=()=>kind==="domain"?selectDomain(item.id):selectProcess(item.id);
       hit.addEventListener("click",event=>{event.stopPropagation();if(!skipClick)open();});
       hit.addEventListener("keydown",event=>{if(["Enter"," "].includes(event.key)){event.preventDefault();event.stopPropagation();open();}});
-      hit.addEventListener("pointerenter",event=>{hovered=key;tooltip(event,item.label,kind==="domain"?d.description:`${item.summary} ${type(item)}.`);});
-      hit.addEventListener("pointerleave",()=>{hovered=null;$("tooltip").hidden=true;});
+      hit.addEventListener("pointerenter",event=>{hovered=key;semanticDirty=true;tooltip(event,item.label,kind==="domain"?d.description:`${item.summary} ${type(item)}.`);});
+      hit.addEventListener("pointerleave",()=>{hovered=null;semanticDirty=true;$("tooltip").hidden=true;});
       hit.addEventListener("pointerdown",event=>{
         if(!state.arrange&&(!event.shiftKey||event.pointerType==="touch"))return;
         event.stopPropagation();event.preventDefault();nodeDragging={card:c,x:event.clientX,y:event.clientY};skipClick=true;hit.setPointerCapture(event.pointerId);$("tooltip").hidden=true;
@@ -254,11 +264,19 @@ window.YSWorkspace = {
       c.group.append(detail);detail.append(panel);c.detail=detail;inlineCard=c;
       panel.classList.add("is-inline");panel.hidden=false;
     }
+    function nameBox(c) {
+      if(c.nameBox)return c.nameBox;
+      let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+      try{c.summary.querySelectorAll(".ws-net-name").forEach(text=>{const b=text.getBBox();x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height);});}catch{return null;}
+      return x1>x0&&y1>y0?c.nameBox={x:x0,y:y0,width:x1-x0,height:y1-y0}:null;
+    }
     function updateSemantic() {
       if(!sceneReady)return;
       const domainRadius=focusRadius("domain"),processRadius=focusRadius("process");
       cards.filter(c=>c.kind==="domain").forEach(c=>{
-        const r=c.r*camera.k,detail=model.fade(r,domainRadius*.67,domainRadius*.95),title=1-model.fade(r,domainRadius*.48,domainRadius*.68);
+        const r=c.r*camera.k,detail=Math.max(model.fade(r,domainRadius*.67,domainRadius*.95),netMix),title=(1-model.fade(r,domainRadius*.48,domainRadius*.68))*(1-netMix);
+        const compact=width<721;c.tag.firstChild.setAttribute("text-anchor",compact?"start":"end");
+        c.tag.setAttribute("transform",`translate(${compact?-c.r*.95:-c.r*.74},${compact?-c.r-5:-c.r*.74-6}) scale(${(compact?.8:1)/camera.k})`);setOpacity(c.tag,netMix);
         c.reveal=detail;setOpacity(c.summary,title);setOpacity(c.children,.045+.955*detail);
         c.hit.style.pointerEvents=detail>.85?"none":"auto";
         c.hit.firstElementChild.setAttribute("fill-opacity",1-detail*.78);
@@ -269,7 +287,11 @@ window.YSWorkspace = {
         const r=c.r*camera.k,detail=c===inlineCard?model.fade(r,processRadius*.55,processRadius*.86):0;
         const role=model.processRole(c.item.id),color=model.mixColor(c.parent.item.color,role?.color||c.parent.item.color,c.parent.reveal);
         c.group.style.setProperty("--domain",color);
-        c.summary.setAttribute("transform",`scale(${Math.min(c.r/110,100/(110*camera.k))})`);
+        c.names.setAttribute("opacity",(1-netMix).toFixed(3));c.netNames.setAttribute("opacity",netMix.toFixed(3));
+        const normalScale=Math.min(c.r/110,100/(110*camera.k)),box=netMix>0?nameBox(c):null;
+        let summaryTransform=`scale(${normalScale})`;
+        if(box){const fitScale=.96*c.r/Math.hypot(box.width/2,box.height/2),netScale=Math.min(12/(21*camera.k),fitScale),s=normalScale+(netScale-normalScale)*netMix;summaryTransform=`translate(0,${-s*(box.y+box.height/2)*netMix}) scale(${s})`;}
+        c.summary.setAttribute("transform",summaryTransform);
         setOpacity(c.summary,c===inlineCard?1-model.fade(r,processRadius*.32,processRadius*.53):1);c.hit.setAttribute("tabindex",c.parent.reveal>.45&&detail<.55?"0":"-1");
         c.hit.style.pointerEvents=c.parent.reveal>.45&&detail<.55?"auto":"none";
         c.hit.setAttribute("aria-hidden",String(c.parent.reveal<=.45||detail>=.55));
@@ -283,7 +305,8 @@ window.YSWorkspace = {
         c.detail.style.visibility=detail<.001?"hidden":"visible";
       });
       overviewEdges.forEach(edge=>{const opacity=1-Math.max(edge.a.reveal,edge.b.reveal);setOpacity(edge.group,opacity,true);});
-      const related=state.process?new Set(model.neighborhood(data,state.process,state).edges.map(e=>e.id)):null;
+      const hoverCard=netMix>.5&&hovered?cards.find(c=>c.kind==="process"&&c.key===hovered):null;
+      const related=hoverCard?new Set(model.neighborhood(data,hoverCard.item.id,state).edges.map(e=>e.id)):state.process?new Set(model.neighborhood(data,state.process,state).edges.map(e=>e.id)):null;
       detailEdges.forEach(edge=>{
         const reveal=Math.max(edge.a.parent.reveal,edge.b.parent.reveal),focus=related&&!related.has(edge.edges[0].id)?.12:1;
         const source=nodes.get(edge.edges[0].from),domain=domains.get(source.domain),color=model.mixColor(domain.color,model.processRole(source.id)?.color||domain.color,reveal);
@@ -292,11 +315,12 @@ window.YSWorkspace = {
       });
       sceneEdges.forEach(updateConnection);
       setOpacity(colorLegend,state.domain?cards.find(c=>c.kind==="domain"&&c.item.id===state.domain)?.reveal||0:0);
-      const heading=document.querySelector(".workspace-heading"),opacity=1-model.fade(camera.k/base,1.1,1.8);
+      const heading=document.querySelector(".workspace-heading"),opacity=(1-model.fade(camera.k/base,1.1,1.8))*(width<721?1-netMix:1);
       setOpacity(heading,opacity);heading.style.visibility=opacity<.01?"hidden":"visible";
       semanticDirty=false;
     }
     function syncFocus(point) {
+      if(state.network)return;
       const candidates=cards.filter(c=>c.kind==="domain"),worldPoint={x:(point.x-target.x)/target.k,y:(point.y-target.y)/target.k};
       const contains=c=>Math.hypot(c.x-worldPoint.x,c.y-worldPoint.y)<=c.r;
       const domain=candidates.find(contains),existing=cards.find(c=>c.kind==="domain"&&c.item.id===state.domain);
@@ -506,11 +530,13 @@ window.YSWorkspace = {
       else if(nodes.has(p.get("process")))selectProcess(p.get("process"),false);
       else if(domains.has(p.get("domain")||(!p.has("view")?options.domain:null)))selectDomain(p.get("domain")||options.domain,false);
       else ecosystem(false);
+      state.network=!state.domain&&!state.process&&p.get("network")==="1";if(!restored)netMix=state.network?1:0;header();
       if(metrics().includes(p.get("metric")))state.metric=p.get("metric");if(["data","science","exchanges"].includes(p.get("tab")))state.tab=p.get("tab");
       setMode(p.get("view")==="landscape"?"landscape":"systems",false);renderAnalysis();fit(!restored);restored=true;
     }
     function bind() {
       $("mode-systems").addEventListener("click",()=>{setMode("systems");});$("mode-landscape").addEventListener("click",()=>setMode("landscape"));
+      $("network-toggle").addEventListener("click",()=>setNetwork(!state.network));
       $("zoom-in").addEventListener("click",()=>zoom(1.4));$("zoom-out").addEventListener("click",()=>zoom(1/1.4));$("fit-map").addEventListener("click",()=>fit());
       $("arrange-nodes").addEventListener("click",()=>{state.arrange=!state.arrange;$("arrange-nodes").setAttribute("aria-pressed",String(state.arrange));document.body.classList.toggle("workspace-arrange",state.arrange);announce(state.arrange?"Arrange nodes. Drag any sphere or process; connections follow.":"Pan mode. Drag the background to move the diagram.");});
       $("reset-layout").addEventListener("click",()=>{renderScene();announce("Default diagram layout restored.");});
@@ -534,7 +560,7 @@ window.YSWorkspace = {
       ["pointerup","pointercancel"].forEach(name=>map.addEventListener(name,event=>{pointers.delete(event.pointerId);if(!pointers.size)map.classList.remove("dragging");}));
       map.addEventListener("dblclick",event=>{if(event.target===map||event.target.tagName==="rect"){const r=map.getBoundingClientRect();zoom(1.7,event.clientX-r.left,event.clientY-r.top);}});
       map.addEventListener("keydown",event=>{if(!["+","=","-","0","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(event.key))return;event.preventDefault();if(["+","="].includes(event.key))zoom(1.4);if(event.key==="-")zoom(1/1.4);if(event.key==="0")fit();if(event.key==="ArrowUp")target.y+=60;if(event.key==="ArrowDown")target.y-=60;if(event.key==="ArrowLeft")target.x+=60;if(event.key==="ArrowRight")target.x-=60;});
-      document.addEventListener("keydown",event=>{if(event.key!=="Escape"||!active||document.body.dataset.analysisActive==="true"||state.mode!=="systems"||event.target.matches("input,select")||document.querySelector("dialog[open]"))return;$("search-results").hidden=true;if(state.expanded){state.expanded=false;renderAnalysis();}else parent();});
+      document.addEventListener("keydown",event=>{if(event.key!=="Escape"||!active||document.body.dataset.analysisActive==="true"||state.mode!=="systems"||event.target.matches("input,select")||document.querySelector("dialog[open]"))return;$("search-results").hidden=true;if(state.network){setNetwork(false);return;}if(state.expanded){state.expanded=false;renderAnalysis();}else parent();});
       const resize=$("analysis-resize"),resizeWidth=value=>{panelWidth=clamp(value,320,Math.min(650,width*.65));document.body.style.setProperty("--analysis-width",`${panelWidth}px`);resize.setAttribute("aria-valuenow",String(Math.round(panelWidth)));fit(true);};
       resize.addEventListener("pointerdown",event=>{resize.setPointerCapture(event.pointerId);resize.dataset.dragging="true";});resize.addEventListener("pointermove",event=>{if(resize.dataset.dragging!=="true")return;resizeWidth(width-event.clientX+map.getBoundingClientRect().left-20);});["pointerup","pointercancel"].forEach(name=>resize.addEventListener(name,()=>{resize.dataset.dragging="false";}));resize.addEventListener("keydown",event=>{if(!["ArrowLeft","ArrowRight"].includes(event.key))return;event.preventDefault();resizeWidth(panelWidth+(event.key==="ArrowLeft"?25:-25));});
       new ResizeObserver(entries=>{const r=entries[0].contentRect;if(r.width<=0||r.height<=0)return;if(Math.abs(width-r.width)<1&&Math.abs(height-r.height)<1)return;width=r.width;height=r.height;renderScene(false);fit();}).observe(map);
@@ -563,9 +589,11 @@ window.YSWorkspace = {
     panel.addEventListener("wheel",event=>{if(!event.ctrlKey)event.stopPropagation();},{passive:true});
     panel.addEventListener("keydown",event=>{if(event.key!=="Escape")event.stopPropagation();});
     width=map.parentElement.clientWidth||innerWidth;height=map.parentElement.clientHeight||600;renderScene(false);bind();restore();
+    document.fonts?.ready.then(()=>{cards.forEach(c=>{c.nameBox=null;});semanticDirty=true;});
     let last=0;
     function draw(now){requestAnimationFrame(draw);if(document.hidden||document.body.dataset.analysisActive==="true"||now-last<16||state.mode!=="systems")return;
       const elapsed=Math.min(64,now-last||16);last=now;
+      const netGoal=state.network?1:0;if(netMix!==netGoal){netMix=reduced||Math.abs(netGoal-netMix)<.002?netGoal:netMix+(netGoal-netMix)*(1-Math.exp(-elapsed/160));semanticDirty=true;}
       const moving=Math.abs(camera.x-target.x)+Math.abs(camera.y-target.y)+Math.abs(camera.k-target.k)>1e-5;
       if(moving||semanticDirty){
         const mix=reduced?1:1-Math.exp(-elapsed/160);["x","y","k"].forEach(k=>camera[k]+=(target[k]-camera[k])*mix);
