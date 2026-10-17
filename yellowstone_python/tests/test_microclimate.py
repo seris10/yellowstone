@@ -360,7 +360,7 @@ def test_herbie_requires_date_str():
         herbie_retrieve_hrrr_rtma("")
 
 
-# Wet-bulb switch coverage for the llm_backend weather response. The three cases exercise the metpy, Stull, and out-of-validity branches that set snow_partition_source.
+# llm_backend weather reports snow_partition_source for metpy, Stull, and invalid wet-bulb inputs.
 
 
 def _write_bundle(path, epoch, air_c, rh):
@@ -430,5 +430,5 @@ def test_wet_bulb_switch_reports_unavailable_outside_stull_range(
     response = backend.weather(epoch_unix=0.0)
     assert (response["weather"]["snow_partition_source"]
             == "unavailable_outside_stull_2011_validity_range")
-    # Without wet-bulb the snow partition stays at the default zero; the source string carries the diagnostic.
+    # Unavailable wet-bulb leaves snow_fraction at 0; snow_partition_source supplies the diagnostic.
     assert response["weather"]["snow_fraction"] == 0.0

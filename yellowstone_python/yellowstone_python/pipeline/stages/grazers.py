@@ -115,7 +115,7 @@ def run(state: dict, cfg: dict) -> dict:
         steam_report.get("downwind_rh", float(wcfg.get("humidity", 0.45)))))
     grazer_blockers = check_grazer_routes(wildlife3, shells)
     b1 = _find(wildlife3, "id", BISON_DEMO, "wildlife")
-    # Re-walk the bison's authored route segment by segment through the eligibility planner for verification.
+    # Verify each segment of the bison's authored route through the eligibility planner.
     _leg = [tuple(p) for p in b1["path_xz"]]
     _xs = [p[0] for p in _leg]
     _zs = [p[1] for p in _leg]

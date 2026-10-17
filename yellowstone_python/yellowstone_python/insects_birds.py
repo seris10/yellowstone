@@ -232,7 +232,7 @@ def _validate_consumer(cid: str, consumer: dict) -> dict:
     return {"a": attack, "h": handling, "diet": normalized}
 
 
-# Benthic insect groups: transferred thermal structure. Relative rates (dipteran faster, multivoltine) are an authored ordering.
+# Transferred benthic thermal structure; faster, multivoltine dipteran rates are authored.
 INSECT_GROUPS = {
     "ept": {  # mayfly/stonefly/caddis proxy: cold fauna
         "tbase_c": 2.0, "rate_per_dd": 0.012, "t_cutoff_c": 22.0,

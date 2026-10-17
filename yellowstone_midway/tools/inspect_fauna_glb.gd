@@ -1,5 +1,5 @@
 extends SceneTree
-## Inspect imported fauna GLBs: combined bounding box, mesh/material inventory. godot --headless --path . --script tools/inspect_fauna_glb.gd
+## Inspect fauna GLB bounds and mesh/material counts; see the authoring guide, Tool commands.
 
 const TARGETS: Array[String] = [
 	"res://assets/imported/fauna/bison/bison.glb",

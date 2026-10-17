@@ -16,13 +16,13 @@ CP_AIR_J_KG_K = 1005.0
 L_VAPOR_J_KG = 2.45e6
 R_DRY_J_KG_K = 287.058
 
-# Bulk-transfer coefficients at 10 m reference height; authored illustrative, matching replay.surface_flux defaults.
+# Authored bulk-transfer coefficients at 10 m match river.surface_flux defaults.
 BULK_TRANSFER_C_H = 1.5e-3
 BULK_TRANSFER_C_E = 1.5e-3
 BULK_TRANSFER_REFERENCE_HEIGHT_M = 10.0
 BULK_TRANSFER_STATUS = "authored_matches_replay_surface_flux_defaults"
 
-# Internal boundary layer power law h_i = A * z0 * (fetch/z0)**B; coefficient A and exponent B are authored constants, cited to the general diffusion-model literature summarized by Garratt (1990).
+# h_i = A*z0*(fetch/z0)**B uses authored A and B; diffusion-model context: Garratt (1990).
 IBL_COEFFICIENT_A = 0.4
 IBL_COEFFICIENT_A_STATUS = "authored"
 IBL_EXPONENT_B = 0.8
@@ -30,7 +30,7 @@ IBL_EXPONENT_B_STATUS = "authored_from_diffusion_model_literature"
 ROUGHNESS_LENGTH_M = 0.001
 ROUGHNESS_STATUS = "authored_general_literature_rough_water_surface"
 
-# Validity range for the fetch argument of the diffusion-type internal boundary layer growth law; outside this range the function raises.
+# The diffusion-type boundary-layer model raises for fetch outside these authored bounds.
 FETCH_MIN_M = 10.0
 FETCH_MAX_M = 100_000.0
 FETCH_RANGE_STATUS = "authored_from_review_coverage_meter_to_hundred_kilometer_scales"

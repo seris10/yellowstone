@@ -83,7 +83,7 @@ IV_PARAMETERS = {
     },
 }
 
-# Chemistry IV parameters live in a parallel map so the discharge-and-temperature bundle output stays unchanged.
+# Chemistry IV parameters use a separate map; discharge/temperature bundle layout stays fixed.
 IV_CHEM_PARAMETERS: dict[str, dict[str, Any]] = {
     PARAM_SPECIFIC_CONDUCTANCE: {
         "name": "specific_conductance",

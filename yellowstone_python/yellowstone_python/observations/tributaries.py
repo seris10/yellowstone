@@ -119,7 +119,7 @@ def calculate_data_integrity_hash(data: dict) -> str:
     return hashlib.sha256(json.dumps(normalized, sort_keys=True).encode()).hexdigest()
 
 
-# Registry of gauges and streams verified against NWIS and USGS StreamStats. Entries list the verified attributes a candidate matches before it enters cold_refuge_candidates. The registry starts empty; an unchecked documented tributary carries association_status = unverified and stays out of the candidate list.
+# NWIS/StreamStats-verified gauge and stream attributes admit cold_refuge_candidates; see the readme.
 VERIFIED_TRIBUTARY_REGISTRY: Dict[str, Dict[str, Any]] = {}
 
 
@@ -491,7 +491,7 @@ def validate_fetched_data(data: Dict[str, Any]) -> bool:
     return True
 
 
-# Provenance note for the shipped candidate list: the 07xxxxxx site codes below are Lower Mississippi region numbers (Yellowstone NP gauges are 06xxxxxx or 13xxxxxx), and two place names also do not match park geography (Arrow Creek at Tower Falls, Lamar River feeding the Firehole). Entries stay as unverified candidates until an operator traces the gauge and stream to NWIS and adds a row to VERIFIED_TRIBUTARY_REGISTRY.
+# Gauge IDs and stream names need NWIS/StreamStats verification; see the readme, Tributary identity.
 UNVERIFIED_CANDIDATE_PROVENANCE = (
     "unverified_candidate_catalog: 07xxxxxx site codes are Lower Mississippi "
     "region numbers (Yellowstone NP gauges are 06xxxxxx or 13xxxxxx); two "
@@ -924,7 +924,7 @@ def generate_tributary_data(
         "records": records,
         "solver_sources": solver_sources,
         "landscape_pockets": landscape_pockets,
-        # Back-compat alias the run_hot_lowflow_with_tributaries_v2 consumer reads; only verified records appear here.
+        # Expose verified records under the run_hot_lowflow_with_tributaries_v2 consumer's alias.
         "cold_refuge_candidates": cold_refuge_candidates,
         "tributaries": records,
         "provenance": {

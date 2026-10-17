@@ -146,7 +146,7 @@ func configure(data: Dictionary) -> bool:
 	_frames = candidate_frames
 	_features = candidate_features
 	for cell: Dictionary in _cells:
-		# position_xyz.y is the authored cell water surface; per-frame water_surface_m is bed_elevation_m plus depth_m once the publisher ships both.
+		# Use authored position_xyz.y as water level; see the authoring guide, Replay water levels.
 		_spatial_state.append({
 			"id": cell["id"],
 			"river_id": cell["river_id"],

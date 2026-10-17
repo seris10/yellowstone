@@ -38,6 +38,7 @@ def _bind_scene_resources(destination: Path, release: dict) -> list[dict]:
     managed = {target for _, target, _ in FILES}
     directories = [target + "/" for _, target in DIRS]
     prefix = Path("data/releases") / release["release_id"]
+    # Binary scenes ship verbatim; pool_overlay resolves managed ramps through ReleaseData.
     for scene in sorted((destination / "scenes").rglob("*.tscn")):
         before = sha256_file(scene)
         pending = scene.with_suffix(".tscn.package")
@@ -87,7 +88,7 @@ def package_demo(world: Path, destination: Path, *, source_root: Path | None = N
     verify_release(release_path.parent, release)
     if release["verification"]["status"] != "numerical_and_contract_checks_passed":
         raise ValueError("demo packaging requires checked artifact bytes")
-    if not (world / "scenes/authored_world.tscn").is_file():
+    if not (world / "scenes/authored_world.scn").is_file():
         raise ValueError("the offline world bake is required")
     inventory = release_inventory(world)
     excluded = {asset["path"] for asset in inventory["assets"] if asset["public_release_decision"] == "exclude"}
@@ -102,6 +103,9 @@ def package_demo(world: Path, destination: Path, *, source_root: Path | None = N
             relative = str(path.relative_to(world))
             if _temporary_path(Path(relative)):
                 excluded_temporary.append(relative)
+                continue
+            # The binary bake is the packaged scene; the text twin stays local.
+            if relative == "scenes/authored_world.tscn":
                 continue
             if "sources" in path.parts or "__pycache__" in path.parts or path.suffix == ".pyc":
                 continue

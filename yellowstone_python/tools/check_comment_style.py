@@ -13,6 +13,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 SUFFIXES = (".py", ".gd", ".gdshader", ".gdshaderinc", ".md", ".ipynb")
+MAX_COMMENT_LENGTH = 100
+GENERATED_DIRS = {".pytest_cache", "__pycache__", ".mypy_cache", ".ruff_cache", ".venv", ".godot", "node_modules"}
 ACRONYMS = {
     "USGS", "NWIS", "SNOTEL", "NAIP", "HRRR", "RTMA", "NOAA", "NASA", "NRCS", "AWDB", "JSON", "HTTP",
     "HTTPS", "UTC", "DEM", "SWE", "UILT", "CTMAX", "PNG", "JPEG", "API", "URL", "CLI", "MODFLOW", "NETCDF",
@@ -21,7 +23,7 @@ ACRONYMS = {
     "NSE", "KGE", "AIC", "BIC", "CFL", "ODE", "PDE", "RK45", "IVP", "NULL", "TRUE", "FALSE", "NONE",
     "TODO", "NOTE", "WARNING", "UUID", "SHA256", "ASCII", "UTF8", "GPU", "CPU", "FPS", "HUD", "FSM",
     "MESH", "TSCN", "TRES", "IUCN", "NPS", "YNP", "USFWS", "NDEP", "WTEQ", "PRCP", "SNWD", "TAVG", "TMAX",
-    "TMIN", "OPEN", "METEO",
+    "TMIN", "OPEN", "METEO", "POST",
 }
 BRITISH = {
     "colour": "color", "colours": "colors", "behaviour": "behavior", "metre": "meter", "metres": "meters",
@@ -51,7 +53,7 @@ EXTRA_RULES = [
     ("citation_format", re.compile(r"(?<![\w(])\b[A-Z][a-z]+ (?:et al\.? )?(?:19|20)\d\d\b(?!\))"), "citation requires parentheses around the year"),
     ("dated_prose", re.compile(r"\b(?:verified|checked|frozen|refetched)(?: live)? 20\d\d-\d\d-\d\d\b", re.I), "operational date in prose"),
 ]
-WARN_RULES = {"vocabulary", "citation_format"}
+WARN_RULES = {"vocabulary", "citation_format", "comment_length"}
 PROVENANCE_KEYS = {"status", "note", "reason", "source", "sources", "basis", "author_note", "component"}
 MARKDOWN_RULES = {"dash", "non_ascii", "vocabulary", "process_tag", "dated_prose"}
 
@@ -221,6 +223,9 @@ def check_file(path: Path, root: Path) -> list[Finding]:
         elif kind in ("emitted", "help"):
             hits = [(rule, detail) for rule, detail in hits if rule in
                     {"process_tag", "history", "session_narration", "non_ascii", "vocabulary", "citation_format"}]
+        if kind in ("comment", "inline") and len(text) > MAX_COMMENT_LENGTH:
+            hits.append(("comment_length",
+                         f"comment has {len(text)} characters (max {MAX_COMMENT_LENGTH})"))
         for rule, detail in hits:
             findings.append(Finding(rel, line, rule, detail, snippet,
                                     "warning" if rule in WARN_RULES else "error"))
@@ -263,11 +268,16 @@ def style_paths(project_root: Path) -> list[Path]:
                          if path.is_file() and path.suffix in SUFFIXES)
         if (folder / "README.md").is_file():
             paths.append(folder / "README.md")
-    return sorted(set(paths))
+    return sorted({path for path in paths
+                   if not GENERATED_DIRS.intersection(path.relative_to(project_root.parent).parts)})
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        epilog=f"Comment text over {MAX_COMMENT_LENGTH} characters produces a warning; "
+               "indentation, code, and comment markers are excluded.",
+    )
     parser.add_argument("files", nargs="*", type=Path, help="source, Markdown, and notebook files to check")
     parser.add_argument("--list", type=Path, help="file holding one path per line")
     parser.add_argument("--tree", type=Path, help="Python project root for the whole-tree gate")

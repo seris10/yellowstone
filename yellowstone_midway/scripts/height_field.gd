@@ -1,6 +1,6 @@
 class_name MidwayHeightField
 extends RefCounted
-## Shared terrain authority, row zero is north. Triangle interpolation matches rendered/collision diagonals.
+## Shared terrain has north at row 0; triangle interpolation matches render/collision diagonals.
 const GRID := 1025
 const STEP := 4.0
 const HALF := 2048.0

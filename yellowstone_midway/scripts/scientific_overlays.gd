@@ -1,5 +1,5 @@
 extends Node3D
-## World-space overlays for Python-published scientific sidecars. Each overlay is a hidden MeshInstance3D or child container that toggles on a bound key.
+## World-space overlays for published scientific fields.
 
 var world: Node3D
 var _plume_overlay: MeshInstance3D
@@ -48,7 +48,7 @@ func reload(parent: Node3D, plume: Dictionary, geochem: Dictionary, overland: Di
 			nodes[i].visible = visible_before[i]
 
 func _build_plume_overlay() -> void:
-	# Build an ImageTexture from temperature_grid_c and lay it flat over the plume footprint. Hot-to-cool ramp lives in the shader so the data drives color directly.
+	# Map the temperature grid onto the plume footprint.
 	var grid: Variant = _plume_doc.get("temperature_grid_c")
 	if not grid is Array or (grid as Array).is_empty():
 		return
@@ -58,7 +58,7 @@ func _build_plume_overlay() -> void:
 	if nx <= 0:
 		return
 	var image: Image = Image.create(nx, nz, false, Image.FORMAT_RF)
-	# Format_rf is a single-channel float; sentinel out-of-range values clamp to the ambient temperature so the ramp holds the plume shape.
+	# Missing temperature cells use the river temperature.
 	var hot_c: float = float(_plume_doc.get("hot_source_c", 85.0))
 	var cool_c: float = float(_plume_doc.get("river_c", 15.0))
 	for j: int in nz:
@@ -112,7 +112,6 @@ func _build_plume_overlay() -> void:
 	mat.set_shader_parameter("temperature", texture)
 	mat.set_shader_parameter("hot_c", hot_c)
 	mat.set_shader_parameter("cool_c", cool_c)
-	# Translucent albedo path.
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.name = "PlumeFieldOverlay"
 	instance.mesh = quad
@@ -124,38 +123,24 @@ func _build_plume_overlay() -> void:
 	_plume_overlay = instance
 
 func _build_geochemistry_markers() -> void:
-	# Cells carry id and silica_saturation_index but no x/z; project the sequence uniformly along the mapped Firehole mainline, since the publish side (geochemistry.diagnose_replay_frame) walks the river_replay cells in reach order.
 	var cells: Variant = _geochem_doc.get("cells")
 	if not cells is Array or (cells as Array).is_empty():
 		return
-	var rivers: Array = []
-	if world != null and world.get("spec") is Dictionary:
-		var spec: Dictionary = world.get("spec")
-		rivers = spec.get("rivers", [])
-	var mainline: Array = []
-	for river: Dictionary in rivers:
-		if str(river.get("name", "")).to_upper() == "FIREHOLE RIVER":
-			mainline = river.get("points", [])
-			break
-	if mainline.is_empty():
+	var positions: Dictionary = {}
+	var replay_cells: Variant = world.ecosystem.get("_cells") if world != null and world.ecosystem != null else []
+	if not replay_cells is Array:
 		return
-	# Cumulative chainage along mainline.
-	var chainage: PackedFloat32Array = PackedFloat32Array()
-	chainage.push_back(0.0)
-	for i: int in range(1, mainline.size()):
-		var a: Array = mainline[i - 1]
-		var b: Array = mainline[i]
-		var dx: float = float(b[0]) - float(a[0])
-		var dz: float = float(b[2]) - float(a[2])
-		chainage.push_back(chainage[i - 1] + sqrt(dx * dx + dz * dz))
-	var total: float = chainage[chainage.size() - 1]
+	for cell: Dictionary in replay_cells:
+		var point: Variant = cell.get("position_xyz")
+		if point is Array and point.size() == 3:
+			positions[str(cell.id)] = Vector3(point[0], point[1], point[2])
 	var root: Node3D = Node3D.new()
 	root.name = "GeochemistryMarkers"
 	root.visible = false
 	add_child(root)
 	_geochem_root = root
 	var n: int = (cells as Array).size()
-	# Downsample to at most 128 markers so the overlay stays readable on long rivers.
+	# Limit the overlay to 128 markers.
 	var step_i: int = maxi(1, int(ceil(float(n) / 128.0)))
 	for k: int in range(0, n, step_i):
 		var cell_dict: Variant = (cells as Array)[k]
@@ -163,19 +148,11 @@ func _build_geochemistry_markers() -> void:
 			continue
 		var si: Variant = cell_dict.get("silica_saturation_index")
 		var temp_c: float = float(cell_dict.get("temperature_c", 0.0))
-		var frac: float = float(k) / float(maxi(n - 1, 1))
-		# Walk chainage to find segment at s = frac * total.
-		var s: float = frac * total
-		var segment: int = 0
-		for i: int in range(chainage.size() - 1):
-			if chainage[i + 1] >= s:
-				segment = i
-				break
-		var seg_len: float = maxf(chainage[segment + 1] - chainage[segment], 0.001)
-		var t: float = clampf((s - chainage[segment]) / seg_len, 0.0, 1.0)
-		var pa: Array = mainline[segment]
-		var pb: Array = mainline[segment + 1]
-		var pos: Vector3 = Vector3(lerpf(float(pa[0]), float(pb[0]), t), lerpf(float(pa[1]), float(pb[1]), t) + GEOCHEM_MARKER_HEIGHT_M * 0.5, lerpf(float(pa[2]), float(pb[2]), t))
+		var identity := str(cell_dict.get("cell", ""))
+		if not positions.has(identity):
+			push_warning("Geochemistry cell has no published position: " + identity)
+			continue
+		var pos: Vector3 = positions[identity] + Vector3.UP * GEOCHEM_MARKER_HEIGHT_M * 0.5
 		var marker: MeshInstance3D = MeshInstance3D.new()
 		var cyl: CylinderMesh = CylinderMesh.new()
 		cyl.top_radius = 0.08
@@ -190,7 +167,7 @@ func _build_geochemistry_markers() -> void:
 			mat.albedo_color = Color(0.55, 0.55, 0.55, 0.80)
 		else:
 			var si_val: float = float(si)
-			# Mapping -1 undersaturated (blue), 0 at equilibrium (gray), +1 oversaturated (orange).
+			# Map saturation index -1 to blue and +1 to orange.
 			var warm: float = clampf(si_val, -1.0, 1.0) * 0.5 + 0.5
 			var color_cold: Color = Color(0.20, 0.42, 0.86, 0.85)
 			var color_hot: Color = Color(0.90, 0.52, 0.12, 0.85)
@@ -205,7 +182,7 @@ func _build_geochemistry_markers() -> void:
 		root.add_child(marker)
 
 func _build_overland_overlay() -> void:
-	# Overland field today publishes only basin-scale scalars (status, max_depth_m, outflow_m3). A single translucent plane across the authored footprint shows presence and depth magnitude; absence of per-cell data is honest.
+	# Display basin-scale runoff depth on the authored footprint.
 	var sr: Variant = _overland_doc.get("surface_runoff")
 	var depth: float = 0.0
 	if sr is Dictionary:
@@ -223,7 +200,7 @@ func _build_overland_overlay() -> void:
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	# Blue tint deepening with max depth; 0.01 m dusting is faint, 0.5 m is strongly tinted.
+	# Scale blue tint with maximum depth.
 	var intensity: float = clampf(depth / 0.5, 0.05, 1.0)
 	mat.albedo_color = Color(0.26, 0.58, 0.80, 0.08 + 0.25 * intensity)
 	instance.material_override = mat
@@ -232,7 +209,7 @@ func _build_overland_overlay() -> void:
 	_overland_overlay = instance
 
 func _build_groundwater_overlay() -> void:
-	# Groundwater field publishes a status string and (eventually) head values. Until per-cell head arrives, visualize as a faint ground-tinted plane with intensity proportional to any available aggregate_head_m.
+	# Scale groundwater display opacity by aggregate head.
 	var payload: Variant = _groundwater_doc.get("payload")
 	var head_m: float = 0.0
 	if payload is Dictionary:
@@ -280,7 +257,7 @@ func toggle_groundwater() -> bool:
 	return _groundwater_overlay.visible
 
 func legend_lines() -> Array:
-	# Legend lines the HUD may surface alongside the overlay toggle; each line names a unit so the color is bound to measured values.
+	# Return overlay legend text with units.
 	var out: Array = []
 	if _plume_overlay != null:
 		out.append("P plume field (deg C): blue cool, yellow 20-50, orange above 70; grid %dx%d" % [int(_plume_doc.get("nx", 0)), int(_plume_doc.get("nz", 0))])

@@ -16,6 +16,8 @@ REF=ROOT/'references'; DATA=ROOT/'data'; TEX=ROOT/'assets/textures'
 E0,N0,H0=512952.5950985841,4930199.044097667,2200.
 GRID,STEP,HALF=1025,4.,2048.
 LIMIT=box(-HALF,-HALF,HALF,HALF)
+# Junction tolerance matches WATER_JUNCTION_TOLERANCE_M in bake_world.gd.
+JUNCTION_TOLERANCE_M=1.5
 def load(name):return json.loads((REF/name).read_text())['features']
 def local(coords):return [(p[0]-E0,N0-p[1]) for p in coords]
 def parts(g):
@@ -129,7 +131,7 @@ def join_water_profiles(rivers,source):
             lo,hi=slices[i];arrays[i][:,1]=profile[lo:hi]
             node_y[starts[i]]=float(arrays[i][0,1]);node_y[stops[i]]=float(arrays[i][-1,1])
             fixed.update((starts[i],stops[i]))
-    # Undirected tributary trees oriented toward an existing mainstem confluence, or toward their lowest boundary outlet.
+    # Orient tributary trees toward a mainstem confluence or their lowest boundary outlet.
     adjacency={}
     for i in range(len(arrays)):
         if i in main:continue
@@ -165,10 +167,18 @@ def join_water_profiles(rivers,source):
             constrained[0]=high;constrained[-1]=low+grade*length
             a[:,1]=decreasing_fit(constrained)-grade*s
             a[0,1]=high;a[-1,1]=low
+    trees=[cKDTree(a[:,[0,2]]) for a in arrays]
     for i,r in enumerate(rivers):
         r['points']=arrays[i].round(4).tolist()
         r['endpoint_node_ids']=[f'water_node_{starts[i]:03}',f'water_node_{stops[i]:03}']
-        r['profile_status']='DEM-constrained illustrative stage; joined, downstream-monotone'
+        classes=[]
+        for e in arrays[i][[0,-1]][:,[0,2]]:
+            gap=min((t.query(e)[0] for k,t in enumerate(trees) if k!=i),default=math.inf)
+            if gap<=JUNCTION_TOLERANCE_M:classes.append('joined')
+            elif max(abs(e[0]),abs(e[1]))>=HALF-.5:classes.append('domain_exit')
+            else:classes.append('open')
+        r['profile_status']=(f'DEM-constrained illustrative stage; downstream-monotone; '
+                             f'upstream {classes[0]}; downstream {classes[1]}')
     return [dict(id=f'water_node_{i:03}',position=[round(node_xy[i][0],4),round(node_y[i],4),round(node_xy[i][1],4)]) for i in sorted(node_xy)]
 
 def join_route_profiles(routes):
@@ -490,7 +500,7 @@ def main():
         print('Fixed placement draft:',len(trees),'trees',len(grass),'tufts',len(rocks),'rocks',len(logs),'deadwood')
     (DATA/'placement_overrides.json').touch(exist_ok=True)
     if not (DATA/'placement_overrides.json').read_text().strip():(DATA/'placement_overrides.json').write_text('{"schema":1,"remove":[],"replace":{},"add":[]}\n')
-    report={'source_unchanged_sha256':hashlib.sha256((REF/'terrain_source.f32').read_bytes()).hexdigest(),'height_range_local_m':[float(h.min()),float(h.max())],'max_authoring_cut_m':float((h-source).min()),'route_count':len(routes),'route_junction_count':route_junction_count,'water_junction_count':len(water_junctions),'waterbody_count':len(pools),'river_count':len(rivers),'source_samples':GRID*GRID,'channel_terrain_support_m':6.,'notes':['Widths, road elevations, underwater depth and planting positions are authored approximations.','Channel terrain support extends six metres beyond visual half-width to keep all 4 m master-grid triangles below water; these broad support banks need future local mesh refinement.','Shared route endpoints and channel confluences have common heights.','Excelsior outflow is one representative authored branch, not a surveyed hydraulic reconstruction.','No terrain noise. No runtime random scenery.','All macro imagery is from NAIP source; exact imagery provenance retained in references.']}
+    report={'source_unchanged_sha256':hashlib.sha256((REF/'terrain_source.f32').read_bytes()).hexdigest(),'height_range_local_m':[float(h.min()),float(h.max())],'max_authoring_cut_m':float((h-source).min()),'route_count':len(routes),'route_junction_count':route_junction_count,'water_junction_count':len(water_junctions),'waterbody_count':len(pools),'river_count':len(rivers),'source_samples':GRID*GRID,'channel_terrain_support_m':6.,'notes':['Widths, road elevations, underwater depth and planting positions are authored approximations.','Channel terrain support extends six metres beyond visual half-width to keep all 4 m master-grid triangles below water; these broad support banks need future local mesh refinement.','Shared route endpoints and channel confluences have common heights.','Fairy Creek and White Creek exit the south domain boundary without a Firehole confluence inside the domain; the source hydrography places the White Creek and Firehole confluence vertex 30 m south of the boundary, so the domain clip severs it.','Excelsior outflow is one representative authored branch, not a surveyed hydraulic reconstruction.','No terrain noise. No runtime random scenery.','All macro imagery is from NAIP source; exact imagery provenance retained in references.']}
     report['bridge_approaches']=bridge_approach_report
     (DATA/'bake_report.json').write_text(json.dumps(report,indent=2));print(report)
 

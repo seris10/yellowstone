@@ -14,12 +14,12 @@ from yellowstone_python.atmosphere.time_utils import ISO_HINT, UTC, parse_simula
 from yellowstone_python.atmosphere.microclimate import air_temp, wind_at
 from yellowstone_python.river.hydraulics import DEFAULT_BANK_SLOPE_ZH, DEFAULT_MANNING_N, cell_hydraulics, thermal_inventory
 
-# Upper physical guard for a pulse-adjusted lateral source temperature; site boiling point is near 93 C at the plateau pressure.
+# Pulse-adjusted lateral guard; local boiling is near 93 C at plateau pressure.
 PULSE_TEMPERATURE_UPPER_C = 100.0
 
 SCHEMA = "yellowstone.mapped_river_replay.v1"
 
-# Explicit association between the aggregate thermal boundary and the representative authored channel locating it.
+# Map the aggregate thermal boundary to its representative authored channel.
 SOURCE_LINKS = {
     "excelsior_aggregate_outflow": "authored_excelsior_outflow_01",
 }
@@ -1049,7 +1049,7 @@ def build_mapped_replay(
             "exchange_w_m2_k": exchange_w_m2_k,
             "geometry_status": geometry_status,
         })
-        # Bed elevation: authored centerline y minus cell wetted depth; water surface is position_xyz[1]; depth_source carries provenance.
+        # Bed = authored centerline y - wetted depth; surface = position_xyz[1]; provenance: depth_source.
         bed_elevation_m = position[1] - cell_depth
         mapping.append({
             "id": cell_id,
@@ -1253,7 +1253,7 @@ def build_mapped_replay(
     for record, spatial in zip(document["cells"], mapping):
         record.update(spatial)
 
-    # Trapezoidal hydraulics diagnostics (additive); per-cell discharge is the downstream face flow matching representative_velocity_m_s.
+    # Trapezoidal hydraulics use downstream face flow, matching representative_velocity_m_s.
     face_flows = document["face_flow_m3_s"]
     total_travel_s = 0.0
     manning_ratios: list[float] = []
@@ -1376,7 +1376,7 @@ def build_mapped_replay(
 
     pockets = parse_landscape_pockets(landscape_pockets, channel)
 
-    # Per-frame per-cell discharge aligned with document["cells"] order; face flows constant under this solver.
+    # Per-frame discharges follow document["cells"] order; solver face flows are constant.
     cell_discharge_m3_s = list(face_flows[1:])
     # Per-frame per-cell wetted depth; constant per cell; each frame repeats the authored depth array.
     cell_depth_m = [record["depth_m"] for record in document["cells"]]
@@ -1407,7 +1407,7 @@ def build_mapped_replay(
             },
         },
         "clock_hour0": ecosystem.get("clock_hour", 16.2),
-        # Weather authority: humidity and cloud come from ecosystem.weather so the top-level document matches the met bundle.
+        # ecosystem.weather supplies humidity and cloud to keep the replay and met bundle aligned.
         "humidity": ecosystem.get("weather", {}).get("humidity", 0.45),
         "cloud": ecosystem.get("weather", {}).get("cloud", 0.16),
         "georeference": world["georeference"],

@@ -88,11 +88,11 @@ static func build(parent: Node3D, data_path: String) -> bool:
 			node.multimesh = multimesh
 			node.visibility_range_begin = float(asset[2]) if first.kind == "log" else maxf(0.0, float(asset[2]) - 8.0)
 			node.visibility_range_end = asset[3]
+			node.set_meta("root_visibility_range", [float(asset[2]), float(asset[3])])
 			if first.kind in ["understory_card", "litter"]:
 				var padding := multimesh.custom_aabb.size.length() * 0.5
 				node.visibility_range_begin = maxf(0.0, float(asset[2]) - 8.0 - padding)
 				node.visibility_range_end = float(asset[3]) + padding
-				node.set_meta("root_visibility_range", [float(asset[2]), float(asset[3])])
 				node.set_meta("batch_visibility_padding_m", padding)
 			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if first.kind in ["understory_card", "litter"] else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 			node.set_meta("floor_kind", str(first.kind))

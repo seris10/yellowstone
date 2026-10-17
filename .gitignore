@@ -17,3 +17,27 @@ backups/
 *.tmp
 *.log
 yellowstone_midway/scenes/authored_world.tscn
+*.pyc
+yellowstone_midway/.godot/
+yellowstone_midway/backups/
+yellowstone_midway/scenes/*.pre-density-bake
+yellowstone_midway/scenes/*.pre-flora-bake
+yellowstone_midway/scenes/*.bak
+yellowstone_midway/scenes/authored_world.scn
+yellowstone_python/derived/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]/
+yellowstone_python/derived/analysis_*.sqlite
+yellowstone_python/derived/*.png
+yellowstone_python/derived/hot_lowflow*.json
+yellowstone_python/derived/fischer_d85_replay.json
+yellowstone_python_spec/papers/
+archive/*.zip
+yellowstone_species_gen/data/
+# Project Python environments and scratch work
+yellowstone_python/.venv/
+.opencode/
+build/
+dist/
+# Raw third-party model downloads kept only as bake inputs
+yellowstone_midway/assets/imported/*/sources/
+# Per-publish receipts: machine-local paths and per-run hashes
+yellowstone_midway/.publish-*.receipt.json

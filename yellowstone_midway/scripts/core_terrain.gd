@@ -4,6 +4,8 @@ extends Node3D
 const GroundMaterials = preload("res://scripts/terrain_materials.gd")
 const OutflowFilter = preload("res://scripts/outflow_filter.gd")
 const WaterCut = preload("res://scripts/water_polygon_cut.gd")
+const RiverTerrain = preload("res://scripts/river_terrain.gd")
+const ReleaseData = preload("res://scripts/release_data.gd")
 
 const CORE_JSON := "res://data/core_terrain/core_terrain.json"
 const CORE_HEIGHTFIELD := "res://data/core_terrain/core_heightfield.f32"
@@ -28,6 +30,7 @@ var _z_min_m: float = 0.0
 var _x_max_m: float = 0.0
 var _z_max_m: float = 0.0
 var _vertical_origin_m: float = 0.0
+var river_bed_report: Dictionary = {}
 var _heights_full: PackedFloat32Array
 var _mat_material: ShaderMaterial
 var _normal_image: Image
@@ -71,7 +74,7 @@ func built() -> bool:
 	return _built
 
 func build(mat_surface: Variant) -> bool:
-	# Returns true if the tile was built. mat_surface may be a MidwayMatSurface instance or null.
+	# Build the core render and collision tiles.
 	if _built:
 		return true
 	if not _load_metadata():
@@ -334,6 +337,12 @@ func _load_heights() -> bool:
 		if micro.size() == heights.size():
 			h += micro[k]
 		_heights_full[k] = h
+	var world: Variant = JSON.parse_string(ReleaseData.get_file_as_string("res://data/world.json"))
+	if not world is Dictionary:
+		push_error("Core river beds require world geometry")
+		return false
+	river_bed_report = RiverTerrain.carve(_heights_full, _nx, _nz, Vector2(_x_min_m, _z_min_m), _cell_m, world.get("rivers", []))
+	set_meta("river_bed", river_bed_report)
 	return true
 
 func _build_mesh_tile() -> void:
@@ -381,7 +390,7 @@ func _build_mesh_tile() -> void:
 			var b: int = a + 1
 			var c: int = a + mx
 			var d: int = c + 1
-			# Clockwise from above, matching the master terrain tiles in bake_world.gd.
+			# Match the master terrain winding.
 			indices[ti] = a
 			indices[ti + 1] = b
 			indices[ti + 2] = c
@@ -404,7 +413,7 @@ func _build_mesh_tile() -> void:
 	add_child(_tile_mesh_instance)
 
 func _sample_normal_from_grid(ix: int, iz: int) -> Vector3:
-	# Central differences in meters; row-major, row z is index iz.
+	# Use central differences on the row-major height grid.
 	var left: int = maxi(ix - 1, 0)
 	var right: int = mini(ix + 1, _nx - 1)
 	var up: int = maxi(iz - 1, 0)
@@ -414,7 +423,7 @@ func _sample_normal_from_grid(ix: int, iz: int) -> Vector3:
 	return Vector3(-dx, 1.0, -dz).normalized()
 
 func _build_collision_tile() -> void:
-	# HeightMapShape3D at 1 m, scale 1 along y so the stored values are world meters directly.
+	# Store unscaled world heights in the collision grid.
 	_tile_collision_body = StaticBody3D.new()
 	_tile_collision_body.name = "CoreTerrainCollision"
 	add_child(_tile_collision_body)
@@ -547,7 +556,7 @@ func extent_rect() -> Dictionary:
 	}
 
 func heights_minmax() -> Array:
-	# Diagnostic for the headless check and the integration report.
+	# Return core bounds and grid dimensions.
 	var lo: float = INF
 	var hi: float = -INF
 	for k in _heights_full.size():

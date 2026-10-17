@@ -1,33 +1,69 @@
-[gd_resource type="ShaderMaterial" load_steps=9 format=3]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3]
 
-[ext_resource type="Shader" path="res://shaders/terrain.gdshader" id="1_dicvw"]
-[ext_resource type="Texture2D" path="res://assets/textures/habitat_mask.png" id="2_2njj2"]
-[ext_resource type="Texture2D" path="res://assets/textures/detail.png" id="3_lqqj3"]
-[ext_resource type="Texture2D" path="res://assets/textures/forest_ground_04_diff_1k.jpg" id="4_cmpb7"]
-[ext_resource type="Texture2D" path="res://assets/textures/forest_ground_04_nor_gl_1k.jpg" id="5_3eh23"]
-[ext_resource type="Texture2D" path="res://assets/textures/midway_macro.jpg" id="6_5lb2e"]
-[ext_resource type="Texture2D" path="res://assets/textures/rock_boulder_dry_diff_1k.jpg" id="7_s7gn1"]
-[ext_resource type="Texture2D" path="res://assets/textures/trail_mask.png" id="8_wldir"]
+[ext_resource type="Shader" path="res://shaders/terrain.gdshader" id="1_n5rlt"]
+[ext_resource type="Texture2D" path="res://assets/textures/habitat_mask.png" id="2_jq0u0"]
+[ext_resource type="Texture2D" path="res://assets/textures/detail.png" id="3_e7cy3"]
+[ext_resource type="Texture2D" path="res://assets/textures/rock_boulder_dry_diff_1k.jpg" id="4_dicvw"]
+[ext_resource type="Texture2D" path="res://assets/textures/trail_mask.png" id="5_2njj2"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_dicvw")
-shader_parameter/ground_albedo = ExtResource("4_cmpb7")
-shader_parameter/ground_normal = ExtResource("5_3eh23")
-shader_parameter/rock_albedo = ExtResource("7_s7gn1")
-shader_parameter/macro_albedo = ExtResource("6_5lb2e")
-shader_parameter/biome_map = ExtResource("2_2njj2")
-shader_parameter/detail_map = ExtResource("3_lqqj3")
+shader = ExtResource("1_n5rlt")
+shader_parameter/rock_albedo = ExtResource("4_dicvw")
+shader_parameter/biome_map = ExtResource("2_jq0u0")
+shader_parameter/detail_map = ExtResource("3_e7cy3")
+shader_parameter/trail_mask = ExtResource("5_2njj2")
+shader_parameter/geography_origin_m = null
+shader_parameter/geography_extent_m = null
+shader_parameter/biome_origin_m = null
+shader_parameter/biome_extent_m = null
+shader_parameter/trail_origin_m = null
+shader_parameter/trail_extent_m = null
+shader_parameter/snow_origin_m = null
+shader_parameter/snow_extent_m = null
+shader_parameter/soil_phase = null
+shader_parameter/soil_rotated_phase = null
+shader_parameter/forest_phase = null
+shader_parameter/forest_rotated_phase = null
+shader_parameter/trail_phase = null
+shader_parameter/variation_phase = null
+shader_parameter/mineral_phase = null
+shader_parameter/mineral_meso_phase = null
+shader_parameter/fine_detail_phase = null
+shader_parameter/naip_detail_available = null
+shader_parameter/detail_x_min_m = null
+shader_parameter/detail_z_min_m = null
+shader_parameter/detail_width_m = null
+shader_parameter/detail_height_m = null
+shader_parameter/soil_tile_width_m = null
+shader_parameter/forest_tile_width_m = null
+shader_parameter/trail_tile_width_m = null
+shader_parameter/macro_color_strength = null
 shader_parameter/ground_wetness = 0.12
 shader_parameter/snow_amount = null
 shader_parameter/snow_swe_mm = null
 shader_parameter/snow_cover_fraction = null
-shader_parameter/trail_mask = ExtResource("8_wldir")
+shader_parameter/detail_normal_strength = null
+shader_parameter/detail_normal_tile_m = null
+shader_parameter/detail_normal_near_m = null
+shader_parameter/detail_normal_far_m = null
+shader_parameter/detail_normal_phase = null
+shader_parameter/detail_normal_fine_phase = null
+shader_parameter/rock_tile_width_m = null
+shader_parameter/rock_triplanar_sharpness = null
+shader_parameter/rock_tri_phase = null
+shader_parameter/water_level_origin_m = null
+shader_parameter/water_level_extent_m = null
+shader_parameter/water_level_available = null
+shader_parameter/bank_wet_height_m = null
+shader_parameter/bank_stain_height_m = null
+shader_parameter/bank_strata_frequency = null
+shader_parameter/bank_effect_strength = null
+shader_parameter/pom_strength = null
+shader_parameter/pom_height_scale_m = null
+shader_parameter/pom_max_distance_m = null
 shader_parameter/core_cut_x_min_m = null
 shader_parameter/core_cut_x_max_m = null
 shader_parameter/core_cut_z_min_m = null
 shader_parameter/core_cut_z_max_m = null
 shader_parameter/core_cut_active = null
-shader_parameter/soil_tile_width_m = 3.15
-shader_parameter/trail_tile_width_m = 2.0
-shader_parameter/macro_color_strength = 0.28

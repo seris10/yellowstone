@@ -148,7 +148,7 @@ func apply(mat: ShaderMaterial) -> bool:
 	return true
 
 func start_blend(mat: ShaderMaterial, new_pigment: Texture2D) -> void:
-	# Capture the current pigment as the previous frame and set blend to 0 so world.gd ramps it toward 1 over the blend duration.
+	# Save the pigment as the blend origin; world.gd ramps blend from 0 to 1 over the blend duration.
 	if mat == null or new_pigment == null:
 		return
 	var prev: Texture2D = mat.get_shader_parameter("mat_pigment")
@@ -188,7 +188,7 @@ func pigment_extent_rect() -> Dictionary:
 	}
 
 func pigment_pixel_size_m() -> float:
-	# Interfaces.md fixes the pigment PNG at 0.5 m per pixel; verifying against the image size resolves the sanity check at load.
+	# Check pigment PNG dimensions against the 0.5 m/pixel contract in Interfaces.md at load.
 	if pigment_tex == null:
 		return 0.0
 	var image: Image = pigment_tex.get_image() if pigment_tex.has_method("get_image") else null
@@ -204,7 +204,7 @@ func _load_png_as_texture(path: String) -> Texture2D:
 	var image: Image = Image.new()
 	var err: int = image.load(ProjectSettings.globalize_path(ReleaseData.resolve_path(path)))
 	if err != OK:
-		# ProjectSettings.globalize_path returns absolute for res://; retry with the raw path once as fallback.
+		# Try the absolute res:// path from ProjectSettings.globalize_path, then the raw path once.
 		err = image.load(ReleaseData.resolve_path(path))
 	if err != OK:
 		push_warning("mat_surface: Image.load failed for %s (err %d)" % [path, err])
@@ -225,7 +225,7 @@ func _load_f32_raster_as_texture(path: String, w: int, h: int) -> Texture2D:
 	return ImageTexture.create_from_image(image)
 
 func _load_i16_raster_as_binary_texture(path: String, w: int, h: int) -> Texture2D:
-	# int16 rasters go in as FORMAT_R8 with 255 for positive samples and 0 otherwise, so the shader can read them with filter_linear.
+	# Encode int16 > 0 as 255, otherwise 0, in FORMAT_R8 for filter_linear shader sampling.
 	if not ReleaseData.file_exists(path):
 		return null
 	var bytes: PackedByteArray = ReleaseData.get_file_as_bytes(path)

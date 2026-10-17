@@ -453,7 +453,7 @@ def cmd_evaluate(args) -> int:
     frame = _load(VDIR / "frame.json")
     plan_path = VDIR / "sampling_plan.json"
     plan = _load(plan_path) if plan_path.exists() else {}
-    # Frozen main tolerance: evaluate against the pre-registered set; CLI tolerances outside it are exploratory.
+    # Main evaluation uses preregistered frozen tolerances; other CLI tolerances are exploratory.
     frozen = plan.get("tolerances_frozen_px")
     user_tol = list(args.tolerances)
     tolerance_basis = plan.get(

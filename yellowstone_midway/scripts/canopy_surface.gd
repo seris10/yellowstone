@@ -126,6 +126,8 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 			active_cells += int(result.active_cells)
 			represented_area += float(result.represented_area_m2)
 	group.set_meta("active_cells", active_cells)
+	group.set_meta("excluded_cells_display_filter", int(source.get("excluded_cells", 0)))
+	group.set_meta("exclusion_sha256", source.get("exclusion_sha256", ""))
 	group.set_meta("represented_area_m2", represented_area)
 	group.set_meta("cell_size_m", cell_size)
 	group.set_meta("tile_size_m", tile_size_m)
@@ -466,6 +468,18 @@ static func read_source(data_path: String) -> Dictionary:
 			if not is_finite(top) or not is_finite(ground) or top <= ground:
 				_error("Canopy active cell requires finite top above ground at %d" % index)
 				return {}
+	# Exclusions filter the in-memory display grids.
+	source.excluded_cells = 0
+	var excluded_path := data_path.get_base_dir().path_join("unresolved_cells_excluded.u8")
+	if FileAccess.file_exists(excluded_path):
+		var excluded := FileAccess.get_file_as_bytes(excluded_path)
+		if excluded.size() != count:
+			_error("Canopy exclusion mask length differs")
+			return {}
+		for index: int in count:
+			if excluded[index] == 0 and source.unresolved_cells[index] == 1:
+				source.unresolved_cells[index] = 0
+				source.excluded_cells += 1
 	var mask := Image.new()
 	var support := Image.new()
 	var mask_error := mask.load_png_from_buffer(FileAccess.get_file_as_bytes(paths.unresolved_render_mask))
@@ -502,6 +516,14 @@ static func read_source(data_path: String) -> Dictionary:
 			if absf(source.valid_fraction[row * source.width + column] - expected_valid) > 0.000001:
 				_error("Canopy valid fraction differs from the support mask at %d,%d" % [column, row])
 				return {}
+	for row: int in source.height:
+		for column: int in source.width:
+			var at: int = row * source.width + column
+			if source.unresolved_cells[at] != 0 or source.cover_fraction[at] == 0.0:
+				continue
+			source.cover_fraction[at] = 0.0
+			mask.fill_rect(Rect2i(column * subdivision_count, row * subdivision_count, subdivision_count, subdivision_count), Color.BLACK)
+	source.exclusion_sha256 = FileAccess.get_sha256(excluded_path) if FileAccess.file_exists(excluded_path) else ""
 	source.mask_image = mask
 	source.support_image = support
 	source.mask_texture = ImageTexture.create_from_image(mask)

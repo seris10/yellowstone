@@ -134,7 +134,7 @@ def test_scoring_thermal_inventory():
 
 
 def test_scoring_thermal_inventory_excludes_scheduled_temps():
-    # Regression: pulse sources carry Series dicts; scheduled interventions are listed and excluded from the single-value mean.
+    # Pulse sources use Series dicts; single-value means exclude scheduled interventions and list them.
     inv = thermal_inventory([
         {"id": "a", "flow_m3_s": 1.0, "temperature_c": 60.0,
          "status": "measured"},

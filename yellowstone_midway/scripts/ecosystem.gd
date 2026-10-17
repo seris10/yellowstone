@@ -259,7 +259,7 @@ func _saturation_vapor_pressure_kpa(t_c: float) -> float:
 	return 0.61094 * exp(17.625 * t_c / (t_c + 243.04))
 
 func condensation_visibility(surface_c: float) -> float:
-	# Mixed-parcel supersaturation index. Zero at ambient equilibrium, one when mixed vapor doubles its saturation.
+	# Mixed-parcel supersaturation: 0 at ambient equilibrium; 1 when mixed vapor is twice saturation.
 	var es_surf: float = _saturation_vapor_pressure_kpa(surface_c)
 	var es_air: float = _saturation_vapor_pressure_kpa(air_c)
 	var ea: float = clampf(humidity, 0.0, 1.0) * es_air

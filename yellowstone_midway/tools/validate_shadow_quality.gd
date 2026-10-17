@@ -1,5 +1,5 @@
 extends SceneTree
-## Headless parameter and solar-update regression check; visual/contact/performance checks are separate.
+## Check parameters and solar updates headlessly; visual, contact, and performance checks are separate.
 
 const ShadowQuality = preload("res://scripts/shadow_quality.gd")
 const Atmosphere = preload("res://scripts/yellowstone_atmosphere.gd")

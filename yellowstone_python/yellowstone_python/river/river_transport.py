@@ -741,7 +741,7 @@ class River:
             exchange = cell.exchange_w_m2_k * area / self.rho_cp
             return exchange, exchange * air, None
 
-        # Explicit budget supplies the surface flux; linearized implicitly F(T_new) ~= F0 + dF/dT * (T_new - T_old).
+        # Explicit-budget flux is linearized implicitly: F(T_new) ~= F0 + dF/dT * (T_new - T_old).
         met = self.surface_budget.met_at(time_s, air)
         multiplier = self._cell_shortwave_multiplier[cell_index]
         if multiplier != 1.0:
@@ -1065,7 +1065,7 @@ class River:
             surface_newton_residual_c,
         )
 
-        # Transport and surface fluxes are booked at the implicit-solve temperatures; the exchange split follows.
+        # Transport and surface fluxes use implicit-solve temperatures; the exchange split follows.
         transported = list(new)
         hyporheic_exchange_j = 0.0
         hyporheic_per_cell_j = [0.0] * len(self.cells)
@@ -1194,7 +1194,7 @@ class River:
         self._time_s = end_s
         self.steps += 1
 
-        # Solver diagnostics: Newton residual plus old/new temperature summary for per-step linearization quality.
+        # Newton residual and old/new temperature summaries diagnose each step's linearization.
         temperature_changes = [abs(a - b) for a, b in zip(new, old)]
         return {
             **increments,

@@ -48,7 +48,7 @@ WEATHER_SNAPSHOT_OPTIONAL_RANGES = {
 }
 SOLAR_AZIMUTH_RANGE_DEG = (0.0, 360.0)  # upper exclusive
 SOLAR_ELEVATION_RANGE_DEG = (-90.0, 90.0)
-# Optional terrain fields and inclusive ranges mirrored from the godot weather snapshot reader validation.
+# Optional terrain fields and inclusive ranges match the Godot weather snapshot reader checks.
 WEATHER_SNAPSHOT_TERRAIN_RANGES = {
     "snow_cover_fraction": (0.0, 1.0),
     "snow_water_equivalent_mm": (0.0, 100000.0),

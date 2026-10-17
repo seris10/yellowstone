@@ -12,7 +12,7 @@ from yellowstone_python.common.provenance import CONTRACT_VERSION, WORLD_ID, sha
 from yellowstone_python.publish import FILES, publish_generation, verify_build, release_plan
 
 
-def build_fixture(root, name="fixture", optional=True):
+def build_fixture(root, name="fixture", optional=True, checks_extra=None):
     build = root / name
     build.mkdir()
     eco = {"schema_version": 1, "river_reaches": [{"id": "a", "volume_m3": 200.,
@@ -40,6 +40,8 @@ def build_fixture(root, name="fixture", optional=True):
     hashes = {str(path.relative_to(build)): sha256_file(path) for path in build.rglob("*") if path.is_file()}
     checks = {"passed": True, "assessment": {"build_id": name, "model_variant_id": "mapped_fv_newton",
                                             "input_identity": sha256_json({"fixture": name}), "artifact_hashes": hashes}}
+    if checks_extra:
+        checks.update(checks_extra)
     write_json_atomic(build / "CHECKS.json", checks)
     manifest = {"build_id": name, "model_variant_id": "mapped_fv_newton", "scenario_id": name,
         "portable_identity": {"fixture": name}, "input_identity": sha256_json({"fixture": name}),
@@ -70,6 +72,39 @@ def test_missing_optional_files_and_directory_members_cannot_reuse_previous_rele
     assert second["artifacts"]["assets/textures/pool_ramps/"]["state"] == "unavailable"
     assert (project / "data/releases" / first["release_id"] / "data/overland_field.json").is_file()
     assert not (project / "data/releases" / second["release_id"] / "data/overland_field.json").exists()
+
+
+def test_groundwater_absence_records_exchange_reason(tmp_path, project):
+    """A missing groundwater field carries the build-side omission reason."""
+    build = build_fixture(tmp_path, "gw", optional=False,
+                          checks_extra={"metrics": {"groundwater_exchange": {
+                              "status": "partial",
+                              "reason": "no hydro.groundwater.cells configured"}}})
+    release = publish_generation(build, project)
+    record = release["artifacts"]["data/groundwater_field.json"]
+    assert record["state"] == "unavailable"
+    assert record["reason"] == ("no groundwater field produced; groundwater "
+                                "exchange status partial: no "
+                                "hydro.groundwater.cells configured")
+
+
+def test_wired_exchange_without_sidecar_is_declared(tmp_path, project):
+    """A wired exchange with no field sidecar reads as a packaging gap."""
+    build = build_fixture(tmp_path, "gww", optional=False,
+                          checks_extra={"metrics": {"groundwater_exchange": {
+                              "status": "wired", "totals": {"net_flow_m3_s": 0.1}}}})
+    release = publish_generation(build, project)
+    record = release["artifacts"]["data/groundwater_field.json"]
+    assert record["state"] == "unavailable"
+    assert record["reason"].startswith("groundwater exchange ran in this build")
+
+
+def test_optional_absence_without_metrics_stays_generic(tmp_path, project):
+    """Optional artifacts absent without check detail keep the generic reason."""
+    release = publish_generation(build_fixture(tmp_path, "plain", optional=False), project)
+    record = release["artifacts"]["data/groundwater_field.json"]
+    assert record["state"] == "unavailable"
+    assert record["reason"] == "absent from this build"
 
 
 @pytest.mark.parametrize("artifact", ["ecosystem.godot.json", "pool_ramps/ramp.png", "CHECKS.json"])

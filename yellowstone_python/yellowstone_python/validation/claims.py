@@ -41,7 +41,7 @@ def _resolve_evidence(claim_id: str) -> list[Path]:
     return out
 
 
-# Nulls named in the reach claim's acceptance criteria; the gate lists the ones the evidence fit lacks.
+# Reach acceptance requires these nulls; the gate reports any absent from the evidence fit.
 REACH_REQUIRED_NULLS = ("upstream_persistence", "mixing_only_c0_refit",
                         "downstream_climatology")
 SNOTEL_NULL_KEYS = ("null_persistence_rmse_mm", "null_nomelt_rmse_mm")

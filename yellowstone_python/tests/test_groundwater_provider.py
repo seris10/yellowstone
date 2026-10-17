@@ -153,7 +153,7 @@ def test_groundwater_exchange_sign_and_budget():
         h_river_m=1.5,
     )
     result = GP.head_gradient_exchange([gain, loss])
-    # C = K*W*L/b = 1e-5 * 20 * 10 / 1 = 2e-3 m2/s; gain q = C * (2.0 - 1.0) = 2e-3 m3/s at aquifer temperature.
+    # Aquifer-temperature gain: C=K*W*L/b=2e-3 m2/s; q=C*(2.0-1.0)=2e-3 m3/s.
     assert len(result["sources"]) == 1
     source = result["sources"][0]
     assert source["cell_id"] == "firehole_cell_00042"

@@ -56,7 +56,7 @@ def test_daily_series_accumulates_when_freezing():
 
 
 def test_fit_recovers_synthetic_params_optimizer_check_only():
-    # Inverse crime by construction: identical model generates and fits; this exercises the optimizer. Fit only over days where truth is positive; after melt-out all param sets agree.
+    # Inverse-crime optimizer check; positive-SWE days exclude post-melt ties from the shared-model fit.
     air = [-2.0] * 60 + [3.0] * 30
     prcp = [10.0] * 60 + [0.0] * 30
     truth, _ = daily_swe_series(_patch(), air, prcp, 3.0, wind_loss=0.05)
@@ -99,7 +99,7 @@ def test_wind_override_keeps_ledger_and_default_untouched():
     out_zero, _ = run_season([_patch()], days=10,
                              air_c_by_day=[-2.0] * 10, precip_mm_d=5.0,
                              wind_loss=0.15)
-    # None keeps the authored dry_meadow 0.15 (identical end state); a lower fitted loss retains more pack than the authored default.
+    # None retains authored dry_meadow wind loss 0.15; lower fitted loss preserves more snow.
     assert out_none[0]["snow_mm"] == out_zero[0]["snow_mm"]
     out_low, _ = run_season([_patch()], days=10,
                              air_c_by_day=[-2.0] * 10, precip_mm_d=5.0,
@@ -136,7 +136,7 @@ def _synthetic_bundle(tmp_path, start_year=2024):
 
 
 def test_fixed_params_recovers_truth_without_refit(tmp_path):
-    # Inverse-crime check: frozen generating params score about 0 holdout RMSE on the generating window; the no-refit path evaluates.
+    # Inverse-crime fixture: fixed generating parameters give near-zero holdout RMSE without refitting.
     bundle_path, dates = _synthetic_bundle(tmp_path)
     split = dates[60]  # melt onset
     fixed = {"999:XX:SNTL": {"k_melt_mm_per_deg_day": 3.0,
@@ -194,7 +194,7 @@ def test_load_fixed_params_reads_fit_artifact_shape(tmp_path):
 
 
 def test_validate_site_runs_end_to_end(tmp_path):
-    # Regression: provenance once used an out-of-scope bundle name and the validate_site call raised NameError before returning.
+    # validate_site returns provenance from the supplied bundle.
     bundle_path, dates = _synthetic_bundle(tmp_path)
     import json
     bundle = json.loads(open(bundle_path).read())
@@ -210,7 +210,7 @@ def test_validate_site_runs_end_to_end(tmp_path):
 
 
 def test_accumulation_only_fit_records_unidentifiable_k(tmp_path):
-    # A training window with no melt days cannot separate k_melt (all grid points tie on train RMSE); the artifact records the tie count under the first-wins pick.
+    # Accumulation-only training ties k_melt train RMSE; the artifact records tie count and first winner.
     bundle_path, dates = _synthetic_bundle(tmp_path)
     import json
     bundle = json.loads(open(bundle_path).read())

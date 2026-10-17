@@ -41,7 +41,7 @@ DEFAULT_RECIPE = {"shelf": 1.2, "rim_m": 4.0, "apron_m": 15.0,
                   "depth_center_m": 3.0, "shelf_depth_m": 0.6,
                   "t_edge_c": 38.0, "outflow_bearing_deg": 90.0}
 
-# Base pigment bands (fraction of r_water, color, meaning). Per-pool copies adjusted by make_ramp_stops().
+# Base bands store (r_water fraction, color, meaning); make_ramp_stops() adjusts per-pool copies.
 COLOR_STOPS = [
     (0.00, "#0b3d91", "deep hot center (illustrative)"),
     (0.35, "#1b7f79", "teal transition (illustrative)"),
@@ -441,7 +441,7 @@ def render_cross_section(shell: dict, path: str, w: int = 640,
     if parent:
         os.makedirs(parent, exist_ok=True)
     img.save(path)
-    # The plate is a radial diagram on circular-equivalent radii; the sidecar states that beside the image.
+    # Plate radii are circular equivalents; the image's sidecar labels this radial-diagram geometry.
     meta = {
         "schema": "yellowstone.pool_cross_section_meta.v1",
         "pool_id": shell["id"],

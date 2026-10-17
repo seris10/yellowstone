@@ -1,5 +1,5 @@
 extends SceneTree
-## Focused collision integration test: the player class supplies its capsule, floor angle, snap and safe margin, and acceleration and gravity follow deterministic waypoint input. Run: godot --headless --fixed-fps 60 --path . --script tools/validate_walk.gd
+## Walk the player capsule through fixed waypoints; see the validation guide, Moving-body verification.
 const PHYSICS_HZ: int = 60
 const ARRIVAL_RADIUS_M: float = 0.17
 var spec: Dictionary = {}
@@ -292,7 +292,7 @@ func install_core_terrain() -> Dictionary:
 	return info
 
 func core_crossing_case() -> Dictionary:
-	# A boardwalk span through the Grand Prismatic approach, selected because every point lies in the core tile.
+	# Test the Grand Prismatic approach boardwalk span contained entirely in the core tile.
 	var crossing_route_id: String = "trail_3321_0"
 	var found: Dictionary = route(crossing_route_id)
 	if found.is_empty() or not found.has("points"):

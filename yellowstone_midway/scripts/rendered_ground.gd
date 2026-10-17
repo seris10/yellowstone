@@ -1,6 +1,6 @@
 class_name YellowstoneRenderedGround
 extends RefCounted
-## Sample the visible core triangle surface and outer master terrain.
+## Visible core-triangle and outer-terrain sampling.
 
 const Core = preload("res://scripts/core_terrain.gd")
 const HeightField = preload("res://scripts/height_field.gd")
@@ -22,7 +22,7 @@ func _init() -> void:
 		origin = Vector2(core._x_min_m, core._z_min_m)
 		extent = Vector2(core._x_max_m, core._z_max_m)
 		step = core._cell_m * Core.MESH_DECIMATION
-		for path: String in [Core.CORE_JSON, Core.CORE_HEIGHTFIELD, Core.CORE_MICRORELIEF, "res://data/terrain.f32"]:
+		for path: String in [Core.CORE_JSON, Core.CORE_HEIGHTFIELD, Core.CORE_MICRORELIEF, "res://data/terrain.f32", "res://data/world.json", "res://scripts/river_terrain.gd"]:
 			source_hashes[path] = FileAccess.get_sha256(path)
 	core.free()
 

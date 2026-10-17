@@ -42,7 +42,7 @@ godot --path yellowstone_midway --rendering-method mobile --rendering-driver met
 | Shift / Space | Brisk walk / small jump. |
 | Esc | Starting places and menu. |
 | Tab | Conditions and time controls. |
-| M / I | Map / environmental field notes. |
+| `M` / `I` | Map / environmental field notes. |
 | H | River and ground probe. |
 | Q / period | Pause / advance one stored frame. |
 | F1 | Full input bindings. |
@@ -57,7 +57,7 @@ The checked-in site can run without Godot, Python model dependencies, an API key
 python3 -m http.server 8000 --directory dashboard/public
 ```
 
-Open `http://localhost:8000/dashboard/`. Select or zoom into a system, open a process, change time or location, and open its full dataset. The interface includes map layers, exchange filters, charts, CSV export, model results, and source/limitation details. Its bundled values are a model snapshot, not a live park monitoring feed.
+Open `http://localhost:8000/dashboard/`. Select or zoom into a system, open a process, change time or location, and open its full dataset. The interface includes map layers, exchange filters, charts, CSV export, model results, and source/limitation details. Its bundled values are a model snapshot; live park monitoring requires a separate feed.
 
 Edit `dashboard/src` and rebuild into an empty output directory:
 
@@ -114,7 +114,7 @@ Use a virtual environment for Python dependencies. Tests requiring optional scie
 ## Current limitations
 
 - Ecological and forecast claims remain `not_yet_accepted`. Prescribed discharge, upstream temperature, and authored weather are inputs to scenarios. Unknown parameter uncertainty remains unknown.
-- The terrain uses a local UTM coordinate frame with one Godot unit per meter. Road widths, channel-bed cuts, small drainage details, and structural dimensions include approximations. The scene covers Midway rather than the whole park.
+- The terrain uses a local UTM coordinate frame with one Godot unit per meter. Road widths, channel-bed cuts, small drainage details, and structural dimensions include approximations. The scene's geographic extent is Midway; whole-park coverage remains outside this build.
 - Canopy placement combines processed LiDAR and authored interpretation. Local crown measurements, species assignments, plant detail, and wildlife biomechanics still require independent validation.
 - Tree appearance and distance transitions need further work. Some crown shapes, exposed stems, and transitions remain visibly approximate.
 - Performance remains unfinished. The current dense scene ran at roughly 20 frames per second in the measured M4 Metal views; the 30 FPS target was not met. Those measurements do not establish performance on other hardware.

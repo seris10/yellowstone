@@ -8,7 +8,7 @@ from yellowstone_python.common.io import write_json_atomic as _shared_json_write
 
 SCHEMA_DRIFT = "yellowstone.bundle_drift.v1"
 
-# Defaults sit above the worst observed step-to-step noise in the frozen bundles (upstream Q max step 2.9%, downstream 3.1%, temp max step 0.4 C).
+# Defaults exceed bundle step noise: Q upstream 2.9%, downstream 3.1%; temperature 0.4 C.
 DEFAULT_Q_REL_TOL = 0.05
 DEFAULT_T_ABS_TOL = 0.5
 DEFAULT_WTEQ_ABS_TOL_IN = 2.0

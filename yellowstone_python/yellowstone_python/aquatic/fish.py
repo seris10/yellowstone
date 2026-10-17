@@ -22,7 +22,7 @@ T_OPT_LO_C = 12.0
 T_OPT_HI_C = 18.0
 
 
-# Literature-transferred thermal performance. Anchor points from measurement; piecewise-linear shapes between them are authored.
+# Thermal anchors are literature-transferred measurements; piecewise-linear shapes are authored.
 THERMAL_SPECIES_PROVENANCE = {
     "brown_trout": {
         "anchors_real": True,
@@ -139,7 +139,7 @@ SCENARIO_FISH_SPECIES = {
     },
 }
 
-# Species whose presence in the modeled reach defaults to on. Scenarios set a species to on by passing it explicitly to callers that accept a species argument.
+# Default reach species are enabled; explicit species arguments select additional scenario species.
 PRESENCE_DEFAULT_ON = frozenset(
     sid for sid, spec in THERMAL_SPECIES.items()
     if spec.get("presence_default_on", True)
@@ -157,7 +157,7 @@ REFUGE_RAMP_C = 2.0
 # Weight of the refuge-drive term in suitability. Authored model choice.
 REFUGE_WEIGHT = 0.6
 
-# Lab thermal measurements integration point. THERMAL_DATA_PATH = None  # Set to file path when measurements are available.
+# THERMAL_DATA_PATH accepts a measurement file path; None leaves lab thermal inputs unbound.
 
 
 def load_lab_thermal(species: str = "brown_trout") -> dict | None:

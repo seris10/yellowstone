@@ -121,7 +121,7 @@ def weather_snapshot(epoch_unix: float, weather_cfg: dict,
         },
     }
 
-# Illustrative weather defaults (authored); fetch_met_forcing.py connects to Open-Meteo for measured forcing.
+# Authored weather defaults; fetch_met_forcing.py supplies Open-Meteo model forcing.
 WEATHER_PROVENANCE = {
     "night_air_c": "authored_illustrative_7C",
     "day_warming_c": "authored_illustrative_15C",

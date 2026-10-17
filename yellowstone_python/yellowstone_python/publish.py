@@ -189,6 +189,23 @@ def verify_build(build: Path, *, unverified: bool = False) -> tuple[dict, dict]:
     return manifest, checks
 
 
+def _omission_reason(source_name: str, checks: dict) -> str:
+    """State why an optional artifact is absent using the check report."""
+    if source_name == "groundwater_field.json":
+        exchange = (checks.get("metrics") or {}).get("groundwater_exchange") or {}
+        status = exchange.get("status")
+        detail = exchange.get("reason")
+        if status == "wired":
+            return ("groundwater exchange ran in this build; no groundwater "
+                    "field sidecar was produced for publish")
+        if status:
+            reason = f"groundwater exchange status {status}"
+            if detail:
+                reason = f"{reason}: {detail}"
+            return f"no groundwater field produced; {reason}"
+    return "absent from this build"
+
+
 def release_plan(build: Path, manifest: dict, checks: dict, *, unverified: bool = False) -> tuple[dict, dict]:
     """Resolve complete runtime contents and explicit optional absence."""
     files, artifacts = {}, {}
@@ -199,7 +216,7 @@ def release_plan(build: Path, manifest: dict, checks: dict, *, unverified: bool 
             if required:
                 raise ValueError(f"required runtime artifact absent: {source_name}")
             artifacts[target] = {"state": "unavailable", "required": False,
-                                 "reason": "absent from this build"}
+                                 "reason": _omission_reason(source_name, checks)}
             continue
         if source_name not in hashes:
             raise ValueError(f"runtime artifact lacks checked hash: {source_name}")

@@ -1,9 +1,9 @@
 class_name YellowstoneWeatherSnapshotReader
 extends Node
 
-## Reads a normalized weather snapshot from JSON and passes valid state to YellowstoneAtmosphereController; this node never fetches weather from the network.
+## Read local JSON weather and pass validated state to YellowstoneAtmosphereController.
 
-## Freshness modes: "wall_clock" compares generated_at_unix with the computer clock, "simulation_clock" compares it with a supplied simulation time, "disabled" accepts snapshots without age validation.
+## Freshness modes: wall_clock, simulation_clock, disabled. See the readme, Snapshot freshness.
 
 
 const SUPPORTED_SCHEMA_VERSIONS: Array[int] = [1, 2]
@@ -43,7 +43,7 @@ const REQUIRED_WEATHER_RANGES: Dictionary = {
 
 @export_group("Snapshot")
 
-## Default snapshot shipped with the project. When a live snapshot exists at live_snapshot_path, the reader polls that instead so the Python producer can override the baked copy.
+## Poll live_snapshot_path when present; otherwise use the shipped snapshot.
 @export var snapshot_path: String = "res://data/weather_snapshot.json"
 
 ## Live override written by the Python HTTP consumer; polled first when present.
@@ -104,7 +104,7 @@ func set_simulation_epoch_unix(epoch_unix: float) -> void:
 	_has_simulation_epoch = true
 
 
-## Clear the simulation timestamp; the reader rejects simulation-clock freshness checks until another timestamp is supplied.
+## Clear simulation time; simulation_clock freshness rejects snapshots until time is supplied.
 func clear_simulation_epoch() -> void:
 	_has_simulation_epoch = false
 

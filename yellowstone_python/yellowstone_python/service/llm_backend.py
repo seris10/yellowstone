@@ -46,7 +46,7 @@ ZONES = {
 ACCURACY_NOTES = ["Canopy detections require independent crown validation."]
 
 
-# Density circles outside [MIN_RADIUS_M, MAX_RADIUS_M] are rejected. Bounds single-sourced from analysis_store.
+# Reject density radii outside [MIN_RADIUS_M, MAX_RADIUS_M], with bounds from analysis_store.
 from yellowstone_python.service.analysis_store import RADIUS_MAX_M as MAX_RADIUS_M
 from yellowstone_python.service.analysis_store import RADIUS_MIN_M as MIN_RADIUS_M
 # Legitimate /api/propose bodies are <1 KB; anything larger is junk/DoS.

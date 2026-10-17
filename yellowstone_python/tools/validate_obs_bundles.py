@@ -16,7 +16,7 @@ SCHEMA_FIREHOLE_CHEM = "yellowstone.firehole_chem_obs.v1"
 SCHEMA_SNOTEL = "yellowstone.snotel_obs.v1"
 SCHEMA_VERDICT = "yellowstone.obs_bundle_verdict.v1"
 
-# Gap tolerances from calibrate.fit_forcing_arrays: 4x nominal step (IV nominal 900 s, met nominal 3600 s).
+# Gap tolerance is 4x nominal: IV 900 s, met 3600 s; see calibrate.fit_forcing_arrays.
 GAP_USGS_S = 3600.0
 GAP_MET_S = 14400.0
 

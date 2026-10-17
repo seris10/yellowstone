@@ -58,7 +58,7 @@ def test_density_zones():
 
 @pytest.mark.needs_world
 def test_rim_artifacts_excluded():
-    # Grand Prismatic center is mapped water: a detection there is a rim artifact. Far-field records survive.
+    # Grand Prismatic center is mapped water; its detection is a rim artifact; far-field records pass.
     recs = [{"x": -94.7, "z": -10.6}, {"x": -500.0, "z": 400.0}]
     kept, dropped = exclude_pool_rims(recs)
     assert dropped == 1

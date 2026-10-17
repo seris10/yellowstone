@@ -11,9 +11,10 @@ uniform float shoot_envelope_m;
 uniform float lod_begin_m = 0.0;
 uniform float lod_end_m = 350.0;
 uniform bool lod_dither_invert = false;
-uniform vec3 tint : source_color = vec3(0.86, 0.92, 0.82);
-uniform vec3 base_color : source_color = vec3(0.12, 0.17, 0.08);
-uniform float texture_color_detail = 0.12;
+uniform vec3 tint : source_color = vec3(0.96, 1.00, 0.90);
+// Authored, uncalibrated photographic midtones.
+uniform vec3 base_color : source_color = vec3(0.28, 0.33, 0.14);
+uniform float texture_color_detail = 0.35;
 uniform bool cluster_mode = false;
 uniform bool near_shoot_mode = false;
 uniform int geometry_revision = 1;
@@ -100,10 +101,11 @@ void fragment() {
 	vec4 leaf = texture(albedo_texture, near_shoot_mode ? UV : fract(leaf_uv));
 	if (!FRONT_FACING) NORMAL = -NORMAL;
 	if (wood > 0.5) {
-		ALBEDO = vec3(0.19, 0.14, 0.085);
+		// Linear-space bark brown, near sRGB (0.20, 0.16, 0.11).
+		ALBEDO = vec3(0.033, 0.022, 0.010);
 	} else if (cluster_mode) {
 		if (leaf.a < 0.32) discard;
-		ALBEDO = mix(base_color, tint * leaf.rgb, 0.78);
+		ALBEDO = mix(base_color, tint * leaf.rgb, 0.85);
 	} else {
 		ALBEDO = mix(base_color, tint * leaf.rgb, leaf.a * texture_color_detail);
 	}

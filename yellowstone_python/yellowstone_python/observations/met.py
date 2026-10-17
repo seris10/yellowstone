@@ -14,7 +14,7 @@ MET_VARS = ("temperature_2m", "relative_humidity_2m", "wind_speed_10m",
             "shortwave_radiation", "cloud_cover")
 MET_COLUMNS = ("epoch_s_UTC", "air_C", "rh_0_1", "wind_mps",
                "sw_Wm2", "cloud_0_1")
-# Open-Meteo variable fetched as a separate sidecar series (mm per step); outside the width-6 hourly rows (consumer indices).
+# Open-Meteo precipitation uses a separate mm/step sidecar, preserving width-6 hourly rows.
 PRECIP_VAR = "precipitation"
 USER_AGENT = "yellowstone-python/0.1 (research calibration fetch)"
 TIMEOUT_S = 60
@@ -24,7 +24,7 @@ DAYS_RANGE = (1, 16)
 
 SCHEMA_MET = "yellowstone.met_forcing.v1"
 
-# Row schema at width 6 (consumer indices in replay.calibrate._fit_forcing_arrays). Variables extend width only under a v2 schema. [epoch_s_UTC, air_C, rh_0-1, wind_mps, sw_Wm2, cloud_0-1]
+# MET_COLUMNS fixes the v1 width-6 order for _fit_forcing_arrays; extra columns require schema v2.
 
 
 def _get_json(url: str) -> dict:

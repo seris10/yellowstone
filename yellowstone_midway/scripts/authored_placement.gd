@@ -1,7 +1,7 @@
 @tool
 class_name MidwayAuthoredPlacement
 extends Node3D
-## Add this node in handcrafted_details.tscn, choose a PackedScene, and position it normally. Transform is authored scene data.
+## Author PackedScene transforms in handcrafted_details.tscn with normal editor placement tools.
 @export var stable_id: String = "detail_001"
 @export var asset: PackedScene:
 	set(value):

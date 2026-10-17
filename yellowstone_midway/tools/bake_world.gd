@@ -1,5 +1,5 @@
 extends SceneTree
-## Offline only; produces native .tscn/.res assets. Run: godot --headless --path . --script tools/bake_world.gd
+## Offline authored-world scene and asset baking.
 const HeightField = preload("res://scripts/height_field.gd")
 const LodgepoleLibrary = preload("res://scripts/lodgepole_library.gd")
 const CanopySurface = preload("res://scripts/canopy_surface.gd")
@@ -19,6 +19,8 @@ var timber_beam_mat: ShaderMaterial
 var timber_stringer_mat: ShaderMaterial
 var materials: Dictionary = {}
 var mesh_library: Dictionary = {}
+# Statistics from the latest river ribbon for the bake receipt.
+var ribbon_stats: Dictionary = {}
 
 func _initialize() -> void:
 	call_deferred("bake")
@@ -77,7 +79,7 @@ func timber_material(axis: Vector3, file_name: String) -> ShaderMaterial:
 	return m
 
 func append_instance(buffer: PackedFloat32Array, xf: Transform3D, extra: Color) -> void:
-	# RenderingServer bulk layout: three row-major vec4s then color/custom (16 floats per instance; 1_000_000 caps instance count at ~62k). Bulk assignment keeps CPU data in headless bakes.
+	# Serialize three row-major transform rows, followed by color or custom data.
 	if buffer.size() > 1_000_000:
 		push_error("Instance buffer exceeded safety limit; abort.")
 		return
@@ -127,7 +129,10 @@ func bake() -> void:
 	make_overlook()
 	var packed := PackedScene.new()
 	packed.pack(scene_root)
-	var error := ResourceSaver.save(packed,"res://scenes/authored_world.tscn")
+	# Save the binary scene for the runtime and the text scene for tooling.
+	var error := ResourceSaver.save(packed,"res://scenes/authored_world.scn")
+	if error == OK:
+		error = ResourceSaver.save(packed,"res://scenes/authored_world.tscn")
 	print("WORLD_BAKE ",error," ",(Time.get_ticks_msec()-start)/1000.0," seconds")
 	quit(error)
 
@@ -209,6 +214,232 @@ func ribbon(points: PackedVector3Array, width: float, mat: Material, closed := f
 			indices.append_array(PackedInt32Array([a,a+2,a+1,a+1,a+2,a+3]))
 	return make_mesh(vertices,normals,uvs,indices,mat,colors)
 
+# --- River surface ---
+const WATER_MARGIN_FRACTION := 0.23
+const WATER_MARGIN_MIN_M := 0.8
+const WATER_MARGIN_MAX_M := 5.0
+const WATER_END_FADE_M := 8.0
+const WATER_JUNCTION_TOLERANCE_M := 1.5
+const WATER_SMOOTH_PASSES := 4
+const WATER_FOLD_SAFETY := 0.85
+const WATER_MIN_REACH_FRACTION := 0.30
+const WATER_RESAMPLE_STEP_M := 2.0
+const WATER_CAP_SEGMENTS := 20
+
+func water_margin_m(width: float) -> float:
+	return clampf(width * WATER_MARGIN_FRACTION, WATER_MARGIN_MIN_M, WATER_MARGIN_MAX_M)
+
+func river_end_is_free(rivers: Array, self_index: int, point: Vector3) -> bool:
+	# Keep river junction endpoints solid.
+	var limit := WATER_JUNCTION_TOLERANCE_M * WATER_JUNCTION_TOLERANCE_M
+	for other_index: int in rivers.size():
+		if other_index == self_index:
+			continue
+		for other: Array in rivers[other_index].points:
+			var dx: float = float(other[0]) - point.x
+			var dz: float = float(other[2]) - point.z
+			if dx * dx + dz * dz <= limit:
+				return false
+	return true
+
+func resample_polyline(points: PackedVector3Array, step := WATER_RESAMPLE_STEP_M) -> PackedVector3Array:
+	# Use uniform station spacing and a 0.25 m endpoint tolerance.
+	var out := PackedVector3Array([points[0]])
+	var carry := 0.0
+	for i: int in range(1, points.size()):
+		var a := points[i - 1]
+		var b := points[i]
+		var seg := a.distance_to(b)
+		if seg < 0.0001:
+			continue
+		while carry + seg >= step:
+			var t := (step - carry) / seg
+			var p := a.lerp(b, t)
+			out.append(p)
+			a = p
+			seg = a.distance_to(b)
+			carry = 0.0
+		carry += seg
+	if out[out.size() - 1].distance_to(points[points.size() - 1]) > 0.25:
+		out.append(points[points.size() - 1])
+	return out
+
+func smooth_plan_view(points: PackedVector3Array) -> PackedVector3Array:
+	# Smooth plan-view kinks while retaining heights and endpoints.
+	var result := points.duplicate()
+	for pass_index: int in WATER_SMOOTH_PASSES:
+		var source := result.duplicate()
+		for i: int in range(1, points.size() - 1):
+			result[i] = Vector3((source[i - 1].x + 2.0 * source[i].x + source[i + 1].x) * 0.25, source[i].y,
+				(source[i - 1].z + 2.0 * source[i].z + source[i + 1].z) * 0.25)
+	return result
+
+func snap_water_junctions(rivers: Array, tolerance := WATER_JUNCTION_TOLERANCE_M) -> void:
+	# Snap clustered endpoints to their shared centroid.
+	var ends: Array = []
+	for ri: int in rivers.size():
+		ends.append([ri, 0])
+		ends.append([ri, rivers[ri].points.size() - 1])
+	var used := {}
+	for e: Array in ends:
+		if used.has(e):
+			continue
+		var group := [e]
+		var p: Array = rivers[e[0]].points[e[1]]
+		for o: Array in ends:
+			if o == e or used.has(o):
+				continue
+			var q: Array = rivers[o[0]].points[o[1]]
+			if Vector2(p[0] - q[0], p[2] - q[2]).length() <= tolerance:
+				group.append(o)
+		if group.size() < 2:
+			continue
+		var centroid := Vector3.ZERO
+		for g: Array in group:
+			var gp: Array = rivers[g[0]].points[g[1]]
+			centroid += Vector3(gp[0], gp[1], gp[2])
+		centroid /= group.size()
+		for g: Array in group:
+			rivers[g[0]].points[g[1]] = [centroid.x, centroid.y, centroid.z]
+			used[g] = true
+
+func river_ribbon(points_in: PackedVector3Array, width: float, mat: Material, free_start: bool, free_end: bool, tint := false) -> ArrayMesh:
+	var points := smooth_plan_view(resample_polyline(points_in))
+	var visual_half := width * 0.5 + water_margin_m(width)
+	var count := points.size()
+	var directions := PackedVector3Array()
+	var curvature := PackedFloat32Array()
+	var curvature_minus := PackedFloat32Array()
+	var arcs := PackedFloat32Array()
+	directions.resize(count)
+	curvature.resize(count)
+	curvature_minus.resize(count)
+	arcs.resize(count)
+	var arc := 0.0
+	for i: int in count:
+		var before := maxi(i - 1, 0)
+		var after := mini(i + 1, count - 1)
+		var flat := Vector3(points[after].x - points[before].x, 0.0, points[after].z - points[before].z).normalized()
+		directions[i] = flat
+		if i > 0:
+			arc += points[i].distance_to(points[i - 1])
+		arcs[i] = arc
+	# Signed plan-view curvature in 1/m; positive bends toward the +side offset.
+	var raw := PackedFloat32Array()
+	raw.resize(count)
+	for i: int in range(1, count - 1):
+		var a := Vector2(points[i].x - points[i - 1].x, points[i].z - points[i - 1].z)
+		var b := Vector2(points[i + 1].x - points[i].x, points[i + 1].z - points[i].z)
+		var mean_length := 0.5 * (a.length() + b.length())
+		if mean_length > 0.0001 and a.length() > 0.0001 and b.length() > 0.0001:
+			raw[i] = asin(clampf(a.normalized().cross(b.normalized()), -1.0, 1.0)) / mean_length
+	for i: int in count:
+		var strongest_plus := 0.0
+		var strongest_minus := 0.0
+		for k: int in range(-3, 4):
+			var j := clampi(i + k, 0, count - 1)
+			strongest_plus = maxf(strongest_plus, raw[j])
+			strongest_minus = maxf(strongest_minus, -raw[j])
+		curvature[i] = strongest_plus
+		curvature_minus[i] = strongest_minus
+	var vertices := PackedVector3Array()
+	var normals := PackedVector3Array()
+	var uvs := PackedVector2Array()
+	var colors := PackedColorArray()
+	var tangents := PackedFloat32Array()
+	var indices := PackedInt32Array()
+	var centers := PackedVector3Array()
+	centers.resize(count)
+	var min_half := visual_half
+	var total_arc := arcs[count - 1]
+	for i: int in count:
+		var direction := directions[i]
+		var side := Vector3(-direction.z, 0.0, direction.x)
+		var before := maxi(i - 1, 0)
+		var after := mini(i + 1, count - 1)
+		var sloped := (points[after] - points[before]).normalized()
+		var normal := side.cross(sloped).normalized()
+		var reach_plus := visual_half
+		var reach_minus := visual_half
+		if curvature[i] > 0.0001:
+			reach_plus = clampf(minf(reach_plus, WATER_FOLD_SAFETY / curvature[i]), visual_half * WATER_MIN_REACH_FRACTION, visual_half)
+		if curvature_minus[i] > 0.0001:
+			reach_minus = clampf(minf(reach_minus, WATER_FOLD_SAFETY / curvature_minus[i]), visual_half * WATER_MIN_REACH_FRACTION, visual_half)
+		# The outer side absorbs lost width around the mapped centerline.
+		var center := points[i]
+		var deficit_plus := visual_half - reach_plus
+		var deficit_minus := visual_half - reach_minus
+		if deficit_plus > 0.0:
+			reach_minus += deficit_plus
+		if deficit_minus > 0.0:
+			reach_plus += deficit_minus
+		centers[i] = center
+		min_half = minf(min_half, minf(reach_plus, reach_minus))
+		var fraction := arcs[i] / maxf(total_arc, 0.001)
+		var fade := 1.0
+		if free_start:
+			fade = minf(fade, arcs[i] / WATER_END_FADE_M)
+		if free_end:
+			fade = minf(fade, (total_arc - arcs[i]) / WATER_END_FADE_M)
+		for s: int in 2:
+			vertices.append(center + side * (reach_plus if s == 1 else -reach_minus))
+			normals.append(normal)
+			uvs.append(Vector2(float(s), arcs[i]))
+			# Red carries the outflow fraction; blue carries the end fade.
+			colors.append(Color(1.0 - fraction if tint else 1.0, 1.0, clampf(fade, 0.0, 1.0)))
+			tangents.append_array(PackedFloat32Array([direction.x, 0.0, direction.z, 1.0]))
+		if i > 0:
+			var a := (i - 1) * 2
+			indices.append_array(PackedInt32Array([a, a + 2, a + 1, a + 1, a + 2, a + 3]))
+	# Close junction wedges with round caps and feather their rims.
+	var cap_ends: Array[int] = []
+	if not free_start:
+		cap_ends.append(0)
+	if not free_end:
+		cap_ends.append(count - 1)
+	for end_index: int in cap_ends:
+		var hub := vertices.size()
+		var cap_tangent := PackedFloat32Array([directions[end_index].x, 0.0, directions[end_index].z, 1.0])
+		var cap_red := (1.0 - arcs[end_index] / maxf(total_arc, 0.001)) if tint else 1.0
+		vertices.append(centers[end_index])
+		normals.append(Vector3.UP)
+		uvs.append(Vector2(0.5, arcs[end_index]))
+		colors.append(Color(cap_red, 1.0, 1.0))
+		tangents.append_array(cap_tangent)
+		for step: int in WATER_CAP_SEGMENTS:
+			var angle := TAU * float(step) / float(WATER_CAP_SEGMENTS)
+			vertices.append(centers[end_index] + Vector3(cos(angle), 0.0, sin(angle)) * visual_half)
+			normals.append(Vector3.UP)
+			uvs.append(Vector2(1.0, arcs[end_index]))
+			colors.append(Color(cap_red, 1.0, 0.0))
+			tangents.append_array(cap_tangent)
+		for step: int in WATER_CAP_SEGMENTS:
+			indices.append_array(PackedInt32Array([hub, hub + 1 + step, hub + 1 + (step + 1) % WATER_CAP_SEGMENTS]))
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_TANGENT] = tangents
+	arrays[Mesh.ARRAY_COLOR] = colors
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_INDEX] = indices
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	mesh.surface_set_material(0, mat)
+	ribbon_stats = {"stations": count, "min_half_width_m": min_half, "visual_half_m": visual_half}
+	return mesh
+
+func river_material(width: float, flow_mps: float) -> ShaderMaterial:
+	var m := ShaderMaterial.new()
+	m.shader = load("res://shaders/river_water.gdshader")
+	m.set_shader_parameter("ripple", load("res://assets/textures/water_normal.png"))
+	m.set_shader_parameter("flow_speed", flow_mps)
+	m.set_shader_parameter("width_m", (width * 0.5 + water_margin_m(width)) * 2.0)
+	m.set_shader_parameter("core_width_m", width)
+	# Firehole DEM-transect mean depth: 0.512-0.53 m (configs/cross_sections.json).
+	m.set_shader_parameter("channel_depth_m", 0.53 if width > 8.0 else 0.45)
+	return m
+
 func add_geometry(mesh: Mesh, name: String, parent: Node, collision := false) -> MeshInstance3D:
 	var node := MeshInstance3D.new()
 	node.mesh = mesh
@@ -233,11 +464,11 @@ func make_routes() -> void:
 		if r.surface=="Wood":
 			mat = wood_mat
 		elif r.kind=="trail" and mat == gravel_mat:
-			# Trails edge-soften in meters: give each ribbon its own width_m.
+			# Set per-ribbon trail width for meter-based feathering.
 			mat = gravel_mat.duplicate()
 			(mat as ShaderMaterial).set_shader_parameter("width_m", float(r.width))
 		if r.kind=="trail" and r.surface=="Native":
-			# Dirt tread drapes to terrain; bridge spans keep deck height.
+			# Bridge spans retain deck height; dirt tread follows terrain.
 			var bridged := {}
 			for span: Array in r.get("bridge_spans", []):
 				for k in range(int(span[0]), int(span[1]) + 1):
@@ -247,7 +478,7 @@ func make_routes() -> void:
 					points[i].y = height_field.sample(points[i].x, points[i].z) + 0.035
 		var route: MeshInstance3D = null
 		if r.kind == "trail" and r.surface != "Wood":
-			# Tread lives in the terrain mask; mesh survives where the engineered profile leaves the ground. Deck where gap exceeds 0.35 m, with dirt skirts. Step-up (0.55 m) covers joints.
+			# Lift deck spans above gaps over 0.35 m; use 0.55 m step-up skirts.
 			var keep := {}
 			for span: Array in r.get("bridge_spans", []):
 				for k in range(maxi(0, int(span[0]) - 2), mini(points.size(), int(span[1]) + 3)):
@@ -364,26 +595,74 @@ func beam_between(a: Vector3, b: Vector3, thickness: float, parent: Node, collis
 
 func make_bridge_rails(points: PackedVector3Array, width: float, parent: Node) -> void:
 	if points.size()<2:return
-	# Reuse every bend and the surface ribbon's shared offset vertices.
+	# Miter swept rail profiles in a shared joint plane.
 	for sign_value in [-1.0,1.0]:
 		var edge:=PackedVector3Array()
 		for i in points.size():
 			var tangent: Vector3=(points[mini(i+1,points.size()-1)]-points[maxi(0,i-1)]).normalized()
 			var side:=Vector3(-tangent.z,0,tangent.x).normalized()
 			edge.append(points[i]+side*(width*.5+.065)*float(sign_value))
-		for i in edge.size():
-			var a: Vector3=edge[i]
-			if i%2==0 or i==edge.size()-1:
+		swept_beam(edge,1.05,.12,.12,parent)
+		swept_beam(edge,.53,.08,.08,parent)
+		swept_beam(edge,-.05,.20,.05,parent,false)
+		# Space posts uniformly along each deck edge.
+		var spacing:=1.8
+		var next:=0.0
+		var arc:=0.0
+		for i in range(1,edge.size()):
+			var seg:=edge[i].distance_to(edge[i-1])
+			while next<=arc+seg:
+				var t:=(next-arc)/maxf(seg,.001)
+				var p:=edge[i-1].lerp(edge[i],t)
 				var post:=BoxMesh.new()
 				post.size=Vector3(.12,1.12,.12)
 				post.material=timber_post_mat
 				var node:=add_geometry(post,"BridgePost",parent,true)
-				node.position=a+Vector3.UP*.55
-			if i==edge.size()-1:continue
-			var b: Vector3=edge[i+1]
-			beam_between(a+Vector3.UP*1.05,b+Vector3.UP*1.05,.12,parent)
-			beam_between(a+Vector3.UP*.53,b+Vector3.UP*.53,.08,parent)
-			beam_between(a-Vector3.UP*.24,b-Vector3.UP*.24,.2,parent,false)
+				node.position=p+Vector3.UP*.55
+				next+=spacing
+			arc+=seg
+
+func swept_beam(centerline: PackedVector3Array, y_off: float, height: float, depth: float, parent: Node, collision := true) -> void:
+	# Scale each joint profile by 1/cos(half-angle) in the bend plane.
+	var n:=centerline.size()
+	if n<2:return
+	var vertices:=PackedVector3Array()
+	var normals:=PackedVector3Array()
+	var indices:=PackedInt32Array()
+	for i in n:
+		var dir_prev: Vector3=(centerline[i]-centerline[maxi(i-1,0)]).normalized() if i>0 else (centerline[1]-centerline[0]).normalized()
+		var dir_next: Vector3=(centerline[mini(i+1,n-1)]-centerline[i]).normalized() if i<n-1 else dir_prev
+		var tangent: Vector3=dir_prev+dir_next
+		tangent=tangent.normalized() if tangent.length_squared()>.0001 else dir_next
+		var side:=Vector3(-tangent.z,0.0,tangent.x)
+		side=side.normalized() if side.length_squared()>.0001 else Vector3.RIGHT
+		var up: Vector3=side.cross(tangent).normalized()
+		var miter:=1.0/maxf(tangent.dot(dir_next),.5)
+		var c: Vector3=centerline[i]+Vector3.UP*y_off
+		var hh:=height*.5
+		var hd:=depth*.5*miter
+		var corners: Array[Vector3]=[
+			c+up*hh+side*hd,c+up*hh-side*hd,
+			c-up*hh-side*hd,c-up*hh+side*hd]
+		var corner_normals: Array[Vector3]=[up,up,-up,-up]
+		for k in 4:
+			vertices.append(corners[k])
+			normals.append(corner_normals[k])
+		if i>0:
+			var a:=(i-1)*4
+			var b:=i*4
+			for face in 4:
+				var f2:=(face+1)%4
+				indices.append_array(PackedInt32Array([a+face,b+face,b+f2,a+face,b+f2,a+f2]))
+	var arrays:=[]
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX]=vertices
+	arrays[Mesh.ARRAY_NORMAL]=normals
+	arrays[Mesh.ARRAY_INDEX]=indices
+	var mesh:=ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+	mesh.surface_set_material(0,timber_beam_mat)
+	add_geometry(mesh,"BridgeRailSwept",parent,collision)
 
 func make_rails(points: PackedVector3Array, width: float, group: Node) -> void:
 	for i in range(0,points.size()-1,2):
@@ -415,11 +694,29 @@ func make_water() -> void:
 	var group := Node3D.new()
 	group.name = "ConnectedWater"
 	own(group)
-	for r: Dictionary in spec.rivers:
+	snap_water_junctions(spec.rivers)
+	var pinch_report: Array = []
+	for river_index: int in spec.rivers.size():
+		var r: Dictionary = spec.rivers[river_index]
+		if not bool(r.get("thermal",false)) and str(r.get("id","")) != "authored_excelsior_outflow_01":
+			var river_points := points_of(r.points)
+			var river_mat := river_material(float(r.width), float(r.flow_mps))
+			var river_mesh := river_ribbon(river_points, float(r.width), river_mat,
+				river_end_is_free(spec.rivers, river_index, river_points[0]),
+				river_end_is_free(spec.rivers, river_index, river_points[river_points.size() - 1]))
+			var surface := add_geometry(river_mesh, r.id, group)
+			surface.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			surface.add_to_group("river_surfaces",true)
+			surface.set_meta("river_name",r.name)
+			surface.set_meta("sample_z",r.points[r.points.size()/2][2])
+			surface.set_meta("station_count", int(ribbon_stats.stations))
+			surface.set_meta("min_half_width_m", ribbon_stats.min_half_width_m)
+			pinch_report.append({"id": r.id, "min_half_width_m": ribbon_stats.min_half_width_m, "visual_half_m": ribbon_stats.visual_half_m})
+			continue
 		var mat := water_material(bool(r.get("thermal",false)))
 		mat.set_shader_parameter("flow_speed",r.flow_mps)
 		mat.set_shader_parameter("width_m",float(r.width))
-		# Hot outflow is a flowing ribbon; thermal flag selects color.
+		# Use thermal tint on flowing outfall ribbons.
 		mat.set_shader_parameter("pool",0.0)
 		if bool(r.get("thermal",false)):
 			mat.set_shader_parameter("shallow_color",Vector3(.34,.43,.32))
@@ -428,12 +725,39 @@ func make_water() -> void:
 			mat.set_shader_parameter("cascade",1.0)
 		var is_outflow := str(r.get("id",""))=="authored_excelsior_outflow_01"
 		if is_outflow:
-			# Visible current: faster ripple drift; cooling and foam from vertex color red.
+			# Advect outflow ripples; red carries the cooling and foam fraction.
 			mat.set_shader_parameter("flow_speed",2.2)
-		var water := add_geometry(ribbon(points_of(r.points),r.width,mat,false,is_outflow),r.id,group)
+		var water: MeshInstance3D
+		if is_outflow:
+			# Build the outflow with river smoothing and junction caps.
+			var outflow_points := points_of(r.points)
+			var outflow_mesh := river_ribbon(outflow_points, float(r.width), mat, true,
+				river_end_is_free(spec.rivers, river_index, outflow_points[outflow_points.size() - 1]), true)
+			water = add_geometry(outflow_mesh, r.id, group)
+			water.set_meta("station_count", int(ribbon_stats.stations))
+			water.set_meta("min_half_width_m", ribbon_stats.min_half_width_m)
+			pinch_report.append({"id": r.id, "min_half_width_m": ribbon_stats.min_half_width_m, "visual_half_m": ribbon_stats.visual_half_m})
+		else:
+			water = add_geometry(ribbon(points_of(r.points),r.width,mat,false,false),r.id,group)
 		water.add_to_group("river_surfaces",true)
 		water.set_meta("river_name",r.name)
 		water.set_meta("sample_z",r.points[r.points.size()/2][2])
+	# Measure each snapped endpoint against neighboring reach vertices.
+	var junction_report: Array = []
+	for ri: int in spec.rivers.size():
+		var pts: Array = spec.rivers[ri].points
+		for end_index: int in [0, pts.size() - 1]:
+			var p: Array = pts[end_index]
+			var best := INF
+			for oi: int in spec.rivers.size():
+				if oi == ri:
+					continue
+				for q: Array in spec.rivers[oi].points:
+					best = minf(best, Vector2(p[0] - q[0], p[2] - q[2]).length())
+			if best <= WATER_JUNCTION_TOLERANCE_M:
+				junction_report.append({"id": spec.rivers[ri].id, "end": end_index, "gap_m": best})
+	print("RIVER_PINCH ", JSON.stringify(pinch_report))
+	print("RIVER_JUNCTIONS ", JSON.stringify(junction_report))
 	for p: Dictionary in spec.pools:
 		var vertices := PackedVector3Array()
 		var normals := PackedVector3Array()
@@ -480,7 +804,7 @@ func make_water() -> void:
 		var mat := water_material(p.thermal)
 		mat.set_shader_parameter("pool",1.0)
 		mat.set_shader_parameter("temperature_c",float(p.temperature_c))
-		# Forward path for Python-authored pigment ramps.
+		# Bind Python-authored pigment ramps.
 		if p.thermal and FileAccess.file_exists("res://data/pool_shells.json"):
 			var ramp_path := "res://assets/textures/pool_ramps/%s.png" % str(p.id)
 			if ResourceLoader.exists(ramp_path):
@@ -540,7 +864,7 @@ func make_overlook() -> void:
 	deck.material = deck_mat
 	var node := add_geometry(deck,"ViewingPlatform",group,true)
 	node.position = Vector3(x,y,z)
-	# The mapped spur enters from the east. A short ramp connects its surface to the raised deck.
+	# Connect the eastern spur to the raised deck.
 	var ramp_z:=160.05
 	var ramp_start:=Vector3(x+5.0,height_field.sample(x+5.0,ramp_z)+.08,ramp_z)
 	var nearest:=INF
@@ -599,7 +923,7 @@ func bind_foliage_materials(assets: Array, kind: String) -> bool:
 				leaves.set_shader_parameter("albedo_texture",texture)
 				leaves.set_shader_parameter("alpha_cutoff",.40 if kind == "grass" else .32)
 				leaves.set_shader_parameter("use_texture",true)
-				leaves.set_shader_parameter("tint",Vector3(.86,.92,.82))
+				leaves.set_shader_parameter("tint",Vector3(.96,1.00,.90))
 				leaves.set_shader_parameter("wind_strength",.045 if kind=="grass" else .14)
 				mesh.surface_set_material(surface,leaves)
 	return true
@@ -787,7 +1111,7 @@ func make_vegetation() -> bool:
 			tree_mesh.set_meta("lod_batch_padding_m", [begin_padding_m, end_padding_m])
 			tree_mesh.visibility_range_begin = maxf(0.0, tree_mesh.visibility_range_begin - begin_padding_m)
 			tree_mesh.visibility_range_end += end_padding_m
-		# Trunk colliders at the same placement as meshes.
+		# Place trunk colliders at tree-mesh origins.
 		if exemplar.kind in ["pine", "snag"]:
 			for r: Dictionary in entries:
 				if absf(r.position[0])>750 or absf(r.position[2])>1250:
@@ -813,7 +1137,11 @@ func make_vegetation() -> bool:
 func bake_vegetation_only(start: int) -> void:
 	spec = JSON.parse_string(FileAccess.get_file_as_string("res://data/world.json"))
 	height_field = HeightField.new()
-	scene_root = load("res://scenes/authored_world.tscn").instantiate()
+	# Load the binary bake when present; the text scene is the fallback.
+	var world_path := "res://scenes/authored_world.scn"
+	if not ResourceLoader.exists(world_path):
+		world_path = "res://scenes/authored_world.tscn"
+	scene_root = load(world_path).instantiate()
 	get_root().add_child(scene_root)
 	var previous: Node = scene_root.get_node_or_null("AuthoredVegetation")
 	if previous != null:
@@ -832,6 +1160,8 @@ func bake_vegetation_only(start: int) -> void:
 		make_water()
 	var packed := PackedScene.new()
 	var error: int = packed.pack(scene_root)
+	if error == OK:
+		error = ResourceSaver.save(packed,"res://scenes/authored_world.scn")
 	if error == OK:
 		error = ResourceSaver.save(packed,"res://scenes/authored_world.tscn")
 	print("VEGETATION_BAKE ",error," ",(Time.get_ticks_msec()-start)/1000.0," seconds")

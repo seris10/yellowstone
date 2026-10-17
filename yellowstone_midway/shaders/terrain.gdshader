@@ -21,7 +21,7 @@ void fragment() {
  if (core_cut_active > 0.5 && world.x >= core_cut_x_min_m && world.x <= core_cut_x_max_m && world.z >= core_cut_z_min_m && world.z <= core_cut_z_max_m) {
   discard;
  }
- GroundSurface surface = ground_surface(world, normalize(world_normal));
+ GroundSurface surface = ground_surface(world, normalize(world_normal), INV_VIEW_MATRIX[3].xyz);
  ALBEDO = surface.albedo;
  NORMAL_MAP = vec3(surface.normal_xy * 0.5 + 0.5, 1.0);
  NORMAL_MAP_DEPTH = 1.0;

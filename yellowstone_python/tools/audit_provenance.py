@@ -74,7 +74,7 @@ def audit_file(path: Path, strict: bool = False) -> list:
     if path.name in LEGACY_ALLOWLIST:
         return []
     if not isinstance(doc, dict):
-        # river_state.json is a bare list of reach dicts with no schema/status contract; this reports it without crashing.
+        # river_state.json is a bare reach list; report its missing schema/status contract.
         return [{"file": path.name, "rule": "non-dict-artifact",
                  "found": f"{type(doc).__name__} len={len(doc)}"}]
     if "schema" not in doc:
