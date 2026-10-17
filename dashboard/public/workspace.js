@@ -19,7 +19,7 @@ window.YSWorkspace = {
     let hovered = null, skipClick = false, dragLength = 0, exchange = null, panelWidth = 400, playing = false, lastTick = 0, nodeDragging = null;
     const pointers = new Map();
     let plot = null, chartSeries = null, brush = null, miniMap = null, fieldImage = null, urlTimer = null, inlineCard = null;
-    let overviewCamera = {...camera}, overviewEdges = [], detailEdges = [], sceneReady = false, restored = false, renderedFilters = "", semanticDirty = true, netMix = 0;
+    let overviewCamera = {...camera}, networkCamera = {...camera}, overviewEdges = [], detailEdges = [], sceneReady = false, restored = false, renderedFilters = "", semanticDirty = true, netMix = 0;
     const panel = $("analysis-panel"), panelHome = panel.parentElement;
     const colorLegend=html("div","workspace-color-legend");colorLegend.setAttribute("aria-label","Process colors");panelHome.append(colorLegend);
     const titles = {temperature:"River temperature · distance",history:"River temperature · time",field:"Temperature · distance × time",oxygen:"Dissolved oxygen",periphyton:"Periphyton biomass",shading:"Shortwave transmission",air:"Air temperature · 60 s",wind:"Wind speed · 60 s",pools:"Pool center and edge temperatures",heat:"Ground heat field",water:"Snow storage by patch", "water-sum":"Summed-depth accounting diagnostic",snow:"Patch snow storage",biomass:"Vegetation biomass",moisture:"Patch soil moisture"};
@@ -98,7 +98,7 @@ window.YSWorkspace = {
     function setNetwork(on, save = true) {
       if (on === state.network) return;
       state.network = on;
-      if (on) ecosystem(false); else header();
+      if (on) ecosystem(false); else { header(); fit(); }
       if (save) writeURL(); announce(on ? "Full network. Every process and exchange in one view." : "Domain overview.");
     }
     function parent() { if (state.process) selectDomain(state.domain); else if (state.domain) ecosystem(); else fit(); }
@@ -133,7 +133,7 @@ window.YSWorkspace = {
     }
     function viewport() {
       const mobile=width<721;
-      return {left:mobile?20:45,right:width-(mobile?20:65),top:mobile?150:145,bottom:height-100};
+      return {left:mobile?20:45,right:width-(mobile?20:65),top:mobile?100:145,bottom:height-(mobile?120:100)};
     }
     function focusRadius(kind) {
       const v=viewport(),span=Math.max(140,Math.min(v.right-v.left,v.bottom-v.top));
@@ -143,8 +143,11 @@ window.YSWorkspace = {
       if (!sceneReady || !width || !height) return;
       const v=viewport(),subject=cards.find(c=>state.process?c.kind==="process"&&c.item.id===state.process:c.kind==="domain"&&c.item.id===state.domain);
       if(subject)target=model.frameCircle(subject,focusRadius(subject.kind),{x:(v.left+v.right)/2,y:(v.top+v.bottom)/2});
-      else target={...overviewCamera};
-      if (instant || reduced) camera = {...target};
+      else target={...(state.network?networkCamera:overviewCamera)};
+      if (instant || reduced) {
+        camera = {...target};
+        world.setAttribute("transform",`translate(${camera.x},${camera.y}) scale(${camera.k})`);updateSemantic();
+      }
       semanticDirty=true;
     }
     function setOpacity(element, value, interactive = false) {
@@ -250,11 +253,13 @@ window.YSWorkspace = {
         if(connection)detailEdges.push(connection);
       });
       pairs.forEach(p=>{const edge=connect(cards.find(c=>c.kind==="domain"&&c.key===p.a),cards.find(c=>c.kind==="domain"&&c.key===p.b),p.edges,background);if(edge)overviewEdges.push(edge);});
-      const domainsOnly=cards.filter(c=>c.kind==="domain"),left=mobile?12:270,right=width-(mobile?12:65),top=mobile?165:90,bottom=height-105;
+      const domainsOnly=cards.filter(c=>c.kind==="domain"),left=mobile?12:270,right=width-(mobile?12:65),top=mobile?132:90,bottom=height-(mobile?120:105);
       const minX=Math.min(...domainsOnly.map(c=>c.x-c.r-10)),maxX=Math.max(...domainsOnly.map(c=>c.x+c.r+10));
       const minY=Math.min(...domainsOnly.map(c=>c.y-c.r-10)),maxY=Math.max(...domainsOnly.map(c=>c.y+c.r+10));
       base=Math.max(.12,Math.min((right-left)/(maxX-minX),Math.max(100,bottom-top)/(maxY-minY),1.4));
       overviewCamera={k:base,x:(left+right)/2-(minX+maxX)/2*base,y:(top+bottom)/2-(minY+maxY)/2*base};
+      const netTop=mobile?84:top,netScale=mobile?Math.max(.12,Math.min((right-left)/(maxX-minX),Math.max(100,bottom-netTop)/(maxY-minY),1.4)):base;
+      networkCamera={k:netScale,x:(left+right)/2-(minX+maxX)/2*netScale,y:(netTop+bottom)/2-(minY+maxY)/2*netScale};
       sceneReady=true;header();if(reframe)fit();renderAnalysis();updateSemantic();
     }
     function attachPanel(c) {
@@ -315,7 +320,7 @@ window.YSWorkspace = {
       });
       sceneEdges.forEach(updateConnection);
       setOpacity(colorLegend,state.domain?cards.find(c=>c.kind==="domain"&&c.item.id===state.domain)?.reveal||0:0);
-      const heading=document.querySelector(".workspace-heading"),opacity=(1-model.fade(camera.k/base,1.1,1.8))*(width<721?1-netMix:1);
+      const heading=document.querySelector(".workspace-heading"),home=state.network?networkCamera:overviewCamera,opacity=(1-model.fade(camera.k/base,1.1,1.8))*(width<721?(1-netMix)*(1-model.fade(Math.hypot(camera.x-home.x,camera.y-home.y)/width,.03,.18)):1);
       setOpacity(heading,opacity);heading.style.visibility=opacity<.01?"hidden":"visible";
       semanticDirty=false;
     }
@@ -552,7 +557,12 @@ window.YSWorkspace = {
       $("workspace-status").addEventListener("change",event=>{state.status=event.target.value;if(state.status==="none"){state.research=true;$("show-research").checked=true;}renderScene();renderAnalysis();writeURL();});
       $("process-search").addEventListener("input",event=>{const query=event.target.value.trim().toLowerCase(),results=$("search-results");results.replaceChildren();results.hidden=!query;if(!query)return;
         const matches=data.nodes.filter(n=>`${n.label} ${n.summary} ${domains.get(n.domain).label}`.toLowerCase().includes(query));matches.forEach(n=>{const b=processLink(n,`${domains.get(n.domain).label} · ${type(n)}`);b.addEventListener("click",()=>{results.hidden=true;event.target.value="";});results.append(b);});if(!matches.length)results.append(html("p","","No matching process."));});
-      document.addEventListener("pointerdown",event=>{if(!event.target.closest(".workspace-search"))$("search-results").hidden=true;});
+      const topline=$("workspace-topline"),searchToggle=$("search-toggle"),searchInput=$("process-search");
+      const openSearch=open=>{topline.classList.toggle("search-open",open);searchToggle.setAttribute("aria-expanded",String(open));if(open)searchInput.focus();else{$("search-results").hidden=true;searchInput.value="";searchInput.blur();}};
+      searchToggle.addEventListener("click",()=>openSearch(!topline.classList.contains("search-open")));
+      searchInput.addEventListener("keydown",event=>{if(event.key==="Escape")openSearch(false);});
+      $("search-results").addEventListener("click",()=>topline.classList.remove("search-open"));
+      document.addEventListener("pointerdown",event=>{if(!event.target.closest(".workspace-search,#search-toggle")){$("search-results").hidden=true;if(topline.classList.contains("search-open"))openSearch(false);}});
       map.addEventListener("wheel",event=>{event.preventDefault();$("tooltip").hidden=true;const r=map.getBoundingClientRect();zoom(Math.exp(clamp(-event.deltaY*.002,-.5,.5)),event.clientX-r.left,event.clientY-r.top);},{passive:false});
       map.addEventListener("pointerdown",event=>{if(event.button!==0&&event.pointerType==="mouse")return;target={...camera};pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});skipClick=false;dragLength=0;map.classList.add("dragging");});
       map.addEventListener("pointermove",event=>{if(!pointers.has(event.pointerId))return;const prev=pointers.get(event.pointerId),dx=event.clientX-prev.x,dy=event.clientY-prev.y;dragLength+=Math.hypot(dx,dy);if(dragLength>5){skipClick=true;map.setPointerCapture(event.pointerId);}
@@ -563,7 +573,8 @@ window.YSWorkspace = {
       document.addEventListener("keydown",event=>{if(event.key!=="Escape"||!active||document.body.dataset.analysisActive==="true"||state.mode!=="systems"||event.target.matches("input,select")||document.querySelector("dialog[open]"))return;$("search-results").hidden=true;if(state.network){setNetwork(false);return;}if(state.expanded){state.expanded=false;renderAnalysis();}else parent();});
       const resize=$("analysis-resize"),resizeWidth=value=>{panelWidth=clamp(value,320,Math.min(650,width*.65));document.body.style.setProperty("--analysis-width",`${panelWidth}px`);resize.setAttribute("aria-valuenow",String(Math.round(panelWidth)));fit(true);};
       resize.addEventListener("pointerdown",event=>{resize.setPointerCapture(event.pointerId);resize.dataset.dragging="true";});resize.addEventListener("pointermove",event=>{if(resize.dataset.dragging!=="true")return;resizeWidth(width-event.clientX+map.getBoundingClientRect().left-20);});["pointerup","pointercancel"].forEach(name=>resize.addEventListener(name,()=>{resize.dataset.dragging="false";}));resize.addEventListener("keydown",event=>{if(!["ArrowLeft","ArrowRight"].includes(event.key))return;event.preventDefault();resizeWidth(panelWidth+(event.key==="ArrowLeft"?25:-25));});
-      new ResizeObserver(entries=>{const r=entries[0].contentRect;if(r.width<=0||r.height<=0)return;if(Math.abs(width-r.width)<1&&Math.abs(height-r.height)<1)return;width=r.width;height=r.height;renderScene(false);fit();}).observe(map);
+      let sized=false;
+      new ResizeObserver(entries=>{const r=entries[0].contentRect;if(r.width<=0||r.height<=0)return;if(Math.abs(width-r.width)<1&&Math.abs(height-r.height)<1)return;width=r.width;height=r.height;renderScene(false);fit(!sized);sized=true;}).observe(map);
       window.addEventListener("hashchange",restore);
     }
     data.domains.forEach(d=>{const b=html("button","",d.label);b.style.setProperty("--domain",d.color);b.dataset.domain=d.id;b.setAttribute("aria-pressed","false");b.addEventListener("click",()=>selectDomain(d.id));$("workspace-domains").append(b);});

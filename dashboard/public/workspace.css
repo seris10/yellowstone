@@ -38,3 +38,32 @@ body[data-depth="1"] .workspace-heading,body[data-depth="2"] .workspace-heading{
 @media(max-width:720px){.continuous-explorer[data-depth] .workspace-heading{top:89px;left:17px;max-width:245px}.continuous-explorer[data-depth] .workspace-heading h1{font-size:25px;line-height:1.14;margin-bottom:9px}.continuous-explorer .zoom-controls{right:12px;bottom:105px;top:auto}.continuous-explorer[data-depth="2"] #workspace-filters{bottom:88px}.ws-inline-analysis .analysis-heading h2{font-size:19px}.ws-inline-analysis .analysis-heading{padding:7px 9px 9px}.ws-inline-analysis #analysis-content{padding:11px}.ws-inline-analysis .analysis-tabs{padding:5px}.ws-inline-analysis .analysis-control select{font-size:12px}.ws-inline-analysis #analysis-content .analysis-note{font-size:11px}.ws-inline-analysis .analysis-probe{font-size:11px}.ws-inline-analysis .analysis-tabs button{padding:10px 6px}.ws-inline-analysis .analysis-control{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.continuous-explorer .ws-sphere{transition:none}}
 .workspace-color-legend{position:absolute;left:50%;transform:translateX(-50%);bottom:90px;max-width:calc(100% - 240px);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:8px 13px;border-radius:5px;background:#080b11e8;pointer-events:none;font:10px var(--sans);color:#bac6d8}.workspace-color-legend span{white-space:nowrap}.workspace-color-legend span:not(.legend-label)::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--role-color);margin-right:6px}.workspace-color-legend .legend-label{font:7px var(--mono);letter-spacing:1px;color:#7f92ae}@media(max-width:720px){.workspace-color-legend{bottom:87px;max-width:calc(100% - 105px);gap:7px 12px;font-size:9px;padding:7px 9px}.workspace-color-legend .legend-label{display:none}.continuous-explorer[data-depth="1"] #workspace-filters,.continuous-explorer[data-depth="2"] #workspace-filters{bottom:128px}.workspace-search{width:108px}}
+.search-toggle,.geographic-mode .workspace-network{display:none}
+@media(max-width:720px){
+#workspace-topline{top:12px;left:12px;right:12px;gap:8px;flex-wrap:wrap;align-items:center}
+.workspace-modes button{font-size:11px;padding:9px 10px}
+.search-toggle{display:flex;align-items:center;justify-content:center;order:3;width:38px;height:36px;flex:none;border:1px solid #39414e;border-radius:6px;background:#0b0e14ed;color:#9daabd}
+.geographic-mode .search-toggle{display:none}
+.workspace-search{display:none;order:3}
+#workspace-topline.search-open .workspace-search{display:flex;align-items:center;position:absolute;left:0;right:0;top:0;width:auto;height:36px;margin:0;padding:0 12px;z-index:30;background:#0b0f17}
+#workspace-topline.search-open>.workspace-modes,#workspace-topline.search-open>.workspace-network,#workspace-topline.search-open>.search-toggle{visibility:hidden}
+#workspace-topline.search-open .workspace-search #search-results{left:0;right:0;top:42px;min-width:0;max-height:min(50vh,360px)}
+.continuous-explorer #workspace-breadcrumb{order:4;width:100%;height:28px;min-height:0;font-size:11px}
+.continuous-explorer #workspace-breadcrumb button{font-size:11px;max-width:none;padding:4px 0}
+body[data-depth="0"] #workspace-breadcrumb{display:none}
+.continuous-explorer[data-depth] .workspace-heading{top:58px;left:16px;max-width:calc(100% - 32px)}
+.continuous-explorer[data-depth] .workspace-heading h1{font-size:21px;line-height:1.2;margin:0 0 6px;max-width:none}
+.continuous-explorer[data-depth] .workspace-heading .eyebrow,.continuous-explorer[data-depth] #workspace-description,.continuous-explorer[data-depth] #domain-page-link,.continuous-explorer[data-depth] .workspace-heading .wb-entry{display:none}
+.continuous-explorer[data-depth] .workspace-heading #workspace-count{font-size:9px;line-height:1.5;margin:0}
+.continuous-explorer:not([data-depth="0"]) .workspace-heading{display:none}
+.continuous-explorer .zoom-controls,.continuous-explorer.analysis-open .zoom-controls{flex-direction:row;right:12px;left:auto;top:auto;bottom:70px;padding:3px}
+.continuous-explorer .zoom-controls output,.continuous-explorer .zoom-controls .control-divider,.continuous-explorer #arrange-nodes,.continuous-explorer #reset-layout,.continuous-explorer #fullscreen{display:none}
+.continuous-explorer .zoom-controls button{width:38px;height:35px;font-size:21px}
+.continuous-explorer #workspace-filters,.continuous-explorer[data-depth] #workspace-filters{display:block;left:12px;bottom:70px;width:auto;max-width:none;padding:0;border-radius:6px;font-size:11px}
+.continuous-explorer #workspace-filters summary{padding:11px 12px;font-size:11px}
+.continuous-explorer #workspace-filters label,.continuous-explorer #workspace-filters p{margin-left:12px;margin-right:12px}
+.continuous-explorer #workspace-filters[open]{width:min(250px,calc(100vw - 24px));padding-bottom:12px}
+.workspace-color-legend{bottom:112px;max-width:calc(100% - 24px)}
+#workspace-domains{left:12px;right:12px;bottom:14px;max-width:none;transform:none}
+#workspace-hint{display:none}
+}
