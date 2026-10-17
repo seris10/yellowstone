@@ -30,7 +30,7 @@ PALETTE_SOURCE = ("tools/fit_mat_palette.py k=6 over two Google satellite "
 # Flow-fraction decades mapped onto flow intensity 0 to 1; authored.
 FLOW_LOG10_MIN = -9.0
 FLOW_LOG10_MAX = -1.0
-# Imagery mat strength: warm-chroma margin over the sinter median, vegetation and shadow cutoffs; authored.
+# Authored imagery mat strength uses warm-chroma margin over sinter median and plant/shadow cutoffs.
 WARM_MARGIN = 2.0
 WARM_TOP_PERCENTILE = 97.0
 SINTER_MIN_L = 75.0
@@ -41,7 +41,7 @@ MINERAL_MIN = 0.3
 PRESENCE_DILATION_M = 6.0
 # Hot-rim pale blend window in C, bracketing the Nugent orange to yellow-green edge.
 PALE_BLEND_C = (60.0, 72.0)
-# Streamline half-length in output pixels, streak contrast, edge softening and luminance window; authored.
+# Authored streaks use output-pixel half-length, contrast, edge softness, and a luminance window.
 STREAMLINE_STEPS = 8
 STREAK_CONTRAST = 0.25
 EDGE_SIGMA_M = 0.75

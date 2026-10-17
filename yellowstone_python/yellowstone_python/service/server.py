@@ -11,11 +11,8 @@ LOOPBACK_HOSTS = frozenset({"localhost", "127.0.0.1", "[::1]"})
 
 
 class JsonRequestHandler(BaseHTTPRequestHandler):
-    """Read and write bounded JSON requests for a local HTTP service.
-
-    Browser pages are refused unless their origin is listed in ``allowed_origins``.
-    Native clients send no ``Origin`` header and are unaffected. When ``auth_token``
-    is set, every state-changing request must carry it in ``X-Yellowstone-Token``.
+    """Handle bounded local JSON requests from allowed_origins or native clients without Origin.
+    Require X-Yellowstone-Token for state-changing requests when auth_token is set.
     """
 
     max_body_bytes = 1048576

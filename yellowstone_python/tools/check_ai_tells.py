@@ -34,6 +34,8 @@ IGNORE_MARKER = re.compile(r"ai-tells:\s*ignore(?:[ \t]+([\w,\- \t]+))?", re.I)
 SENTENCE_BREAK = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(\[])")
 QUOTE_LIMIT = 160
 MIN_BASELINE_QUOTE = 20
+INSTRUCTION_FILES = {"AGENTS.md", "CLAUDE.md", "SKILL.md"}
+INSTRUCTION_PATTERNS = {"imperative-to-self", "split-hook-heading"}
 HOUSE_FIX = {
     "dash": "Use ASCII punctuation; split the sentence or use a colon, comma, or period.",
     "first_person": "Describe the code or data directly; drop the author's voice.",
@@ -54,6 +56,7 @@ HOUSE_FIX = {
     "docstring_shape": "Reduce the docstring to one imperative line under 100 characters.",
     "docstring_length": "Reduce the docstring to at most two lines.",
     "comment_block": "Reduce the comment block to one line; move detail to the README.",
+    "comment_length": "Shorten the comment to at most 100 characters; move detail to documentation.",
 }
 
 
@@ -185,6 +188,8 @@ def build_pattern(entry: dict, library: str, scope: str, when: dict) -> Pattern:
 
 def pattern_in_scope(pattern: Pattern, path: str) -> bool:
     """Return whether the pattern's library and own extension list cover this path."""
+    if Path(path).name in INSTRUCTION_FILES and pattern.id in INSTRUCTION_PATTERNS:
+        return False
     lowered = path.lower()
     suffix = Path(lowered).suffix
     exts = pattern.where.get("extensions")

@@ -137,7 +137,7 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
                      chainage=res["fh_chainage"],
                      chainage_offset_m=res["fh_chainage_offset_m"])
     checks["metrics"]["validation_claims"] = []
-    # Groundwater exchange: call head_gradient_exchange when per-cell records are authored; coupling partial otherwise.
+    # Authored per-cell records enable head_gradient_exchange; absent records leave coupling partial.
     gw_cells = (cfg.get("hydro", {}) or {}).get("groundwater", {}).get("cells")
     gw_provenance: dict
     if isinstance(gw_cells, list) and gw_cells:
@@ -171,7 +171,7 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
                        "conductivity, thickness, width, length, aquifer "
                        "and river heads, and an aquifer temperature"),
         }
-    # Numerical warnings from the replay solver land in CHECKS.metrics but never fail the build on their own.
+    # Replay numerical warnings enter CHECKS.metrics without independently failing the build.
     replay_numerical_warnings = (
         res["replay_doc"].get("numerical_checks", {})
                          .get("numerical_warnings", []) or [])
@@ -201,7 +201,7 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
     }
     checks["metrics"]["outflow_chain_defects"] = (
         [_outflow_chain_defect] if _outflow_chain_defect else [])
-    # Registry gates: contract vocabulary, equation inventory, claim and parameter registries into the aggregate build gate.
+    # Aggregate contract vocabulary, equation, claim, and parameter registry checks into the build gate.
     registry_failures = (
         _claims_registry_errors()
         + validate_contract()
@@ -212,7 +212,7 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
         checks["passed"] = False
         checks["failures"] += [f"registry: {e}" for e in registry_failures]
     checks["metrics"]["registry_failures"] = registry_failures
-    # Claim-aligned non-regression gates: reach and SNOTEL holdout rmse against current evidence artifacts.
+    # Reach and SNOTEL gates compare holdout RMSE against evidence artifacts.
     from yellowstone_python.validation.claims import run_claim_gates
     claim_gate = run_claim_gates()
     checks["metrics"]["claim_gates"] = claim_gate["gates"]
@@ -220,7 +220,7 @@ def _write_variant_and_gate(cfg, baseline, deps, res, out, bid, _ok):
         checks["passed"] = False
         checks["failures"] += [f"claim_gate: {f}"
                                for f in claim_gate["failures"]]
-    # Separate coupling_check artifact; coupling.json is the contract, coupling_check.json is the verification result.
+    # coupling.json holds the contract; coupling_check.json records its verification result.
     coupling_result = check_coupling(
         res["replay_doc"], thermal_landscape(res["replay_doc"]))
     checks["metrics"]["coupling_check_passed"] = coupling_result["passed"]

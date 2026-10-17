@@ -7,6 +7,8 @@ const METADATA_PATH := ASSET_ROOT + "lodgepole_metadata.json"
 const ARCHETYPES := ["dense", "edge", "open", "sapling", "snag"]
 const PARTS := ["Bole", "Branches", "NeedleCards", "Billboard"]
 const LOD_RANGES := [[0.0, 18.0], [18.0, 65.0], [65.0, 180.0], [180.0, 3000.0]]
+# Use the tenth-percentile crown-ratio floor for census display.
+const DISPLAY_CROWN_RATIO_FLOOR := 0.35
 static var _metadata_cache: Dictionary = {}
 static var _asset_cache: Dictionary = {}
 static var _texture_cache: Dictionary = {}
@@ -221,7 +223,7 @@ static func bind_cutout_materials(assets: Array, frozen_wind: bool = false) -> b
 				leaves.set_shader_parameter("albedo_texture", texture)
 				leaves.set_shader_parameter("alpha_cutoff", 0.32)
 				leaves.set_shader_parameter("use_texture", true)
-				leaves.set_shader_parameter("tint", Vector3(0.86, 0.92, 0.82))
+				leaves.set_shader_parameter("tint", Vector3(0.96, 1.00, 0.90))
 				leaves.set_shader_parameter("wind_strength", 0.14)
 				if frozen_wind:
 					leaves.set_shader_parameter("wind_vector", Vector2.ZERO)
@@ -399,6 +401,8 @@ static func local_transform(record: Dictionary, part: String) -> Transform3D:
 	var radius := float(display.crown_radius_m)
 	var dbh := float(display.dbh_m)
 	var ratio := float(display.crown_ratio)
+	if name != "snag":
+		ratio = maxf(ratio, DISPLAY_CROWN_RATIO_FLOOR)
 	if not is_finite(base_height + base_dbh + base_radius + base_ratio + height + radius + dbh + ratio):
 		return _invalid_transform()
 	var size := Vector3(radius / base_radius, height_scale, radius / base_radius)

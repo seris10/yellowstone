@@ -4,7 +4,7 @@ render_mode cull_disabled, diffuse_lambert_wrap, world_vertex_coords;
 uniform sampler2D albedo_texture : source_color, filter_linear_mipmap_anisotropic, repeat_disable;
 uniform bool use_texture = false;
 uniform float alpha_cutoff = 0.40;
-uniform vec3 tint : source_color = vec3(0.25,0.32,0.15);
+uniform vec3 tint : source_color = vec3(0.96,1.00,0.90);
 uniform float wind_strength = 0.2;
 uniform vec2 wind_vector=vec2(1.8,0.6);
 varying vec3 world;

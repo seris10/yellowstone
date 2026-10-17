@@ -17,14 +17,14 @@ L_VAPOR_J_KG = 2.45e6
 WIND_FLOOR_MPS = 0.5
 CLOUD_LONGWAVE_FACTOR_DEFAULT = 0.22
 
-# Diagnostic ceiling for turbulent-transfer coefficients; open-water bulk coefficients lie in 1e-3 to 3e-3.
+# Diagnostic ceiling for turbulent-transfer coefficients; typical open-water values are 1e-3 to 3e-3.
 BULK_COEFFICIENT_HIGH = 1.0e-2
 
-# Diagnostic bounds for radiation correction multipliers; values below 0.1 or above 2.0 reported as suspicious.
+# Radiation multipliers outside [0.1, 2.0] produce diagnostics.
 RADIATION_MULTIPLIER_LOW = 0.1
 RADIATION_MULTIPLIER_HIGH = 2.0
 
-# Longwave bias magnitude at which cloud estimate becomes a large fraction of clear-sky; reported as diagnostic.
+# Longwave bias is diagnostic when the cloud estimate approaches a large fraction of clear-sky flux.
 LONGWAVE_BIAS_SUSPECT_W_M2 = 100.0
 
 MIN_THERMODYNAMIC_C = -80.0

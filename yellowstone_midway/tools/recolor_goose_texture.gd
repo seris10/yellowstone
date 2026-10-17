@@ -1,5 +1,5 @@
 extends SceneTree
-## Recolor the CC-BY mallard base texture into a Canada goose palette (green head to black, orange bill and feet to black, body gray-brown to Canada brown, white ring kept). Run: godot --fixed-fps 60 --path . --script tools/recolor_goose_texture.gd
+## Recolor CC-BY mallard textures as Canada geese; palette and command: authoring guide, Tool commands.
 
 const SRC_GLB: String = "res://assets/imported/fauna/goose/goose_mallard_base.glb"
 const OUT_PNG: String = "res://assets/imported/fauna/goose/canada_goose_texture.png"

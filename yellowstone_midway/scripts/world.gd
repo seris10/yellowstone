@@ -65,15 +65,15 @@ var camera_anchor := 0
 var loading: Label
 var foliage_materials: Array[ShaderMaterial] = []
 var terrain_materials: Array[ShaderMaterial] = []
-# Bake-time environment sets; groups assigned once by bake_world.gd.
+# Cache bake-assigned environment groups.
 var _steam_nodes: Array[Node] = []
 var _river_nodes: Array[Node] = []
-# Steam density multiplier on top of ecosystem.condensation_visibility.
+# Steam multiplier for ecosystem condensation visibility.
 const STEAM_DENSITY_SCALE: float = 0.40
-# River flow speed is clamped to this multiplier range around the authored default.
+# Clamp river speed relative to its baked value.
 const RIVER_FLOW_RATIO_MIN: float = 0.5
 const RIVER_FLOW_RATIO_MAX: float = 2.0
-# Firehole illustrative baseline flow in m3/s. Published in ecosystem.boundary_m3s.
+# Illustrative Firehole flow baseline in m3/s (ecosystem.boundary_m3s).
 const RIVER_FLOW_BASELINE_M3S: float = 8.0
 # Baked flow_speed uniform used as the authored default per river material.
 var _river_flow_speed_defaults: Dictionary = {}
@@ -82,21 +82,21 @@ var _pool_shell_temperatures: Dictionary = {}
 # Last known seasonal snow fields written to terrain materials.
 var _snow_amount_from_mean: float = 0.0
 var _snow_swe_mm_mean: float = 0.0
-# season.json per-patch snow_cover_fraction mean when provided; 1.0 falls back to the painted mask alone.
+# Mean published snow cover; 1.0 uses only the painted mask.
 var _snow_cover_fraction_mean: float = 1.0
-# Insect/bird compartment summary read from data/insect_bird.json at ready.
+# Insect and bird diagnostics from insect_bird.json.
 var _insect_bird_summary: Dictionary = {}
-# Optional sidecars published by the Python build; each loader tolerates absence and leaves the summary dictionary empty when a file is missing.
+# Missing optional sidecars produce empty summaries.
 var _plume_field_summary: Dictionary = {}
 var _geochemistry_summary: Dictionary = {}
 var _calibration_summary: Dictionary = {}
 var _census_summary: Dictionary = {}
 var _pools_state_summary: Dictionary = {}
-# Per-step pools_state.json poll: track its mtime to re-read without I/O every frame.
+# Poll pool state by mtime.
 var _pools_state_mtime: int = 0
 var _groundwater_summary: Dictionary = {}
 var _overland_summary: Dictionary = {}
-# Guild diagnostics; the ecosystem.json wildlife list remains the actor roster and these sidecars are consulted only to annotate the field-notes block.
+# Guild sidecars annotate field notes; ecosystem.json supplies actors.
 var _grazer_summary: Dictionary = {}
 var _fish_summary: Dictionary = {}
 var _overlays: Node3D
@@ -106,17 +106,19 @@ var toast_label: Label
 var toast_seconds := 0.0
 var _requested_pause := false
 var _cursor_released := false
-# Thermal core and mat surface state; populated by build_core_terrain and polled by _process.
+var _water_stage_key := 0
+var _water_stage_texture: Texture2D
+# Core terrain and thermal mat state.
 var _core_terrain: Node3D
 var _mat_surface: RefCounted
 var _mat_pigment_mtime: int = 0
 var _mat_pigment_blend: float = 1.0
 var _mat_pigment_blending: bool = false
-# Pigment cross-fade duration between builds; authored.
+# Authored pigment cross-fade duration.
 const PIGMENT_BLEND_DURATION_S: float = 3.0
-# Interval between mat_pigment.png mtime stats; authored. The blend advance still runs every frame.
+# Authored pigment-file poll interval.
 const PIGMENT_MTIME_POLL_INTERVAL_S: float = 1.0
-# Accumulator for the mtime poll; carries unspent delta across frames.
+# Retain unspent time between mtime polls.
 var _mat_pigment_poll_accum_s: float = 0.0
 
 func _ready() -> void:
@@ -126,7 +128,7 @@ func _ready() -> void:
 			push_error("Active release failed integrity or runtime contract checks.")
 			return
 		ReleaseData.activate(generation)
-	# Frame cap honors project rendering/limits/fps/max_fps when set.
+	# Honor the configured frame cap.
 	var configured_cap: int = int(ProjectSettings.get_setting("rendering/limits/fps/max_fps", 60))
 	Engine.max_fps = configured_cap if configured_cap >= 0 else 60
 	height_field = HeightField.new()
@@ -138,12 +140,16 @@ func _ready() -> void:
 		push_error("data/world.json is missing or has no anchors/routes/pools; re-extract the complete project.")
 		return
 	make_environment()
-	if ResourceLoader.exists("res://scenes/authored_world.tscn"):
-		var authored: Node = load("res://scenes/authored_world.tscn").instantiate()
+	# Load the binary bake when present; the text scene is the fallback.
+	var authored_path := "res://scenes/authored_world.scn"
+	if not ResourceLoader.exists(authored_path):
+		authored_path = "res://scenes/authored_world.tscn"
+	if ResourceLoader.exists(authored_path):
+		var authored: Node = load(authored_path).instantiate()
 		add_child(authored)
 		CanopySurface.refresh_geometry(authored.get_node_or_null("AuthoredCanopySurface"))
 		if not authored.has_node("AuthoredVegetation"):
-			push_error("authored_world.tscn has no AuthoredVegetation: re-run the offline bake.")
+			push_error(authored_path + " has no AuthoredVegetation: re-run the offline bake.")
 			return
 		for group_name: String in ["AuthoredVegetation", "AuthoredForestFloor"]:
 			var foliage_group := authored.get_node_or_null(NodePath(group_name))
@@ -155,7 +161,7 @@ func _ready() -> void:
 			add_child(botany)
 			collect_foliage_materials(botany)
 	else:
-		push_error("Missing authored_world.tscn: run the offline bake once, or re-extract the complete project.")
+		push_error("Missing scenes/authored_world (.scn or .tscn): run the offline bake once, or re-extract the complete project.")
 		return
 	ecosystem = make_ecosystem()
 	ecosystem.name = "Ecosystem"
@@ -177,7 +183,7 @@ func _ready() -> void:
 	add_child(atmosphere_controller)
 	atmosphere_controller.configure(sun, environment, player)
 	_sync_atmosphere_clock()
-	# The build's simulation_epoch_unix anchors the simulation clock once; _process adds ecosystem.elapsed seconds to that start.
+	# Anchor model time to simulation_epoch_unix plus ecosystem.elapsed.
 	if spec.get("simulation_epoch_unix") != null:
 		_simulation_start_epoch_unix = float(spec["simulation_epoch_unix"])
 		_simulation_epoch_unix = _simulation_start_epoch_unix + float(ecosystem.elapsed)
@@ -208,7 +214,7 @@ func _ready() -> void:
 	for material: ShaderMaterial in terrain_materials:
 		if not TerrainMaterials.bind_ground_material(material):
 			push_error("Terrain ground material binding failed.")
-	# Terrain tiles own the ground_wetness uniform the atmosphere controller writes.
+	# Terrain materials own the atmosphere ground_wetness uniform.
 	for terrain_tile: Node in get_tree().get_nodes_in_group("terrain_tile"):
 		if terrain_tile is MeshInstance3D:
 			terrain_tile.add_to_group("weather_wetness")
@@ -222,7 +228,6 @@ func _ready() -> void:
 	_geochemistry_summary = load_optional_sidecar("res://data/geochemistry.json")
 	_calibration_summary = load_optional_sidecar("res://data/calibration_summary.json")
 	_census_summary = load_optional_sidecar("res://data/census.json")
-	# Guild diagnostics for the field-notes block; ecosystem.json remains the actor source.
 	_grazer_summary = load_optional_sidecar("res://data/grazer.json")
 	_fish_summary = load_optional_sidecar("res://data/fish.json")
 	refresh_pools_state()
@@ -637,7 +642,7 @@ func apply_season() -> void:
 		material.set_shader_parameter("snow_swe_mm", 0.0)
 		material.set_shader_parameter("snow_cover_fraction", 0.0)
 		material.set_shader_parameter("snow_mask", null)
-	# Season switch alters surfaces only: snow cover from season.json.
+	# Season selection updates snow surfaces.
 	if not ReleaseData.file_exists("res://data/season.json"):
 		return
 	var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string("res://data/season.json"))
@@ -669,7 +674,7 @@ func apply_season() -> void:
 	print("season: snow_amount=%.2f snow_swe_mm=%.1f snow_cover_fraction=%.2f (cover_patches=%d) from %s." % [_snow_amount_from_mean, _snow_swe_mm_mean, _snow_cover_fraction_mean, cover_count, str(parsed.get("season", "unrecorded"))])
 
 func cache_river_flow_defaults() -> void:
-	# Record the baked flow_speed per river so runtime scaling has a reference.
+	# Cache baked river speeds for runtime scaling.
 	for node in _river_nodes:
 		var mi := node as MeshInstance3D
 		if mi == null or mi.mesh == null:
@@ -695,7 +700,7 @@ func load_pool_shell_temperatures() -> void:
 		_pool_shell_temperatures[name] = float(shell.get("t_center_c", 0.0))
 
 func apply_pool_temperatures() -> void:
-	# pool_shells.json carries authored static temperatures; apply them per pool.
+	# Apply authored pool-shell temperatures.
 	if get_tree() == null:
 		return
 	for node: Node in get_tree().get_nodes_in_group("thermal_surfaces"):
@@ -738,7 +743,7 @@ func refresh_pools_state() -> void:
 		return
 	_pools_state_mtime = mtime
 	_pools_state_summary = load_optional_sidecar(path)
-	# Apply any newly provided per-pool temperatures to thermal_surfaces.
+	# Apply updated shell temperatures to thermal surfaces.
 	var rows: Variant = _pools_state_summary.get("pools", null)
 	if rows is Array:
 		for row: Variant in rows:
@@ -785,14 +790,14 @@ func build_core_terrain() -> void:
 		terrain_materials.append(core_material)
 	apply_season()
 	apply_snow_patch_mask()
-	# Record the mat pigment path's current mtime so later _process runs can detect a republish.
+	# Seed the pigment-file mtime poll.
 	if ReleaseData.file_exists("res://data/mat_pigment.png"):
 		_mat_pigment_mtime = ReleaseData.get_modified_time("res://data/mat_pigment.png")
 	print(_mat_surface.status_line())
 	print("core_terrain: tile built; extent=%s" % str(core.extent_rect()))
 
 func _poll_mat_pigment_change(delta: float) -> void:
-	# Watch res://data/mat_pigment.png for a republish, start the gradual cross-fade and advance it per frame.
+	# Poll pigment data and advance its cross-fade.
 	if _core_terrain == null or _mat_surface == null:
 		return
 	var mat_material: ShaderMaterial = _core_terrain.get_mat_material() if _core_terrain.has_method("get_mat_material") else null
@@ -802,7 +807,7 @@ func _poll_mat_pigment_change(delta: float) -> void:
 	if ReleaseData.file_exists(path):
 		var mtime: int = ReleaseData.get_modified_time(path)
 		if _mat_pigment_mtime != mtime:
-			# Reuse the loader on MidwayMatSurface so a republish is sampled bit for bit with the first load, including the Image.load bypass for pre-import pngs.
+			# Reload pigment through the raw-PNG loader.
 			var reloader_image: Image = Image.new()
 			var resolved: String = ReleaseData.resolve_path(path)
 			var err: int = reloader_image.load(ProjectSettings.globalize_path(resolved))
@@ -1178,7 +1183,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif InputHelp.pressed(event, "compare_replay"):
 		toggle_replay()
 	elif InputHelp.pressed(event, "study_scene"):
-		# Study mode toggles the probe overlay in place; no scene change.
+		# Toggle the study probe overlay in place.
 		var probes: Node3D = get_node("ThermalProbes")
 		probes.visible = not probes.visible
 		simulation_panel.visible = probes.visible
@@ -1288,7 +1293,7 @@ func _process(delta: float) -> void:
 		_simulation_start_epoch_unix = ecosystem.epoch_unix - ecosystem.elapsed
 		_has_simulation_epoch = true
 	if _has_simulation_epoch and atmosphere_controller != null:
-		# Simulation seconds come from ecosystem.elapsed; the ecosystem advances in step() under the day_rate pace.
+		# Read model time from ecosystem.elapsed.
 		_simulation_epoch_unix = _simulation_start_epoch_unix + float(ecosystem.elapsed)
 		if not ecosystem.live_mode:
 			atmosphere_controller.clear_weather_solar_override()
@@ -1317,14 +1322,13 @@ func _process(delta: float) -> void:
 			map_view.queue_redraw()
 		update_environment()
 		refresh_env_caches()
-	# Pigment republish and cross-fade run every frame; the mtime check is cheap and the blend step is a scalar advance.
 	if _mat_pigment_blending:
 		_poll_mat_pigment_change(delta)
 
 func _sync_atmosphere_clock() -> void:
 	if atmosphere_controller == null or ecosystem == null:
 		return
-	# Accepted elapsed deltas cover holds, buffer limits, replay endpoints and single-frame stepping.
+	# Sync atmosphere pacing to the simulation clock.
 	atmosphere_controller.time_scale = 0.0 if ecosystem.paused or ecosystem.clock_held else maxf(ecosystem.time_scale, 0.0)
 	atmosphere_controller.set_simulation_elapsed(float(ecosystem.elapsed), not ecosystem.live_mode)
 
@@ -1380,7 +1384,7 @@ func refresh_env_caches() -> void:
 		var mat := mmi.multimesh.mesh.material as ShaderMaterial
 		if mat == null:continue
 		mat.set_shader_parameter("wind",ecosystem.wind)
-		# Condensation model (mirrors yellowstone_python.microclimate): humidity and wind drive the plume.
+		# Condensation inputs follow yellowstone_python.microclimate.
 		var steam_report: Dictionary = _sidecar_data.get("steam_microclimate.json", {}).get("report", {})
 		var near_pool: float = 0.0
 		for pool: Dictionary in spec.get("pools", []):
@@ -1401,6 +1405,20 @@ func refresh_env_caches() -> void:
 		var reach_flow: float = float(reach.get("flow_m3s", RIVER_FLOW_BASELINE_M3S))
 		var ratio: float = clampf(reach_flow / RIVER_FLOW_BASELINE_M3S, RIVER_FLOW_RATIO_MIN, RIVER_FLOW_RATIO_MAX)
 		mat.set_shader_parameter("flow_speed", baseline * ratio)
+	_update_terrain_water_level()
+
+func _update_terrain_water_level() -> void:
+	var rivers: Array = spec.get("rivers", [])
+	var extent := float(spec.get("georeference", {}).get("extent", 4096.0))
+	var key := hash([rivers, extent])
+	if _water_stage_texture == null or key != _water_stage_key:
+		var image: Image = preload("res://scripts/river_terrain.gd").stage_image(rivers, Vector2.ONE * -extent * 0.5, Vector2.ONE * extent)
+		_water_stage_texture = ImageTexture.create_from_image(image)
+		_water_stage_key = key
+	for mat: ShaderMaterial in terrain_materials:
+		mat.set_shader_parameter("water_level_texture", _water_stage_texture)
+		mat.set_shader_parameter("water_level_available", 1.0)
+		TerrainMaterials.set_layer_rect(mat, "water", -extent * 0.5, -extent * 0.5, extent, extent)
 
 func update_notes() -> void:
 	if not info_panel.visible:
@@ -1423,7 +1441,7 @@ func update_notes() -> void:
 	info_label.text="[color=#d6c88f][b]OBSERVING MIDWAY[/b][/color]\n\nThe blue centers are deep hot water. Microbial mats occupy cooler edges and runoff. Follow the drainage fingers toward the Firehole.\n\n[b]Environmental model[/b]\nNearby river reach: %.1f °C\nFlow: %.2f m³/s\nWind: %.1f m/s\nRiverbank insects: %s (activity %.2f)\nSnow: %s%s%s\n\nThe temperature and activity values are illustrative simulation states. Geometry follows USGS elevation and NPS mapping; water depth, plants, and wildlife are authored approximations.\n\n[I] Close notes    [T] Jump simulation by 2 h    [P] Menu" % [reach.temperature_c,reach.flow_m3s,ecosystem.wind.length(),("hover" if float(bank.get("insect_activity",0.0))>0.035 else "inactive"),float(bank.get("insect_activity",0.0)),("see season sidecar" if ReleaseData.file_exists("res://data/season.json") else "summer baseline"),biological_block,sidecar_block]
 
 func format_sidecar_block() -> String:
-	# Structured digest of the frozen diagnostics; raw JSON stays off the page.
+	# Format diagnostics for field notes.
 	var lines: Array = []
 	lines.append("[color=#6b5433][b]Published diagnostics (frozen at build)[/b][/color]")
 	if not _plume_field_summary.is_empty():
@@ -1459,7 +1477,7 @@ func format_sidecar_block() -> String:
 		lines.append("• Fish diagnostics: %d records" % ((f as Array).size() if f is Array else 0))
 	if not _overland_summary.is_empty():
 		lines.append("• Overland flow: %s" % str(_overland_summary.get("status", "available")))
-	# Sidecars with no digest get a one-line presence note.
+	# Report presence for sidecars without a digest.
 	var digested: Array[String] = ["plume_field.json", "geochemistry.json", "calibration_summary.json",
 		"census.json", "pools_state.json", "grazer.json", "fish.json", "overland_field.json"]
 	for file: String in SIDECAR_PATHS:
@@ -1476,33 +1494,36 @@ func format_sidecar_block() -> String:
 func run_smoke_test() -> void:
 	await get_tree().process_frame
 	print("SMOKE scene=ready terrain=",get_node("AuthoredMidway/TerrainTiles").get_child_count()," routes=",spec.routes.size()," pools=",spec.pools.size())
+	var passed := true
 	for i in spec.anchors.size():
 		go_to_anchor(i)
 		player.enabled=true
 		for tick in 120:
 			await get_tree().physics_frame
 		print("SMOKE anchor=",spec.anchors[i].id," floor=",player.is_on_floor()," y=",player.position.y)
-	print("SMOKE heat_budget_error=",ecosystem.heat_budget_error)
-	report_multimesh_validation()
-	get_tree().quit()
+		passed = passed and player.is_on_floor() and player.position.is_finite()
+	var heat_error: float = ecosystem.heat_budget_error
+	print("SMOKE heat_budget_error=", heat_error)
+	passed = passed and is_finite(heat_error) and is_zero_approx(heat_error)
+	var instances_passed := report_multimesh_validation()
+	passed = passed and instances_passed
+	print("SMOKE ok=", passed)
+	get_tree().quit(0 if passed else 1)
 
-func report_multimesh_validation() -> void:
-	# Optional surface of the last tools/validate_multimesh.gd report; the file lands after a headless validation run and is not required at runtime.
+func report_multimesh_validation() -> bool:
 	var validation_path := "res://tests/multimesh_validation.json"
-	if not ReleaseData.file_exists(validation_path):
-		print("SMOKE multimesh_validation=absent (run tools/validate_multimesh.gd to regenerate)")
-		return
-	var parsed: Variant = JSON.parse_string(ReleaseData.get_file_as_string(validation_path))
+	if not FileAccess.file_exists(validation_path):
+		print("SMOKE multimesh_validation=absent")
+		return false
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(validation_path))
 	if not parsed is Dictionary:
-		push_warning("multimesh_validation.json is not a JSON object; ignoring.")
-		return
-	var ok: bool = bool(parsed.get("ok", false))
-	var failure_count: int = int(parsed.get("failure_count", 0))
-	var expected_slots: int = int(parsed.get("expected_instance_slots", 0))
-	var actual_slots: int = int(parsed.get("actual_instance_slots", 0))
-	print("SMOKE multimesh_validation ok=", ok, " slots=", actual_slots, "/", expected_slots, " failures=", failure_count)
-	if not ok:
-		push_warning("multimesh_validation reports %d failures; see %s" % [failure_count, validation_path])
+		print("SMOKE multimesh_validation=invalid_json")
+		return false
+	var valid := preload("res://scripts/verification_receipt.gd").valid(parsed)
+	print("SMOKE multimesh_validation ok=", valid, " slots=", parsed.get("actual_instance_slots", 0), "/", parsed.get("expected_instance_slots", 0), " failures=", parsed.get("failure_count", -1))
+	if not valid:
+		print("SMOKE multimesh_validation=failed_or_stale")
+	return valid
 
 func capture_preview() -> void:
 	resume()

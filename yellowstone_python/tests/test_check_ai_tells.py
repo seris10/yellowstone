@@ -157,6 +157,24 @@ def test_house_style_findings_come_through_for_comments():
     assert {"house-first_person", "house-hypothetical"} <= found
 
 
+def test_house_comment_length_is_a_review_finding():
+    found = run("yellowstone/mod.py", "# " + "x" * 101 + "\n")
+    assert len(found) == 1
+    assert found[0].pattern == "house-comment_length"
+    assert found[0].severity == "review"
+    assert found[0].message == "comment has 101 characters (max 100)"
+    assert "100 characters" in found[0].fix
+
+
+@pytest.mark.parametrize("name", ["AGENTS.md", "CLAUDE.md", "SKILL.md"])
+def test_instruction_files_keep_directives_and_other_prose_checks(name):
+    text = "# Analysis store (SQLite)\n\nDo not invent distributions.\n"
+    assert run("yellowstone/" + name, text) == []
+    assert {"split-hook-heading", "imperative-to-self"} <= ids(run("yellowstone/README.md", text))
+    assert "first-person" in ids(run("yellowstone/" + name, "I'd start with the guide.\n"))
+    assert "em-dash" in ids(run("yellowstone/" + name, "# Data " + EM + " input\n"))
+
+
 def test_render_lists_edits_before_checks():
     findings = run("a.md", "Recommend path 1. It works either way.\n")
     report = cat.render(findings, "a.md")

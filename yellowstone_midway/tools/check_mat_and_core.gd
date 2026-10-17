@@ -147,7 +147,7 @@ func check_phase_1() -> bool:
 	_report["mat"]["pigment_pixel_size_m"] = mat_surface.pigment_pixel_size_m()
 	if not outflow_ok:
 		add_finding("outflow rasters not loaded (data/outflow_network/ missing or malformed)")
-	# Interfaces.md fixes the mat_pigment png at 0.5 m/px over a 1280 m extent at origin -640 -640; verify.
+	# Check the Interfaces.md pigment contract: 0.5 m/px, 1280 m extent, origin (-640, -640).
 	if pigment_ok:
 		var rect: Dictionary = mat_surface.pigment_extent_rect()
 		if abs(float(rect.get("x_min_m", 0.0)) + 640.0) > 1.0:
@@ -183,7 +183,7 @@ func check_phase_1() -> bool:
 		add_finding("thermal_apron shader not assigned")
 		return false
 	_report["shader"]["resource_path"] = mat.shader.resource_path
-	# Confirm the shader parsed by requesting its uniform list; an uninformed shader returns an empty list.
+	# A parsed shader exposes uniforms; an unparsed shader returns an empty list.
 	var params: Array = mat.shader.get_shader_uniform_list()
 	_report["shader"]["parameter_count"] = params.size()
 	var names: Array = []
@@ -240,7 +240,7 @@ func check_phase_1() -> bool:
 		add_finding("pigment file present but pigment_available flag not set")
 	if not pigment_ok and float(pigment_flag) != 0.0:
 		add_finding("pigment file absent but pigment_available flag is set")
-	# Gradual blend check: start_blend must leave mat_pigment_blend at 0.0 so the per-frame ramp can lift it.
+	# start_blend sets mat_pigment_blend to 0.0 for the per-frame ramp toward 1.
 	if pigment_ok:
 		var pigment_tex: Texture2D = mat_surface.pigment_tex
 		mat_surface.start_blend(mat, pigment_tex)

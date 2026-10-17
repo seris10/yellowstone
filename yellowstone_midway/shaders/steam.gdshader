@@ -8,7 +8,7 @@ varying float phase;
 void vertex(){
  phase=INSTANCE_CUSTOM.x;
  float t=mod(TIME*0.14+phase,1.0);
- // Camera-facing vapor cards advect in the shared world wind. Rotating the card must not rotate its wind direction.
+ // Camera-facing vapor cards advect in world wind; card rotation preserves the wind direction.
  vec3 center=MODEL_MATRIX[3].xyz+vec3(wind.x*t*7.0,t*5.0,wind.y*t*7.0);
  vec3 right=normalize(vec3(INV_VIEW_MATRIX[0].x,0.0,INV_VIEW_MATRIX[0].z));
  vec3 point=center+right*VERTEX.x*length(MODEL_MATRIX[0].xyz)+vec3(0.0,VERTEX.y*length(MODEL_MATRIX[1].xyz),0.0);

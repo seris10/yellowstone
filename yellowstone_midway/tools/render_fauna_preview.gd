@@ -1,5 +1,5 @@
 extends SceneTree
-## Render each fauna GLB to PNG for orientation and material review: godot --headless --fixed-fps 60 --path . --script tools/render_fauna_preview.gd
+## Render fauna GLBs for orientation review; see the authoring guide, Tool commands.
 
 const TARGETS: Array[String] = [
 	"res://assets/imported/fauna/bison/bison.glb",

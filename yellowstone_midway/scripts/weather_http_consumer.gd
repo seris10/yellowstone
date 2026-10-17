@@ -1,9 +1,9 @@
 class_name YellowstoneWeatherHttpConsumer
 extends Node
 
-## Fetches weather from a Python HTTP endpoint and forwards normalized state to YellowstoneAtmosphereController.
+## Fetch Python HTTP weather and forward normalized state to YellowstoneAtmosphereController.
 
-## The consumer accepts the normalized nested snapshot or the flat endpoint shape and writes the normalized format to snapshot_path.
+## Accept nested or flat input; persist normalized snapshots to snapshot_path.
 
 const DEFAULT_PORT: int = 8765
 const SCHEMA_VERSION: int = 2
@@ -199,7 +199,7 @@ func _on_request_completed(
 	var solar: Dictionary = snapshot.get("solar", {})
 	var terrain: Dictionary = snapshot.get("terrain", {})
 
-	# Controller consumes the flat weather state; the persisted file uses the normalized nested snapshot schema.
+	# Controller input is flat; persisted snapshots use the nested schema.
 	var controller_state := weather.duplicate(true)
 
 	if not solar.is_empty():
@@ -235,7 +235,7 @@ func _normalize_response(root: Dictionary) -> Dictionary:
 
 	var server_generated: bool = root.has("generated_at_unix")
 	var source_block: Dictionary = _source_metadata(root)
-	# Record provenance when the server omits a timestamp so downstream readers can distinguish observed data from a client-timed snapshot.
+	# Record client-timed provenance when the server omits a generation timestamp.
 	source_block["client_generated"] = not server_generated
 	var generated_at_unix: float = _generated_timestamp(root)
 	var snapshot: Dictionary = {
@@ -346,7 +346,7 @@ func _normalize_weather(input: Dictionary) -> Dictionary:
 		if weather.has(key):
 			weather[key] = input[key]
 
-	# Scalar wind speed with no direction keeps the documented default; a wind vector is converted by _extract_weather().
+	# Scalar wind retains the default direction; _extract_weather() converts supplied vectors.
 
 	if not input.has("visibility_m"):
 		weather["visibility_m"] = default_visibility_m
@@ -448,7 +448,7 @@ func _wind_vector_to_weather(wind: Array) -> Dictionary:
 			"wind_direction_deg": 0.0,
 		}
 
-	# World axes: +X east, +Z south. The vector points toward the destination; meteorological direction is reported as the compass bearing from which the wind originates, clockwise from north.
+	# Convert destination vectors (+X east, +Z south) to source bearings clockwise from north.
 	var direction_from := fposmod(
 		rad_to_deg(atan2(-vx, -vz)),
 		360.0

@@ -1,0 +1,16 @@
+{
+ "schema": "yellowstone.unresolved_canopy_exclusion.v1",
+ "path": "unresolved_cells_excluded.u8",
+ "width": 640,
+ "height": 640,
+ "cell_size_m": 2.0,
+ "first_cell_x_m": -639.0,
+ "first_cell_z_m": -639.0,
+ "source_mask": "unresolved_cells.u8",
+ "active_cells_before": 159157,
+ "active_cells_after": 158499,
+ "cells_cleared": 658,
+ "filter_class": "display_layer_exclusion",
+ "scope": "Routes, deck footprints and pool rings; the scientific canopy mask stays unchanged",
+ "producer": "tools/apply_vegetation_exclusions.py"
+}

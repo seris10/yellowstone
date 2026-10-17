@@ -104,7 +104,7 @@ def run(state: dict, cfg: dict) -> dict:
         date_cfg=clock_date)
     hour0 = clock_info["clock_hour"]
 
-    # Model-reanalysis bundle output wins over authored defaults when present; absent bundle keeps scenario values.
+    # Met bundle output overrides authored weather defaults; absent bundles retain scenario values.
     from yellowstone_python.atmosphere.microclimate import load_weather_bundle, bundle_weather
     met_cfg_val = (cfg.get("weather", {}) or {}).get("met_bundle")
     if isinstance(met_cfg_val, str) and met_cfg_val:

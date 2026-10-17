@@ -60,7 +60,7 @@ def test_reviewed_ids_derive_from_cells():
 
 
 def test_review_honors_suitability_threshold():
-    # Suitability here is about 0.095 for each candidate: below the default 0.12 floor and above an explicit 0.0 gate.
+    # Candidate suitability ~0.095 is below the 0.12 default floor and above an explicit 0.0 gate.
     from yellowstone_python.authoring.review_proposals import review
     kw = dict(guild="meadow_grass", center_xz=(0, 0), radius_m=30,
               count=10, seed=11, habitat_id="dry_meadow",

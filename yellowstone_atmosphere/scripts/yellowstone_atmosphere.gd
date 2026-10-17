@@ -1,9 +1,9 @@
 class_name YellowstoneAtmosphereController
 extends Node3D
 
-## Yellowstone-facing atmosphere renderer for Godot 4.x: three-band single-scattering sky with sun animated from a simulation timestamp or clock hour and day of year, procedural cloud shell for Compatibility, GPU rain and snow particles scaled by supplied weather, visibility-driven fog, and optional externally computed wetness.
+## Render supplied meteorology with sky, clouds, precipitation, fog, and optional wetness.
 
-## This script renders meteorology; the forecast is supplied through set_weather_state(). Snow fraction comes from the weather model, ideally from wet-bulb temperature.
+## set_weather_state() supplies weather and snow fraction; wet-bulb phase comes from the model.
 
 const CLOUD_SHADER: Shader = preload("res://shaders/yellowstone_cloud_shell.gdshader")
 const OPTICS = preload("res://scripts/atmosphere_optics.gd")
@@ -15,7 +15,7 @@ const RAINBOW_SHADER: Shader = preload("res://shaders/rainbow.gdshader")
 @export_range(1, 366, 1) var default_day_of_year: int = 196
 
 @export_group("Simulation time")
-## Yellowstone civil time runs between UTC-7 and UTC-6; set the offset for the simulated date or supply solar azimuth and elevation.
+## Yellowstone civil offsets are UTC-7/UTC-6; the date or supplied solar angles set the sun.
 @export_range(-12.0, 14.0, 0.5) var simulation_utc_offset_hours: float = -6.0
 @export var use_weather_solar_override: bool = true
 ## Interpolate continuous weather fields toward the accepted snapshot.
@@ -55,10 +55,10 @@ var _visual_weight: float = 1.0
 @export var update_interval_seconds: float = 0.10
 
 @export_group("Star sky")
-## Path to a star catalog with fields right_ascension_hours, declination_deg, visual_magnitude, b_minus_v. When missing, the controller falls back to a procedural panorama that is deterministic across runs.
+## Load catalog stars or deterministic fallback art; fields are in the readme, Night sky.
 @export_file("*.json","*.bin") var star_catalog_path: String = "res://data/stars.json"
 @export_range(2.5, 9.5, 0.1) var star_limiting_magnitude: float = 6.3
-## Rebuild the painted star panorama when the simulation epoch has advanced past this many seconds since the last rebuild. 900 s (15 min) is enough to see sidereal motion without rebuilding every frame.
+## Repaint stars after this epoch interval; 900 s (15 min) resolves sidereal motion between updates.
 @export_range(60.0, 86400.0, 60.0) var star_rebuild_interval_seconds: float = 900.0
 
 var _sun: DirectionalLight3D
@@ -176,7 +176,7 @@ func configure(sun_node: DirectionalLight3D, environment_resource: Environment, 
 	_update_atmosphere(0.0)
 
 
-## Authoritative simulation clock input in seconds since the Unix epoch; local date, day of year and civil hour derive from this value.
+## Derive local date, day of year, and civil hour from authoritative Unix epoch seconds.
 func set_simulation_timestamp(epoch_unix: float, utc_offset_hours: float = -99.0) -> void:
 	if not is_finite(epoch_unix):
 		push_warning("Simulation timestamp must be finite.")
@@ -232,7 +232,7 @@ func clear_simulation_timestamp() -> void:
 	_has_simulation_timestamp = false
 
 
-## Clock hour and day of year input; solar geometry uses Yellowstone coordinates, the date and the configured UTC offset, and a weather snapshot supplying both solar angles takes priority.
+## Use park coordinates, date, and UTC offset for solar geometry; paired weather solar angles override.
 func set_simulation_time(hour: float, day_of_year: int = -1, utc_offset: float = -99.0) -> void:
 	if not is_finite(hour):
 		push_warning("Simulation hour must be finite.")
@@ -248,7 +248,7 @@ func set_simulation_time(hour: float, day_of_year: int = -1, utc_offset: float =
 		_apply_solar_position()
 
 
-## Set one or more weather fields; missing fields keep their value. Units: deg degrees, m/s meters per second, mm/h precipitation rate; wind_direction_deg follows the meteorological source bearing (direction from which the wind originates); snow_fraction is the fraction of precipitation rendered as snow in [0, 1]; solar_azimuth_deg and solar_elevation_deg both belong to the override.
+## Merge partial weather; the readme, Weather fields, defines units, wind bearings, and solar pairs.
 func set_weather_state(state: Dictionary) -> void:
 	if not _weather_initialized:
 		_weather = WEATHER_DEFAULTS.duplicate(true)
@@ -325,7 +325,7 @@ func _install_physical_sky() -> void:
 
 
 func _build_star_texture() -> Texture2D:
-	# Prefer a RA/Dec catalog projected to alt/az at the simulation epoch; fall back to a deterministic painted panorama when the catalog file is absent.
+	# Project catalog RA/Dec to epoch alt/az; absent files use a deterministic painted panorama.
 	var catalog: Array = _load_star_catalog(star_catalog_path)
 	if catalog.is_empty():
 		_star_catalog_loaded = false
@@ -334,7 +334,7 @@ func _build_star_texture() -> Texture2D:
 	return _build_catalog_star_texture(catalog)
 
 
-## Public hook: rebuild the night sky from the current epoch so a replay or scrub lands on the right stars.
+## Rebuild the night sky at the simulation epoch for replay and scrubbing.
 func rebuild_star_sky() -> void:
 	if _physical_sky == null:
 		return
@@ -347,7 +347,7 @@ func star_catalog_loaded() -> bool:
 
 
 func _load_star_catalog(path: String) -> Array:
-	# Catalog shape: either {"stars": [...]} or a bare JSON array; each row carries right_ascension_hours, declination_deg, visual_magnitude, b_minus_v.
+	# Accept a stars array or {"stars": [...]} catalog; row fields are in the readme, Night sky.
 	if path.is_empty() or not FileAccess.file_exists(path):
 		return []
 	var text: String = FileAccess.get_file_as_string(path)
@@ -385,11 +385,11 @@ func _build_catalog_star_texture(catalog: Array) -> Texture2D:
 	image.fill(Color(0.0, 0.0, 0.0, 1.0))
 	var lst_hours: float = _local_sidereal_time_hours(_simulation_epoch_unix, longitude_deg)
 	var latitude_rad: float = deg_to_rad(latitude_deg)
-	# Magnitude flux reference: a magnitude 1 star caps the painted intensity near 0.9, so flux = 10^(-0.4 * (m - 1)) keeps bright stars inside the texture range.
+	# Magnitude flux 10^(-0.4 * (m - 1)) keeps a magnitude-1 star near painted intensity 0.9.
 	var reference_magnitude: float = 1.0
 	var brightest_intensity: float = 0.92
 	var limit: float = star_limiting_magnitude
-	# Milky Way flux grid: aggregate unresolved star flux into equatorial bins so the band comes from the summed flux.
+	# Sum unresolved star flux into equatorial bins to form the Milky Way band.
 	const BAND_WIDTH: int = 128
 	const BAND_HEIGHT: int = 64
 	var band_flux: PackedFloat32Array = PackedFloat32Array()
@@ -433,7 +433,7 @@ func _build_catalog_star_texture(catalog: Array) -> Texture2D:
 
 
 func _build_painted_panorama_fallback() -> Texture2D:
-	# Deterministic decorative panorama kept as the explicit fallback when no catalog is available on disk.
+	# Use deterministic decorative stars when the catalog is absent.
 	const WIDTH: int = 512
 	const HEIGHT: int = 256
 	var image: Image = Image.create(WIDTH, HEIGHT, false, Image.FORMAT_RGBA8)
@@ -480,11 +480,11 @@ func _paint_star_point(image: Image, pixel_x: int, pixel_y: int, tint: Color, in
 
 
 func _paint_milky_way_flux(image: Image, band_flux: PackedFloat32Array, band_width: int, band_height: int, lst_hours: float, latitude_rad: float) -> void:
-	# Transfer aggregated unresolved flux from an equatorial (RA, Dec) grid onto the alt/az panorama; a saturating response keeps the band inside the texture range.
+	# Project summed equatorial RA/Dec flux to alt/az; saturation bounds the painted band.
 	var width: int = image.get_width()
 	var height: int = image.get_height()
 	var k: float = 0.085
-	# Pre-compute a flux ceiling for normalization so the saturation step reads near 1.0 at the plane peak.
+	# Normalize the plane peak to approach 1.0 in the saturation response.
 	var ceiling: float = 0.0
 	for value: float in band_flux:
 		if value > ceiling:
@@ -518,14 +518,14 @@ func _paint_milky_way_flux(image: Image, band_flux: PackedFloat32Array, band_wid
 
 
 func _horizontal_to_panorama_uv(azimuth_deg: float, elevation_deg: float) -> Vector2:
-	# The sky shader samples night_sky as an equirectangular panorama; u advances with the compass direction and v is 0 at the zenith and 1 at the nadir.
+	# Equirectangular night_sky uses compass u; v runs from 0 at zenith to 1 at nadir.
 	var u: float = fposmod(azimuth_deg, 360.0) / 360.0
 	var v: float = clampf(0.5 - elevation_deg / 180.0, 0.0, 1.0)
 	return Vector2(u, v)
 
 
 func _star_color_from_bv(bv: float) -> Color:
-	# Blackbody-anchored interpolation across five B-V stops; the stops are the same the fixes doc enumerates.
+	# Interpolate blackbody-anchored colors across the five B-V stops.
 	var stops: Array = [
 		{"bv": -0.30, "color": Color(0.66, 0.77, 1.0)},
 		{"bv": 0.00, "color": Color(0.78, 0.86, 1.0)},
@@ -547,14 +547,14 @@ func _star_color_from_bv(bv: float) -> Color:
 
 
 func _local_sidereal_time_hours(epoch_unix: float, observer_longitude_deg: float) -> float:
-	# Reduced to Greenwich mean sidereal time via the standard polynomial, then shifted by the observer's east longitude.
+	# Compute Greenwich sidereal time with the standard polynomial, then add east longitude.
 	var julian_day: float = epoch_unix / 86400.0 + 2440587.5
 	var gmst_hours: float = 18.697374558 + 24.06570982441908 * (julian_day - 2451545.0)
 	var lst: float = fposmod(gmst_hours + observer_longitude_deg / 15.0, 24.0)
 	return lst
 
 
-## Compute the horizontal direction for an azimuth measured clockwise from north and an elevation above the horizon; this is the same convention the sun uses and is what a snapshot's solar override feeds in.
+## Convert clockwise-from-north azimuth and above-horizon elevation to the shared sun/override vector.
 func horizontal_to_world_direction(azimuth_deg: float, elevation_deg: float) -> Vector3:
 	var az: float = deg_to_rad(azimuth_deg)
 	var el: float = deg_to_rad(elevation_deg)
@@ -611,7 +611,7 @@ func _apply_weather_state() -> void:
 		_weather = _weather_target.duplicate(true)
 		_apply_weather_state_immediate()
 	else:
-		# Push validated values into the render state so the first application lands before the next _process tick.
+		# Apply validated values to render state before the next _process tick.
 		_apply_weather_state_immediate()
 
 
@@ -828,7 +828,7 @@ func _update_atmosphere(delta: float) -> void:
 	_snow.global_position = player_position + Vector3(0.0, emitter_height_m, 0.0)
 	_update_particle_wind(_rain_process, wind_toward, wind_speed, false)
 	_update_particle_wind(_snow_process, wind_toward, wind_speed, true)
-	# Precipitation and environment update inside _apply_weather_state_immediate via _update_weather_interpolation; wetness needs a separate pass.
+	# Immediate weather interpolation updates precipitation and environment; wetness updates separately.
 	_update_wetness()
 
 
@@ -846,7 +846,7 @@ func _update_precipitation_amounts() -> void:
 	var rate: float = maxf(float(_weather["precipitation_rate_mm_h"]), 0.0)
 	var snow_fraction: float = clampf(float(_weather["snow_fraction"]), 0.0, 1.0)
 	var cloud_fraction: float = clampf(float(_weather["cloud_fraction"]), 0.0, 1.0)
-	# Cloud-fraction gate: precipitation is impossible without clouds, so the rendered amount scales with coverage below the saturated range. Above 0.6 cover the gate releases fully, matching the doc's "precipitation probability" guidance.
+	# Scale precipitation by cloud coverage below 0.6; coverage at or above 0.6 releases the full amount.
 	var cover_gate: float = clampf(cloud_fraction / 0.6, 0.0, 1.0)
 	var intensity: float = 0.0
 	if rate > 0.001:
@@ -918,7 +918,7 @@ func _update_wetness() -> void:
 
 
 func _apply_terrain_state(terrain: Dictionary) -> void:
-	# Terrain block fields: snow_water_equivalent_mm, snow_cover_fraction, puddle_fraction, soil_temperature_c, ground_wetness_fraction, cloud_shadow_fraction, steam_intensity, insect_activity. Each is optional; any missing field keeps the previous value and signals "not supplied" via a sentinel.
+	# Merge optional terrain fields; missing values retain state and start as sentinels. See the readme.
 	for key: String in _terrain_state.keys():
 		if not terrain.has(key):
 			continue
@@ -930,7 +930,7 @@ func _apply_terrain_state(terrain: Dictionary) -> void:
 
 
 func get_terrain_state() -> Dictionary:
-	# Published surface uniforms for the world to consume; sentinel negatives mean "not supplied" and the world keeps its last authored value.
+	# Publish surface uniforms; negative sentinels leave the world's authored values unchanged.
 	return _terrain_state.duplicate(true)
 
 
@@ -954,7 +954,7 @@ func _is_finite_number(value: Variant) -> bool:
 
 
 func _meteorological_wind_toward(direction_from_deg: float) -> Vector3:
-	# World axes: +X east and +Z south; meteorological direction is the source bearing, so the rendered vector points 180 degrees opposite.
+	# Wind points 180 degrees away from its source bearing in the +X east, +Z south frame.
 	var angle: float = deg_to_rad(direction_from_deg + 180.0)
 	return Vector3(sin(angle), 0.0, -cos(angle)).normalized()
 
@@ -991,7 +991,7 @@ func _day_of_year_for_date(year: int, month: int, day: int) -> int:
 
 
 func _update_solar_position() -> void:
-	# NOAA-style fractional-year approximation for declination and equation of time; a weather snapshot carrying Python-computed angles overrides this through set_weather_state().
+	# NOAA fractional-year solar fallback yields to paired Python solar angles in set_weather_state().
 	var gamma: float = TAU / 365.0 * (float(_day_of_year) - 1.0 + (_clock_hour - 12.0) / 24.0)
 	var equation_of_time: float = 229.18 * (0.000075 + 0.001868 * cos(gamma) - 0.032077 * sin(gamma) - 0.014615 * cos(2.0 * gamma) - 0.040849 * sin(2.0 * gamma))
 	var declination: float = 0.006918 - 0.399912 * cos(gamma) + 0.070257 * sin(gamma) - 0.006758 * cos(2.0 * gamma) + 0.000907 * sin(2.0 * gamma) - 0.002697 * cos(3.0 * gamma) + 0.00148 * sin(3.0 * gamma)

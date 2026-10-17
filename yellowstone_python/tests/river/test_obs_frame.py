@@ -112,7 +112,7 @@ def test_frame_rolling_and_daily_means():
 
 
 def _aligned_arrays_synthetic():
-    # Upstream pairs at the IV step 900 s, met hourly; dense regular data where both alignment paths agree.
+    # Dense IV pairs at 900 s and hourly met data align under both resampling paths.
     t0 = time.time()
     n = int(2 * 86400 // 900)
     grid = [t0 + i * 900 for i in range(n + 1)]
@@ -154,7 +154,7 @@ def test_aligned_arrays_aligned_arrays_shape_and_provenance():
 @pytest.mark.needs_science
 @pytest.mark.skipif(not HAS_PANDAS, reason='pandas not installed')
 def test_aligned_arrays_parity_with_pairs_path():
-    # Two resampling conventions over the same dense synthetic data agree closely; they differ where data is sparse.
+    # Both resampling conventions agree on dense synthetic data; sparse coverage changes their behavior.
     from yellowstone_python.river.calibrate import fit_forcing_arrays
     from yellowstone_python.river.obs_frame import aligned_fit_arrays
     bundle = _aligned_arrays_synthetic()

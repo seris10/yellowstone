@@ -100,7 +100,7 @@ def test_assemble_round_trip(tmp_path):
     assert bundle["met"]["kind"] == "model_forcing"
     assert bundle["met"]["schema"] == "yellowstone.met_forcing.v1"
 
-    # Shape checks match validate_usgs_bundle: epoch, discharge and temperature pair layout per site, and a six-column met.hourly row. The call itself is not run here because unrelated UNIT_DOC entries are missing in the cross-module registry (handoff for cluster E1).
+    # Check epoch/value pairs and width-6 met rows without invoking the cross-module UNIT_DOC gate.
     for site_record in bundle["sites"].values():
         for pair in site_record["series"]["discharge_m3_s"]:
             assert len(pair) == 2

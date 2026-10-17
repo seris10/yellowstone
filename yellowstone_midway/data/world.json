@@ -1330,13 +1330,9 @@
   ],
   "rivers": [
     {
-      "endpoint_node_ids": [
-        "water_node_001",
-        "water_node_000"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5696_0",
       "name": "FAIRY CREEK",
+      "width": 3.5,
       "points": [
         [
           -1599.558,
@@ -1744,17 +1740,17 @@
           -2048.0
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_001",
+        "water_node_000"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream domain_exit"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_003",
-        "water_node_002"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5767_0",
       "name": "WHITE CREEK",
+      "width": 3.5,
       "points": [
         [
           1952.6611,
@@ -2317,17 +2313,17 @@
           -1155.1791
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_003",
+        "water_node_002"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_002",
-        "water_node_004"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5768_0",
       "name": "WHITE CREEK",
+      "width": 3.5,
       "points": [
         [
           1683.6298,
@@ -4955,17 +4951,17 @@
           -2048.0
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_002",
+        "water_node_004"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream domain_exit"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_005",
-        "water_node_001"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5775_0",
       "name": "FAIRY CREEK",
+      "width": 3.5,
       "points": [
         [
           -2048.0,
@@ -6898,17 +6894,17 @@
           -1919.6793
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_005",
+        "water_node_001"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream domain_exit; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_006",
-        "water_node_003"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5792_0",
       "name": "WHITE CREEK",
+      "width": 3.5,
       "points": [
         [
           2048.0,
@@ -7151,17 +7147,17 @@
           -1343.1791
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_006",
+        "water_node_003"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream domain_exit; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_007",
-        "water_node_008"
-      ],
-      "flow_mps": 0.58,
       "id": "river_5856_0",
       "name": "FIREHOLE RIVER",
+      "width": 22.0,
       "points": [
         [
           778.7547,
@@ -13059,17 +13055,17 @@
           -2048.0
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 22.0
+      "flow_mps": 0.58,
+      "endpoint_node_ids": [
+        "water_node_007",
+        "water_node_008"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream domain_exit"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_010",
-        "water_node_009"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5860_0",
       "name": "RABBIT CREEK",
+      "width": 3.5,
       "points": [
         [
           2005.411,
@@ -13837,17 +13833,17 @@
           709.3211
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_010",
+        "water_node_009"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream open; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_009",
-        "water_node_011"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5869_0",
       "name": "RABBIT CREEK",
+      "width": 3.5,
       "points": [
         [
           1724.4736,
@@ -14415,17 +14411,17 @@
           906.8211
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_009",
+        "water_node_011"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_012",
-        "water_node_007"
-      ],
-      "flow_mps": 0.58,
       "id": "river_5872_0",
       "name": "FIREHOLE RIVER",
+      "width": 22.0,
       "points": [
         [
           353.4734,
@@ -15563,17 +15559,17 @@
           609.321
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 22.0
+      "flow_mps": 0.58,
+      "endpoint_node_ids": [
+        "water_node_012",
+        "water_node_007"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_011",
-        "water_node_013"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5876_0",
       "name": "RABBIT CREEK",
+      "width": 3.5,
       "points": [
         [
           1470.1296,
@@ -17061,17 +17057,17 @@
           1063.8211
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
+      "flow_mps": 0.35,
+      "endpoint_node_ids": [
+        "water_node_011",
+        "water_node_013"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_013",
-        "water_node_012"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5877_0",
       "name": "RABBIT CREEK",
+      "width": 3.5,
       "points": [
         [
           664.5985,
@@ -17664,17 +17660,17 @@
           970.8211
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
-    },
-    {
+      "flow_mps": 0.35,
       "endpoint_node_ids": [
-        "water_node_014",
+        "water_node_013",
         "water_node_012"
       ],
-      "flow_mps": 0.58,
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream joined"
+    },
+    {
       "id": "river_5913_0",
       "name": "FIREHOLE RIVER",
+      "width": 22.0,
       "points": [
         [
           111.2546,
@@ -18967,17 +18963,17 @@
           970.8211
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 22.0
+      "flow_mps": 0.58,
+      "endpoint_node_ids": [
+        "water_node_014",
+        "water_node_012"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_015",
-        "water_node_014"
-      ],
-      "flow_mps": 0.58,
       "id": "river_5933_0",
       "name": "FIREHOLE RIVER",
+      "width": 22.0,
       "points": [
         [
           159.5671,
@@ -19750,17 +19746,17 @@
           1673.8211
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 22.0
+      "flow_mps": 0.58,
+      "endpoint_node_ids": [
+        "water_node_015",
+        "water_node_014"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream joined; downstream joined"
     },
     {
-      "endpoint_node_ids": [
-        "water_node_016",
-        "water_node_015"
-      ],
-      "flow_mps": 0.35,
       "id": "river_5938_0",
       "name": "MALLARD CREEK",
+      "width": 3.5,
       "points": [
         [
           667.9649,
@@ -20723,17 +20719,17 @@
           2015.3212
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 3.5
-    },
-    {
+      "flow_mps": 0.35,
       "endpoint_node_ids": [
-        "water_node_017",
+        "water_node_016",
         "water_node_015"
       ],
-      "flow_mps": 0.58,
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream domain_exit; downstream joined"
+    },
+    {
       "id": "river_5998_0",
       "name": "FIREHOLE RIVER",
+      "width": 22.0,
       "points": [
         [
           133.332,
@@ -20811,17 +20807,19 @@
           2015.3212
         ]
       ],
-      "profile_status": "DEM-constrained illustrative stage; joined, downstream-monotone",
-      "width": 22.0
+      "flow_mps": 0.58,
+      "endpoint_node_ids": [
+        "water_node_017",
+        "water_node_015"
+      ],
+      "profile_status": "DEM-constrained illustrative stage; downstream-monotone; upstream domain_exit; downstream joined"
     },
     {
-      "bank_blend_m": 3.0,
-      "depth_m": 0.15,
-      "discharge_status": "Illustrative aggregate based on the NPS lower bound of 4,000 US gal/min; not calibrated for this individual branch",
-      "flow_m3_s": 0.252,
-      "flow_mps": 0.7,
       "id": "authored_excelsior_outflow_01",
       "name": "Excelsior thermal outflow",
+      "width": 2.4,
+      "depth_m": 0.15,
+      "bank_blend_m": 3.0,
       "points": [
         [
           22.0,
@@ -21469,15 +21467,17 @@
           -277.5828
         ]
       ],
-      "profile_status": "Bounded by Excelsior pool and Firehole stage; downstream-monotone",
-      "source_pool_id": "pool_1030_0",
+      "flow_mps": 0.7,
+      "temperature_c": 82.0,
+      "flow_m3_s": 0.252,
+      "thermal": true,
+      "discharge_status": "Illustrative aggregate based on the NPS lower bound of 4,000 US gal/min; not calibrated for this individual branch",
       "source_status": "Hand traced representative 2022 NAIP drainage; pool/river joins are constrained",
       "source_trace": "references/excelsior_outflow_trace.json",
+      "source_pool_id": "pool_1030_0",
       "target_river_id": "river_5856_0",
       "target_vertex_index": 398,
-      "temperature_c": 82.0,
-      "thermal": true,
-      "width": 2.4
+      "profile_status": "Bounded by Excelsior pool and Firehole stage; downstream-monotone"
     }
   ],
   "routes": [

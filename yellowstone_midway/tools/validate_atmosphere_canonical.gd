@@ -1,5 +1,5 @@
 extends SceneTree
-## Verifies the published atmosphere bundle in yellowstone_atmosphere/ matches the canonical runtime copies in yellowstone_midway/scripts/ and yellowstone_midway/shaders/. Run: godot --headless --path yellowstone_midway --script tools/validate_atmosphere_canonical.gd
+## Check atmosphere package/runtime parity; see the authoring guide, Tool commands.
 
 const PAIRS: Array = [
 	["res://scripts/atmosphere_optics.gd", "../yellowstone_atmosphere/scripts/atmosphere_optics.gd"],

@@ -199,7 +199,7 @@ def plume_metrics(sol: dict, ambient_c: float, u_m_s: float,
         segments.append((start_idx, len(anom) - 1))
     longest = max(((zs[b] - zs[a]) for a, b in segments), default=0.0)
     foot_len = round(longest, 1)
-    # Lateral half-width where the peak row falls to half peak; interp at crossings decouples from cell alignment.
+    # Half-peak lateral half-width interpolates crossings on the peak row to reduce cell alignment bias.
     mouth = int(np.argmax(anom))
     row = [t[mouth * nx + i] - ambient_c for i in range(nx)]
     threshold = 0.5 * peak

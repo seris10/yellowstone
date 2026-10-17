@@ -2,12 +2,12 @@
   "schema": "yellowstone.scene_archive.v1",
   "archive": {
     "file": "authored_world.tscn.gz",
-    "bytes": 102868305,
-    "sha256": "2b202f86f78facd271a33465bdb0793a42f8e5982467967a34b58a576364ae30"
+    "bytes": 102972289,
+    "sha256": "e1970b927cc0ccf83e9a62b311a0730b2a9878b428a819cb62d29caf603cca9c"
   },
   "scene": {
     "file": "authored_world.tscn",
-    "bytes": 393571442,
-    "sha256": "c3047e5d9db18d72bccf2ac4382a90472830f860776ee636cc71ae43a99a72a7"
+    "bytes": 392915634,
+    "sha256": "410ab4cc473d9bb7aaf55900e9b5d9a4f58ad9662c7ca5a54341cd5af64e5bfd"
   }
 }

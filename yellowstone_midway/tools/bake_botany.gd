@@ -1,5 +1,5 @@
 extends SceneTree
-## Offline authoring tool: each clump has a fixed JSON record and identity, and creates genus/guild shape proxies. Run after terrain changes: godot --headless --path . --script tools/bake_botany.gd
+## Bake fixed-ID JSON clumps into genus/guild proxies; see the authoring guide, Tool commands.
 const HEIGHT_FIELD = preload("res://scripts/height_field.gd")
 const GOLDEN_ANGLE: float = 2.399963229728653
 var terrain: RefCounted
