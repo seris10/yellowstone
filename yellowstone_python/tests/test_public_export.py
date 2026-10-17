@@ -1,9 +1,5 @@
 """Public export selection and source preservation checks."""
 import hashlib
-import os
-import shutil
-import subprocess
-import sys
 
 import pytest
 
@@ -100,3 +96,4 @@ def test_export_keeps_root_readme_and_baked_assets():
     for value in ("README.md", "yellowstone_midway/assets/imported/wildlife_motion/bear.glb",
                   "yellowstone_midway/assets/meshes/fauna/bison.glb"):
         assert public_path(__import__("pathlib").Path(value))
+
