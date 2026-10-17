@@ -39,8 +39,9 @@ window.YSCoverage = {
         tip.style.top = `${Math.max(10, Math.min(height - 80, event.clientY - rect.top + 16))}px`;
         tip.hidden = false; return;
       }
-      const box = $("coverage-detail-content"); box.replaceChildren(html("p", "eyebrow", info.type.toUpperCase()), html("h2", "", info.label), html("p", "", info.description));
+      const box = $("coverage-detail-content"); box.replaceChildren(html("p", "eyebrow", info.type.toUpperCase()), html("h2", "", info.label));
       if (info.value) box.append(html("div", "value", info.value));
+      box.append(html("p", "", info.description));
       if (info.limit) box.append(html("p", "", info.limit));
       if (info.process) { const link = html("a", "", "Analyze this process →"); link.href = `/dashboard/systems/#${info.process}`; link.addEventListener("click",event=>{if(window.YSExplore){event.preventDefault();window.YSExplore.openProcess(info.process);}}); box.append(link); }
       $("coverage-detail").hidden = false; $("coverage-tooltip").hidden = true;
@@ -63,7 +64,7 @@ window.YSCoverage = {
     water.append(make("path", { d: line(cells.map(c => [c.x, c.z])), fill: "none", stroke: "#a3dcff", "stroke-width": 3, "vector-effect": "non-scaling-stroke", "pointer-events": "none", opacity: .8 }));
     geo.pools.forEach(pool => {
       const node = make("path", { d: line(pool.ring) + "Z", class: `coverage-pool${pool.thermal ? " is-thermal" : ""}` });
-      interactive(node, { label: pool.name, type: pool.thermal ? "Mapped thermal feature" : "Mapped water body", description: "The mapped outline places this water body in the model. Pool temperatures and radial profiles are authored scenario parameters.", value: `${Math.round(pool.area_m2).toLocaleString("en-US")} m² mapped area`, limit: "The displayed pool geometry and temperature profile do not establish measured bathymetry or a reservoir heat balance.", process: "pool" }); pools.append(node);
+      interactive(node, { label: pool.name, type: pool.thermal ? "Mapped thermal feature" : "Mapped water body", description: "Outline and area come from mapped geography. Temperatures and the depth profile are authored values, not measurements. Bathymetry and reservoir heat balance are not modeled.", value: `${Math.round(pool.area_m2).toLocaleString("en-US")} m² mapped area`, process: "pool" }); pools.append(node);
       if (pool.thermal) {
         const offset = /prismatic/i.test(pool.name) ? [-60, 25] : /excelsior/i.test(pool.name) ? [85,-20] : /turquoise/i.test(pool.name) ? [35,-75] : [30,35];
         const label = make("text", { "text-anchor": offset[0] < 0 ? "end" : "start", class: "geo-feature-label" }, pool.name);
