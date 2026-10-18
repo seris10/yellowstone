@@ -3,6 +3,7 @@
 ((root) => {
   const cache = new Map(), instances = new WeakMap(), finite = Number.isFinite;
   function dispose(container) { instances.get(container)?.(); instances.delete(container); }
+  function expand(container) {const open=instances.get(container)?.expand;if(!open)return false;open();return true;}
   function summary(values) {
     let min = Infinity, max = -Infinity, count = 0;
     for (const value of values) if (finite(value)) { min = Math.min(min, value); max = Math.max(max, value); count++; }
@@ -58,8 +59,9 @@
     const fmt=(value,digits=4)=>finite(value)?value.toLocaleString("en-US",{maximumFractionDigits:digits}):"Missing";
     const host=html("section","process-data"),status=html("p","analysis-note","Loading process data…");
     host.setAttribute("aria-label","Process data");container.append(host);host.append(status);
-    let view=views.find(item=>item.id===selection.view)||views[0],entity=selection.entity||null,ticket=0,resizeObserver=null,richCleanup=null;
-    instances.set(container,()=>{ticket++;resizeObserver?.disconnect();richCleanup?.();host.remove();});
+    let view=views.find(item=>item.id===selection.view)||views[0],entity=selection.entity||null,ticket=0,resizeObserver=null,richCleanup=null,dialog=null,disposed=false;
+    const cleanup=()=>{disposed=true;ticket++;resizeObserver?.disconnect();richCleanup?.();dialog?.close();dialog?.remove();dialog=null;host.remove();};
+    instances.set(container,cleanup);
     async function render() {
       const current=++ticket;resizeObserver?.disconnect();richCleanup?.();richCleanup=null;host.replaceChildren();
       const choice=html("select");choice.setAttribute("aria-label","Process quantity");
@@ -90,7 +92,22 @@
       } catch(error) {richError=error;}
       if(current!==ticket||!host.isConnected){rich?.destroy?.();return;}
       richCleanup=rich?.destroy;
-      if(rich){description?.remove();if(field.choices?.length>500)host.querySelector('.analysis-note')?.remove();}
+      cleanup.expand=null;
+      if(rich){
+        description?.remove();if(field.choices?.length>500)host.querySelector('.analysis-note')?.remove();
+        const open=html("button","process-expand","Expand charts");open.type="button";open.hidden=Boolean(dialog);host.prepend(open);
+        cleanup.expand=()=>{
+          if(dialog)return;
+          const modal=html("dialog","process-chart-dialog"),heading=html("header","process-chart-heading"),close=html("button","","Close charts"),body=html("div","process-chart-body");
+          heading.append(html("h2","",snapshot.nodes?.find(node=>node.id===process)?.label||view.label),close);close.type="button";close.onclick=()=>modal.close();
+          modal.setAttribute("aria-label","Expanded process charts");modal.append(heading,body);document.body.append(modal);body.append(host);open.hidden=true;dialog=modal;
+          modal.addEventListener("keydown",event=>event.stopPropagation());
+          modal.addEventListener("close",()=>{dialog=null;if(!disposed&&container.isConnected){container.prepend(host);const button=host.querySelector('.process-expand');if(button){button.hidden=false;button.focus();}}modal.remove();});
+          modal.showModal();
+        };
+        open.onclick=cleanup.expand;
+        document.getElementById?.("expand-analysis")?.setAttribute("aria-label","Expand charts");
+      }
       if(richError){const error=html("p","analysis-note",richError.message);error.setAttribute("role","alert");const retry=html("button","","Retry visual");retry.type="button";retry.onclick=render;host.append(error,retry);}
       const plot=svg("svg",{viewBox:"0 0 600 300",role:"img",tabindex:0,"aria-label":field.label}),wrap=html("div","workspace-chart process-chart"),probe=html("output","analysis-probe");
       probe.setAttribute("aria-live","off");wrap.append(plot);host.append(wrap,probe);
@@ -168,6 +185,6 @@
     }
     await render();
   }
-  const api={summary,resolve,load,mount,dispose};
+  const api={summary,resolve,load,mount,dispose,expand};
   if(typeof module!=="undefined")module.exports=api;else root.YSProcessData=api;
 })(typeof window==="undefined"?{}:window);

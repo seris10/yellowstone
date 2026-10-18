@@ -139,6 +139,7 @@ function lifecycleFixture(mountVisual) {
     constructor(){this.children=[];this.parent=null;this.style={setProperty(){}};}
     get isConnected(){return this.connected===true||this.parent?.isConnected===true;}
     append(...children){for(const child of children){child.remove();child.parent=this;this.children.push(child);}}
+    prepend(...children){for(const child of [...children].reverse()){child.remove();child.parent=this;this.children.unshift(child);}}
     replaceChildren(...children){for(const child of [...this.children])child.remove();this.append(...children);}
     remove(){if(this.parent)this.parent.children=this.parent.children.filter(child=>child!==this);this.parent=null;}
     setAttribute(){}

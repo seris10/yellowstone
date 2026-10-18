@@ -132,14 +132,14 @@
     const slider = range("Radius sample", values.length - 1, update); section.append(slider.label);
     function update(next) { index = clamp(next, 0, values.length - 1); slider.control.value = index; readout.textContent = `Radius ${fmt(radii[index])} ${field.axis?.unit || "m"} · ${fmt(values[index])} ${field.unit}`; slider.control.setAttribute("aria-valuetext", readout.textContent); plotControl?.update(index); if (ring) ring.setAttribute("r", radii[index] / radius * Number(ring.dataset.maximum)); if (marker) marker.setAttribute("cx", Number(marker.dataset.center) + radii[index] / radius * Number(ring.dataset.maximum)); }
     const observer = responsive(section, width => {
-      ringWrap.replaceChildren(); const height = 230, cx = width / 2, cy = 111, maximum = 92, plot = svg("svg", {viewBox:`0 0 ${width} ${height}`, role:"img", "aria-label":"Authored radial temperature profile shown as concentric rings. Probe with the radius control below.", tabindex:0});
+      ringWrap.replaceChildren(); const ringWidth = Math.max(230, ringWrap.clientWidth - 2), chartWidth = Math.max(230, chart.clientWidth - 2), height = 230, cx = ringWidth / 2, cy = 111, maximum = 92, plot = svg("svg", {viewBox:`0 0 ${ringWidth} ${height}`, role:"img", "aria-label":"Authored radial temperature profile shown as concentric rings. Probe with the radius control below.", tabindex:0});
       for (let i = values.length - 1; i >= 0; i--) { const edge = i === values.length - 1 ? radius : (radii[i] + radii[i + 1]) / 2; plot.append(svg("circle", {cx, cy, r:Math.max(0, edge / radius * maximum), fill:finite(values[i]) ? root.YSData.color(values[i], domain) : "#0b0e14"})); }
       ring = svg("circle", {cx, cy, r:0, fill:"none", stroke:"#e8eaef", "stroke-width":1.5}); ring.dataset.maximum = maximum;
       marker = svg("circle", {cx, cy, r:4, fill:"#e8eaef", stroke:"#07080b"}); marker.dataset.center = cx;
-      plot.append(svg("path", {d:`M${cx} ${cy}H${cx + maximum}`, stroke:"#07080b", "stroke-width":1}), ring, marker, svg("text", {x:12, y:222}, `${fmt(domain[0])}–${fmt(domain[1])} ${field.unit}`), svg("text", {x:width - 12, y:222, "text-anchor":"end"}, `0–${fmt(radius)} m radius`)); ringWrap.append(plot);
-      plot.onpointermove = event => { const rect = plot.getBoundingClientRect(), x = (event.clientX - rect.left) / rect.width * width, y = (event.clientY - rect.top) / rect.height * height; update(nearest(radii, clamp(Math.hypot(x - cx, y - cy) / maximum, 0, 1) * radius)); };
+      plot.append(svg("path", {d:`M${cx} ${cy}H${cx + maximum}`, stroke:"#07080b", "stroke-width":1}), ring, marker, svg("text", {x:12, y:222}, `${fmt(domain[0])}–${fmt(domain[1])} ${field.unit}`), svg("text", {x:ringWidth - 12, y:222, "text-anchor":"end"}, `0–${fmt(radius)} m radius`)); ringWrap.append(plot);
+      plot.onpointermove = event => { const rect = plot.getBoundingClientRect(), x = (event.clientX - rect.left) / rect.width * ringWidth, y = (event.clientY - rect.top) / rect.height * height; update(nearest(radii, clamp(Math.hypot(x - cx, y - cy) / maximum, 0, 1) * radius)); };
       plot.onkeydown = event => { if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) { event.preventDefault(); update(event.key === "Home" ? 0 : event.key === "End" ? values.length - 1 : index + (event.key === "ArrowRight" ? 1 : -1)); } };
-      plotControl = linePlot(chart, width, radii, values, "radius (m)", field.unit, index, update); update(index);
+      plotControl = linePlot(chart, chartWidth, radii, values, "radius (m)", field.unit, index, update); update(index);
     });
     return observer;
   }

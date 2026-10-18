@@ -26,6 +26,8 @@ Open `/dashboard/` on that server. The build verifies the bundled inputs against
 
 The other process quantities remain available. Weather uses the complete saved two-hour trajectory. Missing samples remain missing, and independent diagnostic windows stay separate. Sources, support, and unquantified uncertainty remain available under **Source and limits**.
 
+**Expand charts** opens the current process in a larger dialog. It keeps the selected quantity, entity, time, and local chart controls. Closing the dialog returns the same view to its process panel. The pool diagram and radial profile appear side by side when space permits.
+
 Each additional process field is loaded separately when requested. The browser verifies its actual response bytes against the catalog SHA-256 before parsing or rendering. A failed load is retryable. Navigating away disposes chart observers and prevents a delayed response from mounting in a newer view.
 
 ## Verification

@@ -563,7 +563,7 @@ window.YSWorkspace = {
       if(!document.fullscreenEnabled)$("fullscreen").hidden=true;
       $("open-analysis").addEventListener("click",()=>{state.panel=true;renderAnalysis();fit();});
       $("close-analysis").addEventListener("click",()=>selectDomain(state.domain));
-      $("expand-analysis").addEventListener("click",()=>zoom(1.3));
+      $("expand-analysis").addEventListener("click",()=>{if(!window.YSProcessData.expand($("analysis-content")))zoom(1.3);});
       document.querySelectorAll("[data-analysis-tab]").forEach(b=>b.addEventListener("click",()=>{state.tab=b.dataset.analysisTab;renderAnalysis();writeURL();}));
       $("show-research").addEventListener("change",event=>{state.research=event.target.checked;if(state.process&&nodes.get(state.process).implementation==="research"&&!state.research)state.process=null;renderScene();renderAnalysis();writeURL();});
       $("show-conditional").addEventListener("change",event=>{state.conditional=event.target.checked;exchange=null;renderScene();renderAnalysis();writeURL();});
