@@ -101,7 +101,7 @@ def test_package_contains_only_public_assets(model):
         "dashboard/workspace-model.js", "dashboard/workspace.css",
         "dashboard/data-model.js", "dashboard/workbench.js", "dashboard/workbench.css", "dashboard/analyze/index.html",
         "dashboard/analysis.js", "dashboard/analysis.css", "dashboard/systems-model.js",
-        "dashboard/systems-workbench.js", "dashboard/systems-workbench.css",
+        "dashboard/systems-workbench.js", "dashboard/systems-workbench.css", "dashboard/process-data.js",
         "404.html", "_headers", "_redirects", "_worker.js"}
     expected.update(f"dashboard/systems/{slug}/index.html" for slug in builder.DOMAIN_SLUGS.values())
     assert {str(p.relative_to(destination)) for p in destination.rglob("*") if p.is_file()} == expected

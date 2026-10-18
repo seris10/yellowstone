@@ -55,7 +55,7 @@ window.YSAnalysis = {
       }
       const requested=p.get("system") || (p.has("t")||p.has("cell")?"river":systems.some(s=>s.id==="thermal")?"thermal":"river");
       const id=available.has(requested)?requested:"unavailable", nextSelection=[p.get("variable"),p.get("entity"),p.get("t"),p.get("cell")].join(":");
-      buildRail(id);$("view-description").textContent="EARTH SYSTEMS / LINKED SCIENTIFIC ANALYSIS";
+      buildRail(id);$("view-description").textContent="EARTH SYSTEMS / DATA ANALYSIS";
       document.title=`${id==="river"?"River heat":systems.find(s=>s.id===id)?.title||"System analysis"} | Yellowstone`;
       if(current===id && selection===nextSelection)return;
       generation++;const ticket=generation;current=id;selection=nextSelection;
@@ -72,7 +72,7 @@ window.YSAnalysis = {
         if(ticket!==generation)return;
         const target=$(id==="river"?"workbench-view":"systems-workbench-view");target.replaceChildren();
         const title=document.createElement("h1"),text=document.createElement("p");title.textContent="Analysis unavailable";
-        text.textContent="This scientific dataset could not be loaded. Select another system or return to the explorer.";target.append(title,text);
+        text.textContent="This dataset could not be loaded. Select another system or return to the explorer.";target.append(title,text);
         console.error("Scientific analysis unavailable",error);
       }
     }

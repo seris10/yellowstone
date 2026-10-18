@@ -143,7 +143,7 @@
       if (["overview", "systems"].includes(currentPage) && data.coverage) window.YSCoverage.init(data);
       if (["overview","systems","analyze"].includes(currentPage)) window.YSAnalysis.init(data,{embedded:currentPage!=="analyze"});
       const date = new Date(data.epoch).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "UTC", hour12: false });
-      $("run-description").textContent = `${data.run_mode === "scenario" ? "Illustrative scenario" : data.run_mode.replaceAll("_", " ")} · ${date} UTC`;
+      $("run-description").textContent = `${data.run_mode === "scenario" ? "Saved scenario" : data.run_mode.replaceAll("_", " ")} · ${date} UTC`;
       $("about-snapshot").textContent = `Run mode: ${data.run_mode.replaceAll("_", " ")}\nInitial model time: ${date} UTC`;
       $("about-snapshot").style.whiteSpace = "pre-line";
       ["about-button", "scope-button"].forEach(id => $(id).addEventListener("click", () => $("about-dialog").showModal()));

@@ -24,10 +24,10 @@ window.YSWorkspace = {
     const colorLegend=html("div","workspace-color-legend");colorLegend.setAttribute("aria-label","Process colors");panelHome.append(colorLegend);
     const titles = {temperature:"River temperature · distance",history:"River temperature · time",field:"Temperature · distance × time",oxygen:"Dissolved oxygen",periphyton:"Periphyton biomass",shading:"Shortwave transmission",air:"Air temperature · 60 s",wind:"Wind speed · 60 s",pools:"Pool center and edge temperatures",heat:"Ground heat field",water:"Snow storage by patch", "water-sum":"Summed-depth accounting diagnostic",snow:"Patch snow storage",biomass:"Vegetation biomass",moisture:"Patch soil moisture"};
     const domainMetrics = {atmosphere:["air","wind"],snow:["snow","moisture","water-sum"],thermal:["heat","pools"],river:["temperature","field","history","shading"],land:["biomass","moisture"],aquatic:["oxygen","periphyton","temperature","field"]};
-    const processMetrics = {weather:["air","wind"],surface:["temperature","history"],steam:["air","wind"],transport:["temperature","field","history"],mixing:["temperature","field"],boundary:["temperature","history"],tributaries:["temperature"],outlet:["temperature","history"],hyporheic:["temperature","history"],shading:["shading"],ground:["heat"],pool:["pools"],outflow_cooling:["pools"],snow:["snow","moisture","water-sum"],et:["water"],vegetation:["biomass","moisture"],grazers:["biomass"],mammals:["biomass"],canopy:["shading"],oxygen:["oxygen"],periphyton:["periphyton"],fish:["temperature","oxygen","field"],taxa:["oxygen","periphyton"],outflow:["pools"]};
+    const processMetrics = {transport:["temperature","field","history"],shading:["shading"]};
     function announce(text) { $("announcer").textContent = text; }
     function depth() { return state.process ? 2 : state.domain ? 1 : 0; }
-    function metrics() { return (state.process ? processMetrics[state.process] || [] : domainMetrics[state.domain] || []).filter(metric=>model.available(data,metric)); }
+    function metrics() { return state.process ? metricsFor(nodes.get(state.process)) : (domainMetrics[state.domain] || []).filter(metric=>model.available(data,metric)); }
     function fmt(value, digits = 2) { return Number.isFinite(value) ? value.toLocaleString("en-US",{maximumFractionDigits:digits}) : "Unavailable"; }
     function time(seconds) { return `${String(Math.floor(seconds/3600)).padStart(2,"0")}:${String(Math.floor(seconds%3600/60)).padStart(2,"0")}:${String(Math.floor(seconds%60)).padStart(2,"0")}`; }
     function marker(node) { return node.implementation === "research" ? "╌" : node.kind === "prescribed" ? "◇" : node.display === "rendered" ? "●" : "○"; }
@@ -42,11 +42,15 @@ window.YSWorkspace = {
       tip.style.left = `${clamp(event.clientX-r.left+12,8,width-265)}px`; tip.style.top = `${clamp(event.clientY-r.top+16,8,height-100)}px`; tip.hidden = false;
     }
     function workbenchTarget() {
+      const views=data.process_views?.[state.process],native=views?.find(view=>view.id===state.processView&&view.kind==="native")||views?.find(view=>view.kind==="native");
+      if(native)return native.system;
       return ["mammals","grazers"].includes(state.process)?"wildlife":state.process==="canopy"?"canopy":state.domain||"thermal";
     }
     function workbenchAddress() {
       const p=new URLSearchParams({view:"analysis",system:workbenchTarget()});
       if(state.process||state.domain)p.set("from",state.process||state.domain);
+      const views=data.process_views?.[state.process],native=views?.find(view=>view.id===state.processView&&view.kind==="native")||views?.find(view=>view.kind==="native");
+      if(native){const target=native.field_group==="tables"?views.find(view=>view.field_group==="variables"):native;p.set("variable",target?.collection==="profiles"?"pool_center":target?.quantity||native.quantity);if(state.processEntity)p.set("entity",state.processEntity);}
       if(workbenchTarget()==="river"&&data.river.frames.length){p.set("t",data.river.frames[state.frame].t);p.set("cell",state.cell);}
       return `${location.pathname}#${p}`;
     }
@@ -63,6 +67,7 @@ window.YSWorkspace = {
       if(state.first||state.last!==data.river.cells.length-1){p.set("first",state.first);p.set("last",state.last);}
       if(state.timeFirst||state.timeLast!==data.river.frames.length-1){p.set("timeFirst",state.timeFirst);p.set("timeLast",state.timeLast);}
       if (state.domain) { p.set("tab",state.tab); p.set("metric",state.metric); p.set("frame",state.frame); p.set("cell",state.cell); }
+      if(state.processView)p.set("quantity",state.processView);if(state.processEntity)p.set("entity",state.processEntity);
       history.replaceState(null,"",`#${p}`);
       },150);
     }
@@ -84,6 +89,7 @@ window.YSWorkspace = {
     function selectProcess(id, save = true, move = true) {
       const node = nodes.get(id); if (!node) return;
       const previous=state.process;
+      if(previous!==id){state.processView=null;state.processEntity=null;}
       state.network = false; state.domain = node.domain; state.process = id; state.panel = true; state.expanded = false; exchange = null;
       if (node.implementation === "research") { state.research = true; $("show-research").checked = true; }
       if(sceneReady&&!cards.some(c=>c.kind==="process"&&c.item.id===id))renderScene(false);
@@ -111,8 +117,8 @@ window.YSWorkspace = {
       $("workspace-breadcrumb").replaceChildren(); addBreadcrumb("Ecosystem",() => ecosystem(),!d);
       if (d) addBreadcrumb(d.label,() => selectDomain(d.id),!n); if (n) addBreadcrumb(n.label,() => selectProcess(n.id),true);
       $("workspace-level").textContent = "ECOSYSTEM / DOMAIN / PROCESS";
-      $("workspace-title").textContent = "Earth systems and their interactions.";
-      $("workspace-description").textContent = "Water, heat, and life in a connected model. Scroll into a sphere to reveal its processes and data.";
+      $("workspace-title").textContent = "Earth systems";
+      $("workspace-description").textContent = "Scroll into a sphere to see its processes and data.";
       $("workspace-count").textContent = `${selected.nodes.length} visible components · ${selected.edges.length} exchanges · 6 systems`;
       $("open-system-workbench").href=workbenchAddress();$("open-system-workbench").textContent="Analyze Earth systems ↗";
       $("domain-page-link").hidden = true;
@@ -208,7 +214,7 @@ window.YSWorkspace = {
       ["pointerup","pointercancel"].forEach(name=>hit.addEventListener(name,event=>{if(nodeDragging?.card!==c)return;event.stopPropagation();nodeDragging=null;announce(`${item.label} repositioned.`);}));
       return c;
     }
-    function metricsFor(node) {return (processMetrics[node.id]||[]).filter(metric=>model.available(data,metric));}
+    function metricsFor(node) {return data.process_views?.[node?.id]?.map(view=>view.id) || (processMetrics[node?.id]||[]).filter(metric=>model.available(data,metric));}
     function updateConnection({a,b,group}) {
       const dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1,inset=c=>c.r;
       const ai=inset(a),bi=inset(b),start={x:a.x+dx/len*ai,y:a.y+dy/len*ai},end={x:b.x-dx/len*bi,y:b.y-dy/len*bi},bend=Math.abs(dx)>600&&Math.abs(dy)<30?80:Math.abs(dy)>300?35:0;
@@ -361,21 +367,21 @@ window.YSWorkspace = {
         [["Method",e.method],["Space",e.spatial_support],["Time",e.temporal_support],["Relationship",`${e.kind.replaceAll("_"," ")} · ${e.conservation.replaceAll("_"," ")}`],["Scenario condition",e.condition]].forEach(([label,text])=>paragraph(details,label,text));item.append(details);container.append(item);
       });
       if(!edges.length)container.append(html("p","analysis-note","No defined exchanges match the selected layers."));
-      container.append(html("p","analysis-note","Arrowheads indicate the defined direction of information or quantities. Line width does not represent flux magnitude."));
+      container.append(html("p","analysis-note","Arrows show the direction of each exchange. Line width does not show its magnitude."));
     }
     function renderScience(container) {
       const n=nodes.get(state.process),d=domains.get(state.domain);
       if(n){
         container.append(html("p","analysis-lead",n.summary),html("div","analysis-state",`${marker(n)} ${type(n)} · ${n.formulation}`));
         [["Formulation",n.model_level],["Equation",n.equations],["Variables",n.variables],["Units",n.units],["Assumptions",n.assumptions],["Limits",n.limits]].forEach(([title,text])=>paragraph(container,title,text,title==="Equation"?"analysis-equation":""));
-        if(n.implementation!=="research")paragraph(container,"Interpretation","Implementation and runtime bindings describe software pathways. Field accuracy, visual fidelity, and scientific acceptance require separate evaluation.");
+        if(n.implementation!=="research")paragraph(container,"Interpretation","A working implementation does not establish field accuracy. The model still needs evaluation against observations.");
       }else if(d){
         container.append(html("p","analysis-lead",d.description));paragraph(container,"Scientific scope",data.scientific_acceptance);
         const members=model.visible(data,state).nodes.filter(node=>node.domain===d.id);members.forEach(node=>container.append(processLink(node,`${type(node)} · ${node.formulation}`)));
       }
     }
     function basis(metric) {
-      if(["temperature","history","field"].includes(metric))return "Saved river experiment. Prescribed upstream flow and temperature; authored meteorology and lateral sources. Playback and chart controls do not rerun the model. This compact preview samples saved times; the full river workbench includes every saved frame.";
+      if(["temperature","history","field"].includes(metric))return "Saved river experiment. Prescribed upstream flow and temperature; authored meteorology and lateral sources. Playback and chart controls do not rerun the model. This preview uses selected saved times. The full river dataset includes every saved frame.";
       if(metric==="oxygen")return `Saved spatial diagnostic. Recorded integration increment: ${data.ecology.oxygen_dt_s} s. This is separate from the river playback window.`;
       if(metric==="periphyton")return `Saved spatial diagnostic. Recorded integration increment: ${data.ecology.periphyton_dt_s} s. Biomass and nutrient parameters are authored.`;
       if(["air","wind"].includes(metric))return data.analytics.weather.basis+" The saved trace spans 60 seconds.";
@@ -391,15 +397,22 @@ window.YSWorkspace = {
       const input=html("input");input.type="range";input.id=id;input.min=min;input.max=max;input.step=1;input.value=value;input.setAttribute("aria-label",label);input.addEventListener("input",onInput);return input;
     }
     function renderData(container) {
+      if(data.process_views?.[state.process]?.length){
+        const process=state.process;
+        window.YSProcessData.mount(container,data,process,{view:state.processView,entity:state.processEntity},selection=>{
+          if(state.process!==process)return;state.processView=selection.view;state.processEntity=selection.entity;
+          container.querySelector(".analysis-workbench-link")?.setAttribute("href",workbenchAddress());writeURL();
+        });return;
+      }
       const choices=metrics();
       if(state.status==="none"&&!state.process){container.append(html("p","analysis-lead","Research extensions have no numerical results in the selected model."),html("p","analysis-note","Select a research process for its scientific scope and proposed connections."));return;}
       if(!choices.length){container.append(html("p","analysis-lead",nodes.get(state.process)?.implementation==="research"?"This research extension contributes no numerical results to the selected model.":"The public snapshot has no plotted diagnostic for this process."));
-        container.append(html("p","analysis-note","Explore its formulation and defined exchanges. Connected processes may have numerical diagnostics."));return;}
+        container.append(html("p","analysis-note","See the Science tab for the calculation and its limits."));return;}
       const select=html("select");select.id="workspace-metric";select.setAttribute("aria-label","Analysis variable");choices.forEach(key=>{const o=html("option","",titles[key]);o.value=key;select.append(o);});select.value=state.metric;
       select.addEventListener("change",()=>{state.metric=select.value;playing=false;renderAnalysis();writeURL();});container.append(control("Variable",select));
       const binding=model.binding(state.process,state.metric);container.append(html("p","analysis-note",`${binding.role} · ${binding.note}`));
 
-      const provenance=html("details","analysis-provenance");provenance.append(html("summary","","Data provenance and time window"),html("p","analysis-note analysis-basis",basis(state.metric)));
+      const provenance=html("details","analysis-provenance");provenance.append(html("summary","","Source and time window"),html("p","analysis-note analysis-basis",basis(state.metric)));
       const riverMetric=["temperature","history","field","oxygen","periphyton","shading"].includes(state.metric);
       if(riverMetric){
         const region=html("div","linked-map");miniMap=svg("svg",{viewBox:"0 0 600 100",role:"group","aria-label":"Linked river location. Select a channel location to update the analysis."});region.append(miniMap);container.append(region);
@@ -445,7 +458,7 @@ window.YSWorkspace = {
       $("close-analysis").setAttribute("aria-label","Zoom out to domain");
       const container=$("analysis-content");container.dataset.tab=state.tab;container.replaceChildren();plot=null;miniMap=null;chartSeries=null;
       if(state.tab==="science")renderScience(container);else if(state.tab==="exchanges")renderExchanges(container);else renderData(container);
-      if(n?.implementation!=="research"){const link=html("a","analysis-workbench-link","Open full system dataset ↗");link.href=workbenchAddress();container.append(link);}
+      if(n?.implementation!=="research"&&(!data.process_views?.[n?.id]||data.process_views[n.id].some(view=>view.kind==="native"))){const link=html("a","analysis-workbench-link","Open full system dataset ↗");link.href=workbenchAddress();container.append(link);}
     }
     function temperature(value) {return window.YSData.color(value,temperatureExtent);}
     function drawMiniMap() {
@@ -536,6 +549,7 @@ window.YSWorkspace = {
       else if(domains.has(p.get("domain")||(!p.has("view")?options.domain:null)))selectDomain(p.get("domain")||options.domain,false);
       else ecosystem(false);
       state.network=!state.domain&&!state.process&&p.get("network")==="1";if(!restored)netMix=state.network?1:0;header();
+      state.processView=p.get("quantity");state.processEntity=p.get("entity");
       if(metrics().includes(p.get("metric")))state.metric=p.get("metric");if(["data","science","exchanges"].includes(p.get("tab")))state.tab=p.get("tab");
       setMode(p.get("view")==="landscape"?"landscape":"systems",false);renderAnalysis();fit(!restored);restored=true;
     }

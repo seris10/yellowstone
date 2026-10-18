@@ -412,7 +412,7 @@ def package_site(destination: Path, snapshot: dict, datasets: dict | None = None
         html = template.replace('<body data-page="overview"', f'<body data-page="{identity}"')
         if domain:
             html = html.replace(f'data-page="{identity}">', f'data-page="{identity}" data-domain="{domain}">', 1)
-        html = html.replace("Yellowstone | Ecosystem explorer", f"{title} | Yellowstone")
+        html = html.replace("<title>Ecosystem explorer | Yellowstone</title>", f"<title>{title} | Yellowstone</title>")
         for selected, section in [("systems", "system-view"), ("results", "river-view")]:
             if identity == selected:
                 html = html.replace(f'<section id="{section}" hidden', f'<section id="{section}"')
@@ -422,7 +422,7 @@ def package_site(destination: Path, snapshot: dict, datasets: dict | None = None
         (target / "index.html").write_text(html)
     for name in ["explorer.css", "explorer.js", "coverage.js", "science.js", "workspace.css", "workspace.js", "workspace-model.js",
                  "data-model.js", "workbench.js", "workbench.css", "analysis.js", "analysis.css",
-                 "systems-model.js", "systems-workbench.js", "systems-workbench.css"]:
+                 "systems-model.js", "systems-workbench.js", "systems-workbench.css", "process-data.js"]:
         shutil.copyfile(HERE / "src" / name, page / name)
     (page / "snapshot.json").write_text(json.dumps(snapshot, separators=(",", ":"), allow_nan=False) + "\n")
     (destination / "_redirects").write_text("/ /dashboard/ 302\n")
@@ -521,9 +521,12 @@ def main() -> None:
     if args.build:
         snapshot = public_snapshot(args.build)
         path, payload = attach_river_dataset(snapshot, river_dataset(args.build))
-        from domain_data import export_systems, attach_system_datasets
+        from domain_data import CheckedBuild, export_systems, attach_system_datasets
+        from process_data import process_views
         datasets = {path: payload}
-        datasets.update(attach_system_datasets(snapshot, export_systems(args.build)))
+        systems = export_systems(args.build)
+        datasets.update(attach_system_datasets(snapshot, systems))
+        snapshot["process_views"] = process_views(CheckedBuild(args.build), systems)
         package_site(args.out, snapshot, datasets)
         map_assets(args.build, args.out / "dashboard")
         public_worker(args.out)

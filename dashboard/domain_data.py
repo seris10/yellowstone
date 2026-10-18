@@ -11,13 +11,13 @@ from pathlib import Path
 
 
 SYSTEMS = {
-    "atmosphere": ("Atmosphere", "Weather forcing and steam microclimate.", "#8dcaca"),
-    "snow": ("Snow and soil water", "Snow storage, soil water, and the land water balance.", "#b8b4e9"),
-    "thermal": ("Geothermal systems", "Ground heat, hot-water outflow, and pool temperature structure.", "#efa774"),
-    "land": ("Terrestrial ecology", "Patch vegetation, food resources, and land stocks.", "#8ed5aa"),
-    "aquatic": ("Aquatic ecology", "Dissolved oxygen, periphyton, insects, and fish thermal responses.", "#e2b6d1"),
-    "wildlife": ("Wildlife", "Authored mammal populations, activity, and encounter routes.", "#efbc78"),
-    "canopy": ("Forest canopy", "Dominant crown detections and observed canopy beyond crown cores.", "#9ad58c"),
+    "atmosphere": ("Atmosphere", "Scenario weather and the effect of hot water on downwind air.", "#8dcaca"),
+    "snow": ("Snow and soil water", "Water stored in each snow and soil patch.", "#b8b4e9"),
+    "thermal": ("Geothermal systems", "Temperature and heat flow around thermal features.", "#efa774"),
+    "land": ("Terrestrial ecology", "Vegetation and resource stocks by patch.", "#8ed5aa"),
+    "aquatic": ("Aquatic ecology", "River habitat and modeled food resources.", "#e2b6d1"),
+    "wildlife": ("Wildlife", "Modeled mammal activity and authored population equivalents.", "#efbc78"),
+    "canopy": ("Forest canopy", "Crown detections and canopy structure derived from LiDAR.", "#9ad58c"),
 }
 
 
@@ -30,7 +30,7 @@ def _number(value):
     return value
 
 
-def _support(space, time="Frozen state; no saved trajectory is supplied.", kind="static", interval=None):
+def _support(space, time="One saved state; no time series is available.", kind="static", interval=None):
     result = {"space": space, "time": time, "time_kind": kind, "uncertainty": "unknown"}
     if interval is not None:
         result["interval_s"] = list(interval)
@@ -198,7 +198,7 @@ def _atmosphere(checked, frames):
                 else:
                     value = vector[0 if identity == "wind_x" else 1]
                 values.append(value)
-            description = "Magnitude calculated as hypot(eastward wind, southward wind) from saved prescribed wind components." if identity == "wind_speed" else "Prescribed weather forcing; no local observation series is supplied."
+            description = "Magnitude calculated as hypot(eastward wind, southward wind) from saved prescribed wind components." if identity == "wind_speed" else "Scenario weather input, not a record of local observations."
             _variable(data, identity, label, unit, source, description,
                       _support("Scenario-wide atmospheric forcing.", "Initial saved state.", "instantaneous", [times[0], times[0]]),
                       "diagnostic" if identity == "wind_speed" else "driver")
@@ -236,7 +236,7 @@ def _atmosphere(checked, frames):
                                             ("steam_humidity_change", "delta_specific_humidity", "Specific humidity increase", "kg/kg"),
                                             ("steam_latent_heat", "latent_flux_w_m2", "Latent heat flux", "W/m2"),
                                             ("steam_sensible_heat", "sensible_flux_w_m2", "Sensible heat flux", "W/m2")]:
-            _variable(data, identity, label, unit, source, "Frozen bulk-aerodynamic microclimate diagnostic; no spatial weather field is supplied.",
+            _variable(data, identity, label, unit, source, "One modeled plume adjustment; no spatial weather field is available.",
                       _support("Combined modeled hot-water source area and downwind fetch."), "diagnostic")
             item["values"][identity] = _number(steam["report"].get(key))
     return data
@@ -306,7 +306,7 @@ def _patches(checked, frames, identity):
         if et:
             source = checked.source(data, "evapotranspiration.json", "reference-et", "Reference evapotranspiration", "Authored weather diagnostic")
             _variable(data, "reference_et", "Reference evapotranspiration", "mm/day", source,
-                      "FAO reference demand diagnostic. The snow/soil bucket owns the actual water debit.",
+                      "Reference atmospheric water demand. Actual water loss is accounted for in the snow and soil model.",
                       _support("Scenario reference surface."), "diagnostic")
             item = _entity("reference-et", "Reference surface", "diagnostic")
             item["values"]["reference_et"] = _number(et.get("et0_mm_d"))
@@ -355,7 +355,7 @@ def _thermal(checked):
         source = checked.source(data, "outflow_temperature.f32", "outflow-temperature", "Native outflow temperature raster", "Modeled steady field; field validation incomplete")
         checked.source(data, "outflow_temperature.json", "outflow-support", "Outflow temperature support")
         _grid(data, "outflow_temperature", "Outflow temperature", "C", source,
-              "Steady graph energy solution over hot-water films; dry and unsupported pixels remain missing.",
+              "Steady temperature calculated along routed outflows. Dry and unsupported pixels remain missing.",
               outflow["grid"], _float_grid(checked, "outflow_temperature.f32", outflow["grid"]),
               support=_support("Native wet cells on the thermal outflow grid.", "Steady field at the scenario forcing epoch; no trajectory.", "static"))
     pools = checked.optional("pools_state.json")
@@ -413,9 +413,9 @@ def _aquatic(checked, frames):
         data["entities"].append(item)
     specs = [
         ("river_oxygen.json", "oxygen", "oxygen", "Dissolved oxygen", "mg/L", "do_mg_l_by_cell",
-         "Frozen oxygen profile; the numerical increment does not establish an observation window."),
+         "Saved oxygen profile. The integration step is not an observation window."),
         ("periphyton.json", "periphyton", "periphyton", "Periphyton biomass", "mg C/m2", "biomass_mg_c_m2_by_cell",
-         "Frozen periphyton biomass after the declared numerical increment; no biomass trajectory is supplied.")]
+         "Saved periphyton biomass after its stated integration step. A time series is unavailable.")]
     for name, source_id, identity, label, unit, field, description in specs:
         document = checked.optional(name)
         if document:

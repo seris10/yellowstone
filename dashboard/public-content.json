@@ -1,7 +1,7 @@
 {
  "processes": {
   "mixing": {
-   "summary": "A reference model mixes water and heat within a small chain of river reaches.",
+   "summary": "River temperatures are reported for six reaches. The data view uses flow-weighted channel temperatures.",
    "display": "python",
    "formulation": "physical approximation"
   },
@@ -11,7 +11,7 @@
    "formulation": "physical approximation"
   },
   "surface": {
-   "summary": "The river exchanges heat with the atmosphere through radiation, evaporation, and direct heat transfer.",
+   "summary": "The river gains or loses heat across its surface. The selected exchange model determines which effects are calculated separately.",
    "display": "python",
    "formulation": "physical approximation"
   },
@@ -26,12 +26,12 @@
    "formulation": "authored profile"
   },
   "vegetation": {
-   "summary": "Plant biomass grows according to available light, water, and carrying capacity, with losses to grazing.",
+   "summary": "Vegetation biomass changes with modeled growth and grazing.",
    "display": "rendered",
    "formulation": "simplified ecological model"
   },
   "insects": {
-   "summary": "Aquatic insects develop with accumulated warmth, emerge into the air, and provide food for consumers.",
+   "summary": "The compartment model tracks aquatic and terrestrial insect stocks and consumption.",
    "display": "rendered",
    "formulation": "simplified ecological model"
   },
@@ -41,7 +41,7 @@
    "formulation": "authored response model"
   },
   "grazers": {
-   "summary": "Grazing routes avoid water, cliffs, and thermal exclusions. The routes represent authored animal movement.",
+   "summary": "Authored paths place grazing animals in the scene. They are not observed movement tracks.",
    "display": "rendered",
    "formulation": "authored route model"
   },
@@ -81,7 +81,7 @@
    "formulation": "simplified ecological model"
   },
   "aerial": {
-   "summary": "Swallows, bats, and riparian spiders consume a modeled stock of emerging insects.",
+   "summary": "Emerging insects feed modeled predators along the river.",
    "display": "python",
    "formulation": "simplified ecological model"
   },
@@ -91,7 +91,7 @@
    "formulation": "simplified ecological model"
   },
   "steam": {
-   "summary": "Warm pools and outflows transfer heat and water vapor into the nearby air.",
+   "summary": "A saved plume calculation estimates how hot-water sources warm and humidify downwind air.",
    "display": "python",
    "formulation": "physical approximation"
   },
@@ -101,7 +101,7 @@
    "formulation": "simplified ecological model"
   },
   "snow": {
-   "summary": "Snow stores water, melt releases it, and a soil bucket tracks infiltration, water loss, and drainage.",
+   "summary": "The snow and soil model tracks stored water and water loss within each patch.",
    "display": "rendered",
    "formulation": "physical approximation"
   },
@@ -173,7 +173,7 @@
    "id": "reactive_chemistry",
    "domain": "thermal",
    "label": "Reactive chemistry",
-   "summary": "Reactive transport would represent chemical reactions, sorption, and mineral change. The selected solute model transports conservative constituents.",
+   "summary": "Chemical reactions could change dissolved constituents during transport. The current model treats them as conservative.",
    "target": "solutes"
   },
   {
@@ -187,7 +187,7 @@
    "id": "canopy_interception",
    "domain": "land",
    "label": "Canopy interception",
-   "summary": "A canopy water store would separate intercepted precipitation, evaporation, and drip. That store is absent from the selected snow-soil formulation.",
+   "summary": "A canopy water store could track rain before it evaporates or reaches the ground. That store is absent from the current model.",
    "target": "snow"
   },
   {
@@ -207,7 +207,7 @@
    "kind": "prescribed",
    "display": "rendered",
    "formulation": "prescribed forcing",
-   "summary": "Air temperature, humidity, wind, cloud, and sunlight supply the atmospheric conditions used by the scenario.",
+   "summary": "Scenario weather supplies atmospheric forcing. Temperature follows an authored daily cycle; the remaining variables use the saved scenario inputs.",
    "model_level": "Authored meteorological forcing with a shared simulation epoch and computed solar geometry.",
    "assumptions": "Air temperature follows an authored daily cycle. Wind, humidity, and cloud are scenario inputs.",
    "limits": "The selected weather is not a record of observed conditions.",
@@ -221,7 +221,7 @@
    "kind": "process",
    "display": "rendered",
    "formulation": "authored community model",
-   "summary": "Temperature, substrate, and light shape modeled microbial mat communities and their appearance.",
+   "summary": "The model assigns microbial communities and pigments to thermal surfaces.",
    "model_level": "Spatial community and biomass representation with temperature and substrate gates.",
    "assumptions": "Community response and pigment appearance combine literature relationships with authored values.",
    "limits": "Local biomass and color have no completed field evaluation. Color alone does not determine water temperature.",
@@ -249,10 +249,10 @@
    "kind": "process",
    "display": "rendered",
    "formulation": "derived geometric estimate",
-   "summary": "LiDAR-derived canopy estimates provide spatial structure and influence vegetation suitability.",
+   "summary": "LiDAR data locate dominant crowns and estimate their height and conservative crown-core area.",
    "model_level": "Derived crown census and canopy coverage estimates from frozen point-cloud inputs.",
    "assumptions": "Segmentation and donor-tree relationships introduce authored and transferred values.",
-   "limits": "Crown estimates do not establish stem counts, species identity, or locally validated crown geometry.",
+   "limits": "Detected crowns are not a census of all stems. Species and local detection error are not established.",
    "units": "Crown dimensions m; canopy fraction"
   },
   {
