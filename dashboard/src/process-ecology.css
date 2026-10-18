@@ -1,0 +1,23 @@
+.pe-chart{min-width:0;color:#e8eaef;background:#07080b}
+.pe-chart .pe-note{font:11px/1.8 var(--mono);color:#a2a4a9;overflow-wrap:anywhere;margin:9px 0}
+.pe-figure{margin:12px 0;border:1px solid #2a2c31;border-radius:4px;overflow:hidden;background:#0b0e14}
+.pe-caption{font:11px/1.8 var(--mono);color:#a2a4a9;padding:9px}
+.pe-map{display:block;width:100%;cursor:crosshair}
+.pe-chart .pe-plot{display:block;width:100%;height:auto;min-height:0;cursor:crosshair}
+.pe-axis{font:11px var(--mono);fill:#a2a4a9}
+.pe-control{display:block;min-width:0;font:11px/1.8 var(--mono);color:#a2a4a9;margin:9px 0}
+.pe-control input[type=number],.pe-reset{display:block;width:100%;min-width:0;box-sizing:border-box;background:#13151a;color:#e8eaef;border:1px solid #3d4657;border-radius:4px;padding:9px;font:11px var(--mono)}
+.pe-control input[type=range]{display:block;width:100%;min-height:28px;accent-color:var(--domain,#8dcaca);margin:0}
+.pe-control output{display:block;color:#e8eaef;font:11px/1.8 var(--mono);overflow-wrap:anywhere}
+.pe-range-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+.pe-reset{width:auto;cursor:pointer;margin:9px 0}
+.pe-map:focus-visible,.pe-plot:focus-visible,.pe-reset:focus-visible,.pe-control input:focus-visible{outline:2px solid var(--domain,#8dcaca);outline-offset:-2px}
+.pe-readout{display:block;font:11px/1.8 var(--mono);color:#e8eaef;overflow-wrap:anywhere;padding:9px 0;border-bottom:1px solid #2a2c31}
+.pe-factor{position:relative;display:flex;justify-content:space-between;gap:9px;font:11px/1.8 var(--mono);padding:9px 0;color:#a2a4a9;border-bottom:1px solid #2a2c31}
+.pe-factor output{color:#e8eaef}
+.pe-factor-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--domain,#8dcaca)}
+.pe-advanced{font:11px/1.8 var(--mono);color:#a2a4a9;margin:9px 0}
+.pe-advanced summary{cursor:pointer}
+.pe-color-legend{font:11px/1.8 var(--mono);color:#a2a4a9;margin:9px 0}
+.pe-color-bar{height:3px;margin:9px 0}
+.pe-color-limits{display:flex;justify-content:space-between;gap:9px;color:#e8eaef}

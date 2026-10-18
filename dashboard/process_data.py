@@ -5,6 +5,133 @@ import math
 import struct
 
 
+_MAT_LABELS = {"sinter_dry": "Dry sinter", "brown_green_mixed_photosynthetic": "Brown-green photosynthetic mat",
+    "orange_cyanobacteria_chromatiaceae": "Orange mat: cyanobacteria / Chromatiaceae",
+    "yellow_green_cyanobacteria_chloroflexus": "Yellow-green mat: cyanobacteria / Chloroflexus",
+    "yellow_cyanobacteria": "Yellow cyanobacterial mat", "pink_chemolithotroph": "Pink chemolithotrophs",
+    "white_chemolithotroph": "White chemolithotrophs", "water_hot_clear": "Clear hot water"}
+
+
+def _visual_number(value):
+    if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)):
+        raise ValueError("Process visuals require finite numbers or explicit missing values")
+    return value
+
+
+def _visual_document(checked, identity, artifacts, space, time, kind="static"):
+    return {"schema": "yellowstone.process-visual.v1", "id": identity,
+        "snapshot": checked.manifest["build_id"],
+        "sources": [{"label": label, "sha256": checked.manifest["output_artifact_hashes"][name]}
+                    for name, label in artifacts],
+        "support": {"space": space, "time": time, "time_kind": kind, "uncertainty": "unknown"}, "notes": []}
+
+
+def export_visuals(checked):
+    """Retain native fields needed by process-specific interactive diagrams."""
+    result = {}
+    steam = checked.optional("steam_microclimate.json")
+    if steam:
+        report = steam["report"]
+        data = _visual_document(checked, "steam", [("steam_microclimate.json", "Steam microclimate diagnostic")],
+            "Bulk upwind/downwind calculation over the combined hot-water source area.",
+            "One saved diagnostic; no spatial plume field or time series is available.")
+        data["report"] = {key: _visual_number(report.get(key)) for key in [
+            "upwind_air_c", "downwind_air_c", "upwind_rh", "downwind_rh", "delta_air_c", "delta_specific_humidity",
+            "latent_flux_w_m2", "sensible_flux_w_m2", "fetch_length_m", "internal_boundary_layer_m", "residence_s"]}
+        components = report.get("components", {})
+        data["components"] = [{"id": identity, "label": label,
+            **{key: _visual_number(components.get(identity + "_" + key))
+               for key in ["area_m2", "latent_w_m2", "sensible_w_m2"]}}
+            for identity, label in [("pool", "Pools"), ("outflow", "Outflow")]]
+        data["notes"] = ["The diagram is schematic. Fetch and mixing depth are bulk model diagnostics, not a measured plume boundary.",
+            "Source flux densities are per square meter of the corresponding source area. The combined flux is area weighted.",
+            "The calculation uses transferred model structure and authored rates; field validation remains incomplete."]
+        result["steam"] = data
+
+    mat = checked.optional("mat_state.json")
+    if mat and checked.has("mat_community.i16"):
+        grid, raster = mat["grid"], mat["rasters"]["community"]
+        nx, nz = grid["nx"], grid["nz"]
+        if any(isinstance(n, bool) or not isinstance(n, int) or n <= 0 for n in [nx, nz]):
+            raise ValueError("Mat visual grid dimensions must be positive integers")
+        spacing = _visual_number(grid["cell_size_m"])
+        origin = grid["origin_xz_m"]
+        if spacing is None or spacing <= 0 or len(origin) != 2 or any(_visual_number(v) is None for v in origin):
+            raise ValueError("Mat visual grid geometry is invalid")
+        if grid.get("row_order") not in ["north_to_south", "south_increases", "z_increasing"]:
+            raise ValueError("Mat visual grid orientation is unsupported")
+        payload = checked.binary("mat_community.i16")
+        if len(payload) != nx * nz * 2:
+            raise ValueError("Mat visual raster dimensions differ")
+        if raster.get("dtype") != "int16" or raster["sha256"] != checked.manifest["output_artifact_hashes"]["mat_community.i16"]:
+            raise ValueError("Mat visual raster metadata identity differs")
+        nodata = raster["nodata"]
+        values = [None if value == nodata else value for value, in struct.iter_unpack("<h", payload)]
+        counts = Counter(value for value in values if value is not None)
+        legend, known = [], set()
+        for row in mat["legend"]:
+            identity = row["class_id"]
+            if isinstance(identity, bool) or not isinstance(identity, int) or identity in known or identity == nodata:
+                raise ValueError("Mat visual class identities must be unique integers")
+            known.add(identity)
+            rgb = row["rgb"]
+            if len(rgb) != 3 or any(isinstance(v, bool) or not isinstance(v, int) or not 0 <= v <= 255 for v in rgb):
+                raise ValueError("Mat visual display colors must contain three byte values")
+            legend.append({"class_id": identity, "label": _MAT_LABELS.get(row["name"], row["name"].replace("_", " ")),
+                "rgb": rgb, "count": counts[identity], "area_m2": counts[identity] * spacing ** 2})
+        if counts.keys() - known:
+            raise ValueError("Mat visual raster has an unknown community class")
+        data = _visual_document(checked, "mat", [("mat_state.json", "Surface classification metadata"),
+            ("mat_community.i16", "Native classified surface raster")],
+            "Native classified grid cells; x east and z south.", "One saved surface classification.")
+        data.update(grid={"nx": nx, "nz": nz, "cell_m": spacing, "origin_xz_m": origin, "row_order": "z_increasing"},
+            values=values, legend=legend, nodata=None)
+        data["notes"] = ["Includes dry sinter and clear water as well as microbial mat classes.",
+            "Classes follow authored temperature bands. Display colors are not measured spectral reflectance.",
+            "Missing cells remain missing; area is native cell count multiplied by cell area."]
+        result["mat"] = data
+
+    document = checked.optional("river_replay.json")
+    if document:
+        replay = document["replay"]
+        cells = []
+        known = set()
+        for cell in replay["cells"]:
+            identity, position = cell["id"], _visual_number(cell["center_s_m"])
+            xyz = cell.get("position_xyz")
+            if identity in known or position is None or (cells and position <= cells[-1]["position_m"]):
+                raise ValueError("Hyporheic visual cell identities or downstream ordering differ")
+            known.add(identity)
+            if xyz is not None and (len(xyz) != 3 or any(_visual_number(v) is None for v in xyz)):
+                raise ValueError("Hyporheic visual cell coordinates are invalid")
+            cells.append({"id": identity, "position_m": position, "x": xyz[0] if xyz else None, "z": xyz[2] if xyz else None})
+        times, water, bed = [], [], []
+        for frame in replay["frames"]:
+            time = _visual_number(frame["t_s"])
+            if time is None or (times and time <= times[-1]):
+                raise ValueError("Hyporheic visual saved times must increase")
+            times.append(time)
+            for collection, row in [(water, frame.get("temperature_c")),
+                    (bed, frame.get("budget", {}).get("hyporheic", {}).get("storage_temperature_c"))]:
+                if row is None:
+                    row = [None] * len(cells)
+                if not isinstance(row, list) or len(row) != len(cells):
+                    raise ValueError("Hyporheic visual temperature and cell dimensions differ")
+                collection.append([_visual_number(value) for value in row])
+        if not cells or not times:
+            raise ValueError("Hyporheic visual requires saved cells and times")
+        data = _visual_document(checked, "hyporheic", [("river_replay.json", "Saved channel and storage-zone trajectory")],
+            "One main-channel and storage-water pair per native channel cell.",
+            "Saved physical seconds from the scenario start; no interpolated samples.", "trajectory")
+        data["support"]["interval_s"] = [times[0], times[-1]]
+        data.update(times=times, cells=cells, water=water, bed=bed, unit="°C", time_unit="s", position_unit="m downstream")
+        data["notes"] = ["Bed water is the modeled transient storage zone, not a sediment temperature measurement.",
+            "Channel locations follow mapped centerlines; widths and depth profiles include authored estimates.",
+            "Saved missing temperatures remain missing. Both temperatures retain the same cell and time ordering."]
+        result["hyporheic"] = data
+    return result
+
+
 def process_views(checked, systems):
     """Describe direct process results without substituting a neighboring process."""
     catalog = {}
@@ -116,6 +243,13 @@ def process_views(checked, systems):
                     [(c["id"], value) for c, value in zip(cells, bed)])
                 view.update(kind="profile", positions=[c["center_s_m"] for c in cells], values=bed, x_unit="m downstream")
                 view["support"]["time"] = f"Final saved state at {times[-1]} seconds after the scenario start."
+                catalog["hyporheic"].insert(0, {"id": "channel_bed", "kind": "visual", "label": "Water and bed temperature",
+                    "description": "Paired saved channel and bed-water temperatures across the full scenario.", "unit": "°C",
+                    "sources": [{"id": "river-replay", "label": "Saved channel and storage-zone trajectory",
+                        "sha256": checked.manifest["output_artifact_hashes"]["river_replay.json"], "origin": "Checked model output"}],
+                    "support": {"space": "One main-channel and storage-water pair per native channel cell.",
+                        "time": "Saved physical seconds from the scenario start.", "time_kind": "trajectory",
+                        "interval_s": [times[0], times[-1]], "uncertainty": "unknown"}})
         forcing = replay.get("forcing", {})
         for key, title, unit in [("boundary_m3_s", "Upstream discharge", "m³/s"), ("boundary_c", "Upstream temperature", "°C")]:
             if isinstance(forcing.get(key), (int, float)):
@@ -197,12 +331,7 @@ def process_views(checked, systems):
         if len(payload) != mat["grid"]["nx"] * mat["grid"]["nz"] * 2 or raster["sha256"] != checked.manifest["output_artifact_hashes"]["mat_community.i16"]:
             raise ValueError("Mat raster support or identity differs")
         counts = Counter(value for (value,) in struct.iter_unpack("<h", payload) if value != raster["nodata"])
-        names = {"sinter_dry": "Dry sinter", "brown_green_mixed_photosynthetic": "Brown-green photosynthetic mat",
-                 "orange_cyanobacteria_chromatiaceae": "Orange mat: cyanobacteria / Chromatiaceae",
-                 "yellow_green_cyanobacteria_chloroflexus": "Yellow-green mat: cyanobacteria / Chloroflexus",
-                 "yellow_cyanobacteria": "Yellow cyanobacterial mat", "pink_chemolithotroph": "Pink chemolithotrophs",
-                 "white_chemolithotroph": "White chemolithotrophs", "water_hot_clear": "Clear hot water"}
-        labels = {row["class_id"]: names.get(row["name"], row["name"].replace("_", " ")) for row in mat["legend"]}
+        labels = {row["class_id"]: _MAT_LABELS.get(row["name"], row["name"].replace("_", " ")) for row in mat["legend"]}
         if counts.keys() - labels.keys():
             raise ValueError("Mat raster has an unknown community class")
         area = mat["grid"]["cell_size_m"] ** 2

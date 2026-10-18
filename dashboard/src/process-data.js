@@ -1,7 +1,8 @@
 "use strict";
 
 ((root) => {
-  const cache = new Map(), finite = Number.isFinite;
+  const cache = new Map(), instances = new WeakMap(), finite = Number.isFinite;
+  function dispose(container) { instances.get(container)?.(); instances.delete(container); }
   function summary(values) {
     let min = Infinity, max = -Infinity, count = 0;
     for (const value of values) if (finite(value)) { min = Math.min(min, value); max = Math.max(max, value); count++; }
@@ -49,6 +50,7 @@
     try {const data=await cache.get(descriptor.sha256);if(data.id!==descriptor.id||data.snapshot!==snapshot.snapshot)throw Error("The process dataset belongs to a different catalog.");return data;} catch(error) { cache.delete(descriptor.sha256); throw error; }
   }
   async function mount(container, snapshot, process, selection={}, onChange=()=>{}) {
+    dispose(container);
     const views=snapshot.process_views?.[process] || [];
     if (!views.length) return;
     const html=(tag,cls="",text="")=>{const el=document.createElement(tag);el.className=cls;el.textContent=text;return el;};
@@ -56,9 +58,10 @@
     const fmt=(value,digits=4)=>finite(value)?value.toLocaleString("en-US",{maximumFractionDigits:digits}):"Missing";
     const host=html("section","process-data"),status=html("p","analysis-note","Loading process data…");
     host.setAttribute("aria-label","Process data");container.append(host);host.append(status);
-    let view=views.find(item=>item.id===selection.view)||views[0],entity=selection.entity||null,ticket=0,resizeObserver=null;
+    let view=views.find(item=>item.id===selection.view)||views[0],entity=selection.entity||null,ticket=0,resizeObserver=null,richCleanup=null;
+    instances.set(container,()=>{ticket++;resizeObserver?.disconnect();richCleanup?.();host.remove();});
     async function render() {
-      const current=++ticket;resizeObserver?.disconnect();host.replaceChildren();
+      const current=++ticket;resizeObserver?.disconnect();richCleanup?.();richCleanup=null;host.replaceChildren();
       const choice=html("select");choice.setAttribute("aria-label","Process quantity");
       for(const item of views){const option=html("option","",item.label);option.value=item.id;choice.append(option);}choice.value=view.id;
       const label=html("label","analysis-control","Quantity");label.append(choice);host.append(label);
@@ -79,7 +82,16 @@
         select.onchange=()=>{entity=select.value;render();};
         if(field.choices.length>500)host.append(html("p","analysis-note","Use the map or full dataset to inspect entities beyond this list."));
       }
-      if(field.description)host.append(html("p","analysis-note",field.description));
+      const description=field.description?html("p","analysis-note",field.description):null;if(description)host.append(description);
+      let rich=null,richError=null;
+      try {
+        rich=await root.YSProcessVisuals?.mount(host,{snapshot,process,view,field,dataset,entity,isCurrent:()=>current===ticket,
+          selectEntity:id=>{entity=id;const select=host.querySelector('[aria-label="Process entity"]');if(select){if(![...select.options].some(option=>option.value===id)){const row=field.choices?.find(item=>item.id===id);if(row){const option=html("option","",row.label);option.value=id;select.prepend(option);}}select.value=id;}onChange({view:view.id,entity,system:view.system,quantity:field.id});}});
+      } catch(error) {richError=error;}
+      if(current!==ticket||!host.isConnected){rich?.destroy?.();return;}
+      richCleanup=rich?.destroy;
+      if(rich){description?.remove();if(field.choices?.length>500)host.querySelector('.analysis-note')?.remove();}
+      if(richError){const error=html("p","analysis-note",richError.message);error.setAttribute("role","alert");const retry=html("button","","Retry visual");retry.type="button";retry.onclick=render;host.append(error,retry);}
       const plot=svg("svg",{viewBox:"0 0 600 300",role:"img",tabindex:0,"aria-label":field.label}),wrap=html("div","workspace-chart process-chart"),probe=html("output","analysis-probe");
       probe.setAttribute("aria-live","off");wrap.append(plot);host.append(wrap,probe);
       resizeObserver=new ResizeObserver(()=>{if(!host.isConnected){resizeObserver.disconnect();return;}plot.style.setProperty("--process-axis-size",`${Math.min(26,Math.max(12,7200/(wrap.clientWidth||600)))}px`);});resizeObserver.observe(wrap);
@@ -106,7 +118,8 @@
         note.textContent=`${values.length} samples · ${fullWindow}. Range ${fmt(stats.min,6)}–${fmt(stats.max,6)} ${field.unit}. ${stats.missing?`${stats.missing} missing samples; gaps are preserved.`:""}`;
         plot.setAttribute("aria-label",`${field.label}. ${note.textContent}`);
       }
-      if(field.kind==="series")line(field.times,field.values,"seconds elapsed");
+      if(rich||richError){wrap.hidden=true;probe.hidden=true;note.hidden=true;}
+      else if(field.kind==="series")line(field.times,field.values,"seconds elapsed");
       else if(field.kind==="profile")line(field.positions,field.values,field.x_unit);
       else if(field.kind==="values"){
         const points=field.points,stats=summary(points.map(p=>p.y));
@@ -142,17 +155,19 @@
         const controls=html("div","chart-options"),previous=html("button","","Previous"),next=html("button","","Next"),count=html("span");controls.append(previous,count,next);host.append(controls);
         const draw=()=>{tbody.replaceChildren();field.rows.slice(page*25,page*25+25).forEach(row=>{const tr=html("tr");field.columns.forEach(col=>tr.append(html("td","",typeof row[col.id]==="number"?fmt(row[col.id],6):String(row[col.id]??"Missing"))));tbody.append(tr);});previous.disabled=page===0;next.disabled=(page+1)*25>=field.rows.length;count.textContent=`${field.rows.length} rows · page ${page+1}`;};previous.onclick=()=>{page--;draw();};next.onclick=()=>{page++;draw();};draw();
       }
-      const support=field.support||view.support;
+      const support=rich?.visual?.support||field.support||view.support;
       if(support&&field.kind!=="series")host.append(html("p","analysis-note process-time",support.time));
-      const sources=field.sources||dataset?.sources.filter(item=>item.id===field.source_id)||view.sources||[];
+      const sources=rich?.visual?.sources||field.sources||dataset?.sources.filter(item=>item.id===field.source_id)||view.sources||[];
       const provenance=html("details","analysis-provenance");provenance.append(html("summary","","Source and limits"));
       provenance.append(html("p","analysis-note",`${(field.role||"diagnostic").replaceAll("_"," ")} · ${support?.space||"Saved source table."} Uncertainty is not quantified.`));
+      if(rich&&field.description)provenance.append(html("p","analysis-note",field.description));
       if(support&&field.kind==="series")provenance.append(html("p","analysis-note",support.time));
+      for(const note of rich?.visual?.notes||[])provenance.append(html("p","analysis-note",note));
       for(const source of sources)provenance.append(html("p","analysis-note",`${source.label} · SHA-256 ${source.sha256}`));
       host.append(provenance);
     }
     await render();
   }
-  const api={summary,resolve,load,mount};
+  const api={summary,resolve,load,mount,dispose};
   if(typeof module!=="undefined")module.exports=api;else root.YSProcessData=api;
 })(typeof window==="undefined"?{}:window);

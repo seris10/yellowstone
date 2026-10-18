@@ -456,7 +456,7 @@ window.YSWorkspace = {
       document.querySelectorAll("[data-analysis-tab]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.analysisTab===state.tab)));
       $("expand-analysis").setAttribute("aria-label","Zoom further into process data");
       $("close-analysis").setAttribute("aria-label","Zoom out to domain");
-      const container=$("analysis-content");container.dataset.tab=state.tab;container.replaceChildren();plot=null;miniMap=null;chartSeries=null;
+      const container=$("analysis-content");window.YSProcessData.dispose(container);container.dataset.tab=state.tab;container.replaceChildren();plot=null;miniMap=null;chartSeries=null;
       if(state.tab==="science")renderScience(container);else if(state.tab==="exchanges")renderExchanges(container);else renderData(container);
       if(n?.implementation!=="research"&&(!data.process_views?.[n?.id]||data.process_views[n.id].some(view=>view.kind==="native"))){const link=html("a","analysis-workbench-link","Open full system dataset ↗");link.href=workbenchAddress();container.append(link);}
     }

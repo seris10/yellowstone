@@ -422,7 +422,9 @@ def package_site(destination: Path, snapshot: dict, datasets: dict | None = None
         (target / "index.html").write_text(html)
     for name in ["explorer.css", "explorer.js", "coverage.js", "science.js", "workspace.css", "workspace.js", "workspace-model.js",
                  "data-model.js", "workbench.js", "workbench.css", "analysis.js", "analysis.css",
-                 "systems-model.js", "systems-workbench.js", "systems-workbench.css", "process-data.js"]:
+                 "systems-model.js", "systems-workbench.js", "systems-workbench.css", "process-data.js",
+                 "process-visuals.js", "process-visuals.css", "process-thermal.js", "process-thermal.css",
+                 "process-ecology.js", "process-ecology.css"]:
         shutil.copyfile(HERE / "src" / name, page / name)
     (page / "snapshot.json").write_text(json.dumps(snapshot, separators=(",", ":"), allow_nan=False) + "\n")
     (destination / "_redirects").write_text("/ /dashboard/ 302\n")
@@ -483,7 +485,7 @@ def bundled_inputs(directory: Path = HERE) -> tuple[dict, dict]:
     if snapshot.get("schema") != "yellowstone.public.v1" or snapshot["snapshot"] != manifest["snapshot"]:
         raise ValueError("Public snapshot identity differs from its manifest")
     datasets = {}
-    catalog = [snapshot["datasets"]["river"], *snapshot["datasets"]["systems"]]
+    catalog = [snapshot["datasets"]["river"], *snapshot["datasets"]["systems"], *snapshot["datasets"].get("process_visuals", [])]
     for descriptor in catalog:
         url = descriptor["url"]
         if not url.startswith("/dashboard/data/") or Path(url).name != url.removeprefix("/dashboard/data/"):
@@ -495,6 +497,8 @@ def bundled_inputs(directory: Path = HERE) -> tuple[dict, dict]:
         document = json.loads(payload)
         if document["snapshot"] != snapshot["snapshot"] or len(payload) != descriptor["bytes"]:
             raise ValueError("Dataset catalog identity or byte count differs")
+        if descriptor in snapshot["datasets"].get("process_visuals", []) and (document.get("schema") != "yellowstone.process-visual.v1" or document.get("id") != descriptor["id"]):
+            raise ValueError("Process visual catalog identity differs")
         datasets[name] = payload
     expected = {"data/snapshot.json", "assets/terrain.png", "assets/ground-heat.png", "assets/overlook.png", *datasets}
     if set(manifest["files"]) != expected:
@@ -512,6 +516,23 @@ def build_bundled(destination: Path, directory: Path = HERE) -> dict:
     return snapshot
 
 
+def attach_visual_datasets(snapshot: dict, visuals: dict) -> dict:
+    """Package each process field separately for hash-checked lazy loading."""
+    snapshot["datasets"]["process_visuals"] = []
+    files = {}
+    for identity, data in sorted(visuals.items()):
+        if data["id"] != identity or data["snapshot"] != snapshot["snapshot"]:
+            raise ValueError("Process visual identity differs from the selected scenario")
+        payload = (json.dumps(data, separators=(",", ":"), allow_nan=False) + "\n").encode()
+        if len(payload) > 24 * 1024 * 1024:
+            raise ValueError("Process visual exceeds the public file limit")
+        sha256 = hashlib.sha256(payload).hexdigest()
+        name = f"data/process-{identity}-{sha256}.json"
+        files[name] = payload
+        snapshot["datasets"]["process_visuals"].append({"id":identity,"sha256":sha256,"bytes":len(payload),"url":"/dashboard/" + name})
+    return files
+
+
 def main() -> None:
     """Build from bundled public inputs, or extract an explicit checked build."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -522,11 +543,12 @@ def main() -> None:
         snapshot = public_snapshot(args.build)
         path, payload = attach_river_dataset(snapshot, river_dataset(args.build))
         from domain_data import CheckedBuild, export_systems, attach_system_datasets
-        from process_data import process_views
+        from process_data import process_views, export_visuals
         datasets = {path: payload}
         systems = export_systems(args.build)
         datasets.update(attach_system_datasets(snapshot, systems))
         snapshot["process_views"] = process_views(CheckedBuild(args.build), systems)
+        datasets.update(attach_visual_datasets(snapshot, export_visuals(CheckedBuild(args.build))))
         package_site(args.out, snapshot, datasets)
         map_assets(args.build, args.out / "dashboard")
         public_worker(args.out)

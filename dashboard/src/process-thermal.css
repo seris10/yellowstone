@@ -1,0 +1,22 @@
+.thermal-visual{min-width:0;color:#e8eaef;margin:12px 0}
+.thermal-visual .thermal-note{font:11px/1.8 var(--sans);color:#a2a4a9;margin:9px 0;overflow-wrap:anywhere}
+.thermal-map,.thermal-plot{background:#0b0e14;border:1px solid #2a2c31;border-radius:4px;overflow:hidden;margin:12px 0}
+.thermal-map svg,.thermal-plot svg{display:block;width:100%;height:auto;min-height:0;touch-action:pan-y}
+.thermal-map svg{cursor:crosshair}
+.thermal-visual svg text{font:11px var(--mono);fill:#a2a4a9}
+.thermal-visual svg .thermal-map-letter{fill:#e8eaef;paint-order:stroke;stroke:#07080b;stroke-width:3px;stroke-linejoin:round}
+.thermal-control{display:block;min-width:0;font:11px/1.8 var(--mono);color:#a2a4a9;margin:9px 0}
+.thermal-control select,.thermal-control input[type=number]{display:block;width:100%;min-width:0;max-width:100%;font:11px var(--mono);color:#e8eaef;background:#13151a;border:1px solid #3d4657;border-radius:4px;padding:9px;margin-top:5px;box-sizing:border-box}
+.thermal-control input[type=range]{display:block;width:100%;min-height:28px;margin:5px 0 0;accent-color:var(--domain,#8dcaca)}
+.thermal-control select:focus-visible,.thermal-control input:focus-visible,.thermal-map svg:focus-visible,.thermal-plot svg:focus-visible{outline:2px solid var(--domain,#8dcaca);outline-offset:-3px}
+.thermal-readout,.thermal-cell-readout{display:block;font:11px/1.8 var(--mono);color:#e8eaef;overflow-wrap:anywhere;min-height:0;margin:9px 0}
+.thermal-cell-readout{color:#a2a4a9}
+.thermal-endpoints{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+.thermal-endpoints>.thermal-control{grid-column:1 / -1}
+.thermal-endpoint{min-width:0;border:1px solid #2a2c31;border-radius:4px;padding:9px;margin:0}
+.thermal-endpoint legend{font:11px var(--mono);color:#e8eaef;padding:0 5px}
+.thermal-endpoint .thermal-control{margin:5px 0}
+.thermal-class-legend{display:grid;gap:7px;margin:12px 0}
+.thermal-class-row{display:grid;grid-template-columns:7px minmax(0,1fr) auto;gap:9px;align-items:center;font:11px/1.5 var(--mono);color:#a2a4a9}
+.thermal-class-row>span{overflow-wrap:anywhere}.thermal-class-row>span:last-child{color:#e8eaef;text-align:right}
+.thermal-chip{width:7px;height:7px;border-radius:50%}.thermal-class-row.is-muted{opacity:.45}
