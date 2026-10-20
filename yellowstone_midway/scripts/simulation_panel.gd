@@ -317,7 +317,7 @@ func model_notes() -> String:
 func update_computation() -> void:
 	var header: Dictionary = ecosystem.frame_header
 	var timings: Variant = header.get("timings", {})
-	var lines: PackedStringArray = PackedStringArray(["[b]What Python just did[/b]"])
+	var lines: PackedStringArray = PackedStringArray(["[b]Stage timings[/b]"])
 	var stages: Array = header.get("dirty_stages", [])
 	for stage: Variant in stages:
 		var name: String = str(stage)
