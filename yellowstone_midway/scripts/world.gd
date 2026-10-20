@@ -8,6 +8,11 @@ const PythonReplay = preload("res://scripts/python_river_replay.gd")
 const LiveClient = preload("res://scripts/live_python_client.gd")
 const DataWatcher = preload("res://scripts/data_watcher.gd")
 const InputHelp = preload("res://scripts/input_help.gd")
+const KeyPanel = preload("res://scripts/key_panel.gd")
+const InterfaceSettings = preload("res://scripts/interface_settings.gd")
+const SettingsPanel = preload("res://scripts/settings_panel.gd")
+const UiTheme = preload("res://scripts/ui_theme.gd")
+const HUD_TEXT := Color(.89,.90,.83)
 const SimulationPanel = preload("res://scripts/simulation_panel.gd")
 const AtmosphereController = preload("res://scripts/yellowstone_atmosphere.gd")
 const ShadowQuality = preload("res://scripts/shadow_quality.gd")
@@ -55,10 +60,17 @@ var info_label: RichTextLabel
 var location_label: Label
 var status_label: Label
 var help_label: Label
+var key_panel: YellowstoneKeyPanel
+var interface_settings: YellowstoneInterfaceSettings
+var interface_settings_path := "user://interface_settings.cfg"
+var settings_panel: YellowstoneSettingsPanel
+var menu_hint_label: Label
 var content: VBoxContainer
 var menus_open := true
 # HUD cycle: 0 full, 1 minimal (location label only), 2 hidden.
 var hud_mode := 0
+# Start offset toward the anchor target; the overlook start stands nearer the deck rail.
+const ANCHOR_FORWARD_M: Dictionary = {"overlook": 1.2}
 var map_view: Control
 var observation_timer := 0.0
 var camera_anchor := 0
@@ -284,10 +296,13 @@ func setup_python_runtime() -> void:
 	add_child(live_client)
 	simulation_panel = SimulationPanel.new()
 	overlay.add_child(simulation_panel)
+	simulation_panel.theme = UiTheme.theme()
 	simulation_panel.bind(self, live_client, ecosystem)
 	input_help = InputHelp.new()
+	input_help.settings = interface_settings
 	overlay.add_child(input_help)
-	input_help.add_theme_stylebox_override("panel", panel_style(0.94))
+	input_help.bindings_changed.connect(apply_interface_settings)
+	input_help.closed.connect(func(): set_controls_open(false))
 	if not has_node("ThermalProbes"):
 		var probes: Node3D = load("res://scripts/thermal_probe_overlay.gd").new()
 		probes.name = "ThermalProbes"
@@ -440,6 +455,8 @@ func _reload_generation(pointer_path: String = "res://data/release.json") -> boo
 		live_client.expected_model_variant_id = str(candidate.manifest.model_variant_id)
 	if help_label != null:
 		help_label.text = build_help_text()
+	if key_panel != null:
+		key_panel.refresh(shortcut_availability())
 	return true
 
 func apply_probe_sidecars() -> void:
@@ -933,89 +950,101 @@ func start_portfolio_experiment() -> void:
 	_apply_pause_state()
 	resume()
 	set_field_notes_open(true)
-	help_label.text = "Guided scenario: Excelsior river-entry temperature +18 C from 600 to 3600 model seconds. H opens the river probe; Q pauses."
+	help_label.text = "Experiment: water from Excelsior enters the river 18 C hotter from model second 600 to 3600. %s opens the river probe. %s pauses." % [InputHelp.keys_for(["probe"]), InputHelp.keys_for(["pause"])]
 
-func panel_style(alpha := .95) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(.063,.086,.075,alpha)
-	style.border_color = Color(.39,.47,.36,.7)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	style.content_margin_left = 30
-	style.content_margin_right = 30
-	style.content_margin_top = 26
-	style.content_margin_bottom = 26
-	return style
+func panel_style(_alpha := 1.0) -> StyleBox:
+	return UiTheme.sign_box(30,26)
 
-func text_label(text: String, size: int, color := Color(.89,.90,.83)) -> Label:
+func text_label(text: String, size: int, color := UiTheme.INK) -> Label:
 	var label := Label.new()
 	label.text=text
 	label.add_theme_font_size_override("font_size",size)
 	label.add_theme_color_override("font_color",color)
 	return label
 
+## Light HUD text drawn over the scene.
+func hud_label(text: String, size: int, color := HUD_TEXT) -> Label:
+	var label := text_label(text,size,color)
+	label.add_theme_color_override("font_shadow_color",Color(0,0,0,.45))
+	label.add_theme_constant_override("shadow_offset_x",1)
+	label.add_theme_constant_override("shadow_offset_y",1)
+	return label
+
 func make_button(text: String, action: Callable) -> Button:
 	var button := Button.new()
 	button.text=text
 	button.alignment=HORIZONTAL_ALIGNMENT_LEFT
-	button.custom_minimum_size=Vector2(0,45)
+	button.custom_minimum_size=Vector2(0,44)
 	button.add_theme_font_size_override("font_size",17)
-	var normal := StyleBoxFlat.new()
-	normal.bg_color=Color(.18,.24,.19)
-	normal.set_corner_radius_all(4)
-	normal.content_margin_left=16
-	var hover := normal.duplicate()
-	hover.bg_color=Color(.30,.37,.25)
-	button.add_theme_stylebox_override("normal",normal)
-	button.add_theme_stylebox_override("hover",hover)
-	button.add_theme_stylebox_override("focus",hover)
 	button.pressed.connect(action)
 	return button
 
 func make_interface() -> void:
+	interface_settings = InterfaceSettings.new()
+	interface_settings.path = interface_settings_path
+	interface_settings.load_settings()
 	overlay=CanvasLayer.new()
 	add_child(overlay)
 	var ui := Control.new()
 	ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ui.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	ui.theme=UiTheme.theme()
 	overlay.add_child(ui)
 	var top := VBoxContainer.new()
 	top.position=Vector2(34,28)
 	ui.add_child(top)
-	top.add_child(text_label("Y E L L O W S T O N E",13,Color(.87,.84,.66)))
-	location_label=text_label("MIDWAY GEYSER BASIN",25)
+	top.add_child(hud_label("Y E L L O W S T O N E",13,Color(.87,.84,.66)))
+	location_label=hud_label("MIDWAY GEYSER BASIN",25)
+	location_label.add_theme_font_override("font",UiTheme.font(700))
 	top.add_child(location_label)
-	status_label=text_label("",13,Color(.78,.81,.73))
+	status_label=hud_label("",13,Color(.78,.81,.73))
 	top.add_child(status_label)
-	help_label=text_label(build_help_text(),14)
+	help_label=hud_label(build_help_text(),15)
 	help_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 	help_label.position=Vector2(34,-48)
 	ui.add_child(help_label)
+	key_panel = KeyPanel.new()
+	ui.add_child(key_panel)
+	key_panel.toggle_mode = interface_settings.key_panel_toggle
+	# The hint hides while the panel occupies its corner.
+	key_panel.visibility_changed.connect(func(): help_label.visible = hud_mode == 0 and not key_panel.visible)
 	make_toast(ui)
 	menu=PanelContainer.new()
 	menu.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
 	menu.position=Vector2(-492,-285)
-	menu.custom_minimum_size=Vector2(448,500)
+	menu.custom_minimum_size=Vector2(440,0)
 	menu.add_theme_stylebox_override("panel",panel_style())
 	ui.add_child(menu)
 	content=VBoxContainer.new()
-	content.add_theme_constant_override("separation",14)
+	content.add_theme_constant_override("separation",10)
 	menu.add_child(content)
-	content.add_child(text_label("A WALK THROUGH MIDWAY",12,Color(.80,.76,.52)))
-	content.add_child(text_label("Grand Prismatic",34))
-	var intro := text_label("Follow the boardwalk, watch the river,\nand walk up through the pines.",17)
+	content.add_child(UiTheme.heading("Midway Geyser Basin"))
+	var title := text_label("Grand Prismatic Spring",34)
+	title.add_theme_font_override("font",UiTheme.font(800))
+	content.add_child(title)
+	var intro := text_label("Start at the overlook or pick another spot below. The basin is built at real scale, about 4 km on a side.",16,UiTheme.INK_SOFT)
+	intro.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	intro.custom_minimum_size.x=380
 	content.add_child(intro)
-	content.add_child(text_label("4.096 × 4.096 km  ·  distances at actual scale",13,Color(.71,.77,.68)))
-	content.add_child(make_button("Begin walking",resume))
+	content.add_child(make_button("Start walking",resume))
 	if ReleaseData.file_exists("res://data/portfolio_comparison.json"):
-		content.add_child(make_button("Guided river temperature experiment", start_portfolio_experiment))
-	var rule := HSeparator.new()
-	content.add_child(rule)
-	content.add_child(text_label("STARTING PLACES",12,Color(.80,.76,.52)))
+		content.add_child(make_button("River temperature experiment", start_portfolio_experiment))
+	content.add_child(HSeparator.new())
+	content.add_child(UiTheme.heading("Start from"))
 	for i in spec.anchors.size():
 		var index: int = i
 		content.add_child(make_button(spec.anchors[i].title,func(): go_to_anchor(index);resume()))
-	content.add_child(text_label("F  HUD cycle    F3  Fly for authoring    R  Return    P  Menu\nController: left stick walks, right stick looks.",12,Color(.70,.74,.66)))
+	content.add_child(HSeparator.new())
+	content.add_child(make_button("Settings",func(): show_settings(true)))
+	menu_hint_label=text_label(menu_hint_text(),13,UiTheme.INK_SOFT)
+	content.add_child(menu_hint_label)
+	settings_panel=SettingsPanel.new()
+	settings_panel.visible=false
+	menu.add_child(settings_panel)
+	settings_panel.bind(interface_settings)
+	settings_panel.changed.connect(apply_interface_settings)
+	settings_panel.closed.connect(func(): show_settings(false))
+	settings_panel.controls_requested.connect(func(): set_controls_open(true))
 	# Field notes use a ranger notebook panel.
 	info_panel=PanelContainer.new()
 	info_panel.position=Vector2(34,90)
@@ -1072,9 +1101,10 @@ func make_interface() -> void:
 		_calibration_panel.visible = false
 		ui.add_child(_calibration_panel)
 		_calibration_panel.call("set_doc", _calibration_summary)
+	key_panel.refresh(shortcut_availability())
 
 func make_toast(ui: Control) -> void:
-	toast_label = text_label("", 15, Color(0.95, 0.90, 0.70))
+	toast_label = hud_label("", 15, Color(0.95, 0.90, 0.70))
 	toast_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	toast_label.position = Vector2(-300, -90)
 	toast_label.custom_minimum_size = Vector2(600, 30)
@@ -1087,23 +1117,62 @@ func toast(text: String) -> void:
 	toast_label.visible = true
 	toast_seconds = 2.5
 
+func shortcut_availability() -> Dictionary:
+	return {"calibration": not _calibration_summary.is_empty() and _calibration_panel != null,
+		"plume": not _plume_field_summary.is_empty(), "geochemistry": not _geochemistry_summary.is_empty(),
+		"census": not _census_summary.is_empty(), "overland": not _overland_summary.is_empty(),
+		"groundwater": not _groundwater_summary.is_empty()}
+
+func shortcut_hint() -> String:
+	var toggle: bool = interface_settings != null and interface_settings.key_panel_toggle
+	return "%s %s for shortcuts" % ["Press" if toggle else "Hold", InputHelp.keys_for(["key_panel"])]
+
+func menu_hint_text() -> String:
+	return "%s. %s shows every control.\nController: left stick walks, right stick looks." % [
+		shortcut_hint(), InputHelp.keys_for(["help"])]
+
+func set_controls_open(open: bool) -> void:
+	if input_help == null:
+		return
+	if not open:
+		input_help.stop_listening()
+	input_help.visible = open
+	_sync_player_input()
+
+func apply_interface_settings() -> void:
+	key_panel.toggle_mode = interface_settings.key_panel_toggle
+	key_panel.refresh(shortcut_availability())
+	help_label.text = build_help_text()
+	menu_hint_label.text = menu_hint_text()
+	if input_help != null:
+		input_help.refresh()
+
+func show_settings(open: bool) -> void:
+	if settings_panel == null:
+		return
+	settings_panel.visible = open
+	content.visible = not open
+
 func build_help_text() -> String:
+	if interface_settings == null or not interface_settings.shortcut_bar:
+		return shortcut_hint()
 	# The bottom bar lists an overlay shortcut when its sidecar published data.
-	var items: PackedStringArray = ["WASD  Walk", "Shift  Brisk walk", "Mouse  Look", "M  Map", "I  Field notes"]
-	if not _calibration_summary.is_empty(): items.append("K  Calibration")
-	if not _plume_field_summary.is_empty(): items.append("O  Plume")
-	if not _geochemistry_summary.is_empty(): items.append("G  Geochemistry")
-	if not _census_summary.is_empty(): items.append("U  Census (on map)")
-	if not _overland_summary.is_empty(): items.append("J  Overland")
-	if not _groundwater_summary.is_empty(): items.append("L  Groundwater")
-	items.append("Ctrl-S  Study mode")
-	items.append("P  Menu")
+	var walk: String = "".join(["move_forward", "move_left", "move_back", "move_right"].map(func(a: String) -> String: return InputHelp.keys_for([a])))
+	var items: PackedStringArray = [walk + "  Walk", InputHelp.keys_for(["brisk_walk"]) + "  Brisk walk", "Mouse  Look"]
+	var available: Dictionary = shortcut_availability()
+	for entry: Array in [["map", "Map", true], ["field_notes", "Field notes", true],
+			["calibration", "Calibration", not _calibration_summary.is_empty()], ["plume", "Plume", available.plume],
+			["geochemistry", "Geochemistry", available.geochemistry], ["census", "Census (on map)", available.census],
+			["overland", "Overland", available.overland], ["groundwater", "Groundwater", available.groundwater],
+			["study_scene", "Study mode", true], ["menu", "Menu", true]]:
+		if entry[2]:
+			items.append(InputHelp.keys_for([entry[0]]) + "  " + str(entry[1]))
 	return "    ".join(items)
 
 func cycle_hud() -> void:
 	hud_mode = (hud_mode + 1) % 3
 	status_label.visible = hud_mode == 0
-	help_label.visible = hud_mode == 0
+	help_label.visible = hud_mode == 0 and not key_panel.visible
 	location_label.visible = hud_mode < 2
 	# F leaves the menu, map, notes, help, and simulation panel untouched.
 
@@ -1136,11 +1205,16 @@ func go_to_anchor(index: int) -> void:
 			if pool.source_id==1034:
 				target=pool.center.duplicate()
 				target[1]+=1.0
-	player.place_at(Vector3(p[0],p[1],p[2]),Vector3(target[0],target[1],target[2]))
+	var start := Vector3(p[0],p[1],p[2])
+	var look := Vector3(target[0],target[1],target[2])
+	var ahead := Vector3(look.x-start.x,0.0,look.z-start.z).normalized()
+	start += ahead*float(ANCHOR_FORWARD_M.get(str(a.id),0.0))
+	player.place_at(start,look)
 
 func resume() -> void:
 	menus_open=false
 	menu.visible=false
+	show_settings(false)
 	_cursor_released = false
 	_sync_player_input()
 
@@ -1150,11 +1224,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			_cursor_released = not _cursor_released
 		_sync_player_input()
 		return
+	if key_panel != null and key_panel.handle(event):
+		return
 	if InputHelp.pressed(event, "menu"):
 		menus_open = not menus_open
 		menu.visible = menus_open
 		if not menus_open:
 			_cursor_released = false
+			show_settings(false)
 		_sync_player_input()
 	elif InputHelp.pressed(event, "field_notes"):
 		set_field_notes_open(not info_panel.visible)
@@ -1207,7 +1284,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			map_view.census_visible = not map_view.census_visible
 			map_view.queue_redraw()
 		else:
-			toast("Open the map first (M), then U toggles the census circles")
+			toast("Open the map first (%s), then %s shows the census circles" % [InputHelp.keys_for(["map"]), InputHelp.keys_for(["census"])])
 	elif InputHelp.pressed(event, "overland") and _overlays != null:
 		if _overland_summary.is_empty():
 			toast("Overland flow not published in this build")
@@ -1219,8 +1296,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			toast("Groundwater overlay %s" % ("on" if _overlays.toggle_groundwater() else "off"))
 	elif InputHelp.pressed(event, "help"):
-		input_help.visible = not input_help.visible
-		_sync_player_input()
+		set_controls_open(not input_help.visible)
 	elif InputHelp.pressed(event, "conditions"):
 		simulation_panel.visible = not simulation_panel.visible
 		_sync_player_input()

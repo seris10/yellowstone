@@ -1,10 +1,12 @@
 # Yellowstone
 
-Yellowstone is a work in progress and is not finished. It combines a Godot landscape of Midway Geyser Basin, Python environmental models, and a browser interface for exploring model data.
+Yellowstone is a walkable Godot model of Midway Geyser Basin, with Python models of the river and surrounding land and a website for browsing their output. It is still in progress.
 
-The current scene covers a 4,096 by 4,096 meter area around Grand Prismatic Spring and the Firehole River. It includes walking routes, the overlook, connected waterways, vegetation, wildlife animation, weather, and a stored river-temperature experiment. Terrain and geographic layers use public source data. Small-scale terrain edits, material detail, plant forms, wildlife motion, and several environmental inputs are authored approximations.
+The scene covers 4,096 by 4,096 meters around Grand Prismatic Spring and the Firehole River: walking routes, the overlook, connected waterways, vegetation, animated wildlife, weather, and a stored river-temperature experiment. Terrain and map layers come from public data. Fine terrain edits, materials, plant shapes, wildlife motion, and some environmental inputs are hand-authored approximations.
 
 [Open the data explorer](https://yellowstone-dashboard.pages.dev/dashboard/).
+
+![Grand Prismatic Spring in daylight from the starting view at the overlook](docs/grand-prismatic-overlook.jpg)
 
 ## Project layout
 
@@ -18,7 +20,7 @@ The current scene covers a 4,096 by 4,096 meter area around Grand Prismatic Spri
 
 ## Run the landscape
 
-Use Godot 4.5.1. Python 3.11 or later is needed for the initial scene extraction; the extraction uses only the standard library. From the repository root:
+Running the landscape takes Godot 4.5.1 and Python 3.11 or later. Python runs once, to extract the scene, and needs only the standard library. From the repository root:
 
 ```sh
 python3 yellowstone_midway/tools/unpack_scene.py
@@ -26,11 +28,11 @@ godot --headless --editor --path yellowstone_midway --import --quit
 godot --path yellowstone_midway
 ```
 
-The baked scene is stored as `authored_world.tscn.gz` to fit GitHub's per-file limit. The extraction command checks the compressed and restored SHA-256 values, then writes the original scene. It refuses to replace a modified scene unless `--force` is supplied. Extraction does not reduce geometry or texture quality. Keep sufficient free disk space for the checkout, restored scene, and Godot import cache.
+The baked scene is stored compressed as `authored_world.tscn.gz` because GitHub limits file size. Extraction checks SHA-256 hashes before and after, writes the full-quality scene, and leaves a locally changed scene in place unless `--force` is given. The first import takes a few minutes. The files, the extracted scene, and Godot's import cache take about 3 GB on top of the Git history.
 
-The included data generation supports offline exploration. A Python service is optional. At startup, the game checks the loopback service configured in `project.godot` and otherwise uses the stored trajectories. The interface identifies the active mode and model time.
+The Python service is optional. At startup the game looks for the local service set in `project.godot`; if it isn't running, the game plays the stored model runs. The status line shows which mode is active and the model time.
 
-On the tested macOS system, the visible renderer uses:
+On macOS, use the Metal renderer:
 
 ```sh
 godot --path yellowstone_midway --rendering-method mobile --rendering-driver metal
@@ -39,15 +41,19 @@ godot --path yellowstone_midway --rendering-method mobile --rendering-driver met
 | Control | Action |
 | --- | --- |
 | WASD and mouse | Walk and look. |
-| Shift / Space | Brisk walk / small jump. |
-| Esc | Starting places and menu. |
+| Shift / Space | Walk faster / hop. |
+| P | Menu, starting spots, and settings. |
+| Esc | Free or recapture the cursor. |
 | Tab | Conditions and time controls. |
-| `M` / `I` | Map / environmental field notes. |
-| H | River and ground probe. |
-| Q / period | Pause / advance one stored frame. |
-| F1 | Full input bindings. |
+| `M` / `I` | Map / field notes. |
+| H | River probe. |
+| Q / period | Pause / step one stored frame. |
+| `/` (hold) | Shortcut panel. |
+| F1 | Every control. Click a key there to change it. |
 
-The menu includes a guided river-temperature experiment. Display-hour controls change lighting; advancing physical model time changes the modeled state. Touch controls and mobile game exports are not implemented.
+Any key can be changed. Press F1, click a key, then press the new one. If the new key already belongs to another control, the two swap. Settings in the menu can show the full shortcut bar or make one press of `/` open and close the shortcut panel.
+
+The menu also starts a guided river-temperature experiment. Changing the display hour only changes the lighting; advancing model time changes the modeled state. There are no touch controls or mobile builds yet.
 
 ## Run or rebuild the website
 

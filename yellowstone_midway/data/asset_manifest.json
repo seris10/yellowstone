@@ -7,6 +7,34 @@
   "human_source_policy": "Prioritize identifiable human modeling, photography and field recording. Source-derived technical conversion/rendering is recorded. Candidates with unresolved provenance remain conditional.",
   "assets": [
     {
+      "id": "national_park_font",
+      "title": "National Park",
+      "category": "interface_font",
+      "included": true,
+      "status": "downloaded",
+      "authors": ["Andrea Herstowski", "Ben Hoepner", "Jeremy Shellhorn"],
+      "publisher": "Google Fonts",
+      "source_url": "https://github.com/google/fonts/tree/main/ofl/nationalpark",
+      "license": {
+        "id": "OFL-1.1",
+        "name": "SIL Open Font License 1.1",
+        "url": "https://openfontlicense.org",
+        "version_verified": true,
+        "personal_noncommercial_use": true,
+        "commercial_use": true,
+        "raw_redistribution": true,
+        "attribution_required": true,
+        "verification_url": "https://github.com/google/fonts/blob/main/ofl/nationalpark/OFL.txt"
+      },
+      "credit": "National Park by Andrea Herstowski, Ben Hoepner and Jeremy Shellhorn (OFL 1.1).",
+      "notes": ["Variable weight font used for menus and HUD text.", "The license text ships beside the font file."],
+      "files": [
+        {"path": "assets/fonts/national-park-variable.ttf", "sha256": "17699dc82c52b177b95dec6805c8091ab79a965c866fa0f07ffa8672ddde0b5c", "bytes": 159332, "download_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/nationalpark/NationalPark%5Bwght%5D.ttf"},
+        {"path": "assets/fonts/national-park-ofl.txt", "sha256": "81c6c71d83b5b45d7344f96df12bb4a2477a5b092a9144757ee1d0f50f855175", "bytes": 4399, "download_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/nationalpark/OFL.txt"}
+      ],
+      "reviewed_at": "2026-10-20"
+    },
+    {
       "id": "polyhaven_forest_ground_04_pbr",
       "title": "Forest Ground 04 AO/Rough/Metal",
       "category": "surface_material",
