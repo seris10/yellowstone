@@ -173,6 +173,16 @@ func run() -> void:
 	check(comfort.field_of_view == 88.0 and comfort.invert_look_y
 		and is_equal_approx(comfort.mouse_sensitivity, 1.5) and is_equal_approx(comfort.ui_scale, 1.2),
 		"Comfort settings persist")
+	world.set_field_notes_open(true)
+	world.update_notes()
+	check(world.info_label.text.contains("[I] Close notes") and world.info_label.text.contains("[P] Menu"),
+		"Field notes close with the keys currently bound")
+	world.interface_settings.bind("field_notes", _event(KEY_X))
+	world.apply_interface_settings()
+	world.update_notes()
+	check(world.info_label.text.contains("[X] Close notes"), "Field notes follow a rebound key")
+	world.interface_settings.reset_bindings()
+	world.set_field_notes_open(false)
 	check(contrast(UiTheme.INK, UiTheme.WOOD) >= 4.5 and contrast(UiTheme.FOREST, UiTheme.WOOD) >= 4.5,
 		"Ink and forest text clear WCAG AA on the board")
 	check(contrast(UiTheme.INK, UiTheme.KEY_RECESS) >= 4.5 and contrast(UiTheme.FOREST, UiTheme.KEY_RECESS) >= 4.5,

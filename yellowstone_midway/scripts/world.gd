@@ -1092,7 +1092,7 @@ func make_interface() -> void:
 	var notes_vbox := VBoxContainer.new()
 	notes_vbox.add_theme_constant_override("separation",10)
 	info_panel.add_child(notes_vbox)
-	var notes_title := text_label("FIELD NOTES — MIDWAY",13,Color(0.42,0.33,0.20))
+	var notes_title := text_label("FIELD NOTES: MIDWAY",13,Color(0.42,0.33,0.20))
 	notes_vbox.add_child(notes_title)
 	var rule2 := HSeparator.new()
 	rule2.add_theme_color_override("color",Color(0.55,0.47,0.34))
@@ -1628,7 +1628,10 @@ func update_notes() -> void:
 	var sidecar_block: String = format_sidecar_block()
 	if simulation_panel != null:
 		sidecar_block += simulation_panel.model_notes()
-	info_label.text="[color=#d6c88f][b]OBSERVING MIDWAY[/b][/color]\n\nThe blue centers are deep hot water. Microbial mats occupy cooler edges and runoff. Follow the drainage fingers toward the Firehole.\n\n[b]Environmental model[/b]\nNearby river reach: %.1f °C\nFlow: %.2f m³/s\nWind: %.1f m/s\nRiverbank insects: %s (activity %.2f)\nSnow: %s%s%s\n\nThe temperature and activity values are illustrative simulation states. Geometry follows USGS elevation and NPS mapping; water depth, plants, and wildlife are authored approximations.\n\n[I] Close notes    [T] Jump simulation by 2 h    [P] Menu" % [reach.temperature_c,reach.flow_m3s,ecosystem.wind.length(),("hover" if float(bank.get("insect_activity",0.0))>0.035 else "inactive"),float(bank.get("insect_activity",0.0)),("see season sidecar" if ReleaseData.file_exists("res://data/season.json") else "summer baseline"),biological_block,sidecar_block]
+	var note_keys: String = "[%s] Close notes    [%s] Jump two hours    [%s] Menu" % [
+		InputHelp.keys_for(["field_notes"]), InputHelp.keys_for(["jump_two_hours"]),
+		InputHelp.keys_for(["menu"])]
+	info_label.text="[color=#d6c88f][b]POOLS AND RUNOFF[/b][/color]\n\nThe blue centers are deep hot water. Microbial mats occupy cooler edges and runoff. Follow the drainage fingers toward the Firehole.\n\n[b]Environmental model[/b]\nNearby river reach: %.1f °C\nFlow: %.2f m³/s\nWind: %.1f m/s\nRiverbank insects: %s (activity %.2f)\nSnow: %s%s%s\n\nThe temperature and activity values are illustrative simulation states. Geometry follows USGS elevation and NPS mapping; water depth, plants, and wildlife are authored approximations.\n\n%s" % [reach.temperature_c,reach.flow_m3s,ecosystem.wind.length(),("hover" if float(bank.get("insect_activity",0.0))>0.035 else "inactive"),float(bank.get("insect_activity",0.0)),("see season sidecar" if ReleaseData.file_exists("res://data/season.json") else "summer baseline"),biological_block,sidecar_block,note_keys]
 
 func format_sidecar_block() -> String:
 	# Format diagnostics for field notes.
