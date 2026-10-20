@@ -7,10 +7,22 @@ const SECTION: String = "interface"
 const BINDINGS: String = "bindings"
 # Escape frees the cursor and cancels rebinding; F4 opens diagnostics.
 const RESERVED: Array[Key] = [KEY_ESCAPE, KEY_F4, KEY_CAPSLOCK]
+# Comfort ranges; the defaults below match the project's built-in values.
+const SENSITIVITY_RANGE := Vector2(0.4, 2.5)
+const FOV_RANGE := Vector2(60.0, 100.0)
+const VOLUME_RANGE := Vector2(0.0, 1.0)
+const UI_SCALE_RANGE := Vector2(0.85, 1.35)
 
 var path: String = "user://interface_settings.cfg"
 var shortcut_bar: bool = false
 var key_panel_toggle: bool = false
+# Multiplier on the walker's built-in mouse sensitivity.
+var mouse_sensitivity: float = 1.0
+var invert_look_y: bool = false
+var field_of_view: float = 72.0
+var master_volume: float = 1.0
+var ambience_volume: float = 1.0
+var ui_scale: float = 1.0
 # Project keyboard events per action before player overrides.
 var _defaults: Dictionary = {}
 var _overrides: Dictionary = {}
@@ -22,6 +34,12 @@ func load_settings() -> void:
 		return
 	shortcut_bar = bool(config.get_value(SECTION, "shortcut_bar", shortcut_bar))
 	key_panel_toggle = bool(config.get_value(SECTION, "key_panel_toggle", key_panel_toggle))
+	invert_look_y = bool(config.get_value(SECTION, "invert_look_y", invert_look_y))
+	mouse_sensitivity = _ranged(config, "mouse_sensitivity", mouse_sensitivity, SENSITIVITY_RANGE)
+	field_of_view = _ranged(config, "field_of_view", field_of_view, FOV_RANGE)
+	master_volume = _ranged(config, "master_volume", master_volume, VOLUME_RANGE)
+	ambience_volume = _ranged(config, "ambience_volume", ambience_volume, VOLUME_RANGE)
+	ui_scale = _ranged(config, "ui_scale", ui_scale, UI_SCALE_RANGE)
 	if not config.has_section(BINDINGS):
 		return
 	for action: String in config.get_section_keys(BINDINGS):
@@ -34,9 +52,22 @@ func save_settings() -> Error:
 	var config := ConfigFile.new()
 	config.set_value(SECTION, "shortcut_bar", shortcut_bar)
 	config.set_value(SECTION, "key_panel_toggle", key_panel_toggle)
+	config.set_value(SECTION, "invert_look_y", invert_look_y)
+	config.set_value(SECTION, "mouse_sensitivity", mouse_sensitivity)
+	config.set_value(SECTION, "field_of_view", field_of_view)
+	config.set_value(SECTION, "master_volume", master_volume)
+	config.set_value(SECTION, "ambience_volume", ambience_volume)
+	config.set_value(SECTION, "ui_scale", ui_scale)
 	for action: String in _overrides:
 		config.set_value(BINDINGS, action, _overrides[action])
 	return config.save(path)
+
+## Read one stored number, clamped to its accepted range.
+func _ranged(config: ConfigFile, key: String, fallback: float, limits: Vector2) -> float:
+	var value: Variant = config.get_value(SECTION, key, fallback)
+	if not (value is float or value is int):
+		return fallback
+	return clampf(float(value), limits.x, limits.y)
 
 ## Assigns a key to an action; a key held by another action trades places with it.
 func bind(action: String, event: InputEventKey) -> Dictionary:

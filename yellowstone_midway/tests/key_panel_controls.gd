@@ -2,6 +2,7 @@ extends SceneTree
 
 const Settings = preload("res://scripts/interface_settings.gd")
 const Help = preload("res://scripts/input_help.gd")
+const UiTheme = preload("res://scripts/ui_theme.gd")
 const SETTINGS_PATH: String = "user://test_interface_settings.cfg"
 
 var world: Node
@@ -114,11 +115,93 @@ func run() -> void:
 	check(world.toast_label.text == "Geochemistry overlay on", "G reports the overlay state")
 	await tap(KEY_G)
 	check(markers != null and not markers.visible, "G hides the geochemistry markers")
+	check(Help.bindings_text().contains("Time and weather"), "Controls text lists the time and weather popover")
+	check(panel.row_count() >= 15, "Shortcut panel lists the time and weather popover")
+	var popover: Node = world.time_weather_panel
+	await tap(KEY_N)
+	check(popover.visible and not world.player.enabled, "N opens the popover and holds player input")
+	var readout: String = popover.readout_text()
+	check(readout.contains("Air temperature") and readout.contains("Cloud cover") and readout.contains(" C"),
+		"The popover reads out modeled air temperature and rendered cloud cover")
+	check(readout.contains("Stored model run"), "The popover names the clock it is reading")
+	world.toggle_pause()
+	await process_frame
+	var still_elapsed: float = world.ecosystem.elapsed
+	var still_air: float = world.ecosystem.air_c
+	world.set_display_light_hour(23.0)
+	world.update_environment()
+	await process_frame
+	check(float(world.atmosphere_controller.get_render_state().solar_elevation_deg) < 0.0,
+		"A display hour of 23:00 puts the rendered sun below the horizon")
+	check(world.ecosystem.elapsed == still_elapsed and world.ecosystem.air_c == still_air,
+		"The display hour leaves the model clock and the modeled state alone")
+	world.clear_display_light_hour()
+	world.update_environment()
+	await process_frame
+	check(is_nan(world.display_light_hour())
+		and float(world.atmosphere_controller.get_render_state().solar_elevation_deg) > 0.0,
+		"Following the model clock restores the modeled sun")
+	world.toggle_pause()
+	await tap(KEY_N)
+	check(not popover.visible and world.player.enabled, "A second press closes the popover")
+	world.set_controls_open(true)
+	editor.listen("time_weather")
+	await tap(KEY_V)
+	check(Help.keys_for(["time_weather"]) == "V" and not editor.is_listening(),
+		"The popover key rebinds like every other control")
+	world.set_controls_open(false)
+	var base_sensitivity: float = world.player.mouse_sensitivity
+	var ambience_bus: int = AudioServer.get_bus_index("Ambience")
+	var ambience_db: float = AudioServer.get_bus_volume_db(maxi(ambience_bus, 0))
+	world.show_settings(true)
+	world.settings_panel.fov_slider.value = 88.0
+	world.settings_panel.sensitivity_slider.value = 1.5
+	world.settings_panel.invert_toggle.button_pressed = true
+	world.settings_panel.scale_slider.value = 1.2
+	world.settings_panel.ambience_slider.value = 0.5
+	check(world.player.camera.fov == 88.0 and world.player.look_invert_y,
+		"Field of view and inverted look reach the walker")
+	check(is_equal_approx(world.player.mouse_sensitivity, base_sensitivity * 1.5),
+		"Mouse sensitivity scales the project default")
+	check(is_equal_approx(world.get_window().content_scale_factor, 1.2), "Interface scale reaches the window")
+	check(ambience_bus > 0 and AudioServer.get_bus_volume_db(ambience_bus) < ambience_db,
+		"Wind and wildlife have their own bus and the slider lowers it")
+	world.interface_settings.save_settings()
+	var comfort := Settings.new()
+	comfort.path = SETTINGS_PATH
+	comfort.load_settings()
+	check(comfort.field_of_view == 88.0 and comfort.invert_look_y
+		and is_equal_approx(comfort.mouse_sensitivity, 1.5) and is_equal_approx(comfort.ui_scale, 1.2),
+		"Comfort settings persist")
+	check(contrast(UiTheme.INK, UiTheme.WOOD) >= 4.5 and contrast(UiTheme.FOREST, UiTheme.WOOD) >= 4.5,
+		"Ink and forest text clear WCAG AA on the board")
+	check(contrast(UiTheme.INK, UiTheme.KEY_RECESS) >= 4.5 and contrast(UiTheme.FOREST, UiTheme.KEY_RECESS) >= 4.5,
+		"Key box text clears WCAG AA on its recess")
+	check(contrast(UiTheme.INK, band_color()) >= 4.5 and contrast(UiTheme.FOREST, band_color()) >= 4.5,
+		"Row text clears WCAG AA on a tinted band")
+	world.show_settings(false)
 	editor.reset_all()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(SETTINGS_PATH))
 	print("KEY_PANEL_CONTROLS ", "PASS" if failures.is_empty() else "FAIL", " checks=", checks,
 		" markers=", markers.get_child_count() if markers != null else 0, " failures=", failures)
 	quit(0 if failures.is_empty() else 1)
+
+## Return the relative luminance of one color, as the web contrast standard defines it.
+func luminance(color: Color) -> float:
+	var channels: Array[float] = []
+	for value: float in [color.r, color.g, color.b]:
+		channels.append(value / 12.92 if value <= 0.04045 else pow((value + 0.055) / 1.055, 2.4))
+	return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+## Return the contrast ratio between text and its background.
+func contrast(text: Color, background: Color) -> float:
+	var high: float = maxf(luminance(text), luminance(background)) + 0.05
+	var low: float = minf(luminance(text), luminance(background)) + 0.05
+	return high / low
+
+## Return the board color beneath a tinted row band.
+func band_color() -> Color:
+	return UiTheme.WOOD.lerp(UiTheme.WOOD_DARK, 0.22)
 
 func _event(code: Key) -> InputEventKey:
 	var event := InputEventKey.new()

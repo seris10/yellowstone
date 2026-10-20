@@ -12,8 +12,11 @@ extends CharacterBody3D
 var camera: Camera3D
 var enabled := false
 var fly_mode := false
+var look_invert_y := false
 var spawn := Vector3.ZERO
 var pitch := 0.0
+# Project default sensitivity; the player's preference multiplies it.
+var _base_mouse_sensitivity := 0.0
 
 func _ready() -> void:
 	floor_snap_length = 0.55
@@ -38,7 +41,8 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if enabled and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
-		pitch = clampf(pitch - event.relative.y * mouse_sensitivity, -1.48, 1.48)
+		var vertical: float = event.relative.y * mouse_sensitivity * (-1.0 if look_invert_y else 1.0)
+		pitch = clampf(pitch - vertical, -1.48, 1.48)
 		camera.rotation.x = pitch
 
 func _try_step_up(dir: Vector3) -> void:
@@ -62,7 +66,8 @@ func _physics_process(delta: float) -> void:
 	var look := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
 	if look.length() > 0.18:
 		rotate_y(-look.x * delta * 1.65)
-		pitch = clampf(pitch - look.y * delta * 1.4, -1.48, 1.48)
+		var vertical: float = look.y * delta * 1.4 * (-1.0 if look_invert_y else 1.0)
+		pitch = clampf(pitch - vertical, -1.48, 1.48)
 		camera.rotation.x = pitch
 	var direction := global_basis * Vector3(raw.x, 0.0, raw.y)
 	var speed := brisk_speed if Input.is_action_pressed("brisk_walk") else walk_speed
@@ -87,6 +92,15 @@ func _physics_process(delta: float) -> void:
 	if absf(position.x) > 2038.0 or absf(position.z) > 2038.0 or position.y < -50.0:
 		position = spawn
 		velocity = Vector3.ZERO
+
+## Apply the player's look and camera preferences; sensitivity scales the project default.
+func set_view_preferences(sensitivity_scale: float, invert_y: bool, fov_degrees: float) -> void:
+	if _base_mouse_sensitivity <= 0.0:
+		_base_mouse_sensitivity = mouse_sensitivity
+	mouse_sensitivity = clampf(_base_mouse_sensitivity * sensitivity_scale, 0.0005, 0.01)
+	look_invert_y = invert_y
+	if camera != null:
+		camera.fov = clampf(fov_degrees, 60.0, 100.0)
 
 func place_at(point: Vector3, look_at_point: Vector3) -> void:
 	spawn = point

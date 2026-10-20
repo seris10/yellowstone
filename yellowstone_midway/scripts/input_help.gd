@@ -10,7 +10,7 @@ const UiTheme = preload("res://scripts/ui_theme.gd")
 const PAD_LAYERS: Dictionary = {
 	"field_notes": 1, "map": 1, "photo_mode": 1, "authoring_flight": 1,
 	"return_to_anchor": 1, "jump_two_hours": 1, "compare_replay": 1,
-	"conditions": 1,
+	"conditions": 1, "time_weather": 1,
 	"calibration": 2, "plume": 2, "geochemistry": 2, "census": 2,
 	"overland": 2, "groundwater": 2, "study_scene": 2,
 	"step_frame": 2,
@@ -37,6 +37,7 @@ const CONTROL_GROUPS: Array = [
 		{"label": "Field notes", "actions": ["field_notes"]},
 		{"label": "Map", "actions": ["map"]},
 		{"label": "Conditions", "actions": ["conditions"]},
+		{"label": "Time and weather", "actions": ["time_weather"]},
 		{"label": "Controls (this page)", "actions": ["help"]},
 		{"label": "Shortcut panel", "actions": ["key_panel"]},
 		{"label": "Calibration", "actions": ["calibration"]},
@@ -104,11 +105,11 @@ static func pressed(event: InputEvent, action: String) -> bool:
 func _ready() -> void:
 	theme = UiTheme.theme()
 	set_anchors_preset(Control.PRESET_CENTER)
-	custom_minimum_size = Vector2(820, 700)
-	offset_left = -410.0
-	offset_right = 410.0
-	offset_top = -350.0
-	offset_bottom = 350.0
+	custom_minimum_size = Vector2(880, 720)
+	offset_left = -440.0
+	offset_right = 440.0
+	offset_top = -360.0
+	offset_bottom = 360.0
 	var page := VBoxContainer.new()
 	page.add_theme_constant_override("separation", 10)
 	add_child(page)
@@ -153,7 +154,7 @@ func _ready() -> void:
 	var right := VBoxContainer.new()
 	for column: VBoxContainer in [left, right]:
 		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		column.add_theme_constant_override("separation", 4)
+		column.add_theme_constant_override("separation", 2)
 		columns.add_child(column)
 	for index: int in CONTROL_GROUPS.size():
 		_add_group(left if index < 2 else right, CONTROL_GROUPS[index])
@@ -172,22 +173,31 @@ func _add_group(column: VBoxContainer, group: Dictionary) -> void:
 		heading.custom_minimum_size.y = 36
 		heading.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	column.add_child(heading)
-	for row: Dictionary in group["rows"]:
+	for index: int in group["rows"].size():
+		var row: Dictionary = group["rows"][index]
+		var band := PanelContainer.new()
+		band.add_theme_stylebox_override("panel", UiTheme.row_tint(index, 8, 4))
+		column.add_child(band)
 		var line := HBoxContainer.new()
-		column.add_child(line)
+		line.add_theme_constant_override("separation", 20)
+		band.add_child(line)
 		var label := Label.new()
 		label.text = str(row["label"])
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		label.add_theme_font_size_override("font_size", 15)
+		label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		label.add_theme_font_override("font", UiTheme.font(600))
+		label.add_theme_font_size_override("font_size", 16)
 		line.add_child(label)
 		var actions: Array = row.get("actions", [])
 		var box := Button.new()
-		box.custom_minimum_size = Vector2(120, 30)
-		box.add_theme_font_size_override("font_size", 15)
+		box.custom_minimum_size = Vector2(124, 32)
+		box.add_theme_font_override("font", UiTheme.font(700))
+		box.add_theme_font_size_override("font_size", 16)
 		line.add_child(box)
 		if actions.is_empty():
 			box.text = str(row["keys"])
 			box.disabled = true
+			_engrave(box, false)
 			continue
 		var action: String = actions[0]
 		var pad: String = _pad_for(actions)
@@ -198,15 +208,24 @@ func _add_group(column: VBoxContainer, group: Dictionary) -> void:
 func refresh() -> void:
 	for action: String in _key_buttons:
 		var box: Button = _key_buttons[action]
-		box.remove_theme_stylebox_override("normal")
-		box.remove_theme_color_override("font_color")
+		_engrave(box, action == _listening)
 		if action == _listening:
 			box.text = "Press a key"
-			box.add_theme_stylebox_override("normal", UiTheme.flat(UiTheme.PLANK_HOVER, UiTheme.FOREST, 2, 3, 14, 7))
-			box.add_theme_color_override("font_color", UiTheme.FOREST)
 		else:
 			var keys: String = keys_for([action])
 			box.text = keys if not keys.is_empty() else "Not set"
+
+## Style one key box as a recess cut into the board.
+func _engrave(box: Button, listening: bool) -> void:
+	var border: Color = UiTheme.FOREST if listening else Color(UiTheme.EDGE, 0.5)
+	var fill: Color = UiTheme.PLANK_HOVER if listening else UiTheme.KEY_RECESS
+	box.add_theme_stylebox_override("normal", UiTheme.relief_box(fill, border, false, false, 12, 5))
+	box.add_theme_stylebox_override("hover", UiTheme.relief_box(fill.lightened(0.06), UiTheme.FOREST, false, false, 12, 5))
+	box.add_theme_stylebox_override("pressed", UiTheme.relief_box(fill.darkened(0.05), UiTheme.FOREST, false, false, 12, 5))
+	box.add_theme_stylebox_override("disabled", UiTheme.relief_box(UiTheme.KEY_RECESS, Color(UiTheme.EDGE, 0.3), false, false, 12, 5))
+	box.add_theme_color_override("font_color", UiTheme.FOREST if listening else UiTheme.INK)
+	box.add_theme_color_override("font_hover_color", UiTheme.FOREST)
+	box.add_theme_color_override("font_disabled_color", UiTheme.INK_SOFT)
 
 ## Puts one key box into listening mode.
 func listen(action: String) -> void:

@@ -45,13 +45,14 @@ godot --path yellowstone_midway --rendering-method mobile --rendering-driver met
 | P | Menu, starting spots, and settings. |
 | Esc | Free or recapture the cursor. |
 | Tab | Conditions and time controls. |
+| N | Date, time, and weather. |
 | `M` / `I` | Map / field notes. |
 | H | River probe. |
 | Q / period | Pause / step one stored frame. |
 | `/` (hold) | Shortcut panel. |
 | F1 | Every control. Click a key there to change it. |
 
-Any key can be changed. Press F1, click a key, then press the new one. If the new key already belongs to another control, the two swap. Settings in the menu can show the full shortcut bar or make one press of `/` open and close the shortcut panel.
+Any key can be changed. Press F1, click a key, then press the new one. If the new key already belongs to another control, the two swap. Settings in the menu can show the full shortcut bar or make one press of `/` open and close the shortcut panel, and they hold mouse sensitivity, inverted vertical look, field of view, master and ambience volume, and interface scale.
 
 The menu also starts a guided river-temperature experiment. Changing the display hour only changes the lighting; advancing model time changes the modeled state. There are no touch controls or mobile builds yet.
 

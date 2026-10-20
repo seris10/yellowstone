@@ -14,6 +14,7 @@ const ROWS: Array = [
 	{"label": "Map", "actions": ["map"]},
 	{"label": "Field notes", "actions": ["field_notes"]},
 	{"label": "Conditions", "actions": ["conditions"]},
+	{"label": "Time and weather", "actions": ["time_weather"]},
 	{"label": "River probe", "actions": ["probe"]},
 	{"label": "Pause", "actions": ["pause"]},
 	{"label": "Step one frame", "actions": ["step_frame"]},
@@ -54,8 +55,9 @@ func _ready() -> void:
 	box.add_child(UiTheme.heading("Shortcuts", 12))
 	_grid = GridContainer.new()
 	_grid.columns = 4
-	_grid.add_theme_constant_override("h_separation", 14)
-	_grid.add_theme_constant_override("v_separation", 2)
+	# Cell padding carries the spacing so each row band stays unbroken.
+	_grid.add_theme_constant_override("h_separation", 0)
+	_grid.add_theme_constant_override("v_separation", 0)
 	box.add_child(_grid)
 	visible = false
 
@@ -63,16 +65,18 @@ func refresh(available: Dictionary) -> void:
 	for child: Node in _grid.get_children():
 		_grid.remove_child(child)
 		child.queue_free()
+	var shown: int = 0
 	for row: Dictionary in ROWS:
 		if row.has("requires") and not bool(available.get(row["requires"], false)):
 			continue
 		var keys: String = str(row.get("keys", InputHelp.keys_for(row.get("actions", []))))
 		if keys.is_empty():
 			continue
-		var key := _label(keys, 14, UiTheme.FOREST)
+		var key := _label(keys, 15, UiTheme.FOREST)
 		key.add_theme_font_override("font", UiTheme.font(700))
-		_grid.add_child(key)
-		_grid.add_child(_label(str(row["label"]), 14, UiTheme.INK))
+		_grid.add_child(_cell(key, shown / 2, 10, 12))
+		_grid.add_child(_cell(_label(str(row["label"]), 15, UiTheme.INK), shown / 2, 0, 16))
+		shown += 1
 
 func row_count() -> int:
 	return _grid.get_child_count() / 2
@@ -96,6 +100,16 @@ func _process(_delta: float) -> void:
 	# Hide the held panel once its key is up, including after a focus change.
 	if visible and not toggle_mode and not Input.is_action_pressed(ACTION):
 		visible = false
+
+## One grid cell carried on its row band.
+func _cell(label: Label, row: int, margin_left: int, margin_right: int) -> PanelContainer:
+	var band := PanelContainer.new()
+	var style: StyleBox = UiTheme.row_tint(row, 0, 3)
+	style.content_margin_left = margin_left
+	style.content_margin_right = margin_right
+	band.add_theme_stylebox_override("panel", style)
+	band.add_child(label)
+	return band
 
 func _label(text: String, size: int, color: Color) -> Label:
 	var label := Label.new()

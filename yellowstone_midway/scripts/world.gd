@@ -11,8 +11,11 @@ const InputHelp = preload("res://scripts/input_help.gd")
 const KeyPanel = preload("res://scripts/key_panel.gd")
 const InterfaceSettings = preload("res://scripts/interface_settings.gd")
 const SettingsPanel = preload("res://scripts/settings_panel.gd")
+const TimeWeatherPanel = preload("res://scripts/time_weather_panel.gd")
 const UiTheme = preload("res://scripts/ui_theme.gd")
 const HUD_TEXT := Color(.89,.90,.83)
+# Wind and wildlife share one bus so the settings can hold them below the rest.
+const AMBIENCE_BUS: String = "Ambience"
 const SimulationPanel = preload("res://scripts/simulation_panel.gd")
 const AtmosphereController = preload("res://scripts/yellowstone_atmosphere.gd")
 const ShadowQuality = preload("res://scripts/shadow_quality.gd")
@@ -40,6 +43,7 @@ var live_client: YellowstoneLivePythonClient
 var data_watcher: YellowstoneDataWatcher
 var simulation_panel: YellowstoneSimulationPanel
 var input_help: YellowstoneInputHelp
+var time_weather_panel: YellowstoneTimeWeatherPanel
 var _comparison_ecosystem: Node
 var _ghost_trout: Array[Node3D] = []
 var _comparison_origins: Dictionary = {}
@@ -118,6 +122,10 @@ var toast_label: Label
 var toast_seconds := 0.0
 var _requested_pause := false
 var _cursor_released := false
+# Display-only sun hour; NAN leaves the sun on the model clock.
+var _display_light_hour: float = NAN
+# Authored volume of each bus the settings scale, keyed by bus name.
+var _audio_base_db: Dictionary = {}
 var _water_stage_key := 0
 var _water_stage_texture: Texture2D
 # Core terrain and thermal mat state.
@@ -253,6 +261,7 @@ func _ready() -> void:
 	atmosphere_controller.refresh_wetness_material_cache()
 	make_interface()
 	setup_python_runtime()
+	apply_comfort_settings()
 	_sync_player_input()
 	update_environment()
 	if "--smoke-test" in OS.get_cmdline_user_args():
@@ -303,6 +312,10 @@ func setup_python_runtime() -> void:
 	overlay.add_child(input_help)
 	input_help.bindings_changed.connect(apply_interface_settings)
 	input_help.closed.connect(func(): set_controls_open(false))
+	time_weather_panel = TimeWeatherPanel.new()
+	overlay.add_child(time_weather_panel)
+	time_weather_panel.bind(self, live_client, ecosystem, atmosphere_controller)
+	time_weather_panel.closed.connect(_sync_player_input)
 	if not has_node("ThermalProbes"):
 		var probes: Node3D = load("res://scripts/thermal_probe_overlay.gd").new()
 		probes.name = "ThermalProbes"
@@ -901,12 +914,14 @@ func make_environment() -> void:
 	add_child(world_env)
 
 func make_audio() -> void:
+	var ambience: String = _ensure_ambience_bus()
 	var wind_path := "res://assets/audio/nps_lower_basin_wind.mp3"
 	if ResourceLoader.exists(wind_path):
 		var wind := AudioStreamPlayer.new()
 		wind.stream = load(wind_path)
 		wind.stream.loop = true
 		wind.volume_db = -26.0
+		wind.bus = ambience
 		add_child(wind)
 		wind.play()
 	var audio_spec := [
@@ -924,8 +939,19 @@ func make_audio() -> void:
 		voice.volume_db = entry[2]
 		voice.unit_size = 12.0
 		voice.max_distance = entry[3]
+		voice.bus = ambience
 		add_child(voice)
 		voice.play()
+
+## Return the ambience bus name, adding the bus the first time it is needed.
+func _ensure_ambience_bus() -> String:
+	if AudioServer.get_bus_index(AMBIENCE_BUS) >= 0:
+		return AMBIENCE_BUS
+	var index: int = AudioServer.bus_count
+	AudioServer.add_bus(index)
+	AudioServer.set_bus_name(index, AMBIENCE_BUS)
+	AudioServer.set_bus_send(index, "Master")
+	return AMBIENCE_BUS
 
 func make_wildlife() -> void:
 	# ecosystem.json supplies the actor roster.
@@ -1029,12 +1055,12 @@ func make_interface() -> void:
 	content.add_child(make_button("Start walking",resume))
 	if ReleaseData.file_exists("res://data/portfolio_comparison.json"):
 		content.add_child(make_button("River temperature experiment", start_portfolio_experiment))
-	content.add_child(HSeparator.new())
+	content.add_child(UiTheme.groove())
 	content.add_child(UiTheme.heading("Start from"))
 	for i in spec.anchors.size():
 		var index: int = i
 		content.add_child(make_button(spec.anchors[i].title,func(): go_to_anchor(index);resume()))
-	content.add_child(HSeparator.new())
+	content.add_child(UiTheme.groove())
 	content.add_child(make_button("Settings",func(): show_settings(true)))
 	menu_hint_label=text_label(menu_hint_text(),13,UiTheme.INK_SOFT)
 	content.add_child(menu_hint_label)
@@ -1139,6 +1165,62 @@ func set_controls_open(open: bool) -> void:
 	input_help.visible = open
 	_sync_player_input()
 
+func set_conditions_open(open: bool) -> void:
+	if simulation_panel == null:
+		return
+	simulation_panel.visible = open
+	_sync_player_input()
+
+func set_time_weather_open(open: bool) -> void:
+	if time_weather_panel == null:
+		return
+	time_weather_panel.visible = open
+	if open:
+		time_weather_panel.refresh()
+	_sync_player_input()
+
+## Report the model clock for display: epoch seconds, local offset, and hour of day.
+func local_clock() -> Dictionary:
+	return {"epoch_unix": ecosystem.epoch_unix if ecosystem != null else 0.0,
+		"has_epoch": ecosystem != null and ecosystem.epoch_unix > 0.0,
+		"utc_offset_hours": float(spec.get("utc_offset_hours", -6.0)),
+		"clock_hour": ecosystem.clock_hour if ecosystem != null else 0.0,
+		"day_of_year": int(spec.get("day_of_year", 196))}
+
+## Hold the sun at one hour for display; the model clock and modeled state do not move.
+func set_display_light_hour(hour: float) -> void:
+	_display_light_hour = fposmod(hour, 24.0)
+	_apply_display_light()
+
+## Return the held display hour, or NAN while the sun follows the model clock.
+func display_light_hour() -> float:
+	return _display_light_hour
+
+func clear_display_light_hour() -> void:
+	_display_light_hour = NAN
+	if atmosphere_controller != null and _has_simulation_epoch:
+		atmosphere_controller.set_simulation_timestamp(
+			_simulation_epoch_unix, float(spec.get("utc_offset_hours", -6.0)))
+
+func _apply_display_light() -> void:
+	if atmosphere_controller == null or is_nan(_display_light_hour):
+		return
+	atmosphere_controller.clear_weather_solar_override()
+	# The hour only moves the sun once the timestamp stops driving it.
+	atmosphere_controller.clear_simulation_timestamp()
+	atmosphere_controller.set_simulation_time(_display_light_hour,
+		_display_day_of_year(), float(spec.get("utc_offset_hours", -6.0)))
+
+## Return the day of year the display light uses: the model date when one is published.
+func _display_day_of_year() -> int:
+	if not _has_simulation_epoch:
+		return int(spec.get("day_of_year", 196))
+	var local: float = _simulation_epoch_unix + float(spec.get("utc_offset_hours", -6.0)) * 3600.0
+	var stamp: Dictionary = Time.get_datetime_dict_from_unix_time(int(local))
+	var year_start: float = Time.get_unix_time_from_datetime_dict({"year": int(stamp.year),
+		"month": 1, "day": 1, "hour": 0, "minute": 0, "second": 0})
+	return int(floor((local - year_start) / 86400.0)) + 1
+
 func apply_interface_settings() -> void:
 	key_panel.toggle_mode = interface_settings.key_panel_toggle
 	key_panel.refresh(shortcut_availability())
@@ -1146,6 +1228,32 @@ func apply_interface_settings() -> void:
 	menu_hint_label.text = menu_hint_text()
 	if input_help != null:
 		input_help.refresh()
+	if time_weather_panel != null:
+		time_weather_panel.refresh_keys()
+	apply_comfort_settings()
+
+## Push the stored comfort preferences into the walker, the audio buses, and the interface scale.
+func apply_comfort_settings() -> void:
+	if interface_settings == null:
+		return
+	if player != null:
+		player.set_view_preferences(interface_settings.mouse_sensitivity,
+			interface_settings.invert_look_y, interface_settings.field_of_view)
+	_set_bus_volume("Master", interface_settings.master_volume)
+	_set_bus_volume(AMBIENCE_BUS, interface_settings.ambience_volume)
+	var window: Window = get_window()
+	if window != null:
+		window.content_scale_factor = interface_settings.ui_scale
+
+## Scale one audio bus around the volume it was authored with; zero mutes it.
+func _set_bus_volume(bus_name: String, volume: float) -> void:
+	var index: int = AudioServer.get_bus_index(bus_name)
+	if index < 0:
+		return
+	if not _audio_base_db.has(bus_name):
+		_audio_base_db[bus_name] = AudioServer.get_bus_volume_db(index)
+	var base: float = float(_audio_base_db[bus_name])
+	AudioServer.set_bus_volume_db(index, -80.0 if volume <= 0.0 else base + linear_to_db(volume))
 
 func show_settings(open: bool) -> void:
 	if settings_panel == null:
@@ -1188,7 +1296,7 @@ func set_field_notes_open(open: bool) -> void:
 	_sync_player_input()
 
 func _modal_open() -> bool:
-	return menus_open or info_panel.visible or simulation_panel.visible or input_help.visible or (_calibration_panel != null and _calibration_panel.visible)
+	return menus_open or info_panel.visible or simulation_panel.visible or input_help.visible or (_calibration_panel != null and _calibration_panel.visible) or (time_weather_panel != null and time_weather_panel.visible)
 
 func _sync_player_input() -> void:
 	var blocked: bool = _modal_open() or _cursor_released
@@ -1298,8 +1406,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif InputHelp.pressed(event, "help"):
 		set_controls_open(not input_help.visible)
 	elif InputHelp.pressed(event, "conditions"):
-		simulation_panel.visible = not simulation_panel.visible
-		_sync_player_input()
+		set_conditions_open(not simulation_panel.visible)
+	elif InputHelp.pressed(event, "time_weather"):
+		set_time_weather_open(not time_weather_panel.visible)
 	elif InputHelp.pressed(event, "probe"):
 		simulation_panel.toggle_probe()
 		get_node("ThermalProbes").visible = not get_node("ThermalProbes").visible
@@ -1373,9 +1482,12 @@ func _process(delta: float) -> void:
 		_simulation_epoch_unix = _simulation_start_epoch_unix + float(ecosystem.elapsed)
 		if not ecosystem.live_mode:
 			atmosphere_controller.clear_weather_solar_override()
-		atmosphere_controller.set_simulation_timestamp(
-			_simulation_epoch_unix, float(spec.get("utc_offset_hours", -6.0))
-		)
+		if is_nan(_display_light_hour):
+			atmosphere_controller.set_simulation_timestamp(
+				_simulation_epoch_unix, float(spec.get("utc_offset_hours", -6.0))
+			)
+		else:
+			_apply_display_light()
 		if weather_snapshot_reader != null:
 			weather_snapshot_reader.set_simulation_epoch_unix(_simulation_epoch_unix)
 	observation_timer+=delta
@@ -1412,7 +1524,7 @@ func update_environment() -> void:
 	if atmosphere_controller == null or ecosystem == null:
 		return
 	_sync_atmosphere_clock()
-	if _has_simulation_epoch:
+	if _has_simulation_epoch and is_nan(_display_light_hour):
 		atmosphere_controller.set_simulation_timestamp(_simulation_epoch_unix, float(spec.get("utc_offset_hours", -6.0)))
 	if ecosystem.live_mode:
 		var weather: Dictionary = ecosystem.current_frame.get("weather", {}).duplicate(true)
@@ -1443,7 +1555,9 @@ func update_environment() -> void:
 			weather["precipitation_rate_mm_h"] = weather.precip_mm_h
 		atmosphere_controller.set_weather_state(weather)
 	var display: Variant = ecosystem.frame_header.get("display_hour")
-	if display != null:
+	if not is_nan(_display_light_hour):
+		_apply_display_light()
+	elif display != null:
 		atmosphere_controller.clear_weather_solar_override()
 		atmosphere_controller.set_simulation_time(float(display), int(spec.get("day_of_year", 196)), float(spec.get("utc_offset_hours", -6.0)))
 	for mat: ShaderMaterial in foliage_materials:

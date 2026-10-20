@@ -13,12 +13,21 @@ const EDGE := Color("6b4627")
 const INK := Color("3b2715")
 const INK_SOFT := Color("6e5334")
 const FOREST := Color("2f5130")
+# Recessed fill of an engraved key box; keeps green text above the contrast floor.
+const KEY_RECESS := Color("d6bd90")
 # Texture margin of the sign frame in texture pixels.
 const FRAME_MARGIN: int = 14
+# Drop-shadow band around a sign panel, in texture pixels.
+const SHADOW_PAD: int = 14
+# Drop-shadow band around a plank or key box, in texture pixels.
+const RELIEF_PAD: int = 10
+# Plate size of a plank or key box texture before its shadow band.
+const RELIEF_SIZE := Vector2i(48, 36)
 
 static var _theme: Theme
 static var _fonts: Dictionary = {}
 static var _sign: StyleBoxTexture
+static var _relief: Dictionary = {}
 
 static func font(weight: int = 500) -> Font:
 	if _fonts.has(weight):
@@ -52,10 +61,10 @@ static func theme() -> Theme:
 		t.set_color("font_disabled_color", type, Color(INK_SOFT, 0.55))
 		t.set_font("font", type, font(600))
 	for type: String in ["Button", "OptionButton", "MenuButton"]:
-		t.set_stylebox("normal", type, flat(PLANK, Color(EDGE, 0.55), 1, 3, 14, 7))
-		t.set_stylebox("hover", type, flat(PLANK_HOVER, FOREST, 2, 3, 14, 7))
-		t.set_stylebox("pressed", type, flat(PLANK_PRESSED, EDGE, 1, 3, 14, 7))
-		t.set_stylebox("hover_pressed", type, flat(PLANK_PRESSED, FOREST, 2, 3, 14, 7))
+		t.set_stylebox("normal", type, relief_box(PLANK, Color(EDGE, 0.55), true, true))
+		t.set_stylebox("hover", type, relief_box(PLANK_HOVER, FOREST, true, true))
+		t.set_stylebox("pressed", type, relief_box(PLANK_PRESSED, EDGE, false, false))
+		t.set_stylebox("hover_pressed", type, relief_box(PLANK_PRESSED, FOREST, false, false))
 		t.set_stylebox("disabled", type, flat(Color(PLANK, 0.5), Color(EDGE, 0.25), 1, 3, 14, 7))
 		var focus := flat(Color.TRANSPARENT, FOREST, 2, 3, 0, 0)
 		focus.draw_center = false
@@ -96,13 +105,15 @@ static func theme() -> Theme:
 	_theme = t
 	return t
 
-## Sign-board panel style: grained light wood inside a routed frame.
+## Sign-board panel style: grained light wood inside a routed frame, raised on a drop shadow.
 static func sign_box(margin_h: int = 28, margin_v: int = 24) -> StyleBoxTexture:
 	if _sign == null:
 		_sign = StyleBoxTexture.new()
 		_sign.texture = _sign_texture()
 		for side: Side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-			_sign.set_texture_margin(side, FRAME_MARGIN)
+			_sign.set_texture_margin(side, SHADOW_PAD + FRAME_MARGIN)
+			# The shadow draws outside the control rect and leaves layout alone.
+			_sign.set_expand_margin(side, SHADOW_PAD)
 	var box: StyleBoxTexture = _sign.duplicate()
 	box.content_margin_left = margin_h
 	box.content_margin_right = margin_h
@@ -122,6 +133,51 @@ static func flat(fill: Color, border: Color, width: int, radius: int, margin_h: 
 	box.content_margin_bottom = margin_v
 	return box
 
+## Plank or key-box style: a raised plate over a drop shadow, or an engraved recess.
+static func relief_box(fill: Color, border: Color, raised: bool, shadow: bool, margin_h: int = 14, margin_v: int = 7) -> StyleBoxTexture:
+	var key: String = "%s|%s|%d%d" % [fill.to_html(), border.to_html(), int(raised), int(shadow)]
+	if not _relief.has(key):
+		var pad: int = RELIEF_PAD if shadow else 0
+		var cached := StyleBoxTexture.new()
+		cached.texture = _relief_texture(fill, border, raised, pad)
+		for side: Side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+			cached.set_texture_margin(side, pad + 10)
+			cached.set_expand_margin(side, pad)
+		_relief[key] = cached
+	var box: StyleBoxTexture = _relief[key].duplicate()
+	box.content_margin_left = margin_h
+	box.content_margin_right = margin_h
+	box.content_margin_top = margin_v
+	box.content_margin_bottom = margin_v
+	return box
+
+## Routed groove: a dark line over a light line, in place of a flat rule.
+static func groove(gap: int = 8) -> Control:
+	var wrap := MarginContainer.new()
+	wrap.add_theme_constant_override("margin_top", maxi(gap / 2, 1))
+	wrap.add_theme_constant_override("margin_bottom", maxi(gap / 2, 1))
+	var lines := VBoxContainer.new()
+	lines.add_theme_constant_override("separation", 0)
+	wrap.add_child(lines)
+	for color: Color in [Color(EDGE, 0.55), Color(PLANK_HOVER, 0.85)]:
+		var line := ColorRect.new()
+		line.color = color
+		line.custom_minimum_size.y = 1
+		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		lines.add_child(line)
+	return wrap
+
+## Row band for a dense list; odd rows carry a faint tint, even rows stay bare board.
+static func row_tint(index: int, margin_h: int = 8, margin_v: int = 3) -> StyleBox:
+	if index % 2 == 1:
+		return flat(Color(WOOD_DARK, 0.22), Color.TRANSPARENT, 0, 2, margin_h, margin_v)
+	var bare := StyleBoxEmpty.new()
+	bare.content_margin_left = margin_h
+	bare.content_margin_right = margin_h
+	bare.content_margin_top = margin_v
+	bare.content_margin_bottom = margin_v
+	return bare
+
 static func heading(text: String, size: int = 13) -> Label:
 	var label := Label.new()
 	label.text = text.to_upper()
@@ -132,8 +188,10 @@ static func heading(text: String, size: int = 13) -> Label:
 	return label
 
 static func _sign_texture() -> ImageTexture:
-	var w: int = 256
-	var h: int = 384
+	var bw: int = 256
+	var bh: int = 384
+	var w: int = bw + SHADOW_PAD * 2
+	var h: int = bh + SHADOW_PAD * 2
 	var image := Image.create(w, h, false, Image.FORMAT_RGBA8)
 	var streaks := FastNoiseLite.new()
 	streaks.seed = 7
@@ -142,25 +200,71 @@ static func _sign_texture() -> ImageTexture:
 	fibers.seed = 19
 	fibers.frequency = 0.08
 	var radius: float = 5.0
+	var cast := Rect2(SHADOW_PAD + 2, SHADOW_PAD + 4, bw, bh)
 	for y: int in h:
 		for x: int in w:
-			var edge_x: float = minf(x, w - 1 - x)
-			var edge_y: float = minf(y, h - 1 - y)
+			var bx: int = x - SHADOW_PAD
+			var by: int = y - SHADOW_PAD
+			var edge_x: float = minf(bx, bw - 1 - bx)
+			var edge_y: float = minf(by, bh - 1 - by)
 			var edge: float = minf(edge_x, edge_y)
-			if edge_x < radius and edge_y < radius and Vector2(radius - edge_x, radius - edge_y).length() > radius:
-				image.set_pixel(x, y, Color.TRANSPARENT)
+			var off_board: bool = bx < 0 or by < 0 or bx >= bw or by >= bh
+			if off_board or (edge_x < radius and edge_y < radius and Vector2(radius - edge_x, radius - edge_y).length() > radius):
+				image.set_pixel(x, y, _shadow_pixel(Vector2(x, y), cast, 9.0, 0.34))
 				continue
 			if edge < 3.0:
 				image.set_pixel(x, y, EDGE)
 				continue
-			var grain: float = 0.5 + 0.55 * streaks.get_noise_2d(x * 0.4, y * 7.0) + 0.12 * fibers.get_noise_2d(x * 0.5, y * 9.0)
+			var grain: float = 0.5 + 0.55 * streaks.get_noise_2d(bx * 0.4, by * 7.0) + 0.12 * fibers.get_noise_2d(bx * 0.5, by * 9.0)
 			var wood: Color = WOOD_LIGHT.lerp(WOOD_DARK, clampf(grain, 0.0, 1.0) * 0.45)
 			if edge >= 7.0 and edge < 8.0:
 				wood = wood.lerp(INK_SOFT, 0.45)
 			elif edge < 5.0:
 				wood = wood.lerp(EDGE, 0.18)
+			elif by >= 8 and by < 12 and edge_x >= 8.0:
+				# Lit bevel along the top edge, shaded along the bottom: the board sits proud.
+				wood = wood.lerp(PLANK_HOVER, 0.5)
+			elif by >= bh - 12 and by < bh - 8 and edge_x >= 8.0:
+				wood = wood.lerp(EDGE, 0.3)
 			image.set_pixel(x, y, wood)
 	return ImageTexture.create_from_image(image)
+
+static func _relief_texture(fill: Color, border: Color, raised: bool, pad: int) -> ImageTexture:
+	var pw: int = RELIEF_SIZE.x
+	var ph: int = RELIEF_SIZE.y
+	var image := Image.create(pw + pad * 2, ph + pad * 2, false, Image.FORMAT_RGBA8)
+	var radius: float = 3.0
+	var cast := Rect2(pad, pad + 2, pw, ph)
+	for y: int in ph + pad * 2:
+		for x: int in pw + pad * 2:
+			var px: int = x - pad
+			var py: int = y - pad
+			var edge_x: float = minf(px, pw - 1 - px)
+			var edge_y: float = minf(py, ph - 1 - py)
+			var off_plate: bool = px < 0 or py < 0 or px >= pw or py >= ph
+			if off_plate or (edge_x < radius and edge_y < radius and Vector2(radius - edge_x, radius - edge_y).length() > radius):
+				image.set_pixel(x, y, _shadow_pixel(Vector2(x, y), cast, 6.0, 0.3) if pad > 0 else Color.TRANSPARENT)
+				continue
+			var down: float = float(py) / float(ph - 1)
+			var plate: Color = fill.lightened(0.07).lerp(fill.darkened(0.06), down)
+			if not raised:
+				plate = fill.darkened(0.08).lerp(fill.lightened(0.06), down)
+			if minf(edge_x, edge_y) < 1.0:
+				plate = border if border.a > 0.0 else plate.lerp(EDGE, 0.4)
+			elif py < 3 or px < 2:
+				# A raised plate takes the light on top and left; a recess takes it on the far side.
+				plate = plate.lerp(PLANK_HOVER, 0.45) if raised else plate.lerp(EDGE, 0.38)
+			elif py >= ph - 3 or px >= pw - 2:
+				plate = plate.lerp(EDGE, 0.32) if raised else plate.lerp(PLANK_HOVER, 0.45)
+			image.set_pixel(x, y, plate)
+	return ImageTexture.create_from_image(image)
+
+## Soft cast shadow for the band outside a board or plate.
+static func _shadow_pixel(point: Vector2, plate: Rect2, spread: float, strength: float) -> Color:
+	var nearest := Vector2(clampf(point.x, plate.position.x, plate.end.x - 1.0),
+		clampf(point.y, plate.position.y, plate.end.y - 1.0))
+	var fade: float = clampf(1.0 - point.distance_to(nearest) / spread, 0.0, 1.0)
+	return Color(0.1, 0.07, 0.04, strength * pow(fade, 1.7))
 
 static func _switch_icon(on: bool) -> ImageTexture:
 	var w: int = 40
