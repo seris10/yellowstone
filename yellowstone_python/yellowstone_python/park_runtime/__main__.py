@@ -1,9 +1,14 @@
 """Runnable illustrative service. No Yellowstone predictions are implied."""
 import argparse
+import signal
 from .reference_network import Reservoir, ReservoirNetwork
 from .runtime import ParkRuntime
 from .service import RuntimeService, make_server
 from .state_store import StateStore
+
+def _interrupt(signum, frame):
+    """Route the termination signal to the KeyboardInterrupt shutdown path."""
+    raise KeyboardInterrupt
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
@@ -24,12 +29,14 @@ def main():
     service = RuntimeService(runtime)
     server = make_server(service, port=args.port)
     service.start()
-    print(f"Illustrative park runtime at http://127.0.0.1:{args.port}; Ctrl+C saves committed state", flush=True)
+    signal.signal(signal.SIGTERM, _interrupt)
+    print(f"Illustrative park runtime at http://127.0.0.1:{args.port}; Ctrl+C or SIGTERM saves committed state", flush=True)
     try:
         server.serve_forever(poll_interval=.2)
     except KeyboardInterrupt:
         pass
     finally:
+        signal.signal(signal.SIGTERM, signal.SIG_IGN)
         server.server_close()
         service.close()
         saved = runtime.save_committed(store, "demo-world", service.presentation_s)
