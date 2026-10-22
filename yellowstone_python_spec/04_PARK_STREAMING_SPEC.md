@@ -302,12 +302,13 @@ player's own tile cannot be admitted at the requested time scale, the rate is he
 reported, as today. A tile that is still spinning up when the player arrives shows coarse
 state labeled as coarse, never blocks walking, and never shows fabricated fine state.
 
-Domain lifecycle belongs to the runtime. `ParkRuntime` today fixes its domains at
-construction, advances every domain each quantum, and stores a full checkpoint of every
-domain per quantum on top of the engine's own per-frame checkpoints. Park operation
-requires adding and removing domains at quantum boundaries, with the hand-off of section 7
-recorded in the ledger, and requires that a domain outside the anticipation set advance at
-the coarse tier only. The six requirements of
+Domain lifecycle belongs to the runtime. `ParkRuntime` adds and removes domains at
+quantum boundaries, records each membership change with the domain's water, heat and
+solute stores, and keeps one checkpoint per rollback granule under a per-domain byte cap
+(`fixes-67`); it still advances every resident domain at fine resolution each quantum, and
+the LiveEngine bridge still holds the engine's own per-frame checkpoints. Park operation
+also requires the hand-off of section 7 into a coarse tier and that a domain outside the
+anticipation set advance at the coarse tier only. The six requirements of
 `yellowstone_midway/docs/park_runtime/02_SIMULATION_AND_STATE.md` (control volume
 identity, conservative restriction and prolongation, physical halos, synchronized
 subcycling, flux reconciliation across level changes, fine, coarse and adaptive
@@ -422,14 +423,34 @@ Each is the smallest action that settles a sizing assumption, with the expectati
    fine state, run in a worker process while the island steps. Expectation: under the
    time a walker needs to cross one L1 tile (about 12 minutes at 1.4 m/s); if it is
    longer, the anticipation horizon of section 7.1 grows or the tile is split.
+   Measured on the Midway engine (build `db183e56a88e`, 276 cells, 1 s step, 10 s frames,
+   Apple M4 shared with other processes at load average 6 to 7): building the fine engine
+   from the published build takes 1.6-1.9 s and one simulated hour of spin-up takes
+   4.8-6.1 s alone and 5.6 s while a second worker process steps an island. No coarse tier
+   exists, so the engine starts from the published build state. The expectation holds
+   with two orders of magnitude to spare for one Midway-sized domain.
 10. Lookahead memory per domain with sparse checkpoints. Expectation: under 64 MiB for one
     simulated hour of the Midway domain, against 314 MiB measured with a full checkpoint
-    per 10 s frame.
+    per 10 s frame. Measured with traced allocations over one simulated hour at 10 s
+    frames, above the 80.7 MiB built engine: 314 MiB with a checkpoint per frame (361),
+    155 MiB with one per 60 s (61) and 129 MiB with one per 300 s (13, about 0.5 MiB
+    each); the 361 frames alone hold 122.6 MiB, about 0.34 MiB per frame. The
+    expectation does not hold: sparse checkpoints remove most checkpoint memory, and the
+    frame payload becomes the limit, so lookahead frames need a lighter form or a longer
+    interval before 64 MiB is reachable.
 11. Coarse tier resident bytes and step cost over the whole park with paged inputs.
     Expectation: under 256 MiB resident and under 1 s of one core per simulated hour;
     above that, sub-basins outside the dependency closure step at a longer interval.
 12. Multi-process scaling: two fine domains in two worker processes against one process.
     Expectation: near twofold capacity; if not, the transport or the lock is the limit.
+    Measured with `LiveEngine._assess_max_dt_capacity` on two copies of the Midway engine,
+    as simulated seconds per wall second at the maximum step: one engine alone 498-675,
+    against about 300 in section 7.1 at the same settings, cause not isolated; two
+    engines on two threads of one process 444-666 in aggregate, so the interpreter lock
+    gives no gain; two engines in two worker processes 677-1034 in aggregate, 1.0-1.5
+    times the single engine measured alongside. The machine carried other load (load
+    average 6 to 7), so the process figure is a lower bound and a quiet-machine run
+    settles whether the near-twofold expectation holds.
 
 ## 11. Migration order from Midway
 

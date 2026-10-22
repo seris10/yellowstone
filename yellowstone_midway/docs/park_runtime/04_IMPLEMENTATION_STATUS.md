@@ -4,7 +4,7 @@
 
 | Check | Result |
 |---|---|
-| `tests/park_runtime` Python tests (`yellowstone_python/tests/park_runtime`) | 115 passed |
+| `tests/park_runtime` Python tests (`yellowstone_python/tests/park_runtime`) | 122 passed |
 | `tests/park_runtime/run_tests.gd` on the synthetic fixture | 21 checks, 0 failures, including the ridge-gap and corrupt-child matrix cases |
 | `tests/park_runtime/stream_midway_check.gd` on `data/park_composed` (1 m core plus master, feature pages) | 0 failures (3439 to 3977 checks; the count varies with residency timing); regression matrix cases for the sudden turn, predictive arrival, parent/child cover, revisit plateau, origin shift during jobs and seam raycasts; leaf heights equal the river-carved legacy core inside the core footprint (Python carve matches `core_terrain.gd` `_load_heights` to 7.9e-5 m over 361201 vertices) and the master raster outside it, worst 1.4e-6 m over 1520 boundary samples and 4.5e-5 m at 11 streamed stops; removed pool area equals each thermal polygon area; bridge decks clear the terrain; three water-covered leaf tiles carry no terrain surface; route meshes, pool and river surfaces, vegetation, canopy, forest floor and wildlife revisit audited per tile; 121 resident tiles, 10.4 MiB estimate |
 | `tests/park_runtime/ground_rebase_check.gd` | 272 checks, 0 failures |
@@ -50,7 +50,8 @@ Explicit integration work remaining below.
 | `forcing.py` | Shared prescribed timeline, exact interval integration for supported interpolation modes |
 | `reference_network.py` | Illustrative conservative branching reservoirs, confluences, water/heat/solute ledgers |
 | `coupling.py` | Conservative extensive-state split/merge and exactly-once interface accounting |
-| `runtime.py` | Common frontier, atomic domain advance, retained history, intervention rollback, filtered bracket, committed saves |
+| `runtime.py` | Common frontier, atomic domain advance, retained history, intervention rollback, filtered bracket, committed saves; domain add and remove at quantum boundaries with a membership ledger, one checkpoint per rollback granule under a per-domain byte cap, and interface couplers between domain advances (`fixes-67`) |
+| `firehole_split.py` | River heat-transport segments as domains and a conservative interface coupler; the Firehole split at face 137/138 matches the single-domain solver within the tolerances set before the run (`fixes-67` ledger) |
 | `state_store.py` | Atomic SQLite checkpoints/events, integrity checks and model-version guards |
 | `service.py` | Loopback worker-owned service, bounded commands/publications and independent rendering |
 | `field_codec.py` | Bounded binary numeric field-pair codec |
@@ -90,9 +91,11 @@ Simulation residency at park scale is specified in
   per-page texture cache; maps and probes in streamed mode.
 - Adapt native controls/UI and command-completion polling. The minimal client reports
   queued commands, not final acceptance. Connect hot native fields to the binary codec.
-- Add real domain boundary coupling, runtime domain add and remove, numerical
-  coarse/fine reconciliation and measured regional worker parallelism
-  (`04_PARK_STREAMING_SPEC.md` section 7.1).
+- Split LiveEngine ecology, solutes and actors along the river interface, persist
+  segment checkpoints, add the coarse tier that receives retired stores and feeds
+  boundaries, the anticipation set and admission control, numerical coarse/fine
+  reconciliation and worker processes (`04_PARK_STREAMING_SPEC.md` sections 7.1 and 10;
+  measurement 12 gave 1.0-1.5 times one engine for two processes under background load).
 - Add budget-driven automatic quality adaptation, larger bootstrap catalog paging,
   robust fast-travel preparation and more aggressive proven occlusion only after
   correctness tests. The streamer reports terrain budget pressure in its

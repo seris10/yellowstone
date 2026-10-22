@@ -161,3 +161,50 @@ def test_timeline_admission_does_not_partially_advance():
     old=r.domains["river"].snapshot()
     with pytest.raises(RuntimeError): r.advance_one(3)
     assert r.time_s==2 and r.domains["river"].snapshot()==old
+
+def test_sparse_checkpoints_keep_one_per_granule_and_replay_interventions():
+    r=ParkRuntime([domain()],history_s=60,max_frames=64,checkpoint_interval_s=5)
+    r.compute_until(12)
+    assert sorted(r._checkpoints)==[0.,5.,10.] and len(r._frames)==13
+    change={"inputs":{"a":{"flow_m3s":12.,"temperature_c":20.}}}
+    r.intervene("sparse","river",7.,change); r.compute_until(12)
+    expected=domain(); expected.advance_to(7); expected.intervene(change); expected.advance_to(12)
+    assert r.domains["river"].snapshot()==expected.snapshot()
+
+def test_committed_save_uses_the_latest_sparse_checkpoint(tmp_path):
+    store=StateStore(tmp_path/"state.db")
+    r=ParkRuntime([domain()],history_s=60,max_frames=64,checkpoint_interval_s=5)
+    r.compute_until(12)
+    assert r.save_committed(store,"world",9.)==5.
+    store.close()
+
+def test_history_byte_cap_refuses_a_long_horizon():
+    probe=ParkRuntime([domain()])
+    first=probe._retained_bytes()["river"]
+    r=ParkRuntime([domain()],history_s=600,max_frames=1000,history_byte_cap=20*first)
+    r.compute_until(5)
+    with pytest.raises(ValueError): r.compute_until(500)
+    assert r.time_s==5
+    r.prune(5)
+    assert all(size<=20*first for size in r._retained_bytes().values())
+
+def test_domains_join_and_leave_at_quantum_boundaries(tmp_path):
+    r=ParkRuntime([domain("upper")]); r.compute_until(3)
+    late=domain("lower")
+    with pytest.raises(ValueError): r.add_domain(late)
+    late.advance_to(3)
+    entry=r.add_domain(late)
+    assert entry["action"]=="add" and entry["t_s"]==3 and entry["stores"] is None
+    r.compute_until(6)
+    assert late.time_s==6
+    with pytest.raises(ValueError): r.intervene("before","upper",2.,{"inputs":{}})
+    retired=r.remove_domain("lower")
+    assert "lower" not in r.domains and retired["checkpoint"]["time_s"]==6
+    with pytest.raises(ValueError): r.remove_domain("upper")
+    r.compute_until(8)
+    assert [m["action"] for m in r.membership]==["add","remove"]
+    store=StateStore(tmp_path/"state.db")
+    r.save_committed(store,"world",8.)
+    reloaded=ParkRuntime([domain("upper")])
+    assert reloaded.load_committed(store,"world") and [m["action"] for m in reloaded.membership]==["add","remove"]
+    store.close()
