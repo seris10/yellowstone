@@ -1,0 +1,476 @@
+{
+ "schema": "yellowstone.park_streaming_benchmark.v1",
+ "workloads": {
+  "boot": {
+   "boot-baked-b": {
+    "mode": "baked",
+    "first_frame_ms": 18237.6,
+    "collision_ready_ms": 18237.6,
+    "ready_block_ms": 17966.8,
+    "post_boot_frame_p50_ms": 39.022
+   },
+   "boot-baked-c": {
+    "mode": "baked",
+    "first_frame_ms": 18995.2,
+    "collision_ready_ms": 18995.2,
+    "ready_block_ms": 18700.3,
+    "post_boot_frame_p50_ms": 16.67
+   },
+   "boot-baked-d": {
+    "mode": "baked",
+    "first_frame_ms": 18909.5,
+    "collision_ready_ms": 18909.5,
+    "ready_block_ms": 18632.3,
+    "post_boot_frame_p50_ms": 36.71
+   },
+   "boot-streamed-a": {
+    "mode": "streamed",
+    "first_frame_ms": 13927.4,
+    "collision_ready_ms": 26259.9,
+    "ready_block_ms": 13494.4,
+    "post_boot_frame_p50_ms": 96.577
+   },
+   "boot-streamed-b": {
+    "mode": "streamed",
+    "first_frame_ms": 7875.7,
+    "collision_ready_ms": 16070.3,
+    "ready_block_ms": 7612.1,
+    "post_boot_frame_p50_ms": 46.321
+   }
+  },
+  "steady": {
+   "steady-baked-a": {
+    "mode": "baked",
+    "frames": {
+     "n": 2700,
+     "p50": 16.666,
+     "p95": 17.604,
+     "p99": 44.857,
+     "max": 463.29,
+     "mean": 17.976
+    },
+    "draw_calls": {
+     "p50": 1809.0,
+     "max": 1809.0
+    },
+    "primitives": {
+     "p50": 20920483.0,
+     "max": 20920483.0
+    },
+    "stream": {}
+   },
+   "steady-baked-b": {
+    "mode": "baked",
+    "frames": {
+     "n": 2700,
+     "p50": 40.579,
+     "p95": 46.634,
+     "p99": 48.967,
+     "max": 51.898,
+     "mean": 39.97
+    },
+    "draw_calls": {
+     "p50": 1809.0,
+     "max": 1809.0
+    },
+    "primitives": {
+     "p50": 20920483.0,
+     "max": 20920483.0
+    },
+    "stream": {}
+   },
+   "steady-streamed-a": {
+    "mode": "streamed",
+    "frames": {
+     "n": 2700,
+     "p50": 48.345,
+     "p95": 53.01,
+     "p99": 54.572,
+     "max": 90.615,
+     "mean": 46.012
+    },
+    "draw_calls": {
+     "p50": 781.0,
+     "max": 781.0
+    },
+    "primitives": {
+     "p50": 17404341.0,
+     "max": 17404341.0
+    },
+    "stream": {
+     "commit_ms": {
+      "p50": 0.001,
+      "p95": 0.002,
+      "p99": 0.002,
+      "max": 0.023,
+      "frames_over_1_5ms": 0
+     },
+     "failures_max": 0
+    }
+   },
+   "steady-streamed-b": {
+    "mode": "streamed",
+    "frames": {
+     "n": 2700,
+     "p50": 33.207,
+     "p95": 36.131,
+     "p99": 37.599,
+     "max": 51.299,
+     "mean": 33.359
+    },
+    "draw_calls": {
+     "p50": 842.0,
+     "max": 842.0
+    },
+    "primitives": {
+     "p50": 19195087.0,
+     "max": 19195087.0
+    },
+    "stream": {
+     "commit_ms": {
+      "p50": 0.0,
+      "p95": 0.001,
+      "p99": 0.001,
+      "max": 0.004,
+      "frames_over_1_5ms": 0
+     },
+     "failures_max": 0
+    }
+   }
+  },
+  "travel": {
+   "travel-baked-a": {
+    "mode": "baked",
+    "frames": {
+     "n": 4470,
+     "p50": 16.668,
+     "p95": 44.169,
+     "p99": 70.613,
+     "max": 1017.567,
+     "mean": 20.134
+    },
+    "draw_calls": {
+     "p50": 1395.0,
+     "max": 2322.0
+    },
+    "primitives": {
+     "p50": 2889017.0,
+     "max": 24337783.0
+    },
+    "stream": {}
+   },
+   "travel-baked-b": {
+    "mode": "baked",
+    "frames": {
+     "n": 4819,
+     "p50": 16.702,
+     "p95": 33.467,
+     "p99": 42.468,
+     "max": 134.554,
+     "mean": 18.673
+    },
+    "draw_calls": {
+     "p50": 1422.0,
+     "max": 2325.0
+    },
+    "primitives": {
+     "p50": 3549751.0,
+     "max": 24937595.0
+    },
+    "stream": {}
+   },
+   "travel-streamed-a": {
+    "mode": "streamed",
+    "frames": {
+     "n": 3684,
+     "p50": 16.672,
+     "p95": 80.434,
+     "p99": 134.386,
+     "max": 437.56,
+     "mean": 24.415
+    },
+    "draw_calls": {
+     "p50": 362.0,
+     "max": 842.0
+    },
+    "primitives": {
+     "p50": 823082.0,
+     "max": 137257597.0
+    },
+    "stream": {
+     "commit_ms": {
+      "p50": 0.001,
+      "p95": 60.77,
+      "p99": 119.127,
+      "max": 426.541,
+      "frames_over_1_5ms": 349
+     },
+     "failures_max": 0
+    }
+   },
+   "travel-streamed-b": {
+    "mode": "streamed",
+    "frames": {
+     "n": 3379,
+     "p50": 16.696,
+     "p95": 88.505,
+     "p99": 134.32,
+     "max": 549.352,
+     "mean": 26.621
+    },
+    "draw_calls": {
+     "p50": 332.0,
+     "max": 844.0
+    },
+    "primitives": {
+     "p50": 823744.0,
+     "max": 137257597.0
+    },
+    "stream": {
+     "commit_ms": {
+      "p50": 0.001,
+      "p95": 63.82,
+      "p99": 119.454,
+      "max": 533.851,
+      "frames_over_1_5ms": 351
+     },
+     "failures_max": 0
+    }
+   }
+  },
+  "memory_plateau": {
+   "laps": [
+    {
+     "lap": 1,
+     "frames": 3222,
+     "static_memory_mib": {
+      "start": 1639.0,
+      "end": 1654.9,
+      "max": 1688.1
+     },
+     "resident_tiles": {
+      "start": 153,
+      "end": 120,
+      "max": 193
+     },
+     "resident_estimate_mib": {
+      "start": 12.6,
+      "end": 9.9,
+      "max": 16.1
+     }
+    },
+    {
+     "lap": 2,
+     "frames": 3148,
+     "static_memory_mib": {
+      "start": 1654.0,
+      "end": 1673.9,
+      "max": 1702.9
+     },
+     "resident_tiles": {
+      "start": 120,
+      "end": 132,
+      "max": 193
+     },
+     "resident_estimate_mib": {
+      "start": 9.9,
+      "end": 10.7,
+      "max": 16.1
+     }
+    },
+    {
+     "lap": 3,
+     "frames": 3448,
+     "static_memory_mib": {
+      "start": 1673.8,
+      "end": 1676.4,
+      "max": 1718.3
+     },
+     "resident_tiles": {
+      "start": 132,
+      "end": 128,
+      "max": 193
+     },
+     "resident_estimate_mib": {
+      "start": 10.7,
+      "end": 10.4,
+      "max": 16.1
+     }
+    }
+   ],
+   "stream": {
+    "commit_ms": {
+     "p50": 0.001,
+     "p95": 49.318,
+     "p99": 123.593,
+     "max": 643.104,
+     "frames_over_1_5ms": 1174
+    },
+    "plan_ms": {
+     "p50": 5.454,
+     "max": 17.666
+    },
+    "resident_tiles_max": 193,
+    "collision_tiles_max": 12,
+    "failures_max": 0,
+    "budget_pressure_frames": 0
+   }
+  },
+  "walker": {
+   "walker-streamed": {
+    "mode": "streamed",
+    "frames": {
+     "n": 31829,
+     "p50": 16.686,
+     "p95": 32.792,
+     "p99": 119.428,
+     "max": 13360.44,
+     "mean": 20.916
+    },
+    "cpu_ms": {
+     "n": 31829,
+     "p50": 18.201,
+     "p95": 129.393,
+     "p99": 215.23,
+     "max": 1037.635,
+     "mean": 37.678
+    },
+    "hold_fraction": 0.0717,
+    "distance_walked_m": 2864.8,
+    "teleports": [
+     {
+      "anchor": [
+       -252.0,
+       48.0722,
+       159.0
+      ],
+      "end_wall_s": 616.045983,
+      "frames_to_collision": 0,
+      "frames_to_stream_idle": 0,
+      "start_wall_s": 600.805358
+     },
+     {
+      "anchor": [
+       -118.4428,
+       16.9347,
+       -112.0891
+      ],
+      "end_wall_s": 634.446245,
+      "frames_to_collision": 21,
+      "frames_to_stream_idle": 0,
+      "start_wall_s": 616.045986
+     },
+     {
+      "anchor": [
+       58.012,
+       4.7064,
+       -277.4635
+      ],
+      "end_wall_s": 649.999915,
+      "frames_to_collision": 11,
+      "frames_to_stream_idle": 0,
+      "start_wall_s": 634.446248
+     },
+     {
+      "anchor": [
+       328.5285,
+       8.3133,
+       945.0425
+      ],
+      "end_wall_s": 665.733474,
+      "frames_to_collision": 18,
+      "frames_to_stream_idle": 0,
+      "start_wall_s": 649.999919
+     }
+    ],
+    "stream": {
+     "commit_ms": {
+      "p50": 0.0,
+      "p95": 0.001,
+      "p99": 58.511,
+      "max": 478.692,
+      "frames_over_1_5ms": 513
+     },
+     "plan_ms": {
+      "p50": 5.876,
+      "max": 19.266
+     },
+     "resident_tiles_max": 209,
+     "collision_tiles_max": 15,
+     "failures_max": 0,
+     "budget_pressure_frames": 0
+    }
+   }
+  }
+ },
+ "abba": {
+  "steady": {
+   "baked": {
+    "run_medians_ms": [
+     16.666,
+     40.579
+    ],
+    "mean_of_medians_ms": 28.623
+   },
+   "streamed": {
+    "run_medians_ms": [
+     48.345,
+     33.207
+    ],
+    "mean_of_medians_ms": 40.776
+   },
+   "ordering": "baked(a), streamed(a), streamed(b), baked(b)"
+  },
+  "travel": {
+   "baked": {
+    "run_medians_ms": [
+     16.668,
+     16.702
+    ],
+    "mean_of_medians_ms": 16.685
+   },
+   "streamed": {
+    "run_medians_ms": [
+     16.672,
+     16.696
+    ],
+    "mean_of_medians_ms": 16.684
+   },
+   "ordering": "baked(a), streamed(a), streamed(b), baked(b)"
+  }
+ },
+ "coverage": {
+  "measured": {
+   "boot": [
+    "baked x3 replicates (one extra)",
+    "streamed x2"
+   ],
+   "steady": [
+    "baked x2",
+    "streamed x2"
+   ],
+   "travel": [
+    "baked x2",
+    "streamed x2"
+   ],
+   "teleport_recovery": [
+    "streamed walker, 4 teleports"
+   ],
+   "memory_plateau": [
+    "streamed, 3 laps"
+   ],
+   "walker_route": [
+    "streamed"
+   ],
+   "commit_budget": [
+    "streamed travel, plateau and walker runs"
+   ]
+  },
+  "not_measured": {
+   "walker_route_baked": "interrupted before output; baked walker comparison absent",
+   "teleport_recovery_baked": "depends on the baked walker run",
+   "gpu_ms": "Godot 4.5.1 exposes no GPU frame timer through Performance monitors; platform GPU tooling not attached during runs",
+   "cpu_script_ms_camera_runs": "the benchmark_route.gd fixture records wall frame intervals and render counters; CPU process time recorded in boot and walker runs"
+  }
+ }
+}

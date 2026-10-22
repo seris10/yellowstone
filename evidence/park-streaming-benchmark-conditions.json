@@ -1,0 +1,77 @@
+{
+ "schema": "yellowstone.park_streaming_benchmark_conditions.v1",
+ "scope": "conditions shared by every run in the park-streaming-benchmark-* artifacts; per-run mode and catalog ride inside each artifact",
+ "hardware": {
+  "model": "Mac16,13",
+  "chip": "Apple M4",
+  "cpu_cores": 10,
+  "memory_bytes": 25769803776,
+  "display": "Built-in Liquid Retina Display, 2880x1864"
+ },
+ "os": {
+  "name": "macOS",
+  "version": "26.5.1",
+  "build": "25F80"
+ },
+ "engine": {
+  "godot": "4.5.1.stable.official",
+  "hash": "f62fdbde15035c5576dad93e586201f4d41ef0cb",
+  "binary": "homebrew godot"
+ },
+ "renderer": {
+  "method": "mobile",
+  "driver": "Metal 3.2 (Apple M4)",
+  "viewport_pixels": [1600, 1000],
+  "window_override_pixels": [1440, 900],
+  "stretch_mode": "canvas_items",
+  "resolution_scale": 1.0,
+  "msaa_3d": 0,
+  "screen_space_aa": "FXAA (1)",
+  "anisotropic_filtering": 4,
+  "directional_soft_shadow_filter_quality": 3,
+  "shadow_preset": "walking",
+  "shadow_splits": [0.04, 0.14, 0.4],
+  "shadow_blend_splits": true,
+  "shadow_fade_start": 0.82,
+  "shadow_bias": 0.03,
+  "shadow_normal_bias": 3.0,
+  "vsync": "default (enabled)",
+  "max_fps": 60
+ },
+ "source": {
+  "revision": "cbae17b016a79b0271588538bf2751b98b97b4e8",
+  "worktree": "dirty before measurement (pre-existing input remap and dashboard edits); park_streaming flip for streamed runs reverted after the streamed block",
+  "scene": "res://scenes/main.tscn",
+  "baked_payload": "res://scenes/authored_world.scn, 242057875 bytes",
+  "streamed_catalog": "res://data/park_composed/catalog.json, dataset_revision b05e4015134c58c2ce3ec96225886693ad2676a7824434bf758e3cc2192689fa",
+  "streamed_budgets": {"max_inflight": 2, "resident_limit_mib": 128.0, "commit_budget_ms": 1.5}
+ },
+ "scenario": {
+  "simulation_epoch_unix": 1792015920.0,
+  "utc_offset_hours": -6.0,
+  "display_hour_local": 16.2,
+  "river_forcing": "res://data/river_replay.json fixed replay",
+  "live_service": "not running; park client transport idle",
+  "seed": "none; fixed replay scenario"
+ },
+ "routes": {
+  "travel": "res://tests/park_runtime/fixtures/midway_anchor_route.json; overlook, boardwalk, Firehole bridge, Fairy Falls trailhead, closed loop, 2776.02 m; camera runs add a 1.67 m eye offset",
+  "steady": "res://tests/park_runtime/fixtures/midway_overlook_steady.json; stationary camera at the overlook anchor at eye height",
+  "plateau": "res://tests/park_runtime/fixtures/midway_anchor_route_laps.json; three laps of the travel loop",
+  "walker": "walker_points of the travel fixture (anchor ground positions, straight legs with scripted obstacle sidesteps)"
+ },
+ "warmup": {
+  "camera_fixture": "180 frames after instantiate before sampling",
+  "walker": "walker gate wait (streamed collision ready) plus 120 frames",
+  "boot": "no warmup; milestones measured from script start"
+ },
+ "cache_state": "engine shader and import caches warm after the first run of each mode; runs serialized one at a time; windows moved to the foreground after launch",
+ "run_order": [
+  "steady-baked-a", "travel-baked-a", "boot-baked-c",
+  "boot-streamed-a", "steady-streamed-a", "travel-streamed-a",
+  "plateau-streamed", "walker-streamed",
+  "steady-streamed-b", "travel-streamed-b", "boot-streamed-b",
+  "steady-baked-b", "travel-baked-b", "boot-baked-d"
+ ],
+ "abba": "baked(a), streamed(a), streamed(b), baked(b) per workload; boot-baked-b is an extra replicate recorded earlier under identical conditions; walker runs are single per mode by duration"
+}
