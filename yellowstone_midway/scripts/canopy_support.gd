@@ -5,6 +5,45 @@ extends RefCounted
 const Lodgepole = preload("res://scripts/lodgepole_library.gd")
 const SEARCH_M := 2.0
 
+static var _profiles: Dictionary = {}
+
+## Bole centerline profile of one archetype; computed on the main thread, cached for workers.
+static func profile(form: String) -> Dictionary:
+	if _profiles.has(form):
+		return _profiles[form]
+	var rings: Dictionary = {}
+	var heights: Array[float] = []
+	for row: Dictionary in Lodgepole.metadata().get("lods", []):
+		if str(row.archetype) == form and int(row.lod) == 0:
+			for pair: Array in row.bole_profile_m:
+				heights.append(float(pair[0]))
+	var local := Transform3D.IDENTITY
+	for asset: Array in Lodgepole.load_assets(form):
+		if str(asset[4]) != "Bole" or float(asset[2]) != 0.0:
+			continue
+		local = asset[1]
+		var vertices: PackedVector3Array = asset[0].surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
+		for point: Vector3 in vertices:
+			var key := 0
+			for index: int in heights.size():
+				if absf(heights[index] - point.y) < absf(heights[key] - point.y):
+					key = index
+			if not rings.has(key):
+				rings[key] = []
+			rings[key].append(point)
+	var keys: Array = rings.keys()
+	keys.sort()
+	var points := PackedVector3Array()
+	for key: int in keys:
+		var center := Vector3.ZERO
+		var ring: Array = rings[key]
+		for point: Vector3 in ring:
+			center += point
+		points.append(center / float(ring.size()))
+	_profiles[form] = {"points": points, "local": local}
+	return _profiles[form]
+
+## Bin pine bole supports by 2 m cell; worker-safe once every archetype profile is cached.
 static func prepare(records: Array) -> Dictionary:
 	var profiles: Dictionary = {}
 	var bins: Dictionary = {}
@@ -13,36 +52,7 @@ static func prepare(records: Array) -> Dictionary:
 			continue
 		var form := Lodgepole.archetype(record)
 		if not profiles.has(form):
-			var rings: Dictionary = {}
-			var heights: Array[float] = []
-			for row: Dictionary in Lodgepole.metadata().get("lods", []):
-				if str(row.archetype) == form and int(row.lod) == 0:
-					for pair: Array in row.bole_profile_m:
-						heights.append(float(pair[0]))
-			var local := Transform3D.IDENTITY
-			for asset: Array in Lodgepole.load_assets(form):
-				if str(asset[4]) != "Bole" or float(asset[2]) != 0.0:
-					continue
-				local = asset[1]
-				var vertices: PackedVector3Array = asset[0].surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
-				for point: Vector3 in vertices:
-					var key := 0
-					for index: int in heights.size():
-						if absf(heights[index] - point.y) < absf(heights[key] - point.y):
-							key = index
-					if not rings.has(key):
-						rings[key] = []
-					rings[key].append(point)
-			var keys: Array = rings.keys()
-			keys.sort()
-			var points := PackedVector3Array()
-			for key: int in keys:
-				var center := Vector3.ZERO
-				var ring: Array = rings[key]
-				for point: Vector3 in ring:
-					center += point
-				points.append(center / float(ring.size()))
-			profiles[form] = {"points": points, "local": local}
+			profiles[form] = profile(form)
 		var position: Array = record.position
 		var transform: Transform3D = Transform3D(Basis(Vector3.UP, float(record.yaw)), Vector3(position[0], position[1], position[2])) * Lodgepole.local_transform(record, "Bole") * profiles[form].local
 		var points: PackedVector3Array = profiles[form].points

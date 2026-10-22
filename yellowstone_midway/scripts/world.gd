@@ -382,7 +382,8 @@ func _physics_process(_delta: float) -> void:
 	# The world root ticks before its children, so rebasing precedes movement.
 	park_frame.maybe_rebase(player)
 	park_terrain.velocity = player.velocity
-	if _park_boot_hold and park_terrain.can_enter(player.global_position, 0.5):
+	# The hold also covers shared vegetation asset preparation, so no tile build loads assets.
+	if _park_boot_hold and park_terrain.can_enter(player.global_position, 0.5) and park_vegetation.is_settled():
 		_park_boot_hold = false
 		ecosystem.clock_held = false
 		_sync_player_input()
@@ -1480,7 +1481,9 @@ func _process(delta: float) -> void:
 		status_label.text = simulation_status_text() + " | %.1f C air | %d m elevation" % [ecosystem.air_c, int(p.y + 2200)]
 		if park_enabled and park_terrain != null:
 			# Surface the streamed movement-hold reason on the status line.
-			if _park_boot_hold:
+			if _park_boot_hold and not park_vegetation.is_settled():
+				status_label.text = "PARK STREAMING | preparing vegetation assets"
+			elif _park_boot_hold:
 				status_label.text = "PARK STREAMING | preparing collision at destination"
 			elif not player.fly_mode and not park_terrain.can_enter(player.global_position, 0.5):
 				status_label.text = "PARK STREAMING | movement held outside prepared coverage"
@@ -1705,6 +1708,13 @@ func run_smoke_test_streamed() -> void:
 	var wildlife_stats: Dictionary = park_wildlife.stats() if park_wildlife != null else {}
 	print("SMOKE wildlife spawned=",wildlife_stats.get("spawned",0)," suspended=",wildlife_stats.get("suspended",0)," restored=",wildlife_stats.get("restored",0)," present=",park_wildlife.present_ids().size() if park_wildlife != null else 0)
 	passed = passed and park_wildlife != null and int(wildlife_stats.get("spawned",0)) > 0
+	for tick in 1800:
+		if park_vegetation.is_settled() and park_vegetation.pending_count() == 0:
+			break
+		await get_tree().physics_frame
+	var vegetation_stats: Dictionary = park_vegetation.stats()
+	print("SMOKE vegetation settled=",park_vegetation.is_settled()," error=",park_vegetation.preparation_error()," prepare_ms=",vegetation_stats.get("prepare_ms",-1.0)," tiles=",vegetation_stats.get("tiles",0)," build_ms_max=",vegetation_stats.get("build_ms_max",0.0))
+	passed = passed and park_vegetation.is_settled() and park_vegetation.preparation_error().is_empty() and int(vegetation_stats.get("tiles",0)) > 0
 	var ground_material: Material = park_terrain.material
 	var ground_name := "fallback"
 	if ground_material is ShaderMaterial and (ground_material as ShaderMaterial).shader != null:

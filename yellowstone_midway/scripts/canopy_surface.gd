@@ -144,10 +144,26 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 static func window_source(data_path: String) -> Dictionary:
 	if _window_cache.has(data_path):
 		return _window_cache[data_path]
-	var source := read_source(data_path)
+	return install_window_source(data_path, prepare_window_data(data_path))
+
+## Cache every archetype's bole profile for worker-side support binning; main thread only.
+static func prewarm_supports() -> void:
+	for form: String in Lodgepole.ARCHETYPES:
+		Support.profile(form)
+
+## Read the display source and smooth its surface; worker-safe, creates no rendering resources.
+static func prepare_window_data(data_path: String) -> Dictionary:
+	var source := read_source_data(data_path)
+	if not source.is_empty():
+		_prepare_surface(source)
+	return source
+
+## Bind prepared source data to textures, materials and shared cluster meshes; main thread only.
+static func install_window_source(data_path: String, source: Dictionary) -> Dictionary:
 	if source.is_empty():
 		return {}
-	_prepare_surface(source)
+	source.mask_texture = ImageTexture.create_from_image(source.mask_image)
+	source.support_texture = ImageTexture.create_from_image(source.support_image)
 	if not FileAccess.file_exists(TEXTURE_PATH) or not ResourceLoader.exists(SHADER_PATH):
 		_error("Canopy material requires the authored needle texture and canopy shader")
 		return {}
@@ -179,10 +195,10 @@ static func window_source(data_path: String) -> Dictionary:
 	_window_cache[data_path] = {"source": source, "material": material, "meshes": meshes}
 	return _window_cache[data_path]
 
-## Build the skin and cluster batches for one absolute tile window under the tile node.
-static func build_window(tile: Node3D, data_path: String, rect: Rect2, support_records: Array, ground: RefCounted = null) -> Dictionary:
-	var entry := window_source(data_path)
-	if entry.is_empty() or tile == null:
+## Skin arrays and cluster buffers for one absolute tile window; worker-safe after window_source.
+static func plan_window(data_path: String, rect: Rect2, support_records: Array, ground: RefCounted = null) -> Dictionary:
+	var entry: Dictionary = _window_cache.get(data_path, {})
+	if entry.is_empty():
 		return {}
 	var source: Dictionary = entry.source
 	var cell_size: float = source.cell_size_m
@@ -195,9 +211,26 @@ static func build_window(tile: Node3D, data_path: String, rect: Rect2, support_r
 	var row0 := clampi(int(floor((rect.position.y - grid_origin.y) / cell_size)), 0, source.height - 1)
 	var row1 := clampi(int(floor((rect.end.y - grid_origin.y) / cell_size)), 0, source.height - 1)
 	var tile_cells := int(round(128.0 / cell_size))
+	var tiles: Array = []
+	for row: int in range(row0, row1 + 1, tile_cells):
+		for column: int in range(column0, column1 + 1, tile_cells):
+			var data := _tile_arrays(source, column, row, tile_cells, mini(column + tile_cells - 1, column1), mini(row + tile_cells - 1, row1))
+			if not data.is_empty():
+				tiles.append(data)
+	var window := Rect2i(column0, row0, column1 - column0 + 1, row1 - row0 + 1)
+	return {"rect": rect, "tiles": tiles, "clusters": _cluster_batches(source, Support.prepare(support_records), ground, window), "source_sha256": FileAccess.get_sha256(data_path)}
+
+## Build the planned skin and cluster batches under the tile node; main thread only.
+static func install_window(tile: Node3D, data_path: String, plan: Dictionary) -> Dictionary:
+	var entry := window_source(data_path)
+	if entry.is_empty() or tile == null or plan.is_empty():
+		return {}
+	var source: Dictionary = entry.source
+	var cell_size: float = source.cell_size_m
+	var rect: Rect2 = plan.rect
 	var group := Node3D.new()
 	group.name = GROUP_NAME
-	group.set_meta("source_sha256", FileAccess.get_sha256(data_path))
+	group.set_meta("source_sha256", plan.source_sha256)
 	group.set_meta("evidence_class", "derived_not_field_validated")
 	group.set_meta("representation", "observed_residual_coverage_continuous_skin")
 	group.set_meta("top_elevation_class", "measured_derived_display_smoothed")
@@ -212,19 +245,15 @@ static func build_window(tile: Node3D, data_path: String, rect: Rect2, support_r
 	group.set_meta("scientific_acceptance", "not_yet_accepted")
 	var active_cells := 0
 	var represented_area := 0.0
-	for row: int in range(row0, row1 + 1, tile_cells):
-		for column: int in range(column0, column1 + 1, tile_cells):
-			var result := _tile(source, column, row, tile_cells, entry.material, mini(column + tile_cells - 1, column1), mini(row + tile_cells - 1, row1))
-			if result.is_empty():
-				continue
-			result.node.position -= Vector3(rect.position.x, 0.0, rect.position.y)
-			group.add_child(result.node)
-			active_cells += int(result.active_cells)
-			represented_area += float(result.represented_area_m2)
+	for data: Dictionary in plan.tiles:
+		var result := _tile_node(data, entry.material)
+		result.node.position -= Vector3(rect.position.x, 0.0, rect.position.y)
+		group.add_child(result.node)
+		active_cells += int(result.active_cells)
+		represented_area += float(result.represented_area_m2)
 	group.set_meta("active_cells", active_cells)
 	group.set_meta("represented_area_m2", represented_area)
-	var window := Rect2i(column0, row0, column1 - column0 + 1, row1 - row0 + 1)
-	_build_clusters(group, source, entry.material, Support.prepare(support_records), ground, window, rect.position, entry.meshes)
+	_install_clusters(group, source, entry.material, plan.clusters, rect.position, entry.meshes)
 	tile.add_child(group)
 	return {"group": group, "active_cells": active_cells, "clusters": int(group.get_meta("cluster_display_count", 0))}
 
@@ -246,35 +275,25 @@ static func _shoot_texture() -> Texture2D:
 	return ImageTexture.create_from_image(image)
 
 static func _build_clusters(group: Node3D, source: Dictionary, skin_material: ShaderMaterial, hosts: Dictionary, ground: RefCounted = null, window: Rect2i = Rect2i(), tile_origin := Vector2.ZERO, shared_meshes: Array = []) -> void:
-	var material: ShaderMaterial = skin_material.duplicate()
-	material.set_shader_parameter("cluster_mode", true)
-	material.set_shader_parameter("geometry_revision", GEOMETRY_REVISION)
-	var meshes: Array = shared_meshes
-	for lod_index: int in CLUSTER_LODS.size():
-		if not meshes.is_empty():
-			break
-		var lod: Array = CLUSTER_LODS[lod_index]
-		var lod_material: ShaderMaterial = material.duplicate()
-		lod_material.set_shader_parameter("near_shoot_mode", int(lod[2]) > 0)
-		lod_material.set_shader_parameter("lod_begin_m", float(lod[0]))
-		lod_material.set_shader_parameter("lod_end_m", float(lod[1]))
-		lod_material.set_shader_parameter("lod_dither_invert", lod_index % 2 == 1)
-		meshes.append(_shoot_mesh(source.cell_size_m / sqrt(2.0), int(lod[2]), lod_material) if int(lod[2]) > 0 else _cluster_mesh(source.cell_size_m / sqrt(2.0), lod_material))
+	_install_clusters(group, source, skin_material, _cluster_batches(source, hosts, ground, window), tile_origin, shared_meshes)
+
+## Cluster instance buffers per 64 m cluster tile over the window; worker-safe.
+static func _cluster_batches(source: Dictionary, hosts: Dictionary, ground: RefCounted, window: Rect2i) -> Dictionary:
 	var bins: Dictionary = {}
 	var origin := Vector2(source.first_cell_x_m, source.first_cell_z_m)
-	for row: int in source.height:
-		for column: int in source.width:
+	var cells: PackedByteArray = source.unresolved_cells
+	var scan := window if window.has_area() else Rect2i(0, 0, source.width, source.height)
+	for row: int in range(scan.position.y, scan.end.y):
+		for column: int in range(scan.position.x, scan.end.x):
 			var index: int = row * source.width + column
-			if source.unresolved_cells[index] == 0:
-				continue
-			if window.has_area() and not window.has_point(Vector2i(column, row)):
+			if cells[index] == 0:
 				continue
 			var position: Vector2 = origin + Vector2(column, row) * source.cell_size_m
 			var key := Vector2i(int(floor(position.x / CLUSTER_TILE_M)), int(floor(position.y / CLUSTER_TILE_M)))
 			if not bins.has(key):
 				bins[key] = []
 			bins[key].append(index)
-	var total := 0
+	var batches: Array = []
 	var attached := 0
 	for key: Vector2i in bins:
 		var center := Vector3((key.x + 0.5) * CLUSTER_TILE_M, 0.0, (key.y + 0.5) * CLUSTER_TILE_M)
@@ -300,6 +319,34 @@ static func _build_clusters(group: Node3D, source: Dictionary, skin_material: Sh
 			instance_bounds = instance_bounds.merge(AABB(connection.point - center - Vector3.ONE * 0.1, Vector3.ONE * 0.2))
 			bounds = instance_bounds if indices.is_empty() else bounds.merge(instance_bounds)
 			indices.append(index)
+		batches.append({"key": key, "center": center, "buffer": buffer, "bounds": bounds, "indices": indices})
+	return {"batches": batches, "attached": attached}
+
+## Cluster LOD nodes from planned batches; main thread only.
+static func _install_clusters(group: Node3D, source: Dictionary, skin_material: ShaderMaterial, clusters: Dictionary, tile_origin := Vector2.ZERO, shared_meshes: Array = []) -> void:
+	var material: ShaderMaterial = skin_material.duplicate()
+	material.set_shader_parameter("cluster_mode", true)
+	material.set_shader_parameter("geometry_revision", GEOMETRY_REVISION)
+	# The bake passes no shared meshes and builds one mesh per cluster LOD here.
+	var meshes: Array = shared_meshes.duplicate()
+	for lod_index: int in CLUSTER_LODS.size():
+		if not shared_meshes.is_empty():
+			break
+		var lod: Array = CLUSTER_LODS[lod_index]
+		var lod_material: ShaderMaterial = material.duplicate()
+		lod_material.set_shader_parameter("near_shoot_mode", int(lod[2]) > 0)
+		lod_material.set_shader_parameter("lod_begin_m", float(lod[0]))
+		lod_material.set_shader_parameter("lod_end_m", float(lod[1]))
+		lod_material.set_shader_parameter("lod_dither_invert", lod_index % 2 == 1)
+		meshes.append(_shoot_mesh(source.cell_size_m / sqrt(2.0), int(lod[2]), lod_material) if int(lod[2]) > 0 else _cluster_mesh(source.cell_size_m / sqrt(2.0), lod_material))
+	var total := 0
+	var attached: int = clusters.attached
+	for batch: Dictionary in clusters.batches:
+		var key: Vector2i = batch.key
+		var center: Vector3 = batch.center
+		var buffer: PackedFloat32Array = batch.buffer
+		var bounds: AABB = batch.bounds
+		var indices: PackedInt32Array = batch.indices
 		for lod: int in CLUSTER_LODS.size():
 			var multimesh := MultiMesh.new()
 			multimesh.transform_format = MultiMesh.TRANSFORM_3D
@@ -486,7 +533,16 @@ static func _cluster_mesh(radius: float, material: Material) -> ArrayMesh:
 	mesh.surface_set_material(0, material)
 	return mesh
 
+## Return the verified canopy source with its coverage and support textures.
 static func read_source(data_path: String) -> Dictionary:
+	var source := read_source_data(data_path)
+	if not source.is_empty():
+		source.mask_texture = ImageTexture.create_from_image(source.mask_image)
+		source.support_texture = ImageTexture.create_from_image(source.support_image)
+	return source
+
+## Read and verify the canopy grids and mask images; worker-safe, creates no rendering resources.
+static func read_source_data(data_path: String) -> Dictionary:
 	if not FileAccess.file_exists(data_path):
 		_error("Canopy metadata is missing: %s" % data_path)
 		return {}
@@ -545,24 +601,30 @@ static func read_source(data_path: String) -> Dictionary:
 	if source.unresolved_cells.size() != count:
 		_error("Canopy cell mask length differs")
 		return {}
+	# Typed locals keep the per-cell loops off dictionary lookups.
+	var cells: PackedByteArray = source.unresolved_cells
+	var covers: PackedFloat32Array = source.cover_fraction
+	var valids: PackedFloat32Array = source.valid_fraction
+	var tops: PackedFloat32Array = source.canopy_top_scene_y
+	var grounds: PackedFloat32Array = source.ground_scene_y
 	for index: int in count:
-		var active: int = source.unresolved_cells[index]
-		var cover: float = source.cover_fraction[index]
-		var valid: float = source.valid_fraction[index]
-		if not is_finite(source.ground_scene_y[index]):
+		var active: int = cells[index]
+		var cover: float = covers[index]
+		var valid: float = valids[index]
+		if not is_finite(grounds[index]):
 			_error("Continuous canopy display topology requires matched ground at %d" % index)
 			return {}
-		if active not in [0, 1] or not is_finite(cover) or not is_finite(valid) or cover < 0.0 or valid < 0.0 or valid > 1.0 or cover > valid or (active == 1) != (cover > 0.0):
+		if active > 1 or not is_finite(cover) or not is_finite(valid) or cover < 0.0 or valid < 0.0 or valid > 1.0 or cover > valid or (active == 1) != (cover > 0.0):
 			_error("Canopy cell mask and cover fraction disagree at %d" % index)
 			return {}
 		if active == 1:
-			var top: float = source.canopy_top_scene_y[index]
-			var ground: float = source.ground_scene_y[index]
+			var top: float = tops[index]
+			var ground: float = grounds[index]
 			if not is_finite(top) or not is_finite(ground) or top <= ground:
 				_error("Canopy active cell requires finite top above ground at %d" % index)
 				return {}
 	# Exclusions filter the in-memory display grids.
-	source.excluded_cells = 0
+	var excluded_cells := 0
 	var excluded_path := data_path.get_base_dir().path_join("unresolved_cells_excluded.u8")
 	if FileAccess.file_exists(excluded_path):
 		var excluded := FileAccess.get_file_as_bytes(excluded_path)
@@ -570,9 +632,11 @@ static func read_source(data_path: String) -> Dictionary:
 			_error("Canopy exclusion mask length differs")
 			return {}
 		for index: int in count:
-			if excluded[index] == 0 and source.unresolved_cells[index] == 1:
-				source.unresolved_cells[index] = 0
-				source.excluded_cells += 1
+			if excluded[index] == 0 and cells[index] == 1:
+				cells[index] = 0
+				excluded_cells += 1
+	source.unresolved_cells = cells
+	source.excluded_cells = excluded_cells
 	var mask := Image.new()
 	var support := Image.new()
 	var mask_error := mask.load_png_from_buffer(FileAccess.get_file_as_bytes(paths.unresolved_render_mask))
@@ -586,12 +650,16 @@ static func read_source(data_path: String) -> Dictionary:
 	var mask_bytes := mask.get_data()
 	var support_bytes := support.get_data()
 	for index: int in mask_bytes.size():
-		if mask_bytes[index] not in [0, 255] or support_bytes[index] not in [0, 255] or (mask_bytes[index] == 255 and support_bytes[index] == 0):
+		var observed: int = mask_bytes[index]
+		var supported: int = support_bytes[index]
+		if (observed != 0 and observed != 255) or (supported != 0 and supported != 255) or (observed == 255 and supported == 0):
 			_error("Canopy mask requires binary coverage within valid support at %d" % index)
 			return {}
 	var subdivision_count := int(round(subdivisions))
-	for row: int in source.height:
-		for column: int in source.width:
+	var width: int = source.width
+	var height: int = source.height
+	for row: int in height:
+		for column: int in width:
 			var observed_pixels := 0
 			var supported_pixels := 0
 			for z: int in subdivision_count:
@@ -602,75 +670,101 @@ static func read_source(data_path: String) -> Dictionary:
 					if support_bytes[pixel] == 255:
 						supported_pixels += 1
 			var expected: float = float(observed_pixels) / float(subdivision_count * subdivision_count)
-			if absf(source.cover_fraction[row * source.width + column] - expected) > 0.000001:
+			if absf(covers[row * width + column] - expected) > 0.000001:
 				_error("Canopy cover fraction differs from the source mask at %d,%d" % [column, row])
 				return {}
 			var expected_valid: float = float(supported_pixels) / float(subdivision_count * subdivision_count)
-			if absf(source.valid_fraction[row * source.width + column] - expected_valid) > 0.000001:
+			if absf(valids[row * width + column] - expected_valid) > 0.000001:
 				_error("Canopy valid fraction differs from the support mask at %d,%d" % [column, row])
 				return {}
-	for row: int in source.height:
-		for column: int in source.width:
-			var at: int = row * source.width + column
-			if source.unresolved_cells[at] != 0 or source.cover_fraction[at] == 0.0:
+	for row: int in height:
+		for column: int in width:
+			var at: int = row * width + column
+			if cells[at] != 0 or covers[at] == 0.0:
 				continue
-			source.cover_fraction[at] = 0.0
+			covers[at] = 0.0
 			mask.fill_rect(Rect2i(column * subdivision_count, row * subdivision_count, subdivision_count, subdivision_count), Color.BLACK)
+	source.cover_fraction = covers
 	source.exclusion_sha256 = FileAccess.get_sha256(excluded_path) if FileAccess.file_exists(excluded_path) else ""
 	source.mask_image = mask
 	source.support_image = support
-	source.mask_texture = ImageTexture.create_from_image(mask)
-	source.support_texture = ImageTexture.create_from_image(support)
 	return source
 
 static func _prepare_surface(source: Dictionary) -> void:
 	var width: int = source.width + 1
 	var count: int = width * (source.height + 1)
+	var cells_wide: int = source.width
+	var cells_high: int = source.height
+	var cell_size: float = source.cell_size_m
+	var mask_cell: float = source.highres_mask_cell_size_m
+	var cells: PackedByteArray = source.unresolved_cells
+	var covers: PackedFloat32Array = source.cover_fraction
+	var tops: PackedFloat32Array = source.canopy_top_scene_y
+	var grounds: PackedFloat32Array = source.ground_scene_y
 	var upper := PackedFloat32Array()
 	var lower := PackedFloat32Array()
 	var normals := PackedVector3Array()
 	upper.resize(count)
 	lower.resize(count)
 	normals.resize(count)
-	for row: int in range(source.height + 1):
+	var search_cells: int = int(ceil(DISPLAY_SMOOTHING_RADIUS_M / cell_size))
+	var radius_squared := DISPLAY_SMOOTHING_RADIUS_M * DISPLAY_SMOOTHING_RADIUS_M
+	# Smoothing factors depend only on the cell offset from the corner; -1 marks offsets past the radius.
+	var span: int = search_cells * 2
+	var kernel := PackedFloat64Array()
+	kernel.resize(span * span)
+	for dz: int in range(-search_cells, search_cells):
+		for dx: int in range(-search_cells, search_cells):
+			var distance_squared: float = pow((dx + 0.5) * cell_size, 2) + pow((dz + 0.5) * cell_size, 2)
+			kernel[(dz + search_cells) * span + dx + search_cells] = -1.0 if distance_squared >= radius_squared else 1.0 - distance_squared / radius_squared
+	for row: int in range(cells_high + 1):
 		for column: int in width:
 			var top_sum := 0.0
 			var ground_sum := 0.0
 			var weight_sum := 0.0
 			var all_ground_sum := 0.0
 			var all_neighbors := 0
-			for z: int in range(maxi(0, row - 1), mini(source.height, row + 1)):
-				for x: int in range(maxi(0, column - 1), mini(source.width, column + 1)):
-					var at: int = z * source.width + x
-					all_ground_sum += source.ground_scene_y[at]
+			for z: int in range(maxi(0, row - 1), mini(cells_high, row + 1)):
+				for x: int in range(maxi(0, column - 1), mini(cells_wide, column + 1)):
+					all_ground_sum += grounds[z * cells_wide + x]
 					all_neighbors += 1
-			var search_cells: int = int(ceil(DISPLAY_SMOOTHING_RADIUS_M / source.cell_size_m))
-			var radius_squared := DISPLAY_SMOOTHING_RADIUS_M * DISPLAY_SMOOTHING_RADIUS_M
-			for z: int in range(maxi(0, row - search_cells), mini(source.height, row + search_cells)):
-				for x: int in range(maxi(0, column - search_cells), mini(source.width, column + search_cells)):
-					var at: int = z * source.width + x
-					if source.unresolved_cells[at] == 0:
+			var x0: int = maxi(0, column - search_cells)
+			var x1: int = mini(cells_wide, column + search_cells)
+			for z: int in range(maxi(0, row - search_cells), mini(cells_high, row + search_cells)):
+				var cell_row: int = z * cells_wide
+				var kernel_row: int = (z - row + search_cells) * span - column + search_cells
+				for x: int in range(x0, x1):
+					var at: int = cell_row + x
+					if cells[at] == 0:
 						continue
-					var distance_squared: float = pow((x + 0.5 - column) * source.cell_size_m, 2) + pow((z + 0.5 - row) * source.cell_size_m, 2)
-					if distance_squared >= radius_squared:
+					var factor: float = kernel[kernel_row + x]
+					if factor < 0.0:
 						continue
-					var weight: float = (1.0 - distance_squared / radius_squared) * source.cover_fraction[at]
-					top_sum += source.canopy_top_scene_y[at] * weight
-					ground_sum += source.ground_scene_y[at] * weight
+					var weight: float = factor * covers[at]
+					top_sum += tops[at] * weight
+					ground_sum += grounds[at] * weight
 					weight_sum += weight
 			var corner: int = row * width + column
-			upper[corner] = top_sum / weight_sum if weight_sum > 0.0 else all_ground_sum / all_neighbors + source.highres_mask_cell_size_m
-			lower[corner] = maxf(ground_sum / weight_sum, upper[corner] - source.highres_mask_cell_size_m) if weight_sum > 0.0 else all_ground_sum / all_neighbors
-	for row: int in source.height:
-		for column: int in source.width:
-			var corners := [row * width + column, row * width + column + 1, (row + 1) * width + column + 1, (row + 1) * width + column]
-			for face: Array in [[0, 1, 2], [0, 2, 3]]:
-				var a := _corner_position(corners[face[0]], upper, width, source.cell_size_m)
-				var b := _corner_position(corners[face[1]], upper, width, source.cell_size_m)
-				var c := _corner_position(corners[face[2]], upper, width, source.cell_size_m)
-				var normal := -(b - a).cross(c - a)
-				for vertex: int in face:
-					normals[corners[vertex]] += normal
+			upper[corner] = top_sum / weight_sum if weight_sum > 0.0 else all_ground_sum / all_neighbors + mask_cell
+			lower[corner] = maxf(ground_sum / weight_sum, upper[corner] - mask_cell) if weight_sum > 0.0 else all_ground_sum / all_neighbors
+	for row: int in cells_high:
+		for column: int in cells_wide:
+			var c0: int = row * width + column
+			var c1: int = c0 + 1
+			var c2: int = c0 + width + 1
+			var c3: int = c0 + width
+			var p0 := Vector3(column * cell_size, upper[c0], row * cell_size)
+			var p1 := Vector3((column + 1) * cell_size, upper[c1], row * cell_size)
+			var p2 := Vector3((column + 1) * cell_size, upper[c2], (row + 1) * cell_size)
+			var p3 := Vector3(column * cell_size, upper[c3], (row + 1) * cell_size)
+			var first := -(p1 - p0).cross(p2 - p0)
+			normals[c0] += first
+			normals[c1] += first
+			normals[c2] += first
+			var second := -(p2 - p0).cross(p3 - p0)
+			normals[c0] += second
+			normals[c2] += second
+			normals[c3] += second
 	for index: int in count:
 		if is_finite(upper[index]):
 			normals[index] = normals[index].normalized()
@@ -682,6 +776,10 @@ static func _corner_position(index: int, elevations: PackedFloat32Array, width: 
 	return Vector3((index % width) * cell_size, elevations[index], int(index / width) * cell_size)
 
 static func _tile(source: Dictionary, column: int, row: int, tile_cells: int, material: ShaderMaterial, last_column: int = -1, last_row: int = -1) -> Dictionary:
+	return _tile_node(_tile_arrays(source, column, row, tile_cells, last_column, last_row), material)
+
+## Skin arrays and cell tallies of one canopy tile; worker-safe.
+static func _tile_arrays(source: Dictionary, column: int, row: int, tile_cells: int, last_column: int = -1, last_row: int = -1) -> Dictionary:
 	var vertices := PackedVector3Array()
 	var normals := PackedVector3Array()
 	var uvs := PackedVector2Array()
@@ -740,23 +838,30 @@ static func _tile(source: Dictionary, column: int, row: int, tile_cells: int, ma
 	arrays[Mesh.ARRAY_NORMAL] = normals
 	arrays[Mesh.ARRAY_TEX_UV] = uvs
 	arrays[Mesh.ARRAY_INDEX] = indices
+	return {"arrays": arrays, "origin": origin, "column": column, "row": row, "active_cells": active_cells, "represented_area_m2": area,
+		"boundary_edges": boundary_edges, "surface_corners": corners.size(), "surface_cells": surface_cells}
+
+## Skin mesh node from tile arrays; main thread only.
+static func _tile_node(data: Dictionary, material: ShaderMaterial) -> Dictionary:
+	if data.is_empty():
+		return {}
 	var mesh := ArrayMesh.new()
-	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, data.arrays)
 	mesh.surface_set_material(0, material)
 	var node := MeshInstance3D.new()
-	node.name = "Canopy_%d_%d" % [column, row]
-	node.position = origin
+	node.name = "Canopy_%d_%d" % [int(data.column), int(data.row)]
+	node.position = data.origin
 	node.mesh = mesh
 	node.custom_aabb = mesh.get_aabb()
 	node.visibility_range_end = 3000.0
-	node.set_meta("active_cells", active_cells)
-	node.set_meta("represented_area_m2", area)
-	node.set_meta("cell_column", column)
-	node.set_meta("cell_row", row)
-	node.set_meta("boundary_edges", boundary_edges)
-	node.set_meta("surface_corners", corners.size())
-	node.set_meta("surface_cells", surface_cells)
-	return {"node": node, "active_cells": active_cells, "represented_area_m2": area}
+	node.set_meta("active_cells", int(data.active_cells))
+	node.set_meta("represented_area_m2", float(data.represented_area_m2))
+	node.set_meta("cell_column", int(data.column))
+	node.set_meta("cell_row", int(data.row))
+	node.set_meta("boundary_edges", int(data.boundary_edges))
+	node.set_meta("surface_corners", int(data.surface_corners))
+	node.set_meta("surface_cells", int(data.surface_cells))
+	return {"node": node, "active_cells": int(data.active_cells), "represented_area_m2": float(data.represented_area_m2)}
 
 static func _set_owner(node: Node, owner_node: Node) -> void:
 	node.owner = owner_node

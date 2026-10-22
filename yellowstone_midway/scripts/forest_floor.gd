@@ -12,6 +12,7 @@ const BARK_NORMAL := "res://assets/imported/pine_tree_01/textures/pine_tree_01_b
 const BARK_TEXTURE := "res://assets/imported/pine_tree_01/textures/pine_tree_01_bark_diff_1k.jpg"
 const BIN_SIZE_M := 64.0
 static var _asset_cache: Dictionary = {}
+static var _bounds_cache: Dictionary = {}
 
 static func build(parent: Node3D, data_path: String) -> bool:
 	var source := read_source(data_path)
@@ -67,12 +68,26 @@ static func build(parent: Node3D, data_path: String) -> bool:
 
 ## Emit one kind/guild/variant bin as one MultiMeshInstance3D per asset LOD.
 static func _emit_bin(group: Node3D, key: String, entries: Array, center: Vector3, node_position: Vector3) -> bool:
-	var first: Dictionary = entries[0]
-	var assets := _assets(first)
-	if assets.is_empty():
+	if _assets(entries[0]).is_empty():
 		return _error("Forest-floor assets are unavailable for %s" % key)
-	for asset: Array in assets:
-		var mesh: Mesh = asset[0]
+	var plan := _plan_bin(key, entries, center)
+	if plan.has("error"):
+		return _error(str(plan.error))
+	_install_bin(group, plan, node_position)
+	return true
+
+## Instance buffers for one bin from cached assets; worker-safe after prewarm().
+static func _plan_bin(key: String, entries: Array, center: Vector3) -> Dictionary:
+	var first: Dictionary = entries[0]
+	var asset_key := _asset_key(first)
+	var assets: Array = _asset_cache.get(asset_key, [])
+	if assets.is_empty():
+		return {"error": "Forest-floor assets are unavailable for %s" % key}
+	var asset_bounds: Array = _bounds_cache[asset_key]
+	var batches: Array = []
+	for asset_index: int in assets.size():
+		var asset: Array = assets[asset_index]
+		var mesh_bounds: AABB = asset_bounds[asset_index]
 		var instance_buffer := PackedFloat32Array()
 		var bounds := AABB()
 		var ids: Array[String] = []
@@ -80,43 +95,52 @@ static func _emit_bin(group: Node3D, key: String, entries: Array, center: Vector
 			var transform := instance_transform(record, str(asset[4]), asset[1])
 			transform.origin -= center
 			if not transform.is_finite() or transform.basis.determinant() <= 0.0:
-				return _error("Forest-floor transform is invalid: %s" % record.id)
+				return {"error": "Forest-floor transform is invalid: %s" % record.id}
 			_append_transform(instance_buffer, transform)
-			var instance_bounds: AABB = transform * mesh.get_aabb()
+			var instance_bounds: AABB = transform * mesh_bounds
 			if first.kind in ["understory_card", "litter"]:
 				instance_bounds = instance_bounds.expand(transform.origin)
 			bounds = instance_bounds if ids.is_empty() else bounds.merge(instance_bounds)
 			ids.append(record.id)
+		batches.append({"asset": asset_index, "buffer": instance_buffer, "bounds": bounds, "ids": ids})
+	return {"key": key, "asset_key": asset_key, "kind": str(first.kind), "guild": str(first.get("guild", "woody")), "count": entries.size(), "batches": batches}
+
+## Emit one planned bin as one MultiMeshInstance3D per asset LOD; main thread only.
+static func _install_bin(group: Node3D, plan: Dictionary, node_position: Vector3) -> void:
+	var assets: Array = _asset_cache[plan.asset_key]
+	var kind: String = plan.kind
+	for batch: Dictionary in plan.batches:
+		var asset: Array = assets[int(batch.asset)]
+		var bounds: AABB = batch.bounds
 		var multimesh := MultiMesh.new()
 		multimesh.transform_format = MultiMesh.TRANSFORM_3D
-		multimesh.mesh = mesh
-		multimesh.instance_count = entries.size()
-		multimesh.buffer = instance_buffer
+		multimesh.mesh = asset[0]
+		multimesh.instance_count = int(plan.count)
+		multimesh.buffer = batch.buffer
 		multimesh.custom_aabb = bounds.grow(0.30)
 		var node := MultiMeshInstance3D.new()
-		node.name = key + "_%s_%d" % [str(asset[4]), int(asset[2])]
+		node.name = str(plan.key) + "_%s_%d" % [str(asset[4]), int(asset[2])]
 		node.position = node_position
 		node.multimesh = multimesh
-		node.visibility_range_begin = float(asset[2]) if first.kind == "log" else maxf(0.0, float(asset[2]) - 8.0)
+		node.visibility_range_begin = float(asset[2]) if kind == "log" else maxf(0.0, float(asset[2]) - 8.0)
 		node.visibility_range_end = asset[3]
 		node.set_meta("root_visibility_range", [float(asset[2]), float(asset[3])])
-		if first.kind in ["understory_card", "litter"]:
+		if kind in ["understory_card", "litter"]:
 			var padding := multimesh.custom_aabb.size.length() * 0.5
 			node.visibility_range_begin = maxf(0.0, float(asset[2]) - 8.0 - padding)
 			node.visibility_range_end = float(asset[3]) + padding
 			node.set_meta("batch_visibility_padding_m", padding)
-		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if first.kind in ["understory_card", "litter"] else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-		node.set_meta("floor_kind", str(first.kind))
+		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if kind in ["understory_card", "litter"] else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		node.set_meta("floor_kind", kind)
 		node.set_meta("floor_part", str(asset[4]))
-		node.set_meta("guild", str(first.get("guild", "woody")))
-		node.set_meta("source_ids", ids)
+		node.set_meta("guild", str(plan.guild))
+		node.set_meta("source_ids", batch.ids)
 		node.set_meta("evidence_class", "authored")
 		group.add_child(node)
-	return true
 
-## Build the authored floor records owned by one tile rectangle under the tile node.
-static func build_window(tile: Node3D, records: Array, descriptor: Dictionary) -> Dictionary:
-	if records.is_empty() or tile == null:
+## Instance buffers for the floor records owned by one tile rectangle; worker-safe after prewarm().
+static func plan_window(records: Array, descriptor: Dictionary) -> Dictionary:
+	if records.is_empty():
 		return {}
 	var origin := Vector2(float(descriptor.origin_x_m), float(descriptor.origin_z_m))
 	var size: float = float(descriptor.size_m)
@@ -126,13 +150,24 @@ static func build_window(tile: Node3D, records: Array, descriptor: Dictionary) -
 	for record: Dictionary in records:
 		var kind := str(record.get("kind", ""))
 		if not LIMITS.has(kind) or str(record.get("id", "")).is_empty() or not record.get("position") is Array:
-			_error("Forest-floor page record is invalid: %s" % str(record.get("id", "")))
-			return {}
+			return {"error": "Forest-floor page record is invalid: %s" % str(record.get("id", ""))}
 		var variant := Lodgepole.variation_key(record) if kind == "snag" else "0"
 		var key := "%s_%s_%s" % [kind, str(record.get("guild", "woody")), variant]
 		if not bins.has(key):
 			bins[key] = []
 		bins[key].append(record)
+	var planned: Array = []
+	for key: String in bins:
+		var bin := _plan_bin(key, bins[key], center)
+		if bin.has("error"):
+			return bin
+		planned.append(bin)
+	return {"bins": planned, "records": records.size(), "node_position": node_position}
+
+## Build a planned floor window under the tile node; main thread only.
+static func install_window(tile: Node3D, plan: Dictionary) -> Dictionary:
+	if plan.is_empty() or tile == null:
+		return {}
 	var group := Node3D.new()
 	group.name = GROUP_NAME
 	group.set_meta("evidence_class", "authored")
@@ -140,15 +175,11 @@ static func build_window(tile: Node3D, records: Array, descriptor: Dictionary) -
 	group.set_meta("uncertainty", "unknown")
 	group.set_meta("run_mode", "illustrative")
 	group.set_meta("log_ground_contact_scope", "sampled_profile_with_bounded_clearance")
-	var batches := 0
-	for key: String in bins:
-		if not _emit_bin(group, key, bins[key], center, node_position):
-			group.free()
-			return {}
-		batches += 1
-	group.set_meta("records", records.size())
+	for bin: Dictionary in plan.bins:
+		_install_bin(group, bin, plan.node_position)
+	group.set_meta("records", int(plan.records))
 	tile.add_child(group)
-	return {"group": group, "records": records.size(), "bins": batches}
+	return {"group": group, "records": int(plan.records), "bins": plan.bins.size()}
 
 static func read_source(data_path: String) -> Dictionary:
 	if not FileAccess.file_exists(data_path):
@@ -293,13 +324,32 @@ static func _log_contact_valid(record: Dictionary, maximum_gap: float) -> bool:
 		return false
 	return minimum < 0.000001
 
-static func _assets(record: Dictionary) -> Array:
+## Build the shared assets of every record kind, guild and snag variant.
+static func prewarm() -> bool:
+	var keys: Array = [{"kind": "log"}, {"kind": "litter"}]
+	for guild: String in GUILDS:
+		keys.append({"kind": "understory_card", "guild": guild})
+	for variant: int in range(4):
+		keys.append({"kind": "snag", "variant": variant})
+	for record: Dictionary in keys:
+		if _assets(record).is_empty():
+			return false
+	return true
+
+static func _asset_key(record: Dictionary) -> String:
 	var variant := Lodgepole.variation_key(record) if record.kind == "snag" else "0"
-	var key := "%s:%s:%s" % [record.kind, str(record.get("guild", "woody")), variant]
+	return "%s:%s:%s" % [record.kind, str(record.get("guild", "woody")), variant]
+
+static func _assets(record: Dictionary) -> Array:
+	var key := _asset_key(record)
 	if not _asset_cache.has(key):
 		var assets := _make_assets(record)
 		if assets.is_empty():
 			return []
+		var bounds: Array = []
+		for asset: Array in assets:
+			bounds.append((asset[0] as Mesh).get_aabb())
+		_bounds_cache[key] = bounds
 		_asset_cache[key] = assets
 	return _asset_cache[key]
 

@@ -470,6 +470,10 @@ func audit_streamed_vegetation(stream: Node, observer: Camera3D, frame: RefCount
     if not ready:
         return
     var pager: Node = stream.get_parent().get_node_or_null("VegetationPager")
+    var deadline: int = Time.get_ticks_msec() + 120000
+    while pager != null and not pager.is_settled() and Time.get_ticks_msec() < deadline:
+        await process_frame
+    check(pager != null and pager.is_settled() and pager.preparation_error().is_empty(), "vegetation asset preparation did not complete")
     for _tick: int in MAX_FRAMES:
         if pager == null or pager.pending_count() == 0:
             break

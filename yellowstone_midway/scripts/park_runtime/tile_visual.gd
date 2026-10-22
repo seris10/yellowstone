@@ -33,6 +33,10 @@ func rebase(frame: RefCounted) -> void:
     reset_physics_interpolation()
 
 func sample_height(x_m: float, z_m: float) -> float:
+    return sample_heights(descriptor, heights, x_m, z_m)
+
+## Height on the tile's render triangles from plain descriptor and height data; worker-safe.
+static func sample_heights(descriptor: Dictionary, heights: PackedFloat32Array, x_m: float, z_m: float) -> float:
     var cells: int = int(descriptor.mesh_cells)
     var n: int = cells + 1
     var spacing: float = float(descriptor.size_m) / cells

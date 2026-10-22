@@ -12,6 +12,7 @@ const DISPLAY_CROWN_RATIO_FLOOR := 0.35
 static var _metadata_cache: Dictionary = {}
 static var _asset_cache: Dictionary = {}
 static var _texture_cache: Dictionary = {}
+static var _staged_images: Dictionary = {}
 
 static func archetype(record: Dictionary) -> String:
 	var requested := str(record.get("archetype", ""))
@@ -189,6 +190,16 @@ static func cutout_texture(filename: String) -> Texture2D:
 	return texture
 
 static func cutout_image(filename: String) -> Image:
+	if _staged_images.has(filename):
+		return _staged_images[filename]
+	return read_cutout_image(filename)
+
+## Hold verified cutout images for the next texture builds; an empty dictionary releases them.
+static func stage_cutout_images(images: Dictionary) -> void:
+	_staged_images = images
+
+## Read and verify one cutout mip chain; worker-safe once metadata() is cached.
+static func read_cutout_image(filename: String) -> Image:
 	var entry: Variant = metadata().get("cutout_mips", {}).get(filename)
 	if not entry is Dictionary or metadata().get("billboard_mips_pending", true):
 		push_error("Lodgepole coverage-preserving mips are missing: " + filename)

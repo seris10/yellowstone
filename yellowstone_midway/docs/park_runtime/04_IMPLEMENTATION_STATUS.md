@@ -6,11 +6,11 @@
 |---|---|
 | `tests/park_runtime` Python tests (`yellowstone_python/tests/park_runtime`) | 115 passed |
 | `tests/park_runtime/run_tests.gd` on the synthetic fixture | 10 checks, 0 failures |
-| `tests/park_runtime/stream_midway_check.gd` on `data/park_composed` (1 m core plus master, feature pages) | 0 failures (3439 to 3580 checks; the count varies with residency timing); leaf heights equal the river-carved legacy core inside the core footprint (Python carve matches `core_terrain.gd` `_load_heights` to 7.9e-5 m over 361201 vertices) and the master raster outside it, worst 1.4e-6 m over 1520 boundary samples and 4.5e-5 m at 11 streamed stops; removed pool area equals each thermal polygon area; bridge decks clear the terrain; three water-covered leaf tiles carry no terrain surface; route meshes, pool and river surfaces, vegetation, canopy, forest floor and wildlife revisit audited per tile; 121 resident tiles, 10.4 MiB estimate |
+| `tests/park_runtime/stream_midway_check.gd` on `data/park_composed` (1 m core plus master, feature pages) | 0 failures (3439 to 3977 checks; the count varies with residency timing); leaf heights equal the river-carved legacy core inside the core footprint (Python carve matches `core_terrain.gd` `_load_heights` to 7.9e-5 m over 361201 vertices) and the master raster outside it, worst 1.4e-6 m over 1520 boundary samples and 4.5e-5 m at 11 streamed stops; removed pool area equals each thermal polygon area; bridge decks clear the terrain; three water-covered leaf tiles carry no terrain surface; route meshes, pool and river surfaces, vegetation, canopy, forest floor and wildlife revisit audited per tile; 121 resident tiles, 10.4 MiB estimate |
 | `tests/park_runtime/ground_rebase_check.gd` | 272 checks, 0 failures |
 | `tests/park_runtime/field_codec_check.gd` on the Python golden packet | 9 checks, 0 failures |
 | `tests/park_runtime/client_service_check.gd` against the reference service | 11 checks, 0 failures (not rerun since the package install) |
-| `--smoke-test` with streaming off and on (`data/park_composed`) | `SMOKE ok=true` in both; a catalog without a feature index exits 1 |
+| `--smoke-test` with streaming off and on (`data/park_composed`) | `SMOKE ok=true` in both; the streamed run asserts vegetation preparation settled without error; a catalog without a feature index exits 1 |
 
 Two defects in the supplied GDScript were found by running it and are fixed here:
 the planner returned an untyped array where `Array[String]` is declared, and the field
@@ -24,12 +24,15 @@ the legacy `_load_heights` semantics; the carve keeps the stitched outermost ver
 to the master surface, and the carve report rides in the core source provenance. The
 pack is `data/park_composed/`; `data/park/` stays the master-only baseline.
 
-Done since the package install (`fixes-62` to `fixes-64` ledgers): the streamed boot
+Done since the package install (`fixes-62` to `fixes-65` ledgers): the streamed boot
 branch behind `park_streaming/enabled` (default off) reading `data/park_composed`, the
 shared ground material, pool, river and route geometry with collision, vegetation and
 wildlife paging, and the performance protocol runs (`evidence/park-streaming-benchmark-*`).
+Vegetation shared assets load during the boot hold, and per-tile instance buffers are
+planned on worker threads; the main-thread install takes at most 2.0-3.0 ms per tile in
+the headless stream check (`fixes-65`), with visible-renderer frame times not remeasured.
 Not yet done: GPU-millisecond attribution, the 18-case regression matrix of
-`03_ACCEPTANCE.md`, main-thread vegetation build cost, steam for streamed thermal pools,
+`03_ACCEPTANCE.md`, steam for streamed thermal pools,
 the service wiring that feeds native engine state to `ParkClient`, and the items under
 Explicit integration work remaining below.
 
