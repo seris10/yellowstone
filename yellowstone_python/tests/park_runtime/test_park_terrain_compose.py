@@ -1,14 +1,16 @@
 """Core and master height composition, ownership and feature page checks."""
 import hashlib
 import json
+import math
 from pathlib import Path
 
 import numpy as np
 import pytest
 
-from yellowstone_python.park_runtime.feature_pages import verify_feature_pages
+from yellowstone_python.park_runtime.feature_pages import river_features, verify_feature_pages
 from yellowstone_python.park_runtime.terrain_pack import (
-    build_composed_pack, build_pack, compose_window, core_window, coverage_report, load_core, triangle_sample)
+    build_composed_pack, build_pack, carve_river_beds, compose_window, core_window, coverage_report,
+    load_core, river_bed_segments, triangle_sample)
 
 DATA = Path(__file__).resolve().parents[3]/"yellowstone_midway"/"data"
 needs_data = pytest.mark.skipif(not (DATA/"terrain.f32").exists() or not (DATA/"core_terrain").exists(),
@@ -127,15 +129,100 @@ def test_existing_output_is_not_overwritten(tmp_path):
         build_small(tmp_path)
 
 
+def test_carve_lowers_channel_to_bed_and_blends_banks():
+    heights = np.full((9, 9), 10., dtype="<f4")
+    rivers = [{"id": "r", "width": 4.0, "points": [[2., 8., 0.], [2., 8., 8.]]}]
+    report = carve_river_beds(heights, cell_m=1., x_min_m=0., z_min_m=0., rivers=rivers)
+    assert float(heights[4, 2]) == pytest.approx(7.55, abs=1e-6)
+    assert float(heights[4, 4]) == pytest.approx(7.55, abs=1e-6)
+    assert float(heights[4, 5]) == pytest.approx(10.-2.45*0.25925926, abs=1e-4)
+    assert float(heights[4, 6]) == 10.
+    assert report["changed_vertices"] > 0
+    assert report["maximum_lowering_m"] == pytest.approx(2.45, abs=1e-5)
+    assert report["value_class"] == "authored_render_bed"
+
+
+def test_carve_depth_selects_wide_or_narrow():
+    rivers = [{"id": "wide", "width": 22.0, "points": [[0., 5., 0.], [4., 5., 0.]]},
+              {"id": "narrow", "width": 3.5, "points": [[0., 5., 4.], [4., 5., 4.]]}]
+    segments = river_bed_segments(rivers)
+    assert [s[3] for s in segments] == [0.53, 0.45]
+    assert [s[2] for s in segments] == [11.0, 1.75]
+
+
+def test_carve_keeps_the_stitched_boundary_ring():
+    heights = np.full((9, 9), 10., dtype="<f4")
+    rivers = [{"id": "r", "width": 4.0, "points": [[4., 8., -4.], [4., 8., 12.]]}]
+    carve_river_beds(heights, cell_m=1., x_min_m=0., z_min_m=0., rivers=rivers)
+    assert float(heights[4, 4]) == pytest.approx(7.55, abs=1e-6)
+    assert np.all(heights[0, :] == 10.) and np.all(heights[8, :] == 10.)
+    assert np.all(heights[:, 0] == 10.) and np.all(heights[:, 8] == 10.)
+
+
+def test_carve_never_raises_vertices():
+    heights = np.full((5, 5), 3., dtype="<f4")
+    rivers = [{"id": "r", "width": 4.0, "points": [[2., 8., 0.], [2., 8., 4.]]}]
+    report = carve_river_beds(heights, cell_m=1., x_min_m=0., z_min_m=0., rivers=rivers)
+    assert report["changed_vertices"] == 0
+    assert np.all(heights == 3.)
+
+
+def test_carve_rejects_river_without_geometry():
+    with pytest.raises(ValueError, match="points and positive width"):
+        river_bed_segments([{"id": "r", "width": 0.0, "points": [[0., 0., 0.], [1., 0., 1.]]}])
+    with pytest.raises(ValueError, match="points and positive width"):
+        river_bed_segments([{"id": "r", "width": 4.0, "points": [[0., 0., 0.]]}])
+
+
+def test_composed_pack_carves_core_river_beds(tmp_path):
+    world = small_world()
+    world["rivers"] = [{"id": "r", "width": 4.0, "points": [[44., 6., 24.], [44., 6., 72.]]}]
+    (tmp_path/"world.json").write_text(json.dumps(world))
+    catalog = build_small(tmp_path, world_path=tmp_path/"world.json")
+    source = next(s for s in catalog["sources"] if s["pack_id"] == "core")
+    assert source["river_bed_carve"]["changed_vertices"] > 0
+    assert "river bed carve" in source["composition"]
+    core = load_core(tmp_path/"core")
+    carve_river_beds(core["heights"], cell_m=1., x_min_m=40., z_min_m=24., rivers=world["rivers"])
+    composed = compose_window(master_raster(), core, window=(0., 0., 128.),
+                              master_origin_x_m=0., master_origin_z_m=0.)
+    root = next(r for r in catalog["roots"] if r["key"] == "core:3:0:0")
+    node = json.loads((tmp_path/"pack"/root["page"]).read_text())
+    while node["tile"]["lod"] > 0:
+        child = next(c for c in node["children"]
+                     if c["origin_x_m"] <= 44. <= c["origin_x_m"]+c["size_m"]
+                     and c["origin_z_m"] <= 44. <= c["origin_z_m"]+c["size_m"])
+        node = json.loads((tmp_path/"pack"/child["page"]).read_text())
+    assert (node["tile"]["origin_x_m"], node["tile"]["origin_z_m"]) == (32., 32.)
+    leaf = np.frombuffer((tmp_path/"pack"/node["heights"]["path"]).read_bytes(), dtype="<f4").reshape(17, 17)
+    assert np.array_equal(leaf, composed[32:49, 32:49])
+    assert float(leaf[12, 12]) == pytest.approx(5.55, abs=1e-6)
+
+
+def test_composed_pack_without_world_skips_the_carve(tmp_path):
+    catalog = build_small(tmp_path)
+    source = next(s for s in catalog["sources"] if s["pack_id"] == "core")
+    assert "river_bed_carve" not in source
+
+
 def small_world():
     ring = [[100., 40.], [112., 40.], [112., 52.], [100., 52.]]
     near_edge = [[250., 20.], [262., 20.], [262., 30.], [250., 30.]]
     route = [[x, 5.+0.01*x, 60.+0.1*x] for x in range(0, 500, 20)]
-    return {"pools": [{"id": "p1", "name": "Hot", "thermal": True, "ring": ring, "center": [106., 3.5, 46.]},
-                      {"id": "p2", "name": "Edge", "thermal": True, "ring": near_edge, "center": [256., 4.0, 25.]},
-                      {"id": "lake", "thermal": False, "ring": ring, "center": [0., 0., 0.]}],
+    river = [[20.+2.*k, 10.+0.05*k, 300.+2.0*k] for k in range(80)]
+    tributary = [[450.-11.0*k, 8., 480.-4.6*k] for k in range(40)]
+    tributary[-1] = list(river[0])
+    return {"pools": [{"id": "p1", "name": "Hot", "thermal": True, "temperature_c": 71.5,
+                       "ring": ring, "center": [106., 3.5, 46.]},
+                      {"id": "p2", "name": "Edge", "thermal": True, "temperature_c": 45.0,
+                       "ring": near_edge, "center": [256., 4.0, 25.]},
+                      {"id": "lake", "thermal": False, "temperature_c": 12.0,
+                       "ring": ring, "center": [0., 0., 0.]}],
             "routes": [{"id": "r1", "kind": "trail", "name": "Boardwalk", "surface": "Boardwalk", "width": 2.4,
-                        "source_id": 7, "points": route, "bridge_spans": [[10, 14]], "bridge_approach_spans": [[8, 10]]}]}
+                        "source_id": 7, "points": route, "bridge_spans": [[10, 14]], "bridge_approach_spans": [[8, 10]]}],
+            "rivers": [{"id": "rv1", "name": "TEST RIVER", "width": 12.0, "flow_mps": 0.8, "points": river},
+                       {"id": "rv2", "name": "TEST TRIBUTARY", "width": 3.0, "flow_mps": 0.4,
+                        "points": tributary}]}
 
 
 def pack_with_world(tmp_path):
@@ -160,15 +247,20 @@ def test_feature_pages_bind_to_the_catalog_hash_chain(tmp_path):
         verify_feature_pages(tmp_path/"pack", catalog)
 
 
-def test_pool_pages_keep_thermal_rings_only_and_cross_cell_halo(tmp_path):
+def test_pool_pages_keep_all_pools_with_thermal_flags_and_cross_cell_halo(tmp_path):
     pack_with_world(tmp_path)
     pages = read_pages(tmp_path, "pools")
     ids = {f["id"] for page in pages.values() for f in page["features"]}
-    assert ids == {"p1", "p2"}
+    assert ids == {"p1", "p2", "lake"}
+    flags = {f["id"]: f["thermal"] for page in pages.values() for f in page["features"]}
+    assert flags == {"p1": True, "p2": True, "lake": False}
+    temperatures = {f["id"]: f["temperature_c"] for page in pages.values() for f in page["features"]}
+    assert temperatures["p1"] == 71.5 and temperatures["lake"] == 12.0
     # The second pool lies within the halo of its neighbor cell, so two pages hold it.
     holders = [name for name, page in pages.items() if any(f["id"] == "p2" for f in page["features"])]
     assert len(holders) == 2
-    assert all(f["water_y_m"] in (3.5, 4.0) for page in pages.values() for f in page["features"])
+    thermal = [f for page in pages.values() for f in page["features"] if f["thermal"]]
+    assert all(f["water_y_m"] in (3.5, 4.0) for f in thermal)
 
 
 def test_route_chunks_cover_every_segment_and_overlap_across_cells(tmp_path):
@@ -179,6 +271,9 @@ def test_route_chunks_cover_every_segment_and_overlap_across_cells(tmp_path):
     covered = set()
     for chunk in chunks:
         assert chunk["points"] == small_world()["routes"][0]["points"][chunk["first_point"]:chunk["last_point"]+1]
+        assert chunk["arcs"][0] == pytest.approx(0.0 if chunk["first_point"] == 0 else chunk["arcs"][0])
+        assert [b-a for a, b in zip(chunk["arcs"], chunk["arcs"][1:])] == pytest.approx(
+            [math.dist(a, b) for a, b in zip(chunk["points"], chunk["points"][1:])])
         assert chunk["continues_before"] == (chunk["first_point"] > 0)
         assert chunk["continues_after"] == (chunk["last_point"] < total-1)
         covered.update(range(chunk["first_point"], chunk["last_point"]))
@@ -225,7 +320,64 @@ def test_real_pack_has_exact_ownership_and_feature_pages(tmp_path):
     routes = {c["id"] for page in read_pages_at(tmp_path/"park", "routes") for c in page["features"]}
     assert routes == {r["id"] for r in world["routes"]}
     pools = {f["id"] for page in read_pages_at(tmp_path/"park", "pools") for f in page["features"]}
-    assert pools == {p["id"] for p in world["pools"] if p.get("thermal")}
+    assert pools == {p["id"] for p in world["pools"]}
+    rivers = {c["id"] for page in read_pages_at(tmp_path/"park", "rivers") for c in page["features"]}
+    assert rivers == {r["id"] for r in world["rivers"]}
+
+
+def test_river_chunks_cover_every_station_segment_and_share_endpoints(tmp_path):
+    pack_with_world(tmp_path)
+    pages = read_pages(tmp_path, "rivers")
+    chunks = [c for page in pages.values() for c in page["features"]]
+    assert {c["id"] for c in chunks} == {"rv1", "rv2"}
+    for river_id, source in (("rv1", small_world()["rivers"][0]), ("rv2", small_world()["rivers"][1])):
+        parts = [c for c in chunks if c["id"] == river_id]
+        total = parts[0]["river_station_count"]
+        covered = set()
+        for chunk in parts:
+            assert chunk["stations"][-1]["arc"] > chunk["stations"][0]["arc"] or len(parts) == 1
+            assert chunk["continues_before"] == (chunk["first_station"] > 0)
+            assert chunk["continues_after"] == (chunk["last_station"] < total-1)
+            covered.update(range(chunk["first_station"], chunk["last_station"]))
+        assert covered == set(range(total-1))
+        assert len({c["river_sha256"] for c in parts}) == 1
+        assert all(c["sample_z"] == pytest.approx(source["points"][len(source["points"])//2][2])
+                   for c in parts)
+
+
+def test_river_stations_follow_the_bake_ribbon_contract(tmp_path):
+    pack_with_world(tmp_path)
+    pages = read_pages(tmp_path, "rivers")
+    rv1 = [c for page in pages.values() for c in page["features"] if c["id"] == "rv1"]
+    stations = sorted((s for c in rv1 for s in c["stations"]), key=lambda s: s["arc"])
+    # Resampled stations hold the 2 m spacing inside a chunk run.
+    steps = [stations[k+1]["arc"]-stations[k]["arc"] for k in range(len(stations)-1)]
+    interior = [s for s in steps if s > 0]
+    assert min(interior) > 0.5 and max(interior) <= 2.0+1e-9
+    # Visual half width follows width*0.5 plus the clamped bank margin.
+    assert all(c["visual_half_m"] == pytest.approx(6.0+min(max(12.0*0.23, 0.8), 5.0)) for c in rv1)
+    # Reaches never fold inside the minimum fraction of the visual half width.
+    for c in rv1:
+        for s in c["stations"]:
+            assert s["reach_p"] >= c["visual_half_m"]*0.30-1e-9
+            assert s["reach_m"] >= c["visual_half_m"]*0.30-1e-9
+            assert 0.0 <= s["fade"] <= 1.0
+    # The tributary joins the main river start, so both junction ends stay capped.
+    assert all(not c["free_start"] for c in rv1)
+    assert all(c["free_end"] for c in rv1)
+    rv2 = [c for page in pages.values() for c in page["features"] if c["id"] == "rv2"]
+    assert all(c["free_start"] for c in rv2)
+    assert all(not c["free_end"] for c in rv2)
+
+
+def test_river_junction_snapping_matches_bake_centroid():
+    world = small_world()
+    rivers = river_features(world)
+    rv1 = next(r for r in rivers if r["id"] == "rv1")
+    rv2 = next(r for r in rivers if r["id"] == "rv2")
+    joined = rv2["stations"][-1]["p"]
+    start = rv1["stations"][0]["p"]
+    assert math.hypot(joined[0]-start[0], joined[2]-start[2]) <= 2.0
 
 
 def read_pages_at(pack, layer):

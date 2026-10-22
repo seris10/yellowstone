@@ -76,15 +76,17 @@ class RuntimeService:
                 self.interest = candidate
             return {"interest_sequence": self.interest.sequence}
         if kind == "clock":
+            paused = self.paused
+            scale = self.time_scale
             if "paused" in payload:
                 if not isinstance(payload["paused"], bool):
                     raise ValueError("paused must be boolean")
-                self.paused = payload["paused"]
+                paused = payload["paused"]
             if "time_scale" in payload:
                 scale = finite(payload["time_scale"], "time_scale")
                 if not 0 < scale <= 600:
                     raise ValueError("time_scale must be in (0,600]")
-                self.time_scale = scale
+            self.paused, self.time_scale = paused, scale
             return {"paused": self.paused, "time_scale": self.time_scale}
         if payload.get("session_id") != self.runtime.session_id:
             raise ValueError("stale session; obtain a current publication")

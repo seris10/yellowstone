@@ -179,6 +179,64 @@ def load_core(core_dir) -> dict:
             "sources": {name: _sha256_file(core_dir/name) for name in
                         ("core_terrain.json", "core_heightfield.f32", "core_microrelief.f32", "stitch.json")}}
 
+# Authored bed depths and bank blend from river_terrain.gd.
+WIDE_BED_DEPTH_M = 0.53
+NARROW_BED_DEPTH_M = 0.45
+BANK_BLEND_M = 1.5
+
+def river_bed_segments(rivers) -> list:
+    """Return carve segments (a, b, half width, depth) from world.json rivers."""
+    segments = []
+    for river in rivers:
+        points = river.get("points", [])
+        width = float(river.get("width", 0.))
+        if len(points) < 2 or width <= 0.:
+            raise ValueError("river display geometry requires points and positive width")
+        depth = WIDE_BED_DEPTH_M if width > 8. else NARROW_BED_DEPTH_M
+        for a, b in zip(points, points[1:]):
+            dx, dz = b[0]-a[0], b[2]-a[2]
+            if dx*dx+dz*dz > 1e-6:
+                segments.append((np.asarray(a, dtype=np.float64), np.asarray(b, dtype=np.float64),
+                                 width*0.5, depth))
+    return segments
+
+def _smoothstep(lo, hi, x):
+    t = np.clip((x-lo)/(hi-lo), 0., 1.)
+    return t*t*(3.-2.*t)
+
+def carve_river_beds(heights: np.ndarray, *, cell_m: float, x_min_m: float, z_min_m: float,
+                     rivers) -> dict:
+    """Lower grid vertices toward authored channel beds and return the carve report."""
+    original = heights.astype(np.float64)
+    nz, nx = heights.shape
+    for a, b, half, depth in river_bed_segments(rivers):
+        radius = half+BANK_BLEND_M
+        # Keep the stitched outermost vertex ring fixed to the master surface.
+        lo_x = max(1, math.floor((min(a[0], b[0])-radius-x_min_m)/cell_m))
+        lo_z = max(1, math.floor((min(a[2], b[2])-radius-z_min_m)/cell_m))
+        hi_x = min(nx-2, math.ceil((max(a[0], b[0])+radius-x_min_m)/cell_m))
+        hi_z = min(nz-2, math.ceil((max(a[2], b[2])+radius-z_min_m)/cell_m))
+        if lo_x > hi_x or lo_z > hi_z:
+            continue
+        px, pz = np.meshgrid(x_min_m+np.arange(lo_x, hi_x+1)*cell_m,
+                             z_min_m+np.arange(lo_z, hi_z+1)*cell_m)
+        dx, dz = b[0]-a[0], b[2]-a[2]
+        t = np.clip(((px-a[0])*dx+(pz-a[2])*dz)/(dx*dx+dz*dz), 0., 1.)
+        distance = np.hypot(px-(a[0]+dx*t), pz-(a[2]+dz*t))
+        weight = 1.-_smoothstep(half, radius, distance)
+        bed_y = a[1]+(b[1]-a[1])*t-depth
+        target = original[lo_z:hi_z+1, lo_x:hi_x+1]*(1.-weight)+bed_y*weight
+        block = heights[lo_z:hi_z+1, lo_x:hi_x+1].astype(np.float64)
+        updated = np.where(distance <= radius, np.minimum(block, target), block)
+        heights[lo_z:hi_z+1, lo_x:hi_x+1] = updated.astype("<f4")
+    cut = original-heights.astype(np.float64)
+    changed = cut > 1e-6
+    return {"value_class": "authored_render_bed", "uncertainty": "unknown",
+            "changed_vertices": int(np.count_nonzero(changed)),
+            "maximum_lowering_m": float(cut[changed].max()) if np.any(changed) else 0.,
+            "wide_depth_m": WIDE_BED_DEPTH_M, "narrow_depth_m": NARROW_BED_DEPTH_M,
+            "bank_blend_m": BANK_BLEND_M}
+
 def core_window(core: dict, *, root_m: float, origin_x_m: float, origin_z_m: float, extent_m: float):
     """Return the smallest square block of whole master roots covering the core footprint."""
     x0 = origin_x_m+math.floor((core["x_min_m"]-origin_x_m)/root_m)*root_m
@@ -247,12 +305,18 @@ def refresh_revision(catalog: dict) -> dict:
 
 def build_composed_pack(master, core_dir, output: Path, *, world_path=None, master_name="terrain.f32",
                         master_sha256="", pack_id="midway", core_pack_id="core", mesh_cells=32,
-                        master_root_cells=128, origin_x_m=-2048., origin_z_m=-2048., master_cell_m=4.) -> dict:
+                        master_root_cells=128, origin_x_m=-2048., origin_z_m=-2048., master_cell_m=4.,
+                        placements_path=None, overrides_path=None, forest_floor_path=None) -> dict:
     """Pack the master raster and the 1 m core as one non-overlapping source catalog."""
     output = Path(output)
     if output.exists():
         raise FileExistsError("composed pack directory exists; choose a new directory")
     core = load_core(core_dir)
+    bed_report = None
+    if world_path is not None:
+        rivers = json.loads(Path(world_path).read_text()).get("rivers", [])
+        bed_report = carve_river_beds(core["heights"], cell_m=core["cell_m"],
+                                      x_min_m=core["x_min_m"], z_min_m=core["z_min_m"], rivers=rivers)
     extent_m = (master.shape[1]-1)*master_cell_m
     window = core_window(core, root_m=master_root_cells*master_cell_m, origin_x_m=origin_x_m,
                          origin_z_m=origin_z_m, extent_m=extent_m)
@@ -276,7 +340,10 @@ def build_composed_pack(master, core_dir, output: Path, *, world_path=None, mast
                              origin_z_m=z0, mesh_cells=mesh_cells, root_cells=int(size/core["cell_m"]),
                              append=True, **frame,
                              provenance={"quality": quality, "core_sources": core["sources"],
-                                         "composition": "core heightfield plus microrelief inside the core footprint, "
+                                         **({"river_bed_carve": bed_report} if bed_report else {}),
+                                         "composition": "core heightfield plus microrelief"
+                                                        + (" with authored river bed carve" if bed_report else "")
+                                                        + " inside the core footprint, "
                                                         "master b-c triangle samples elsewhere in the window",
                                          "core_footprint_m": [core["x_min_m"], core["z_min_m"],
                                                               core["x_max_m"], core["z_max_m"]],
@@ -287,7 +354,9 @@ def build_composed_pack(master, core_dir, output: Path, *, world_path=None, mast
             raise ValueError(f"composed roots must tile the extent exactly: {report}")
         if world_path is not None:
             attach_feature_pages(Path(world_path), pack, catalog, origin_x_m=origin_x_m,
-                                 origin_z_m=origin_z_m, extent_m=extent_m)
+                                 origin_z_m=origin_z_m, extent_m=extent_m,
+                                 placements_path=placements_path, overrides_path=overrides_path,
+                                 forest_floor_path=forest_floor_path)
         os.replace(pack, output)
         return catalog
     finally:
@@ -309,7 +378,14 @@ def main():
     p.add_argument("--demo", action="store_true")
     p.add_argument("--core-dir", type=Path, help="compose the 1 m core directory with --source")
     p.add_argument("--world", type=Path, help="world.json for shoreline, pool-cut and route pages")
+    p.add_argument("--placements", type=Path, help="placements.json for vegetation pages; needs --overrides")
+    p.add_argument("--overrides", type=Path, help="placement_overrides.json for vegetation pages")
+    p.add_argument("--forest-floor", type=Path, help="forest_floor.json for forest-floor record pages")
     args = p.parse_args()
+    if (args.placements is None) != (args.overrides is None):
+        p.error("vegetation pages need --placements and --overrides together")
+    if (args.placements is not None or args.forest_floor is not None) and args.world is None:
+        p.error("vegetation and forest-floor pages need --world")
     if args.core_dir is not None:
         if args.source is None or args.source.stat().st_size != args.nx*args.nz*4:
             p.error("--core-dir requires --source with byte length nx*nz*4")
@@ -317,7 +393,9 @@ def main():
         catalog = build_composed_pack(master, args.core_dir, args.out, world_path=args.world,
                                       master_name=args.source.name, master_sha256=_sha256_file(args.source),
                                       pack_id=args.pack_id, mesh_cells=args.mesh_cells, origin_x_m=args.origin_x,
-                                      origin_z_m=args.origin_z, master_cell_m=args.cell)
+                                      origin_z_m=args.origin_z, master_cell_m=args.cell,
+                                      placements_path=args.placements, overrides_path=args.overrides,
+                                      forest_floor_path=args.forest_floor)
         print(json.dumps({"catalog": str(args.out/"catalog.json"), "roots": len(catalog["roots"]),
                           "dataset_revision": catalog["dataset_revision"]}))
         return
