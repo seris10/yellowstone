@@ -1,0 +1,1 @@
+{"cell":{"cx":0,"cz":24,"origin_x_m":-2048.0,"origin_z_m":-512.0,"size_m":64.0},"features":[{"id":"pine_103_000","kind":"pine","position":[-2028.604,8.424,-480.905],"scale":0.826,"variant":0,"yaw":4.708}],"halo_m":8.0,"layer":"vegetation","schema":"yellowstone.terrain_features.v1"}
