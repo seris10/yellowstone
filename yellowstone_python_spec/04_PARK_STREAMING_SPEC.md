@@ -305,10 +305,12 @@ state labeled as coarse, never blocks walking, and never shows fabricated fine s
 Domain lifecycle belongs to the runtime. `ParkRuntime` adds and removes domains at
 quantum boundaries, records each membership change with the domain's water, heat and
 solute stores, and keeps one checkpoint per rollback granule under a per-domain byte cap
-(`fixes-67`); it still advances every resident domain at fine resolution each quantum, and
-the LiveEngine bridge still holds the engine's own per-frame checkpoints. Park operation
-also requires the hand-off of section 7 into a coarse tier and that a domain outside the
-anticipation set advance at the coarse tier only. The six requirements of
+(`fixes-67`). For the Firehole heat transport, `residency.py` keeps every segment resident
+in one of two representations: fine segments inside the admitted anticipation set and
+coarse segments of merged control volumes on the same solver elsewhere, with activation
+spin-up in worker processes and a conservative hand-off at each change (`fixes-69`). The
+LiveEngine bridge still holds the engine's own per-frame checkpoints, and LiveEngine
+ecology, solutes and actors have no coarse representation. The six requirements of
 `yellowstone_midway/docs/park_runtime/02_SIMULATION_AND_STATE.md` (control volume
 identity, conservative restriction and prolongation, physical halos, synchronized
 subcycling, flux reconciliation across level changes, fine, coarse and adaptive

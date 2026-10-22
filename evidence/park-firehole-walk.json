@@ -1,0 +1,337 @@
+{
+ "acceptance": {
+  "activated_before_arrival": true,
+  "admission_inside_budget": true,
+  "ledger": {
+   "dispersion_cell_heat_j": -1.7462298274040222e-10,
+   "external_flux_j": -968604848.6057816,
+   "faces": [
+    {
+     "face": "firehole.s0:firehole.s1",
+     "heat_relative": 0.0,
+     "water_relative": 0.0
+    },
+    {
+     "face": "firehole.s1:firehole.s2",
+     "heat_relative": 0.0,
+     "water_relative": 0.0
+    },
+    {
+     "face": "firehole.s2:firehole.s3",
+     "heat_relative": 0.0,
+     "water_relative": 0.0
+    },
+    {
+     "face": "firehole.s3:firehole.s4",
+     "heat_relative": 1.9922971862539465e-16,
+     "water_relative": 0.0
+    },
+    {
+     "face": "firehole.s4:firehole.s5",
+     "heat_relative": 1.9973810437035426e-16,
+     "water_relative": 0.0
+    }
+   ],
+   "heat_change_j": -968604848.7304688,
+   "heat_closure_relative": 2.520502196475699e-14,
+   "lifetimes": 16,
+   "swaps": 10,
+   "throughput_j": 4946918713205.768,
+   "water_closure_relative": 1.1171539161819307e-16
+  },
+  "max_fine": 2,
+  "max_reconciliation_j": 286467917.406442,
+  "max_retire_delay_s": 10.0,
+  "max_swap_heat_relative": 1.5951748743281978e-16,
+  "max_swap_water_relative": 0.0,
+  "passed_segments": [
+   "firehole.s0",
+   "firehole.s1",
+   "firehole.s2",
+   "firehole.s3",
+   "firehole.s4"
+  ],
+  "passed_segments_coarse": true,
+  "reports_on_coarse": 0,
+  "swaps": 10,
+  "updates": 393
+ },
+ "arrivals": [
+  {
+   "arrival_wall_s": 639.2313099117895,
+   "domain_id": "firehole.s1",
+   "install_wall_s": 620.0,
+   "lead_s": 19.23130991178948
+  },
+  {
+   "arrival_wall_s": 1291.5590961475077,
+   "domain_id": "firehole.s2",
+   "install_wall_s": 1280.0,
+   "lead_s": 11.559096147507717
+  },
+  {
+   "arrival_wall_s": 1945.239482105439,
+   "domain_id": "firehole.s3",
+   "install_wall_s": 1930.0,
+   "lead_s": 15.239482105439038
+  },
+  {
+   "arrival_wall_s": 2600.529730110502,
+   "domain_id": "firehole.s4",
+   "install_wall_s": 2590.0,
+   "lead_s": 10.529730110501987
+  },
+  {
+   "arrival_wall_s": 3257.325668310775,
+   "domain_id": "firehole.s5",
+   "install_wall_s": 3240.0,
+   "lead_s": 17.3256683107752
+  }
+ ],
+ "capacity_cell_s_per_s": 244048.1769357464,
+ "diagnostic_walker_temperature": {
+  "max_abs_delta_c": 0.013838061594626083,
+  "mean_abs_delta_c": 0.007242706646220063,
+  "reference": "single-domain River on the same forcing and step",
+  "samples": 393
+ },
+ "input": {
+  "river_replay": "data/river_replay.json",
+  "sha256": "bf998a65640ebeb6b7707c8cf7b0901e94bd496467749d472622562fe450d185"
+ },
+ "retirements": [
+  {
+   "delay_s": 10.0,
+   "domain_id": "firehole.s0",
+   "left_wall_s": 640.0,
+   "retired_wall_s": 650.0
+  },
+  {
+   "delay_s": 10.0,
+   "domain_id": "firehole.s1",
+   "left_wall_s": 1300.0,
+   "retired_wall_s": 1310.0
+  },
+  {
+   "delay_s": 10.0,
+   "domain_id": "firehole.s2",
+   "left_wall_s": 1950.0,
+   "retired_wall_s": 1960.0
+  },
+  {
+   "delay_s": 10.0,
+   "domain_id": "firehole.s3",
+   "left_wall_s": 2610.0,
+   "retired_wall_s": 2620.0
+  },
+  {
+   "delay_s": 10.0,
+   "domain_id": "firehole.s4",
+   "left_wall_s": 3260.0,
+   "retired_wall_s": 3270.0
+  }
+ ],
+ "run_mode": "illustrative",
+ "schema": "yellowstone.park_firehole_walk.v1",
+ "segments": [
+  {
+   "cells": [
+    0,
+    46
+   ],
+   "domain_id": "firehole.s0",
+   "end_m": 894.9238338765052,
+   "start_m": 0.0,
+   "travel_s": 1271.503452252478
+  },
+  {
+   "cells": [
+    46,
+    92
+   ],
+   "domain_id": "firehole.s1",
+   "end_m": 1808.1827346065106,
+   "start_m": 894.9238338765052,
+   "travel_s": 1311.0196050587506
+  },
+  {
+   "cells": [
+    92,
+    138
+   ],
+   "domain_id": "firehole.s2",
+   "end_m": 2723.3352749476144,
+   "start_m": 1808.1827346065106,
+   "travel_s": 1333.4512599876462
+  },
+  {
+   "cells": [
+    138,
+    184
+   ],
+   "domain_id": "firehole.s3",
+   "end_m": 3640.7416221547023,
+   "start_m": 2723.3352749476144,
+   "travel_s": 1310.1744582051856
+  },
+  {
+   "cells": [
+    184,
+    230
+   ],
+   "domain_id": "firehole.s4",
+   "end_m": 4560.255935635085,
+   "start_m": 3640.7416221547023,
+   "travel_s": 1290.6127730552305
+  },
+  {
+   "cells": [
+    230,
+    276
+   ],
+   "domain_id": "firehole.s5",
+   "end_m": 5479.770249115468,
+   "start_m": 4560.255935635085,
+   "travel_s": 1290.6127730552312
+  }
+ ],
+ "settings": {
+  "dt_s": 1.0,
+  "faces": [
+   46,
+   92,
+   138,
+   184,
+   230
+  ],
+  "lead_margin_s": 30.0,
+  "quantum_s": 10.0,
+  "retire_after_s": 10.0,
+  "speed_mps": 1.4,
+  "spinup_s": 3600.0,
+  "time_scale": 1.0,
+  "utilization": 0.8,
+  "workers": 2
+ },
+ "simulated_s": 3920.0,
+ "swaps": [
+  {
+   "domain_id": "firehole.s1",
+   "from": "yellowstone.river_segment_coarse.v1",
+   "heat_relative": 1.5951748743281978e-16,
+   "reason": "install",
+   "reconciliation_j": [
+    -136571718.51504898,
+    -57415237.78301483
+   ],
+   "t_s": 620.0,
+   "to": "yellowstone.river_segment.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s0",
+   "from": "yellowstone.river_segment.v1",
+   "heat_relative": 0.0,
+   "reason": "retire",
+   "reconciliation_j": [],
+   "t_s": 650.0,
+   "to": "yellowstone.river_segment_coarse.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s2",
+   "from": "yellowstone.river_segment_coarse.v1",
+   "heat_relative": 1.5723900103879975e-16,
+   "reason": "install",
+   "reconciliation_j": [
+    -151011292.42494342,
+    -232594173.61734474
+   ],
+   "t_s": 1280.0,
+   "to": "yellowstone.river_segment.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s1",
+   "from": "yellowstone.river_segment.v1",
+   "heat_relative": 1.5946122155376848e-16,
+   "reason": "retire",
+   "reconciliation_j": [],
+   "t_s": 1310.0,
+   "to": "yellowstone.river_segment_coarse.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s3",
+   "from": "yellowstone.river_segment_coarse.v1",
+   "heat_relative": 0.0,
+   "reason": "install",
+   "reconciliation_j": [
+    -81812139.31945533,
+    -1284441.0431365722,
+    -286467917.406442
+   ],
+   "t_s": 1930.0,
+   "to": "yellowstone.river_segment.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s2",
+   "from": "yellowstone.river_segment.v1",
+   "heat_relative": 0.0,
+   "reason": "retire",
+   "reconciliation_j": [],
+   "t_s": 1960.0,
+   "to": "yellowstone.river_segment_coarse.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s4",
+   "from": "yellowstone.river_segment_coarse.v1",
+   "heat_relative": 0.0,
+   "reason": "install",
+   "reconciliation_j": [
+    -160959234.97216737,
+    -277719794.6237523
+   ],
+   "t_s": 2590.0,
+   "to": "yellowstone.river_segment.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s3",
+   "from": "yellowstone.river_segment.v1",
+   "heat_relative": 0.0,
+   "reason": "retire",
+   "reconciliation_j": [],
+   "t_s": 2620.0,
+   "to": "yellowstone.river_segment_coarse.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s5",
+   "from": "yellowstone.river_segment_coarse.v1",
+   "heat_relative": 0.0,
+   "reason": "install",
+   "reconciliation_j": [
+    -153980955.96214128,
+    -273655116.8921643
+   ],
+   "t_s": 3240.0,
+   "to": "yellowstone.river_segment.v1",
+   "water_relative": 0.0
+  },
+  {
+   "domain_id": "firehole.s4",
+   "from": "yellowstone.river_segment.v1",
+   "heat_relative": 1.515459155662894e-16,
+   "reason": "retire",
+   "reconciliation_j": [],
+   "t_s": 3270.0,
+   "to": "yellowstone.river_segment_coarse.v1",
+   "water_relative": 0.0
+  }
+ ],
+ "walk_wall_s": 4.166921333177015,
+ "worker_rate_cell_s_per_s": 234797.97913987248
+}
