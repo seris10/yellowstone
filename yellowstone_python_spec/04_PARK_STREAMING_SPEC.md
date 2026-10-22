@@ -264,6 +264,73 @@ Lakes are a model class the present engine does not have. Yellowstone Lake (352 
 other large lakes need a stratified water column model before their tiles can carry fine
 state; until then their tiles carry coarse surface temperature only, labeled as such.
 
+### 7.1 Predictive simulation residency and park-scale bounds
+
+No component loads, steps or holds the whole park at fine resolution: Godot, the Python
+fine tier, the coarse tier's inputs and the checkpoint history are all bounded by budgets
+stated in bytes and in compute per wall-clock second. Simulation residency is a separate
+loading problem from terrain and view residency. Terrain answers what the player can see
+within seconds; simulation must answer what state the player will meet when they arrive,
+which needs work started minutes ahead in wall time and, under time acceleration, hours
+ahead in simulation time.
+
+Measured baseline (Apple M4, one core, `LiveEngine.from_build` on build `db183e56a88e`,
+276 mapped Firehole cells, 1 s solver step, 10 s frames): one simulated hour takes
+11.6-13.0 s of wall time, about 300x real time and 13 us per cell per simulated second;
+retaining that hour of lookahead holds 361 full-state checkpoints and 314 MiB of traced
+allocations, about 0.9 MiB per checkpoint. Three consequences follow. The 3600x setting
+already exceeds Midway's capacity by about twelve times. The two-block reach set of up to
+1,500 cells in section 7 runs at about 50x on one core. Lookahead memory grows linearly
+with domains and horizon, so full-state checkpoints at every frame cannot carry a park.
+
+The anticipation set replaces the 20 s lookahead point for simulation. It is computed in
+Python from the focus call (section 8) and contains, in priority order: the reach set;
+the next reachable stretch along the trail or road graph from the player's position and
+heading, out to the distance the player covers in the activation lead time `L` at the
+current travel mode (walking 1.4 m/s, vehicle at the road's posted speed); destinations
+the player has selected on the map; and the hydrological dependency closure of each of
+those tiles, bounded by a propagation halo: the upstream reach whose travel time to the
+tile is shorter than the activation lead time. `L` is the measured spin-up cost of a tile
+divided by the capacity left after the active island, plus a margin, so a tile is
+activated early enough to be ready on arrival.
+
+Admission control decides what runs at fine resolution. Capacity is measured continuously
+as cell-simulated-seconds per wall second (the engine's existing compute samples). The
+fine tier admits tiles in priority order while the sum of cells times the requested time
+scale stays inside that capacity; everything else runs at the coarse tier. When the
+player's own tile cannot be admitted at the requested time scale, the rate is held and
+reported, as today. A tile that is still spinning up when the player arrives shows coarse
+state labeled as coarse, never blocks walking, and never shows fabricated fine state.
+
+Domain lifecycle belongs to the runtime. `ParkRuntime` today fixes its domains at
+construction, advances every domain each quantum, and stores a full checkpoint of every
+domain per quantum on top of the engine's own per-frame checkpoints. Park operation
+requires adding and removing domains at quantum boundaries, with the hand-off of section 7
+recorded in the ledger, and requires that a domain outside the anticipation set advance at
+the coarse tier only. The six requirements of
+`yellowstone_midway/docs/park_runtime/02_SIMULATION_AND_STATE.md` (control volume
+identity, conservative restriction and prolongation, physical halos, synchronized
+subcycling, flux reconciliation across level changes, fine, coarse and adaptive
+comparison) gate any fine domain whose boundary is fed by the coarse tier.
+
+History is bounded by bytes. Lookahead keeps sparse full checkpoints (one per rollback
+granule, set by the intervention latency the player accepts) and light frames between
+them; a domain's retained history has a stated byte cap, and the runtime refuses a horizon
+that exceeds it. Retirement writes the portable checkpoint (`LiveEngine.export_state`) to
+disk and frees the in-memory copies.
+
+The coarse tier is also paged. Its resident state per sub-basin is small (snow bands,
+storages, phenology, a reach-scale routing state), but its inputs are not: forcing grids,
+the NHDPlus HR flowline network, LANDFIRE cover and gauge records are read per sub-basin
+from frozen bundles with a byte budget, and only the sub-basins inside the anticipation
+set's dependency closure, plus the ones the far terrain shows, hold forcing at full
+temporal resolution. The rest step at the coarse hourly step from summary forcing.
+
+Processes: one owner per domain; CPU-bound domains run in separate long-lived worker
+processes with explicitly serialized regional state, sized to measured cores, because the
+Python interpreter lock serializes work inside one process. Godot never waits on Python
+to render or walk.
+
 ## 8. Wire protocol
 
 The wire carries timing and conditions explicitly.
@@ -321,7 +388,10 @@ Each is the smallest action that settles a sizing assumption, with the expectati
 1. Engine step cost per river cell at dt 1 s on this machine. Expectation: tens of
    microseconds per cell per step, so that a two-block reach set with up to 1,500 cells can
    run 3600x on one core; if it is hundreds, the reach set at high rates is one block from
-   the start.
+   the start. Measured: 13 us per cell per simulated second at a 1 s step (section 7.1).
+   The per-cell cost matches the expectation, but the arithmetic did not hold: 1,500 cells
+   at 3600x needs about 70 core-seconds per wall second. The two-block set runs near 50x on
+   one core, and Midway alone near 300x.
 2. Threaded load and attach of one L1 packed scene built from a 264 KB heightfield with its
    placements. Expectation: load under 60 ms on the worker, attach under 4 ms on the main
    thread; if attach is above 8 ms, mesh construction moves off the main thread or the tile
@@ -350,6 +420,18 @@ Each is the smallest action that settles a sizing assumption, with the expectati
    then B, then A, with frame time, triangles and instances recorded. Expectation: the
    binding budget shows itself as the first tier change that moves frame time; that budget
    is the one section 5 enforces, and the other two are kept as ceilings.
+9. Tile activation spin-up: wall time to bring one L1 tile from coarse state to a valid
+   fine state, run in a worker process while the island steps. Expectation: under the
+   time a walker needs to cross one L1 tile (about 12 minutes at 1.4 m/s); if it is
+   longer, the anticipation horizon of section 7.1 grows or the tile is split.
+10. Lookahead memory per domain with sparse checkpoints. Expectation: under 64 MiB for one
+    simulated hour of the Midway domain, against 314 MiB measured with a full checkpoint
+    per 10 s frame.
+11. Coarse tier resident bytes and step cost over the whole park with paged inputs.
+    Expectation: under 256 MiB resident and under 1 s of one core per simulated hour;
+    above that, sub-basins outside the dependency closure step at a longer interval.
+12. Multi-process scaling: two fine domains in two worker processes against one process.
+    Expectation: near twofold capacity; if not, the transport or the lock is the limit.
 
 ## 11. Migration order from Midway
 
@@ -370,12 +452,19 @@ Each step leaves Midway playable and is accepted by a stated check.
 4. The focus endpoint, per-tile sidecars and the index file, with the watcher reading the
    index. Accepted when the study scene behaves as before in both modes and the measured
    poll cost drops below 5 ms.
-5. The first new ground: Lower Geyser Basin and the Upper Geyser Basin as L1 tiles with 1 m
+5. Simulation residency on Midway: the Firehole split into at least two domains with a
+   conservative interface, `ParkRuntime` domain add and remove at quantum boundaries,
+   sparse-checkpoint history under a byte cap, the anticipation set and admission control
+   of section 7.1, and worker processes. Accepted when a walk along the Firehole activates
+   the downstream domain before arrival, retires the upstream one with a passing ledger,
+   the split run matches the single-domain run within tolerances set before the run, and
+   measurements 9, 10 and 12 are recorded.
+6. The first new ground: Lower Geyser Basin and the Upper Geyser Basin as L1 tiles with 1 m
    cores, joining the Firehole reach. Accepted when discharge is conserved across every tile
    seam on the river, the Grand Loop Road and trails are continuous across seams, and the
    fine tier activates and retires the new tiles with a passing conservation ledger.
-6. The coarse hydrology tier over the whole park. Accepted as a hindcast against the named
-   gauges with evaluation datasets listed; the claim stays `not_yet_accepted` until a
+7. The coarse hydrology tier over the whole park, with paged inputs (measurement 11).
+   Accepted as a hindcast against the named gauges with evaluation datasets listed; the claim stays `not_yet_accepted` until a
    locked-final window is evaluated under the registry rules.
 
 ## 12. Risks and open points
