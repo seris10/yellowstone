@@ -388,10 +388,8 @@ Each is the smallest action that settles a sizing assumption, with the expectati
 1. Engine step cost per river cell at dt 1 s on this machine. Expectation: tens of
    microseconds per cell per step, so that a two-block reach set with up to 1,500 cells can
    run 3600x on one core; if it is hundreds, the reach set at high rates is one block from
-   the start. Measured: 13 us per cell per simulated second at a 1 s step (section 7.1).
-   The per-cell cost matches the expectation, but the arithmetic did not hold: 1,500 cells
-   at 3600x needs about 70 core-seconds per wall second. The two-block set runs near 50x on
-   one core, and Midway alone near 300x.
+   the start. Measured in section 7.1: the per-cell cost holds and the 3600x expectation
+   does not.
 2. Threaded load and attach of one L1 packed scene built from a 264 KB heightfield with its
    placements. Expectation: load under 60 ms on the worker, attach under 4 ms on the main
    thread; if attach is above 8 ms, mesh construction moves off the main thread or the tile

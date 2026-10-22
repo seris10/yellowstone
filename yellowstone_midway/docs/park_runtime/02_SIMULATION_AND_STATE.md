@@ -17,7 +17,7 @@ truth. Adding physically different coarse/fine models is not merely a scheduler 
 The supplied `ReservoirNetwork` is a genuine but simplified conservative branching
 model for tests. It is explicitly labeled illustrative and must not replace the
 project's actual river or ecological models. `LegacyLiveDomain` bridges the current
-native engine in memory, but its persistent serializer is not implemented.
+native engine and persists through `LiveEngine.export_state`/`import_state`.
 
 ## Clocks and revisions
 
@@ -73,10 +73,9 @@ idempotency and event history are retained in saves. Long-lived installations sh
 index old event identities in the database instead of retaining a growing Python
 list forever; scientific history must not be discarded to fake bounded memory.
 
-The legacy bridge blocks persistent saves because the native engine checkpoint
-contains solver objects. Implement explicit native serializers or a versioned
-portable checkpoint export before enabling that path. A generic `str(object)`,
-`default=str`, pickle or silent omission is not acceptable.
+The legacy bridge persists the native engine through a versioned portable checkpoint
+(`LiveEngine.export_state`), since the in-memory checkpoint contains solver objects.
+A generic `str(object)`, `default=str`, pickle or silent omission is not acceptable.
 
 ## Numerical partitioning: one interface, one flux
 
