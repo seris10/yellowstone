@@ -148,6 +148,7 @@ func run() -> void:
     var regions: Array = []
     var water_surfaces: Array = []
     var route_pieces: Array = []
+    var vegetation_records: Dictionary = {}
     if not features.is_empty():
         var found: Dictionary = FeatureSource.collect(features, "pools", origin_x, origin_z, origin_x + size, origin_z + size)
         if found.has("error"):
@@ -179,6 +180,11 @@ func run() -> void:
                 return
             routes = walk.features
             route_pieces = TileRoute.build(routes, heights, cells, origin_x, origin_z, size)
+            # Leaf vegetation and forest-floor records are read here so the pager does no page I/O.
+            var plants: Dictionary = FeatureSource.collect(features, "vegetation", origin_x, origin_z, origin_x + size, origin_z + size)
+            var floor_found: Dictionary = FeatureSource.collect(features, "forest_floor", origin_x, origin_z, origin_x + size, origin_z + size)
+            vegetation_records = {"vegetation": plants.get("features", []), "forest_floor": floor_found.get("features", []),
+                "error": str(plants.get("error", floor_found.get("error", "")))}
         if not meeting.is_empty():
             var grid_arrays: Array = []
             grid_arrays.resize(Mesh.ARRAY_MAX)
@@ -230,12 +236,17 @@ func run() -> void:
         indices.append_array(PackedInt32Array([a,c,b,b,c,c+1]))
     if cancelled():
         return
+    # A tile wholly inside a thermal pool keeps no terrain triangles and carries no terrain surface.
+    var water_covered: bool = indices.is_empty()
     var arrays: Array = []
-    arrays.resize(Mesh.ARRAY_MAX)
-    arrays[Mesh.ARRAY_VERTEX] = vertices
-    arrays[Mesh.ARRAY_NORMAL] = normals
-    arrays[Mesh.ARRAY_TEX_UV] = uvs
-    arrays[Mesh.ARRAY_INDEX] = indices
+    if water_covered:
+        vertices = PackedVector3Array()
+    else:
+        arrays.resize(Mesh.ARRAY_MAX)
+        arrays[Mesh.ARRAY_VERTEX] = vertices
+        arrays[Mesh.ARRAY_NORMAL] = normals
+        arrays[Mesh.ARRAY_TEX_UV] = uvs
+        arrays[Mesh.ARRAY_INDEX] = indices
     var shoreline_bytes: int = 0
     if not shoreline_arrays.is_empty():
         shoreline_bytes = shoreline_arrays[Mesh.ARRAY_VERTEX].size()*32 + shoreline_arrays[Mesh.ARRAY_INDEX].size()*4
@@ -248,6 +259,7 @@ func run() -> void:
               "arrays": arrays, "heights": heights, "shoreline_arrays": shoreline_arrays,
               "pools": pool_ids, "routes": routes, "water": water_report, "skirts_omitted": skirts_omitted,
               "water_surfaces": water_surfaces, "route_pieces": route_pieces,
+              "water_covered": water_covered, "vegetation_records": vegetation_records,
               "bytes_estimate": vertices.size()*32+indices.size()*4+heights.size()*4+shoreline_bytes+feature_bytes}
 
 static func _arrays_bytes(arrays: Array) -> int:

@@ -159,6 +159,9 @@ func _ready() -> void:
 	park_enabled = bool(ProjectSettings.get_setting("yellowstone/park_streaming/enabled", false))
 	if park_enabled:
 		if not _boot_streamed_world():
+			if "--smoke-test" in OS.get_cmdline_user_args():
+				print("SMOKE ok=false boot=refused")
+				get_tree().quit(1)
 			return
 	else:
 		if not _load_legacy_authored_world():
@@ -300,7 +303,7 @@ func _boot_streamed_world() -> bool:
 	park_terrain.max_inflight = int(ProjectSettings.get_setting("yellowstone/park_streaming/max_inflight", 2))
 	park_terrain.resident_limit_mib = float(ProjectSettings.get_setting("yellowstone/park_streaming/resident_limit_mib", 128.0))
 	park_terrain.commit_budget_ms = float(ProjectSettings.get_setting("yellowstone/park_streaming/commit_budget_ms", 1.5))
-	var catalog: String = str(ProjectSettings.get_setting("yellowstone/park_streaming/catalog", "res://data/park/catalog.json"))
+	var catalog: String = str(ProjectSettings.get_setting("yellowstone/park_streaming/catalog", "res://data/park_composed/catalog.json"))
 	# One shared ground material serves every streamed tile; the common bind loop in _ready binds it.
 	var shared_terrain_material := ShaderMaterial.new()
 	shared_terrain_material.shader = load("res://shaders/terrain.gdshader")
@@ -309,6 +312,10 @@ func _boot_streamed_world() -> bool:
 	var ok: bool = park_terrain.configure(catalog, park_frame, player.camera, shared_terrain_material)
 	if not ok:
 		push_error("Park streaming catalog refused; keep park_streaming/enabled off or rebuild the pack.")
+		return false
+	# The main scene requires feature pages; terrain-only packs serve the demo scene.
+	if park_terrain.feature_source().is_empty():
+		push_error("Park streaming catalog %s has no feature index; build it with terrain_pack --core-dir --world." % catalog)
 		return false
 	park_frame.register_root(player)
 	player.bind_stream(park_terrain, park_frame)

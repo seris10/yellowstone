@@ -3,7 +3,6 @@ extends Node
 signal foliage_attached(key: String, materials: Array)
 signal foliage_detached(key: String, materials: Array)
 
-const FeatureSource = preload("res://scripts/park_runtime/feature_source.gd")
 const TileVegetation = preload("res://scripts/park_runtime/tile_vegetation.gd")
 const CanopySurface = preload("res://scripts/canopy_surface.gd")
 const ForestFloor = preload("res://scripts/forest_floor.gd")
@@ -19,10 +18,12 @@ class TileGround extends RefCounted:
     func sample(x: float, z: float) -> float:
         return tile.sample_height(x, z)
 
+@export var max_builds_per_frame: int = 1
 var _streamer: Node3D
 var _features: Dictionary = {}
 var _tile_materials: Dictionary = {}
-var _totals: Dictionary = {"tiles": 0, "trees": 0, "canopy_cells": 0, "floor_records": 0}
+var _queue: Array[String] = []
+var _totals: Dictionary = {"tiles": 0, "trees": 0, "canopy_cells": 0, "floor_records": 0, "build_ms_max": 0.0, "build_ms_total": 0.0}
 
 func configure(streamer: Node3D) -> bool:
     _streamer = streamer
@@ -37,25 +38,47 @@ func configure(streamer: Node3D) -> bool:
 func stats() -> Dictionary:
     return _totals.duplicate()
 
+## Leaf tiles waiting for their batches, in commit order.
+func pending_count() -> int:
+    return _queue.size()
+
 ## Only leaf tiles carry vegetation; coarser tiles keep terrain, water and routes.
 func _on_tile_committed(key: String) -> void:
     var tile: Node3D = _streamer.resident.get(key)
-    if tile == null or int(tile.descriptor.lod) != 0:
+    if tile == null or int(tile.descriptor.lod) != 0 or _queue.has(key):
         return
+    _queue.append(key)
+
+## Builds run outside the streamer commit loop, a bounded number per frame.
+func _process(_delta: float) -> void:
+    var built: int = 0
+    while not _queue.is_empty() and built < max_builds_per_frame:
+        var key: String = _queue.pop_front()
+        var started: int = Time.get_ticks_usec()
+        if _build(key):
+            built += 1
+            var build_ms: float = float(Time.get_ticks_usec() - started) / 1000.0
+            _totals.build_ms_max = maxf(float(_totals.build_ms_max), build_ms)
+            _totals.build_ms_total = float(_totals.build_ms_total) + build_ms
+
+## Builds one resident leaf tile from the records its terrain job prefetched.
+func _build(key: String) -> bool:
+    var tile: Node3D = _streamer.resident.get(key)
+    if tile == null:
+        return false
     var d: Dictionary = tile.descriptor
     var x0 := float(d.origin_x_m)
     var z0 := float(d.origin_z_m)
     var size := float(d.size_m)
     var x1 := x0 + size
     var z1 := z0 + size
-    var vegetation: Dictionary = FeatureSource.collect(_features, "vegetation", x0, z0, x1, z1)
-    var floor_records: Dictionary = FeatureSource.collect(_features, "forest_floor", x0, z0, x1, z1)
-    if vegetation.has("error") or floor_records.has("error"):
-        push_error("Vegetation page read failed for %s: %s" % [key, str(vegetation.get("error", floor_records.get("error", "")))])
-        return
+    var records: Dictionary = tile.vegetation_records
+    if not str(records.get("error", "")).is_empty():
+        push_error("Vegetation page read failed for %s: %s" % [key, str(records.error)])
+        return true
     var owned: Array = []
     var hosts: Array = []
-    for record: Dictionary in vegetation.features:
+    for record: Dictionary in records.get("vegetation", []):
         if str(record.get("kind", "")) == "pine":
             hosts.append(record)
         var p: Array = record.position
@@ -65,14 +88,14 @@ func _on_tile_committed(key: String) -> void:
         var result: Dictionary = TileVegetation.build_tile(tile, owned, d)
         if result.is_empty():
             push_error("Vegetation batch build failed for " + key)
-            return
+            return true
         _totals.trees += int(result.trees)
     # Canopy supports attach to tile boles plus the halo pages around the tile.
     var canopy: Dictionary = CanopySurface.build_window(tile, CANOPY_PATH, Rect2(x0, z0, size, size), hosts, TileGround.new(tile))
     if not canopy.is_empty():
         _totals.canopy_cells += int(canopy.active_cells)
     var floor_owned: Array = []
-    for record: Dictionary in floor_records.features:
+    for record: Dictionary in records.get("forest_floor", []):
         var p: Array = record.position
         if p[0] >= x0 and p[0] < x1 and p[2] >= z0 and p[2] < z1:
             floor_owned.append(record)
@@ -80,7 +103,7 @@ func _on_tile_committed(key: String) -> void:
         var floor_result: Dictionary = ForestFloor.build_window(tile, floor_owned, d)
         if floor_result.is_empty():
             push_error("Forest-floor batch build failed for " + key)
-            return
+            return true
         _totals.floor_records += int(floor_result.records)
     _totals.tiles += 1
     var materials: Array = []
@@ -88,8 +111,10 @@ func _on_tile_committed(key: String) -> void:
     _tile_materials[key] = materials
     if not materials.is_empty():
         foliage_attached.emit(key, materials)
+    return true
 
 func _on_tile_retiring(key: String) -> void:
+    _queue.erase(key)
     var materials: Array = _tile_materials.get(key, [])
     _tile_materials.erase(key)
     if not materials.is_empty():

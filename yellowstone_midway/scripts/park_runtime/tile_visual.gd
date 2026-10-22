@@ -5,19 +5,28 @@ var page: Dictionary
 var heights := PackedFloat32Array()
 var bytes_estimate: int = 0
 var last_used_s: float = 0.0
+var water_covered: bool = false
+var vegetation_records: Dictionary = {}
 
-func install(data: Dictionary, material: Material, frame: RefCounted) -> void:
+## Return false when the terrain surface cannot be built.
+func install(data: Dictionary, material: Material, frame: RefCounted) -> bool:
     page = data.page
     descriptor = page.tile
     heights = data.heights
     bytes_estimate = int(data.bytes_estimate)
+    water_covered = bool(data.get("water_covered", false))
+    vegetation_records = data.get("vegetation_records", {})
     var generated := ArrayMesh.new()
-    generated.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, data.arrays)
+    if not water_covered:
+        generated.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, data.arrays)
+        if generated.get_surface_count() != 1:
+            return false
     mesh = generated
     material_override = material
     name = "Tile_" + str(descriptor.key).replace(":", "_")
     visible = false
     rebase(frame)
+    return true
 
 func rebase(frame: RefCounted) -> void:
     position = frame.local_position(float(descriptor.origin_x_m), 0.0, float(descriptor.origin_z_m))

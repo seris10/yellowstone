@@ -28,6 +28,7 @@ var features: Dictionary
 var world: Dictionary
 var base_dir: String
 var pages: Dictionary = {}
+var water_covered_tiles: Dictionary = {}
 var jobs: Dictionary = {}
 var canopy_header: Dictionary = {}
 var canopy_cells := PackedByteArray()
@@ -197,8 +198,15 @@ func audit_water() -> void:
         check(shoreline_triangles > 0, "%s has no shoreline surface" % str(pool.id))
         print("POOL ", pool.id, " tiles=", tiles.size(), " removed_m2=", removed, " polygon_m2=", expected, " shoreline_tris=", shoreline_triangles, " skirts_omitted=", omitted)
     check(cut_pools == 4, "expected four thermal pools")
+    check(water_covered_tiles.size() == 3, "expected three water-covered leaf tiles, found %d" % water_covered_tiles.size())
+    print("WATER_COVERED ", water_covered_tiles.keys())
 
 func audit_skirts(result: Dictionary, pool: Dictionary, d: Dictionary) -> void:
+    if bool(result.get("water_covered", false)):
+        check(result.arrays.is_empty() and int(result.water.retained_triangles) == 0, "water-covered tile %s carries terrain arrays" % str(d.key))
+        check(int(result.skirts_omitted) == 4 * int(d.mesh_cells), "water-covered tile %s kept a skirt" % str(d.key))
+        water_covered_tiles[str(d.key)] = true
+        return
     var indices: PackedInt32Array = result.arrays[Mesh.ARRAY_INDEX]
     var vertices: PackedVector3Array = result.arrays[Mesh.ARRAY_VERTEX]
     var grid_indices: int = int(result.water.retained_triangles) * 3
@@ -346,7 +354,7 @@ func run() -> void:
     await audit_streamed_wildlife(stream, observer, frame)
     check(int(stream.stats.get("failures", 0)) == 0, "tile jobs failed")
     check(float(stream.stats.get("resident_estimate_mib", 0.0)) <= stream.resident_limit_mib, "resident estimate exceeds budget")
-    print("PARK_MIDWAY_STREAM checks=", checks, " failures=", failures, " resident=", stream.stats.get("resident_tiles"), " mib=", stream.stats.get("resident_estimate_mib"))
+    print("PARK_MIDWAY_STREAM checks=", checks, " failures=", failures, " resident=", stream.stats.get("resident_tiles"), " mib=", stream.stats.get("resident_estimate_mib"), " commit_ms_max=", stream.stats.get("commit_ms_max"))
     legacy.free()
     scene.queue_free()
     await process_frame
@@ -461,6 +469,12 @@ func audit_streamed_vegetation(stream: Node, observer: Camera3D, frame: RefCount
     check(ready, "vegetation audit stop did not settle")
     if not ready:
         return
+    var pager: Node = stream.get_parent().get_node_or_null("VegetationPager")
+    for _tick: int in MAX_FRAMES:
+        if pager == null or pager.pending_count() == 0:
+            break
+        await process_frame
+    check(pager != null and pager.pending_count() == 0, "vegetation pager queue did not drain")
     var active: int = 0
     for index: int in canopy_cells.size():
         if canopy_cells[index] == 1 and canopy_excluded[index] != 0:

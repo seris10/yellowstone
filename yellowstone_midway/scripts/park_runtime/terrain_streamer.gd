@@ -188,7 +188,12 @@ func _commit_ready() -> void:
             stats["budget_pressure"] = true
             continue
         var tile = Tile.new()
-        tile.install(data,material,frame)
+        if not tile.install(data,material,frame):
+            # The parent stays resident; the failure blocks retries until the pack changes.
+            tile.free()
+            _failures[key] = "Terrain surface build failed"
+            stream_error.emit(key,"Terrain surface build failed")
+            continue
         tile.last_used_s = _now
         add_child(tile)
         _commit_shoreline(tile,data)
@@ -203,6 +208,7 @@ func _commit_ready() -> void:
         commits += 1
         tile_committed.emit(key)
     stats["commit_ms"] = float(Time.get_ticks_usec()-started)/1000.0
+    stats["commit_ms_max"] = maxf(float(stats.get("commit_ms_max", 0.0)), float(stats.commit_ms))
     if commits > 0:
         _replan()
 
