@@ -1,15 +1,20 @@
 extends SceneTree
-## Streams the Midway pack headless and checks heights, water cut and routes against the core, master raster and world data.
+## Check headless Midway stream heights/water cut/routes against core, master raster and world data.
 const Frame = preload("res://scripts/park_runtime/world_frame.gd")
 const Streamer = preload("res://scripts/park_runtime/terrain_streamer.gd")
 const Job = preload("res://scripts/park_runtime/terrain_job.gd")
 const FeatureSource = preload("res://scripts/park_runtime/feature_source.gd")
+const VegetationPager = preload("res://scripts/park_runtime/vegetation_pager.gd")
+const WildlifePager = preload("res://scripts/park_runtime/wildlife_pager.gd")
+const PythonReplay = preload("res://scripts/python_river_replay.gd")
+const ReleaseData = preload("res://scripts/release_data.gd")
 const TileWater = preload("res://scripts/park_runtime/tile_water.gd")
 const HeightField = preload("res://scripts/height_field.gd")
 const CoreTerrain = preload("res://scripts/core_terrain.gd")
 const WaterCut = preload("res://scripts/water_polygon_cut.gd")
 const CATALOG := "res://data/park_composed/catalog.json"
 const WORLD := "res://data/world.json"
+const CANOPY_DIR := "res://data/lidar_canopy"
 const BRIDGE_ROUTES: Array[String] = ["trail_3227_0", "trail_3226_0"]
 const MAX_FRAMES := 1200
 const SAMPLES := 400
@@ -24,6 +29,9 @@ var world: Dictionary
 var base_dir: String
 var pages: Dictionary = {}
 var jobs: Dictionary = {}
+var canopy_header: Dictionary = {}
+var canopy_cells := PackedByteArray()
+var canopy_excluded := PackedByteArray()
 
 func _initialize() -> void:
     call_deferred("run")
@@ -279,6 +287,14 @@ func run() -> void:
     if failures > 0:
         quit(1)
         return
+    var vegetation = VegetationPager.new()
+    vegetation.name = "VegetationPager"
+    scene.add_child(vegetation)
+    check(vegetation.configure(stream), "vegetation pager rejected the feature index")
+    canopy_header = JSON.parse_string(FileAccess.get_file_as_string(CANOPY_DIR + "/unresolved_render_canopy.json"))
+    canopy_cells = FileAccess.get_file_as_bytes(CANOPY_DIR + "/unresolved_cells.u8")
+    canopy_excluded = FileAccess.get_file_as_bytes(CANOPY_DIR + "/unresolved_cells_excluded.u8")
+    check(canopy_cells.size() == int(canopy_header.width) * int(canopy_header.height) and canopy_excluded.size() == canopy_cells.size(), "canopy masks are missing or truncated")
     base_dir = CATALOG.get_base_dir()
     catalog = JSON.parse_string(FileAccess.get_file_as_string(CATALOG))
     features = FeatureSource.load_index(base_dir, catalog.features)
@@ -325,6 +341,9 @@ func run() -> void:
         check(worst < 0.001, "leaf height differs from the core cut or master raster by %f m at %s" % [worst, str(stop)])
         print("STOP ", stop, " worst_error_m=", worst)
     await audit_streamed_features(stream, observer, frame, bridge_indices)
+    await audit_streamed_water(stream, observer, frame)
+    await audit_streamed_vegetation(stream, observer, frame)
+    await audit_streamed_wildlife(stream, observer, frame)
     check(int(stream.stats.get("failures", 0)) == 0, "tile jobs failed")
     check(float(stream.stats.get("resident_estimate_mib", 0.0)) <= stream.resident_limit_mib, "resident estimate exceeds budget")
     print("PARK_MIDWAY_STREAM checks=", checks, " failures=", failures, " resident=", stream.stats.get("resident_tiles"), " mib=", stream.stats.get("resident_estimate_mib"))
@@ -364,6 +383,25 @@ func audit_streamed_features(stream: Node, observer: Camera3D, frame: RefCounted
         check(sampled > 0, "no bridge samples resident for " + id)
         check(worst_error < 0.001, "%s bridge terrain differs from the legacy core cut by %f m" % [id, worst_error])
         print("BRIDGE ", id, " samples=", sampled, " worst_error_m=", worst_error, " min_deck_clearance_m=", min_clearance)
+        var ribbon_found: bool = false
+        var collision_found: bool = false
+        var rail_count: int = 0
+        for key: String in stream.resident:
+            var tile: Node = stream.resident[key]
+            if int(tile.descriptor.lod) != 0:
+                continue
+            for child: Node in tile.get_children():
+                var child_name: String = str(child.name)
+                if child_name.begins_with("Route_" + id + "_"):
+                    ribbon_found = true
+                    if child.get_node_or_null("RouteCollision") is StaticBody3D:
+                        collision_found = true
+                if child_name.begins_with("Route_BridgeRailSwept"):
+                    rail_count += 1
+        check(ribbon_found, id + " route mesh missing on resident leaf tiles")
+        check(collision_found, id + " route mesh carries no collision")
+        check(rail_count > 0, id + " swept bridge rails missing in streamed mode")
+        print("ROUTE_MESH ", id, " rails=", rail_count, " collision=", collision_found)
     var pool_key: String = ""
     for key: String in stream.resident:
         var d: Dictionary = stream.resident[key].descriptor
@@ -375,3 +413,268 @@ func audit_streamed_features(stream: Node, observer: Camera3D, frame: RefCounted
         check(bool(group.shoreline) and group.pools.has("pool_1028_0"), "pool tile lost its shoreline group")
         var shoreline_node: Node = stream.resident[pool_key].get_node_or_null("Shoreline")
         check(shoreline_node is MeshInstance3D and (shoreline_node as MeshInstance3D).mesh.get_surface_count() == 1, "shoreline surface was not committed with the tile")
+        var pool_node: MeshInstance3D = null
+        for node: Node in stream.tile_water_nodes(pool_key):
+            if str(node.name) == "Water_pool_1028_0":
+                pool_node = node as MeshInstance3D
+        check(pool_node != null, "Turquoise Pool water surface missing in streamed mode")
+        if pool_node != null:
+            check(pool_node.is_in_group("thermal_surfaces"), "pool surface lost its thermal_surfaces group")
+
+## Active display cells of a tile window under the batch-3 exclusion sidecar.
+func expected_active_cells(d: Dictionary) -> int:
+    var cell: float = float(canopy_header.cell_size_m)
+    var width: int = int(canopy_header.width)
+    var height: int = int(canopy_header.height)
+    var gx0: float = float(canopy_header.first_cell_x_m) - cell * 0.5
+    var gz0: float = float(canopy_header.first_cell_z_m) - cell * 0.5
+    var c0: int = clampi(int(floor((float(d.origin_x_m) - gx0) / cell)), 0, width - 1)
+    var c1: int = clampi(int(floor((float(d.origin_x_m) + float(d.size_m) - gx0) / cell)), 0, width - 1)
+    var r0: int = clampi(int(floor((float(d.origin_z_m) - gz0) / cell)), 0, height - 1)
+    var r1: int = clampi(int(floor((float(d.origin_z_m) + float(d.size_m) - gz0) / cell)), 0, height - 1)
+    var count: int = 0
+    for row: int in range(r0, r1 + 1):
+        for column: int in range(c0, c1 + 1):
+            var index: int = row * width + column
+            if canopy_cells[index] == 1 and canopy_excluded[index] != 0:
+                count += 1
+    return count
+
+func owned_records(layer: String, d: Dictionary, kind: String = "") -> int:
+    var x0: float = float(d.origin_x_m)
+    var z0: float = float(d.origin_z_m)
+    var x1: float = x0 + float(d.size_m)
+    var z1: float = z0 + float(d.size_m)
+    var collected: Dictionary = FeatureSource.collect(features, layer, x0, z0, x1, z1)
+    check(not collected.has("error"), layer + " page read failed in the vegetation audit")
+    var count: int = 0
+    for record: Dictionary in collected.features:
+        var p: Array = record.position
+        if p[0] >= x0 and p[0] < x1 and p[2] >= z0 and p[2] < z1 and (kind.is_empty() or str(record.kind) == kind):
+            count += 1
+    return count
+
+## Resident leaf tiles carry their paged trees, canopy cells and floor records.
+func audit_streamed_vegetation(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var stop := Vector3(-340.0, 40.0, 0.0)
+    var ready: bool = await settle(stream, observer, frame, stop)
+    check(ready, "vegetation audit stop did not settle")
+    if not ready:
+        return
+    var active: int = 0
+    for index: int in canopy_cells.size():
+        if canopy_cells[index] == 1 and canopy_excluded[index] != 0:
+            active += 1
+    check(active == 158499, "canopy exclusion receipt changed: %d active cells" % active)
+    var exclusion_sha: String = FileAccess.get_sha256(CANOPY_DIR + "/unresolved_cells_excluded.u8")
+    var tiles_checked: int = 0
+    for key: String in stream.resident:
+        var tile: Node = stream.resident[key]
+        var d: Dictionary = tile.descriptor
+        if int(d.lod) != 0:
+            continue
+        var x0: float = float(d.origin_x_m)
+        var z0: float = float(d.origin_z_m)
+        var size: float = float(d.size_m)
+        if x0 >= 640.0 or z0 >= 640.0 or x0 + size <= -640.0 or z0 + size <= -640.0:
+            continue
+        tiles_checked += 1
+        var pines: int = owned_records("vegetation", d, "pine")
+        var placed: int = owned_records("vegetation", d)
+        var vegetation := tile.get_node_or_null("StreamedVegetation")
+        check(vegetation != null or placed == 0, "resident tile lost its vegetation batches: " + key)
+        if vegetation != null:
+            check(int(vegetation.get_meta("records", -1)) == placed, "tile %s vegetation records differ from the pages" % key)
+            check(int(vegetation.get_meta("tree_records", -1)) == pines, "tile %s pine records differ from the pages" % key)
+            var pine_instances: int = 0
+            for child: Node in vegetation.get_children():
+                if child is MultiMeshInstance3D and child.has_meta("tree_archetype"):
+                    pine_instances += child.multimesh.instance_count
+            check(pine_instances == pines * 10, "tile %s renders %d pine instances for %d paged pines" % [key, pine_instances, pines])
+        var expected: int = expected_active_cells(d)
+        var canopy := tile.get_node_or_null("AuthoredCanopySurface")
+        check(canopy != null, "resident tile lost its canopy window: " + key)
+        if canopy != null:
+            check(int(canopy.get_meta("active_cells", -1)) == expected, "tile %s canopy active cells differ from the excluded mask" % key)
+            check(int(canopy.get_meta("cluster_display_count", -1)) == expected, "tile %s canopy clusters differ from active cells" % key)
+            check(str(canopy.get_meta("exclusion_sha256", "")) == exclusion_sha, "tile %s canopy exclusion sidecar differs" % key)
+        var floor_owned: int = owned_records("forest_floor", d)
+        var floor_group := tile.get_node_or_null("AuthoredForestFloor")
+        check(floor_group != null or floor_owned == 0, "resident tile lost its forest floor: " + key)
+        if floor_group != null:
+            check(int(floor_group.get_meta("records", -1)) == floor_owned, "tile %s forest-floor records differ from the pages" % key)
+    check(tiles_checked >= 4, "vegetation audit found too few resident leaf tiles in the canopy footprint")
+    var pager_stats: Dictionary = vegetation_stats(stream)
+    print("VEGETATION_AUDIT tiles=", tiles_checked, " active_canopy_cells=", active, " pager=", pager_stats)
+
+func vegetation_stats(stream: Node) -> Dictionary:
+    var pager: Node = stream.get_parent().get_node_or_null("VegetationPager")
+    return pager.stats() if pager != null else {}
+
+## Streamed water surfaces follow the baked material contract for pools and rivers.
+func audit_streamed_water(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var prismatic: Dictionary = {}
+    var firehole: Dictionary = {}
+    for pool: Dictionary in world.pools:
+        if str(pool.id) == "pool_1034_0":
+            prismatic = pool
+    for river: Dictionary in world.rivers:
+        if str(river.get("name", "")) == "FIREHOLE RIVER" and river.points.size() > 500:
+            firehole = river
+    check(not prismatic.is_empty() and not firehole.is_empty(), "world.json lost the audit pool or river")
+    if prismatic.is_empty() or firehole.is_empty():
+        return
+    var center: Array = prismatic.center
+    var ready: bool = await settle(stream, observer, frame, Vector3(float(center[0]), 40.0, float(center[2])))
+    check(ready, "Grand Prismatic tile not resident for the water audit")
+    var pool_node: MeshInstance3D = null
+    for key: String in stream.resident:
+        for node: Node in stream.tile_water_nodes(key):
+            if str(node.name) == "Water_pool_1034_0":
+                pool_node = node as MeshInstance3D
+    check(pool_node != null, "Grand Prismatic water surface missing in streamed mode")
+    if pool_node != null:
+        var pool_mat := pool_node.mesh.surface_get_material(0) as ShaderMaterial
+        check(pool_mat != null and pool_mat.shader != null and pool_mat.shader.resource_path == "res://shaders/water.gdshader", "pool surface shader is not water.gdshader")
+        if pool_mat != null:
+            check(is_equal_approx(float(pool_mat.get_shader_parameter("pool")), 1.0), "pool surface lost the pool uniform")
+            check(is_equal_approx(float(pool_mat.get_shader_parameter("temperature_c")), float(prismatic.temperature_c)), "pool surface temperature differs from world.json")
+            check(is_equal_approx(float(pool_mat.get_shader_parameter("ramp_mix")), 1.0) and pool_mat.get_shader_parameter("band_ramp") is Texture2D, "pool surface lost its pigment ramp")
+        check(pool_node.is_in_group("thermal_surfaces") and str(pool_node.get_meta("feature_name", "")) == str(prismatic.name), "pool surface lost its thermal group or feature name")
+    var mid: Array = firehole.points[int(firehole.points.size() / 2)]
+    ready = await settle(stream, observer, frame, Vector3(float(mid[0]), 40.0, float(mid[2])))
+    check(ready, "Firehole reach tile not resident for the water audit")
+    var river_node: MeshInstance3D = null
+    var expected_name: String = "Water_" + str(firehole.id)
+    for key: String in stream.resident:
+        var d: Dictionary = stream.resident[key].descriptor
+        if int(d.lod) != 0 or not covers(d, float(mid[0]), float(mid[2])):
+            continue
+        for node: Node in stream.tile_water_nodes(key):
+            if str(node.name) == expected_name:
+                river_node = node as MeshInstance3D
+    check(river_node != null, "Firehole water ribbon missing at the mid-reach tile")
+    if river_node != null:
+        var river_mat := river_node.mesh.surface_get_material(0) as ShaderMaterial
+        check(river_mat != null and river_mat.shader != null and river_mat.shader.resource_path == "res://shaders/river_water.gdshader", "river ribbon shader is not river_water.gdshader")
+        if river_mat != null:
+            check(is_equal_approx(float(river_mat.get_shader_parameter("core_width_m")), float(firehole.width)), "river ribbon width differs from world.json")
+            check(is_equal_approx(float(river_mat.get_shader_parameter("flow_speed")), float(firehole.flow_mps)), "river ribbon flow differs from world.json")
+        check(river_node.is_in_group("river_surfaces"), "river ribbon lost its river_surfaces group")
+        check(str(river_node.get_meta("river_name", "")) == "FIREHOLE RIVER" and river_node.has_meta("sample_z"), "river ribbon lost its reach metadata")
+    print("WATER_AUDIT pool=", pool_node != null, " river=", river_node != null)
+
+## Wildlife actors spawn on resident habitat tiles; a revisit restores persistent state.
+func audit_streamed_wildlife(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var host: Node = stream.get_parent()
+    # Mirror the world boot: activate the release so the replay and world hashes agree.
+    if ReleaseData.active.is_empty() and FileAccess.file_exists("res://data/release.json"):
+        var generation: Dictionary = ReleaseData.prepare("res://data/release.json")
+        check(not generation.is_empty(), "release pointer failed integrity checks")
+        if generation.is_empty():
+            return
+        ReleaseData.activate(generation)
+    var ecosystem = PythonReplay.new()
+    ecosystem.name = "WildlifeAuditEcosystem"
+    ecosystem.replay_path = "res://data/river_replay.json"
+    host.add_child(ecosystem)
+    check(ecosystem.configuration_valid, "wildlife audit ecosystem rejected its configuration")
+    var pager = WildlifePager.new()
+    pager.name = "WildlifePager"
+    host.add_child(pager)
+    check(pager.configure(stream, frame, master, ecosystem, host), "wildlife pager rejected the roster")
+    if not ecosystem.configuration_valid:
+        return
+    check(pager.present_ids().is_empty(), "actors appeared before any spawn pass")
+    var roster: Array = ecosystem.params.get("wildlife", [])
+    var bison: Dictionary = {}
+    var trout: Dictionary = {}
+    for record: Dictionary in roster:
+        if str(record.get("id", "")) == "bison_01":
+            bison = record
+        if str(record.get("id", "")) == "trout_01":
+            trout = record
+    check(not bison.is_empty() and not trout.is_empty(), "wildlife audit records missing from the roster")
+    if bison.is_empty() or trout.is_empty():
+        return
+    var bison_point: Array = bison.path_xz[0]
+    var bison_stop := Vector3(float(bison_point[0]), 40.0, float(bison_point[1]))
+    var ready: bool = await settle(stream, observer, frame, bison_stop)
+    check(ready, "bison habitat stop did not settle")
+    check(pager.present_ids().has("bison_01"), "bison_01 did not spawn on its resident habitat tile")
+    var river_points: Array = []
+    for river: Dictionary in ecosystem.world_data.get("rivers", []):
+        if str(river.get("id", "")) == str(trout.get("river_id", "")):
+            river_points = river.points
+    check(not river_points.is_empty(), "trout river points missing from world.json")
+    if river_points.is_empty():
+        return
+    var trout_point: Array = river_points[int(trout.get("start_point_index", 0))]
+    var trout_stop := Vector3(float(trout_point[0]), 40.0, float(trout_point[2]))
+    ready = await settle(stream, observer, frame, trout_stop)
+    check(ready, "trout habitat stop did not settle")
+    for id: String in ["trout_01", "trout_02", "trout_03", "trout_04"]:
+        check(pager.present_ids().has(id), id + " did not spawn on its resident habitat tile")
+    for _tick: int in 90:
+        await physics_frame
+    var actor: Node3D = pager.present_actor("trout_01")
+    check(actor != null, "trout_01 was lost while its tile stayed resident")
+    if actor == null:
+        return
+    check(is_finite(actor.chainage_m), "resident trout did not establish chainage")
+    check(str(actor.get_meta("persistence_class", "")) == "tracked", "trout_01 lost its tracked persistence class")
+    # Rebase with the actor resident: absolute state holds, the display position follows.
+    var absolute_before: Vector3 = actor.site_position()
+    var far := Vector3(-1500.0, 60.0, -1900.0)
+    observer.global_position = frame.local_position(far.x, far.y, far.z)
+    check(frame.maybe_rebase(observer), "no rebase triggered with actors resident")
+    check(actor.site_position().is_equal_approx(absolute_before), "rebase moved the absolute actor position")
+    var expected_local: Vector3 = frame.local_position(absolute_before.x, absolute_before.y, absolute_before.z)
+    check(actor.position.distance_to(expected_local) < 0.001, "actor display position did not follow the rebase")
+    # Retire the habitat tile; the store survives and the ecosystem keeps advancing.
+    ready = await settle(stream, observer, frame, far)
+    check(ready, "far stop did not settle")
+    var suspended := false
+    for _tick: int in 1800:
+        await physics_frame
+        if not pager.present_ids().has("trout_01"):
+            suspended = true
+            break
+    check(suspended, "trout_01 did not suspend after its habitat tile retired")
+    var stored: Dictionary = pager.stored_state("trout_01")
+    check(stored.has("world_position") and stored.has("chainage_m"), "suspension lost the persistent store")
+    check(host.get_node_or_null("trout_01") == null, "suspended actor node remains in the tree")
+    if stored.is_empty():
+        return
+    var elapsed_hidden: float = ecosystem.elapsed
+    for _tick: int in 60:
+        await physics_frame
+    check(ecosystem.elapsed > elapsed_hidden, "ecosystem state did not advance while the trout was hidden")
+    # Revisit under a paused clock: the restored actor matches the store exactly.
+    ecosystem.paused = true
+    ready = await settle(stream, observer, frame, trout_stop)
+    check(ready, "trout habitat stop did not settle on revisit")
+    check(pager.present_ids().has("trout_01"), "trout_01 did not respawn on revisit")
+    check(int(pager.stats().restored) >= 1, "revisit did not restore from the persistent store")
+    var duplicates: int = 0
+    var revived: Node3D = null
+    for child: Node in host.get_children():
+        if str(child.name) == "trout_01":
+            duplicates += 1
+            revived = child as Node3D
+    check(duplicates == 1, "revisit duplicated trout_01")
+    if revived != null:
+        check(is_equal_approx(revived.chainage_m, float(stored.chainage_m)), "revisit reset the trout chainage")
+        var stored_target: float = float(stored.target_s_m)
+        var target_held: bool = (is_nan(stored_target) and is_nan(revived.target_s_m)) or is_equal_approx(revived.target_s_m, stored_target)
+        check(target_held, "revisit reset the trout target")
+        check(revived.site_position().distance_to(stored.world_position) < 0.001, "revisit moved the stored trout position")
+        check(str(revived.state) == str(stored.state), "revisit reset the trout state")
+    ecosystem.paused = false
+    for _tick: int in 90:
+        await physics_frame
+    revived = pager.present_actor("trout_01")
+    check(revived != null and is_finite(revived.chainage_m), "restored trout lost chainage after resume")
+    var totals: Dictionary = pager.stats()
+    check(int(totals.spawned) == int(totals.suspended) + pager.present_ids().size(), "spawn and suspend accounting diverged")
+    print("WILDLIFE_AUDIT roster=", roster.size(), " spawned=", totals.spawned, " suspended=", totals.suspended, " restored=", totals.restored, " present=", pager.present_ids().size())

@@ -1,6 +1,6 @@
 # Validation record
 
-Test environment: **Godot 4.5.1 stable, official build f62fdbde1**. CPU-side checks use the headless engine and the actual saved project resources. Rendered previews use Godot's Compatibility renderer through Mesa llvmpipe software OpenGL at **1440 × 900**, with 4× MSAA. The software renderer is suitable for inspecting output; these captures are **not a gaming-GPU performance benchmark**.
+Test environment: **Godot 4.5.1 stable, official build f62fdbde1**. CPU-side checks use the headless engine and the actual saved project resources. Rendered previews use Godot's Compatibility renderer through Mesa llvmpipe software OpenGL at **1440 x 900**, with 4x MSAA. The software renderer is suitable for inspecting output; these captures are **not a gaming-GPU performance benchmark**.
 
 ## Scope of the verified build
 
@@ -8,7 +8,7 @@ This is a fixed, georeferenced, playable landscape foundation. It loads saved te
 
 | Check | Result / evidence |
 |---|---|
-| Geographic extent and unit convention | 4,096 m × 4,096 m; 1 unit = 1 m; 1,025 samples at 4 m spacing |
+| Geographic extent and unit convention | 4,096 m x 4,096 m; 1 unit = 1 m; 1,025 samples at 4 m spacing |
 | Shared route endpoint elevations | 0 m discrepancy; `tests/data_validation.json` |
 | Shared river endpoint elevations | 0 m discrepancy; same report |
 | Rendered terrain tile borders | 0 m discrepancy across all 256 tiles; `tests/baked_validation.json` |
@@ -31,13 +31,13 @@ The buffer validator decodes the saved CPU arrays, checks every instance transfo
 
 ## Ecological verification
 
-The reduced heat model was run for one physical hour. Maximum per-substep heat-ledger residual was approximately **2.55 × 10⁻¹⁰ m³·°C**, with a water-volume residual of zero. Density and specific heat are omitted consistently from the reported heat ledger; these units are not joules. A separate uniform-temperature case preserved 20 °C exactly. A large elapsed-time call matched the equivalent stable substeps.
+The reduced heat model was run for one physical hour. Maximum per-substep heat-ledger residual was approximately **2.55e-10 m3*C**, with a water-volume residual of zero. Density and specific heat are omitted consistently from the reported heat ledger; these units are not joules. A separate uniform-temperature case preserved 20 C exactly. A large elapsed-time call matched the equivalent stable substeps.
 
 A 180-second actor run checked the twelve authored wildlife records, expected behavior transitions, route confinement, fish clearance above the bed, forage removal by grazers and insect-resource removal by foragers. These are bounded observational proxies. They are not population dynamics, animal intelligence, a calibrated thermal plume or verified individual wildlife sightings.
 
 ## Moving-body verification
 
-`tools/validate_walk.gd` runs the actual player capsule and movement settings against the baked scene. It uses one initial placement per case, then velocity and `move_and_slide()` through the saved waypoints. The focused cases cover the Midway bridge in both directions, the Fairy Falls bridge in both directions, the upper overlook approach/deck entry, and a boardwalk junction. They check progress, floor contact, corridor confinement and falling below the intended surface.
+`tools/validate_walk.gd` runs the actual player capsule and movement settings against the baked scene. It uses the player's capsule, floor angle, floor snap, safe margin, acceleration and gravity. It uses one initial placement per case, then velocity and `move_and_slide()` through the saved waypoints. The focused cases cover the Midway bridge in both directions, the Fairy Falls bridge in both directions, the upper overlook approach/deck entry, and a boardwalk junction. They check progress, floor contact, corridor confinement and falling below the intended surface.
 
 The first run caught a rail chord cutting a bend, an abrupt bridge exit and a raised deck lip. Those findings drove explicit geometry repairs. The final result and source hashes are in `tests/walking_validation.json`: all six cases pass, covering **415.772 m** over **252.717 simulated seconds**, with **zero airborne intervals**, all finishes on the floor, and maximum cross-track deviation **0.240 m**. Both Midway bridge directions have zero wall contacts. The initial diagnostic report is retained separately as historical evidence and is not the current acceptance result.
 
@@ -54,7 +54,7 @@ No generated concept image is used as evidence of the engine's output. The refer
 - The four-metre terrain cannot resolve close bank cross-sections or thermal crust details. Wide support cuts keep narrow water ribbons exposed but produce angular, over-simple banks in some close views. Replacing these with reviewed local meshes is a priority.
 - The aerial macrocolor contains canopy and shadow imprints. It is not a reconstructed ground albedo underneath the added trees.
 - The pine is one generic creator-made form with reduced detail levels and scale/orientation variations. It is not a reviewed set of native lodgepole growth forms.
-- Animal and botanical meshes are original development stand-ins. The species catalogue's broader diversity is research material, not a claim of completed models.
+- Animal and botanical meshes are original development stand-ins. The species catalog records broader research diversity; model completion requires separate asset evidence.
 - Water stages, underwater floors, bridges, road widths and the representative Excelsior branch include authored approximations.
 - Trunk collision is concentrated around the central walking region. Peripheral tree instances, rocks, logs and ecological stand-ins do not yet have a complete streamed collision system; terrain and the saved transport surfaces do have collision across the domain.
 - The current local scene loads in full. GPU frame times, memory budgets, console/mobile operation, full-park streaming and long-duration play are unverified.

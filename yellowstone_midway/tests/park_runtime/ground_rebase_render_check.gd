@@ -36,7 +36,7 @@ func grab() -> Image:
     await RenderingServer.frame_post_draw
     return root.get_texture().get_image()
 
-## Mean absolute channel difference in 8-bit levels, and the fraction of pixels differing by more than one level.
+## Mean absolute 8-bit channel delta and fraction of pixels differing by over one level.
 func compare(a: Image, b: Image) -> Dictionary:
     var total: float = 0.0
     var over: int = 0

@@ -65,17 +65,20 @@ func _draw() -> void:
 		# Top-down projection: y component is discarded.
 		for p: Array in r.points:pts.append(rect.position+(Vector2(p[0],p[2])+Vector2.ONE*2048.0)/4096.0*540.0)
 		draw_polyline(pts,Color(.94,.76,.33) if r.kind=="road" else Color(.90,.91,.83),1.5)
-	var p: Vector3=world.player.position
+	# Site coordinates keep the marker correct across streamed origin shifts.
+	var p: Vector3=world.player_site_position()
 	var pt:=rect.position+(Vector2(p.x,p.z)+Vector2.ONE*2048.0)/4096.0*540.0
 	draw_circle(pt,5.0,Color.WHITE)
 	var direction: Vector3=-world.player.global_basis.z
 	draw_line(pt,pt+Vector2(direction.x,direction.z)*18.0,Color.WHITE,2)
-	var legend: String = "N ↑    Gold: road    Ivory: trail    Dot: you"
+	var max_w := size.x - 50.0
+	var legend: String = "N up    Gold: road    Ivory: trail    Dot: you"
 	if census_visible:
-		legend += "    U: core circles; ExG q1-q4 / neutral unmeasured" if _has_exg_quartiles else "    U: LiDAR core circles; ExG unmeasured"
-	draw_string(font,Vector2(25,632),legend,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color(.87,.89,.81))
-	draw_line(Vector2(380,649),Vector2(512,649),Color.WHITE,2)
-	draw_string(font,Vector2(406,671),"1 kilometre",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color.WHITE)
+		legend += "    U: core circles" + ("; ExG q1-q4" if _has_exg_quartiles else "; ExG unmeasured")
+	# Clip the legend to the card width.
+	draw_string(font,Vector2(25,624),legend,HORIZONTAL_ALIGNMENT_LEFT,max_w,15,Color(.87,.89,.81))
+	draw_line(Vector2(380,642),Vector2(512,642),Color.WHITE,2)
+	draw_string(font,Vector2(406,664),"1 kilometer",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color.WHITE)
 
 func _exg_value(value: Variant) -> float:
 	if typeof(value) not in [TYPE_INT, TYPE_FLOAT]:

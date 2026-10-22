@@ -1,4 +1,4 @@
-# Yellowstone - Midway
+# Yellowstone Midway
 
 A fixed, georeferenced Godot landscape centered on Grand Prismatic Spring, with walking, the Grand Loop Road, the Midway boardwalk, the overlook approach, connected waterways, and a small observational ecosystem.
 
@@ -14,7 +14,7 @@ A fixed, georeferenced Godot landscape centered on Grand Prismatic Spring, with 
 | Space | Small jump |
 | Esc | Starting places and menu |
 | M | Map, drawn from the same geographic coordinates |
-| I | Optional environmental field notes |
+| `I` | Optional environmental field notes |
 | F | Hide or show the interface |
 | R | Return to the selected starting place |
 | F3 | Authoring flight; Space/Control change height |
@@ -34,7 +34,7 @@ The domain is **4,096 x 4,096 meters**. One Godot unit is one meter. The origin 
 
 The 1,025 x 1,025 elevation grid is sampled at 4 m spacing from USGS 3DEP data. July 19, 2022 USDA NAIP aerial imagery supplies macro ground color. Roads, trails and hydrography come from saved NPS GIS layers. See [the geographic research and provenance](docs/geography-research.md) for exact source dates, accuracy classes and acquisition details.
 
-This is an executable landscape foundation with genuine geographic inputs. It is **not a finished photorealistic replica**. Dominant crown cores and canopy coverage are derived from 2020 USGS LiDAR; their local validation metrics remain unavailable without submitted labels. Specific render dimensions and species transfers remain unvalidated; the compact pine is a human-created generic pine visual, not a botanically authenticated lodgepole specimen. KJR-owned animated animal meshes have runtime bindings. Wolf, deer and elk retain shape-proxy labels; motion and rig checks do not establish measured biomechanics. Thirty fixed original botanical clumps add willow, sedge and lupine genus/guild stand-ins; their exact taxon and positions remain unverified. Road widths, road engineering, bridge structure, underwater depth, small drainage detail and material microstructure remain authored approximations. The core distinctions and the work to finish them are documented rather than hidden.
+This is an executable landscape foundation with genuine geographic inputs. It is **not a finished photorealistic replica**. Dominant crown cores and canopy coverage are derived from 2020 USGS LiDAR; their local validation metrics remain unavailable without submitted labels. Specific render dimensions and species transfers remain unvalidated; the compact pine is a human-created generic pine visual whose lodgepole identity lacks botanical authentication. KJR-owned animated animal meshes have runtime bindings. Wolf, deer and elk retain shape-proxy labels; motion and rig checks do not establish measured biomechanics. Thirty fixed original botanical clumps add willow, sedge and lupine genus/guild stand-ins; their exact taxon and positions remain unverified. Road widths, road engineering, bridge structure, underwater depth, small drainage detail and material microstructure remain authored approximations. The documentation records these limits and the work needed to address them.
 
 ## Reading order
 
@@ -58,7 +58,7 @@ On the tested macOS machine, use `godot --path . --rendering-method mobile --ren
 
 ## Edit the world
 
-`scenes/authored_world.tscn` is a normal, saved scene of fixed geometry. Its terrain tiles and instanced vegetation are baked ahead of time. The game does not generate a new world or scatter scenery when you launch it.
+`scenes/authored_world.tscn` is a normal, saved scene of fixed geometry. Its terrain tiles and instanced vegetation are baked ahead of time. Startup loads the saved geography and placements.
 
 For new hand placements, edit **`scenes/handcrafted_details.tscn`**. Add `MidwayAuthoredPlacement` nodes, choose an imported PackedScene in the inspector and use the normal transform tools. That scene survives every terrain bake. `data/placement_overrides.json` provides persistent additions, removals and complete replacement records for the initial vegetation draft.
 
@@ -80,7 +80,7 @@ godot --headless --path . --fixed-fps 60 --script tools/validate_walk.gd
 godot --headless --path . -- --smoke-test
 ```
 
-Replace `godot` with the path to your Godot executable. The first compiler retains existing `placements.json`. Replacing that drafting layer requires the explicit `--placements-replace` option. The bake overwrites `scenes/authored_world.tscn`; keep direct edits in the separate handcrafted scene or save a renamed working scene first.
+Substitute the installed Godot executable path for `godot`. The first compiler retains existing `placements.json`. Replacing that drafting layer requires the explicit `--placements-replace` option. The bake overwrites `scenes/authored_world.tscn`; keep direct edits in the separate handcrafted scene or save a renamed working scene first.
 
 ## Terrain quality and checks
 

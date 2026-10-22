@@ -1,5 +1,5 @@
 extends SceneTree
-## Checks baked river ribbons and vegetation clearance. Run: godot --headless --path . --script tools/validate_river_surface.gd
+## Saved river ribbon and vegetation clearance validation.
 
 # Mirrors the margin rule in tools/bake_world.gd.
 const MARGIN_FRACTION := 0.23
@@ -41,7 +41,9 @@ func check_ribbon(river: Dictionary, node: MeshInstance3D) -> Dictionary:
 			positive += 1
 		elif area < -0.000001:
 			negative += 1
-	var folded := mini(positive, negative)
+	var folded := negative
+	if positive == 0:
+		failures.append("%s has no clockwise river faces" % river.id)
 	var first_fade := colors[0].b
 	var last_fade := colors[colors.size() - 1].b
 	if non_finite > 0:
@@ -89,10 +91,8 @@ func run() -> void:
 		if node == null:
 			failures.append("missing river node " + str(river.id))
 			continue
-		if bool(river.get("thermal", false)):
-			continue
 		var material := node.mesh.surface_get_material(0) as ShaderMaterial
-		if material == null or not material.shader.resource_path.ends_with("river_water.gdshader"):
+		if not bool(river.get("thermal", false)) and (material == null or not material.shader.resource_path.ends_with("river_water.gdshader")):
 			failures.append("%s does not use river_water.gdshader" % river.id)
 		ribbons.append(check_ribbon(river, node))
 	index_segments(spec.rivers)
@@ -119,6 +119,7 @@ func run() -> void:
 		total_inside += int(inside[name])
 	if total_inside > 0:
 		failures.append("%d vegetation instance records lie inside river water" % total_inside)
+	world.free()
 	print("RIVER_SURFACE_VALIDATION ", JSON.stringify({"ok": failures.is_empty(), "failures": failures, "ribbons": ribbons,
 		"vegetation_records_checked": checked, "records_in_water": inside, "seconds": (Time.get_ticks_msec() - started) / 1000.0}))
 	quit(0 if failures.is_empty() else 1)

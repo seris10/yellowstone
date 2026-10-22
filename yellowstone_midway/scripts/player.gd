@@ -14,6 +14,16 @@ var enabled := false
 var fly_mode := false
 var spawn := Vector3.ZERO
 var pitch := 0.0
+# Streamed-mode providers; both null under the baked world.
+var stream_provider: Node = null
+var coordinate_frame: RefCounted = null
+# Absolute site spawn for streamed mode; spawn caches its local form.
+var spawn_absolute := Vector3.ZERO
+var spawn_is_absolute := false
+# Swept-segment guard subdivision in meters for streamed walking.
+const STREAM_GUARD_STEP_M: float = 32.0
+# Bound on guard substeps per physics tick.
+const STREAM_GUARD_MAX_SUBSTEPS: int = 8
 
 func _ready() -> void:
 	floor_snap_length = 0.55
@@ -79,12 +89,20 @@ func _physics_process(delta: float) -> void:
 			velocity.y -= gravity_mps2 * delta
 		elif Input.is_action_pressed("jump"):
 			velocity.y = jump_speed
+		if stream_provider != null and not _stream_guard_allows(delta):
+			velocity = Vector3.ZERO
+			return  # Hold position while collision prepares; input and camera still run.
 		move_and_slide()
 		# Step-up assist for boardwalk lips and deck edges.
 		var flat := Vector3(direction.x, 0.0, direction.z)
 		if is_on_floor() and is_on_wall() and flat.length_squared() > 0.04 and velocity.y <= 0.0:
 			_try_step_up(flat.normalized())
-	if absf(position.x) > 2038.0 or absf(position.z) > 2038.0 or position.y < -50.0:
+	if stream_provider == null:
+		# Baked mode bounds the original Midway square.
+		if absf(position.x) > 2038.0 or absf(position.z) > 2038.0 or position.y < -50.0:
+			position = spawn
+			velocity = Vector3.ZERO
+	elif position.y < -50.0:
 		position = spawn
 		velocity = Vector3.ZERO
 
@@ -97,3 +115,37 @@ func place_at(point: Vector3, look_at_point: Vector3) -> void:
 	pitch = atan2(direction.y, Vector2(direction.x, direction.z).length())
 	camera.rotation.x = pitch
 	reset_physics_interpolation()
+
+func bind_stream(provider: Node, frame: RefCounted) -> void:
+	# Bind the streamed terrain guard and coordinate frame.
+	stream_provider = provider
+	coordinate_frame = frame
+	if not frame.rebased.is_connected(_on_frame_rebased):
+		frame.rebased.connect(_on_frame_rebased)
+
+func _on_frame_rebased(_shift: Vector3) -> void:
+	# Recompute the local spawn after an origin shift.
+	if spawn_is_absolute:
+		spawn = coordinate_frame.local_position(spawn_absolute.x, spawn_absolute.y, spawn_absolute.z)
+
+func place_at_absolute(point: Vector3, look_at_point: Vector3) -> void:
+	# Place the walker at absolute site coordinates in streamed mode.
+	if coordinate_frame == null:
+		place_at(point, look_at_point)
+		return
+	spawn_absolute = point
+	spawn_is_absolute = true
+	place_at(coordinate_frame.local_position(point.x, point.y, point.z),
+		coordinate_frame.local_position(look_at_point.x, look_at_point.y, look_at_point.z))
+
+func _stream_guard_allows(delta: float) -> bool:
+	# Check the swept segment against prepared collision tiles.
+	var segment: Vector3 = velocity * delta
+	if segment.length() > STREAM_GUARD_STEP_M * STREAM_GUARD_MAX_SUBSTEPS:
+		return false
+	var steps: int = maxi(int(ceil(segment.length() / STREAM_GUARD_STEP_M)), 1)
+	for i: int in range(1, steps + 1):
+		var next_position: Vector3 = global_position + segment * (float(i) / float(steps))
+		if not stream_provider.can_enter(next_position, 0.5):
+			return false
+	return true

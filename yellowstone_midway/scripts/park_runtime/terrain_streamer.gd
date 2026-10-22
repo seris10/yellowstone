@@ -1,6 +1,7 @@
 extends Node3D
 ## Main-thread coordinator; immutable source pages, async CPU builds, budgeted commits.
 signal tile_committed(key: String)
+signal tile_retiring(key: String)
 signal stream_error(key: String, message: String)
 
 const Job = preload("res://scripts/park_runtime/terrain_job.gd")
@@ -36,6 +37,9 @@ var _collisions: Dictionary = {}
 var _failures: Dictionary = {}
 var _features: Dictionary = {}
 var _groups: Dictionary = {}
+var _water_nodes: Dictionary = {}
+var _water_materials: Dictionary = {}
+var _route_materials: Dictionary = {}
 var _elapsed: float = 0.0
 var _now: float = 0.0
 var _bytes: int = 0
@@ -188,8 +192,12 @@ func _commit_ready() -> void:
         tile.last_used_s = _now
         add_child(tile)
         _commit_shoreline(tile,data)
+        var water: Array = _commit_water(tile,data)
+        _water_nodes[key] = water
+        var routes: int = _commit_routes(tile,data)
         _groups[key] = {"pools":data.get("pools",[]),"routes":data.get("routes",[]),
-            "shoreline":not data.get("shoreline_arrays",[]).is_empty()}
+            "shoreline":not data.get("shoreline_arrays",[]).is_empty(),
+            "water_surfaces":water.size(),"route_pieces":routes}
         resident[key] = tile
         _bytes += tile.bytes_estimate
         commits += 1
@@ -207,6 +215,8 @@ func _retire() -> void:
         _bytes -= tile.bytes_estimate
         resident.erase(key)
         _groups.erase(key)
+        tile_retiring.emit(key)
+        _water_nodes.erase(key)
         tile.queue_free()
         return
 
@@ -262,7 +272,157 @@ func _commit_shoreline(tile: Node3D, data: Dictionary) -> void:
 func tile_group(key: String) -> Dictionary:
     return _groups.get(key,{})
 
-## Route chunks delivered with the collision-level tile that holds the point; empty until that tile is resident.
+## Feature page index loaded at configure; empty when the catalog carries no features.
+func feature_source() -> Dictionary:
+    return _features
+
+## Water surface nodes committed with a resident tile; empty for dry or absent tiles.
+func tile_water_nodes(key: String) -> Array:
+    return _water_nodes.get(key,[])
+
+## Pool and river surfaces join the tile commit under the baked water material contract.
+func _commit_water(tile: Node3D, data: Dictionary) -> Array:
+    var nodes: Array = []
+    for surface: Dictionary in data.get("water_surfaces",[]):
+        var arrays: Array = surface.arrays
+        if arrays.is_empty():
+            continue
+        var generated := ArrayMesh.new()
+        generated.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+        generated.surface_set_material(0,_water_material(surface))
+        var instance := MeshInstance3D.new()
+        instance.name = "Water_" + str(surface.id)
+        instance.mesh = generated
+        instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+        if bool(surface.get("thermal",false)) and str(surface.id).begins_with("pool_"):
+            instance.add_to_group("thermal_surfaces",true)
+            instance.set_meta("feature_name",str(surface.get("name","")))
+        if not str(surface.id).begins_with("pool_"):
+            instance.add_to_group("river_surfaces",true)
+            instance.set_meta("river_name",str(surface.get("name","")))
+            instance.set_meta("sample_z",float(surface.get("sample_z",0.0)))
+        tile.add_child(instance)
+        nodes.append(instance)
+    return nodes
+
+## Route ribbons, decks, supports and rails join the leaf tile commit with baked materials.
+func _commit_routes(tile: Node3D, data: Dictionary) -> int:
+    var committed: int = 0
+    for piece: Dictionary in data.get("route_pieces",[]):
+        var arrays: Array = piece.arrays
+        if arrays.is_empty():
+            continue
+        var generated := ArrayMesh.new()
+        generated.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+        generated.surface_set_material(0,_route_material(str(piece.mat),float(piece.get("width_m",0.0))))
+        var instance := MeshInstance3D.new()
+        instance.name = "Route_" + str(piece.get("name","piece")) + "_" + str(piece.piece)
+        instance.mesh = generated
+        for meta_key: String in piece.get("meta",{}):
+            instance.set_meta(meta_key,piece.meta[meta_key])
+        tile.add_child(instance)
+        if bool(piece.get("collision",false)):
+            var shape: Shape3D = generated.create_trimesh_shape()
+            if shape != null:
+                var body := StaticBody3D.new()
+                body.name = "RouteCollision"
+                var collider := CollisionShape3D.new()
+                collider.shape = shape
+                body.add_child(collider)
+                instance.add_child(body)
+        committed += 1
+    return committed
+
+## One material per water feature; uniform values match the baked assignments.
+func _water_material(surface: Dictionary) -> Material:
+    var key := str(surface.id)
+    if _water_materials.has(key):
+        return _water_materials[key]
+    var ripple: Texture2D = load("res://assets/textures/water_normal.png")
+    var width := float(surface.get("width_m",0.0))
+    var mat := ShaderMaterial.new()
+    var is_river: bool = not str(surface.id).begins_with("pool_")
+    if is_river and not bool(surface.get("thermal",false)) and str(surface.id) != "authored_excelsior_outflow_01":
+        mat.shader = load("res://shaders/river_water.gdshader")
+        mat.set_shader_parameter("ripple",ripple)
+        mat.set_shader_parameter("flow_speed",float(surface.get("flow_mps",0.0)))
+        var margin: float = clampf(width*0.23,0.8,5.0)
+        mat.set_shader_parameter("width_m",(width*0.5+margin)*2.0)
+        mat.set_shader_parameter("core_width_m",width)
+        # Firehole DEM-transect mean depth: 0.512-0.53 m (configs/cross_sections.json).
+        mat.set_shader_parameter("channel_depth_m",0.53 if width > 8.0 else 0.45)
+    else:
+        mat.shader = load("res://shaders/water.gdshader")
+        mat.set_shader_parameter("ripple",ripple)
+        if not is_river:
+            mat.set_shader_parameter("pool",1.0)
+            mat.set_shader_parameter("temperature_c",float(surface.get("temperature_c",0.0)))
+            if bool(surface.get("thermal",false)):
+                mat.set_shader_parameter("shallow_color",Vector3(.10,.64,.62))
+                mat.set_shader_parameter("deep_color",Vector3(.012,.29,.48))
+                mat.set_shader_parameter("flow_speed",.03)
+                mat.set_shader_parameter("roughness",.20)
+                var ramp_path := "res://assets/textures/pool_ramps/%s.png" % str(surface.id)
+                if ResourceLoader.exists(ramp_path):
+                    mat.set_shader_parameter("band_ramp",load(ramp_path))
+                    mat.set_shader_parameter("ramp_mix",1.0)
+        else:
+            mat.set_shader_parameter("flow_speed",float(surface.get("flow_mps",0.0)))
+            mat.set_shader_parameter("width_m",width)
+            mat.set_shader_parameter("pool",0.0)
+            if bool(surface.get("thermal",false)):
+                mat.set_shader_parameter("shallow_color",Vector3(.34,.43,.32))
+                mat.set_shader_parameter("deep_color",Vector3(.15,.32,.25))
+                mat.set_shader_parameter("roughness",.32)
+                mat.set_shader_parameter("cascade",1.0)
+            if str(surface.id) == "authored_excelsior_outflow_01":
+                # Advect outflow ripples; red carries the cooling and foam fraction.
+                mat.set_shader_parameter("flow_speed",2.2)
+    _water_materials[key] = mat
+    return mat
+
+## Route surface materials keyed by class; gravel carries the per-ribbon width uniform.
+func _route_material(key: String, width_m: float) -> Material:
+    var cache_key := key
+    if key == "gravel":
+        cache_key = "gravel:%.3f" % width_m
+    if _route_materials.has(cache_key):
+        return _route_materials[cache_key]
+    var mat: Material
+    match key:
+        "asphalt":
+            var standard := StandardMaterial3D.new()
+            standard.albedo_color = Color(0.105,0.112,0.106)
+            standard.roughness = 0.9
+            mat = standard
+        "gravel":
+            var shadered := ShaderMaterial.new()
+            shadered.shader = load("res://shaders/trail.gdshader")
+            shadered.set_shader_parameter("ground_detail",load("res://assets/textures/forest_ground_04_diff_1k.jpg"))
+            shadered.set_shader_parameter("width_m",width_m)
+            mat = shadered
+        "wood":
+            mat = load("res://assets/materials/boardwalk.tres")
+        "paint":
+            var standard := StandardMaterial3D.new()
+            standard.albedo_color = Color(0.80,0.60,0.19)
+            standard.roughness = 0.9
+            mat = standard
+        "timber_stringer":
+            mat = load("res://assets/materials/timber_stringer.tres")
+        "timber_post":
+            mat = load("res://assets/materials/timber_post.tres")
+        "timber_beam":
+            mat = load("res://assets/materials/timber_beam.tres")
+        _:
+            var fallback := StandardMaterial3D.new()
+            fallback.albedo_color = Color(0.5,0.45,0.4)
+            fallback.roughness = 0.9
+            mat = fallback
+    _route_materials[cache_key] = mat
+    return mat
+
+## Return routes from the containing collision-level tile; absent resident tiles yield no chunks.
 func route_chunks_at(x: float,z: float) -> Array:
     for key: String in _groups:
         var tile = resident.get(key)

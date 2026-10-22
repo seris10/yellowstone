@@ -10,7 +10,7 @@ A small, modular atmosphere renderer designed for the existing Yellowstone scene
 - `shaders/rainbow.gdshader`: primary and weaker reversed secondary scattering constrained to the illuminated liquid curtain.
 - `shaders/physical_daylight.gdshader`: linear three-band daylight and night-star rendering.
 - `scripts/weather_snapshot_reader.gd`: validates and polls an externally produced weather JSON snapshot. It does not make network requests.
-- `examples/latest_weather.example.json`: documented snapshot shape with example values. These are illustrative, not a real observation.
+- `examples/latest_weather.example.json`: documented snapshot shape with illustrative values. Observations require a separately acquired feed.
 - `docs/integration_patch.md`: precise integration changes for the main world script.
 
 ## Simulation clock and weather API
@@ -26,7 +26,7 @@ A small, modular atmosphere renderer designed for the existing Yellowstone scene
 
 ## Renderer and scientific scope
 
-The daylight shader integrates a lower scattering column with Rayleigh and aerosol phase functions. An upper ozone column attenuates the incident sunlight. Its RGB radiance remains linear through luminance-based display compression; stars appear at night. Coefficients and display limits are documented in [the surface methods](https://github.com/seris10/yellowstone/blob/main/yellowstone_midway/docs/SURFACE_RENDERING.md). The cloud layer is procedural and artistically shaded, not a full volumetric cloud simulation or radiative-transfer model. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0  degrees C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
+The daylight shader integrates a lower scattering column with Rayleigh and aerosol phase functions. An upper ozone column attenuates the incident sunlight. Its RGB radiance remains linear through luminance-based display compression; stars appear at night. Coefficients and display limits are documented in [the surface methods](https://github.com/seris10/yellowstone/blob/main/yellowstone_midway/docs/SURFACE_RENDERING.md). The cloud layer uses procedural geometry and artistic shading. Full volumetric cloud simulation and radiative transfer are outside its scope. The precipitation particles visualize input precipitation rate and phase; they do not calculate those values. The controller intentionally does not infer rain/snow phase from a 0 degrees C cutoff. Feed `snow_fraction` from the meteorological pipeline, ideally using wet-bulb temperature and humidity.
 
 The Midway production project uses Godot's Mobile renderer; Compatibility remains selectable. This package does not enable built-in volumetric fog, which Godot documents as Forward+-only. Procedural clouds and GPU particles are the supported fallback. A true ray-marched volumetric cloud implementation should be a separate Forward+ quality tier, not silently enabled on this renderer.
 
@@ -50,7 +50,7 @@ If the world creates terrain/material instances after the atmosphere controller 
 
 ## Snapshot contract
 
-The reader polls `user://weather/latest.json` by default. That path resolves to Godot's per-project user data directory. An external Python ingest process should discover or configure that directory explicitly, write a complete temporary JSON file, then atomically replace `latest.json`. Do not let two processes write the same file in place.
+The reader polls `user://weather/latest.json` by default. That path resolves to Godot's per-project user data directory. An external Python ingest process discovers or configures that directory explicitly, writes a complete temporary JSON file, then atomically replaces `latest.json`. Each snapshot path has one writer.
 
 Required fields:
 
@@ -89,13 +89,57 @@ The timestamp above is an example value only. Use the actual UTC time the normal
 - `wind_direction_deg`: meteorological direction **from which** the wind blows, degrees clockwise from north.
 - `cloud_fraction`: 0 clear to 1 overcast, normalized from the forecast/analysis source.
 - `cloud_base_agl_m`, `cloud_thickness_m`: rendering geometry inputs in meters above local ground.
-- `precipitation_rate_mm_h`: liquid-equivalent precipitation rate. The renderer maps this to particle density, not a precise drop count.
+- `precipitation_rate_mm_h`: liquid-equivalent precipitation rate. The renderer maps this to illustrative particle density; physical drop counts remain uncalibrated.
 - `snow_fraction`: fraction from 0 (all rain) to 1 (all snow); calculate outside the renderer.
 - `visibility_m`: approximate horizontal visibility used for atmospheric haze/fog.
 - `ground_wetness_fraction`: optional hydrology-derived value from 0 to 1. `-1` means omit it and leaves terrain materials untouched.
 - `solar_azimuth_deg`, `solar_elevation_deg`: optional, but recommended for live mode. Supply both from the timestamp/park location (for example, a Python `pvlib` calculation). If both are absent, GDScript calculates a fallback solar position from the simulation hour, day of year and configured UTC offset.
 
 The sample `source` metadata is for human provenance only. The reader does not claim a forecast is validated because it contains `HRRR` or `RTMA` in a label.
+
+## Snapshot freshness
+
+`weather_snapshot_reader.gd` reads local files. The shipped `snapshot_path` is
+`res://data/weather_snapshot.json`; an existing `live_snapshot_path` takes
+priority. Its freshness modes compare `generated_at_unix` as follows:
+
+| Mode | Reference clock |
+|---|---|
+| `wall_clock` | Computer clock |
+| `simulation_clock` | Supplied simulation epoch; a missing epoch rejects the snapshot |
+| `disabled` | Age validation is disabled |
+
+`clear_simulation_epoch()` clears that reference until another epoch is supplied.
+The HTTP consumer accepts nested normalized snapshots or flat endpoint weather,
+forwards flat state to the controller, and persists the normalized nested schema
+at `snapshot_path`. Missing server timestamps receive explicit client-timed
+provenance. Scalar wind speed retains the default direction; supplied wind
+vectors convert from destination vectors to meteorological source bearings in
+the +X east, +Z south frame.
+
+## Night sky
+
+`star_catalog_path` accepts a JSON array or `{"stars": [...]}`. Each row supplies
+`right_ascension_hours`, `declination_deg`, `visual_magnitude`, and `b_minus_v`.
+The controller projects equatorial RA/Dec to horizontal altitude and azimuth at
+the simulation epoch. An absent catalog selects a deterministic decorative
+panorama. The default rebuild interval is 900 simulated seconds (15 minutes),
+allowing sidereal motion between texture updates.
+
+Magnitude flux uses `10^(-0.4 * (m - 1))`, with a magnitude-1 star near painted
+intensity 0.9. Unresolved flux accumulates in equatorial bins to form the Milky
+Way; projection and saturation bound the resulting texture intensity. Star
+colors interpolate five blackbody-anchored B-V stops. The equirectangular
+`night_sky` texture uses compass bearing for u and runs from zenith at v=0 to
+nadir at v=1.
+
+## Terrain fields
+
+The optional terrain block accepts `snow_water_equivalent_mm`,
+`snow_cover_fraction`, `puddle_fraction`, `soil_temperature_c`,
+`ground_wetness_fraction`, `cloud_shadow_fraction`, `steam_intensity`, and
+`insect_activity`. Missing fields retain their prior values. Unsupplied initial
+values use negative sentinels, which leave authored world materials unchanged.
 
 ## Quality and performance notes
 

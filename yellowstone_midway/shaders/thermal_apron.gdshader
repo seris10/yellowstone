@@ -46,7 +46,7 @@ float outflow_sample(vec2 uv, float layer) {
 }
 
 void fragment() {
- GroundSurface surface = ground_surface(world, normalize(world_normal));
+ GroundSurface surface = ground_surface(world, normalize(world_normal), INV_VIEW_MATRIX[3].xyz);
  vec2 flow_uv = (world.xz - vec2(outflow_x_min_m, outflow_z_min_m)) / vec2(outflow_width_m, outflow_height_m);
  float wet = wet_mask_available > 0.5 ? outflow_sample(flow_uv, 0.0) : 0.0;
  float flow = flow_fraction_available > 0.5 ? clamp(outflow_sample(flow_uv, 1.0) * flow_fraction_scale, 0.0, 1.0) : 0.0;

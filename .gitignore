@@ -9,6 +9,7 @@ yellowstone_midway/scenes/*.pre-density-bake
 yellowstone_midway/scenes/*.pre-flora-bake
 yellowstone_midway/scenes/*.bak
 yellowstone_midway/scenes/authored_world.tscn
+yellowstone_midway/scenes/authored_world.scn
 yellowstone_python/derived/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]/
 yellowstone_python/derived/analysis_*.sqlite
 yellowstone_python/derived/*.png

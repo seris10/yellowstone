@@ -53,60 +53,102 @@ static func build(parent: Node3D, data_path: String) -> bool:
 	for key: String in bins:
 		var entries: Array = bins[key]
 		var first: Dictionary = entries[0]
-		var assets := _assets(first)
-		if assets.is_empty():
-			group.free()
-			return _error("Forest-floor assets are unavailable for %s" % key)
 		var position := Vector3(first.position[0], first.position[1], first.position[2])
 		var center := Vector3((floor(position.x / BIN_SIZE_M) + 0.5) * BIN_SIZE_M, 0.0, (floor(position.z / BIN_SIZE_M) + 0.5) * BIN_SIZE_M)
-		for asset: Array in assets:
-			var mesh: Mesh = asset[0]
-			var instance_buffer := PackedFloat32Array()
-			var bounds := AABB()
-			var ids: Array[String] = []
-			for record: Dictionary in entries:
-				var transform := instance_transform(record, str(asset[4]), asset[1])
-				transform.origin -= center
-				if not transform.is_finite() or transform.basis.determinant() <= 0.0:
-					group.free()
-					return _error("Forest-floor transform is invalid: %s" % record.id)
-				_append_transform(instance_buffer, transform)
-				var instance_bounds: AABB = transform * mesh.get_aabb()
-				if first.kind in ["understory_card", "litter"]:
-					instance_bounds = instance_bounds.expand(transform.origin)
-				bounds = instance_bounds if ids.is_empty() else bounds.merge(instance_bounds)
-				ids.append(record.id)
-			var multimesh := MultiMesh.new()
-			multimesh.transform_format = MultiMesh.TRANSFORM_3D
-			multimesh.mesh = mesh
-			multimesh.instance_count = entries.size()
-			multimesh.buffer = instance_buffer
-			multimesh.custom_aabb = bounds.grow(0.30)
-			var node := MultiMeshInstance3D.new()
-			node.name = key + "_%s_%d" % [str(asset[4]), int(asset[2])]
-			node.position = center
-			node.multimesh = multimesh
-			node.visibility_range_begin = float(asset[2]) if first.kind == "log" else maxf(0.0, float(asset[2]) - 8.0)
-			node.visibility_range_end = asset[3]
-			if first.kind in ["understory_card", "litter"]:
-				var padding := multimesh.custom_aabb.size.length() * 0.5
-				node.visibility_range_begin = maxf(0.0, float(asset[2]) - 8.0 - padding)
-				node.visibility_range_end = float(asset[3]) + padding
-				node.set_meta("root_visibility_range", [float(asset[2]), float(asset[3])])
-				node.set_meta("batch_visibility_padding_m", padding)
-			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if first.kind in ["understory_card", "litter"] else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-			node.set_meta("floor_kind", str(first.kind))
-			node.set_meta("floor_part", str(asset[4]))
-			node.set_meta("guild", str(first.get("guild", "woody")))
-			node.set_meta("source_ids", ids)
-			node.set_meta("evidence_class", "authored")
-			group.add_child(node)
+		if not _emit_bin(group, key, entries, center, center):
+			group.free()
+			return false
 	var previous := parent.get_node_or_null(NodePath(GROUP_NAME))
 	if previous != null:
 		previous.free()
 	parent.add_child(group)
 	_set_owner(group, parent)
 	return true
+
+## Emit one kind/guild/variant bin as one MultiMeshInstance3D per asset LOD.
+static func _emit_bin(group: Node3D, key: String, entries: Array, center: Vector3, node_position: Vector3) -> bool:
+	var first: Dictionary = entries[0]
+	var assets := _assets(first)
+	if assets.is_empty():
+		return _error("Forest-floor assets are unavailable for %s" % key)
+	for asset: Array in assets:
+		var mesh: Mesh = asset[0]
+		var instance_buffer := PackedFloat32Array()
+		var bounds := AABB()
+		var ids: Array[String] = []
+		for record: Dictionary in entries:
+			var transform := instance_transform(record, str(asset[4]), asset[1])
+			transform.origin -= center
+			if not transform.is_finite() or transform.basis.determinant() <= 0.0:
+				return _error("Forest-floor transform is invalid: %s" % record.id)
+			_append_transform(instance_buffer, transform)
+			var instance_bounds: AABB = transform * mesh.get_aabb()
+			if first.kind in ["understory_card", "litter"]:
+				instance_bounds = instance_bounds.expand(transform.origin)
+			bounds = instance_bounds if ids.is_empty() else bounds.merge(instance_bounds)
+			ids.append(record.id)
+		var multimesh := MultiMesh.new()
+		multimesh.transform_format = MultiMesh.TRANSFORM_3D
+		multimesh.mesh = mesh
+		multimesh.instance_count = entries.size()
+		multimesh.buffer = instance_buffer
+		multimesh.custom_aabb = bounds.grow(0.30)
+		var node := MultiMeshInstance3D.new()
+		node.name = key + "_%s_%d" % [str(asset[4]), int(asset[2])]
+		node.position = node_position
+		node.multimesh = multimesh
+		node.visibility_range_begin = float(asset[2]) if first.kind == "log" else maxf(0.0, float(asset[2]) - 8.0)
+		node.visibility_range_end = asset[3]
+		node.set_meta("root_visibility_range", [float(asset[2]), float(asset[3])])
+		if first.kind in ["understory_card", "litter"]:
+			var padding := multimesh.custom_aabb.size.length() * 0.5
+			node.visibility_range_begin = maxf(0.0, float(asset[2]) - 8.0 - padding)
+			node.visibility_range_end = float(asset[3]) + padding
+			node.set_meta("batch_visibility_padding_m", padding)
+		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if first.kind in ["understory_card", "litter"] else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		node.set_meta("floor_kind", str(first.kind))
+		node.set_meta("floor_part", str(asset[4]))
+		node.set_meta("guild", str(first.get("guild", "woody")))
+		node.set_meta("source_ids", ids)
+		node.set_meta("evidence_class", "authored")
+		group.add_child(node)
+	return true
+
+## Build the authored floor records owned by one tile rectangle under the tile node.
+static func build_window(tile: Node3D, records: Array, descriptor: Dictionary) -> Dictionary:
+	if records.is_empty() or tile == null:
+		return {}
+	var origin := Vector2(float(descriptor.origin_x_m), float(descriptor.origin_z_m))
+	var size: float = float(descriptor.size_m)
+	var center := Vector3(origin.x + size * 0.5, 0.0, origin.y + size * 0.5)
+	var node_position := Vector3(size * 0.5, 0.0, size * 0.5)
+	var bins: Dictionary = {}
+	for record: Dictionary in records:
+		var kind := str(record.get("kind", ""))
+		if not LIMITS.has(kind) or str(record.get("id", "")).is_empty() or not record.get("position") is Array:
+			_error("Forest-floor page record is invalid: %s" % str(record.get("id", "")))
+			return {}
+		var variant := Lodgepole.variation_key(record) if kind == "snag" else "0"
+		var key := "%s_%s_%s" % [kind, str(record.get("guild", "woody")), variant]
+		if not bins.has(key):
+			bins[key] = []
+		bins[key].append(record)
+	var group := Node3D.new()
+	group.name = GROUP_NAME
+	group.set_meta("evidence_class", "authored")
+	group.set_meta("scientific_acceptance", "not_yet_accepted")
+	group.set_meta("uncertainty", "unknown")
+	group.set_meta("run_mode", "illustrative")
+	group.set_meta("log_ground_contact_scope", "sampled_profile_with_bounded_clearance")
+	var batches := 0
+	for key: String in bins:
+		if not _emit_bin(group, key, bins[key], center, node_position):
+			group.free()
+			return {}
+		batches += 1
+	group.set_meta("records", records.size())
+	tile.add_child(group)
+	return {"group": group, "records": records.size(), "bins": batches}
 
 static func read_source(data_path: String) -> Dictionary:
 	if not FileAccess.file_exists(data_path):

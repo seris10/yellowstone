@@ -35,6 +35,11 @@ static func collect(source: Dictionary, layer: String, x0: float, z0: float, x1:
     var cell: float = float(index.cell_m)
     var halo: float = float(index.halo_m)
     var count: int = int(index.cells_per_side)
+    var layer_grid: Variant = index.get("layer_grids", {}).get(layer, null)
+    if layer_grid is Dictionary:
+        cell = float(layer_grid.cell_m)
+        halo = float(layer_grid.halo_m)
+        count = int(layer_grid.cells_per_side)
     var columns: Array[int] = _cell_span(x0, x1, float(index.origin_x_m), cell, halo, count)
     var rows: Array[int] = _cell_span(z0, z1, float(index.origin_z_m), cell, halo, count)
     var features: Array = []
@@ -60,6 +65,8 @@ static func collect(source: Dictionary, layer: String, x0: float, z0: float, x1:
                 var identity: String = str(feature.id)
                 if layer == "routes":
                     identity += ":%d" % int(feature.first_point)
+                elif layer == "rivers":
+                    identity += ":%d" % int(feature.first_station)
                 if not seen.has(identity):
                     seen[identity] = true
                     features.append(feature)

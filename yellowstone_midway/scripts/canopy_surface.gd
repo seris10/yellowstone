@@ -24,6 +24,7 @@ const SUPPORT_SIDES := 5
 const CLUSTER_LODS := [[0.0, 45.0, 40], [45.0, 120.0, 16], [120.0, 350.0, 0]]
 const CLUSTER_TILE_M := 64.0
 const ARTIFACTS := ["canopy_top_scene_y", "ground_scene_y", "unresolved_cells", "cover_fraction", "valid_fraction", "unresolved_render_mask", "valid_support"]
+static var _window_cache: Dictionary = {}
 
 static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0, support_records: Array = [], use_rendered_ground: bool = true) -> bool:
 	var source := read_source(data_path)
@@ -126,6 +127,8 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 			active_cells += int(result.active_cells)
 			represented_area += float(result.represented_area_m2)
 	group.set_meta("active_cells", active_cells)
+	group.set_meta("excluded_cells_display_filter", int(source.get("excluded_cells", 0)))
+	group.set_meta("exclusion_sha256", source.get("exclusion_sha256", ""))
 	group.set_meta("represented_area_m2", represented_area)
 	group.set_meta("cell_size_m", cell_size)
 	group.set_meta("tile_size_m", tile_size_m)
@@ -136,6 +139,94 @@ static func build(parent: Node3D, data_path: String, tile_size_m: float = 128.0,
 	parent.add_child(group)
 	_set_owner(group, parent)
 	return true
+
+## Cached display source, skin material and shared cluster meshes; exclusions apply at read time.
+static func window_source(data_path: String) -> Dictionary:
+	if _window_cache.has(data_path):
+		return _window_cache[data_path]
+	var source := read_source(data_path)
+	if source.is_empty():
+		return {}
+	_prepare_surface(source)
+	if not FileAccess.file_exists(TEXTURE_PATH) or not ResourceLoader.exists(SHADER_PATH):
+		_error("Canopy material requires the authored needle texture and canopy shader")
+		return {}
+	var material := ShaderMaterial.new()
+	material.shader = load(SHADER_PATH)
+	var needle_texture := _shoot_texture()
+	if needle_texture == null:
+		return {}
+	material.set_shader_parameter("albedo_texture", needle_texture)
+	material.set_shader_parameter("coverage_texture", source.mask_texture)
+	material.set_shader_parameter("support_texture", source.support_texture)
+	material.set_shader_parameter("mask_origin_m", Vector2(source.first_cell_x_m - source.cell_size_m * 0.5, source.first_cell_z_m - source.cell_size_m * 0.5))
+	material.set_shader_parameter("mask_extent_m", Vector2(source.width * source.cell_size_m, source.height * source.cell_size_m))
+	material.set_shader_parameter("needle_repeat_m", SHOOT_CARD_SIZE_M)
+	material.set_shader_parameter("shoot_envelope_m", SHOOT_ENVELOPE_M)
+	material.set_shader_parameter("cluster_mode", false)
+	var cluster_material: ShaderMaterial = material.duplicate()
+	cluster_material.set_shader_parameter("cluster_mode", true)
+	cluster_material.set_shader_parameter("geometry_revision", GEOMETRY_REVISION)
+	var meshes: Array = []
+	for lod_index: int in CLUSTER_LODS.size():
+		var lod: Array = CLUSTER_LODS[lod_index]
+		var lod_material: ShaderMaterial = cluster_material.duplicate()
+		lod_material.set_shader_parameter("near_shoot_mode", int(lod[2]) > 0)
+		lod_material.set_shader_parameter("lod_begin_m", float(lod[0]))
+		lod_material.set_shader_parameter("lod_end_m", float(lod[1]))
+		lod_material.set_shader_parameter("lod_dither_invert", lod_index % 2 == 1)
+		meshes.append(_shoot_mesh(source.cell_size_m / sqrt(2.0), int(lod[2]), lod_material) if int(lod[2]) > 0 else _cluster_mesh(source.cell_size_m / sqrt(2.0), lod_material))
+	_window_cache[data_path] = {"source": source, "material": material, "meshes": meshes}
+	return _window_cache[data_path]
+
+## Build the skin and cluster batches for one absolute tile window under the tile node.
+static func build_window(tile: Node3D, data_path: String, rect: Rect2, support_records: Array, ground: RefCounted = null) -> Dictionary:
+	var entry := window_source(data_path)
+	if entry.is_empty() or tile == null:
+		return {}
+	var source: Dictionary = entry.source
+	var cell_size: float = source.cell_size_m
+	var grid_origin := Vector2(source.first_cell_x_m, source.first_cell_z_m) - Vector2.ONE * cell_size * 0.5
+	var grid_end := grid_origin + Vector2(source.width, source.height) * cell_size
+	if rect.end.x <= grid_origin.x or rect.end.y <= grid_origin.y or rect.position.x >= grid_end.x or rect.position.y >= grid_end.y:
+		return {}
+	var column0 := clampi(int(floor((rect.position.x - grid_origin.x) / cell_size)), 0, source.width - 1)
+	var column1 := clampi(int(floor((rect.end.x - grid_origin.x) / cell_size)), 0, source.width - 1)
+	var row0 := clampi(int(floor((rect.position.y - grid_origin.y) / cell_size)), 0, source.height - 1)
+	var row1 := clampi(int(floor((rect.end.y - grid_origin.y) / cell_size)), 0, source.height - 1)
+	var tile_cells := int(round(128.0 / cell_size))
+	var group := Node3D.new()
+	group.name = GROUP_NAME
+	group.set_meta("source_sha256", FileAccess.get_sha256(data_path))
+	group.set_meta("evidence_class", "derived_not_field_validated")
+	group.set_meta("representation", "observed_residual_coverage_continuous_skin")
+	group.set_meta("top_elevation_class", "measured_derived_display_smoothed")
+	group.set_meta("ground_elevation_class", "measured_derived")
+	group.set_meta("footprint_class", "measured_derived_native_mask")
+	group.set_meta("excluded_cells_display_filter", int(source.get("excluded_cells", 0)))
+	group.set_meta("exclusion_sha256", source.get("exclusion_sha256", ""))
+	group.set_meta("cell_size_m", cell_size)
+	group.set_meta("geometry_revision", GEOMETRY_REVISION)
+	group.set_meta("cluster_lods", CLUSTER_LODS)
+	group.set_meta("uncertainty", "unknown")
+	group.set_meta("scientific_acceptance", "not_yet_accepted")
+	var active_cells := 0
+	var represented_area := 0.0
+	for row: int in range(row0, row1 + 1, tile_cells):
+		for column: int in range(column0, column1 + 1, tile_cells):
+			var result := _tile(source, column, row, tile_cells, entry.material, mini(column + tile_cells - 1, column1), mini(row + tile_cells - 1, row1))
+			if result.is_empty():
+				continue
+			result.node.position -= Vector3(rect.position.x, 0.0, rect.position.y)
+			group.add_child(result.node)
+			active_cells += int(result.active_cells)
+			represented_area += float(result.represented_area_m2)
+	group.set_meta("active_cells", active_cells)
+	group.set_meta("represented_area_m2", represented_area)
+	var window := Rect2i(column0, row0, column1 - column0 + 1, row1 - row0 + 1)
+	_build_clusters(group, source, entry.material, Support.prepare(support_records), ground, window, rect.position, entry.meshes)
+	tile.add_child(group)
+	return {"group": group, "active_cells": active_cells, "clusters": int(group.get_meta("cluster_display_count", 0))}
 
 static func _shoot_texture() -> Texture2D:
 	var metadata: Variant = JSON.parse_string(FileAccess.get_file_as_string(TEXTURE_METADATA_PATH))
@@ -154,12 +245,14 @@ static func _shoot_texture() -> Texture2D:
 	var image := Image.create_from_data(int(entry.width), int(entry.height), true, Image.FORMAT_RGBA8, bytes)
 	return ImageTexture.create_from_image(image)
 
-static func _build_clusters(group: Node3D, source: Dictionary, skin_material: ShaderMaterial, hosts: Dictionary, ground: RefCounted = null) -> void:
+static func _build_clusters(group: Node3D, source: Dictionary, skin_material: ShaderMaterial, hosts: Dictionary, ground: RefCounted = null, window: Rect2i = Rect2i(), tile_origin := Vector2.ZERO, shared_meshes: Array = []) -> void:
 	var material: ShaderMaterial = skin_material.duplicate()
 	material.set_shader_parameter("cluster_mode", true)
 	material.set_shader_parameter("geometry_revision", GEOMETRY_REVISION)
-	var meshes: Array = []
+	var meshes: Array = shared_meshes
 	for lod_index: int in CLUSTER_LODS.size():
+		if not meshes.is_empty():
+			break
 		var lod: Array = CLUSTER_LODS[lod_index]
 		var lod_material: ShaderMaterial = material.duplicate()
 		lod_material.set_shader_parameter("near_shoot_mode", int(lod[2]) > 0)
@@ -173,6 +266,8 @@ static func _build_clusters(group: Node3D, source: Dictionary, skin_material: Sh
 		for column: int in source.width:
 			var index: int = row * source.width + column
 			if source.unresolved_cells[index] == 0:
+				continue
+			if window.has_area() and not window.has_point(Vector2i(column, row)):
 				continue
 			var position: Vector2 = origin + Vector2(column, row) * source.cell_size_m
 			var key := Vector2i(int(floor(position.x / CLUSTER_TILE_M)), int(floor(position.y / CLUSTER_TILE_M)))
@@ -215,7 +310,7 @@ static func _build_clusters(group: Node3D, source: Dictionary, skin_material: Sh
 			multimesh.custom_aabb = bounds.grow(0.25)
 			var node := MultiMeshInstance3D.new()
 			node.name = "CanopyClusters_%d_%d_lod%d" % [key.x, key.y, lod]
-			node.position = center
+			node.position = center - Vector3(tile_origin.x, 0.0, tile_origin.y)
 			node.multimesh = multimesh
 			var padding := multimesh.custom_aabb.size.length() * 0.5
 			node.visibility_range_begin = maxf(0.0, CLUSTER_LODS[lod][0] - 8.0 - padding)
@@ -466,6 +561,18 @@ static func read_source(data_path: String) -> Dictionary:
 			if not is_finite(top) or not is_finite(ground) or top <= ground:
 				_error("Canopy active cell requires finite top above ground at %d" % index)
 				return {}
+	# Exclusions filter the in-memory display grids.
+	source.excluded_cells = 0
+	var excluded_path := data_path.get_base_dir().path_join("unresolved_cells_excluded.u8")
+	if FileAccess.file_exists(excluded_path):
+		var excluded := FileAccess.get_file_as_bytes(excluded_path)
+		if excluded.size() != count:
+			_error("Canopy exclusion mask length differs")
+			return {}
+		for index: int in count:
+			if excluded[index] == 0 and source.unresolved_cells[index] == 1:
+				source.unresolved_cells[index] = 0
+				source.excluded_cells += 1
 	var mask := Image.new()
 	var support := Image.new()
 	var mask_error := mask.load_png_from_buffer(FileAccess.get_file_as_bytes(paths.unresolved_render_mask))
@@ -502,6 +609,14 @@ static func read_source(data_path: String) -> Dictionary:
 			if absf(source.valid_fraction[row * source.width + column] - expected_valid) > 0.000001:
 				_error("Canopy valid fraction differs from the support mask at %d,%d" % [column, row])
 				return {}
+	for row: int in source.height:
+		for column: int in source.width:
+			var at: int = row * source.width + column
+			if source.unresolved_cells[at] != 0 or source.cover_fraction[at] == 0.0:
+				continue
+			source.cover_fraction[at] = 0.0
+			mask.fill_rect(Rect2i(column * subdivision_count, row * subdivision_count, subdivision_count, subdivision_count), Color.BLACK)
+	source.exclusion_sha256 = FileAccess.get_sha256(excluded_path) if FileAccess.file_exists(excluded_path) else ""
 	source.mask_image = mask
 	source.support_image = support
 	source.mask_texture = ImageTexture.create_from_image(mask)
@@ -566,7 +681,7 @@ static func _prepare_surface(source: Dictionary) -> void:
 static func _corner_position(index: int, elevations: PackedFloat32Array, width: int, cell_size: float) -> Vector3:
 	return Vector3((index % width) * cell_size, elevations[index], int(index / width) * cell_size)
 
-static func _tile(source: Dictionary, column: int, row: int, tile_cells: int, material: ShaderMaterial) -> Dictionary:
+static func _tile(source: Dictionary, column: int, row: int, tile_cells: int, material: ShaderMaterial, last_column: int = -1, last_row: int = -1) -> Dictionary:
 	var vertices := PackedVector3Array()
 	var normals := PackedVector3Array()
 	var uvs := PackedVector2Array()
@@ -579,8 +694,10 @@ static func _tile(source: Dictionary, column: int, row: int, tile_cells: int, ma
 	var boundary_edges := 0
 	var surface_cells := 0
 	var corner_width: int = source.width + 1
-	for z: int in range(row, mini(row + tile_cells, source.height)):
-		for x: int in range(column, mini(column + tile_cells, source.width)):
+	var end_row: int = mini(row + tile_cells, source.height) if last_row < 0 else mini(last_row + 1, source.height)
+	var end_column: int = mini(column + tile_cells, source.width) if last_column < 0 else mini(last_column + 1, source.width)
+	for z: int in range(row, end_row):
+		for x: int in range(column, end_column):
 			var at: int = z * source.width + x
 			var cell_corners := [z * corner_width + x, z * corner_width + x + 1, (z + 1) * corner_width + x + 1, (z + 1) * corner_width + x]
 			var top_indices: Array[int] = []

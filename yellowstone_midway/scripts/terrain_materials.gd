@@ -25,14 +25,15 @@ const TEXTURE_PATHS: Dictionary = {
 const MIDWAY_SQUARE_MIN_M := -2048.0
 const MIDWAY_SQUARE_SIZE_M := 4096.0
 const FRAME_META := "ground_frame"
-## Layers whose shader uniforms are a minimum corner and an extent, both in meters.
+## Layer minima and extents in meters.
 const VEC2_LAYERS: Dictionary = {
  "geography": ["geography_origin_m", "geography_extent_m"],
  "biome": ["biome_origin_m", "biome_extent_m"],
  "trail": ["trail_origin_m", "trail_extent_m"],
  "snow": ["snow_origin_m", "snow_extent_m"],
+ "water": ["water_level_origin_m", "water_level_extent_m"],
 }
-## Layers with scalar uniforms in the order x minimum, z minimum, width, height.
+## Scalar layer fields: x minimum, z minimum, width, height.
 const SCALAR_LAYERS: Dictionary = {
  "detail": ["detail_x_min_m", "detail_z_min_m", "detail_width_m", "detail_height_m"],
  "extent": ["extent_x_min_m", "extent_z_min_m", "extent_width_m", "extent_height_m"],
@@ -40,7 +41,7 @@ const SCALAR_LAYERS: Dictionary = {
  "outflow": ["outflow_x_min_m", "outflow_z_min_m", "outflow_width_m", "outflow_height_m"],
 }
 const CORE_CUT_LAYER := "core_cut"
-## Shifted scalar uniforms: name to axis (0 for x, 1 for z) and the shader default.
+## Shifted scalar uniforms map to an axis (x=0, z=1) and default.
 const SHIFTED_SCALARS: Dictionary = {
  "detail_x_min_m": [0, -640.0], "detail_z_min_m": [1, -640.0],
  "extent_x_min_m": [0, 0.0], "extent_z_min_m": [1, 0.0],
@@ -49,8 +50,8 @@ const SHIFTED_SCALARS: Dictionary = {
  "core_cut_x_min_m": [0, 0.0], "core_cut_x_max_m": [0, 0.0],
  "core_cut_z_min_m": [1, 0.0], "core_cut_z_max_m": [1, 0.0],
 }
-const TILE_DEFAULTS: Dictionary = {"soil_tile_width_m": 3.15, "forest_tile_width_m": 2.0, "trail_tile_width_m": 2.0}
-## Repeat phase uniforms: name, period in meters or the tile uniform that holds it, rotated lookup, scale.
+const TILE_DEFAULTS: Dictionary = {"soil_tile_width_m": 3.15, "forest_tile_width_m": 2.0, "trail_tile_width_m": 2.0, "detail_normal_tile_m": 0.42, "rock_tile_width_m": 1.8}
+## Repeat phases map to a period, rotation flag, and scale.
 const REPEAT_PHASES: Array = [
  ["soil_phase", "soil_tile_width_m", false, 1.0],
  ["soil_rotated_phase", "soil_tile_width_m", true, 0.23],
@@ -61,6 +62,13 @@ const REPEAT_PHASES: Array = [
  ["mineral_phase", 4.0, false, 1.0],
  ["mineral_meso_phase", 19.0, true, 1.0],
  ["fine_detail_phase", 1.8, false, 1.0],
+ ["rock_tri_phase", "rock_tile_width_m", false, 1.0],
+ ["strata_phase", 19.0, false, 1.0],
+]
+## Sub-meter detail phases follow the render origin; the fine octave scale is 1/0.21.
+const DETAIL_PHASES: Array = [
+ ["detail_normal_phase", "detail_normal_tile_m", false, 1.0],
+ ["detail_normal_fine_phase", "detail_normal_tile_m", true, 1.0 / 0.21],
 ]
 static var _textures: Dictionary = {}
 static var _layers: Dictionary = {}
@@ -154,6 +162,8 @@ static func bind_ground_material(mat: ShaderMaterial) -> bool:
  mat.set_shader_parameter("soil_tile_width_m", 3.15)
  mat.set_shader_parameter("forest_tile_width_m", 2.0)
  mat.set_shader_parameter("trail_tile_width_m", 2.0)
+ mat.set_shader_parameter("detail_normal_tile_m", 0.42)
+ mat.set_shader_parameter("rock_tile_width_m", 1.8)
  mat.set_shader_parameter("macro_color_strength", 0.28)
  var detail_path := "res://references/midway_orthophoto_detail.json"
  if _detail_header.is_empty() and FileAccess.file_exists(detail_path):
@@ -180,11 +190,11 @@ static func bind_ground_material(mat: ShaderMaterial) -> bool:
  _write_repeat_phases(mat, _declared_uniforms(mat))
  return true
 
-## Render origin of the frame a material is positioned in, as absolute meters on x and z.
+## Return the absolute render origin in x and z meters.
 static func get_render_origin(mat: ShaderMaterial) -> Array:
  return (_frame_state(mat).origin as Array).duplicate()
 
-## Sets one layer's coverage rectangle in absolute meters and uploads it relative to the render origin.
+## Set layer bounds in absolute meters and upload rebased coordinates.
 static func set_layer_rect(mat: ShaderMaterial, layer: String, x_min_m: float, z_min_m: float, width_m: float, height_m: float) -> bool:
  var state: Dictionary = _frame_state(mat)
  if VEC2_LAYERS.has(layer):
@@ -207,7 +217,7 @@ static func set_layer_rect(mat: ShaderMaterial, layer: String, x_min_m: float, z
   return false
  return true
 
-## Rewrites every layer rectangle and repeat phase for a new render origin; call after the hierarchy shifts.
+## Rebase layer bounds and repeat phases after shifting the hierarchy.
 static func set_render_origin(mat: ShaderMaterial, origin_x_m: float, origin_z_m: float) -> void:
  var state: Dictionary = _frame_state(mat)
  var declared: Dictionary = _declared_uniforms(mat)
@@ -220,12 +230,12 @@ static func set_render_origin(mat: ShaderMaterial, origin_x_m: float, origin_z_m
    _put_vec2(mat, state, name, state.absolute[name][0], state.absolute[name][1])
  _write_repeat_phases(mat, declared)
 
-## Keeps the material on the frame's render origin after each rebase.
+## Follow the frame render origin after each rebase.
 static func follow_frame(frame: Object, mat: ShaderMaterial) -> void:
  set_render_origin(mat, frame.origin_x_m, frame.origin_z_m)
  frame.rebased.connect(_on_frame_rebased.bind(weakref(frame), mat))
 
-## Repeat offset in periods for one lookup: origin over period, optionally rotated and scaled as in the shader.
+## Return the rotated, scaled repeat phase modulo one texture period.
 static func repeat_phase(origin_x_m: float, origin_z_m: float, period_m: float, rotated: bool, scale: float) -> Vector2:
  var x: float = origin_x_m / period_m
  var z: float = origin_z_m / period_m
@@ -270,7 +280,7 @@ static func _put_vec2(mat: ShaderMaterial, state: Dictionary, name: String, abso
  state.written[name] = relative
  mat.set_shader_parameter(name, relative)
 
-## A rectangle uniform changed outside this class holds a value relative to the current origin.
+## Treat external rectangle writes as coordinates relative to the render origin.
 static func _adopt_external_writes(mat: ShaderMaterial, state: Dictionary, declared: Dictionary) -> void:
  for name: String in SHIFTED_SCALARS:
   if not declared.has(name):
@@ -291,7 +301,7 @@ static func _adopt_external_writes(mat: ShaderMaterial, state: Dictionary, decla
 
 static func _write_repeat_phases(mat: ShaderMaterial, declared: Dictionary) -> void:
  var origin: Array = _frame_state(mat).origin
- for entry: Array in REPEAT_PHASES:
+ for entry: Array in REPEAT_PHASES + DETAIL_PHASES:
   if not declared.has(entry[0]):
    continue
   var period_m: float

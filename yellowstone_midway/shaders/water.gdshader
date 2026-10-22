@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_disabled,depth_draw_opaque;
+render_mode cull_disabled,depth_draw_never;
 uniform vec3 shallow_color : source_color = vec3(0.10,0.31,0.26);
 uniform vec3 deep_color : source_color = vec3(0.018,0.11,0.16);
 uniform float flow_speed = 0.55;
@@ -9,7 +9,7 @@ uniform float pool = 0.0;
 uniform float temperature_c = 17.0;
 uniform float cascade = 0.0;
 uniform sampler2D ripple : hint_normal, filter_linear_mipmap, repeat_enable;
-// Optional per-pool authored pigment ramp (pool_shells.json + pool_ramps/); ramp_mix 0 uses the default two-color look, ramp x=0 is the hot center, x=1 the outer rim.
+// Authored pool ramp: x=0 at the hot center, x=1 at the rim; ramp_mix=0 disables it.
 uniform sampler2D band_ramp : source_color, filter_linear, repeat_disable;
 uniform float ramp_mix = 0.0;
 uniform sampler2D display_band_ramp : source_color, filter_linear, repeat_disable;
@@ -22,7 +22,7 @@ void vertex(){
  TANGENT=vec3(1.0,0.0,0.0);BINORMAL=vec3(0.0,0.0,1.0);
 }
 void fragment(){
- // Ribbon UV.y is meter arc length in the saved downhill point order; pools use slow local wind ripples.
+ // Ribbon UV.y stores downhill distance in meters.
  vec2 metres=pool>0.5?world.xz:vec2(UV.x*width_m,UV.y);
  vec2 drift=pool>0.5?vec2(0.02,-0.01)*TIME:vec2(0.012,-flow_speed)*TIME;
  vec3 n1=texture(ripple,(metres+drift)*0.35).rgb;
@@ -48,7 +48,7 @@ void fragment(){
   float foam=cascade*smoothstep(0.0015,0.025,incline)*smoothstep(0.56,0.72,broken_crests);
   color=mix(color,vec3(0.80,0.83,0.78),foam*0.15);
   if(cascade>0.5){
-    // Thermal outflow ribbon: vertex color red runs 1 at source to 0 at mouth.
+    // Red runs from 1 at the thermal source to 0 at the mouth.
     float downstream=1.0-COLOR.r;
     vec3 hot=vec3(0.30,0.42,0.33);
     vec3 cool=vec3(0.10,0.30,0.27);
@@ -63,6 +63,7 @@ void fragment(){
  NORMAL_MAP_DEPTH=pool>0.5?0.035:0.16;
  ROUGHNESS=roughness;
  METALLIC=0.0;
- ALPHA=pool>0.5&&ramp_mix>0.5?1.0:mix(mix(0.82,0.97,pool),0.72+foam*0.22,cascade);
+ // Blue carries the baked end fade and cap-rim feathering.
+ ALPHA=(pool>0.5&&ramp_mix>0.5?1.0:mix(mix(0.82,0.97,pool),0.72+foam*0.22,cascade))*clamp(COLOR.b,0.0,1.0);
  SPECULAR=0.25;
 }

@@ -95,7 +95,7 @@ func check_midway_square(mat: ShaderMaterial) -> void:
     for entry: Array in Materials.REPEAT_PHASES:
         check(mat.get_shader_parameter(entry[0]) == Vector2.ZERO, str(entry[0]) + " is not zero at the Midway origin")
 
-## Mirrors the shader's repeating lookups in float32 and returns each lookup's coordinate for a local point.
+## Return each repeating shader lookup's float32 coordinate for a local point.
 func lookups(mat: ShaderMaterial, local: Vector2) -> Dictionary:
     var out: Dictionary = {}
     for entry: Array in Materials.REPEAT_PHASES:
@@ -193,6 +193,31 @@ func check_follow_frame() -> void:
     check(Materials.get_render_origin(mat) == [1024.0, 512.0], "Rebase signal did not move the material origin")
     check(vec_close(mat.get_shader_parameter("soil_phase"), Materials.repeat_phase(1024.0, 512.0, 3.15, false, 1.0), 1.0e-6), "Rebase signal did not update the soil phase")
 
+## Mirror the streamed boot binding: bind one shared material, follow the frame, rebase twice.
+func check_streamed_shared_material() -> void:
+    var mat: ShaderMaterial = new_material(TERRAIN)
+    check(Materials.bind_ground_material(mat), "bind_ground_material failed on the streamed shared material")
+    var frame := FakeFrame.new()
+    Materials.follow_frame(frame, mat)
+    check(Materials.get_render_origin(mat) == [0.0, 0.0], "Streamed material did not start at origin zero")
+    for entry: Array in Materials.REPEAT_PHASES + Materials.DETAIL_PHASES:
+        check(mat.get_shader_parameter(entry[0]) == Vector2.ZERO, str(entry[0]) + " is not zero after follow_frame at origin zero")
+    for layer: String in Materials.VEC2_LAYERS:
+        var names: Array = Materials.VEC2_LAYERS[layer]
+        check(mat.get_shader_parameter(names[0]) == Vector2(-2048.0, -2048.0), layer + " origin moved at origin zero")
+    frame.origin_x_m = 1536.0
+    frame.origin_z_m = -1024.0
+    frame.rebased.emit(Vector3(1536.0, 0.0, -1024.0))
+    check(vec_close(mat.get_shader_parameter("soil_phase"), Materials.repeat_phase(1536.0, -1024.0, 3.15, false, 1.0), 1.0e-6), "Shared material soil phase did not follow the rebase")
+    check(vec_close(mat.get_shader_parameter("detail_normal_phase"), Materials.repeat_phase(1536.0, -1024.0, 0.42, false, 1.0), 1.0e-6), "Shared material detail phase did not follow the rebase")
+    check(mat.get_shader_parameter("geography_origin_m") == Vector2(-3584.0, -1024.0), "Geography origin is not origin-relative after the rebase")
+    frame.origin_x_m = 0.0
+    frame.origin_z_m = 0.0
+    frame.rebased.emit(Vector3(-1536.0, 0.0, 1024.0))
+    for entry: Array in Materials.REPEAT_PHASES + Materials.DETAIL_PHASES:
+        check(mat.get_shader_parameter(entry[0]) == Vector2.ZERO, str(entry[0]) + " did not return to zero at origin zero")
+    check(mat.get_shader_parameter("geography_origin_m") == Vector2(-2048.0, -2048.0), "Geography origin did not return to the Midway square")
+
 func run() -> void:
     check_shader_sources()
     var terrain: ShaderMaterial = new_material(TERRAIN)
@@ -202,5 +227,6 @@ func run() -> void:
     check(Materials.bind_ground_material(apron), "bind_ground_material failed on the apron")
     check_rectangles(apron)
     check_follow_frame()
+    check_streamed_shared_material()
     print("GROUND_REBASE %d checks; %d failures" % [checks, failures])
     quit(1 if failures > 0 else 0)

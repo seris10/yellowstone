@@ -2,6 +2,7 @@ extends RefCounted
 ## Worker produces only arrays and metadata. No Nodes, Meshes, Textures or physics resources.
 const FeatureSource = preload("res://scripts/park_runtime/feature_source.gd")
 const TileWater = preload("res://scripts/park_runtime/tile_water.gd")
+const TileRoute = preload("res://scripts/park_runtime/tile_route.gd")
 var descriptor: Dictionary
 var base_path: String
 var dataset_revision: String
@@ -16,7 +17,7 @@ func configure(tile: Dictionary, root_path: String, revision: String) -> void:
     base_path = root_path
     dataset_revision = revision
 
-## Binds the verified feature index from FeatureSource.load_index; without it the tile has no water cut.
+## Bind verified FeatureSource.load_index output; absent indexes yield no tile water cut.
 func configure_features(source: Dictionary) -> void:
     features = source
 
@@ -145,25 +146,39 @@ func run() -> void:
     var shoreline_arrays: Array = []
     var water_report: Dictionary = {}
     var regions: Array = []
+    var water_surfaces: Array = []
+    var route_pieces: Array = []
     if not features.is_empty():
         var found: Dictionary = FeatureSource.collect(features, "pools", origin_x, origin_z, origin_x + size, origin_z + size)
         if found.has("error"):
             _fail(str(found.error))
             return
+        # Only thermal pools subtract terrain; every pool meeting the tile gets a water surface.
+        var thermal_features: Array = []
+        for feature: Dictionary in found.features:
+            if bool(feature.get("thermal", false)):
+                thermal_features.append(feature)
         var local_pools: Array = []
-        local_pools = TileWater.localize(found.features, origin_x, origin_z)
+        local_pools = TileWater.localize(thermal_features, origin_x, origin_z)
         var meeting: Array = []
-        for k: int in found.features.size():
-            var b: Array = found.features[k].bounds_m
+        for k: int in thermal_features.size():
+            var b: Array = thermal_features[k].bounds_m
             if b[0] <= origin_x + size and b[2] >= origin_x and b[1] <= origin_z + size and b[3] >= origin_z:
                 meeting.append(local_pools[k])
                 pool_ids.append(str(local_pools[k].id))
+        water_surfaces = TileWater.pool_surfaces(found.features, origin_x, origin_z, size)
+        var river_found: Dictionary = FeatureSource.collect(features, "rivers", origin_x, origin_z, origin_x + size, origin_z + size)
+        if river_found.has("error"):
+            _fail(str(river_found.error))
+            return
+        water_surfaces.append_array(TileWater.river_surfaces(river_found.features, origin_x, origin_z, size))
         if lod == 0:
             var walk: Dictionary = FeatureSource.collect(features, "routes", origin_x, origin_z, origin_x + size, origin_z + size)
             if walk.has("error"):
                 _fail(str(walk.error))
                 return
             routes = walk.features
+            route_pieces = TileRoute.build(routes, heights, cells, origin_x, origin_z, size)
         if not meeting.is_empty():
             var grid_arrays: Array = []
             grid_arrays.resize(Mesh.ARRAY_MAX)
@@ -224,7 +239,28 @@ func run() -> void:
     var shoreline_bytes: int = 0
     if not shoreline_arrays.is_empty():
         shoreline_bytes = shoreline_arrays[Mesh.ARRAY_VERTEX].size()*32 + shoreline_arrays[Mesh.ARRAY_INDEX].size()*4
+    var feature_bytes: int = 0
+    for surface: Dictionary in water_surfaces:
+        feature_bytes += _arrays_bytes(surface.arrays)
+    for piece: Dictionary in route_pieces:
+        feature_bytes += _arrays_bytes(piece.arrays)
     result = {"key": descriptor.key, "revision": dataset_revision, "page": page,
               "arrays": arrays, "heights": heights, "shoreline_arrays": shoreline_arrays,
               "pools": pool_ids, "routes": routes, "water": water_report, "skirts_omitted": skirts_omitted,
-              "bytes_estimate": vertices.size()*32+indices.size()*4+heights.size()*4+shoreline_bytes}
+              "water_surfaces": water_surfaces, "route_pieces": route_pieces,
+              "bytes_estimate": vertices.size()*32+indices.size()*4+heights.size()*4+shoreline_bytes+feature_bytes}
+
+static func _arrays_bytes(arrays: Array) -> int:
+    var total: int = 0
+    for attribute: int in [Mesh.ARRAY_VERTEX, Mesh.ARRAY_NORMAL]:
+        if arrays[attribute] != null:
+            total += (arrays[attribute] as PackedVector3Array).size() * 12
+    if arrays[Mesh.ARRAY_TEX_UV] != null:
+        total += (arrays[Mesh.ARRAY_TEX_UV] as PackedVector2Array).size() * 8
+    if arrays[Mesh.ARRAY_COLOR] != null:
+        total += (arrays[Mesh.ARRAY_COLOR] as PackedColorArray).size() * 16
+    if arrays[Mesh.ARRAY_TANGENT] != null:
+        total += (arrays[Mesh.ARRAY_TANGENT] as PackedFloat32Array).size() * 4
+    if arrays[Mesh.ARRAY_INDEX] != null:
+        total += (arrays[Mesh.ARRAY_INDEX] as PackedInt32Array).size() * 4
+    return total

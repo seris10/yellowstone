@@ -1,5 +1,5 @@
 extends SceneTree
-## Windowed capture of river views. Run: godot --path . --script tools/capture_river_views.gd -- --out=/absolute/dir
+## Capture windowed river views; command and output option: authoring guide, Tool commands.
 
 var world: Node3D
 var camera: Camera3D

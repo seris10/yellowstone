@@ -40,6 +40,8 @@ var _swim_clips: Dictionary = {}
 var _motion: MidwayWildlifeMotionController
 var _mammal_elapsed: float = 0.0
 var _mammal_behavior: String = "rest"
+# Optional streamed coordinate frame; unbound actors use render coordinates directly.
+var _frame: RefCounted = null
 
 ## Fauna dimensions and orientation from the asset manifest.
 const FAUNA: Dictionary = {
@@ -109,6 +111,84 @@ func setup(data: Dictionary, terrain: RefCounted, ecosystem: Node) -> void:
 	_mammal_elapsed = float(_ecosystem.elapsed)
 	_target_index = 1 if _route.size() > 1 else 0
 	state = str(record.get("initial_state", "graze" if _kind == "bison" or _kind == "elk" else "perch"))
+
+## Bind the streamed coordinate frame; absolute state converts at presentation.
+func bind_frame(frame: RefCounted) -> void:
+	if _frame == frame:
+		return
+	_frame = frame
+	if _frame != null and not _frame.rebased.is_connected(_on_frame_rebased):
+		_frame.rebased.connect(_on_frame_rebased)
+	_sync_frame_position()
+
+func _on_frame_rebased(_shift: Vector3) -> void:
+	_sync_frame_position()
+
+## Reposition the node under the frame origin; _world_position stays absolute.
+func _sync_frame_position() -> void:
+	if _frame == null or not _valid:
+		return
+	position = _frame.local_position(_world_position.x, _world_position.y, _world_position.z)
+	if _body != null:
+		_body.position = Vector3.ZERO
+
+## Place the body at the presentation position for the frame in use.
+func _present_body() -> void:
+	if _frame != null:
+		position = _frame.local_position(_world_position.x, _world_position.y, _world_position.z)
+		_body.position = Vector3.ZERO
+	else:
+		_body.position = _world_position - position
+
+## Report whether setup produced a valid authored route.
+func has_valid_route() -> bool:
+	return _valid
+
+## Return the absolute site position; the stored truth across rebases.
+func site_position() -> Vector3:
+	return _world_position
+
+## Capture identity, route progress and phase for a pager suspension.
+func capture_state() -> Dictionary:
+	return {
+		"state": state,
+		"state_age": _state_age,
+		"forage_hold_age": _forage_hold_age,
+		"time": _time,
+		"phase": _phase,
+		"cycle": _cycle,
+		"world_position": _world_position,
+		"target_index": _target_index,
+		"travel_direction": _travel_direction,
+		"activity": _activity,
+		"chainage_m": chainage_m,
+		"target_s_m": target_s_m,
+		"swim_speed_mps": swim_speed_mps,
+		"tailbeat_hz": tailbeat_hz,
+		"last_sim_time": _last_sim_time,
+	}
+
+## Restore a captured state after setup; the phase resumes at the ecosystem clock.
+func restore_state(saved: Dictionary) -> void:
+	state = str(saved.get("state", state))
+	_state_age = float(saved.get("state_age", 0.0))
+	_forage_hold_age = float(saved.get("forage_hold_age", 0.0))
+	_time = float(saved.get("time", _phase))
+	_phase = float(saved.get("phase", _phase))
+	_cycle = int(saved.get("cycle", 0))
+	_world_position = saved.get("world_position", _world_position)
+	_target_index = int(saved.get("target_index", _target_index))
+	_travel_direction = int(saved.get("travel_direction", 1))
+	_activity = float(saved.get("activity", 1.0))
+	chainage_m = float(saved.get("chainage_m", chainage_m))
+	target_s_m = float(saved.get("target_s_m", target_s_m))
+	swim_speed_mps = float(saved.get("swim_speed_mps", 0.0))
+	tailbeat_hz = float(saved.get("tailbeat_hz", 0.0))
+	# Fish integrate the hidden interval in a single step at the next update.
+	_last_sim_time = float(saved.get("last_sim_time", float(_ecosystem.elapsed)))
+	# Mammals accept the clock at restore; the per-second loop skips the hidden interval.
+	_mammal_elapsed = float(_ecosystem.elapsed)
+	_sync_frame_position()
 
 func _ready() -> void:
 	if not _valid:
@@ -387,7 +467,7 @@ func _process(delta: float) -> void:
 		_update_fish(dt)
 	elif _kind == "insects":
 		_update_insects(habitat)
-	_body.position = _world_position - position
+	_present_body()
 	_animate(dt)
 	_sync_feeding()
 
@@ -444,7 +524,7 @@ func _process_mammal() -> void:
 		var travel: float = Vector2(_world_position.x - previous.x, _world_position.z - previous.z).length()
 		if _motion != null:
 			_motion.advance(state, step, travel, bool(record.get("ghost", false)))
-		_body.position = _world_position - position
+		_present_body()
 		if _motion == null:
 			_animate(step)
 	set_meta("mammal_activity", _activity)
@@ -689,6 +769,8 @@ func _exit_tree() -> void:
 		_motion.stop()
 	if is_instance_valid(_animation_player):
 		_animation_player.stop()
+	if _frame != null and is_instance_valid(_frame) and _frame.rebased.is_connected(_on_frame_rebased):
+		_frame.rebased.disconnect(_on_frame_rebased)
 	if is_instance_valid(_ecosystem):
 		_ecosystem.call("unregister_actor", _id)
 

@@ -1,0 +1,86 @@
+{
+ "schema": "yellowstone.benchmark_route.v1",
+ "source": "data/world.json anchors; order overlook, boardwalk, Firehole bridge, Fairy Falls trailhead, closed loop",
+ "georeference": {
+  "crs": "EPSG:32612",
+  "extent": 4096,
+  "grid_size": 1025,
+  "grid_step_m": 4,
+  "origin": [
+   512952.5950985841,
+   4930199.044097667,
+   2200.0
+  ],
+  "unit": "metre",
+  "vertical_datum": "NAVD88"
+ },
+ "eye_offset_m": 1.67,
+ "anchor_ids": [
+  "overlook",
+  "boardwalk",
+  "river",
+  "trailhead",
+  "overlook"
+ ],
+ "points": [
+  [
+   -252.0,
+   49.7422,
+   159.0
+  ],
+  [
+   -118.4428,
+   18.6047,
+   -112.0891
+  ],
+  [
+   58.012,
+   6.3764,
+   -277.4635
+  ],
+  [
+   328.5285,
+   9.9833,
+   945.0425
+  ],
+  [
+   -252.0,
+   49.7422,
+   159.0
+  ]
+ ],
+ "walker_points": [
+  [
+   -252.0,
+   48.0722,
+   159.0
+  ],
+  [
+   -118.4428,
+   16.9347,
+   -112.0891
+  ],
+  [
+   58.012,
+   4.7064,
+   -277.4635
+  ],
+  [
+   328.5285,
+   8.3133,
+   945.0425
+  ],
+  [
+   -252.0,
+   48.0722,
+   159.0
+  ]
+ ],
+ "segment_length_m": [
+  303.8,
+  242.15,
+  1252.08,
+  977.99
+ ],
+ "loop_length_m": 2776.02
+}
