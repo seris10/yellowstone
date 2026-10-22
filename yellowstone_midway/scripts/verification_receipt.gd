@@ -16,7 +16,7 @@ const INPUTS := [
 	"res://scripts/lodgepole_library.gd", "res://scripts/canopy_surface.gd",
 	"res://scripts/forest_floor.gd", "res://scripts/forest_floor_geometry.gd",
 	"res://scripts/river_terrain.gd", "res://scripts/rendered_ground.gd",
-	"res://scripts/core_terrain.gd", "res://scripts/canopy_support.gd",
+	"res://scripts/core_terrain.gd", "res://scripts/canopy_support.gd", "res://scripts/overlook_deck.gd",
 	"res://tools/bake_world.gd", "res://data/terrain.f32",
 	"res://data/core_terrain/core_terrain.json",
 	"res://data/core_terrain/core_heightfield.f32", "res://data/core_terrain/core_microrelief.f32", "res://shaders/canopy_surface.gdshader",

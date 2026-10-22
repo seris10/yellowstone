@@ -12,7 +12,7 @@
   },
   "actual_multimesh_resources": 26934,
   "bounds_tolerance_m": 0.003,
-  "elapsed_seconds": 30.095,
+  "elapsed_seconds": 26.147,
   "engine": "4.5.1-stable (official)",
   "expected_instance_slots": 1211770,
   "expected_kind_slots": {
@@ -69,11 +69,12 @@
     "res://scripts/forest_floor.gd": "8060f17d7719cb400671b4fc134949331c193802d5c7dd9a2b624ddcfca48bea",
     "res://scripts/forest_floor_geometry.gd": "8f851c3f11f6dddeca9171b8da461d31cc94cde7668d5e422276de48ba91ce76",
     "res://scripts/lodgepole_library.gd": "47f79d2f2dfc5c739e16729d1af293e7c891034d2721372286bb578ba036ae48",
+    "res://scripts/overlook_deck.gd": "353e01caa621439c34b303f9f00d7fb895ff1b3272cd9edcd3d3029f3d966ab5",
     "res://scripts/rendered_ground.gd": "94ba40cb41ad108f9cbf2ddfe2c0dddf87e4f5b60afbbce3b0b548231c57c29c",
     "res://scripts/river_terrain.gd": "29898cd4402a0ab472a8694e2c2ce049b00f4dca760f87727a4eca6d6e885772",
-    "res://scripts/verification_receipt.gd": "78cdc43dce2e5979268e473725b9b3b9cf78abff115f0e60bb6dce89fe59ad74",
+    "res://scripts/verification_receipt.gd": "532233895631f11a48116e723f107789a3a5073ebc5e1a29d3e7f93d5f0ee55f",
     "res://shaders/canopy_surface.gdshader": "ad77fa978bf1014248ad97f22db369a56785814b54918f5c47cd21ea3566f69f",
-    "res://tools/bake_world.gd": "025e61a232a51b7f76ce306a02d80175cf4b0fc92cc55fdbd4c9d2ea2f39bf88",
+    "res://tools/bake_world.gd": "6988861942c9adae0b256c83f49b83c8a3bd1eba232c046f67a7f5d2e2995fa5",
     "res://tools/validate_multimesh.gd": "842c15a7a58ab1338ad67d9ca1195fb01064b2323107743d9575957d5b1a9791"
   },
   "steam_slots": 110,

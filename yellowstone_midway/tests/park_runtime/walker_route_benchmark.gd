@@ -129,6 +129,10 @@ func run() -> void:
         camera.rotation.x = 0.0
     for _settle: int in 120:
         await process_frame
+    if "--matrix" in OS.get_cmdline_user_args():
+        var failed: int = await run_matrix(waypoints)
+        quit(1 if failed > 0 else 0)
+        return
     _open_series()
     var escape_angles: Array[float] = [0.9, -0.9, 1.6, -1.6, 2.3, -2.3, 3.0]
     for index: int in range(1, waypoints.size()):
@@ -236,3 +240,88 @@ func run() -> void:
     world.queue_free()
     await process_frame
     quit(0)
+
+## Matrix cases in the integrated scene; returns the number of failed cases.
+func run_matrix(waypoints: Array) -> int:
+    var failed: int = 0
+    world.resume()
+    var stream: Variant = world.get("park_terrain")
+    if stream != null:
+        failed += await matrix_collision_delay(stream)
+    failed += await matrix_overlook_exit(waypoints)
+    print("MATRIX_WALKER mode=", "streamed" if stream != null else "baked", " failed=", failed)
+    return failed
+
+## Collision delay and teleport: movement holds at each anchor until collision and features commit.
+func matrix_collision_delay(stream: Variant) -> int:
+    var failed: int = 0
+    var anchors: Array = world.spec.anchors
+    for step: int in anchors.size():
+        var index: int = (step + 1) % anchors.size()
+        world.go_to_anchor(index)
+        var held_at_teleport: bool = not bool(player.get("enabled")) and bool(world.get("_park_boot_hold"))
+        var placed: Vector3 = world.player_site_position()
+        var drift: float = 0.0
+        var held_frames: int = 0
+        var camera_current: bool = true
+        var ready_at_release: bool = false
+        for _tick: int in 3600:
+            await physics_frame
+            if bool(player.get("enabled")):
+                ready_at_release = _collision_ready()
+                break
+            held_frames += 1
+            drift = maxf(drift, world.player_site_position().distance_to(placed))
+            var camera: Camera3D = player.get("camera")
+            camera_current = camera_current and camera != null and camera.current
+        var features_committed: bool = false
+        for key: String in stream.resident:
+            var d: Dictionary = stream.resident[key].descriptor
+            if int(d.lod) == 0 and placed.x >= float(d.origin_x_m) and placed.x < float(d.origin_x_m) + float(d.size_m) \
+                    and placed.z >= float(d.origin_z_m) and placed.z < float(d.origin_z_m) + float(d.size_m):
+                features_committed = not stream.tile_group(key).is_empty()
+        var passed: bool = held_at_teleport and ready_at_release and drift < 0.01 and camera_current and features_committed
+        print("MATRIX collision_delay anchor=", anchors[index].id, " held=", held_at_teleport, " held_frames=", held_frames,
+            " drift_m=", drift, " camera_current=", camera_current, " collision_at_release=", ready_at_release,
+            " features=", features_committed, " pass=", passed)
+        if not passed:
+            failed += 1
+        for _settle: int in 60:
+            await physics_frame
+    return failed
+
+## Overlook deck exit: walking toward the boardwalk from the overlook stops at the deck rails.
+func matrix_overlook_exit(waypoints: Array) -> int:
+    world.go_to_anchor(0)
+    for _tick: int in 3600:
+        await physics_frame
+        if _collision_ready() and bool(player.get("enabled")):
+            break
+    player.set("enabled", true)
+    player.set("fly_mode", false)
+    for _settle: int in 120:
+        await physics_frame
+    var anchor: Vector3 = world.player_site_position()
+    var target: Array = waypoints[1]
+    var goal := Vector3(float(target[0]), float(target[1]), float(target[2]))
+    var first_wall: String = ""
+    var wall_distance: float = -1.0
+    Input.action_press("move_forward")
+    for _tick: int in 900:
+        var local_goal: Vector3 = _local(goal)
+        var flat := Vector2(local_goal.x - player.global_position.x, local_goal.z - player.global_position.z)
+        player.look_at(player.global_position + Vector3(flat.x, 0.0, flat.y).normalized(), Vector3.UP)
+        await physics_frame
+        for i: int in player.get_slide_collision_count():
+            var contact := player.get_slide_collision(i)
+            if absf(contact.get_normal().y) < 0.7 and first_wall == "":
+                var node := contact.get_collider() as Node
+                first_wall = str(node.get_path()) if node != null else "unknown"
+                var here: Vector3 = world.player_site_position()
+                wall_distance = Vector2(here.x - anchor.x, here.z - anchor.z).length()
+        if first_wall != "":
+            break
+    Input.action_release("move_forward")
+    var passed: bool = first_wall.contains("OverlookDeck") and wall_distance >= 0.0 and wall_distance < 5.0
+    print("MATRIX overlook_exit start=", anchor, " first_wall=", first_wall, " distance_m=", wall_distance, " pass=", passed)
+    return 0 if passed else 1

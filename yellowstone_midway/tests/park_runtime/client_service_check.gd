@@ -43,6 +43,13 @@ func run() -> void:
     check(not client.stale, "fresh snapshot marked stale")
     var first: float = client.presentation_time_s()
     check(is_finite(first), "presentation time not finite")
+    # Matrix service restart: a new session resumes at or after the committed checkpoint time.
+    var previous_session: String = option("previous-session", "")
+    if not previous_session.is_empty():
+        check(client.session_id != previous_session, "restarted service reused the previous session id")
+        var restored_after: float = float(option("restored-after", "0"))
+        check(first >= restored_after, "restarted service time %f precedes the committed time %f" % [first, restored_after])
+        print("MATRIX service_restart previous=", previous_session, " session=", client.session_id, " t=", first, " committed_floor=", restored_after)
     check(client.queue_command("clock", {"paused": true}), "clock command refused")
     var paused: bool = await wait_for(func() -> bool: return bool(client.packet.get("paused", false)), 6.0)
     check(paused, "service never reported paused")
@@ -53,7 +60,7 @@ func run() -> void:
     var resumed: bool = await wait_for(func() -> bool: return not bool(client.packet.get("paused", true)), 6.0)
     check(resumed, "service never resumed")
     check(not client.queue_command("shutdown", {}), "unsupported command accepted")
-    print("PARK_CLIENT_SERVICE checks=", checks, " failures=", failures, " first_t=", first)
+    print("PARK_CLIENT_SERVICE checks=", checks, " failures=", failures, " first_t=", first, " session=", client.session_id)
     client.queue_free()
     await process_frame
     quit(1 if failures else 0)

@@ -4,6 +4,7 @@ const HeightField = preload("res://scripts/height_field.gd")
 const LodgepoleLibrary = preload("res://scripts/lodgepole_library.gd")
 const CanopySurface = preload("res://scripts/canopy_surface.gd")
 const ForestFloor = preload("res://scripts/forest_floor.gd")
+const OverlookDeck = preload("res://scripts/overlook_deck.gd")
 var height_field: RefCounted
 var spec: Dictionary
 var scene_root: Node3D
@@ -853,44 +854,8 @@ func make_steam(p: Dictionary, group: Node) -> void:
 	node.add_to_group("steam",true)
 
 func make_overlook() -> void:
-	var group := Node3D.new()
-	group.name = "OverlookDeck"
-	own(group)
-	var x := -252.0
-	var z := 159.0
-	var y: float = height_field.sample(x,z)+.32
-	var deck := BoxMesh.new()
-	deck.size = Vector3(6.5,.18,4.5)
-	deck.material = deck_mat
-	var node := add_geometry(deck,"ViewingPlatform",group,true)
-	node.position = Vector3(x,y,z)
-	# Connect the eastern spur to the raised deck.
-	var ramp_z:=160.05
-	var ramp_start:=Vector3(x+5.0,height_field.sample(x+5.0,ramp_z)+.08,ramp_z)
-	var nearest:=INF
-	for route: Dictionary in spec.routes:
-		for point: Array in route.points:
-			var d:=Vector2(float(point[0])-ramp_start.x,float(point[2])-ramp_z).length()
-			if d<nearest:
-				nearest=d
-				ramp_start.y=float(point[1])+.002
-	var ramp_end:=Vector3(x+3.15,y+.092,ramp_z)
-	add_geometry(ribbon(PackedVector3Array([ramp_start,ramp_end]),1.9,wood_mat),"OverlookEntryRamp",group,true)
-	# Explicit timber members with an open southern approach.
-	var corners:=PackedVector3Array([Vector3(x-3.13,y+.09,z+2.05),Vector3(x-3.13,y+.09,z-2.05),Vector3(x+3.13,y+.09,z-2.05),Vector3(x+3.13,y+.09,z-.1)])
-	for i in range(corners.size()-1):
-		var a:=corners[i]
-		var b:=corners[i+1]
-		var count:=int(ceil(a.distance_to(b)/1.6))
-		for j in range(count+1):
-			var base:=a.lerp(b,float(j)/float(count))
-			var post:=BoxMesh.new()
-			post.size=Vector3(.12,1.08,.12)
-			post.material=timber_post_mat
-			var post_node:=add_geometry(post,"OverlookPost",group,true)
-			post_node.position=base+Vector3.UP*.54
-		beam_between(a+Vector3.UP*1.04,b+Vector3.UP*1.04,.12,group)
-		beam_between(a+Vector3.UP*.52,b+Vector3.UP*.52,.09,group)
+	# The streamed boot builds the same deck through the shared builder.
+	OverlookDeck.build(scene_root, height_field, spec.routes, {"deck": deck_mat, "wood": wood_mat, "post": timber_post_mat, "beam": timber_beam_mat}, scene_root)
 
 func collect_meshes(node: Node, transform := Transform3D.IDENTITY) -> Array:
 	var meshes: Array = []

@@ -5,11 +5,12 @@
 | Check | Result |
 |---|---|
 | `tests/park_runtime` Python tests (`yellowstone_python/tests/park_runtime`) | 115 passed |
-| `tests/park_runtime/run_tests.gd` on the synthetic fixture | 10 checks, 0 failures |
-| `tests/park_runtime/stream_midway_check.gd` on `data/park_composed` (1 m core plus master, feature pages) | 0 failures (3439 to 3977 checks; the count varies with residency timing); leaf heights equal the river-carved legacy core inside the core footprint (Python carve matches `core_terrain.gd` `_load_heights` to 7.9e-5 m over 361201 vertices) and the master raster outside it, worst 1.4e-6 m over 1520 boundary samples and 4.5e-5 m at 11 streamed stops; removed pool area equals each thermal polygon area; bridge decks clear the terrain; three water-covered leaf tiles carry no terrain surface; route meshes, pool and river surfaces, vegetation, canopy, forest floor and wildlife revisit audited per tile; 121 resident tiles, 10.4 MiB estimate |
+| `tests/park_runtime/run_tests.gd` on the synthetic fixture | 21 checks, 0 failures, including the ridge-gap and corrupt-child matrix cases |
+| `tests/park_runtime/stream_midway_check.gd` on `data/park_composed` (1 m core plus master, feature pages) | 0 failures (3439 to 3977 checks; the count varies with residency timing); regression matrix cases for the sudden turn, predictive arrival, parent/child cover, revisit plateau, origin shift during jobs and seam raycasts; leaf heights equal the river-carved legacy core inside the core footprint (Python carve matches `core_terrain.gd` `_load_heights` to 7.9e-5 m over 361201 vertices) and the master raster outside it, worst 1.4e-6 m over 1520 boundary samples and 4.5e-5 m at 11 streamed stops; removed pool area equals each thermal polygon area; bridge decks clear the terrain; three water-covered leaf tiles carry no terrain surface; route meshes, pool and river surfaces, vegetation, canopy, forest floor and wildlife revisit audited per tile; 121 resident tiles, 10.4 MiB estimate |
 | `tests/park_runtime/ground_rebase_check.gd` | 272 checks, 0 failures |
 | `tests/park_runtime/field_codec_check.gd` on the Python golden packet | 9 checks, 0 failures |
-| `tests/park_runtime/client_service_check.gd` against the reference service | 11 checks, 0 failures (not rerun since the package install) |
+| `tests/park_runtime/client_service_check.gd` against the reference service | 11 checks, 0 failures; 13 checks, 0 failures across a Ctrl+C save and restart (`--previous-session`) |
+| `tests/park_runtime/walker_route_benchmark.gd -- --matrix` in the main scene | baked and streamed 0 failed: collision delay and teleport hold at 4 anchors (streamed), overlook deck exit at the deck rail in both modes |
 | `--smoke-test` with streaming off and on (`data/park_composed`) | `SMOKE ok=true` in both; the streamed run asserts vegetation preparation settled without error; a catalog without a feature index exits 1 |
 
 Two defects in the supplied GDScript were found by running it and are fixed here:
@@ -31,8 +32,12 @@ wildlife paging, and the performance protocol runs (`evidence/park-streaming-ben
 Vegetation shared assets load during the boot hold, and per-tile instance buffers are
 planned on worker threads; the main-thread install takes at most 2.0-3.0 ms per tile in
 the headless stream check (`fixes-65`), with visible-renderer frame times not remeasured.
-Not yet done: GPU-millisecond attribution, the 18-case regression matrix of
-`03_ACCEPTANCE.md`, steam for streamed thermal pools,
+The 18-row regression matrix of `03_ACCEPTANCE.md` has recorded results (`fixes-63` ledger):
+13 rows pass, 4 pass only on the reference runtime because the game does not run
+`ParkRuntime`, and accelerated time is not tested. The streamed boot builds the overlook
+deck through the builder the bake uses (`fixes-66`).
+Not yet done: GPU-millisecond attribution, the integrated-scene runs of the simulation
+rows of the regression matrix, steam for streamed thermal pools,
 the service wiring that feeds native engine state to `ParkClient`, and the items under
 Explicit integration work remaining below.
 

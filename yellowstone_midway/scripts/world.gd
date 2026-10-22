@@ -22,6 +22,7 @@ const ParkTerrain = preload("res://scripts/park_runtime/terrain_streamer.gd")
 const ParkClient = preload("res://scripts/park_runtime/park_client.gd")
 const ParkVegetation = preload("res://scripts/park_runtime/vegetation_pager.gd")
 const ParkWildlife = preload("res://scripts/park_runtime/wildlife_pager.gd")
+const OverlookDeck = preload("res://scripts/overlook_deck.gd")
 ## Optional published Python replay path.
 @export_file("*.json") var replay_path: String = ""
 ## Optional baked comparison replay.
@@ -320,6 +321,15 @@ func _boot_streamed_world() -> bool:
 	park_frame.register_root(player)
 	player.bind_stream(park_terrain, park_frame)
 	height_field.bind_stream_authority(park_terrain, park_frame)
+	# The baked overlook deck has no tile page; the shared builder places it in site coordinates.
+	var structures := Node3D.new()
+	structures.name = "StreamedStructures"
+	add_child(structures)
+	park_frame.register_root(structures)
+	structures.position = park_frame.local_position(0.0, 0.0, 0.0)
+	OverlookDeck.build(structures, height_field, spec.routes, {"deck": load("res://assets/materials/overlook_deck.tres"),
+		"wood": load("res://assets/materials/boardwalk.tres"), "post": load("res://assets/materials/timber_post.tres"),
+		"beam": load("res://assets/materials/timber_beam.tres")})
 	park_terrain.tile_committed.connect(_on_park_tile_committed)
 	park_terrain.tile_retiring.connect(_on_park_tile_retiring)
 	park_vegetation = ParkVegetation.new()

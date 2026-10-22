@@ -33,6 +33,9 @@ var jobs: Dictionary = {}
 var canopy_header: Dictionary = {}
 var canopy_cells := PackedByteArray()
 var canopy_excluded := PackedByteArray()
+var cover_frames: int = 0
+var cover_violations: int = 0
+var cover_first_violation: String = ""
 
 func _initialize() -> void:
     call_deferred("run")
@@ -50,6 +53,7 @@ func settle(stream: Node, observer: Camera3D, frame: RefCounted, target: Vector3
         frame.maybe_rebase(observer)
         await physics_frame
         await process_frame
+        audit_cover(stream)
         if stream.is_collision_ready(target.x, target.z) and stream.can_enter(observer.global_position, 0.5):
             return true
     return false
@@ -352,6 +356,13 @@ func run() -> void:
     await audit_streamed_water(stream, observer, frame)
     await audit_streamed_vegetation(stream, observer, frame)
     await audit_streamed_wildlife(stream, observer, frame)
+    await audit_sudden_turn(stream, observer, frame)
+    await audit_predictive_arrival(stream, observer, frame)
+    await audit_revisit_plateau(stream, observer, frame)
+    await audit_rebase_during_jobs(stream, observer, frame)
+    await audit_seam_raycasts(stream, observer, frame)
+    check(cover_violations == 0, "visible cover had %d overlap or gap frames; first: %s" % [cover_violations, cover_first_violation])
+    print("MATRIX parent_child_cover frames=", cover_frames, " violations=", cover_violations)
     check(int(stream.stats.get("failures", 0)) == 0, "tile jobs failed")
     check(float(stream.stats.get("resident_estimate_mib", 0.0)) <= stream.resident_limit_mib, "resident estimate exceeds budget")
     print("PARK_MIDWAY_STREAM checks=", checks, " failures=", failures, " resident=", stream.stats.get("resident_tiles"), " mib=", stream.stats.get("resident_estimate_mib"), " commit_ms_max=", stream.stats.get("commit_ms_max"))
@@ -696,3 +707,255 @@ func audit_streamed_wildlife(stream: Node, observer: Camera3D, frame: RefCounted
     var totals: Dictionary = pager.stats()
     check(int(totals.spawned) == int(totals.suspended) + pager.present_ids().size(), "spawn and suspend accounting diverged")
     print("WILDLIFE_AUDIT roster=", roster.size(), " spawned=", totals.spawned, " suspended=", totals.suspended, " restored=", totals.restored, " present=", pager.present_ids().size())
+
+# --- Regression matrix ---
+
+func rect_inside(outer: Dictionary, inner: Dictionary) -> bool:
+    return float(inner.origin_x_m) >= float(outer.origin_x_m) - 0.001 and float(inner.origin_z_m) >= float(outer.origin_z_m) - 0.001 \
+        and float(inner.origin_x_m) + float(inner.size_m) <= float(outer.origin_x_m) + float(outer.size_m) + 0.001 \
+        and float(inner.origin_z_m) + float(inner.size_m) <= float(outer.origin_z_m) + float(outer.size_m) + 0.001
+
+func rects_overlap(a: Dictionary, b: Dictionary) -> bool:
+    var dx: float = minf(float(a.origin_x_m) + float(a.size_m), float(b.origin_x_m) + float(b.size_m)) - maxf(float(a.origin_x_m), float(b.origin_x_m))
+    var dz: float = minf(float(a.origin_z_m) + float(a.size_m), float(b.origin_z_m) + float(b.size_m)) - maxf(float(a.origin_z_m), float(b.origin_z_m))
+    return dx > 0.001 and dz > 0.001
+
+## Visible tiles partition every root exactly once after the bootstrap cover has loaded.
+func audit_cover(stream: Node) -> void:
+    if cover_frames == 0:
+        for root_tile: Dictionary in catalog.roots:
+            if not stream.resident.has(str(root_tile.key)):
+                return
+    cover_frames += 1
+    var visible: Array = []
+    for key: String in stream.resident:
+        var tile: Node3D = stream.resident[key]
+        if tile.visible:
+            visible.append(tile.descriptor)
+    for root_tile: Dictionary in catalog.roots:
+        var inside: Array = []
+        var area: float = 0.0
+        for d: Dictionary in visible:
+            if rect_inside(root_tile, d):
+                inside.append(d)
+                area += float(d.size_m) * float(d.size_m)
+        var expected: float = float(root_tile.size_m) * float(root_tile.size_m)
+        var violation: String = ""
+        if absf(area - expected) > 0.01:
+            violation = "root %s visible area %.1f of %.1f m2" % [str(root_tile.key), area, expected]
+        else:
+            for i: int in inside.size():
+                for j: int in range(i + 1, inside.size()):
+                    if violation == "" and rects_overlap(inside[i], inside[j]):
+                        violation = "root %s overlap %s and %s" % [str(root_tile.key), str(inside[i].key), str(inside[j].key)]
+        if violation != "":
+            cover_violations += 1
+            if cover_first_violation == "":
+                cover_first_violation = violation
+            return
+
+## Visible lod-0 and lod-1 tiles whose centers lie over 150 m along a horizontal direction.
+func detail_ahead(stream: Node, observer: Camera3D, frame: RefCounted, direction: Vector3) -> int:
+    var count: int = 0
+    for key: String in stream.resident:
+        var tile: Node3D = stream.resident[key]
+        var d: Dictionary = tile.descriptor
+        if not tile.visible or int(d.lod) > 1:
+            continue
+        var offset: Vector3 = frame.local_position(float(d.origin_x_m) + float(d.size_m) * 0.5, 0.0, float(d.origin_z_m) + float(d.size_m) * 0.5) - observer.global_position
+        offset.y = 0.0
+        if offset.dot(direction) > 150.0:
+            count += 1
+    return count
+
+## Run frames until no tile job is pending and the retirement delay has elapsed.
+func quiet(stream: Node, frame: RefCounted, observer: Camera3D) -> void:
+    var start_s: float = stream._now
+    for _tick: int in 20000:
+        frame.maybe_rebase(observer)
+        await physics_frame
+        await process_frame
+        audit_cover(stream)
+        if stream._now - start_s > stream.retirement_delay_s + 1.0 and int(stream.stats.get("inflight", 0)) == 0 and int(stream.stats.get("ready", 0)) == 0:
+            return
+
+## Matrix: a sudden 180 degree turn keeps complete coarse cover while detail follows the new view.
+func audit_sudden_turn(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var stop := Vector3(-340.0, 40.0, 0.0)
+    observer.rotation = Vector3.ZERO
+    var ready: bool = await settle(stream, observer, frame, stop)
+    check(ready, "turn stop did not settle")
+    await quiet(stream, frame, observer)
+    var violations_before: int = cover_violations
+    var behind: Vector3 = Vector3(0.0, 0.0, 1.0)
+    var before: int = detail_ahead(stream, observer, frame, behind)
+    observer.rotation.y = PI
+    var worst_ms: float = 0.0
+    var after: int = before
+    for _tick: int in 600:
+        var started: int = Time.get_ticks_usec()
+        await process_frame
+        worst_ms = maxf(worst_ms, float(Time.get_ticks_usec() - started) / 1000.0)
+        audit_cover(stream)
+        after = maxi(after, detail_ahead(stream, observer, frame, behind))
+    check(cover_violations == violations_before, "the sudden turn left a gap or overlap in the visible cover")
+    check(after > before, "detail did not follow the turned view: %d fine tiles before, %d after" % [before, after])
+    print("MATRIX sudden_turn fine_tiles_before=", before, " after=", after, " worst_frame_ms_headless=", worst_ms)
+    observer.rotation = Vector3.ZERO
+
+## Matrix: predicted travel prepares collision at a destination before the observer arrives.
+func audit_predictive_arrival(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var target := Vector3(-252.0, 48.0, 159.0)
+    var leaf: Dictionary = leaf_descriptor(target.x, target.z)
+    check(not leaf.is_empty(), "overlook leaf missing from the catalog")
+    if leaf.is_empty():
+        return
+    var ready: bool = await settle(stream, observer, frame, Vector3(260.0, 40.0, 950.0))
+    check(ready, "departure stop did not settle")
+    await quiet(stream, frame, observer)
+    check(not stream.is_collision_ready(target.x, target.z), "overlook collision stayed prepared after leaving")
+    var speed: float = 10.0
+    var radius: float = stream.planner.safety_radius_m + speed * stream.planner.lookahead_s
+    # Current distance exceeds the safety radius by 15 m; the predicted position lies 10 m inside it.
+    var start := Vector3(float(leaf.origin_x_m) + float(leaf.size_m) + radius + 15.0, target.y + 2.0, target.z)
+    observer.global_position = frame.local_position(start.x, start.y, start.z)
+    observer.rotation = Vector3(0.0, PI * 0.5, 0.0)
+    stream.velocity = Vector3.ZERO
+    for _tick: int in 300:
+        frame.maybe_rebase(observer)
+        await physics_frame
+        await process_frame
+        audit_cover(stream)
+    var control_ready: bool = stream.is_collision_ready(target.x, target.z)
+    var frames: int = -1
+    for tick: int in 900:
+        stream.velocity = Vector3(-speed, 0.0, 0.0)
+        frame.maybe_rebase(observer)
+        await physics_frame
+        await process_frame
+        audit_cover(stream)
+        if stream.is_collision_ready(target.x, target.z):
+            frames = tick
+            break
+    stream.velocity = Vector3.ZERO
+    observer.rotation = Vector3.ZERO
+    check(not control_ready, "the stationary control prepared the destination collision")
+    check(frames >= 0, "predicted travel did not prepare collision before arrival")
+    print("MATRIX predictive_arrival radius_m=", radius, " frames_to_collision=", frames, " control_ready=", control_ready)
+
+## Matrix: repeated out-and-back travel plateaus residency and leaves no unrequested tiles resident.
+func audit_revisit_plateau(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var home := Vector3(-340.0, 40.0, 0.0)
+    var away := Vector3(260.0, 40.0, 950.0)
+    var laps: Array = []
+    var stale: int = 0
+    for lap: int in 3:
+        for stop: Vector3 in [home, away]:
+            var ready: bool = await settle(stream, observer, frame, stop)
+            check(ready, "revisit stop did not settle on lap %d" % lap)
+            await quiet(stream, frame, observer)
+            if stop == home:
+                laps.append([stream.resident.size(), float(stream.stats.get("resident_estimate_mib", 0.0)), int(stream.stats.get("collision_tiles", 0))])
+            for key: String in stream.resident:
+                if not stream._requests.has(key) and stream._now - float(stream.resident[key].last_used_s) > stream.retirement_delay_s + 0.5:
+                    stale += 1
+    check(stale == 0, "%d unrequested tiles stayed resident past the retirement delay" % stale)
+    check(int(laps[2][0]) <= int(laps[0][0]) + 4 and float(laps[2][1]) <= float(laps[0][1]) * 1.05 + 0.25, "residency grew across laps: %s" % str(laps))
+    print("MATRIX revisit_plateau home_laps=", laps, " stale=", stale)
+
+## Matrix: an origin shift with tile jobs in flight keeps tiles and colliders on absolute positions.
+func audit_rebase_during_jobs(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var near := Vector3(-100.0, 40.0, 220.0)
+    var ready: bool = await settle(stream, observer, frame, near)
+    check(ready, "pre-shift stop did not settle")
+    var far := Vector3(1500.0, 60.0, -1500.0)
+    observer.global_position = frame.local_position(far.x, far.y, far.z)
+    var shifted: bool = false
+    var inflight_at_shift: int = 0
+    for _tick: int in 600:
+        await process_frame
+        if not stream._inflight.is_empty():
+            inflight_at_shift = stream._inflight.size()
+            shifted = frame.maybe_rebase(observer)
+            break
+    check(shifted and inflight_at_shift > 0, "no origin shift happened with tile jobs in flight")
+    ready = await settle(stream, observer, frame, far)
+    check(ready, "post-shift stop did not settle")
+    var misplaced: int = 0
+    for key: String in stream.resident:
+        var d: Dictionary = stream.resident[key].descriptor
+        if not (stream.resident[key] as Node3D).position.is_equal_approx(frame.local_position(float(d.origin_x_m), 0.0, float(d.origin_z_m))):
+            misplaced += 1
+    for entry: Dictionary in stream._collisions.values():
+        var d: Dictionary = entry.descriptor
+        var center: Vector3 = frame.local_position(float(d.origin_x_m) + float(d.size_m) * 0.5, 0.0, float(d.origin_z_m) + float(d.size_m) * 0.5)
+        if not (entry.body as Node3D).position.is_equal_approx(center):
+            misplaced += 1
+    var worst: float = 0.0
+    var rng := RandomNumberGenerator.new()
+    rng.seed = 8807
+    for _i: int in SAMPLES:
+        var x: float = far.x + rng.randf_range(-30.0, 30.0)
+        var z: float = far.z + rng.randf_range(-30.0, 30.0)
+        var streamed: float = stream.height_at(x, z)
+        if not is_nan(streamed):
+            worst = maxf(worst, absf(streamed - reference_height(x, z)))
+    check(misplaced == 0, "%d tiles or colliders left their absolute positions after the shift" % misplaced)
+    check(worst < 0.001, "heights after the shift differ from the source by %f m" % worst)
+    print("MATRIX origin_shift_during_jobs inflight=", inflight_at_shift, " misplaced=", misplaced, " worst_error_m=", worst)
+
+## Matrix: rays on both sides of leaf seams match the source triangles; colliders carry no skirts.
+func audit_seam_raycasts(stream: Node, observer: Camera3D, frame: RefCounted) -> void:
+    var stop := Vector3(-242.0, 70.0, 160.0)
+    var ready: bool = await settle(stream, observer, frame, stop)
+    check(ready, "seam stop did not settle")
+    for _tick: int in 30:
+        await physics_frame
+    var bodies: Dictionary = {}
+    var structural: int = 0
+    for key: String in stream._collisions:
+        var body: StaticBody3D = stream._collisions[key].body
+        bodies[body.get_instance_id()] = key
+        var shapes: Array = body.get_children()
+        var cells: int = int(stream._collisions[key].descriptor.mesh_cells)
+        if shapes.size() != 1 or not (shapes[0] as CollisionShape3D).shape is HeightMapShape3D:
+            structural += 1
+        elif ((shapes[0] as CollisionShape3D).shape as HeightMapShape3D).map_width != cells + 1:
+            structural += 1
+    var space: PhysicsDirectSpaceState3D = root.get_world_3d().direct_space_state
+    var worst: float = 0.0
+    var mismatch: float = 0.0
+    var samples: int = 0
+    for key: String in stream._collisions:
+        var da: Dictionary = stream._collisions[key].descriptor
+        for other: String in stream._collisions:
+            var db: Dictionary = stream._collisions[other].descriptor
+            var east: bool = is_equal_approx(float(db.origin_x_m), float(da.origin_x_m) + float(da.size_m)) and is_equal_approx(float(db.origin_z_m), float(da.origin_z_m))
+            var south: bool = is_equal_approx(float(db.origin_z_m), float(da.origin_z_m) + float(da.size_m)) and is_equal_approx(float(db.origin_x_m), float(da.origin_x_m))
+            if not (east or south) or not is_equal_approx(float(db.size_m), float(da.size_m)):
+                continue
+            for k: int in range(1, 8):
+                var along: float = float(da.size_m) * float(k) / 8.0 + 0.37
+                var heights: Array[float] = []
+                var sources: Array[float] = []
+                for offset: float in [-0.01, 0.0, 0.01]:
+                    var x: float = float(da.origin_x_m) + float(da.size_m) + offset if east else float(da.origin_x_m) + along
+                    var z: float = float(da.origin_z_m) + along if east else float(da.origin_z_m) + float(da.size_m) + offset
+                    var query := PhysicsRayQueryParameters3D.create(frame.local_position(x, 400.0, z), frame.local_position(x, -400.0, z))
+                    var hit: Dictionary = space.intersect_ray(query)
+                    if hit.is_empty() or not bodies.has((hit.collider as Object).get_instance_id()):
+                        continue
+                    var y: float = (hit.position as Vector3).y
+                    var source: float = reference_height(x, z)
+                    worst = maxf(worst, absf(y - source))
+                    heights.append(y)
+                    sources.append(source)
+                    samples += 1
+                # The step across the seam, net of the source slope over the 0.02 m offset.
+                if heights.size() == 3:
+                    mismatch = maxf(mismatch, absf((heights[2] - heights[0]) - (sources[2] - sources[0])))
+    check(structural == 0, "%d terrain colliders carry shapes other than one leaf height map" % structural)
+    check(samples > 0, "no seam ray reached a terrain collider")
+    check(worst < 0.002, "seam rays differ from the source triangles by %f m" % worst)
+    check(mismatch < 0.002, "seam rays step across the seam by %f m net of the source slope" % mismatch)
+    print("MATRIX seam_raycast samples=", samples, " worst_error_m=", worst, " seam_step_m=", mismatch, " structural=", structural)
