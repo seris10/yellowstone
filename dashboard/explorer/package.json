@@ -1,0 +1,13 @@
+{
+  "name": "yellowstone-browser-explorer",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test-model.mjs test-temperature.mjs test-layers.mjs",
+    "preview": "python3 -m http.server 4184 --bind 127.0.0.1"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  }
+}

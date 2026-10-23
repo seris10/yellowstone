@@ -215,7 +215,7 @@ def selected_outputs():
 
 def test_bundled_outputs_retain_saved_stocks_ids_and_times(selected_outputs):
     snapshot, datasets = selected_outputs
-    assert snapshot["snapshot"] == "f75347b772fd"
+    assert snapshot["snapshot"] == "cca3820afdd4"
     assert set(datasets) == set(module.SYSTEMS)
     biomass = next(row for row in datasets["land"]["series"] if row["entity_id"] == "north_meadow" and row["variable_id"] == "biomass")
     assert len(biomass["times"]) == 721

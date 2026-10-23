@@ -1,6 +1,6 @@
 # Yellowstone dashboard
 
-The explorer displays saved model outputs from scenario `f75347b772fd`. Playback selects saved results; it does not run the model or display current weather.
+The explorer displays saved model outputs from scenario `cca3820afdd4`. Playback selects saved results; it does not run the model or display current weather.
 
 ## Build
 
@@ -10,7 +10,7 @@ python3 dashboard/build_public.py --out work/site
 python3 -m http.server 8427 --directory work/site
 ```
 
-Open `/dashboard/` on that server. The build verifies the bundled inputs against `input-manifest.json`. `src/` contains editable browser assets; `public/` is the generated Pages deployment. A rebuild must reproduce the committed public files byte for byte. Extracting a different scientific generation requires its original checked artifacts and mapped inputs; the default build uses the public bundle.
+Open `/dashboard/` on that server, or `/dashboard/explorer/` for the 3D terrain view. The build verifies the bundled inputs against `input-manifest.json`. `src/` contains editable dashboard assets and `explorer/` contains the 3D page, its checked data and source tools; `public/` is the generated Pages deployment. A rebuild must reproduce the committed public files byte for byte. Extracting a different scientific generation requires its original checked artifacts and mapped inputs; the default build uses the public bundle.
 
 ## Process visuals
 

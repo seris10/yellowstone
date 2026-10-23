@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {finiteRange,changeLimit,temperatureValue,temperatureRange,colorFraction} from './temperature.js';
+const replay=JSON.parse(await readFile(new URL('data/replay.json',import.meta.url)));
+const manifest=JSON.parse(await readFile(new URL('data/manifest.json',import.meta.url)));
+test('full-resolution range handles a million samples without spreading arguments',()=>{const a=new Float32Array(1050625).fill(2200);a[1040000]=2438;a[10]=2193;assert.deepEqual(finiteRange(a),[2193,2438]);assert.equal(finiteRange([null,NaN]),null);});
+test('temperature window resolves a hundredth degree and clips outside values',()=>{const r=temperatureRange('focus',[17.49,18.68],17.6,.06);assert.ok(Math.abs((r[1]-r[0])-.1)<1e-12);assert.ok(Math.abs(colorFraction(17.61,r)-colorFraction(17.6,r)-.1)<1e-12);assert.equal(colorFraction(18,r),1);assert.equal(colorFraction(17,r),0);assert.equal(colorFraction(null,r),null);});
+test('change scale stays fixed for the run and all changes fit within it',()=>{const limit=changeLimit(replay);assert.equal(limit,.06);const r=temperatureRange('change',manifest.temperature_range_c,null,limit);for(let f=0;f<replay.frames.length;f++)for(let i=0;i<replay.cells.length;i++){const v=temperatureValue(replay,f,i,'change');assert.ok(v>=r[0]&&v<=r[1]);if(!f)assert.equal(v,0);}assert.ok(Math.abs(temperatureValue(replay,720,145,'change')-(replay.frames[720].values[145]-replay.frames[0].values[145]))<1e-12);});
+test('missing temperatures remain missing in absolute and change modes',()=>{const r={frames:[{values:[null,18]},{values:[18,null]}]};assert.equal(temperatureValue(r,1,0,'change'),null);assert.equal(temperatureValue(r,1,1,'temperature'),null);assert.equal(temperatureValue(r,1,0,'temperature'),18);});
+test('absolute scale uses the whole run, independent of selected time',()=>{assert.deepEqual(temperatureRange('temperature',manifest.temperature_range_c,17.6,.06),[17.49,18.68]);});

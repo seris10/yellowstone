@@ -122,3 +122,17 @@ def test_information_criteria_accept_fractional_effective_sample_size_and_zero_p
     assert result['k'] == 0.
     assert result['aic'] == 7.25 * math.log(10. / 7.25)
     assert result['bic'] == result['aic']
+
+
+def test_discarded_forcing_history_keeps_forward_solution():
+    scheduled = river(boundary_c={'times_s': [0., 10., 100.], 'values': [15., 18., 30.]})
+    compact = river(boundary_c={'times_s': [0., 10., 100.], 'values': [15., 18., 30.]})
+    for model in (scheduled, compact):
+        model.run(20., dt_s=1., sample_s=10.)
+    scheduled.set_forcing('boundary_c', 20., 23.)
+    compact.set_forcing('boundary_c', 20., 23., retain_history=False)
+    for model in (scheduled, compact):
+        model.run(100., dt_s=1., sample_s=10.)
+    assert compact.temperature_c == scheduled.temperature_c
+    assert compact.budget() == scheduled.budget()
+    assert compact.boundary_c.times_s == (0.,)

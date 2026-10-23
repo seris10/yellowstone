@@ -4,9 +4,56 @@ Yellowstone is a walkable Godot model of Midway Geyser Basin, with Python models
 
 The scene covers 4,096 by 4,096 meters around Grand Prismatic Spring and the Firehole River: walking routes, the overlook, connected waterways, vegetation, animated wildlife, weather, and a stored river-temperature experiment. Terrain and map layers come from public data. Fine terrain edits, materials, plant shapes, wildlife motion, and some environmental inputs are hand-authored approximations.
 
-[Open the data explorer](https://yellowstone-dashboard.pages.dev/dashboard/).
+[Data explorer](https://yellowstone-dashboard.pages.dev/dashboard/) · [3D terrain](https://yellowstone-dashboard.pages.dev/dashboard/explorer/)
 
 ![Grand Prismatic Spring in daylight from the starting view at the overlook](docs/grand-prismatic-overlook.jpg)
+
+## Geography and data
+
+The terrain uses USGS 3DEP elevation from the 2020 Yellowstone QL1 project. The detailed core covers 1.28 km with a native 1 m elevation grid; the wider Midway view covers 4.096 km at 4 m spacing. Coordinates use UTM zone 12N, with heights in NAVD88.
+
+| Layer | Source | Use in Yellowstone |
+| --- | --- | --- |
+| Terrain | [USGS elevation metadata](yellowstone_midway/references/dem_1m_core.tif.provenance.json) | Land surface, slopes and terrain meshes. The browser keeps the full 4 m grid and uses 2 m geometry with 1 m shading detail in the core. |
+| Aerial imagery | [USDA NAIP, July 2022, native 0.6 m imagery](yellowstone_midway/references/geodata_manifest.json) | Geographic alignment and visual reference. |
+| Rivers, trails and roads | [NPS Yellowstone GIS](yellowstone_midway/references/geodata_manifest.json) | Mapped paths and feature outlines. Channel widths and underwater depths are estimates. |
+| Forest canopy | USGS 2020 QL1 LiDAR, 12 intersecting source tiles | A 0.5 m canopy-height raster and 34,303 detected crown cores. Detections do not identify species or count every tree. |
+| River temperature | Mapped channels, transport equations and USGS observation tools | Advection, dispersion, heat exchange and scenario comparisons. Flow and upstream temperature are chosen inputs. |
+| Snow and soil water | Terrain, meteorological inputs and SNOTEL observation tools | Snowmelt, infiltration, runoff and soil-water storage. |
+| Thermal features | Mapped pools and published physical and biological models | Pool temperature profiles, outflow cooling, solute transport and microbial classes. |
+| Vegetation and wildlife | Land cover, LiDAR, botanical literature and species records | Procedural trees, habitat responses, placement and animation. |
+| Sky and sound | Bright Star Catalogue and NPS Yellowstone Sound Library | Star positions and credited environmental recordings. |
+
+The [3D terrain explorer](https://yellowstone-dashboard.pages.dev/dashboard/explorer/) brings the terrain, mapped features and saved model results together. Click a feature to inspect its values and source. Drainage branches are calculated from the elevation grid; some may be dry gullies. Simulation results have not been validated as forecasts of current park conditions.
+
+![Midway terrain and branching drainage from USGS elevation data](docs/midway-explorer.png)
+
+## Numerical and software checks
+
+| Example | What it checks | Run it |
+| --- | --- | --- |
+| River transport | Mixing, conservation, refinement and restart behavior against numerical reference cases | [river_checks.py](yellowstone_python/examples/portfolio/river_checks.py) |
+| Data queries | Spatial boundaries, time and cell selection, missing values and unit conversion against an independent JSON calculation | [analysis_store.py](yellowstone_python/examples/portfolio/analysis_store.py) |
+| Source tracking | Changes to source files, inputs or command output invalidate a saved result record | [evidence_checks.py](yellowstone_python/examples/portfolio/evidence_checks.py) |
+| Procedural trees | Repeatable branch geometry and rejection of invalid dimensions | [Tree architecture tests](yellowstone_python/tests/test_tree_architecture.py) |
+
+These examples use small synthetic fixtures and run without Godot or network access. [Commands and expected outputs](docs/examples.md) are included. Numerical checks test the implementation; field accuracy needs separate observations.
+
+## Standalone tools
+
+These tools have their own installation instructions, examples and tests. They can be used separately from the Yellowstone scene.
+
+| Repository | Purpose |
+| --- | --- |
+| [hydrosim](https://github.com/seris10/hydrosim) | Rainfall, infiltration and overland-flow experiments. |
+| [conifer-architecture](https://github.com/seris10/conifer-architecture) | Procedural conifer branch geometry and mesh exports. |
+| [fishmorph](https://github.com/seris10/fishmorph) | Fish shape modeling and mesh generation. |
+| [fish-swim](https://github.com/seris10/fish-swim) | Fish swimming animation and Godot demonstrations. |
+| [lidar-canopy](https://github.com/seris10/lidar-canopy) | Canopy-height rasters and crown detection from LiDAR. |
+| [wildlife-motion](https://github.com/seris10/wildlife-motion) | Procedural wildlife animation and preview tools. |
+| [blender-mesh-budget](https://github.com/seris10/blender-mesh-budget) | Mesh simplification with an explicit triangle budget. |
+| [terrain-pages](https://github.com/seris10/terrain-pages) | Paged terrain assets and coordinate transforms. |
+| [yellowstone-park-runtime](https://github.com/seris10/yellowstone-park-runtime) | Godot terrain streaming with a bundled synthetic demo. |
 
 ## Project layout
 
@@ -64,7 +111,7 @@ The checked-in site can run without Godot, Python model dependencies, an API key
 python3 -m http.server 8000 --directory dashboard/public
 ```
 
-Open `http://localhost:8000/dashboard/`. Select or zoom into a system, open a process, change time or location, and open its full dataset. The interface includes map layers, exchange filters, charts, CSV export, model results, and source/limitation details. Its bundled values are a model snapshot; live park monitoring requires a separate feed.
+Open `http://localhost:8000/dashboard/`. Select or zoom into a system, open a process, change time or location, and open its full dataset. The interface includes map layers, exchange filters, charts, CSV export, model results, and a separate 3D terrain page. Both views include source and method details. Its bundled values are a model snapshot; live park monitoring requires a separate feed.
 
 Edit `dashboard/src` and rebuild into an empty output directory:
 
@@ -120,7 +167,7 @@ Use a virtual environment for Python dependencies. Tests requiring optional scie
 
 ## Current limitations
 
-- Ecological and forecast claims remain `not_yet_accepted`. Prescribed discharge, upstream temperature, and authored weather are inputs to scenarios. Unknown parameter uncertainty remains unknown.
+- Ecological predictions have not yet been validated against independent field observations. Prescribed discharge, upstream temperature, and authored weather are inputs to scenarios. Unknown parameter uncertainty remains unknown.
 - The terrain uses a local UTM coordinate frame with one Godot unit per meter. Road widths, channel-bed cuts, small drainage details, and structural dimensions include approximations. The scene's geographic extent is Midway; whole-park coverage remains outside this build.
 - Canopy placement combines processed LiDAR and authored interpretation. Local crown measurements, species assignments, plant detail, and wildlife biomechanics still require independent validation.
 - Tree appearance and distance transitions need further work. Some crown shapes, exposed stems, and transitions remain visibly approximate.

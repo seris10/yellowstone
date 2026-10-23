@@ -388,7 +388,7 @@ window.YSWorkspace = {
       if(metric==="water-sum")return `${data.ecology.water.days}-day preparation before the river experiment. Water depths sum across ${data.ecology.water.modeled_patch_count} authored patches; they are not a basin-wide mean. Surface and subsurface drainage are separate equal shares of bucket overflow.`;
       if(metric==="snow"||metric==="water")return "Per-patch snow water-equivalent depth. Physical contributing areas are unavailable; no basin volume or area-weighted depth is represented.";
       if(metric==="heat")return `Authored spatial heat flux on a ${data.coverage.heat.grid.cell_m} m grid. Background, apron, and pool categories are scenario values. They are not measured local heat fluxes.`;
-      if(metric==="pools")return "Authored center and edge values for mapped thermal pools. These are steady scenario parameters; the snapshot contains no reservoir temperature trajectory.";
+      if(metric==="pools")return "Center and edge values for mapped thermal pools. Edge values are authored; center values are published point samples where labeled and authored otherwise. These are steady values; the snapshot contains no reservoir temperature trajectory.";
       if(metric==="shading")return `Saved single-sample shortwave diagnostic. ${data.analytics.shading_basis}. This field is not a diurnal trajectory.`;
       return "Saved authored patch state. Relative biomass and soil moisture do not establish measured vegetation mass, habitat boundaries, or field conditions.";
     }

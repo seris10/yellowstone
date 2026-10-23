@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import math
 import shutil
@@ -506,12 +507,22 @@ def bundled_inputs(directory: Path = HERE) -> tuple[dict, dict]:
     return snapshot, datasets
 
 
+def stage_explorer(destination: Path, directory: Path = HERE) -> None:
+    """Copy the matching 3D bundle after checking every data asset."""
+    source = directory / "explorer"
+    spec = importlib.util.spec_from_file_location("explorer_integration", source / "integrate.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    module.integrate(source, destination, HERE)
+
+
 def build_bundled(destination: Path, directory: Path = HERE) -> dict:
     """Package the verified saved public data without a running model."""
     snapshot, datasets = bundled_inputs(directory)
     package_site(destination, snapshot, datasets)
     for source, name in [("terrain.png", "terrain.png"), ("ground-heat.png", "ground-heat.png"), ("overlook.png", "landscape.png")]:
         shutil.copyfile(directory / "assets" / source, destination / "dashboard" / name)
+    stage_explorer(destination, directory)
     public_worker(destination)
     return snapshot
 
@@ -551,6 +562,7 @@ def main() -> None:
         datasets.update(attach_visual_datasets(snapshot, export_visuals(CheckedBuild(args.build))))
         package_site(args.out, snapshot, datasets)
         map_assets(args.build, args.out / "dashboard")
+        stage_explorer(args.out)
         public_worker(args.out)
     else:
         snapshot = build_bundled(args.out)

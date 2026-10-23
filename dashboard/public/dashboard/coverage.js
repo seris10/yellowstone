@@ -62,9 +62,19 @@ window.YSCoverage = {
     });
     const cells = data.river.cells;
     water.append(make("path", { d: line(cells.map(c => [c.x, c.z])), fill: "none", stroke: "#a3dcff", "stroke-width": 3, "vector-effect": "non-scaling-stroke", "pointer-events": "none", opacity: .8 }));
+    const poolCopy = pool => {
+      const legacy = { description: "Outline and area come from mapped geography. Temperatures and the depth profile are authored values, not measurements. Bathymetry and reservoir heat balance are not modeled.", area: "mapped area" };
+      if (!pool.thermal || !pool.outline_basis) return legacy;
+      const traced = pool.outline_basis === "lidar_return_void";
+      const outline = traced ? "The outline is traced from the 2020 airborne lidar return void and cross-checked against 2022 aerial imagery." : "The outline and area come from the mapped National Park Service polygon, with a stated accuracy of 5 to 14 m.";
+      const temperature = pool.temperature_basis === "measured_literature" ? `Water temperature is one published point sample (${Number(pool.temperature_c).toFixed(1)} °C) taken at an unrecorded position in the pool.` : "Water temperature is an authored value, not a measurement.";
+      const depth = pool.depth_basis === "literature_lower_bound" ? "The center depth is a published lower bound from one line sounding, and the rest of the depth profile is authored." : "The depth profile is authored.";
+      return { description: `${outline} ${temperature}`, limit: `${depth} Edge temperature and the radial profile are authored; no radial temperature survey or bathymetry exists. Reservoir heat balance is not modeled.`, area: traced ? "traced area" : "mapped area" };
+    };
     geo.pools.forEach(pool => {
       const node = make("path", { d: line(pool.ring) + "Z", class: `coverage-pool${pool.thermal ? " is-thermal" : ""}` });
-      interactive(node, { label: pool.name, type: pool.thermal ? "Mapped thermal feature" : "Mapped water body", description: "Outline and area come from mapped geography. Temperatures and the depth profile are authored values, not measurements. Bathymetry and reservoir heat balance are not modeled.", value: `${Math.round(pool.area_m2).toLocaleString("en-US")} m² mapped area`, process: "pool" }); pools.append(node);
+      const copy = poolCopy(pool);
+      interactive(node, { label: pool.name, type: pool.thermal ? "Mapped thermal feature" : "Mapped water body", description: copy.description, limit: copy.limit, value: `${Math.round(pool.area_m2).toLocaleString("en-US")} m² ${copy.area}`, process: "pool" }); pools.append(node);
       if (pool.thermal) {
         const offset = /prismatic/i.test(pool.name) ? [-60, 25] : /excelsior/i.test(pool.name) ? [85,-20] : /turquoise/i.test(pool.name) ? [35,-75] : [30,35];
         const label = make("text", { "text-anchor": offset[0] < 0 ? "end" : "start", class: "geo-feature-label" }, pool.name);

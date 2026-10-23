@@ -1,12 +1,12 @@
-.pe-chart{min-width:0;color:#e8eaef;background:#07080b}
+.pe-chart{min-width:0;color:#e8eaef;background:#030304}
 .pe-chart .pe-note{font:11px/1.8 var(--mono);color:#a2a4a9;overflow-wrap:anywhere;margin:9px 0}
-.pe-figure{margin:12px 0;border:1px solid #2a2c31;border-radius:4px;overflow:hidden;background:#0b0e14}
+.pe-figure{margin:12px 0;border:1px solid #2a2c31;border-radius:4px;overflow:hidden;background:#060607}
 .pe-caption{font:11px/1.8 var(--mono);color:#a2a4a9;padding:9px}
 .pe-map{display:block;width:100%;cursor:crosshair}
 .pe-chart .pe-plot{display:block;width:100%;height:auto;min-height:0;cursor:crosshair}
 .pe-axis{font:11px var(--mono);fill:#a2a4a9}
 .pe-control{display:block;min-width:0;font:11px/1.8 var(--mono);color:#a2a4a9;margin:9px 0}
-.pe-control input[type=number],.pe-reset{display:block;width:100%;min-width:0;box-sizing:border-box;background:#13151a;color:#e8eaef;border:1px solid #3d4657;border-radius:4px;padding:9px;font:11px var(--mono)}
+.pe-control input[type=number],.pe-reset{display:block;width:100%;min-width:0;box-sizing:border-box;background:#09090a;color:#e8eaef;border:1px solid #3d4657;border-radius:4px;padding:9px;font:11px var(--mono)}
 .pe-control input[type=range]{display:block;width:100%;min-height:28px;accent-color:var(--domain,#8dcaca);margin:0}
 .pe-control output{display:block;color:#e8eaef;font:11px/1.8 var(--mono);overflow-wrap:anywhere}
 .pe-range-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}

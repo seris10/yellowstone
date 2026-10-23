@@ -236,3 +236,26 @@ def test_public_input_manifest_cannot_escape_bundle(tmp_path):
     (tmp_path / "input-manifest.json").write_text(json.dumps({"schema": "yellowstone.public-inputs.v1", "files": {"../outside.json": "x"}}))
     with pytest.raises(ValueError, match="outside the bundle"):
         builder.bundled_inputs(tmp_path)
+
+
+def test_explorer_integration_rejects_changed_data_and_build(tmp_path):
+    import importlib.util
+    import shutil
+    source = tmp_path / "explorer"
+    shutil.copytree(builder.HERE / "explorer", source)
+    spec = importlib.util.spec_from_file_location("integrate_test", source / "integrate.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    site = tmp_path / "site"
+    (site / "dashboard").mkdir(parents=True)
+    manifest = json.loads((source / "data/manifest.json").read_text())
+    snapshot = site / "dashboard/snapshot.json"
+    snapshot.write_text(json.dumps({"snapshot": "wrong-build"}))
+    with pytest.raises(ValueError, match="build identities differ"):
+        module.integrate(source, site, builder.HERE)
+    snapshot.write_text(json.dumps({"snapshot": manifest["build_id"]}))
+    asset = source / "data" / next(iter(manifest["assets"]))
+    asset.write_bytes(asset.read_bytes() + b"changed")
+    with pytest.raises(ValueError, match="Data integrity mismatch"):
+        module.integrate(source, site, builder.HERE)
+    assert not (site / "dashboard/explorer").exists()

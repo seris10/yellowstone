@@ -605,11 +605,15 @@ class River:
         self._source_qt_cache_time = None
         self.face_flow_m3_s = self._face_flow_at(self.time_s)
 
-    def set_forcing(self, name: str, at_s: float, value: Any) -> None:
-        """Schedule a forcing change at or after the current solver time."""
+    def set_forcing(self, name: str, at_s: float, value: Any, *, retain_history: bool = True) -> None:
+        """Schedule a forcing change at or after the current solver time.
+
+        Without retained history the schedule becomes a constant from the solver time on."""
         at_s = finite("forcing change time", at_s, minimum=self.time_s)
         def changed(original: Series, lower=None, upper=None) -> Series:
             scalar = finite(name, value, minimum=lower, maximum=upper)
+            if not retain_history:
+                return Series((0.0,), (scalar,))
             kept = [(t, v) for t, v in zip(original.times_s, original.values) if t < at_s]
             kept.append((at_s, scalar))
             return Series(tuple(t for t, _ in kept), tuple(v for _, v in kept))

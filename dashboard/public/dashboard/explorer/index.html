@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Midway — Yellowstone terrain explorer</title>
+  <link rel="icon" href="data:,">
+  <meta name="description" content="Explore Yellowstone’s Midway Geyser Basin with detailed terrain, mapped waterways and a river temperature simulation.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#inspector">Skip to feature details</a>
+<header><div><span class="eyebrow">YELLOWSTONE / MIDWAY</span><h1>Midway Geyser Basin</h1></div><nav><a href="/dashboard/">Data explorer</a> · <a href="README.md">About this view ↗</a></nav></header>
+<main>
+  <aside class="controls" aria-label="View and layer controls">
+    <p class="intro">TERRAIN &amp; LAYERS</p>
+    <label>Area<select id="extent"><option value="core">Detailed core · 1.28 km</option><option value="full" selected>Midway area · 4.1 km</option></select></label>
+    <fieldset><legend>Terrain</legend>
+      <label>Surface<select id="surface"><option value="relief" selected>Blue–violet relief</option><option value="contours">Contour lines</option><option value="elevation">Elevation bands</option><option value="slope">Slope · degrees</option><option value="plain">Shaded terrain</option></select></label>
+      <label>Contour interval<select id="interval"><option value="5">5 m</option><option value="10" selected>10 m</option><option value="20">20 m</option></select></label>
+      <label class="check"><input id="glow" type="checkbox" checked> Highlight glow</label>
+      <label class="check"><input id="wire" type="checkbox"> Show mesh</label>
+      <label>Vertical scale<select id="exaggeration"><option value="1">1.0× · true scale</option><option value="1.5">1.5× · exaggerated</option><option value="2">2.0× · exaggerated</option><option value="3" selected>3.0× · exaggerated</option><option value="4">4.0× · exaggerated</option></select></label>
+    </fieldset>
+    <fieldset><legend>Layers</legend>
+      <label class="check"><input id="hydro" type="checkbox" checked> Waterways <span class="badge">Mapped</span></label>
+      <label class="check"><input id="drainage" type="checkbox" checked> Drainage paths <span class="badge derived">Estimated</span></label>
+      <label>Smallest catchment<select id="drainage-density"><option value="0.5" selected>0.5 ha · fine branches</option><option value="2">2 ha · medium branches</option><option value="8">8 ha · main branches</option></select></label>
+      <p class="small" id="drainage-count"></p>
+      <label class="check"><input id="routes" type="checkbox" checked> Trails and roads <span class="badge">Mapped</span></label>
+      <label class="check"><input id="pools" type="checkbox" checked> Pool outlines</label>
+      <label class="check"><input id="river" type="checkbox" checked> River temperature <span class="badge modeled">Simulation</span></label>
+      <label class="check"><input id="canopy" type="checkbox"> Tree crowns <span class="badge derived">LiDAR</span></label>
+      <label>Minimum crown height <output id="height-value">5 m</output><input id="height" type="range" min="0" max="35" value="5" step="1"></label>
+      <label class="check"><input id="appearance" type="checkbox"> Pool color <span class="badge authored">Illustration</span></label>
+      <p class="small">Pool outlines come from park maps or gaps in LiDAR returns. Select a pool to see its source.</p>
+    </fieldset>
+
+    <label>Display lighting <output id="light-value">16:00</output><input id="lighting" type="range" min="6" max="20" value="16" step="0.5"></label>
+    <p class="small">Adjust the light to see the slopes. River playback has its own timeline below.</p>
+    <div class="button-row"><button id="north">North up</button><button id="reset">Reset view</button></div>
+    <label>Viewpoint<select id="viewpoint"><option value="default">Basin overview</option><option value="overlook">Grand Prismatic overlook</option><option value="river">Firehole bridge</option><option value="boardwalk">Midway boardwalk</option></select></label>
+  </aside>
+  <section class="stage" aria-label="Interactive terrain">
+    <div class="stage-heading"><div><span class="eyebrow">44.525° N / 110.837° W</span><p id="extent-label">4.1 km across</p></div><span id="scale-label">EXAGGERATED · 3.0×</span></div>
+    <div id="viewport" tabindex="0" role="img" aria-label="3D terrain of Midway Geyser Basin. Drag to rotate, right-drag to pan, and scroll to zoom. Features can also be selected in the details panel."></div>
+    <div class="orientation" aria-hidden="true"><span>3D</span><small>Orbit view</small></div>
+    <div class="elevation-legend"><span>Elevation · meters</span><div class="relief-ramp"></div><div class="legend-range"><span id="elevation-min"></span><span id="elevation-max"></span></div><small>Shaded relief</small></div>
+    <div id="loading" role="status">Loading terrain and river temperatures…</div>
+    <div class="map-caption"><span>Drag to rotate · right-drag to pan · scroll to zoom · click for details</span><span id="terrain-support">Terrain resolution appears in the details panel</span></div>
+    <div class="legend"><span id="legend-title">River temperature · °C</span><div class="ramp" id="temperature-ramp"></div><div class="legend-range"><span id="legend-min"></span><span id="legend-middle"></span><span id="legend-max"></span></div>    <div class="temperature-controls"><label><span class="sr-only">Color scale</span><select id="temperature-scale"><option value="temperature">Temperature · full range</option><option value="focus">Temperature · 0.10°C window</option><option value="change">Change since start</option></select></label><button id="temperature-focus" hidden>Recenter at this time</button><p class="small" id="temperature-note"></p></div></div>
+    <div class="timeline">
+      <div class="time-heading"><strong>River temperature</strong><span id="model-time">0 s</span></div>
+      <div class="play-row"><button id="play" aria-label="Play river temperature simulation">▶ Play</button><label class="sr-only" for="time">Simulation step</label><input id="time" type="range" min="0" max="720" value="0" step="1"><button id="last">End</button></div>
+      <p id="snapshot">Loading simulation…</p>
+    </div>
+  </section>
+  <aside id="inspector" class="inspector" tabindex="-1" aria-label="Feature details">
+    <span class="eyebrow">DETAILS</span>
+    <label>Layer<select id="feature-type"><option value="terrain">Terrain</option><option value="river">River temperature</option><option value="pools">Pool or lake</option><option value="routes">Trail or road</option><option value="hydro">Mapped waterway</option><option value="drainage">Drainage path</option><option value="canopy">Tree crown</option></select></label>
+    <label id="feature-label">Feature<select id="feature"></select></label>
+    <div id="details" aria-live="polite"></div>
+    <div id="chart" aria-label="Temperature over time at the selected river location"></div>
+    <details class="sources"><summary>Data sources</summary><p>The terrain comes from USGS elevation data and the mapped features from Yellowstone National Park GIS. The LiDAR survey was flown in September–October 2020.</p><p>Drainage paths are calculated from downhill slopes in the elevation grid. Some may be dry gullies; they have not been surveyed as streams. Map lines follow the displayed land surface. The terrain does not include measured pool or river depths. Tree crowns are estimated from LiDAR and do not provide a species inventory or a count of every tree.</p><p>Coordinates use UTM zone 12N (EPSG:32612), with elevations in NAVD88. In the 3D view, x points east, z points south and y points up; one unit equals one meter before vertical exaggeration.</p><p>The <a href="data/manifest.json">data manifest</a> lists source files, processing steps and file checksums.</p></details>
+    <details class="sources"><summary>About the simulation</summary><p>This example shows how temperature moves along the Firehole River under a chosen set of conditions. It plays back a saved run; it is not a live forecast and has not been checked against field temperature measurements.</p><p id="run-details">Simulation details are loading.</p></details>
+    <p class="limitation">This view covers the Midway area, not the full watershed. Survey dates and simulation details are listed above.</p>
+  </aside>
+</main>
+<noscript><p class="noscript">The 3D view needs JavaScript and WebGL 2. You can still read <a href="README.md">about the explorer</a> or download the <a href="data/manifest.json">data manifest</a>. River temperatures come from a saved simulation.</p></noscript>
+<script type="module" src="app.js"></script>
+</body></html>

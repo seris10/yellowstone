@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#07080b">
+  <meta name="theme-color" content="#030304">
   <meta name="description" content="Explore the modeled connections among water, heat, snow, vegetation, and wildlife at Yellowstone's Midway Geyser Basin.">
   <title>Earth systems | Yellowstone</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%2307080b'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%238dcaca'/%3E%3Ccircle cx='20' cy='20' r='6' fill='none' stroke='%23efa774'/%3E%3C/svg%3E">
@@ -38,6 +38,7 @@
     </a>
     <nav class="view-switch site-nav" aria-label="Explore Yellowstone">
       <a href="/dashboard/" data-page="overview" id="system-tab">Explorer</a>
+      <a href="/dashboard/explorer/">3D terrain</a>
       <a href="/dashboard/analyze/" data-page="analyze">Analyze</a><a href="/dashboard/results/" data-page="results" id="river-tab">Model results</a>
       <a href="/dashboard/methods/" data-page="methods">Science & scope</a>
     </nav>
@@ -54,7 +55,7 @@
     </div>
     <section id="overview-view" hidden aria-label="Geographic overview of the model">
       <svg id="coverage-map" role="group" aria-label="Geographic model coverage. Drag to pan, scroll to zoom. Select a mapped feature for information." tabindex="0"><defs><pattern id="coverage-grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" stroke="#8c99b4" stroke-width="1" fill="none" opacity=".12"/></pattern></defs><g id="coverage-world"></g></svg>
-      <div class="coverage-intro"><p class="eyebrow">YELLOWSTONE NATIONAL PARK · WYOMING</p><h1>Midway<br>Geyser Basin</h1><p>Model coverage around the<br>Firehole River and Midway<br>Geyser Basin.</p><div class="coverage-facts" id="coverage-facts"></div><div class="exploration-links"><a href="/dashboard/systems/">Explore the Earth systems <span>↗</span></a><a href="/dashboard/results/">Inspect model results <span>↗</span></a></div><button id="show-landscape" class="scene-button">View the rendered environment <span>↗</span></button><p class="browser-note">View the saved model without<br>running the game.</p></div>
+      <div class="coverage-intro"><p class="eyebrow">YELLOWSTONE NATIONAL PARK · WYOMING</p><h1>Midway<br>Geyser Basin</h1><p>Model coverage around the<br>Firehole River and Midway<br>Geyser Basin.</p><div class="coverage-facts" id="coverage-facts"></div><div class="exploration-links"><a href="/dashboard/explorer/">Explore the terrain in 3D <span>↗</span></a><a href="/dashboard/systems/">Explore the Earth systems <span>↗</span></a><a href="/dashboard/results/">Inspect model results <span>↗</span></a></div><button id="show-landscape" class="scene-button">View the rendered environment <span>↗</span></button><p class="browser-note">View the saved model without<br>running the game.</p></div>
       <div class="coverage-tools"><div class="coverage-preset"><button id="basin-view" aria-pressed="true">Midway basin</button><button id="coverage-fit" aria-pressed="false">Full coverage</button></div><details class="map-layers" open><summary>Map layers</summary><label><input type="checkbox" data-layer="terrain" checked> Terrain</label><label><input type="checkbox" data-layer="heat"> Ground heat (authored)</label><label><input type="checkbox" data-layer="waterways" checked><span class="key-dot water"></span> Waterways</label><label><input type="checkbox" data-layer="pools" checked><span class="key-dot thermal"></span> Thermal features</label><label><input type="checkbox" data-layer="habitats" checked><span class="key-dot habitat"></span> Habitat patches</label><label><input type="checkbox" data-layer="paths" checked> Roads & trails</label><label><input type="checkbox" data-layer="coverage" checked> Model footprints</label><p id="heat-legend" hidden></p></details></div>
       <div id="heat-probe" hidden>Move across the map to inspect authored heat flux.</div>
       <div id="coverage-tooltip" class="geo-tooltip" hidden></div><aside id="coverage-detail" class="geo-detail" aria-label="Geographic feature" hidden><button id="close-coverage-detail" class="close-button" aria-label="Close geographic details">×</button><div id="coverage-detail-content"></div></aside>

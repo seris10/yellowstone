@@ -99,8 +99,8 @@
         ["Evapotranspiration",w.et_mm],["Surface runoff",w.runoff_mm],["Subsurface drainage",w.drainage_mm],["Solid snow export",w.snow_export_mm]
       ].map(([label,y],index) => ({ label,y,index })) };
     }
-    if (metric === "pools") return { type: "bars", label: "Authored pool temperatures", unit: "°C", points: analytics.pools.flatMap((p,index) => [
-      {label:p.label+" · center",y:p.center,index:index*2},{label:p.label+" · edge",y:p.edge,index:index*2+1}]) };
+    if (metric === "pools") return { type: "bars", label: "Pool temperatures", unit: "°C", points: analytics.pools.flatMap((p,index) => [
+      {label:p.label+" · center"+(p.center_basis==="measured_literature"?" (published sample)":" (authored)"),y:p.center,index:index*2},{label:p.label+" · edge (authored)",y:p.edge,index:index*2+1}]) };
     return null;
   }
   function available(data, metric) {
@@ -121,7 +121,7 @@
     if (!process) return {role:"Dataset",note:"Recorded support belongs to the selected dataset."};
     if (process === "fish") return {role:"Driver",note:"River temperature and oxygen support habitat calculations. These plots contain no fish abundance or survival measurements."};
     if (process === "steam") return {role:"Driver",note:"Authored ambient weather supplies the microclimate calculation. This trace contains no modeled plume temperature response."};
-    if (["outflow_cooling","outflow","pool"].includes(process) && metric === "pools") return {role:"Authored parameter",note:"Pool center and edge temperatures are prescribed scenario values. No cooling or food-web trajectory is plotted."};
+    if (["outflow_cooling","outflow","pool"].includes(process) && metric === "pools") return {role:"Authored parameter",note:"Pool edge temperatures are prescribed scenario values; center temperatures are published point samples where labeled and authored otherwise. No cooling or food-web trajectory is plotted."};
     if (process === "boundary" || process === "tributaries") return {role:"Context",note:"These are downstream river outputs. The selected boundary supplies prescribed forcing."};
     if (contextual.has(process)) return {role:"Context",note:"This diagnostic describes a connected process. It is not a direct output of the selected process."};
     if (["oxygen","periphyton","shading","heat","water-sum"].includes(metric)) return {role:metric === "heat"?"Authored spatial field":"Diagnostic",note:"Recorded spatial support and integration increments are separate from the river playback clock."};
