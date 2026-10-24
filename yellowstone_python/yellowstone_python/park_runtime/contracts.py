@@ -58,6 +58,56 @@ class Interest:
             raise ValueError("sequence must be a nonnegative integer")
         return cls(tuple(sorted(set(identifier(r) for r in regions))), sequence)
 
+RENDER_TIERS = ("A", "B", "C", "D", "occluded")
+
+def _vector3(value: Any, name: str) -> tuple[float, float, float]:
+    if not isinstance(value, list) or len(value) != 3:
+        raise ValueError(f"{name} must be a list of three numbers")
+    return tuple(finite(v, name) for v in value)
+
+@dataclass(frozen=True)
+class Focus:
+    """Player focus in local-frame meters and m/s; reach and resident name render tiles."""
+    sequence: int
+    position_m: tuple[float, float, float]
+    velocity_mps: tuple[float, float, float]
+    t_s: float | None = None
+    view_dir: tuple[float, float, float] | None = None
+    fov_deg: float | None = None
+    reach: tuple[str, ...] = ()
+    resident: tuple[tuple[str, str], ...] = ()
+    time_scale: float | None = None
+
+    @classmethod
+    def parse(cls, value: dict) -> "Focus":
+        sequence = value.get("sequence")
+        if isinstance(sequence, bool) or not isinstance(sequence, int) or sequence < 0:
+            raise ValueError("sequence must be a nonnegative integer")
+        if "position_m" not in value or "velocity_mps" not in value:
+            raise ValueError("focus requires position_m and velocity_mps")
+        view_dir = None if value.get("view_dir") is None else _vector3(value["view_dir"], "view_dir")
+        if view_dir is not None and not math.hypot(*view_dir) > 0:
+            raise ValueError("view_dir must be nonzero")
+        fov = None if value.get("fov_deg") is None else finite(value["fov_deg"], "fov_deg")
+        if fov is not None and not 0 < fov < 180:
+            raise ValueError("fov_deg must be in (0, 180)")
+        reach = value.get("reach", [])
+        resident = value.get("resident", {})
+        if not isinstance(reach, list) or len(reach) > 128:
+            raise ValueError("reach must contain at most 128 tile identifiers")
+        if not isinstance(resident, dict) or len(resident) > 4096:
+            raise ValueError("resident must map at most 4096 tile identifiers to tiers")
+        if any(tier not in RENDER_TIERS for tier in resident.values()):
+            raise ValueError(f"resident tiers must be one of {RENDER_TIERS}")
+        scale = None if value.get("time_scale") is None else finite(value["time_scale"], "time_scale")
+        if scale is not None and scale <= 0:
+            raise ValueError("time_scale must be positive")
+        return cls(sequence, _vector3(value["position_m"], "position_m"),
+                   _vector3(value["velocity_mps"], "velocity_mps"),
+                   None if value.get("t_s") is None else finite(value["t_s"], "t_s"), view_dir, fov,
+                   tuple(identifier(t) for t in reach),
+                   tuple(sorted((identifier(k), tier) for k, tier in resident.items())), scale)
+
 class Domain(Protocol):
     """Simulation domain owned by one worker; snapshots are independent copies.
 

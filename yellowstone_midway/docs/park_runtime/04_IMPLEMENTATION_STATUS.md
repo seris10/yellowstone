@@ -4,12 +4,12 @@
 
 | Check | Result |
 |---|---|
-| `tests/park_runtime` Python tests (`yellowstone_python/tests/park_runtime`) | 135 passed |
+| `tests/park_runtime` Python tests (`yellowstone_python/tests/park_runtime`) | 144 passed |
 | `tests/park_runtime/run_tests.gd` on the synthetic fixture | 21 checks, 0 failures, including the ridge-gap and corrupt-child matrix cases |
 | `tests/park_runtime/stream_midway_check.gd` on `data/park_composed` (1 m core plus master, feature pages) | 0 failures (3439 to 3977 checks; the count varies with residency timing); regression matrix cases for the sudden turn, predictive arrival, parent/child cover, revisit plateau, origin shift during jobs and seam raycasts; leaf heights equal the river-carved legacy core inside the core footprint (Python carve matches `core_terrain.gd` `_load_heights` to 7.9e-5 m over 361201 vertices) and the master raster outside it, worst 1.4e-6 m over 1520 boundary samples and 4.5e-5 m at 11 streamed stops; removed pool area equals each thermal polygon area; bridge decks clear the terrain; three water-covered leaf tiles carry no terrain surface; route meshes, pool and river surfaces, vegetation, canopy, forest floor and wildlife revisit audited per tile; 121 resident tiles, 10.4 MiB estimate |
 | `tests/park_runtime/ground_rebase_check.gd` | 272 checks, 0 failures |
 | `tests/park_runtime/field_codec_check.gd` on the Python golden packet | 9 checks, 0 failures |
-| `tests/park_runtime/client_service_check.gd` against the reference service | 11 checks, 0 failures; 13 checks, 0 failures across a Ctrl+C save and restart (`--previous-session`) |
+| `tests/park_runtime/client_service_check.gd` against the reference service | 11 checks, 0 failures; 13 checks, 0 failures across a Ctrl+C save and restart (`--previous-session`); 14 checks, 0 failures against `--firehole` with a focus at Firehole cell 160, which reports `firehole.s3` fine (`fixes-70`) |
 | `tests/park_runtime/walker_route_benchmark.gd -- --matrix` in the main scene | baked and streamed 0 failed: collision delay and teleport hold at 4 anchors (streamed), overlook deck exit at the deck rail in both modes |
 | `--smoke-test` with streaming off and on (`data/park_composed`) | `SMOKE ok=true` in both; the streamed run asserts vegetation preparation settled without error; a catalog without a feature index exits 1 |
 
@@ -50,12 +50,12 @@ Explicit integration work remaining below.
 | `forcing.py` | Shared prescribed timeline, exact interval integration for supported interpolation modes |
 | `reference_network.py` | Illustrative conservative branching reservoirs, confluences, water/heat/solute ledgers |
 | `coupling.py` | Conservative extensive-state split/merge and exactly-once interface accounting |
-| `runtime.py` | Common frontier, atomic domain advance, retained history, intervention rollback, filtered bracket, committed saves; domain add and remove at quantum boundaries with a membership ledger, one checkpoint per rollback granule under a per-domain byte cap, and interface couplers between domain advances (`fixes-67`) |
+| `runtime.py` | Common frontier, atomic domain advance, retained history, intervention rollback, filtered bracket, committed saves; domain add and remove at quantum boundaries with a membership ledger, one checkpoint per rollback granule under a per-domain byte cap, and interface couplers between domain advances (`fixes-67`); a membership change restarts rollback checkpoints and keeps earlier presentation frames (`fixes-70`) |
 | `firehole_split.py` | River heat-transport segments as domains and a conservative interface coupler; the Firehole split at face 137/138 matches the single-domain solver within the tolerances set before the run (`fixes-67` ledger) |
 | `coarse_river.py` | Coarse river segments of merged control volumes on the same solver, conservative restriction and prolongation (`fixes-69`) |
 | `residency.py` | Anticipation set, admission control, spin-up in worker processes, activation and retirement of Firehole segments with a tier ledger; a walk from the upstream face to the outlet installs each segment 10.5 to 19.2 s before arrival and retires each passed one (`fixes-69` ledger, `evidence/park-firehole-walk.json`) |
 | `state_store.py` | Atomic SQLite checkpoints/events, integrity checks and model-version guards |
-| `service.py` | Loopback worker-owned service, bounded commands/publications and independent rendering |
+| `service.py` | Loopback worker-owned service, bounded commands/publications and independent rendering; the focus command of `04_PARK_STREAMING_SPEC.md` section 8 drives Firehole segment residency, the presentation clock follows a held rate, and publications carry the residency report (`fixes-70`; `python -m yellowstone_python.park_runtime --firehole`) |
 | `field_codec.py` | Bounded binary numeric field-pair codec |
 
 The test report records **34 passed** at the final package validation. See the
@@ -83,7 +83,9 @@ import methods and requires that engine's own worker be disabled. Durable persis
 uses `LiveEngine.export_state`/`import_state`; `test_live_state_persistence.py` covers a
 bit-identical resume on a fresh engine, refusal of other builds and source drift, and
 native against adapter parity. The original solver is not replaced by a fixture. The
-game does not yet run the adapter: `ParkClient` connects without consuming snapshots.
+game does not yet run the adapter. In streamed mode `ParkClient` sends the walker's focus
+once per second and keeps the residency report of a residency service (`fixes-70`); it
+does not display park runtime fields.
 Simulation residency at park scale is specified in
 `yellowstone_python_spec/04_PARK_STREAMING_SPEC.md` section 7.1.
 
@@ -94,11 +96,14 @@ Simulation residency at park scale is specified in
 - Adapt native controls/UI and command-completion polling. The minimal client reports
   queued commands, not final acceptance. Connect hot native fields to the binary codec.
 - Split LiveEngine ecology, solutes and actors along the river interface and give them
-  a coarse representation, persist segment checkpoints, serve the residency report
-  through the focus endpoint of `04_PARK_STREAMING_SPEC.md` section 8, and run the
-  residency walk at accelerated time. The Firehole heat transport has its coarse tier,
-  anticipation set, admission control and worker spin-up (`fixes-69`); measurement 12
-  gave 1.0-1.5 times one engine for two processes under background load.
+  a coarse representation, persist segment checkpoints, accept interventions under
+  segment residency, and add the viewshed `visible` reply and the per-tile frame filter
+  of `04_PARK_STREAMING_SPEC.md` section 8. The Firehole heat transport has its coarse
+  tier, anticipation set, admission control and worker spin-up (`fixes-69`), and the
+  service focus endpoint drives it; residency walks at 60x and at a held 3600x request
+  pass their preregistered checks (`fixes-70` ledger). The service caps the time scale at
+  600x; measurement 12 gave 1.0-1.5 times one engine for two processes under background
+  load.
 - Add budget-driven automatic quality adaptation, larger bootstrap catalog paging,
   robust fast-travel preparation and more aggressive proven occlusion only after
   correctness tests. The streamer reports terrain budget pressure in its

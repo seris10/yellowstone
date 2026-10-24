@@ -392,6 +392,12 @@ func _physics_process(_delta: float) -> void:
 	# The world root ticks before its children, so rebasing precedes movement.
 	park_frame.maybe_rebase(player)
 	park_terrain.velocity = player.velocity
+	if park_client != null:
+		# Focus carries absolute site coordinates built from float64 origin scalars.
+		var site_xz: Array[float] = park_frame.absolute_xz(player.global_position)
+		var view: Camera3D = player.camera
+		park_client.set_focus(site_xz[0], player.global_position.y, site_xz[1], player.velocity,
+			-view.global_transform.basis.z, view.fov)
 	# The hold also covers shared vegetation asset preparation, so no tile build loads assets.
 	if _park_boot_hold and park_terrain.can_enter(player.global_position, 0.5) and park_vegetation.is_settled():
 		_park_boot_hold = false
@@ -436,7 +442,7 @@ func setup_python_runtime() -> void:
 		park_client = ParkClient.new()
 		park_client.name = "ParkClient"
 		park_client.base_url = str(ProjectSettings.get_setting("yellowstone/park_streaming/live_url", "http://127.0.0.1:8766"))
-		# Transport only; snapshot consumption waits for the service wiring in edit-map section E2.
+		# Sends focus and keeps the residency report; field display waits for edit-map section E2.
 		add_child(park_client)
 	simulation_panel = SimulationPanel.new()
 	overlay.add_child(simulation_panel)

@@ -12,15 +12,28 @@ import queue
 import threading
 import time
 import uuid
-from .contracts import Interest, finite
+from .contracts import Focus, Interest, finite
 from .state_store import canonical
 
 MAX_REQUEST = 64 * 1024
 MAX_RESPONSE = 16 * 1024 * 1024
+RESIDENCY_SCHEMA = "yellowstone.park_residency.v1"
+
+def _rate(value) -> float:
+    scale = finite(value, "time_scale")
+    if not 0 < scale <= 600:
+        raise ValueError("time_scale must be in (0,600]")
+    return scale
 
 class RuntimeService:
-    def __init__(self, runtime, *, horizon_s=5., time_scale=1.):
+    """Own the model clock in one worker thread; a residency manager adds focus-driven tiers.
+
+    With residency the walker sits at chainage 0 at rest until the first focus."""
+    def __init__(self, runtime, *, horizon_s=5., time_scale=1., residency=None, chainage=None):
+        if residency is not None and (runtime is not residency.runtime or chainage is None):
+            raise ValueError("a residency service runs its manager's runtime and needs a chainage map")
         self.runtime = runtime
+        self.residency, self.chainage = residency, chainage
         self.horizon_s = finite(horizon_s, "horizon_s")
         self.time_scale = finite(time_scale, "time_scale")
         if self.horizon_s < runtime.quantum_s or not 0 < self.time_scale <= 600:
@@ -29,6 +42,9 @@ class RuntimeService:
             raise ValueError("timeline storage cannot hold configured horizon and history")
         self.presentation_s = runtime.time_s
         self.interest = Interest()
+        self.focus = None
+        self.walker = None
+        self.residency_report = None
         self.paused = False
         self.error = None
         self.commands = queue.Queue(maxsize=64)
@@ -37,13 +53,45 @@ class RuntimeService:
         self._lock = threading.Lock()
         self._stop = threading.Event()
         self._worker = None
+        self._wall_origin = time.monotonic()
+        if self.residency is not None:
+            self._update_residency()
         self._publish()
+
+    def _update_residency(self):
+        """Apply the residency policy at the frontier with the latest focus."""
+        position_m, velocity_mps = (0.0, 0.0) if self.walker is None else (self.walker[0], self.walker[2])
+        self.residency_report = self.residency.update(time.monotonic() - self._wall_origin, position_m,
+                                                      velocity_mps, self.time_scale)
+
+    def presentation_rate(self) -> float:
+        """Return the presentation clock rate: the requested scale, or the held rate below it."""
+        if self.residency_report is None:
+            return self.time_scale
+        return min(self.time_scale, self.residency_report["effective_rate"])
+
+    def residency_block(self) -> dict:
+        """Return the published residency report for the latest focus."""
+        r = self.residency_report
+        walker = None
+        if self.walker is not None:
+            walker = {"chainage_m": self.walker[0], "lateral_m": self.walker[1],
+                      "along_velocity_mps": self.walker[2], "segment": r["segment"],
+                      "representation": r["walker_on"], "temperature_c": r["walker_temperature_c"]}
+        return {"schema": RESIDENCY_SCHEMA, "focus_sequence": None if self.focus is None else self.focus.sequence,
+                "t_s": r["t_s"], "active": r["fine"], "activating": r["activating"], "retiring": r["retiring"],
+                "coarse": r["coarse"], "reach": r["reach"], "ranked": [list(item) for item in r["ranked"]],
+                "effective_rate": r["effective_rate"], "requested_rate": self.time_scale, "held": r["held"],
+                "lead_wall_s": r["lead_wall_s"], "capacity_cell_s_per_s": r["capacity_cell_s_per_s"],
+                "worker_rate_cell_s_per_s": r["worker_rate"], "walker": walker}
 
     def _publish(self):
         packet = self.runtime.packet(self.presentation_s, self.interest)
         packet.update({"paused": self.paused, "time_scale": self.time_scale,
                        "clock_held": self.presentation_s >= self.runtime.time_s - 1e-8,
                        "worker_error": self.error, "horizon_s": self.horizon_s})
+        if self.residency is not None:
+            packet["residency"] = self.residency_block()
         payload = canonical(packet)
         if len(payload) > MAX_RESPONSE:
             raise RuntimeError("publication exceeds 16 MiB: add region/channel filtering or binary fields")
@@ -55,10 +103,14 @@ class RuntimeService:
             return self._publication  # immutable bytes; no live solver access
 
     def submit(self, kind: str, payload: dict):
-        if kind not in {"interest", "clock", "intervene"}:
+        if kind not in {"interest", "clock", "intervene", "focus"}:
             raise ValueError("unsupported command")
         if kind == "interest":
             Interest.parse(payload)
+        if kind == "focus":
+            if self.residency is None:
+                raise ValueError("this service has no residency policy for focus")
+            Focus.parse(payload)
         command_id = uuid.uuid4().hex
         self.commands.put_nowait((command_id, kind, payload))
         return command_id
@@ -83,11 +135,21 @@ class RuntimeService:
                     raise ValueError("paused must be boolean")
                 paused = payload["paused"]
             if "time_scale" in payload:
-                scale = finite(payload["time_scale"], "time_scale")
-                if not 0 < scale <= 600:
-                    raise ValueError("time_scale must be in (0,600]")
+                scale = _rate(payload["time_scale"])
             self.paused, self.time_scale = paused, scale
             return {"paused": self.paused, "time_scale": self.time_scale}
+        if kind == "focus":
+            focus = Focus.parse(payload)
+            if self.focus is not None and focus.sequence < self.focus.sequence:
+                return {"accepted": False, "focus_sequence": self.focus.sequence}
+            scale = self.time_scale if focus.time_scale is None else _rate(focus.time_scale)
+            chainage_m, lateral_m, index = self.chainage.locate(focus.position_m[0], focus.position_m[2])
+            along = self.chainage.along_channel(index, focus.velocity_mps[0], focus.velocity_mps[2])
+            self.focus, self.walker, self.time_scale = focus, (chainage_m, lateral_m, along), scale
+            self._update_residency()
+            return {"accepted": True, **self.residency_block()}
+        if self.residency is not None:
+            raise ValueError("interventions are not supported with segment residency")
         if payload.get("session_id") != self.runtime.session_id:
             raise ValueError("stale session; obtain a current publication")
         if payload.get("event_id") in self.runtime._event_results:
@@ -131,11 +193,16 @@ class RuntimeService:
                 if not self.paused and self.error is None:
                     # Presentation time is capped at the computed frontier.
                     self.presentation_s = min(self.runtime.time_s,
-                                              self.presentation_s + elapsed * self.time_scale)
+                                              self.presentation_s + elapsed * self.presentation_rate())
                 goal = math.ceil((self.presentation_s + self.horizon_s) / self.runtime.quantum_s) * self.runtime.quantum_s
+                if self.residency is not None and self.error is None:
+                    self._update_residency()
                 if self.error is None and self.runtime.time_s < goal:
                     next_boundary = (math.floor(self.runtime.time_s / self.runtime.quantum_s + 1e-8) + 1) * self.runtime.quantum_s
-                    self.runtime.advance_one(min(goal, next_boundary))
+                    if self.residency is None:
+                        self.runtime.advance_one(min(goal, next_boundary))
+                    else:
+                        self.residency.advance(min(goal, next_boundary), presentation_s=self.presentation_s)
                 self.runtime.prune(self.presentation_s)
                 self._publish()
             except Exception as exc:

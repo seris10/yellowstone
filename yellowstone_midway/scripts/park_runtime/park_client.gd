@@ -6,7 +6,10 @@ signal connection_problem(message: String)
 
 @export var base_url: String = "http://127.0.0.1:8766"
 @export var poll_interval_s: float = 0.25
+@export var focus_interval_s: float = 1.0
 var packet: Dictionary = {}
+var residency: Dictionary = {}
+var focus_sequence: int = 0
 var session_id: String = ""
 var revision: int = -1
 var stale: bool = true
@@ -18,6 +21,8 @@ var _since_receive: float = 0.0
 var _interest: Dictionary = {}
 var _commands: Array[Dictionary] = []
 var _interest_sequence: int = 0
+var _focus: Dictionary = {}
+var _since_focus: float = INF
 
 func _ready() -> void:
     _http = HTTPRequest.new()
@@ -31,6 +36,11 @@ func set_interest(region_ids: Array[String]) -> void:
     _interest_sequence += 1
     _interest = {"sequence":_interest_sequence,"region_ids":region_ids}
 
+## Position is absolute local-frame meters as float64 scalars; the latest call is sent each focus interval.
+func set_focus(x_m: float,y_m: float,z_m: float,velocity_mps: Vector3,view_dir: Vector3,fov_deg: float) -> void:
+    _focus = {"position_m":[x_m,y_m,z_m],"velocity_mps":[velocity_mps.x,velocity_mps.y,velocity_mps.z],
+        "view_dir":[view_dir.x,view_dir.y,view_dir.z],"fov_deg":fov_deg}
+
 func queue_command(kind: String,payload: Dictionary) -> bool:
     if not kind in ["clock","intervene"] or _commands.size()>=16:
         return false
@@ -40,6 +50,7 @@ func queue_command(kind: String,payload: Dictionary) -> bool:
 func _process(delta: float) -> void:
     _elapsed += delta
     _since_receive += delta
+    _since_focus += delta
     stale = _since_receive>maxf(2.0,poll_interval_s*4.0)
     if _busy or _elapsed<poll_interval_s:
         return
@@ -50,6 +61,12 @@ func _process(delta: float) -> void:
     elif not _interest.is_empty():
         _request("interest",_interest)
         _interest = {}
+    elif not _focus.is_empty() and _since_focus>=focus_interval_s:
+        focus_sequence += 1
+        _focus.sequence = focus_sequence
+        _request("focus",_focus)
+        _focus = {}
+        _since_focus = 0.0
     else:
         _request("state",{})
 
@@ -89,6 +106,8 @@ func _completed(result: int,code: int,_headers: PackedStringArray,body: PackedBy
     session_id = next_session
     revision = next_revision
     packet = data
+    var report: Variant = data.get("residency",{})
+    residency = report if report is Dictionary else {}
     _since_receive = 0.0
     stale = false
     snapshot_received.emit(packet)

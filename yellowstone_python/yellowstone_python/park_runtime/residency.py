@@ -17,6 +17,8 @@ from .runtime import ParkRuntime
 
 # Lookahead time in s of the reach set point q = p + v * T.
 REACH_LOOKAHEAD_S = 20.0
+# Interior faces of the six 46-cell Firehole segments.
+FIREHOLE_FACES = (46, 92, 138, 184, 230)
 BUDGET_TERMS_J = ("boundary_input_j", "lateral_input_j", "outlet_export_j", "surface_exchange_j",
                   "additional_heat_flux_j", "cell_heat_j")
 
@@ -46,6 +48,40 @@ def segment_specs(river: River, faces: list[int], prefix: str) -> list[SegmentSp
         specs.append(SegmentSpec(identifier(f"{prefix}.s{k}"), lo, hi, math.fsum(lengths[:lo]),
                                  math.fsum(lengths[:hi]), math.fsum(residence[lo:hi])))
     return specs
+
+class RiverChainage:
+    """Map local-frame x and z in m to river chainage over mapped cell pieces, positive downstream.
+
+    Each piece runs through a cell center along its downstream unit vector between the cell ends."""
+
+    def __init__(self, cells: list[dict]):
+        if not cells:
+            raise ValueError("chainage needs mapped cells")
+        self.pieces = []
+        for cell in cells:
+            x, _, z = (finite(v, "position_xyz") for v in cell["position_xyz"])
+            ux, uz = (finite(v, "downstream_unit_xz") for v in cell["downstream_unit_xz"])
+            norm = math.hypot(ux, uz)
+            start, center, end = (finite(cell[k], k) for k in ("start_s_m", "center_s_m", "end_s_m"))
+            if not norm > 0 or not start <= center <= end:
+                raise ValueError(f"cell {cell.get('id')} needs a downstream direction and ordered chainage")
+            self.pieces.append((x, z, ux / norm, uz / norm, start, center, end))
+
+    def locate(self, x_m: float, z_m: float) -> tuple[float, float, int]:
+        """Return the chainage in m, the lateral distance in m and the cell index of the nearest piece."""
+        x_m, z_m = finite(x_m, "x_m"), finite(z_m, "z_m")
+        best = None
+        for index, (x, z, ux, uz, start, center, end) in enumerate(self.pieces):
+            along = min(max((x_m - x) * ux + (z_m - z) * uz, start - center), end - center)
+            distance = math.hypot(x_m - x - ux * along, z_m - z - uz * along)
+            if best is None or distance < best[1]:
+                best = (center + along, distance, index)
+        return best
+
+    def along_channel(self, index: int, vx_mps: float, vz_mps: float) -> float:
+        """Return the downstream velocity component in m/s at a cell."""
+        _, _, ux, uz, *_ = self.pieces[index]
+        return finite(vx_mps, "vx_mps") * ux + finite(vz_mps, "vz_mps") * uz
 
 def _segment_at(specs, x_m: float) -> int:
     x = min(max(x_m, specs[0].start_m), specs[-1].end_m)
@@ -175,7 +211,8 @@ class ResidencyManager:
                  dt_s: float = 1.0, cells_per_coarse: int = 23, spinup_s: float = 3600.0,
                  lead_margin_s: float = 30.0, retire_after_s: float = 10.0, utilization: float = 0.8,
                  checkpoint_fresh_s: float = 86400.0, workers: int = 2, virtual_wall: bool = False,
-                 position_m: float = 0.0, velocity_mps: float = 0.0, time_scale: float = 1.0):
+                 position_m: float = 0.0, velocity_mps: float = 0.0, time_scale: float = 1.0,
+                 epoch_unix: float | None = None):
         self.config = copy.deepcopy(config)
         full = river_from_config(self.config)
         self.specs = segment_specs(full, faces, prefix)
@@ -197,8 +234,9 @@ class ResidencyManager:
                    for d in self.cells]
         self.interfaces = [RiverInterface(f"{a.domain_id}:{b.domain_id}", a.domain_id, b.domain_id)
                            for a, b in zip(self.specs, self.specs[1:])]
+        epoch = {} if epoch_unix is None else {"epoch_unix": epoch_unix}
         self.runtime = ParkRuntime(domains, quantum_s=self.quantum_s, history_s=2 * self.quantum_s,
-                                   max_frames=8, couplers=self.interfaces)
+                                   max_frames=8, couplers=self.interfaces, **epoch)
         history = int(math.ceil(self.checkpoint_fresh_s / self.quantum_s)) + 2
         self.face_history = {i.interface_id: deque(maxlen=history) for i in self.interfaces}
         self.coarse_history = {d: deque(maxlen=int(math.ceil(self.spinup_s / self.quantum_s)) + 2)
@@ -370,6 +408,8 @@ class ResidencyManager:
                 "walker_on": self.runtime.domains[here].representation,
                 "walker_temperature_c": self.temperature_at(position_m), "fine": fine,
                 "coarse": [d for d in self.cells if d not in fine], "activating": sorted(self.jobs),
+                "retiring": [d for d in fine if d not in target],
+                "reach": [d for d, reason in ranked if reason == "reach"], "requested_rate": time_scale,
                 "target": list(admission.fine), "ranked": ranked, "effective_rate": admission.effective_rate,
                 "held": admission.held, "demand": admission.demand, "budget": admission.budget,
                 "lead_wall_s": lead, "capacity_cell_s_per_s": self.capacity, "worker_rate": self.worker_rate}
@@ -386,11 +426,13 @@ class ResidencyManager:
                 return value
         return river.temperature_c[-1]
 
-    def advance(self, target_s: float) -> None:
-        """Advance the runtime by one quantum and update capacity and interface histories."""
+    def advance(self, target_s: float, *, presentation_s: float | None = None) -> None:
+        """Advance the runtime by one quantum and update capacity and interface histories.
+
+        Frames are pruned at the presentation time, or at the frontier when none is given."""
         start_s = self.runtime.time_s
         self.runtime.advance_one(target_s)
-        self.runtime.prune(self.runtime.time_s)
+        self.runtime.prune(self.runtime.time_s if presentation_s is None else presentation_s)
         fine = [d for d in self.runtime.domains.values() if d.representation == "fine"]
         wall = math.fsum(d.last_advance_wall_s for d in fine)
         if fine and wall > 0:
@@ -469,8 +511,13 @@ def evaluate_walk(manager: ResidencyManager, reports: list[dict], start_m: float
         retirements.append({"domain_id": event["domain_id"], "left_wall_s": left, "retired_wall_s": event["wall_s"],
                             "delay_s": event["wall_s"] - left})
     reach_m = speed_mps * max(manager.lead_margin_s, REACH_LOOKAHEAD_S)
-    passed = [s.domain_id for s in manager.specs if s.end_m < reports[-1]["position_m"] - reach_m]
     final = reports[-1]
+    # Upstream halo segments stay targeted behind the walker, more of them at higher time scales.
+    passed = [s.domain_id for s in manager.specs
+              if s.end_m < final["position_m"] - reach_m and s.domain_id not in final["target"]]
+    held = [r for r in reports if r["held"]]
+    unreported = [r for r in reports if not r["held"]
+                  and sum(manager.cells[d] for d in r["reach"]) * r["requested_rate"] > r["budget"] * (1 + 1e-12)]
     return {"arrivals": arrivals, "retirements": retirements,
             "activated_before_arrival": all(a["lead_s"] is not None and a["lead_s"] > 0 for a in arrivals),
             "reports_on_coarse": sum(1 for r in reports if r["walker_on"] != "fine"),
@@ -481,4 +528,24 @@ def evaluate_walk(manager: ResidencyManager, reports: list[dict], start_m: float
             "max_swap_heat_relative": max((s["heat_relative"] for s in manager.swaps), default=0.0),
             "max_reconciliation_j": max((abs(x) for s in manager.swaps for x in s["reconciliation_j"]), default=0.0),
             "admission_inside_budget": all(r["demand"] <= r["budget"] * (1 + 1e-12) or r["held"] for r in reports),
+            "held_updates": len(held), "unreported_holds": len(unreported),
+            "max_held_rate_relative": max((abs(r["effective_rate"] * sum(manager.cells[d] for d in r["reach"])
+                                               - r["budget"]) / r["budget"] for r in held), default=0.0),
+            "min_effective_rate": min(r["effective_rate"] for r in reports),
             "ledger": manager.tier_ledger(), "updates": len(reports), "swaps": len(manager.swaps)}
+
+def firehole_residency(document: dict, **kwargs) -> tuple[ResidencyManager, RiverChainage]:
+    """Return the Firehole residency manager and its chainage map from a published river replay."""
+    from yellowstone_python.service.live.engine import replay_config
+    replay = document.get("replay", document)
+    epoch = replay.get("simulation_time", {}).get("start_epoch_unix")
+    if epoch is not None:
+        kwargs.setdefault("epoch_unix", epoch)
+    manager = ResidencyManager(replay_config(replay), list(FIREHOLE_FACES), **kwargs)
+    chainage = RiverChainage(replay["cells"])
+    for spec in manager.specs:
+        first, last = chainage.pieces[spec.lo], chainage.pieces[spec.hi - 1]
+        if abs(first[4] - spec.start_m) > 1e-6 or abs(last[6] - spec.end_m) > 1e-6:
+            manager.close()
+            raise ValueError(f"solver chainage of {spec.domain_id} differs from the mapped cell chainage")
+    return manager, chainage

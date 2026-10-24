@@ -229,7 +229,9 @@ class ParkRuntime:
         selected = []
         for index in sorted({i, j}):
             frame = self._frames[index]
-            selected.append({**frame, "regions": {k: frame["regions"][k] for k in sorted(ids)}})
+            # A frame recorded before a region joined omits that region.
+            selected.append({**frame, "regions": {k: frame["regions"][k] for k in sorted(ids)
+                                                  if k in frame["regions"]}})
         return copy.deepcopy({"schema": SCHEMA, "session_id": self.session_id,
             "revision": self.revision, "presentation_s": presentation_s,
             "epoch_unix": self.epoch_unix, "completed_s": self.time_s,
@@ -251,6 +253,8 @@ class ParkRuntime:
         at_s = finite(at_s, "at_s")
         if not self._frames[0]["t_s"] <= at_s <= self.time_s:
             raise ValueError("event is outside retained history")
+        if at_s < min(self._checkpoints) - 1e-9:
+            raise ValueError("event precedes the rollback history that starts at the last membership change")
         if self.events and at_s < self.events[-1]["at_s"]:
             raise ValueError("late event precedes committed event history")
         original = (self.time_s, self.revision, self._checkpoint(),
@@ -321,15 +325,19 @@ class ParkRuntime:
                  "stores": None if stores is None else {"water_m3": stores.water_m3, "heat_j": stores.heat_j,
                                                         "solute_kg": stores.solute_kg}}
         self.membership.append(entry)
-        # Interventions never replay across a membership change.
-        self._reset_history()
+        # Interventions never replay across a membership change; earlier frames stay for presentation.
+        self._checkpoints, self._checkpoint_bytes = {}, {}
+        self._record()
         return copy.deepcopy(entry)
 
     def save_committed(self, store, world_id: str, presentation_s: float):
         """Persist no speculative future. Resume loses at most one checkpoint interval."""
         if any(not getattr(d, "persistence_supported", True) for d in self.domains.values()):
             raise NotImplementedError("A domain lacks a versioned safe serializer; native persistence is not enabled")
-        checkpoint_time = max(t for t in self._checkpoints if t <= presentation_s)
+        committed = [t for t in self._checkpoints if t <= presentation_s]
+        if not committed:
+            raise ValueError("no committed checkpoint at or before the presentation time")
+        checkpoint_time = max(committed)
         checkpoint = self._checkpoints[checkpoint_time]
         data = {"epoch_unix": self.epoch_unix, "domains": checkpoint["domains"],
                 "domain_models": {k: d.model_id for k, d in self.domains.items()},

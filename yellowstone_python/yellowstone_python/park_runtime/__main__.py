@@ -10,11 +10,41 @@ def _interrupt(signum, frame):
     """Route the termination signal to the KeyboardInterrupt shutdown path."""
     raise KeyboardInterrupt
 
+def serve_firehole(port: int) -> None:
+    """Serve the published Firehole replay with segment residency; segment state is not saved."""
+    from yellowstone_python.common.io import load_json
+    from yellowstone_python.common.provenance import default_world_root
+    from .residency import firehole_residency
+    residency, chainage = firehole_residency(load_json(default_world_root() / "data" / "river_replay.json"))
+    try:
+        service = RuntimeService(residency.runtime, horizon_s=residency.quantum_s, residency=residency,
+                                 chainage=chainage)
+        server = make_server(service, port=port)
+        service.start()
+        signal.signal(signal.SIGTERM, _interrupt)
+        print(f"Illustrative Firehole residency at http://127.0.0.1:{port}; Ctrl+C or SIGTERM stops it", flush=True)
+        try:
+            server.serve_forever(poll_interval=.2)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            signal.signal(signal.SIGTERM, signal.SIG_IGN)
+            server.server_close()
+            service.close()
+    finally:
+        residency.close()
+    print("Stopped; segment checkpoints are not persistable, so no state was saved")
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--port", type=int, default=8766)
     p.add_argument("--state", default="park_demo.sqlite3")
+    p.add_argument("--firehole", action="store_true",
+                   help="serve the published Firehole replay with focus-driven segment residency; no state file")
     args = p.parse_args()
+    if args.firehole:
+        serve_firehole(args.port)
+        return
     domain = ReservoirNetwork("demo.catchment", [
         Reservoir.at_temperature("upstream", 1000., 12., .002),
         Reservoir.at_temperature("branch_a", 500., 10., .001),
