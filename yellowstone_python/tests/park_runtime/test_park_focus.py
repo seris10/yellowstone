@@ -2,6 +2,7 @@
 import json
 import math
 import os
+import re
 import signal
 import subprocess
 import sys
@@ -117,12 +118,24 @@ def test_focus_command_reports_residency_and_ignores_older_sequences(residency_s
     assert first["walker"]["chainage_m"] == pytest.approx(x) and "demo.s1" in first["reach"]
     assert first["walker"]["along_velocity_mps"] == pytest.approx(1.4)
     assert service._command("focus", focus(1, 0.0)) == {"accepted": False, "focus_sequence": 2}
-    with pytest.raises(ValueError, match="segment residency"):
-        service._command("intervene", {"session_id": manager.runtime.session_id, "revision": 0,
-                                       "event_id": "e", "domain_id": "demo.s0", "at_s": 0.0, "changes": {}})
     with pytest.raises(ValueError, match="time_scale"):
         service._command("focus", focus(3, x, time_scale=601))
     assert service.focus.sequence == 2
+
+
+def test_service_applies_an_intervention_under_residency(residency_service):
+    manager, service = residency_service
+    manager.advance(manager.quantum_s, presentation_s=0.0)
+    command = {"session_id": manager.runtime.session_id, "revision": 0, "event_id": "warm",
+               "domain_id": "demo.s1", "at_s": 5.0, "changes": {"air_c": 15.0}}
+    service.presentation_s = 5.0
+    result = service._command("intervene", command)
+    assert result["revision"] == 1 and manager.runtime.revision == 1
+    assert service.presentation_s == 5.0 and manager.runtime.time_s == 5.0
+    assert manager.runtime.domains["demo.s1"].river.air_c.at(5.0) == 15.0
+    assert service._command("intervene", command) == result
+    with pytest.raises(ValueError, match="stale revision"):
+        service._command("intervene", dict(command, event_id="again"))
 
 
 def test_service_installs_the_focused_segment_and_publishes_it(residency_service):
@@ -186,11 +199,12 @@ def test_held_walk_reports_the_rate_and_closes_the_ledger():
         manager.close()
 
 
-@pytest.mark.needs_world
-def test_firehole_service_stops_on_sigterm_without_a_state_file(tmp_path):
+def run_firehole(cwd, state, run_s):
+    """Run the Firehole residency service for run_s, send a termination signal, return its output."""
     env = dict(os.environ, PYTHONPATH=str(REPO))
-    process = subprocess.Popen([sys.executable, "-m", "yellowstone_python.park_runtime", "--port", "0", "--firehole"],
-                               cwd=tmp_path, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    process = subprocess.Popen([sys.executable, "-m", "yellowstone_python.park_runtime", "--port", "0", "--firehole",
+                                "--state", str(state)],
+                               cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     try:
         first = process.stdout.readline()
         if "PermissionError" in first or process.poll() is not None:
@@ -198,15 +212,27 @@ def test_firehole_service_stops_on_sigterm_without_a_state_file(tmp_path):
             if "PermissionError" in first + rest:
                 pytest.skip("sandbox disallows loopback socket binding")
             raise AssertionError(first + rest)
-        assert "Firehole residency" in first
-        time.sleep(2.0)
+        assert "Firehole residency" in first and "saves committed state" in first
+        time.sleep(run_s)
         process.send_signal(signal.SIGTERM)
         output, _ = process.communicate(timeout=60)
     finally:
         if process.poll() is None:
             process.kill()
+            process.communicate()
     assert process.returncode == 0, output
-    assert "no state was saved" in output and not list(tmp_path.iterdir())
+    return output
+
+
+@pytest.mark.needs_world
+def test_firehole_service_saves_on_sigterm_and_resumes(tmp_path):
+    state = tmp_path / "firehole.sqlite3"
+    output = run_firehole(tmp_path, state, 12.5)
+    saved = float(re.search(r"Saved committed checkpoint at ([0-9.]+) physical seconds", output).group(1))
+    assert saved >= 10.0 and state.exists()
+    output = run_firehole(tmp_path, state, 2.0)
+    assert float(re.search(r"Resumed committed state at ([0-9.]+) physical seconds", output).group(1)) == saved
+    assert float(re.search(r"Saved committed checkpoint at ([0-9.]+) physical seconds", output).group(1)) >= saved
 
 
 @pytest.mark.needs_world

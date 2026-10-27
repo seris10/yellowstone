@@ -148,19 +148,18 @@ class RuntimeService:
             self.focus, self.walker, self.time_scale = focus, (chainage_m, lateral_m, along), scale
             self._update_residency()
             return {"accepted": True, **self.residency_block()}
-        if self.residency is not None:
-            raise ValueError("interventions are not supported with segment residency")
         if payload.get("session_id") != self.runtime.session_id:
             raise ValueError("stale session; obtain a current publication")
+        # Segment residency owns rollback across representation swaps.
+        owner = self.runtime if self.residency is None else self.residency
         if payload.get("event_id") in self.runtime._event_results:
-            return self.runtime.intervene(payload["event_id"], payload["domain_id"],
-                                          payload["at_s"], payload["changes"])
+            return owner.intervene(payload["event_id"], payload["domain_id"], payload["at_s"], payload["changes"])
         if payload.get("revision") != self.runtime.revision:
             raise ValueError("stale revision; obtain a current publication")
         at_s = finite(payload["at_s"], "at_s")
         if abs(at_s - self.presentation_s) > 2 * self.runtime.quantum_s:
             raise ValueError("intervention time differs from the presentation clock")
-        result = self.runtime.intervene(payload["event_id"], payload["domain_id"], at_s, payload["changes"])
+        result = owner.intervene(payload["event_id"], payload["domain_id"], at_s, payload["changes"])
         self.presentation_s = at_s
         return result
 

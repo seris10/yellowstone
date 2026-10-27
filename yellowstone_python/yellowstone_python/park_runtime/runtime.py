@@ -242,12 +242,9 @@ class ParkRuntime:
         """Apply an intervention at its effective time and recompute later frames.
 
         Events older than the latest accepted intervention are rejected."""
-        identifier(event_id)
-        if event_id in self._event_results:
-            previous = self._event_results[event_id]
-            if previous["domain_id"] != domain_id or previous["at_s"] != at_s or previous["changes"] != changes:
-                raise ValueError("event id reused with different contents")
-            return copy.deepcopy(previous)
+        prior = self.prior_event(event_id, domain_id, at_s, changes)
+        if prior is not None:
+            return prior
         if domain_id not in self.domains:
             raise ValueError("unknown intervention domain")
         at_s = finite(at_s, "at_s")
@@ -257,24 +254,36 @@ class ParkRuntime:
             raise ValueError("event precedes the rollback history that starts at the last membership change")
         if self.events and at_s < self.events[-1]["at_s"]:
             raise ValueError("late event precedes committed event history")
-        original = (self.time_s, self.revision, self._checkpoint(),
-                    self._frames, self._checkpoints, self._frame_bytes, self._checkpoint_bytes)
+        original = self.state_token()
         checkpoint_time = max(t for t in self._checkpoints if t <= at_s)
         try:
             self._restore_domains(self._checkpoints[checkpoint_time])
             self.time_s = checkpoint_time
-            self._reset_history()
+            self.restart_history()
             # Replay on the quantum grid so coupler intervals match the original timeline.
             while self.time_s < at_s - 1e-9:
                 self.advance_one(min(at_s, self.time_s + self.quantum_s))
             self.domains[domain_id].intervene(copy.deepcopy(changes))
-            self.revision += 1
-            self._reset_history()
+            result = self.record_event(event_id, domain_id, at_s, changes)
+            self.restart_history()
         except BaseException:
-            self.time_s, self.revision = original[:2]
-            self._restore_domains(original[2])
-            (self._frames, self._checkpoints, self._frame_bytes, self._checkpoint_bytes) = original[3:]
+            self.reinstate(original)
             raise
+        return result
+
+    def prior_event(self, event_id: str, domain_id: str, at_s: float, changes: dict) -> dict | None:
+        """Return the recorded result of a repeated event id, or None for a new id."""
+        identifier(event_id)
+        previous = self._event_results.get(event_id)
+        if previous is None:
+            return None
+        if previous["domain_id"] != domain_id or previous["at_s"] != at_s or previous["changes"] != changes:
+            raise ValueError("event id reused with different contents")
+        return copy.deepcopy(previous)
+
+    def record_event(self, event_id: str, domain_id: str, at_s: float, changes: dict) -> dict:
+        """Record an applied intervention under a new causal revision and return its record."""
+        self.revision += 1
         result = {"event_id": event_id, "domain_id": domain_id, "at_s": at_s,
                   "changes": copy.deepcopy(changes), "revision": self.revision,
                   "truncate_after_t_s": at_s}
@@ -283,7 +292,42 @@ class ParkRuntime:
         # Event IDs stay in the save for the whole session.
         return copy.deepcopy(result)
 
-    def _reset_history(self):
+    def state_token(self) -> tuple:
+        """Return the timeline, domain set, retained history and events for reinstate()."""
+        return (self.time_s, self.revision, dict(self.domains), self._checkpoint(), list(self._frames),
+                dict(self._checkpoints), dict(self._frame_bytes), dict(self._checkpoint_bytes),
+                list(self.membership), list(self.events), OrderedDict(self._event_results))
+
+    def reinstate(self, token: tuple) -> None:
+        """Return to the state recorded by state_token()."""
+        (self.time_s, self.revision, domains, checkpoint, self._frames, self._checkpoints, self._frame_bytes,
+         self._checkpoint_bytes, self.membership, self.events, self._event_results) = token
+        self.domains = domains
+        self._restore_domains(checkpoint)
+
+    def reset_to(self, domains: list[Domain], coupler_states: list, time_s: float, revision: int,
+                 membership: list, events: list) -> None:
+        """Install restored domains with their timeline and restart retained history there.
+
+        Each domain already holds its state at time_s; coupler states follow the coupler order."""
+        keyed = {identifier(d.domain_id): d for d in domains}
+        time_s = finite(time_s, "time_s")
+        if not domains or len(keyed) != len(domains):
+            raise ValueError("nonempty unique domains required")
+        if any(not math.isclose(float(d.time_s), time_s, rel_tol=0, abs_tol=1e-9) for d in domains):
+            raise ValueError("restored domains must hold the restored time")
+        if len(coupler_states) != len(self.couplers):
+            raise ValueError("one coupler state per coupler required")
+        self.domains = keyed
+        self._order_domains()
+        for coupler, state in zip(self.couplers, coupler_states):
+            coupler.restore(state)
+        self.time_s, self.revision = time_s, int(revision)
+        self.membership, self.events = copy.deepcopy(membership), copy.deepcopy(events)
+        self._event_results = OrderedDict((e["event_id"], e) for e in self.events)
+        self.restart_history()
+
+    def restart_history(self):
         """Start retained history at the current state."""
         self._frames, self._checkpoints, self._frame_bytes, self._checkpoint_bytes = [], {}, {}, {}
         self._record()
@@ -362,5 +406,5 @@ class ParkRuntime:
         self.events = copy.deepcopy(data["events"])
         self.membership = copy.deepcopy(data.get("membership", []))
         self._event_results = OrderedDict((e["event_id"], e) for e in self.events)
-        self._reset_history()
+        self.restart_history()
         return True
