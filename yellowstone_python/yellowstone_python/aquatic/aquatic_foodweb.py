@@ -15,7 +15,7 @@ SCHEMA = "yellowstone.aquatic_foodweb.v1"
 COVER_DEFAULT = 0.6  # authored trout cover (same default as update_trout)
 
 
-# River invertebrate taxa with cited thermal, DO and feeding-group traits; emerges=False marks grazers that do not emerge.
+# River taxa carry cited thermal, DO, and feeding traits; emerges=False marks nonemerging grazers.
 INVERT_TAXA = {
     "mayflies": {
         "feeding_group": "grazer_scraper",
@@ -174,7 +174,7 @@ def taxon_step(state_by_taxon: dict[str, float],
                 rate=taxon["rate_per_dd"],
                 t_cutoff=taxon["t_cutoff_c"])
         else:
-            # Mudsnail does not emerge; it grows logistically on periphyton without a developmental emergence term.
+            # Nonemerging mudsnails grow logistically on periphyton, independently of developmental emergence.
             if water < taxon["t_cutoff_c"]:
                 growth_per_day = (
                     taxon["periphyton_consumption_rate_per_day"]
@@ -188,7 +188,7 @@ def taxon_step(state_by_taxon: dict[str, float],
         do_surv = _taxon_do_survival(taxon, do_mg_l)
         nb_new = max(0.0, nb_new * do_surv)
         emergence = max(0.0, emergence * do_surv)
-        # Grazing on periphyton by this taxon; mudsnail competes with native scraper taxa by raising their effective pressure.
+        # Taxon grazing consumes periphyton; mudsnails increase native scrapers' effective competition.
         base_rate = float(taxon["periphyton_consumption_rate_per_day"])
         if taxon.get("feeding_group") in (
                 "grazer_scraper", "grazer_scraper_mixed"):
@@ -263,7 +263,7 @@ def run_taxon_foodweb(
             water_c = float(cell["temperature_c"])
             peri_biomass = float(peri_map.get(cell_id, 0.0))
             do_mg_l = do_map.get(cell_id)
-            # When periphyton is unspecified or zero, grazer taxa lose biomass; the loss rate decouples from degree-day emergence to reflect starvation.
+            # Missing or zero periphyton causes grazer starvation; loss is separate from degree-day emergence.
             if peri_biomass <= 0.0:
                 for taxon_id, taxon in taxa.items():
                     group = taxon.get("feeding_group", "")

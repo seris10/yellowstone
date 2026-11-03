@@ -147,7 +147,7 @@ def test_boundary_role_round_trips_in_configuration(tmp_path):
     root = _write_terrain(tmp_path)
     out = run_overland(root, grid=8, sim_s=0.0, dt_s=60.0,
                        boundary_role="lateral_source")
-    # sim_s=0 skips the hydrosim loop; the response is not_available or illustrative_not_calibrated depending on install, and the configured role echoes back.
+    # sim_s=0 skips hydrosim; status is not_available or illustrative_not_calibrated; role echoes back.
     if "configuration" in out:
         assert out["configuration"]["boundary_role"] == "lateral_source"
     with pytest.raises(ValueError, match="boundary_role"):

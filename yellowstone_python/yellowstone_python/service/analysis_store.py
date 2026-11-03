@@ -574,7 +574,7 @@ RADIUS_MIN_M = 0.1
 RADIUS_MAX_M = 5000.0
 
 
-# Explicit per-table order-by clauses; the values are code constants that document the index each table relies on.
+# Per-table ordering constants document each query's supporting index.
 ORDER_BY: dict[str, tuple[str, ...]] = {
     "census_trees": ("stable_id",),
     "replay_cells": ("cell_id",),

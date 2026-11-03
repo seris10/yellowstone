@@ -123,7 +123,7 @@ def test_band_masks_match_fit_convention():
 
 
 def test_oat_oat_fit_ranks_volume_last_on_synthetic():
-    # Inverse crime: truth is exactly recoverable; parameter moves cost more than geometry moves at small amplitude.
+    # Inverse crime: recoverable shared-model truth; small parameter moves cost more than geometry moves.
     bundle = synthetic_bundle()
     champ = {"q_lat": 2.0, "t_lat": 25.0, "c_mult": 1.0}
     oat = oat_fit(bundle, 20000.0, 40000.0, champ,

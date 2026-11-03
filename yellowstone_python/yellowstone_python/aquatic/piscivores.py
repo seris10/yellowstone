@@ -16,7 +16,7 @@ SIZE_CLASSES = {
 }
 
 
-# Piscivore registry: density, attack and handling parameters sit on a per-m-river basis so trout and predator densities share spatial support.
+# Piscivore densities, attack, and handling use the trout density's per-meter river support.
 PISCIVORES = {
     "osprey": {
         "density_per_m_river": 0.0008,
@@ -96,7 +96,7 @@ PISCIVORES = {
 }
 
 
-# Depth refuge statements from the cited studies; the exponential form and the per-predator scales are authored.
+# Depth-refuge evidence is cited; exponential shape and predator-specific scales are authored.
 DEPTH_REFUGE_SOURCES = [
     "Power 1987 Predator avoidance by grazing fishes in temperate "
     "and tropical streams. In: Kerfoot and Sih eds. Predation: "
@@ -113,7 +113,7 @@ DEPTH_REFUGE_SOURCES = [
 ]
 
 
-# Firehole and comparable salmonid-stream trout density is authored illustrative; park-survey counts for the modeled reach are unpublished.
+# Trout density is authored illustrative for Firehole-like streams; local counts are unpublished.
 TROUT_DENSITY_DEFAULT_PER_M2_WETTED = 0.2
 TROUT_DENSITY_DEFAULT_STATUS = "authored_illustrative"
 RIVER_WETTED_WIDTH_DEFAULT_M = 22.0

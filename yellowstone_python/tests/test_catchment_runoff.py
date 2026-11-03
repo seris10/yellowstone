@@ -53,7 +53,7 @@ def test_snow_melt_reaches_the_published_trout(simulate_case):
     off_trout = [w for w in off["variant"]["wildlife"] if "trout" in w["id"]][0]
     on_trout = [w for w in on["variant"]["wildlife"] if "trout" in w["id"]][0]
     assert on["boundary_m3s"] != off["boundary_m3s"]
-    # Tolerance from a 9 percent discharge increase: temperature shifts about 0.1 C, walk_mps and hold_seconds track velocity and activity. Any one of these must move for the coupling to be live.
+    # A 9% flow increase shifts temperature ~0.1 C; a coupled response must change. See the readme.
     temp_delta = abs(float(on_trout.get("reach_temp_c", 0.0))
                      - float(off_trout.get("reach_temp_c", 0.0)))
     walk_delta = abs(float(on_trout.get("walk_mps", 0.0))

@@ -112,7 +112,7 @@ def run(state: dict, cfg: dict) -> dict:
     fh_chainage = build_chainage(firehole["points"])
     fh_features = replay_doc.get("replay", replay_doc).get("river_features", {})
     fh_offset = float(fh_features.get(RIVER_FIREHOLE, {}).get("start_s_m", 0.0))
-    # Per-point velocity and depth from the nearest Firehole replay cell; polyline chainage + fh_offset selects the cell.
+    # Polyline chainage + fh_offset selects the nearest Firehole replay cell's velocity and depth.
     cell_velocity_mps, cell_depth_m = _per_point_hydraulics_from_cells(
         fh_chainage, fh_offset, fh_landscape_cells)
     trout_hydraulics_source: str

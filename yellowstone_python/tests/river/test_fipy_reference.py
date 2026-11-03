@@ -88,7 +88,7 @@ def test_reference_m_m_s_mms_error_refines_with_resolution():
 def test_reference_m_m_s_mms_convergence_observed_rate_is_positive():
     report = run_mms_convergence((60, 240))
     (rate,) = report["observed_rates"]
-    # First-order upwind on a smooth MMS source converges; a loose positive-rate bound keeps the test robust.
+    # First-order upwind converges on a smooth MMS source; the rate bound requires positive convergence.
     assert rate > 0.4
     assert rate <= 2.5
 

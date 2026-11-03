@@ -96,7 +96,7 @@ Plain review crops and frozen source hashes are in `derived/lidar_canopy/blind_v
 
 The imported motion library retains its MIT license. Project adapters use Apache-2.0. KJR owns all animal meshes and authorized their inclusion in the project release. Asset manifests retain rig estimates, synthetic-fixture labels and authored species shape proxies. Ownership and release permission are distinct from geometry or biological validation. Numerical skinning, contact and animation tests do not establish measured animal biomechanics.
 
-Supplied bison, badger, bobcat, grizzly, black bear and Canada lynx models have runtime bindings. Wolf, deer and elk retain explicit shape-proxy labels. Midway encounters include habitat-qualified black bear routes; Canada lynx remains gated to suitable cold-conifer or park-reference contexts rather than being forced into the current Midway habitat.
+Supplied bison, badger, bobcat, grizzly, black bear and Canada lynx models have runtime bindings. Wolf, deer and elk retain explicit shape-proxy labels. Midway encounters include habitat-qualified black bear routes; Canada lynx remains gated to suitable cold-conifer or park-reference contexts.
 
 `land/mammals.py` couples authored guild population proxies and display encounters to current vegetation, moisture, snow, soil heat, season and daylight. Forage allocation removes normalized biomass once and records its budget; baseline grazer ownership prevents duplicate demand. Both baked trajectories and live checkpoints use the same forcing helper and physical simulation time.
 
@@ -153,3 +153,37 @@ The models have no calibrated bathymetry, organism counts, absolute food availab
 Measured inputs are preserved; authored profiles, positions, coefficients, and exclusion masks carry provenance. A local test pass establishes the behavior asserted by those checks. Field validation is recorded separately in claim and fit artifacts.
 
 For the macOS reference matrix, run the core and `needs_world` scopes in separate isolated interpreter processes. A monolithic run can encounter native PROJ/SQLite child-process crashes; its failed receipt is retained. Original reduction sources in the ignored wildlife `sources/` directory are required for source-to-derivative UV comparisons. Obtain the exact owner-provided files identified by `wildlife_motion_assets.json`; absent originals produce explicit skips. See [toolchain evidence and limits](../docs/TOOLCHAIN.md).
+
+## Implementation contracts
+
+### Tributary identity
+
+`observations/tributaries.py` admits `cold_refuge_candidates` only when gauge and
+stream attributes match `VERIFIED_TRIBUTARY_REGISTRY`, checked against NWIS and
+USGS StreamStats. The registry is empty by default; unchecked documented streams
+carry `association_status = unverified` and remain outside that candidate list.
+The shipped catalog's provenance warning identifies `07xxxxxx` site codes as
+Lower Mississippi numbers; Yellowstone gauge prefixes are `06xxxxxx` or
+`13xxxxxx`. It also flags the Arrow Creek at Tower Falls and Lamar River feeding
+the Firehole associations. Promotion requires tracing both gauge and stream to
+NWIS and adding the verified attributes to the registry.
+
+### Input and fixture contracts
+
+`observations/met.py` fixes the v1 hourly row order through `MET_COLUMNS`:
+`[epoch_s_UTC, air_C, rh_0_1, wind_mps, sw_Wm2, cloud_0_1]`.
+`_fit_forcing_arrays` consumes these positions; adding columns requires a v2
+schema. Open-Meteo precipitation remains a separate series in mm per step.
+
+The catchment-runoff fixture compares a 9% discharge increase, which shifts
+temperature by about 0.1 C. `walk_mps` and `hold_seconds` track velocity and
+activity; at least one coupled response must change. The groundwater gain
+fixture uses `C = K*W*L/b = 1e-5*20*10/1 = 2e-3 m2/s` and
+`q = C*(2.0-1.0) = 2e-3 m3/s`, with inflow at aquifer temperature.
+
+### Terrain bounds
+
+`validation/terrain.py` uses elevation tripwires of -20 to 250 m containing the
+recorded raster envelope: minimum -10.89 m, maximum 238.13 m, first percentile
+-5.09 m, and 99th percentile 221.28 m. The datum is undocumented; these bounds
+serve as consistency checks. They do not establish an absolute elevation datum.

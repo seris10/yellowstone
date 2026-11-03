@@ -29,7 +29,9 @@ python3 -m yellowstone_python.river.river_world --world ... --ecosystem ... \
 Copy results to `yellowstone_midway/data/firehole_{control,pulse}.json`
 Publishing copies the selected replay pair into the world data directory.
 
-## Cross-section profiles (P0)
+## Cross-section profiles
+
+Research stage: P0.
 
 Cell volumes default to `length x authored_width x --depth-m` (1.1 m,
 assumed). A per-feature profile file replaces the depth where supplied:
@@ -52,9 +54,11 @@ Rules: `depth_m` must be positive; `status` is required and explicit
 rejected; profiled cells carry `geometry_status`
 `mapped_centerline_authored_width_profile_depth` plus `depth_m` /
 `depth_status` / `depth_source` in the mapping records. Representative
-velocity (`Q/A`) then varies per cell instead of following one depth.
+velocity (`Q/A`) then follows each cell's profiled depth.
 
-## Trapezoidal hydraulics diagnostics (research step 1)
+## Trapezoidal hydraulics diagnostics
+
+Research step: 1.
 
 Solver volumes stay rectangular (`length x width x depth`, baseline
 preserved). Each replay cell additionally carries `hydraulics/`:
@@ -108,8 +112,8 @@ not field validation.
 (`derived/firehole_obs.json`): USGS discharge + water
 temperature at 06036805 (upstream, Qabout 1.07 m3/s, T 7.6 to 13.6  deg C) and
 06036905 (downstream, Qabout 5.44 m3/s, T 14.5 to 21.2  deg C), plus Open-Meteo
-hourly forcing at the upstream gauge. A single well-mixed cell (the
-conservation-tested `River`, not a new integrator) fits aggregate
+hourly forcing at the upstream gauge. A single well-mixed cell using the
+conservation-tested `River` integrator fits aggregate
 lateral inflow + turbulent-exchange multiplier against the downstream
 gauge, 5-day train / 2-day holdout, vs persistence, mixing-only,
 and climatology nulls, with holdout scores split by flow tercile.
@@ -124,11 +128,14 @@ everywhere: train RMSE 0.52 to 0.63  deg C, holdout within 0.06, vs 7.0
 lateral heat load is required; textbook exchange coefficients suffice
 unscaled. Unidentified: the Q-vs-T split rides a ridge driven by the
 authored effective volume/area (surface cooling scales with area), so
-fitted T_lat 25 to 35  deg C is conditional, not a measurement. Breaking the
+fitted T_lat 25 to 35 deg C depends on those authored assumptions and remains
+unmeasured. Breaking the
 ridge needs surveyed reach geometry or a third gauge. Status on every
 fitted number: `fitted_not_validated_single_window`.
 
-## Uncertainty quantification (`uncertainty.py`, A1)
+## Uncertainty quantification
+
+Tool: `uncertainty.py`. Research stage: A1.
 
 `derived/reach_ensemble_uq_v300k.json`: the 10%-ridge around the
 V300k champion admits 5 members spanning the tradeoff line
@@ -138,8 +145,8 @@ seed 20261010): mean width 0.54  deg C, but holdout coverage is 0.34 at
 nominal 0.90 (n=172). The bands describe fit ambiguity and they fail
 to cover holdout .  the dominant uncertainty is structural
 (single-window bias: fresh holdout bias +0.30  deg C scale), not
-parametric. Do not tune the ridge rule to fix coverage; that would
-launder bias into spread. Fresh grid rerun reproduces the recorded
+parametric. The ridge rule stays fixed during coverage evaluation;
+tuning it to repair coverage would launder bias into spread. Fresh grid rerun reproduces the recorded
 champion identity (train 0.497 vs recorded 0.529 .  minor code drift
 since Oct 9, self-consistent within this artifact). Champion q_lat=3.5
 sits on the grid floor: the ridge may extend below it.
@@ -155,7 +162,9 @@ construction; REFUGE_WEIGHT moves no refuge selection on ambient or
 synthetic-hot landscapes (near-tie cluster shifts as a block).
 Status: `fitted_not_validated_single_window` throughout.
 
-## SciPy passes (`calibrate lsfit` / `ivp`, A2)
+## SciPy passes
+
+Commands: `calibrate lsfit` and `calibrate ivp`. Research stage: A2.
 
 Three surgical uses; the solver is untouched. (a) Bounded
 least-squares polish (`scipy.optimize.least_squares`, 18 evals) from
@@ -176,7 +185,9 @@ drifting bias, not white noise, so RMSE bands understate .  same story
 as A1's coverage miss. Artifact:
 `derived/reach_polished_fit_v300k.json`.
 
-## Figures + executable notebook (`figures.py`, A3)
+## Figures and executable notebook
+
+Tool: `figures.py`. Research stage: A3.
 
 The figure tools generate five diagnostics rendered headless (Agg)
 from frozen artifacts: fit/holdout vs persistence null, ridge-ensemble
@@ -193,7 +204,9 @@ itself: its fallback top-5 spans distant fits, so its wide bands
 cover easily (0.93) .  the production tight ridge under-covers (A1).
 Notebook execution requires Jupyter; figure rendering uses matplotlib.
 
-## SymPy Jacobian check (`test_surface_flux.py`, A4)
+## SymPy Jacobian check
+
+Test module: `test_surface_flux.py`. Research stage: A4.
 
 The hand-derived `dF/dT` in `surface_flux.linearized()` against SymPy
 differentiation of the documented flux over water -5 to 45  deg C x met grid x
@@ -204,8 +217,8 @@ where it is absent The science dependency group includes SymPy.
 ## Pandas obs alignment (`obs_frame.py`)
 
 Fetch->fit alignment through DatetimeIndex frames: resample-mean bins
-at the nominal step (bins anchored at first observation, not the
-epoch), explicit gap runs + coverage per series, bridge limit recorded
+at the nominal step (bins anchored at the first observation),
+explicit gap runs + coverage per series, bridge limit recorded
 (4x-nominal, same rule as `check_continuity`), grid endpoints required
 inside measured coverage .  no silent endpoint clamp. The fit takes
 `backend="pairs"|"pandas"` (default pairs until pandas is installed on
@@ -217,8 +230,8 @@ gaps). Solver stays dependency-light: pandas is imported in
 ## 2-D thermal plume (`plume2d.py`)
 
 `plume_field` in `thermal_features/plume.py` solves steady 2-D
-advection-diffusion over the Excelsior mixing zone instead of a
-Gaussian blob: u.dT/dz = Dx.d2T/dx2 + Dz.d2T/dz2 - k.(T - ambient),
+advection-diffusion over the Excelsior mixing zone:
+u.dT/dz = Dx.d2T/dx2 + Dz.d2T/dz2 - k.(T - ambient),
 implicit upwind/centered solve (scipy.sparse) on a 128x128 grid over
 600 m, source cells fixed at the modeled mixing-reach temperature.
 Velocity 0.73 m/s (mapped chain representative), longitudinal D 84.7
@@ -250,8 +263,8 @@ pro-rata at the refuge cell. Every build writes `aquatic_foodweb.json`.
 
 Illustrative intervention (`derived/aquatic_intervention.json`,
 +2  deg C upstream boundary): refuge cell_00145 -> cell_00146 (+20 m,
-17.37 -> 19.33  deg C, feeding 0.66 -> 0.17 .  a food-vs-heat tradeoff, not a
-flight to cold); reach emergence +98 (dipteran boom); dipper intake
+17.37 -> 19.33 deg C, feeding 0.66 -> 0.17 .  a food-vs-heat tradeoff
+that selects warmer water); reach emergence +98 (dipteran boom); dipper intake
 +0.15 (pro-rata share of the boom). Brown vs rainbow control refuges
 sit 218 m apart .  the species table moves fish. A 10-minute Excelsior
 +18  deg C pulse moves nothing: the trout already holds upstream of the
@@ -260,7 +273,7 @@ hidden. Known gaps: no emergent drift, no molluscs (warm food
 underestimated per Kaeding & Kaya 1978), single fish/bird, no
 mortality simulation.
 
-## Study scene (in Godot 4.5.1 editor)
+## Study scene in the Godot 4.5.1 editor
 
 Duplicate the main scene, swap the ecosystem node's script to
 `scripts/python_river_replay.gd`, set `replay_path` to a replay JSON, add

@@ -78,7 +78,7 @@ def run(state: dict, cfg: dict) -> dict:
                 consumed=0.0, dt_s=sim_s)
     wildlife1 = update_wildlife(baseline.get("wildlife", []),
                                 {PATCH_RIPARIAN: act0})
-    # Insect compartments model one patch; pick a bridge cell from the replay thermal landscape so forcing is shared.
+    # One insect patch shares thermal forcing from a Firehole bridge replay cell.
     from yellowstone_python.aquatic.aquatic_foodweb import shear_to_disturbance
     foodweb_landscape = thermal_landscape(replay_doc)
     bridge_cells = [c for c in foodweb_landscape
@@ -148,7 +148,7 @@ def run(state: dict, cfg: dict) -> dict:
                             "reason": str(benthic_exc)}
     rates = {k: v / max(1e-9, sim_s / 3600.0)
              for k, v in prey_ledger["consumed_total"].items()}
-    # Dipper intake comes from the replay food web via the shared trout refuge cell; raven stays on the compartment ledger.
+    # Dipper intake uses the trout refuge cell's replay food web; raven uses the compartment ledger.
     fw_dipper = aquatic_foodweb.get("dipper", {})
     intake_basis = {k: "insect_compartments" for k in rates}
     if "intake_per_day" in fw_dipper:

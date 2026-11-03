@@ -227,7 +227,7 @@ def test_river_transport_forcing_changes_are_not_integrated_early():
 
     river.run(3.0, dt_s=5.0, sample_s=3.0)
 
-    # First interval [0,2] stays at 0 C; second [2,3] applies new inflow (10*T_new) = (10*0) + 1*(10 - T_new).
+    # [0,2] stays at 0 C; [2,3] applies inflow: 10*T_new = 10*0 + 1*(10 - T_new).
     assert river.temperature_c[0] == pytest.approx(10.0 / 11.0, abs=0.5 * 10 ** -(12), rel=0)
     assert river.steps == 2
     assert river.time_s == 3.0
@@ -486,7 +486,7 @@ def test_scheduled_boundary_discharge_scalar_and_constant_series_match():
 
 
 def test_scheduled_boundary_discharge_scheduled_discharge_closes_water_budget():
-    # Breakpoint at t=400 s with no laterals; integrated inflow equals the piecewise area under the step schedule.
+    # With no laterals, integrated inflow matches the step-schedule area across the t=400 s breakpoint.
     schedule = {"times_s": [0.0, 400.0], "values": [1.0, 3.0]}
     river = River(
         [Cell(f"c{i}", 50.0, 20.0, 50.0 * 20.0 * 1.1, 10.0,

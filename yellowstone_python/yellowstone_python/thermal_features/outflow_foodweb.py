@@ -13,7 +13,7 @@ SCHEMA = "yellowstone.outflow_foodweb.v1"
 STATUS = "transferred_structure_authored_rates"
 
 
-# Paracoenia turbida and Ephydra bruesi are the Yellowstone alkaline-effluent brine flies named by Brock Wiegert and Brock (1969) and Collins (1975); temperature corners are authored from the cited temperature ranges.
+# Brine fly thermal corners are authored from cited ranges (Brock et al. (1969); Collins (1975)).
 FLY_SPECIES = {
     "paracoenia_turbida": {
         "t_min_c": 15.0, "t_opt_lo_c": 25.0,
@@ -49,7 +49,7 @@ FLY_SPECIES = {
 }
 
 
-# Mite baseline and flow-CV sensitivity are authored constants; direction of the CV response comes from the cited studies.
+# Mite baseline and flow-CV sensitivity are authored; cited studies supply the response direction.
 MITE_BASELINE_PARASITISM = 0.18
 MITE_BASELINE_STATUS = "authored"
 MITE_FLOW_CV_SENSITIVITY = 1.6
@@ -68,7 +68,7 @@ MITE_SOURCES = [
 ]
 
 
-# Predator densities and Holling parameters are authored illustrative; trophic links come from Wiegert and Mitchell (1973), Kuenzel and Wiegert (1973) and Foote (1995).
+# Predator densities and Holling parameters are authored; trophic-link sources are listed below.
 PREDATOR_DIETS = {
     "wetsalts_tiger_beetle": {
         "attack_rate_m2_per_day": 50.0,

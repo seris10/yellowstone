@@ -55,7 +55,7 @@ def test_performance_anchor_unknown_species_rejected():
 
 
 def test_performance_anchor_hot_water_never_ties_at_zero_weight():
-    # Regression: above feed_zero, feeding saturates at 0; stress keeps the coolest cell on top at any weight.
+    # Above feed_zero, feeding is 0; stress favors the coolest cell at any weight.
     from yellowstone_python.aquatic.fish import suitability
     for weight in (0.0, 0.6, 2.0):
         scored = sorted((
@@ -271,7 +271,7 @@ def test_tributary_refuge_food_scale_default_reproduces_unscaled_behavior():
 
 
 def test_tributary_refuge_food_scale_downranks_but_cold_still_wins_when_hot():
-    # Hot mainstem (>24 C, drive firing) plus one cold pocket at 1/20 food; pocket wins on thermal + refuge terms.
+    # At >24 C, a cold pocket with 1/20 mainstem food wins on thermal and refuge terms.
     doc = fake_replay([[26.0, 26.5, 27.0, 27.5, 28.0]] * 3)
     land = thermal_landscape(doc)
     pocket = build_tributary_cell(

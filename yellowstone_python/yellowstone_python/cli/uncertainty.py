@@ -46,7 +46,7 @@ def main() -> int:
         fit_train_frac = float(
             fit_doc.get("train_frac", DEFAULT_TRAIN_FRAC))
         fit_dt = float(args.dt_s)
-        # Full-grid scores from a fresh fit (reproducibility check vs recorded champion); artifact keeps top10 only.
+        # Refit the full grid to check champion reproducibility; the recorded artifact stores only top10.
         full = calibrate.reach_heat_fit(
             bundle, args.volume_m3, args.area_m2,
             grids["q_lat"], grids["t_lat"], grids["c_mult"],

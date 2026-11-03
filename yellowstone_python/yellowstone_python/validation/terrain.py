@@ -29,7 +29,7 @@ MAX_JUMP_M = 30.0
 
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
-# Tripwires containing the measured envelope (min -10.89, max 238.13, p1 -5.09, p99 221.28). Datum undocumented; the bounds are tripwires.
+# Elevation tripwires contain measured heights; datum is undocumented. See the readme, Terrain bounds.
 DEFAULT_MIN_M = -20.0
 DEFAULT_MAX_M = 250.0
 

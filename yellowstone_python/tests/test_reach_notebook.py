@@ -26,7 +26,7 @@ def _synthetic_bundle(path: Path) -> None:
         "met": {"hourly": met}}
     fwd = run_fit_forward(draft, 300000.0, 600000.0, 3.5, 30.0, 1.0,
                           dt_s=1800.0)
-    # Inverse crime: the same forward model generates and fits here; this exercises the notebook machinery.
+    # Inverse-crime fixture: one model generates and fits the data to exercise notebook mechanics.
     draft["sites"]["06036905"]["series"] = {
         "temperature_c": [[g, v] for g, v in zip(fwd["grid"],
                                                  fwd["modeled_c"])],

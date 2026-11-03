@@ -41,7 +41,7 @@ def _frame_from_pairs(pairs: list[list[float]], name: str,
     frame = frame.sort_index()
     measured_t_min = min(t for t, _ in cleaned_pairs)
     measured_t_max = max(t for t, _ in cleaned_pairs)
-    # Mean averages dup timestamps; bins anchor at first obs; label/closed left matches obs_model.interval_average.
+    # Mean duplicate timestamps; bins start at first observation and are left-labeled and left-closed.
     resampled = frame.resample(f"{step_s:g}s", origin=frame.index[0],
                                label="left", closed="left").mean()
     resampled.attrs["measured_t_min_s"] = measured_t_min
