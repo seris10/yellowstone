@@ -65,9 +65,12 @@ def test_append_disjoint_pack(tmp_path):
         build_pack(values,tmp_path,pack_id="overlap",mesh_cells=4,root_cells=16,origin_x_m=32,origin_z_m=0,append=True)
 
 
+@pytest.mark.needs_world
 def test_overlay_preloads_exist():
     import re
-    root=Path(__file__).resolve().parents[1]/"overlay"/"yellowstone_midway"
-    for path in (root/"scripts"/"park_runtime").glob("*.gd"):
+    from tests.paths import MIDWAY
+    scripts=sorted((MIDWAY/"scripts"/"park_runtime").glob("*.gd"))
+    assert scripts
+    for path in scripts:
         for reference in re.findall(r'(?:preload|load)\("res://([^"\n]+)"\)',path.read_text()):
-            assert (root/reference).exists(),(path,reference)
+            assert (MIDWAY/reference).exists(),(path,reference)
