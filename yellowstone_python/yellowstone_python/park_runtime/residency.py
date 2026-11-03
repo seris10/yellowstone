@@ -1,4 +1,4 @@
-"""River segment simulation residency.
+"""River segment simulation residency for heat and optional solutes.
 
 Fine segments follow the walker, the rest run coarse, and activation spin-up runs in workers."""
 from __future__ import annotations
@@ -14,10 +14,15 @@ import math
 import multiprocessing
 import time
 from yellowstone_python.river.river_transport import River, RiverState, river_from_config
-from .coarse_river import CoarseRiverSegmentDomain, coarse_river, prolong_temperatures, restrict_temperatures
+from yellowstone_python.river.solute_transport import (MASS_TOTAL_KEYS, SOLUTE_KEYS, SoluteState,
+                                                       river_solute_transport)
+from .coarse_river import (CoarseRiverSegmentDomain, coarse_river, coarse_solutes, positive_shape,
+                           prolong_concentrations, prolong_temperatures, restrict_concentrations,
+                           restrict_temperatures)
 from .contracts import finite, identifier
 from .coupling import Stores
-from .firehole_split import RiverInterface, RiverSegmentDomain, segment_river, start_at
+from .firehole_split import (RiverInterface, RiverSegmentDomain, advance_solutes, apply_forcing, segment_river,
+                             segment_solutes, solute_values, start_at, start_solutes_at)
 from .runtime import ParkRuntime
 from .state_store import canonical
 
@@ -27,8 +32,9 @@ REACH_LOOKAHEAD_S = 20.0
 FIREHOLE_FACES = (46, 92, 138, 184, 230)
 BUDGET_TERMS_J = ("boundary_input_j", "lateral_input_j", "outlet_export_j", "surface_exchange_j",
                   "additional_heat_flux_j", "cell_heat_j")
-RESIDENCY_STATE_SCHEMA = "yellowstone.park_residency_state.v1"
+RESIDENCY_STATE_SCHEMA = "yellowstone.park_residency_state.v2"
 RESIDENCY_MODULES = ("yellowstone_python.river.river_transport", "yellowstone_python.river.surface_flux",
+                     "yellowstone_python.river.solute_transport",
                      "yellowstone_python.park_runtime.firehole_split", "yellowstone_python.park_runtime.coarse_river",
                      "yellowstone_python.park_runtime.runtime", "yellowstone_python.park_runtime.residency")
 
@@ -177,16 +183,22 @@ def admit(ranked: list[tuple[str, str]], cells: dict[str, int], capacity: float 
 
 _WORKER = {}
 
-def _worker_init(config: dict) -> None:
+def _worker_init(config: dict, solute_settings: dict | None = None) -> None:
     _WORKER["full"] = river_from_config(config)
+    _WORKER["solutes"] = (None if solute_settings is None
+                          else river_solute_transport(_WORKER["full"], solute_settings)[0])
     _WORKER["segments"] = {}
 
 def replay_segment(river: River, start_s: float, temperatures, inlet: list[tuple], outlet: list[tuple],
-                   end_s: float, dt_s: float, interventions: list[tuple] = ()) -> list[float]:
-    """Advance an unstepped fine segment from a state through recorded interface quanta.
+                   end_s: float, dt_s: float, interventions: list[tuple] = (), *, solutes=None,
+                   concentrations: dict | None = None, solute_dt_s: float | None = None) -> list[float]:
+    """Replay an unstepped fine segment and optional solutes through recorded interface quanta.
 
-    Entries: (start_s, end_s, inlet_m3_s, inlet_c, dispersion_w); interventions: (at_s, changes)."""
+    Entries: (start, end, m3/s, C, W[, concentrations, solute rates]); solutes advance in place."""
     start_at(river, start_s, temperatures)
+    if solutes is not None:
+        start_solutes_at(solutes, start_s, concentrations)
+        solute_dt_s = dt_s if solute_dt_s is None else solute_dt_s
     inlet_at = {round(e[0], 6): e for e in inlet}
     outlet_at = {round(e[0], 6): e for e in outlet}
     pending = sorted(interventions, key=lambda item: item[0])
@@ -194,7 +206,7 @@ def replay_segment(river: River, start_s: float, temperatures, inlet: list[tuple
     while river.time_s < end_s - 1e-9:
         while pending and pending[0][0] <= river.time_s + 1e-9:
             for name, value in pending.pop(0)[1].items():
-                river.set_forcing(name, river.time_s, value)
+                apply_forcing(river, solutes, name, river.time_s, value)
         key = round(river.time_s, 6)
         entry_in, entry_out = inlet_at.get(key), outlet_at.get(key)
         if (inlet and entry_in is None) or (outlet and entry_out is None):
@@ -206,25 +218,40 @@ def replay_segment(river: River, start_s: float, temperatures, inlet: list[tuple
             river.set_forcing("boundary_m3_s", river.time_s, entry_in[2], retain_history=False)
             river.set_forcing("boundary_c", river.time_s, entry_in[3], retain_history=False)
             river.set_forcing(f"cell_heat_w.{first}", river.time_s, entry_in[4], retain_history=False)
+            if solutes is not None:
+                for key, value, rate in zip(SOLUTE_KEYS, entry_in[5], entry_in[6]):
+                    solutes.set_forcing(f"boundary.{key}", river.time_s, value, retain_history=False)
+                    solutes.set_forcing(f"cell_mass.{key}.{first}", river.time_s, rate, retain_history=False)
         if entry_out is not None:
             if entry_in is not None and not math.isclose(entry_out[1], stop, rel_tol=0, abs_tol=1e-9):
                 raise ValueError("inlet and outlet quanta disagree")
             river.set_forcing(f"cell_heat_w.{last}", river.time_s, -entry_out[4], retain_history=False)
+            if solutes is not None:
+                for key, rate in zip(SOLUTE_KEYS, entry_out[6]):
+                    solutes.set_forcing(f"cell_mass.{key}.{last}", river.time_s, -rate, retain_history=False)
         span = min(stop, end_s) - river.time_s
         river.run(span, dt_s=dt_s, sample_s=span)
+        if solutes is not None:
+            # Fluxes recorded against a coarse neighbor or a coarse self can overdraw a fine end cell.
+            advance_solutes(solutes, river, span, solute_dt_s, nonnegative=False)
     return list(river.temperature_c)
 
 def spinup_job(lo: int, hi: int, start_s: float, temperatures, inlet, outlet, end_s: float, dt_s: float,
-               interventions=()) -> dict:
-    """Replay one fine segment in a worker process; return end temperatures and the wall cost."""
+               interventions=(), concentrations: dict | None = None, solute_dt_s: float | None = None) -> dict:
+    """Replay one fine segment in a worker; return temperatures, concentrations and wall cost."""
     started = time.perf_counter()
     cache = _WORKER["segments"]
     if (lo, hi) not in cache:
-        cache[(lo, hi)] = segment_river(_WORKER["full"], lo, hi)
-    river = copy.deepcopy(cache[(lo, hi)])
-    temps = replay_segment(river, start_s, temperatures, inlet, outlet, end_s, dt_s, interventions)
-    return {"temperature_c": temps, "start_s": start_s, "end_s": end_s, "wall_s": time.perf_counter() - started,
-            "cell_seconds": (hi - lo) * (end_s - start_s)}
+        river = segment_river(_WORKER["full"], lo, hi)
+        carried = None if _WORKER["solutes"] is None else segment_solutes(_WORKER["solutes"], river, lo, hi)
+        cache[(lo, hi)] = (river, carried)
+    river, solutes = copy.deepcopy(cache[(lo, hi)])
+    if (solutes is None) != (concentrations is None):
+        raise ValueError("a spin-up carries concentrations exactly when the worker carries solutes")
+    temps = replay_segment(river, start_s, temperatures, inlet, outlet, end_s, dt_s, interventions,
+                           solutes=solutes, concentrations=concentrations, solute_dt_s=solute_dt_s)
+    return {"temperature_c": temps, "concentrations": solute_values(solutes), "start_s": start_s, "end_s": end_s,
+            "wall_s": time.perf_counter() - started, "cell_seconds": (hi - lo) * (end_s - start_s)}
 
 class _Job:
     def __init__(self, future, submit_wall_s: float, kind: str):
@@ -240,7 +267,7 @@ class ResidencyManager:
                  lead_margin_s: float = 30.0, retire_after_s: float = 10.0, utilization: float = 0.8,
                  checkpoint_fresh_s: float = 86400.0, workers: int = 2, virtual_wall: bool = False,
                  position_m: float = 0.0, velocity_mps: float = 0.0, time_scale: float = 1.0,
-                 epoch_unix: float | None = None):
+                 epoch_unix: float | None = None, solutes: dict | None = None, solute_dt_s: float | None = None):
         self.config = copy.deepcopy(config)
         full = river_from_config(self.config)
         self.specs = segment_specs(full, faces, prefix)
@@ -255,12 +282,23 @@ class ResidencyManager:
         self._snapshots = {}
         self.fine_pristine = {s.domain_id: segment_river(full, s.lo, s.hi) for s in self.specs}
         self.coarse_pristine = {d: coarse_river(r, cells_per_coarse) for d, r in self.fine_pristine.items()}
+        self.solute_settings = None if solutes is None else copy.deepcopy(solutes)
+        self.solute_dt_s = self.quantum_s if solute_dt_s is None else finite(solute_dt_s, "solute_dt_s")
+        self.solute_provenance, self.fine_solutes, self.coarse_solutes = None, {}, {}
+        if self.solute_settings is not None:
+            full_solutes, self.solute_provenance = river_solute_transport(full, self.solute_settings)
+            self.fine_solutes = {s.domain_id: segment_solutes(full_solutes, self.fine_pristine[s.domain_id], s.lo, s.hi)
+                                 for s in self.specs}
+            self.coarse_solutes = {d: coarse_solutes(self.fine_solutes[d], *self.coarse_pristine[d])
+                                   for d in self.cells}
         self.capacity = None
         self.worker_rate = None
         ranked = anticipation(self.specs, position_m, velocity_mps, lead_margin_s, time_scale)
         initial = set(admit(ranked, self.cells, None, time_scale).fine)
-        domains = [self._fine_domain(d, 0.0, self.fine_pristine[d].temperature_c) if d in initial
-                   else self._coarse_domain(d, 0.0, self.coarse_pristine[d][0].temperature_c)
+        domains = [self._fine_domain(d, 0.0, self.fine_pristine[d].temperature_c,
+                                     solute_values(self.fine_solutes.get(d))) if d in initial
+                   else self._coarse_domain(d, 0.0, self.coarse_pristine[d][0].temperature_c,
+                                            solute_values(self.coarse_solutes.get(d)))
                    for d in self.cells]
         self.interfaces = [RiverInterface(f"{a.domain_id}:{b.domain_id}", a.domain_id, b.domain_id)
                            for a, b in zip(self.specs, self.specs[1:])]
@@ -277,88 +315,126 @@ class ResidencyManager:
         self.swaps, self.lifetimes, self.events = [], [], []
         self.open_lifetimes = {d: {"domain_id": d, "start_s": 0.0} for d in self.cells}
         self.initial_stores = {d: self.runtime.domains[d].stores() for d in self.cells}
+        self.initial_solutes = {d: self.runtime.domains[d].solute_stores() for d in self.cells}
         self._record_coarse()
         self._capture()
         self.pool = ProcessPoolExecutor(max_workers=workers, mp_context=multiprocessing.get_context("spawn"),
-                                        initializer=_worker_init, initargs=(self.config,))
+                                        initializer=_worker_init, initargs=(self.config, self.solute_settings))
 
     def close(self) -> None:
         self.pool.shutdown(wait=True, cancel_futures=True)
 
-    def _fine_domain(self, domain_id, time_s, temperatures):
+    def _solutes_at(self, pristine, time_s, concentrations):
+        """Return a copy of a pristine solute transport started at a time, or None without solutes."""
+        if pristine is None:
+            return None
+        solutes = copy.deepcopy(pristine)
+        start_solutes_at(solutes, time_s, concentrations)
+        return solutes
+
+    def _fine_domain(self, domain_id, time_s, temperatures, concentrations=None):
         river = copy.deepcopy(self.fine_pristine[domain_id])
         start_at(river, time_s, temperatures)
-        self._reapply(domain_id, river)
-        return RiverSegmentDomain(domain_id, river, dt_s=self.dt_s)
+        solutes = self._solutes_at(self.fine_solutes.get(domain_id), time_s, concentrations)
+        self._reapply(domain_id, river, solutes)
+        return RiverSegmentDomain(domain_id, river, dt_s=self.dt_s, solutes=solutes, solute_dt_s=self.solute_dt_s)
 
-    def _coarse_domain(self, domain_id, time_s, temperatures):
+    def _coarse_domain(self, domain_id, time_s, temperatures, concentrations=None):
         river = copy.deepcopy(self.coarse_pristine[domain_id][0])
         start_at(river, time_s, temperatures)
-        self._reapply(domain_id, river)
-        return CoarseRiverSegmentDomain(domain_id, river, dt_s=self.quantum_s)
+        solutes = self._solutes_at(self.coarse_solutes.get(domain_id), time_s, concentrations)
+        self._reapply(domain_id, river, solutes)
+        return CoarseRiverSegmentDomain(domain_id, river, dt_s=self.quantum_s, solutes=solutes,
+                                        solute_dt_s=self.quantum_s)
 
-    def _reapply(self, domain_id, river):
+    def _reapply(self, domain_id, river, solutes=None):
         """Apply the accepted interventions of a segment, in time order, to a river built at the frontier."""
         for item in self.interventions:
             if item["domain_id"] == domain_id:
                 for name, value in item["changes"].items():
-                    river.set_forcing(name, river.time_s, value)
+                    apply_forcing(river, solutes, name, river.time_s, value)
 
     def _blank_domain(self, domain_id, model_id):
         """Return an unstepped segment domain in a recorded representation, ready for restore()."""
+        fine_solutes, coarse_solutes = self.fine_solutes.get(domain_id), self.coarse_solutes.get(domain_id)
         if model_id == RiverSegmentDomain.model_id:
-            return RiverSegmentDomain(domain_id, copy.deepcopy(self.fine_pristine[domain_id]), dt_s=self.dt_s)
+            return RiverSegmentDomain(domain_id, copy.deepcopy(self.fine_pristine[domain_id]), dt_s=self.dt_s,
+                                      solutes=copy.deepcopy(fine_solutes), solute_dt_s=self.solute_dt_s)
         if model_id == CoarseRiverSegmentDomain.model_id:
             return CoarseRiverSegmentDomain(domain_id, copy.deepcopy(self.coarse_pristine[domain_id][0]),
-                                            dt_s=self.quantum_s)
+                                            dt_s=self.quantum_s, solutes=copy.deepcopy(coarse_solutes),
+                                            solute_dt_s=self.quantum_s)
         raise ValueError(f"unknown segment representation {model_id!r}")
 
     def _close_lifetime(self, domain_id):
         domain = self.runtime.domains[domain_id]
         budget = domain.river.budget()
-        return dict(self.open_lifetimes[domain_id], end_s=self.runtime.time_s,
-                    representation=domain.representation, storage_change_j=budget["storage_change_j"],
-                    heat_residual_j=budget["heat_residual_j"],
-                    **{k: budget[k] for k in BUDGET_TERMS_J},
-                    **{k: budget[k] for k in ("boundary_input_m3", "lateral_input_m3", "outlet_export_m3")})
+        lifetime = dict(self.open_lifetimes[domain_id], end_s=self.runtime.time_s,
+                        representation=domain.representation, storage_change_j=budget["storage_change_j"],
+                        heat_residual_j=budget["heat_residual_j"],
+                        **{k: budget[k] for k in BUDGET_TERMS_J},
+                        **{k: budget[k] for k in ("boundary_input_m3", "lateral_input_m3", "outlet_export_m3")})
+        if domain.solutes is not None:
+            mass = domain.solutes.mass_budget()["solutes"]
+            lifetime["solutes"] = {key: {name: mass[key][name] for name in (*MASS_TOTAL_KEYS, "storage_change_mass")}
+                                   for key in SOLUTE_KEYS}
+        return lifetime
 
-    def _swap(self, domain_id, replacement, reason, reconciliation_j=()):
+    def _swap(self, domain_id, replacement, reason, reconciliation_j=(), solute_shifts=None):
+        old_solutes = self.runtime.domains[domain_id].solute_stores()
         self.lifetimes.append(self._close_lifetime(domain_id))
         removed = self.runtime.remove_domain(domain_id)["entry"]
         added = self.runtime.add_domain(replacement)
         self.open_lifetimes[domain_id] = {"domain_id": domain_id, "start_s": self.runtime.time_s}
         old, new = removed["stores"], added["stores"]
-        self.swaps.append({"t_s": self.runtime.time_s, "domain_id": domain_id, "reason": reason,
-                           "from": removed["model_id"], "to": added["model_id"],
-                           "water_relative": abs(old["water_m3"] - new["water_m3"]) / old["water_m3"],
-                           "heat_relative": abs(old["heat_j"] - new["heat_j"]) / abs(old["heat_j"]),
-                           "reconciliation_j": list(reconciliation_j)})
+        record = {"t_s": self.runtime.time_s, "domain_id": domain_id, "reason": reason,
+                  "from": removed["model_id"], "to": added["model_id"],
+                  "water_relative": abs(old["water_m3"] - new["water_m3"]) / old["water_m3"],
+                  "heat_relative": abs(old["heat_j"] - new["heat_j"]) / abs(old["heat_j"]),
+                  "reconciliation_j": list(reconciliation_j)}
+        if old_solutes is not None:
+            new_solutes = replacement.solute_stores()
+            record["solute_relative"] = {key: abs(old_solutes[key] - new_solutes[key]) / max(abs(old_solutes[key]), 1e-300)
+                                         for key in SOLUTE_KEYS}
+            record["solute_reconciliation"] = solute_shifts or {}
+        self.swaps.append(record)
 
     def _retire(self, domain_id, wall_s):
         fine = self.runtime.domains[domain_id]
         temps = list(fine.river.temperature_c)
+        concentrations = solute_values(fine.solutes)
         groups = self.coarse_pristine[domain_id][1]
         coarse = restrict_temperatures(fine.river.cells, temps, groups)
-        self.last_fine[domain_id] = (self.runtime.time_s, temps)
-        self._swap(domain_id, self._coarse_domain(domain_id, self.runtime.time_s, coarse), "retire")
+        coarse_c = None if concentrations is None else restrict_concentrations(fine.river.cells, concentrations, groups)
+        self.last_fine[domain_id] = (self.runtime.time_s, temps, concentrations)
+        self._swap(domain_id, self._coarse_domain(domain_id, self.runtime.time_s, coarse, coarse_c), "retire")
         self.leave_wall.pop(domain_id, None)
         self.events.append({"wall_s": wall_s, "t_s": self.runtime.time_s, "domain_id": domain_id,
                             "event": "retired"})
 
-    def _install(self, domain_id, temperatures, wall_s):
+    def _install(self, domain_id, temperatures, wall_s, concentrations=None, shape_removed=None):
         coarse = self.runtime.domains[domain_id]
         groups = self.coarse_pristine[domain_id][1]
         fine_cells = self.fine_pristine[domain_id].cells
         temps, shifts = prolong_temperatures(fine_cells, temperatures, list(coarse.river.temperature_c), groups,
                                              coarse.river.rho_cp)
-        self._swap(domain_id, self._fine_domain(domain_id, self.runtime.time_s, temps), "install", shifts)
+        values, moved = None, None
+        if (concentrations is None) != (coarse.solutes is None):
+            raise ValueError("an installation carries concentrations exactly when the segment carries solutes")
+        if concentrations is not None:
+            values, moved = prolong_concentrations(fine_cells, concentrations, solute_values(coarse.solutes), groups)
+        self._swap(domain_id, self._fine_domain(domain_id, self.runtime.time_s, temps, values), "install", shifts,
+                   moved)
+        if shape_removed is not None:
+            self.swaps[-1]["shape_removed_mass"] = shape_removed
         self.events.append({"wall_s": wall_s, "t_s": self.runtime.time_s, "domain_id": domain_id,
                             "event": "installed"})
 
     def _record_coarse(self):
         for domain_id, domain in self.runtime.domains.items():
             if domain.representation == "coarse":
-                self.coarse_history[domain_id].append((self.runtime.time_s, list(domain.river.temperature_c)))
+                self.coarse_history[domain_id].append((self.runtime.time_s, list(domain.river.temperature_c),
+                                                       solute_values(domain.solutes)))
 
     def _faces(self, domain_id, start_s, end_s):
         k = next(i for i, s in enumerate(self.specs) if s.domain_id == domain_id)
@@ -370,29 +446,35 @@ class ResidencyManager:
         return inlet, outlet
 
     def _start_state(self, domain_id):
-        """Return the replay start time, fine temperatures and their source for an activation."""
+        """Return the replay start time, fine temperatures, concentrations and their source for an activation."""
         frontier = self.runtime.time_s
         last = self.last_fine.get(domain_id)
         if last is not None and frontier - last[0] <= self.checkpoint_fresh_s:
-            return last[0], list(last[1]), "fine_checkpoint"
+            return last[0], list(last[1]), copy.deepcopy(last[2]), "fine_checkpoint"
         start_s = max(0.0, frontier - self.spinup_s)
         if start_s == 0.0 and last is None:
-            return 0.0, list(self.fine_pristine[domain_id].temperature_c), "published_initial_state"
+            return (0.0, list(self.fine_pristine[domain_id].temperature_c),
+                    solute_values(self.fine_solutes.get(domain_id)), "published_initial_state")
         entries = [e for e in self.coarse_history[domain_id] if e[0] <= start_s + 1e-9]
-        t_s, coarse = entries[-1] if entries else self.coarse_history[domain_id][0]
+        t_s, coarse, coarse_c = entries[-1] if entries else self.coarse_history[domain_id][0]
         groups = self.coarse_pristine[domain_id][1]
-        temps = [0.0] * self.cells[domain_id]
-        for (lo, hi), value in zip(groups, coarse):
-            temps[lo:hi] = [value] * (hi - lo)
-        return t_s, temps, "coarse_prolonged"
 
-    def _submit(self, domain_id, start_s, temperatures, wall_s, kind):
+        def uniform(values):
+            fine = [0.0] * self.cells[domain_id]
+            for (lo, hi), value in zip(groups, values):
+                fine[lo:hi] = [value] * (hi - lo)
+            return fine
+
+        concentrations = None if coarse_c is None else {key: uniform(coarse_c[key]) for key in SOLUTE_KEYS}
+        return t_s, uniform(coarse), concentrations, "coarse_prolonged"
+
+    def _submit(self, domain_id, start_s, temperatures, wall_s, kind, concentrations=None):
         spec = self.by_id[domain_id]
         frontier = self.runtime.time_s
         inlet, outlet = self._faces(domain_id, start_s, frontier)
         changes = [(item["at_s"], item["changes"]) for item in self.interventions if item["domain_id"] == domain_id]
         future = self.pool.submit(spinup_job, spec.lo, spec.hi, start_s, list(temperatures), inlet, outlet,
-                                  frontier, self.dt_s, changes)
+                                  frontier, self.dt_s, changes, concentrations, self.solute_dt_s)
         self.jobs[domain_id] = _Job(future, wall_s, kind)
 
     def _discard_jobs(self):
@@ -419,10 +501,18 @@ class ResidencyManager:
                 self.worker_rate = rate if self.worker_rate is None else 0.8 * self.worker_rate + 0.2 * rate
                 if domain_id not in target or self.runtime.domains[domain_id].representation != "coarse":
                     continue
+                shape, removed = result["concentrations"], None
+                if shape is not None:
+                    shape, removed = positive_shape(self.fine_pristine[domain_id].cells, shape)
+                    if any(mass > 0.0 for mass in removed.values()):
+                        self.events.append({"wall_s": wall_s, "t_s": result["end_s"], "domain_id": domain_id,
+                                            "event": "shape_limited", "removed_mass": removed,
+                                            "min_concentration": {key: min(result["concentrations"][key])
+                                                                  for key in SOLUTE_KEYS}})
                 if result["end_s"] < self.runtime.time_s - 1e-9:
-                    self._submit(domain_id, result["end_s"], result["temperature_c"], ready_wall, "catch_up")
+                    self._submit(domain_id, result["end_s"], result["temperature_c"], ready_wall, "catch_up", shape)
                 else:
-                    self._install(domain_id, result["temperature_c"], wall_s)
+                    self._install(domain_id, result["temperature_c"], wall_s, shape, removed)
 
     def lead_wall_s(self, time_scale: float) -> float:
         """Return the activation lead time in wall seconds from the measured spin-up cost."""
@@ -445,8 +535,8 @@ class ResidencyManager:
             if domain.representation == "fine":
                 self.leave_wall.pop(domain_id, None)
             elif domain_id not in self.jobs:
-                start_s, temps, source = self._start_state(domain_id)
-                self._submit(domain_id, start_s, temps, wall_s, source)
+                start_s, temps, concentrations, source = self._start_state(domain_id)
+                self._submit(domain_id, start_s, temps, wall_s, source, concentrations)
                 self.events.append({"wall_s": wall_s, "t_s": self.runtime.time_s, "domain_id": domain_id,
                                     "event": "activating", "source": source})
         for domain_id in [d for d in self.jobs if d not in target]:
@@ -462,7 +552,9 @@ class ResidencyManager:
         fine = [d for d, dom in self.runtime.domains.items() if dom.representation == "fine"]
         return {"wall_s": wall_s, "t_s": self.runtime.time_s, "position_m": position_m, "segment": here,
                 "walker_on": self.runtime.domains[here].representation,
-                "walker_temperature_c": self.temperature_at(position_m), "fine": fine,
+                "walker_temperature_c": self.temperature_at(position_m),
+                "walker_solutes": self.solutes_at(position_m), "solute_provenance": self.solute_provenance,
+                "fine": fine,
                 "coarse": [d for d in self.cells if d not in fine], "activating": sorted(self.jobs),
                 "retiring": [d for d in fine if d not in target],
                 "reach": [d for d, reason in ranked if reason == "reach"], "requested_rate": time_scale,
@@ -470,17 +562,29 @@ class ResidencyManager:
                 "held": admission.held, "demand": admission.demand, "budget": admission.budget,
                 "lead_wall_s": lead, "capacity_cell_s_per_s": self.capacity, "worker_rate": self.worker_rate}
 
-    def temperature_at(self, position_m: float) -> float:
-        """Return the water temperature in C of the resident cell holding a chainage."""
+    def _cell_at(self, position_m: float):
+        """Return the resident segment domain and the index of its cell holding a chainage."""
         spec = self.specs[_segment_at(self.specs, position_m)]
-        river = self.runtime.domains[spec.domain_id].river
+        domain = self.runtime.domains[spec.domain_id]
         x = min(max(position_m, spec.start_m), spec.end_m) - spec.start_m
         edge = 0.0
-        for cell, value in zip(river.cells, river.temperature_c):
+        for index, cell in enumerate(domain.river.cells):
             edge += cell.length_m
             if x < edge:
-                return value
-        return river.temperature_c[-1]
+                return domain, index
+        return domain, len(domain.river.cells) - 1
+
+    def temperature_at(self, position_m: float) -> float:
+        """Return the water temperature in C of the resident cell holding a chainage."""
+        domain, index = self._cell_at(position_m)
+        return domain.river.temperature_c[index]
+
+    def solutes_at(self, position_m: float) -> dict | None:
+        """Return each solute concentration of the resident cell holding a chainage, or None."""
+        domain, index = self._cell_at(position_m)
+        if domain.solutes is None:
+            return None
+        return {key: domain.solutes.concentrations(key)[index] for key in SOLUTE_KEYS}
 
     def advance(self, target_s: float, *, presentation_s: float | None = None) -> None:
         """Advance the runtime by one quantum and update capacity and interface histories.
@@ -526,12 +630,38 @@ class ResidencyManager:
                           "water_relative": abs(water_out - water_in) / max(water_out, 1e-300)})
         water_in = math.fsum((total("boundary_input_m3", {first}), total("lateral_input_m3")))
         water_out = total("outlet_export_m3", {last})
-        return {"heat_change_j": heat_now - heat_start, "external_flux_j": external,
-                "heat_closure_relative": abs(heat_now - heat_start - external) / max(throughput, 1e-300),
-                "throughput_j": throughput, "faces": faces,
-                "water_closure_relative": abs(water_in - water_out) / max(water_in, 1e-300),
-                "dispersion_cell_heat_j": total("cell_heat_j"),
-                "lifetimes": len(lifetimes), "swaps": len(self.swaps)}
+        ledger = {"heat_change_j": heat_now - heat_start, "external_flux_j": external,
+                  "heat_closure_relative": abs(heat_now - heat_start - external) / max(throughput, 1e-300),
+                  "throughput_j": throughput, "faces": faces,
+                  "water_closure_relative": abs(water_in - water_out) / max(water_in, 1e-300),
+                  "dispersion_cell_heat_j": total("cell_heat_j"),
+                  "lifetimes": len(lifetimes), "swaps": len(self.swaps)}
+        if self.solute_settings is not None:
+            ledger["solutes"] = {key: self._solute_ledger(key, lifetimes) for key in SOLUTE_KEYS}
+        return ledger
+
+    def _solute_ledger(self, key, lifetimes) -> dict:
+        """Close one solute's mass over both tiers, every hand-off and every face."""
+        first, last = self.specs[0].domain_id, self.specs[-1].domain_id
+
+        def total(name, ids=None):
+            return math.fsum(item["solutes"][key][name] for item in lifetimes if ids is None or item["domain_id"] in ids)
+
+        now = math.fsum(self.runtime.domains[d].solute_stores()[key] for d in self.cells)
+        start = math.fsum(self.initial_solutes[d][key] for d in self.cells)
+        terms = (total("boundary_input_mass", {first}), total("lateral_input_mass"), total("cell_input_mass"),
+                 -total("outlet_export_mass", {last}))
+        external = math.fsum(terms)
+        throughput = math.fsum(abs(x) for x in terms)
+        faces = []
+        for up, down in zip(self.specs, self.specs[1:]):
+            exported = total("outlet_export_mass", {up.domain_id})
+            received = total("boundary_input_mass", {down.domain_id})
+            faces.append({"face": f"{up.domain_id}:{down.domain_id}",
+                          "relative": abs(exported - received) / max(abs(exported), 1e-300)})
+        return {"change": now - start, "external": external, "throughput": throughput, "faces": faces,
+                "closure_relative": abs(now - start - external) / max(throughput, 1e-300),
+                "dispersion_cell_mass": total("cell_input_mass")}
 
     def _capture(self) -> None:
         """Record the composite state at the frontier for rollback and committed saves."""
@@ -596,15 +726,20 @@ class ResidencyManager:
             raise ValueError("an intervention names at least one forcing")
         head = domain_id == self.specs[0].domain_id
         for name, value in changes.items():
-            if not isinstance(name, str) or name.startswith("cell_heat_w."):
+            if not isinstance(name, str) or name.startswith(("cell_heat_w.", "solute.cell_mass.")):
                 raise ValueError(f"forcing {name!r} names a representation-specific cell under segment residency")
             if name in ("boundary_m3_s", "boundary_c") and not head:
                 raise ValueError(f"{name} of {domain_id} is set by its upstream interface")
+            if name.startswith("solute.boundary.") and not head:
+                raise ValueError(f"{name} of {domain_id} is set by its upstream interface")
             if name == "boundary_m3_s" and not finite(value, name) > 0:
                 raise ValueError("boundary_m3_s must stay positive so that every interface carries water")
-        for river in (copy.deepcopy(self.fine_pristine[domain_id]), copy.deepcopy(self.coarse_pristine[domain_id][0])):
+        representations = ((self.fine_pristine[domain_id], self.fine_solutes.get(domain_id)),
+                           (self.coarse_pristine[domain_id][0], self.coarse_solutes.get(domain_id)))
+        for river, solutes in representations:
+            river, solutes = copy.deepcopy(river), copy.deepcopy(solutes)
             for name, value in changes.items():
-                river.set_forcing(name, 0.0, value)
+                apply_forcing(river, solutes, name, 0.0, value)
 
     def intervene(self, event_id: str, domain_id: str, at_s: float, changes: dict) -> dict:
         """Apply a segment forcing change at its time, recomputing from the latest snapshot before it.
@@ -649,29 +784,37 @@ class ResidencyManager:
                 "segments": [[s.domain_id, s.lo, s.hi] for s in self.specs],
                 "coarse_groups": {d: [list(g) for g in self.coarse_pristine[d][1]] for d in self.cells},
                 "quantum_s": self.quantum_s, "dt_s": self.dt_s, "spinup_s": self.spinup_s,
-                "checkpoint_fresh_s": self.checkpoint_fresh_s}
+                "checkpoint_fresh_s": self.checkpoint_fresh_s,
+                "solutes": None if self.solute_settings is None else {"settings": encode_value(self.solute_settings),
+                                                                     "solute_dt_s": self.solute_dt_s}}
 
     def _document(self, snap: dict) -> dict:
         """Return the portable state document of a snapshot with the histories up to its time."""
         from yellowstone_python.service.live.state_codec import encode_value
         t_s, runtime = snap["t_s"], self.runtime
 
-        def river(state):
+        def fields(state):
+            if state is None:
+                return None
             return {f.name: encode_value(getattr(state, f.name)) for f in dataclasses.fields(state)}
 
         return {"schema": RESIDENCY_STATE_SCHEMA, "identity": self.identity(),
                 "model_versions": residency_model_versions(), "time_s": t_s, "revision": snap["revision"],
-                "domains": {k: {"model_id": c["model_id"], "river": river(c["state"])}
+                "domains": {k: {"model_id": c["model_id"], "river": fields(c["state"]),
+                                "solutes": fields(c.get("solutes"))}
                             for k, c in snap["domains"].items()},
                 "couplers": snap["couplers"], "membership": runtime.membership[:snap["membership"]],
                 "events": runtime.events[:snap["events"]], "interventions": self.interventions[:snap["interventions"]],
-                "face_history": {k: [list(e) for e in v if e[1] <= t_s + 1e-9] for k, v in self.face_history.items()},
-                "coarse_history": {k: [[s, list(temps)] for s, temps in v if s <= t_s + 1e-9]
-                                   for k, v in self.coarse_history.items()},
-                "last_fine": {k: [s, list(temps)] for k, (s, temps) in snap["last_fine"].items()},
+                "face_history": {k: [[*e[:5], *(list(part) for part in e[5:])] for e in v if e[1] <= t_s + 1e-9]
+                                 for k, v in self.face_history.items()},
+                "coarse_history": {k: [[s, list(temps), concentrations] for s, temps, concentrations in v
+                                       if s <= t_s + 1e-9] for k, v in self.coarse_history.items()},
+                "last_fine": {k: [s, list(temps), concentrations]
+                              for k, (s, temps, concentrations) in snap["last_fine"].items()},
                 "lifetimes": self.lifetimes[:snap["lifetimes"]], "swaps": self.swaps[:snap["swaps"]],
                 "open_lifetimes": snap["open_lifetimes"],
-                "initial_stores": {k: [s.water_m3, s.heat_j, s.solute_kg] for k, s in self.initial_stores.items()}}
+                "initial_stores": {k: [s.water_m3, s.heat_j, s.solute_kg] for k, s in self.initial_stores.items()},
+                "initial_solutes": self.initial_solutes, "solute_provenance": self.solute_provenance}
 
     def save_committed(self, store, world_id: str, presentation_s: float) -> float:
         """Persist the latest composite state at or before the presentation time; return its time.
@@ -709,7 +852,9 @@ class ResidencyManager:
             entry = document["domains"][domain_id]
             domain = self._blank_domain(domain_id, entry["model_id"])
             state = RiverState(**{name: decode_value(value) for name, value in entry["river"].items()})
-            domain.restore({"model_id": entry["model_id"], "state": state})
+            saved = entry["solutes"]
+            solutes = None if saved is None else SoluteState(**{name: decode_value(v) for name, v in saved.items()})
+            domain.restore({"model_id": entry["model_id"], "state": state, "solutes": solutes})
             domains.append(domain)
         self._discard_jobs()
         self.runtime.reset_to(domains, document["couplers"], document["time_s"], document["revision"],
@@ -717,14 +862,15 @@ class ResidencyManager:
         self.interventions = document["interventions"]
         for key, history in self.face_history.items():
             history.clear()
-            history.extend(tuple(e) for e in document["face_history"][key])
+            history.extend(tuple(e[:5]) + tuple(tuple(part) for part in e[5:]) for e in document["face_history"][key])
         for key, history in self.coarse_history.items():
             history.clear()
-            history.extend((s, temps) for s, temps in document["coarse_history"][key])
-        self.last_fine = {k: (s, temps) for k, (s, temps) in document["last_fine"].items()}
+            history.extend(tuple(e) for e in document["coarse_history"][key])
+        self.last_fine = {k: tuple(e) for k, e in document["last_fine"].items()}
         self.lifetimes, self.swaps = document["lifetimes"], document["swaps"]
         self.open_lifetimes = document["open_lifetimes"]
         self.initial_stores = {k: Stores(*v) for k, v in document["initial_stores"].items()}
+        self.initial_solutes = document["initial_solutes"]
         self.leave_wall = {}
         self._snapshots = {}
         self._capture()
@@ -782,6 +928,8 @@ def evaluate_walk(manager: ResidencyManager, reports: list[dict], start_m: float
             "max_fine": max(len(r["fine"]) for r in reports),
             "max_swap_water_relative": max((s["water_relative"] for s in manager.swaps), default=0.0),
             "max_swap_heat_relative": max((s["heat_relative"] for s in manager.swaps), default=0.0),
+            "max_swap_solute_relative": max((v for s in manager.swaps for v in s.get("solute_relative", {}).values()),
+                                            default=0.0),
             "max_reconciliation_j": max((abs(x) for s in manager.swaps for x in s["reconciliation_j"]), default=0.0),
             "admission_inside_budget": all(r["demand"] <= r["budget"] * (1 + 1e-12) or r["held"] for r in reports),
             "held_updates": len(held), "unreported_holds": len(unreported),
@@ -791,12 +939,15 @@ def evaluate_walk(manager: ResidencyManager, reports: list[dict], start_m: float
             "ledger": manager.tier_ledger(), "updates": len(reports), "swaps": len(manager.swaps)}
 
 def firehole_residency(document: dict, **kwargs) -> tuple[ResidencyManager, RiverChainage]:
-    """Return the Firehole residency manager and its chainage map from a published river replay."""
+    """Return the Firehole residency manager and its chainage map from a published river replay.
+
+    Solutes default to the bundled source and boundary chemistry that LiveEngine uses."""
     from yellowstone_python.service.live.engine import replay_config
     replay = document.get("replay", document)
     epoch = replay.get("simulation_time", {}).get("start_epoch_unix")
     if epoch is not None:
         kwargs.setdefault("epoch_unix", epoch)
+    kwargs.setdefault("solutes", {})
     manager = ResidencyManager(replay_config(replay), list(FIREHOLE_FACES), **kwargs)
     chainage = RiverChainage(replay["cells"])
     for spec in manager.specs:

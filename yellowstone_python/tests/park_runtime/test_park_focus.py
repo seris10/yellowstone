@@ -202,20 +202,21 @@ def test_held_walk_reports_the_rate_and_closes_the_ledger():
 def run_firehole(cwd, state, run_s):
     """Run the Firehole residency service for run_s, send a termination signal, return its output."""
     env = dict(os.environ, PYTHONPATH=str(REPO))
+    # An unbuffered pipe leaves every line after the banner for communicate().
     process = subprocess.Popen([sys.executable, "-m", "yellowstone_python.park_runtime", "--port", "0", "--firehole",
                                 "--state", str(state)],
-                               cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                               cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=0)
     try:
-        first = process.stdout.readline()
+        first = process.stdout.readline().decode()
         if "PermissionError" in first or process.poll() is not None:
-            rest = process.stdout.read()
+            rest = process.stdout.read().decode()
             if "PermissionError" in first + rest:
                 pytest.skip("sandbox disallows loopback socket binding")
             raise AssertionError(first + rest)
         assert "Firehole residency" in first and "saves committed state" in first
         time.sleep(run_s)
         process.send_signal(signal.SIGTERM)
-        output, _ = process.communicate(timeout=60)
+        output = process.communicate(timeout=60)[0].decode()
     finally:
         if process.poll() is None:
             process.kill()

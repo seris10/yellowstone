@@ -77,13 +77,15 @@ class RuntimeService:
         if self.walker is not None:
             walker = {"chainage_m": self.walker[0], "lateral_m": self.walker[1],
                       "along_velocity_mps": self.walker[2], "segment": r["segment"],
-                      "representation": r["walker_on"], "temperature_c": r["walker_temperature_c"]}
+                      "representation": r["walker_on"], "temperature_c": r["walker_temperature_c"],
+                      "solutes": r["walker_solutes"]}
         return {"schema": RESIDENCY_SCHEMA, "focus_sequence": None if self.focus is None else self.focus.sequence,
                 "t_s": r["t_s"], "active": r["fine"], "activating": r["activating"], "retiring": r["retiring"],
                 "coarse": r["coarse"], "reach": r["reach"], "ranked": [list(item) for item in r["ranked"]],
                 "effective_rate": r["effective_rate"], "requested_rate": self.time_scale, "held": r["held"],
                 "lead_wall_s": r["lead_wall_s"], "capacity_cell_s_per_s": r["capacity_cell_s_per_s"],
-                "worker_rate_cell_s_per_s": r["worker_rate"], "walker": walker}
+                "worker_rate_cell_s_per_s": r["worker_rate"], "walker": walker,
+                "solute_boundary_provenance": r["solute_provenance"]}
 
     def _publish(self):
         packet = self.runtime.packet(self.presentation_s, self.interest)

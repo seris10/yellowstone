@@ -51,9 +51,9 @@ Explicit integration work remaining below.
 | `reference_network.py` | Illustrative conservative branching reservoirs, confluences, water/heat/solute ledgers |
 | `coupling.py` | Conservative extensive-state split/merge and exactly-once interface accounting |
 | `runtime.py` | Common frontier, atomic domain advance, retained history, intervention rollback, filtered bracket, committed saves; domain add and remove at quantum boundaries with a membership ledger, one checkpoint per rollback granule under a per-domain byte cap, and interface couplers between domain advances (`fixes-67`); a membership change restarts rollback checkpoints and keeps earlier presentation frames (`fixes-70`); `reset_to`, `state_token` and `reinstate` replace or return the domain set with its timeline (`fixes-71`) |
-| `firehole_split.py` | River heat-transport segments as domains and a conservative interface coupler; the Firehole split at face 137/138 matches the single-domain solver within the tolerances set before the run (`fixes-67` ledger) |
-| `coarse_river.py` | Coarse river segments of merged control volumes on the same solver, conservative restriction and prolongation (`fixes-69`) |
-| `residency.py` | Anticipation set, admission control, spin-up in worker processes, activation and retirement of Firehole segments with a tier ledger; a walk from the upstream face to the outlet installs each segment 10.5 to 19.2 s before arrival and retires each passed one (`fixes-69` ledger, `evidence/park-firehole-walk.json`); forcing interventions roll back across fine and coarse swaps through per-quantum composite snapshots and carry into rebuilt segments and spin-ups, and the segmented river with its residency histories saves and resumes (`yellowstone.park_residency_state.v1`, `fixes-71`) |
+| `firehole_split.py` | River heat-transport segments as domains and a conservative interface coupler; the Firehole split at face 137/138 matches the single-domain solver within the tolerances set before the run (`fixes-67` ledger); segments optionally carry the LiveEngine solute transport with one advective and one dispersive solute flux per interface, and a six-segment Firehole chain matches one transport within 1.7e-4 of the mixed source increment (`fixes-72`) |
+| `coarse_river.py` | Coarse river segments of merged control volumes on the same solver, conservative restriction and prolongation (`fixes-69`); coarse solutes with volume-weighted restriction and mass-scaled prolongation (`fixes-72`) |
+| `residency.py` | Anticipation set, admission control, spin-up in worker processes, activation and retirement of Firehole segments with a tier ledger; a walk from the upstream face to the outlet installs each segment 10.5 to 19.2 s before arrival and retires each passed one (`fixes-69` ledger, `evidence/park-firehole-walk.json`); forcing interventions roll back across fine and coarse swaps through per-quantum composite snapshots and carry into rebuilt segments and spin-ups, and the segmented river with its residency histories saves and resumes (`yellowstone.park_residency_state.v1`, `fixes-71`); every path carries solute concentrations, the tier ledger closes each solute, solute chemistry interventions roll back, and the save schema is `yellowstone.park_residency_state.v2` (`fixes-72`) |
 | `state_store.py` | Atomic SQLite checkpoints/events, integrity checks and model-version guards |
 | `service.py` | Loopback worker-owned service, bounded commands/publications and independent rendering; the focus command of `04_PARK_STREAMING_SPEC.md` section 8 drives Firehole segment residency, the presentation clock follows a held rate, and publications carry the residency report (`fixes-70`; `python -m yellowstone_python.park_runtime --firehole`); interventions under residency go to the residency manager, and `--firehole` loads and saves `--state` (`fixes-71`) |
 | `field_codec.py` | Bounded binary numeric field-pair codec |
@@ -95,14 +95,15 @@ Simulation residency at park scale is specified in
   per-page texture cache; maps and probes in streamed mode.
 - Adapt native controls/UI and command-completion polling. The minimal client reports
   queued commands, not final acceptance. Connect hot native fields to the binary codec.
-- Split LiveEngine ecology, solutes and actors along the river interface and give them
+- Split LiveEngine ecology and actors along the river interface and give them
   a coarse representation, send interventions from the Godot client under residency, and
   add the viewshed `visible` reply and the per-tile frame filter of
   `04_PARK_STREAMING_SPEC.md` section 8. The Firehole heat transport has its coarse
   tier, anticipation set, admission control and worker spin-up (`fixes-69`), and the
   service focus endpoint drives it; residency walks at 60x and at a held 3600x request
   pass their preregistered checks (`fixes-70` ledger). Interventions under residency and
-  the segmented-river save and resume pass theirs (`fixes-71` ledger). The service caps
+  the segmented-river save and resume pass theirs (`fixes-71` ledger). Solute transport
+  under residency passes its checks (`fixes-72` ledger). The service caps
   the time scale at 600x; measurement 12 gave 1.0-1.5 times one engine for two processes
   under background load.
 - Add budget-driven automatic quality adaptation, larger bootstrap catalog paging,

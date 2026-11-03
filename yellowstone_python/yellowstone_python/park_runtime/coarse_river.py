@@ -1,10 +1,11 @@
 """Coarse river segments: consecutive fine cells merged into conservative control volumes.
 
-The coarse segment runs the same river heat solver; its state is labeled coarse."""
+The coarse segment runs the same river heat and solute solvers; its state is labeled coarse."""
 from __future__ import annotations
 import dataclasses
 import math
 from yellowstone_python.river.river_transport import Cell, River
+from yellowstone_python.river.solute_transport import SOLUTE_KEYS, BoundaryConcentrations, SoluteTransport
 from .firehole_split import RiverSegmentDomain
 
 COARSE_MODEL_ID = "yellowstone.river_segment_coarse.v1"
@@ -72,6 +73,55 @@ def prolong_temperatures(fine_cells, shape, coarse, groups, rho_cp) -> tuple[lis
             result[i] = shape[i] + offset
         reconciliation_j.append(rho_cp * volume * offset)
     return result, reconciliation_j
+
+def restrict_concentrations(fine_cells, concentrations: dict, groups) -> dict:
+    """Return volume-weighted coarse concentrations per solute, conserving each solute mass."""
+    return {key: restrict_temperatures(fine_cells, concentrations[key], groups) for key in SOLUTE_KEYS}
+
+def prolong_concentrations(fine_cells, shape: dict, coarse: dict, groups) -> tuple[dict, dict]:
+    """Scale a fine concentration shape per coarse cell to the coarse mass; return values and mass shifts.
+
+    Scaling keeps concentrations nonnegative; a group whose shape holds no mass is set uniform."""
+    values, shifts = {}, {}
+    for key in SOLUTE_KEYS:
+        result, moved = list(shape[key]), []
+        for (lo, hi), target in zip(groups, coarse[key]):
+            volume = math.fsum(c.volume_m3 for c in fine_cells[lo:hi])
+            held = math.fsum(c.volume_m3 * v for c, v in zip(fine_cells[lo:hi], shape[key][lo:hi]))
+            if held > 0.0:
+                factor = target * volume / held
+                result[lo:hi] = [v * factor for v in shape[key][lo:hi]]
+            else:
+                result[lo:hi] = [target] * (hi - lo)
+            moved.append(target * volume - held)
+        values[key], shifts[key] = result, moved
+    return values, shifts
+
+def positive_shape(fine_cells, concentrations: dict) -> tuple[dict, dict]:
+    """Return a spin-up concentration shape limited to nonnegative values and the mass removed per solute.
+
+    The shape only distributes coarse mass; prolongation rescales it to the coarse cell mass."""
+    shape, removed = {}, {}
+    for key in SOLUTE_KEYS:
+        values = concentrations[key]
+        shape[key] = [max(v, 0.0) for v in values]
+        removed[key] = math.fsum(c.volume_m3 * -v for c, v in zip(fine_cells, values) if v < 0.0)
+    return shape, removed
+
+def coarse_solutes(fine: SoluteTransport, coarse: River, groups) -> SoluteTransport:
+    """Return solutes on a coarse river's merged cells from an unstepped fine segment transport."""
+    if fine.time_s != 0.0 or fine.steps:
+        raise ValueError("coarsen an unstepped solute transport")
+    owner = {}
+    for (lo, hi), cell in zip(groups, coarse.cells):
+        owner.update({c.id: cell.id for c in fine.cells[lo:hi]})
+    if set(owner) != {c.id for c in fine.cells}:
+        raise ValueError("the coarse groups must cover the fine solute cells")
+    restricted = restrict_concentrations(fine.cells, {key: fine.concentrations(key) for key in SOLUTE_KEYS}, groups)
+    return SoluteTransport(tuple(coarse.cells), coarse.boundary_q_series,
+                           BoundaryConcentrations(**{key: fine._boundary_c_series[key] for key in SOLUTE_KEYS}),
+                           sources=tuple(dataclasses.replace(s, cell_id=owner[s.cell_id]) for s in fine.sources),
+                           initial_concentrations=restricted)
 
 class CoarseRiverSegmentDomain(RiverSegmentDomain):
     """River segment on merged control volumes, advanced at one step per runtime quantum."""

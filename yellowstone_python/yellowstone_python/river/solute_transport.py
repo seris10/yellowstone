@@ -2,7 +2,7 @@
 from __future__ import annotations
 from yellowstone_python.common.checks import nonnegative as _nonnegative
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 import json
 import math
 from pathlib import Path
@@ -17,6 +17,9 @@ SCHEMA = "yellowstone.solute_transport.v1"
 
 # Supported solutes with the per-species label used on inputs and outputs.
 SOLUTE_KEYS = ("chloride_mg_l", "arsenic_ug_l", "boron_mg_l")
+# Cumulative mass terms per solute in concentration units times m3.
+MASS_TOTAL_KEYS = ("boundary_input_mass", "lateral_input_mass", "outlet_export_mass", "cell_input_mass")
+WATER_TOTAL_KEYS = ("boundary_input_m3", "lateral_input_m3", "outlet_export_m3")
 
 # Default data file bundled with the package.
 DEFAULT_SOLUTE_DATA = (
@@ -96,6 +99,23 @@ class BoundaryConcentrations:
         return series
 
 
+@dataclass(frozen=True)
+class SoluteState:
+    """Store a solute transport checkpoint and its forcing schedules in SOLUTE_KEYS order.
+
+    Forcing holds boundary flow and chemistry, per-source schedules and cell mass rates."""
+
+    cell_ids: tuple[str, ...]
+    time_s: float
+    concentrations: tuple[tuple[float, ...], ...]
+    initial: tuple[tuple[float, ...], ...]
+    totals: tuple[tuple[float, ...], ...]
+    water_totals: tuple[float, ...]
+    steps: int
+    diagnostics: tuple[float, ...]
+    forcing: tuple[Any, ...]
+
+
 @dataclass
 class SoluteTransport:
     """Multi-solute conservative transport on a shared river geometry."""
@@ -173,6 +193,10 @@ class SoluteTransport:
 
         self._time_s = 0.0
         self.steps = 0
+        # Prescribed mass rates per solute and cell in concentration units times m3/s.
+        self._cell_mass: dict[str, tuple[Series | None, ...]] = {
+            key: (None,) * len(self.cells) for key in SOLUTE_KEYS
+        }
 
         forcing_series: list[Series] = [self._boundary_q_series]
         forcing_series.extend(self._boundary_c_series.values())
@@ -182,12 +206,7 @@ class SoluteTransport:
         self._forcing = tuple(forcing_series)
 
         self._totals: dict[str, dict[str, float]] = {
-            key: {
-                "boundary_input_mass": 0.0,
-                "lateral_input_mass": 0.0,
-                "outlet_export_mass": 0.0,
-            }
-            for key in SOLUTE_KEYS
+            key: dict.fromkeys(MASS_TOTAL_KEYS, 0.0) for key in SOLUTE_KEYS
         }
         self._water_totals = {
             "boundary_input_m3": 0.0,
@@ -270,6 +289,125 @@ class SoluteTransport:
             for series in self._forcing
         )
 
+    def _cell_mass_at(self, solute: str, time_s: float) -> list[float] | None:
+        """Return the prescribed cell mass rates of a solute, or None when none is set."""
+        schedules = self._cell_mass[solute]
+        if all(series is None for series in schedules):
+            return None
+        return [0.0 if series is None else series.at(time_s) for series in schedules]
+
+    def _rebuild_forcing(self) -> None:
+        """Regroup sources and forcing breakpoints and drop cached flows and matrices."""
+        indices = {cell.id: i for i, cell in enumerate(self.cells)}
+        self._sources_by_cell = [[] for _ in self.cells]
+        for source in self.sources:
+            self._sources_by_cell[indices[source.cell_id]].append(source)
+        self._lateral_q = [math.fsum(s.flow_m3_s.at(0.) for s in group) for group in self._sources_by_cell]
+        forcing_series: list[Series] = [self._boundary_q_series, *self._boundary_c_series.values()]
+        for source in self.sources:
+            forcing_series.extend(source.concentrations.values())
+            forcing_series.append(source.flow_m3_s)
+        for schedules in self._cell_mass.values():
+            forcing_series.extend(series for series in schedules if series is not None)
+        self._forcing = tuple(forcing_series)
+        self._source_groups_owner = None
+        self._matrix_cache = None
+
+    def use_flows(self, boundary_m3_s: Any, source_flows: dict[str, Any]) -> None:
+        """Take the boundary and per-source flow schedules of the river that carries the solutes."""
+        boundary = Series.parse(boundary_m3_s)
+        for value in boundary.values:
+            _nonnegative("boundary flow", value)
+        if set(source_flows) != {source.id for source in self.sources}:
+            raise ValueError("flows must name every solute source and no other")
+        flows = {key: Series.parse(value) for key, value in source_flows.items()}
+        if boundary is self._boundary_q_series and all(flows[s.id] is s.flow_m3_s for s in self.sources):
+            return
+        self._boundary_q_series = boundary
+        self.sources = tuple(source if flows[source.id] is source.flow_m3_s
+                             else replace(source, flow_m3_s=flows[source.id]) for source in self.sources)
+        self._rebuild_forcing()
+
+    def set_forcing(self, name: str, at_s: float, value: Any, *, retain_history: bool = True) -> None:
+        """Schedule a boundary, source or cell mass change at or after the current solver time.
+
+        Names: boundary.<solute>, source.<id>.<solute> and cell_mass.<solute>.<cell>."""
+        at_s = finite("forcing change time", at_s, minimum=self._time_s)
+
+        def changed(original: Series | None, lower: float | None) -> Series:
+            scalar = finite(name, value, minimum=lower)
+            if not retain_history:
+                return Series((0.0,), (scalar,))
+            original = original if original is not None else Series.parse(0.0)
+            kept = [(t, v) for t, v in zip(original.times_s, original.values) if t < at_s]
+            kept.append((at_s, scalar))
+            return Series(tuple(t for t, _ in kept), tuple(v for _, v in kept))
+
+        kind, _, rest = name.partition(".")
+        if kind == "boundary" and rest in SOLUTE_KEYS:
+            self._boundary_c_series = {**self._boundary_c_series,
+                                       rest: changed(self._boundary_c_series[rest], 0.0)}
+        elif kind == "source":
+            source_id, _, key = rest.rpartition(".")
+            if key not in SOLUTE_KEYS or source_id not in {source.id for source in self.sources}:
+                raise ValueError(f"unknown solute source forcing {name!r}")
+            self.sources = tuple(
+                replace(source, concentrations={**source.concentrations,
+                                                key: changed(source.concentrations[key], 0.0)})
+                if source.id == source_id else source for source in self.sources)
+        elif kind == "cell_mass":
+            key, _, cell_id = rest.partition(".")
+            ids = [cell.id for cell in self.cells]
+            if key not in SOLUTE_KEYS or cell_id not in ids:
+                raise ValueError(f"unknown solute cell mass forcing {name!r}")
+            schedules = list(self._cell_mass[key])
+            index = ids.index(cell_id)
+            schedules[index] = changed(schedules[index], None)
+            self._cell_mass = {**self._cell_mass, key: tuple(schedules)}
+        else:
+            raise ValueError(f"unknown solute forcing {name!r}")
+        self._rebuild_forcing()
+
+    def checkpoint(self) -> SoluteState:
+        """Return an immutable checkpoint with mass and water accumulators."""
+        return SoluteState(
+            tuple(cell.id for cell in self.cells), self._time_s,
+            tuple(tuple(self._concentrations[key]) for key in SOLUTE_KEYS),
+            tuple(self._initial[key] for key in SOLUTE_KEYS),
+            tuple(tuple(self._totals[key][name] for name in MASS_TOTAL_KEYS) for key in SOLUTE_KEYS),
+            tuple(self._water_totals[name] for name in WATER_TOTAL_KEYS), self.steps,
+            (self.max_advective_courant, self.max_diffusive_number),
+            (self._boundary_q_series, tuple(self._boundary_c_series[key] for key in SOLUTE_KEYS),
+             tuple((source.id, source.flow_m3_s, tuple(source.concentrations[key] for key in SOLUTE_KEYS))
+                   for source in self.sources),
+             tuple(self._cell_mass[key] for key in SOLUTE_KEYS)))
+
+    def restore(self, state: SoluteState) -> None:
+        """Restore a checkpoint belonging to the same cells and sources."""
+        if not isinstance(state, SoluteState) or tuple(state.cell_ids) != tuple(c.id for c in self.cells):
+            raise ValueError("solute checkpoint cell geometry does not match the transport")
+        boundary_q, boundary_c, sources, cell_mass = state.forcing
+        if [row[0] for row in sources] != [source.id for source in self.sources]:
+            raise ValueError("solute checkpoint sources do not match the transport")
+        self._time_s, self.steps = float(state.time_s), int(state.steps)
+        self._concentrations = {key: [float(v) for v in values]
+                                for key, values in zip(SOLUTE_KEYS, state.concentrations)}
+        self._initial = {key: tuple(values) for key, values in zip(SOLUTE_KEYS, state.initial)}
+        self._totals = {key: dict(zip(MASS_TOTAL_KEYS, values)) for key, values in zip(SOLUTE_KEYS, state.totals)}
+        self._water_totals = dict(zip(WATER_TOTAL_KEYS, state.water_totals))
+        self.max_advective_courant, self.max_diffusive_number = state.diagnostics
+        self._boundary_q_series = boundary_q
+        self._boundary_c_series = dict(zip(SOLUTE_KEYS, boundary_c))
+        self.sources = tuple(replace(source, flow_m3_s=flow, concentrations=dict(zip(SOLUTE_KEYS, schedules)))
+                             for source, (_, flow, schedules) in zip(self.sources, sources))
+        self._cell_mass = {key: tuple(values) for key, values in zip(SOLUTE_KEYS, cell_mass)}
+        self._rebuild_forcing()
+
+    def mass_stores(self) -> dict[str, float]:
+        """Return the channel mass of each solute in concentration units times m3."""
+        return {key: math.fsum(cell.volume_m3 * c for cell, c in zip(self.cells, self._concentrations[key]))
+                for key in SOLUTE_KEYS}
+
     @property
     def time_s(self) -> float:
         return self._time_s
@@ -311,6 +449,9 @@ class SoluteTransport:
             self._matrix_cache = (flows, dt_s, bands, storage)
         _, _, bands, storage = self._matrix_cache
         rhs = np.array(self._source_qc(solute, time_s))
+        cell_mass = self._cell_mass_at(solute, time_s)
+        if cell_mass is not None:
+            rhs += np.asarray(cell_mass)
         if storage is not None:
             rhs += storage * np.asarray(self._concentrations[solute])
         rhs[0] += flows[0] * self._boundary_c_series[solute].at(time_s)
@@ -332,6 +473,7 @@ class SoluteTransport:
         q = self._face_flow_at(time_s)
         g = self._face_dispersion
         source_qc = self._source_qc(solute, time_s)
+        cell_mass = self._cell_mass_at(solute, time_s) or [0.0] * n
         boundary_c = self._boundary_c_series[solute].at(time_s)
 
         lower = [0.0] * n
@@ -343,7 +485,7 @@ class SoluteTransport:
             lower[i] = -(q[i] + g[i]) if i > 0 else 0.0
             diagonal[i] = q[i + 1] + g[i] + g[i + 1]
             upper[i] = -g[i + 1] if i + 1 < n else 0.0
-            rhs[i] = source_qc[i]
+            rhs[i] = source_qc[i] + cell_mass[i]
             if dt_s is not None:
                 storage = cell.volume_m3 / dt_s
                 diagonal[i] += storage
@@ -391,9 +533,12 @@ class SoluteTransport:
             boundary_mass = dt_s * (q[0] * boundary_c)
             lateral_mass = dt_s * math.fsum(source_qc)
             outlet_mass = dt_s * (q[-1] * solved[-1])
+            rates = self._cell_mass_at(solute, start_s)
+            cell_mass = 0.0 if rates is None else dt_s * math.fsum(rates)
             self._totals[solute]["boundary_input_mass"] += boundary_mass
             self._totals[solute]["lateral_input_mass"] += lateral_mass
             self._totals[solute]["outlet_export_mass"] += outlet_mass
+            self._totals[solute]["cell_input_mass"] += cell_mass
 
             storage_change = math.fsum(
                 cell.volume_m3 * (after - before)
@@ -401,7 +546,7 @@ class SoluteTransport:
                     self.cells, self._concentrations[solute], solved
                 )
             )
-            expected = boundary_mass + lateral_mass - outlet_mass
+            expected = boundary_mass + lateral_mass - outlet_mass + cell_mass
             step_record[f"{solute}_mass_residual"] = storage_change - expected
             step_record[f"{solute}_outlet_mass"] = outlet_mass
 
@@ -517,12 +662,14 @@ class SoluteTransport:
                 totals["boundary_input_mass"],
                 totals["lateral_input_mass"],
                 -totals["outlet_export_mass"],
+                totals["cell_input_mass"],
             ))
             scale = max(
                 1.0,
                 abs(totals["boundary_input_mass"]),
                 abs(totals["lateral_input_mass"]),
                 abs(totals["outlet_export_mass"]),
+                abs(totals["cell_input_mass"]),
                 abs(storage_change),
             )
             residual = storage_change - expected
@@ -715,6 +862,49 @@ def transport_from_mapped_replay(
         boundary_concentrations=boundary_concentrations,
         sources=sources,
     )
+
+
+def river_solute_transport(
+    river: Any,
+    settings: dict[str, Any] | None = None,
+    data_document: dict[str, Any] | None = None,
+) -> tuple[SoluteTransport, dict[str, str]]:
+    """Return a SoluteTransport on a river's cells and flows with the boundary provenance.
+
+    Boundary chemistry: settings boundary, then the data file, then an authored zero baseline."""
+    settings = {} if settings is None else settings
+    data = load_hydrothermal_solutes() if data_document is None else data_document
+    boundary = data["features"]["firehole_upstream_boundary"]
+    explicit_boundary = settings.get("boundary", {})
+    provenance = {key: boundary.get(key, {}).get("status", "unknown") for key in SOLUTE_KEYS}
+    values = {}
+    for key in SOLUTE_KEYS:
+        value = explicit_boundary.get(key, boundary.get(key, {}).get("value"))
+        if key in explicit_boundary:
+            provenance[key] = "authored_explicit_concentration"
+        elif value is None:
+            value = 0.
+            provenance[key] = "authored_zero_baseline_unknown_observation"
+        values[key] = value
+    explicit_sources = settings.get("sources", {})
+    unknown = set(explicit_sources) - {source.id for source in river.sources}
+    if unknown:
+        raise ValueError(f"solute settings name unknown sources {sorted(unknown)}")
+    sources: list[SoluteSource] = []
+    for source in river.sources:
+        if source.id in explicit_sources:
+            chemistry = dict(explicit_sources[source.id])
+            if set(chemistry) != set(SOLUTE_KEYS):
+                raise ValueError(f"explicit chemistry of {source.id!r} must name {list(SOLUTE_KEYS)}")
+            sources.append(SoluteSource(source.id, source.cell_id, source.flow_m3_s, chemistry,
+                                        status="authored_explicit_concentration"))
+        else:
+            sources.extend(solute_sources_for_mapped_sources(
+                [{"id": source.id, "cell_id": source.cell_id, "flow_m3_s": source.flow_m3_s}], data))
+    transport = SoluteTransport(cells=tuple(river.cells), boundary_m3_s=river.boundary_q_series,
+                                boundary_concentrations=BoundaryConcentrations(**values),
+                                sources=tuple(sources))
+    return transport, provenance
 
 
 def transport_summary(transport: SoluteTransport) -> dict[str, Any]:

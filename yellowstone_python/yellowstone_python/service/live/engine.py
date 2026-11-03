@@ -18,7 +18,7 @@ from yellowstone_python.common.site import SITE_LAT_DEG, SITE_LON_DEG, SITE_ELEV
 from yellowstone_python.common.mammal_forcing import environmental_forcing, apply_consumption
 from yellowstone_python.river.river_transport import River, Series, SurfaceBudget, river_from_config, series_dict
 from yellowstone_python.river.river_world import energy_met_series
-from yellowstone_python.river.solute_transport import transport_from_mapped_replay, SOLUTE_KEYS, BoundaryConcentrations, load_hydrothermal_solutes
+from yellowstone_python.river.solute_transport import river_solute_transport, SOLUTE_KEYS
 from yellowstone_python.river.obs_model import UPSTREAM_GAUGE, DOWNSTREAM_GAUGE
 from yellowstone_python.aquatic.aquatic_foodweb import foodweb_state, step_foodweb, build_tributary_cell, TRIBUTARY_CANDIDATES
 from yellowstone_python.aquatic.fish import suitability_with_stressors, thermal_performance
@@ -223,24 +223,8 @@ class LiveEngine:
             "patches": copy.deepcopy(self.config.get("patches", [])),
             "last_foodweb_t_s": river.time_s, "last_land_t_s": river.time_s,
             "foodweb_report": None, "refuge_by_species": {}, "species_selection_t_s": {}}
-        from dataclasses import asdict
-        solute_data = load_hydrothermal_solutes()
-        boundary = solute_data["features"]["firehole_upstream_boundary"]
-        explicit_boundary = self.config.get("solutes", {}).get("boundary", {})
-        self.solute_boundary_provenance = {key: boundary.get(key, {}).get("status", "unknown")
-                                           for key in SOLUTE_KEYS}
-        values = {}
-        for key in SOLUTE_KEYS:
-            value = explicit_boundary.get(key, boundary.get(key, {}).get("value"))
-            if value is None:
-                value = 0.
-                self.solute_boundary_provenance[key] = "authored_zero_baseline_unknown_observation"
-            values[key] = value
-        self.solutes = transport_from_mapped_replay({"cells": [asdict(cell) for cell in self.river.cells],
-            "forcing": {"boundary_m3_s": self.river._boundary_q_series,
-                        "sources": [{"id": source.id, "cell_id": source.cell_id,
-                                     "flow_m3_s": source.flow_m3_s} for source in self.river.sources]}},
-            data_document=solute_data, boundary_concentrations=BoundaryConcentrations(**values))
+        self.solutes, self.solute_boundary_provenance = river_solute_transport(
+            self.river, {"boundary": self.config.get("solutes", {}).get("boundary", {})})
         self._update_land_temperature(self._weather(river.time_s)["air_c"])
         self.ecology["snow_mm"] = self._patch_mean("snow_mm", 0.)
         self.ecology["soil_mm"] = self._patch_mean("soil_mm", 60.)
