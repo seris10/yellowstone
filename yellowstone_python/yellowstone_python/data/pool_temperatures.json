@@ -1,0 +1,88 @@
+{
+  "schema": "yellowstone.pool_temperatures.v1",
+  "status": "measured_literature",
+  "overview": "Published point measurements of pool water temperature for the mapped Midway thermal pools. Each value is one sample; the position within the pool and the depth are not recorded in the sources. No radial or two-dimensional temperature field is published for these pools.",
+  "units": {"water_temperature_c": "C"},
+  "sources": {
+    "usgs_water_chemistry_release": {
+      "citation": "McCleskey, R.B., Roth, D.A., Nordstrom, D.K., Hurwitz, S., Holloway, J.M., Bliznik, P.A., Ball, J.W., Repert, D.A., and Hunt, A.G., 2022, Historic water chemistry data for thermal features, streams, and rivers in the Yellowstone National Park area, 1883-2021: U.S. Geological Survey data release, doi:10.5066/P9KSEVI1",
+      "license": "CC0 1.0 Universal",
+      "file": "Yellowstone Water Chemistry 1883-2021.csv",
+      "column": "Water Temperature [Celsius]"
+    },
+    "ball_mccleskey_nordstrom_ofr_2010_1192": {
+      "citation": "Ball, J.W., McCleskey, R.B., and Nordstrom, D.K., 2010, Water-chemistry and on-site sulfur-speciation data for selected springs in Yellowstone National Park, Wyoming, 2006-2009: U.S. Geological Survey Open-File Report 2010-1192, Table 11, p. 72",
+      "license": "U.S. Government work"
+    },
+    "yellowstone_geothermal_features_database": {
+      "citation": "Yellowstone Geothermal Features Database, Montana State University Thermal Biology Institute, feature MEG004 (Opal Pool), survey 1998-06-30",
+      "url": "https://rcn.montana.edu/Features/Detail.aspx?id=5749",
+      "note": "The page lists a vent temperature of 0 C, treated as a missing value."
+    }
+  },
+  "pools": {
+    "1030": {
+      "name": "Excelsior Geyser Crater",
+      "water_temperature_c": {
+        "value": 88.7,
+        "status": "measured_literature",
+        "sample_id": "07WA148",
+        "sample_date": "2007-09-19",
+        "source": "ball_mccleskey_nordstrom_ofr_2010_1192",
+        "location_in_pool": "unspecified"
+      },
+      "observed_range_c": {
+        "min": 74.0,
+        "max": 93.0,
+        "samples": [
+          {"database_id": 17, "year": 1884, "value": 92.0, "reference": "Gooch and Whitfield (1888)"},
+          {"database_id": 290, "year": 1936, "value": 90.5, "reference": "Schlundt and Breckenridge (1938)"},
+          {"database_id": 421, "year": 1962, "value": 74.0, "reference": "Araki and Noguchi (1969)"},
+          {"database_id": 676, "year": 1960, "value": 76.0, "reference": "Rowe, Fournier, and Morey (1973)"},
+          {"database_id": 677, "year": 1961, "value": 88.0, "reference": "Rowe, Fournier, and Morey (1973)"},
+          {"database_id": 678, "year": 1960, "value": 76.0, "reference": "Rowe, Fournier, and Morey (1973)"},
+          {"database_id": 1430, "year": 1974, "value": 87.0, "reference": "USGS Open-File Report 79-704 (1979), sample T7486"},
+          {"database_id": 1431, "year": 1976, "value": 93.0, "reference": "USGS Open-File Report 79-704 (1979), sample J7630"},
+          {"database_id": 3914, "year": 2007, "value": 88.7, "reference": "Ball, McCleskey, and Nordstrom (2010)"}
+        ],
+        "excluded": [
+          {"database_id": 399, "year": 1959, "value": 146.0, "reason": "above boiling at this elevation; likely entered in F"}
+        ],
+        "source": "usgs_water_chemistry_release"
+      }
+    },
+    "1029": {
+      "name": "Opal Pool",
+      "water_temperature_c": {
+        "value": 55.56,
+        "status": "measured_literature",
+        "sample_date": "1998-06-30",
+        "source": "yellowstone_geothermal_features_database",
+        "location_in_pool": "unspecified"
+      },
+      "other_samples": [
+        {"database_id": 306, "year": 1936, "value": 54.0, "reference": "Schlundt and Breckenridge (1938)",
+         "note": "The release labels the area Upper Geyser Basin; its coordinates 44.5267, -110.8387 are the Midway Opal Pool.",
+         "source": "usgs_water_chemistry_release"}
+      ]
+    },
+    "1034": {
+      "name": "Grand Prismatic Spring",
+      "water_temperature_c": {
+        "value": 63.3,
+        "status": "measured_literature",
+        "sample_year": 1935,
+        "source": "usgs_water_chemistry_release",
+        "database_id": 151,
+        "reference": "Allen and Day (1935), listed as Prismatic Lake",
+        "location_in_pool": "unspecified",
+        "note": "Identified by name and area only; the release gives coordinates 44.9665, -110.7149, which are not at Midway."
+      }
+    },
+    "1028": {
+      "name": "Turquoise Pool",
+      "water_temperature_c": null,
+      "note": "No primary measurement found. A 61 to 71 C range appears in secondary sources and is not used."
+    }
+  }
+}

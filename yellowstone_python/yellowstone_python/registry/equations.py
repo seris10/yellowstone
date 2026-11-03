@@ -164,8 +164,11 @@ COMPONENTS = [
         "variables": ("r: radial coordinate m; r_water: water edge radius "
                       "m; T_center, T_edge: center and edge temperatures C"),
         "units": "radius m; temperature C",
-        "assumptions": "pigment stops authored; mapped outline preserved",
-        "limits": "no universal temperature-to-color relation; bathymetry unmeasured",
+        "assumptions": ("T_center is a published point sample where one exists; T_edge, pigment stops, "
+                        "and depths other than a published lower bound are authored; outline traced "
+                        "from lidar where adopted"),
+        "limits": ("no radial temperature measurement; no universal temperature-to-color relation; "
+                   "bathymetry unmeasured"),
         "validation_status": "authored_profile_not_validated",
     },
     {

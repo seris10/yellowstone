@@ -48,7 +48,7 @@ WEATHER_SNAPSHOT_OPTIONAL_RANGES = {
 }
 SOLAR_AZIMUTH_RANGE_DEG = (0.0, 360.0)  # upper exclusive
 SOLAR_ELEVATION_RANGE_DEG = (-90.0, 90.0)
-# Optional terrain fields and inclusive ranges mirrored from the godot weather snapshot reader validation.
+# Optional terrain fields and inclusive ranges match the Godot weather snapshot reader checks.
 WEATHER_SNAPSHOT_TERRAIN_RANGES = {
     "snow_cover_fraction": (0.0, 1.0),
     "snow_water_equivalent_mm": (0.0, 100000.0),
@@ -359,6 +359,14 @@ def write_pools_state_json(build_dir: Path,
             "source_id": shell.get("source_id"),
             "t_center_c": float(t_center),
             "t_edge_c": float(t_edge),
+            "t_center_basis": shell.get("t_center_basis", "authored"),
+            "t_edge_basis": shell.get("t_edge_basis", "authored"),
+            "depth_center_m": shell.get("depth_center_m"),
+            "depth_center_basis": shell.get("depth_center_basis", "authored"),
+            "outline_basis": shell.get("outline_basis", "mapped_polygon"),
+            "area_m2": shell.get("mapped_area_m2"),
+            "center_xz": shell.get("center_xz"),
+            "ring": shell.get("ring"),
             "r_water_m": shell.get("r_water_m"),
             "r_apron_m": shell.get("r_apron_m"),
         })
@@ -369,15 +377,18 @@ def write_pools_state_json(build_dir: Path,
         "contract_version": CONTRACT_VERSION,
         "world_id": WORLD_ID,
         "schema": POOLS_STATE_SCHEMA,
-        "status": "authored_steady_pending_dynamic_coupling",
+        "status": "steady_pending_dynamic_coupling",
         "generated_at_unix": now,
         "units": {"t_center_c": "degree_Celsius",
                   "t_edge_c": "degree_Celsius",
+                  "depth_center_m": "m", "area_m2": "m2",
                   "r_water_m": "m", "r_apron_m": "m"},
         "pools": pools,
-        "note": ("pools_state.json carries authored pool temperatures "
-                 "sourced from pool_shells; replace with per-step dynamic "
-                 "state once a reservoir-coupled thermal model is wired."),
+        "note": ("pools_state.json carries steady pool values from pool_shells; "
+                 "each value names its basis (measured_literature, "
+                 "literature_lower_bound, authored, lidar_return_void, "
+                 "mapped_polygon). Replace with per-step dynamic state once "
+                 "a reservoir-coupled thermal model is wired."),
     }
     out = Path(out_path) if out_path else build_dir / "pools_state.json"
     return _write_json(out, outdoc)

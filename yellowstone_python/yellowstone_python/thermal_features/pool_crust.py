@@ -1,5 +1,5 @@
-"""pool_crust: authored pool shells and aprons for Midway thermal pools.
-Builds crater, shelf, rim, apron, and outflow around the mapped water outline."""
+"""pool_crust: pool shells and aprons for Midway thermal pools.
+Builds crater, shelf, rim, apron, and outflow around the water outline."""
 from __future__ import annotations
 
 from yellowstone_python.common.io import write_json_atomic
@@ -8,6 +8,7 @@ import json
 import math
 import os
 from functools import lru_cache
+from pathlib import Path
 
 try:
     import shapely  # noqa: F401
@@ -16,6 +17,7 @@ except ImportError:
     _HAS_SHAPELY = False
 
 HALF = 2048.0  # world half-extent, meters (matches coords.py)
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 
 # Outflow channel links keyed by the stable pool source_id from world.json.
 OUTFLOW_CHANNELS = {
@@ -37,11 +39,13 @@ RECIPES = {
                   "depth_center_m": 4.0, "shelf_depth_m": 0.5,
                   "t_edge_c": 40.0, "outflow_bearing_deg": 120.0},
 }
+# Pools whose center depth is a published lower bound; all other depths are authored.
+DEPTH_LITERATURE_LOWER_BOUND = {"Grand Prismatic Spring"}
 DEFAULT_RECIPE = {"shelf": 1.2, "rim_m": 4.0, "apron_m": 15.0,
                   "depth_center_m": 3.0, "shelf_depth_m": 0.6,
                   "t_edge_c": 38.0, "outflow_bearing_deg": 90.0}
 
-# Base pigment bands (fraction of r_water, color, meaning). Per-pool copies adjusted by make_ramp_stops().
+# Base bands store (r_water fraction, color, meaning); make_ramp_stops() adjusts per-pool copies.
 COLOR_STOPS = [
     (0.00, "#0b3d91", "deep hot center (illustrative)"),
     (0.35, "#1b7f79", "teal transition (illustrative)"),
@@ -50,6 +54,26 @@ COLOR_STOPS = [
     (1.00, "#b8a88a", "wet sinter rim (illustrative)"),
     (1.30, "#8d8577", "dry sinter apron (illustrative)"),
 ]
+
+
+@lru_cache(maxsize=None)
+def _bundled_document(name: str) -> dict:
+    """Return one bundled pool data document."""
+    return json.loads((DATA_DIR / name).read_text(encoding="utf-8"))
+
+
+def measured_water_temperature(source_id) -> dict | None:
+    """Return the published water temperature record for a pool, or None."""
+    entry = _bundled_document("pool_temperatures.json")["pools"].get(str(source_id))
+    return entry.get("water_temperature_c") if entry else None
+
+
+def traced_outline(source_id) -> dict | None:
+    """Return the adopted traced outline record for a pool, or None."""
+    for record in _bundled_document("pool_outlines.json")["pools"]:
+        if str(record["source_id"]) == str(source_id) and record.get("adopted"):
+            return record
+    return None
 
 
 def _hex(rgb_hex: str) -> tuple:
@@ -246,7 +270,7 @@ def depth_at(r: float, r_water: float, depth_center_m: float,
 
 
 def shell_for_pool(pool: dict) -> dict:
-    """Author one pool shell. Never alters the mapped outline."""
+    """Build one pool shell around the supplied outline. Never alters the outline."""
     name = pool.get("name", pool.get("id", "unnamed"))
     recipe = RECIPES.get(name, DEFAULT_RECIPE)
     for key in ("shelf", "rim_m", "apron_m", "depth_center_m",
@@ -272,6 +296,8 @@ def shell_for_pool(pool: dict) -> dict:
                              / max(1e-9, float(pool.get("area_m2", 1.0)))
                              * 100.0)
     t_center = float(pool.get("temperature_c", 60.0))
+    outline_basis = pool.get("outline_basis", "mapped_polygon")
+    t_center_basis = pool.get("temperature_basis", "authored")
     r_shelf = max(rw * recipe["shelf"], max_r + 2.0)
     # Keep radii strictly growing even when an additive rim would land inside the shelf.
     r_rim = max(rw + recipe["rim_m"], r_shelf + 2.0)
@@ -280,7 +306,7 @@ def shell_for_pool(pool: dict) -> dict:
     shell = {
         "id": pool["id"], "source_id": pool.get("source_id"), "name": name,
         "center_xz": [float(cx), float(cz)],
-        "ring": ring,  # mapped outline carried verbatim; never resampled
+        "ring": ring,  # outline vertices carried verbatim
         "outline_circularity": round(circularity, 3),
         "max_radius_m": round(max_r, 2),
         "mapped_area_m2": round(mapped_area, 1),
@@ -289,14 +315,25 @@ def shell_for_pool(pool: dict) -> dict:
         "apron_margin_m": round(apron_margin, 2),
         "r_water_m": rw, "r_shelf_m": r_shelf,
         "r_rim_m": r_rim, "r_apron_m": r_apron,
-        "t_center_c": t_center, "t_edge_c": recipe["t_edge_c"],
+        "t_center_c": t_center, "t_center_basis": t_center_basis,
+        "t_edge_c": recipe["t_edge_c"], "t_edge_basis": "authored",
+        "outline_basis": outline_basis,
         "depth_center_m": recipe["depth_center_m"],
+        "depth_center_basis": ("literature_lower_bound"
+                               if name in DEPTH_LITERATURE_LOWER_BOUND else "authored"),
         "shelf_depth_m": recipe["shelf_depth_m"],
         "outflow_bearing_deg": recipe["outflow_bearing_deg"],
         "outflow_channel": OUTFLOW_CHANNELS.get(str(pool.get("source_id"))),
         "substrate": "siliceous_sinter_illustrative",
-        "status": ("authored shell; mapped outline preserved; depths and "
-                   "colors illustrative, not bathymetry or calibrated pigment"),
+        "status": ("shell geometry authored; outline "
+                   + ("traced from lidar" if outline_basis == "lidar_return_void"
+                      else "from the mapped polygon")
+                   + "; water temperature "
+                   + ("measured (point sample)" if t_center_basis == "measured_literature"
+                      else "authored")
+                   + "; edge temperature, radial profile, depths other than a "
+                   "published lower bound, and colors illustrative, not "
+                   "bathymetry or calibrated pigment"),
     }
     ramp = make_ramp_stops(shell)
     shell["color_stops"] = ramp["stops"]
@@ -305,8 +342,23 @@ def shell_for_pool(pool: dict) -> dict:
     return shell
 
 
+def with_measurements(pool: dict) -> dict:
+    """Return the pool with the adopted traced outline and published water temperature applied."""
+    source_id = pool.get("source_id")
+    outline = traced_outline(source_id)
+    measured = measured_water_temperature(source_id)
+    if outline is not None:
+        pool = {**pool, "ring": outline["ring"], "area_m2": outline["area_m2"],
+                "center": [outline["centroid_xz"][0], pool["center"][1], outline["centroid_xz"][1]],
+                "outline_basis": outline["outline_basis"]}
+    if measured is not None:
+        pool = {**pool, "temperature_c": float(measured["value"]),
+                "temperature_basis": measured["status"]}
+    return pool
+
+
 def build_all(pools: list) -> list:
-    return [shell_for_pool(p) for p in pools]
+    return [shell_for_pool(with_measurements(p)) for p in pools]
 
 
 def _dist(x: float, z: float, shell: dict) -> float:
@@ -441,7 +493,7 @@ def render_cross_section(shell: dict, path: str, w: int = 640,
     if parent:
         os.makedirs(parent, exist_ok=True)
     img.save(path)
-    # The plate is a radial diagram on circular-equivalent radii; the sidecar states that beside the image.
+    # Plate radii are circular equivalents; the image's sidecar labels this radial-diagram geometry.
     meta = {
         "schema": "yellowstone.pool_cross_section_meta.v1",
         "pool_id": shell["id"],
