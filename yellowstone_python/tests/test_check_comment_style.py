@@ -1,7 +1,10 @@
 """Tests for tools/check_comment_style.py (synthetic/offline only)."""
 
+import json
 import sys
 from pathlib import Path
+
+import pytest
 
 from tools.check_comment_style import check_file, check_text, main
 
@@ -33,6 +36,7 @@ def test_each_rule_fires():
 def test_acronyms_and_io_are_not_flagged():
     assert rules("USGS NWIS discharge in m3/s at UTC") == set()
     assert "first_person" not in rules("file I/O is atomic")
+    assert rules("POST requests require the HTTP session token.") == set()
 
 
 def test_python_docstring_length_and_comment_block(tmp_path):
@@ -63,6 +67,59 @@ def test_gdscript_and_shader_comments(tmp_path):
     shader.write_text(f"float x; // {COLOR_UK} ramp\n", encoding="utf-8")
     assert {f.rule for f in check_file(gd, tmp_path)} == {"first_person"}
     assert {f.rule for f in check_file(shader, tmp_path)} == {"spelling"}
+
+
+@pytest.mark.parametrize("suffix", [".py", ".gd", ".gdshader", ".gdshaderinc"])
+@pytest.mark.parametrize("inline", [False, True])
+@pytest.mark.parametrize("length", [100, 101])
+def test_comment_length_counts_text_only(tmp_path, suffix, inline, length):
+    marker = "//" if suffix in (".gdshader", ".gdshaderinc") else "#"
+    prefix = "    "
+    if inline:
+        name = "value_" + "x" * 120
+        if suffix == ".py":
+            prefix = f"{name} = 1  "
+        elif suffix == ".gd":
+            prefix = f"var {name} = 1  "
+        else:
+            prefix = f"float {name} = 1.0;  "
+    source = tmp_path / ("comment" + suffix)
+    source.write_text(prefix + marker + " " + "x" * length + "   \n", encoding="utf-8")
+    found = check_file(source, tmp_path)
+    if length == 100:
+        assert found == []
+    else:
+        assert [(f.line, f.rule, f.severity, f.detail) for f in found] == [
+            (1, "comment_length", "warning", "comment has 101 characters (max 100)")
+        ]
+
+
+def test_comment_length_excludes_strings_and_documentation(tmp_path):
+    text = "x" * 101
+    sources = {
+        "strings.py": f'label = "{text}"\nprint("{text}")\n'
+                      f'payload = {{"note": "{text}"}}\n'
+                      f'parser.add_argument("--label", help="{text}")\n',
+        "strings.gd": f'var label = "# {text}"\n',
+        "strings.gdshader": f'#include "//{text}"\n',
+        "README.md": text + "\n",
+        "example.ipynb": json.dumps({"cells": [{"cell_type": "markdown", "source": [text]}]}),
+    }
+    for name, source in sources.items():
+        path = tmp_path / name
+        path.write_text(source, encoding="utf-8")
+        assert check_file(path, tmp_path) == [], name
+
+
+def test_comment_length_cli_reports_warning(tmp_path, capsys):
+    source = tmp_path / "long.py"
+    source.write_text("# " + "x" * 101 + "\n", encoding="utf-8")
+    assert main([str(source), "--root", str(tmp_path), "--json"]) == 0
+    assert json.loads(capsys.readouterr().out) == [{
+        "file": "long.py", "line": 1, "rule": "comment_length",
+        "detail": "comment has 101 characters (max 100)", "text": "x" * 101,
+        "severity": "warning",
+    }]
 
 
 def test_cli_exit_codes(tmp_path):
